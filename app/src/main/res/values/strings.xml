@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name" translatable="false">SAI</string>
+
+    <string name="ok" translatable="false">OK</string>
+    <string name="help">Help</string>
+    <string name="error">Error</string>
+
+    <string name="installer_title">Split APKs Installer</string>
+    <string name="installer_installation_failed">Installation failed</string>
+    <string name="installer_installation_in_progress">Installing…</string>
+    <string name="installer_pick_apks">Pick APKs</string>
+    <string name="installer_help"><b>What is SAI?</b>\nSAI (Split APKs Installer) is an app that lets you install multiple APKs as if it was a single package. This is useful for installing apps that are distributed as App Bundles since Android provides no built-in way to install them from sources other than Google Play.\n\n<b>How to use SAI?</b>\nClick \"Pick APKs\" button and select base APK as well as additional configuration-specific APKs then click \"Select\" button to start installation process.</string>
+    <string name="installer_app_installed">App installed</string>
+
+</resources>
