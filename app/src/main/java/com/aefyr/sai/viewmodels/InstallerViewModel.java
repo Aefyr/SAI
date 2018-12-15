@@ -2,31 +2,71 @@ package com.aefyr.sai.viewmodels;
 
 import android.app.Application;
 
-import com.aefyr.sai.installer.LivePackagesInstaller;
+import com.aefyr.sai.installer.SAIPackageInstaller;
+import com.aefyr.sai.utils.Event;
 
 import java.io.File;
 import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
-public class InstallerViewModel extends AndroidViewModel {
-    private LivePackagesInstaller mInstaller;
+public class InstallerViewModel extends AndroidViewModel implements SAIPackageInstaller.InstallationStatusListener {
+    public static final String EVENT_PACKAGE_INSTALLED = "package_installed";
+    public static final String EVENT_INSTALLATION_FAILED = "installation_failed";
+
+    private SAIPackageInstaller mInstaller;
+
+
+    public enum InstallerState {
+        IDLE, INSTALLING
+    }
+
+    private MutableLiveData<InstallerState> mState = new MutableLiveData<>();
+    private MutableLiveData<Event<String[]>> mEvents = new MutableLiveData<>();
 
     public InstallerViewModel(@NonNull Application application) {
         super(application);
-        mInstaller = new LivePackagesInstaller(application.getApplicationContext());
+        mState.setValue(InstallerState.IDLE);
+        mInstaller = SAIPackageInstaller.getInstance(application);
+        mInstaller.addStatusListener(this);
+    }
+
+    public LiveData<InstallerState> getState() {
+        return mState;
+    }
+
+    public LiveData<Event<String[]>> getEvents() {
+        return mEvents;
     }
 
     public void installPackages(List<File> apkFiles) {
-        mInstaller.installPackages(apkFiles);
+        mInstaller.startInstallationSession(mInstaller.createInstallationSession(apkFiles));
     }
 
-    public LivePackagesInstaller getInstaller() {
-        return mInstaller;
+    @Override
+    protected void onCleared() {
+        super.onCleared();
+        mInstaller.removeStatusListener(this);
     }
 
-    public void resetInstaller() {
-        mInstaller.reset();
+    @Override
+    public void onStatusChanged(long installationID, SAIPackageInstaller.InstallationStatus s, String pkg) {
+        switch (s) {
+            case QUEUED:
+            case INSTALLING:
+                mState.setValue(InstallerState.INSTALLING);
+                break;
+            case INSTALLATION_SUCCEED:
+                mState.setValue(InstallerState.IDLE);
+                mEvents.setValue(new Event<>(new String[]{EVENT_PACKAGE_INSTALLED, pkg}));
+                break;
+            case INSTALLATION_FAILED:
+                mState.setValue(InstallerState.IDLE);
+                mEvents.setValue(new Event<>(new String[]{EVENT_INSTALLATION_FAILED}));
+                break;
+        }
     }
 }
