@@ -15,15 +15,13 @@
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
             app:cardCornerRadius="@dimen/cards_corners_radius"
             app:cardElevation="@dimen/cards_elevation"
             app:cardUseCompatPadding="true">
 
             <Button
                 android:id="@+id/button_install"
-                style="@style/SAIButtonsStyle"
+                style="@style/SAIButton"
                 android:layout_width="match_parent"
                 android:layout_gravity="center"
                 android:text="@string/installer_pick_apks" />
@@ -38,7 +36,7 @@
 
             <Button
                 android:id="@+id/button_help"
-                style="@style/SAIButtonsStyle"
+                style="@style/SAIButton"
                 android:layout_width="match_parent"
                 android:layout_gravity="center"
                 android:text="@string/help" />
@@ -46,13 +44,13 @@
 
     </LinearLayout>
 
-
-
     <com.aefyr.sai.view.coolbar.Coolbar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        app:title="@string/installer_title" />
+        app:title="@string/installer_title">
+
+    </com.aefyr.sai.view.coolbar.Coolbar>
 
 </RelativeLayout>

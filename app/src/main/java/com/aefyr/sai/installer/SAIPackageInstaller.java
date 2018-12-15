@@ -1,5 +1,6 @@
 package com.aefyr.sai.installer;
 
+import android.annotation.SuppressLint;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -9,6 +10,7 @@ import android.content.pm.PackageInstaller;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
+import android.util.LongSparseArray;
 
 import com.aefyr.sai.utils.IOUtils;
 
@@ -16,38 +18,47 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.HashMap;
+import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class SAIPackageInstaller {
     private static final String TAG = "SAIInstaller";
 
     public enum InstallationStatus {
-        INSTALLING, AWAITING_USER_CONFIRMATION, INSTALLATION_SUCCEED, INSTALLATION_FAILED, UNKNOWN
+        QUEUED, INSTALLING, INSTALLATION_SUCCEED, INSTALLATION_FAILED
     }
 
+    @SuppressLint("StaticFieldLeak")//This is application context, lul
     private static SAIPackageInstaller sInstance;
     private Context mContext;
-    private HashMap<Integer, InstallationStatusListener> mListeners;
-    private Handler mHandler;
+
+    private Handler mHandler = new Handler(Looper.getMainLooper());
+    private ExecutorService mExecutor = Executors.newSingleThreadExecutor();
+
+    private ArrayDeque<QueuedInstallation> mInstallationQueue = new ArrayDeque<>();
+    private ArrayList<InstallationStatusListener> mListeners = new ArrayList<>();
+    private LongSparseArray<QueuedInstallation> mCreatedInstallationSessions = new LongSparseArray<>();
+
+    private boolean mInstallationInProgress;
+    private long lastInstallationID = 0;
+    private long ongoingInstallationID;
 
     private BroadcastReceiver mFurtherInstallationEventsReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            InstallationStatus installationStatus = InstallationStatus.UNKNOWN;
             switch (intent.getIntExtra(SAIService.EXTRA_INSTALLATION_STATUS, -1)) {
                 case SAIService.STATUS_SUCCESS:
-                    installationStatus = InstallationStatus.INSTALLATION_SUCCEED;
-                    break;
-                case SAIService.STATUS_CONFIRMATION_PENDING:
-                    installationStatus = InstallationStatus.AWAITING_USER_CONFIRMATION;
+                    dispatchCurrentSessionUpdate(InstallationStatus.INSTALLATION_SUCCEED, intent.getStringExtra(SAIService.EXTRA_PACKAGE_NAME));
+                    installationCompleted();
                     break;
                 case SAIService.STATUS_FAILURE:
-                    installationStatus = InstallationStatus.INSTALLATION_FAILED;
+                    dispatchCurrentSessionUpdate(InstallationStatus.INSTALLATION_FAILED, intent.getStringExtra(SAIService.EXTRA_PACKAGE_NAME));
+                    installationCompleted();
                     break;
             }
-
-            dispatchSessionListenerStatusUpdate(intent.getIntExtra(SAIService.EXTRA_SESSION_ID, -1), installationStatus);
         }
     };
 
@@ -57,28 +68,54 @@ public class SAIPackageInstaller {
 
     private SAIPackageInstaller(Context c) {
         mContext = c.getApplicationContext();
-        mListeners = new HashMap<>();
-        mHandler = new Handler(Looper.getMainLooper());
         mContext.registerReceiver(mFurtherInstallationEventsReceiver, new IntentFilter(SAIService.ACTION_INSTALLATION_STATUS_NOTIFICATION));
         sInstance = this;
     }
 
     public interface InstallationStatusListener {
-        void onStatusChanged(InstallationStatus status);
+        void onStatusChanged(long installationID, InstallationStatus status, String packageName);
     }
 
-    public void installApks(List<File> apkFiles, InstallationStatusListener listener) {
-        listener.onStatusChanged(InstallationStatus.INSTALLING);
+    public void addStatusListener(InstallationStatusListener listener) {
+        mListeners.add(listener);
+    }
 
-        new Thread(() -> {
+    public void removeStatusListener(InstallationStatusListener listener) {
+        mListeners.remove(listener);
+    }
+
+    public long createInstallationSession(List<File> apkFiles) {
+        long installationID = lastInstallationID++;
+        mCreatedInstallationSessions.put(installationID, new QueuedInstallation(apkFiles, installationID));
+        return installationID;
+    }
+
+    public void startInstallationSession(long sessionID) {
+        QueuedInstallation installation = mCreatedInstallationSessions.get(sessionID);
+        mCreatedInstallationSessions.remove(sessionID);
+        if (installation == null)
+            return;
+
+        mInstallationQueue.addLast(installation);
+        dispatchSessionUpdate(installation.id, InstallationStatus.QUEUED, null);
+        processQueue();
+    }
+
+    private void processQueue() {
+        if (mInstallationQueue.size() == 0 || mInstallationInProgress)
+            return;
+
+        QueuedInstallation installation = mInstallationQueue.removeFirst();
+        List<File> apkFiles = installation.apkFiles;
+        ongoingInstallationID = installation.id;
+
+        dispatchCurrentSessionUpdate(InstallationStatus.INSTALLING, null);
+
+        mExecutor.execute(() -> {
             PackageInstaller packageInstaller = mContext.getPackageManager().getPackageInstaller();
-            int sessionID = -1;
             try {
                 PackageInstaller.SessionParams sessionParams = new PackageInstaller.SessionParams(PackageInstaller.SessionParams.MODE_FULL_INSTALL);
-                sessionID = packageInstaller.createSession(sessionParams);
-
-                int finalSessionID = sessionID;
-                mHandler.post(() -> setListener(finalSessionID, listener));
+                int sessionID = packageInstaller.createSession(sessionParams);
 
                 PackageInstaller.Session session = packageInstaller.openSession(sessionID);
                 for (File apkFile : apkFiles) {
@@ -96,26 +133,25 @@ public class SAIPackageInstaller {
                 session.close();
             } catch (Exception e) {
                 Log.w(TAG, e);
-                int finalSessionID = sessionID;
-                mHandler.post(() -> {
-                    listener.onStatusChanged(InstallationStatus.INSTALLATION_FAILED);
-                    removeListener(finalSessionID);
-                });
+                dispatchCurrentSessionUpdate(InstallationStatus.INSTALLATION_FAILED, null);
             }
-        }).start();
+        });
     }
 
-    private void setListener(int sessionID, InstallationStatusListener listener) {
-        mListeners.put(sessionID, listener);
+    private void installationCompleted() {
+        mInstallationInProgress = false;
+        ongoingInstallationID = -1;
+        processQueue();
     }
 
-    private void removeListener(int sessionID) {
-        mListeners.remove(sessionID);
+    private void dispatchSessionUpdate(long sessionID, InstallationStatus status, String packageName) {
+        mHandler.post(() -> {
+            for (InstallationStatusListener listener : mListeners)
+                listener.onStatusChanged(sessionID, status, packageName);
+        });
     }
 
-    private void dispatchSessionListenerStatusUpdate(int sessionID, InstallationStatus newStatus) {
-        InstallationStatusListener listener = mListeners.get(sessionID);
-        if (listener != null)
-            listener.onStatusChanged(newStatus);
+    private void dispatchCurrentSessionUpdate(InstallationStatus status, String packageName) {
+        dispatchSessionUpdate(ongoingInstallationID, status, packageName);
     }
 }
