@@ -1,10 +1,8 @@
 <resources>
     <string name="app_name" translatable="false">SAI</string>
-
     <string name="ok" translatable="false">OK</string>
     <string name="help">Help</string>
     <string name="error">Error</string>
-
     <string name="installer_title">Split APKs Installer</string>
     <string name="installer_installation_failed">Installation failed</string>
     <string name="installer_installation_in_progress">Installing…</string>

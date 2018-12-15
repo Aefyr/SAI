@@ -6,6 +6,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.aefyr.sai.viewmodels.InstallerViewModel;
 import com.github.angads25.filepicker.model.DialogConfigs;
@@ -19,6 +20,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.StringRes;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.lifecycle.ViewModelProviders;
 
@@ -26,26 +28,28 @@ public class MainActivity extends AppCompatActivity {
     private static final int CODE_REQUEST_PERMISSIONS = 322;
 
     private InstallerViewModel mViewModel;
-    private Button mButton;
+    private CardView mCardView;
+    private TextView mTextView;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mTextView = findViewById(R.id.pickapk);
 
-        mButton = findViewById(R.id.button_install);
+        mCardView = findViewById(R.id.button_install);
 
         mViewModel = ViewModelProviders.of(this).get(InstallerViewModel.class);
         mViewModel.getInstaller().observe(this, (status -> {
             switch (status) {
                 case IDLE:
-                    mButton.setText(R.string.installer_pick_apks);
-                    mButton.setEnabled(true);
+                    mTextView.setText(R.string.installer_pick_apks);
+                    mCardView.setEnabled(true);
                     break;
                 case INSTALLING:
-                    mButton.setText(R.string.installer_installation_in_progress);
-                    mButton.setEnabled(false);
+                    mTextView.setText(R.string.installer_installation_in_progress);
+                    mCardView.setEnabled(false);
                     break;
                 case INSTALLED:
                     alert(R.string.app_name, R.string.installer_app_installed);
@@ -58,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }));
 
-        mButton.setOnClickListener((v) -> checkPermissionsAndPickFiles());
+        mCardView.setOnClickListener((v) -> checkPermissionsAndPickFiles());
         findViewById(R.id.button_help).setOnClickListener((v)-> alert(R.string.help, R.string.installer_help));
     }
 
