@@ -120,7 +120,6 @@ public class SAIPackageInstaller {
         mExecutor.execute(() -> {
             PackageInstaller packageInstaller = mContext.getPackageManager().getPackageInstaller();
             try {
-                Thread.sleep(5000);
                 PackageInstaller.SessionParams sessionParams = new PackageInstaller.SessionParams(PackageInstaller.SessionParams.MODE_FULL_INSTALL);
                 int sessionID = packageInstaller.createSession(sessionParams);
 
