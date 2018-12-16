@@ -73,9 +73,6 @@ public class Coolbar extends ViewGroup {
 
         if (getBackground() == null)
             setBackgroundColor(getThemeColor(R.attr.colorPrimary, Color.WHITE));
-
-        if (getElevation() == 0)
-            setElevation(dpToPx(3));
     }
 
     @Override

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="cards_corners_radius">24dp</dimen>
-    <dimen name="cards_elevation">1dp</dimen>
+    <dimen name="cards_elevation">0dp</dimen>
     <dimen name="alert_dialog_corners_radius">8dp</dimen>
 </resources>

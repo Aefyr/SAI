@@ -32,6 +32,8 @@
         <item name="android:scaleType">fitCenter</item>
         <item name="android:padding">12dp</item>
         <item name="android:tint">?attr/colorAccent</item>
+        <item name="android:layout_width">56dp</item>
+        <item name="android:layout_height">56dp</item>
     </style>
 
     <style name="AlertDialog.AppTheme.Light" parent="ThemeOverlay.AppCompat.Dialog.Alert">
