@@ -29,9 +29,9 @@ public class InstallerViewModel extends AndroidViewModel implements SAIPackageIn
 
     public InstallerViewModel(@NonNull Application application) {
         super(application);
-        mState.setValue(InstallerState.IDLE);
         mInstaller = SAIPackageInstaller.getInstance(application);
         mInstaller.addStatusListener(this);
+        mState.setValue(mInstaller.isInstallationInProgress() ? InstallerState.INSTALLING : InstallerState.IDLE);
     }
 
     public LiveData<InstallerState> getState() {

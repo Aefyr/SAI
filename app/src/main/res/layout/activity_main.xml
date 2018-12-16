@@ -15,6 +15,7 @@
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:cardBackgroundColor="?attr/colorPrimaryDark"
             app:cardCornerRadius="@dimen/cards_corners_radius"
             app:cardElevation="@dimen/cards_elevation"
             app:cardUseCompatPadding="true">
@@ -30,6 +31,7 @@
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:cardBackgroundColor="?attr/colorPrimaryDark"
             app:cardCornerRadius="@dimen/cards_corners_radius"
             app:cardElevation="@dimen/cards_elevation"
             app:cardUseCompatPadding="true">
@@ -51,6 +53,13 @@
         android:layout_alignParentTop="true"
         app:title="@string/installer_title">
 
+        <ImageButton
+            android:id="@+id/ib_toggle_theme"
+            style="@style/SAICoolbarImageButton"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:rotation="30"
+            app:srcCompat="@drawable/ic_dark_theme" />
     </com.aefyr.sai.view.coolbar.Coolbar>
 
 </RelativeLayout>

@@ -1,13 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+    <style name="AppTheme.Light" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorPureWhite</item>
+        <item name="colorPrimaryDark">@color/colorPureWhite</item>
+        <item name="colorAccent">@color/colorHotPink</item>
         <item name="android:windowBackground">@color/colorPureWhite</item>
         <item name="android:windowLightStatusBar">true</item>
         <item name="android:statusBarColor">@color/colorPureWhite</item>
+        <item name="alertDialogTheme">@style/AlertDialog.AppTheme.Light</item>
     </style>
 
+    <style name="AppTheme.Dark" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorPrimary">@color/colorGreaterGrey</item>
+        <item name="colorPrimaryDark">@color/colorGreatGrey</item>
+        <item name="colorAccent">@color/colorPerfectPink</item>
+        <item name="android:windowBackground">@color/colorGreaterGrey</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:statusBarColor">@color/colorGreaterGrey</item>
+        <item name="titleTextColor">@color/colorAlmostWhite</item>
+        <item name="alertDialogTheme">@style/AlertDialog.AppTheme.Dark</item>
+    </style>
 </resources>

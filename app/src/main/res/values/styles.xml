@@ -1,10 +1,20 @@
 <resources>
 
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+    <style name="AppTheme.Light" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorPureWhite</item>
+        <item name="colorPrimaryDark">@color/colorPureWhite</item>
+        <item name="colorAccent">@color/colorHotPink</item>
         <item name="android:windowBackground">@color/colorPureWhite</item>
+        <item name="alertDialogTheme">@style/AlertDialog.AppTheme.Light</item>
+    </style>
+
+    <style name="AppTheme.Dark" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorPrimary">@color/colorGreaterGrey</item>
+        <item name="colorPrimaryDark">@color/colorGreaterGrey</item>
+        <item name="colorAccent">@color/colorPerfectPink</item>
+        <item name="android:windowBackground">@color/colorGreaterGrey</item>
+        <item name="titleTextColor">@color/colorAlmostWhite</item>
+        <item name="alertDialogTheme">@style/AlertDialog.AppTheme.Dark</item>
     </style>
 
     <style name="SAIButton" parent="Base.Widget.AppCompat.Button.Borderless.Colored">
@@ -17,8 +27,23 @@
         <item name="android:singleLine">true</item>
     </style>
 
-    <style name="SAIImageButton" parent="Widget.AppCompat.ImageButton">
+    <style name="SAICoolbarImageButton" parent="Widget.AppCompat.ImageButton">
         <item name="android:background">?attr/selectableItemBackgroundBorderless</item>
+        <item name="android:scaleType">fitCenter</item>
+        <item name="android:padding">12dp</item>
+        <item name="android:tint">?attr/colorAccent</item>
+    </style>
+
+    <style name="AlertDialog.AppTheme.Light" parent="ThemeOverlay.AppCompat.Dialog.Alert">
+        <item name="android:windowBackground">@drawable/bg_rounded_alert_dialog</item>
+        <item name="android:background">@color/colorPureWhite</item>
+    </style>
+
+    <style name="AlertDialog.AppTheme.Dark" parent="ThemeOverlay.AppCompat.Dialog.Alert">
+        <item name="android:windowBackground">@drawable/bg_rounded_alert_dialog</item>
+        <item name="android:background">@color/colorGreaterGrey</item>
+        <item name="android:textColorPrimary">@color/colorAlmostWhite</item>
+        <item name="android:textColorSecondary">@color/colorAlmostWhite</item>
     </style>
 
 </resources>

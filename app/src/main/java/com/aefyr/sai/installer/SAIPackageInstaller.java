@@ -67,6 +67,7 @@ public class SAIPackageInstaller {
     }
 
     private SAIPackageInstaller(Context c) {
+        Log.d(TAG, "New instance created");
         mContext = c.getApplicationContext();
         mContext.registerReceiver(mFurtherInstallationEventsReceiver, new IntentFilter(SAIService.ACTION_INSTALLATION_STATUS_NOTIFICATION));
         sInstance = this;
@@ -101,6 +102,10 @@ public class SAIPackageInstaller {
         processQueue();
     }
 
+    public boolean isInstallationInProgress() {
+        return mInstallationInProgress;
+    }
+
     private void processQueue() {
         if (mInstallationQueue.size() == 0 || mInstallationInProgress)
             return;
@@ -108,12 +113,14 @@ public class SAIPackageInstaller {
         QueuedInstallation installation = mInstallationQueue.removeFirst();
         List<File> apkFiles = installation.apkFiles;
         ongoingInstallationID = installation.id;
+        mInstallationInProgress = true;
 
         dispatchCurrentSessionUpdate(InstallationStatus.INSTALLING, null);
 
         mExecutor.execute(() -> {
             PackageInstaller packageInstaller = mContext.getPackageManager().getPackageInstaller();
             try {
+                Thread.sleep(5000);
                 PackageInstaller.SessionParams sessionParams = new PackageInstaller.SessionParams(PackageInstaller.SessionParams.MODE_FULL_INSTALL);
                 int sessionID = packageInstaller.createSession(sessionParams);
 

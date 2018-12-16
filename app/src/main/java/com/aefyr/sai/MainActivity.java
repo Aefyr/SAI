@@ -11,6 +11,7 @@ import android.os.Environment;
 import android.util.Log;
 import android.widget.Button;
 
+import com.aefyr.sai.utils.Theme;
 import com.aefyr.sai.viewmodels.InstallerViewModel;
 import com.github.angads25.filepicker.model.DialogConfigs;
 import com.github.angads25.filepicker.model.DialogProperties;
@@ -37,10 +38,12 @@ public class MainActivity extends AppCompatActivity {
     private AlertDialog mAlertDialog;
     private FilePickerDialog mPickerDialog;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (Theme.getInstance(this).isDark())
+            setTheme(R.style.AppTheme_Dark);
+
         setContentView(R.layout.activity_main);
 
         mButton = findViewById(R.id.button_install);
@@ -75,6 +78,12 @@ public class MainActivity extends AppCompatActivity {
 
         mButton.setOnClickListener((v) -> checkPermissionsAndPickFiles());
         findViewById(R.id.button_help).setOnClickListener((v) -> alert(R.string.help, R.string.installer_help));
+        findViewById(R.id.ib_toggle_theme).setOnClickListener((v -> {
+            Theme.getInstance(this).setDark(!Theme.getInstance(this).isDark());
+            startActivity(new Intent(this, MainActivity.class));
+            finish();
+            overridePendingTransition(R.anim.alpha_in, R.anim.alpha_out);
+        }));
     }
 
     private void checkPermissionsAndPickFiles() {
@@ -92,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
         properties.extensions = new String[]{"apk"};
 
         dismissDialogIfNeeded(mPickerDialog);
-        mPickerDialog = new FilePickerDialog(MainActivity.this, properties);
+        mPickerDialog = new FilePickerDialog(this, properties, Theme.getInstance(this).isDark() ? R.style.AppTheme_Dark : R.style.AppTheme_Light);
         mPickerDialog.setDialogSelectionListener((files) -> {
             ArrayList<File> apkFiles = new ArrayList<>(files.length);
 
@@ -144,11 +153,11 @@ public class MainActivity extends AppCompatActivity {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this)
                 .setTitle(R.string.app_name)
-                .setMessage(appLabel == null? getString(R.string.installer_app_installed):String.format(getString(R.string.installer_app_installed_full), appLabel))
+                .setMessage(appLabel == null ? getString(R.string.installer_app_installed) : String.format(getString(R.string.installer_app_installed_full), appLabel))
                 .setNegativeButton(R.string.ok, null);
 
         Intent finalAppLaunchIntent = appLaunchIntent;
-        if(appLaunchIntent != null)
+        if (appLaunchIntent != null)
             builder.setPositiveButton(R.string.installer_open, (d, w) -> startActivity(finalAppLaunchIntent));
 
         dismissDialogIfNeeded(mAlertDialog);

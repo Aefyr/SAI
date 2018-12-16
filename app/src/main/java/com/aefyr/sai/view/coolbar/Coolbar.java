@@ -1,6 +1,7 @@
 package com.aefyr.sai.view.coolbar;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.Outline;
@@ -15,14 +16,17 @@ import android.widget.TextView;
 
 import com.aefyr.sai.R;
 
+import androidx.annotation.AttrRes;
+
 public class Coolbar extends ViewGroup {
     private static final int DEFAULT_TITLE_TEXT_SIZE_SP = 24;
-    public static final int DEFAULT_TITLE_COLOR = 0xff212121;
+    private static final int DEFAULT_TITLE_COLOR = 0xff212121;
 
     TextView mTitle;
     private String mTitleText = "";
     private int mHeight;
     private int mWidth;
+    private int mTitleColor = 0xff212121;
 
     public Coolbar(Context context) {
         super(context);
@@ -50,6 +54,7 @@ public class Coolbar extends ViewGroup {
     private void parseAttrs(AttributeSet attrs) {
         TypedArray a = getResources().obtainAttributes(attrs, R.styleable.Coolbar);
         mTitleText = a.getString(R.styleable.Coolbar_title);
+        mTitleColor = a.getColor(R.styleable.Coolbar_titleColor, getThemeColor(R.attr.titleTextColor, DEFAULT_TITLE_COLOR));
         a.recycle();
     }
 
@@ -58,7 +63,7 @@ public class Coolbar extends ViewGroup {
         mTitle.setText(mTitleText);
         mTitle.setBackgroundColor(Color.TRANSPARENT);
         mTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, DEFAULT_TITLE_TEXT_SIZE_SP);
-        mTitle.setTextColor(DEFAULT_TITLE_COLOR);
+        mTitle.setTextColor(mTitleColor);
         mTitle.setGravity(Gravity.CENTER);
         mTitle.setSingleLine();
         mTitle.setEllipsize(TextUtils.TruncateAt.MARQUEE);
@@ -67,7 +72,7 @@ public class Coolbar extends ViewGroup {
         addView(mTitle);
 
         if (getBackground() == null)
-            setBackgroundColor(Color.WHITE);
+            setBackgroundColor(getThemeColor(R.attr.colorPrimary, Color.WHITE));
 
         if (getElevation() == 0)
             setElevation(dpToPx(3));
@@ -236,6 +241,15 @@ public class Coolbar extends ViewGroup {
         if (a > max)
             return max;
         return a;
+    }
+
+    private int getThemeColor(@AttrRes int attr, int defaultColor) {
+        Resources.Theme theme = getContext().getTheme();
+        TypedValue color = new TypedValue();
+        if (theme.resolveAttribute(attr, color, true))
+            return color.data;
+        else
+            return defaultColor;
     }
 
     public static class LayoutParams extends ViewGroup.LayoutParams {
