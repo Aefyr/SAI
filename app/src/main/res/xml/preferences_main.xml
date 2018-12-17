@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    
+    <Preference
+        android:icon="@drawable/ic_pref_home"
+        android:key="home_directory"
+        android:summary="@string/settings_main_home_directory_summary"
+        android:title="@string/settings_main_home_directory"/>
+
+    <Preference
+        android:icon="@drawable/ic_pref_info"
+        android:key="about"
+        android:title="@string/settings_main_about"/>
+
+</PreferenceScreen>

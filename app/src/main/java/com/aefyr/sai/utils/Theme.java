@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
+import com.aefyr.sai.R;
+
 public class Theme {
     private static Theme sInstance;
 
@@ -24,5 +26,10 @@ public class Theme {
 
     public void setDark(boolean dark) {
         mPrefs.edit().putBoolean(PreferencesKeys.DARK_THEME, dark).apply();
+    }
+
+    public void apply(Context c) {
+        if (isDark())
+            c.setTheme(R.style.AppTheme_Dark);
     }
 }

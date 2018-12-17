@@ -7,11 +7,15 @@ import android.os.Build;
 import android.os.Bundle;
 import android.widget.Button;
 
+import com.aefyr.sai.ui.activities.PreferencesActivity;
 import com.aefyr.sai.ui.dialogs.AppInstalledDialogFragment;
 import com.aefyr.sai.ui.dialogs.FilePickerDialogFragment;
 import com.aefyr.sai.ui.dialogs.SimpleAlertDialogFragment;
+import com.aefyr.sai.utils.PreferencesHelper;
 import com.aefyr.sai.utils.Theme;
 import com.aefyr.sai.viewmodels.InstallerViewModel;
+import com.github.angads25.filepicker.model.DialogConfigs;
+import com.github.angads25.filepicker.model.DialogProperties;
 
 import java.io.File;
 import java.util.List;
@@ -30,10 +34,9 @@ public class MainActivity extends AppCompatActivity implements FilePickerDialogF
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (Theme.getInstance(this).isDark())
-            setTheme(R.style.AppTheme_Dark);
+        Theme.getInstance(this).apply(this);
 
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         mButton = findViewById(R.id.button_install);
@@ -74,6 +77,7 @@ public class MainActivity extends AppCompatActivity implements FilePickerDialogF
             finish();
             overridePendingTransition(R.anim.alpha_in, R.anim.alpha_out);
         }));
+        findViewById(R.id.ib_settings).setOnClickListener((v) -> startActivity(new Intent(MainActivity.this, PreferencesActivity.class)));
     }
 
     private void checkPermissionsAndPickFiles() {
@@ -82,7 +86,13 @@ public class MainActivity extends AppCompatActivity implements FilePickerDialogF
             return;
         }
 
-        new FilePickerDialogFragment().show(getSupportFragmentManager(), "dialog_files_picker");
+        DialogProperties properties = new DialogProperties();
+        properties.selection_mode = DialogConfigs.MULTI_MODE;
+        properties.selection_type = DialogConfigs.FILE_SELECT;
+        properties.offset = new File(PreferencesHelper.getInstance(this).getHomeDirectory());
+        properties.extensions = new String[]{"apk"};
+
+        FilePickerDialogFragment.newInstance(null, getString(R.string.installer_pick_apks), properties).show(getSupportFragmentManager(), "dialog_files_picker");
     }
 
     @Override
@@ -102,7 +112,7 @@ public class MainActivity extends AppCompatActivity implements FilePickerDialogF
     }
 
     @Override
-    public void onFilesSelected(List<File> files) {
+    public void onFilesSelected(String tag, List<File> files) {
         mViewModel.installPackages(files);
     }
 }

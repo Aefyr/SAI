@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        tools:ignore="UselessParent"> <!-- It's not useless, it centers this RelativeLayout-->
+
+        <ImageView
+            android:id="@+id/iv_about_logo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            app:srcCompat="@drawable/logo" />
+
+        <TextView
+            android:id="@+id/tv_about_app"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/iv_about_logo"
+            android:layout_centerHorizontal="true"
+            android:text="@string/app_name_full"
+            android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+
+        <TextView
+            android:id="@+id/tv_about_author"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_about_app"
+            android:layout_centerHorizontal="true"
+            android:text="@string/about_author"
+            android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_about_author"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="8dp"
+            android:orientation="vertical">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardBackgroundColor="?attr/colorAccent"
+                app:cardCornerRadius="@dimen/cards_corners_radius"
+                app:cardElevation="@dimen/cards_elevation"
+                app:cardUseCompatPadding="true">
+
+                <Button
+                    android:id="@+id/button_about_source"
+                    style="@style/SAIButton"
+                    android:layout_width="match_parent"
+                    android:layout_gravity="center"
+                    android:text="@string/about_source"
+                    android:textColor="?attr/colorPrimary" />
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardBackgroundColor="?attr/colorAccent"
+                app:cardCornerRadius="@dimen/cards_corners_radius"
+                app:cardElevation="@dimen/cards_elevation"
+                app:cardUseCompatPadding="true">
+
+                <Button
+                    android:id="@+id/button_about_donate"
+                    style="@style/SAIButton"
+                    android:layout_width="match_parent"
+                    android:layout_gravity="center"
+                    android:text="@string/about_donate"
+                    android:textColor="?attr/colorPrimary" />
+            </androidx.cardview.widget.CardView>
+
+        </LinearLayout>
+    </RelativeLayout>
+</FrameLayout>

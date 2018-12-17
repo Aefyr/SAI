@@ -4,7 +4,6 @@
     <string name="help">Помощь</string>
     <string name="error">Ошибка</string>
 
-    <string name="installer_title">Split APKs Installer</string>
     <string name="installer_installation_failed">Ошибка при установке</string>
     <string name="installer_installation_in_progress">Установка…</string>
     <string name="installer_pick_apks">Выбрать APK</string>
@@ -12,5 +11,14 @@
     <string name="installer_app_installed">Приложение установлено</string>
     <string name="installer_open">Запуск</string>
     <string name="installer_app_installed_full">%s установлено</string>
+
+    <string name="settings_title">Настройки</string>
+    <string name="settings_main_home_directory">Папка по умолчанию</string>
+    <string name="settings_main_home_directory_summary">Начальная папка в выборе APK\nСейчас: %s</string>
+    <string name="settings_main_pick_dir">Выберите папку</string>
+    <string name="settings_main_about">О приложении</string>
+
+    <string name="about_source">GitHub</string>
+    <string name="about_donate">Поддержать</string>
 
 </resources>

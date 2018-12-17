@@ -21,4 +21,5 @@
         <item name="titleTextColor">@color/colorAlmostWhite</item>
         <item name="alertDialogTheme">@style/AlertDialog.AppTheme.Dark</item>
     </style>
+
 </resources>

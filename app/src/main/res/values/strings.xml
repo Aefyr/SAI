@@ -1,11 +1,11 @@
 <resources>
     <string name="app_name" translatable="false">SAI</string>
+    <string name="app_name_full" translatable="false">Split APKs Installer</string>
 
     <string name="ok" translatable="false">OK</string>
     <string name="help">Help</string>
     <string name="error">Error</string>
 
-    <string name="installer_title">Split APKs Installer</string>
     <string name="installer_installation_failed">Installation failed</string>
     <string name="installer_installation_in_progress">Installing…</string>
     <string name="installer_pick_apks">Pick APKs</string>
@@ -13,5 +13,17 @@
     <string name="installer_app_installed">App installed</string>
     <string name="installer_open">Open</string>
     <string name="installer_app_installed_full">%s has been installed</string>
+
+    <string name="settings_title">Settings</string>
+    <string name="settings_main_home_directory">Home Directory</string>
+    <string name="settings_main_home_directory_summary">Starting directory in APKs picker\nCurrently: %s</string>
+    <string name="settings_main_pick_dir">Pick Directory</string>
+    <string name="settings_main_about">About</string>
+
+    <string name="about_author" translatable="false">by polychromaticfox</string>
+    <string name="about_source">GitHub</string>
+    <string name="about_source_link" translatable="false">https://github.com/Aefyr/SAI</string>
+    <string name="about_donate">Donate</string>
+    <string name="about_donate_link" translatable="false">https://yasobe.ru/na/sai</string>
 
 </resources>
