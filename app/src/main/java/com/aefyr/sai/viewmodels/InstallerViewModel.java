@@ -9,6 +9,7 @@ import java.io.File;
 import java.util.List;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -53,15 +54,15 @@ public class InstallerViewModel extends AndroidViewModel implements SAIPackageIn
     }
 
     @Override
-    public void onStatusChanged(long installationID, SAIPackageInstaller.InstallationStatus s, String pkg) {
-        switch (s) {
+    public void onStatusChanged(long installationID, SAIPackageInstaller.InstallationStatus status, @Nullable String packageName) {
+        switch (status) {
             case QUEUED:
             case INSTALLING:
                 mState.setValue(InstallerState.INSTALLING);
                 break;
             case INSTALLATION_SUCCEED:
                 mState.setValue(InstallerState.IDLE);
-                mEvents.setValue(new Event<>(new String[]{EVENT_PACKAGE_INSTALLED, pkg}));
+                mEvents.setValue(new Event<>(new String[]{EVENT_PACKAGE_INSTALLED, packageName}));
                 break;
             case INSTALLATION_FAILED:
                 mState.setValue(InstallerState.IDLE);

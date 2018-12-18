@@ -24,6 +24,8 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import androidx.annotation.Nullable;
+
 public class SAIPackageInstaller {
     private static final String TAG = "SAIInstaller";
 
@@ -67,14 +69,13 @@ public class SAIPackageInstaller {
     }
 
     private SAIPackageInstaller(Context c) {
-        Log.d(TAG, "New instance created");
         mContext = c.getApplicationContext();
         mContext.registerReceiver(mFurtherInstallationEventsReceiver, new IntentFilter(SAIService.ACTION_INSTALLATION_STATUS_NOTIFICATION));
         sInstance = this;
     }
 
     public interface InstallationStatusListener {
-        void onStatusChanged(long installationID, InstallationStatus status, String packageName);
+        void onStatusChanged(long installationID, InstallationStatus status, @Nullable String packageName);
     }
 
     public void addStatusListener(InstallationStatusListener listener) {
@@ -140,6 +141,7 @@ public class SAIPackageInstaller {
             } catch (Exception e) {
                 Log.w(TAG, e);
                 dispatchCurrentSessionUpdate(InstallationStatus.INSTALLATION_FAILED, null);
+                installationCompleted();
             }
         });
     }

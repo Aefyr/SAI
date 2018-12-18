@@ -1,9 +1,6 @@
 package com.aefyr.sai;
 
-import android.Manifest;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.widget.Button;
 
@@ -11,6 +8,7 @@ import com.aefyr.sai.ui.activities.PreferencesActivity;
 import com.aefyr.sai.ui.dialogs.AppInstalledDialogFragment;
 import com.aefyr.sai.ui.dialogs.FilePickerDialogFragment;
 import com.aefyr.sai.ui.dialogs.SimpleAlertDialogFragment;
+import com.aefyr.sai.utils.PermissionsUtils;
 import com.aefyr.sai.utils.PreferencesHelper;
 import com.aefyr.sai.utils.Theme;
 import com.aefyr.sai.viewmodels.InstallerViewModel;
@@ -23,12 +21,9 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.annotation.StringRes;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
 import androidx.lifecycle.ViewModelProviders;
 
 public class MainActivity extends AppCompatActivity implements FilePickerDialogFragment.OnFilesSelectedListener {
-    private static final int CODE_REQUEST_PERMISSIONS = 322;
-
     private InstallerViewModel mViewModel;
     private Button mButton;
 
@@ -81,10 +76,8 @@ public class MainActivity extends AppCompatActivity implements FilePickerDialogF
     }
 
     private void checkPermissionsAndPickFiles() {
-        if (Build.VERSION.SDK_INT >= 23 && (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)) == PackageManager.PERMISSION_DENIED) {
-            requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, CODE_REQUEST_PERMISSIONS);
+        if (!PermissionsUtils.checkAndRequestStoragePermissions(this))
             return;
-        }
 
         DialogProperties properties = new DialogProperties();
         properties.selection_mode = DialogConfigs.MULTI_MODE;
@@ -97,7 +90,7 @@ public class MainActivity extends AppCompatActivity implements FilePickerDialogF
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (requestCode == CODE_REQUEST_PERMISSIONS)
+        if (requestCode == PermissionsUtils.REQUEST_CODE_STORAGE_PERMISSIONS)
             checkPermissionsAndPickFiles();
         else
             super.onRequestPermissionsResult(requestCode, permissions, grantResults);
