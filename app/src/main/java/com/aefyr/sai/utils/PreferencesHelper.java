@@ -1,11 +1,9 @@
 package com.aefyr.sai.utils;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Environment;
 import android.preference.PreferenceManager;
-
-import com.github.angads25.filepicker.model.DialogConfigs;
 
 public class PreferencesHelper {
     private static PreferencesHelper sInstance;
@@ -21,9 +19,8 @@ public class PreferencesHelper {
         sInstance = this;
     }
 
-    @SuppressLint("SdCardPath")//Indian file picker lib dev doesn't care
     public String getHomeDirectory() {
-        return mPrefs.getString(PreferencesKeys.HOME_DIRECTORY, DialogConfigs.DEFAULT_DIR + "/sdcard");
+        return mPrefs.getString(PreferencesKeys.HOME_DIRECTORY, Environment.getExternalStorageDirectory().getAbsolutePath());
     }
 
     public void setHomeDirectory(String homeDirectory) {
