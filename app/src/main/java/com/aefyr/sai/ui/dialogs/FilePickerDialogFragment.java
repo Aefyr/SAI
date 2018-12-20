@@ -98,9 +98,12 @@ public class FilePickerDialogFragment extends DialogFragment {
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         try {
-            mListener = (OnFilesSelectedListener) getActivity();
+            if (getParentFragment() != null)
+                mListener = (OnFilesSelectedListener) getParentFragment();
+            else
+                mListener = (OnFilesSelectedListener) getActivity();
         } catch (Exception e) {
-            throw new IllegalStateException("Activity that uses FilePickerDialogFragment must implement FilePickerDialogFragment.OnFilesSelectedListener");
+            throw new IllegalStateException("Activity/Fragment that uses FilePickerDialogFragment must implement FilePickerDialogFragment.OnFilesSelectedListener");
         }
     }
 

@@ -2,6 +2,7 @@ package com.aefyr.sai;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import android.widget.Button;
 
 import com.aefyr.sai.ui.activities.PreferencesActivity;
@@ -82,6 +83,7 @@ public class MainActivity extends AppCompatActivity implements FilePickerDialogF
         DialogProperties properties = new DialogProperties();
         properties.selection_mode = DialogConfigs.MULTI_MODE;
         properties.selection_type = DialogConfigs.FILE_SELECT;
+        properties.root = Environment.getExternalStorageDirectory();
         properties.offset = new File(PreferencesHelper.getInstance(this).getHomeDirectory());
         properties.extensions = new String[]{"apk"};
 
