@@ -45,8 +45,8 @@ public class SAIPackageInstaller {
     private LongSparseArray<QueuedInstallation> mCreatedInstallationSessions = new LongSparseArray<>();
 
     private boolean mInstallationInProgress;
-    private long lastInstallationID = 0;
-    private long ongoingInstallationID;
+    private long mLastInstallationID = 0;
+    private long mOngoingInstallationID;
 
     private BroadcastReceiver mFurtherInstallationEventsReceiver = new BroadcastReceiver() {
         @Override
@@ -87,7 +87,7 @@ public class SAIPackageInstaller {
     }
 
     public long createInstallationSession(List<File> apkFiles) {
-        long installationID = lastInstallationID++;
+        long installationID = mLastInstallationID++;
         mCreatedInstallationSessions.put(installationID, new QueuedInstallation(apkFiles, installationID));
         return installationID;
     }
@@ -113,7 +113,7 @@ public class SAIPackageInstaller {
 
         QueuedInstallation installation = mInstallationQueue.removeFirst();
         List<File> apkFiles = installation.apkFiles;
-        ongoingInstallationID = installation.id;
+        mOngoingInstallationID = installation.id;
         mInstallationInProgress = true;
 
         dispatchCurrentSessionUpdate(InstallationStatus.INSTALLING, null);
@@ -127,7 +127,7 @@ public class SAIPackageInstaller {
                 PackageInstaller.Session session = packageInstaller.openSession(sessionID);
                 for (File apkFile : apkFiles) {
                     InputStream inputStream = new FileInputStream(apkFile);
-                    OutputStream outputStream = session.openWrite(apkFile.getName(), 0, -1);
+                    OutputStream outputStream = session.openWrite(apkFile.getName(), 0, apkFile.length());
                     IOUtils.copyStream(inputStream, outputStream);
                     session.fsync(outputStream);
                     inputStream.close();
@@ -148,7 +148,7 @@ public class SAIPackageInstaller {
 
     private void installationCompleted() {
         mInstallationInProgress = false;
-        ongoingInstallationID = -1;
+        mOngoingInstallationID = -1;
         processQueue();
     }
 
@@ -160,6 +160,6 @@ public class SAIPackageInstaller {
     }
 
     private void dispatchCurrentSessionUpdate(InstallationStatus status, String packageName) {
-        dispatchSessionUpdate(ongoingInstallationID, status, packageName);
+        dispatchSessionUpdate(mOngoingInstallationID, status, packageName);
     }
 }
