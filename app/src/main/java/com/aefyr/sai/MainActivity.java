@@ -60,13 +60,13 @@ public class MainActivity extends AppCompatActivity implements FilePickerDialogF
                     showPackageInstalledAlert(eventData[1]);
                     break;
                 case InstallerViewModel.EVENT_INSTALLATION_FAILED:
-                    alert(R.string.app_name, R.string.installer_installation_failed);
+                    showAlert(getString(R.string.installer_installation_failed), eventData[1]);
                     break;
             }
         });
 
         mButton.setOnClickListener((v) -> checkPermissionsAndPickFiles());
-        findViewById(R.id.button_help).setOnClickListener((v) -> alert(R.string.help, R.string.installer_help));
+        findViewById(R.id.button_help).setOnClickListener((v) -> showAlert(R.string.help, R.string.installer_help));
         findViewById(R.id.ib_toggle_theme).setOnClickListener((v -> {
             Theme.getInstance(this).setDark(!Theme.getInstance(this).isDark());
             startActivity(new Intent(this, MainActivity.class));
@@ -98,8 +98,12 @@ public class MainActivity extends AppCompatActivity implements FilePickerDialogF
             super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
-    private void alert(@StringRes int title, @StringRes int message) {
-        SimpleAlertDialogFragment.newInstance(getString(title), getString(message)).show(getSupportFragmentManager(), "dialog_alert");
+    private void showAlert(@StringRes int title, @StringRes int message) {
+        showAlert(getText(title), getText(message));
+    }
+
+    private void showAlert(CharSequence title, CharSequence message) {
+        SimpleAlertDialogFragment.newInstance(title, message).show(getSupportFragmentManager(), "dialog_alert");
     }
 
     private void showPackageInstalledAlert(String packageName) {

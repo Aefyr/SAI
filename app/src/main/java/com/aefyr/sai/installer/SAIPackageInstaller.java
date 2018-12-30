@@ -57,7 +57,7 @@ public class SAIPackageInstaller {
                     installationCompleted();
                     break;
                 case SAIService.STATUS_FAILURE:
-                    dispatchCurrentSessionUpdate(InstallationStatus.INSTALLATION_FAILED, intent.getStringExtra(SAIService.EXTRA_PACKAGE_NAME));
+                    dispatchCurrentSessionUpdate(InstallationStatus.INSTALLATION_FAILED, intent.getStringExtra(SAIService.EXTRA_ERROR_DESCRIPTION));
                     installationCompleted();
                     break;
             }
@@ -75,7 +75,7 @@ public class SAIPackageInstaller {
     }
 
     public interface InstallationStatusListener {
-        void onStatusChanged(long installationID, InstallationStatus status, @Nullable String packageName);
+        void onStatusChanged(long installationID, InstallationStatus status, @Nullable String packageNameOrErrorDescription);
     }
 
     public void addStatusListener(InstallationStatusListener listener) {
@@ -152,14 +152,14 @@ public class SAIPackageInstaller {
         processQueue();
     }
 
-    private void dispatchSessionUpdate(long sessionID, InstallationStatus status, String packageName) {
+    private void dispatchSessionUpdate(long sessionID, InstallationStatus status, String packageNameOrError) {
         mHandler.post(() -> {
             for (InstallationStatusListener listener : mListeners)
-                listener.onStatusChanged(sessionID, status, packageName);
+                listener.onStatusChanged(sessionID, status, packageNameOrError);
         });
     }
 
-    private void dispatchCurrentSessionUpdate(InstallationStatus status, String packageName) {
-        dispatchSessionUpdate(mOngoingInstallationID, status, packageName);
+    private void dispatchCurrentSessionUpdate(InstallationStatus status, String packageNameOrError) {
+        dispatchSessionUpdate(mOngoingInstallationID, status, packageNameOrError);
     }
 }

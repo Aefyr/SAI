@@ -54,7 +54,7 @@ public class InstallerViewModel extends AndroidViewModel implements SAIPackageIn
     }
 
     @Override
-    public void onStatusChanged(long installationID, SAIPackageInstaller.InstallationStatus status, @Nullable String packageName) {
+    public void onStatusChanged(long installationID, SAIPackageInstaller.InstallationStatus status, @Nullable String packageNameOrErrorDescription) {
         switch (status) {
             case QUEUED:
             case INSTALLING:
@@ -62,11 +62,11 @@ public class InstallerViewModel extends AndroidViewModel implements SAIPackageIn
                 break;
             case INSTALLATION_SUCCEED:
                 mState.setValue(InstallerState.IDLE);
-                mEvents.setValue(new Event<>(new String[]{EVENT_PACKAGE_INSTALLED, packageName}));
+                mEvents.setValue(new Event<>(new String[]{EVENT_PACKAGE_INSTALLED, packageNameOrErrorDescription}));
                 break;
             case INSTALLATION_FAILED:
                 mState.setValue(InstallerState.IDLE);
-                mEvents.setValue(new Event<>(new String[]{EVENT_INSTALLATION_FAILED}));
+                mEvents.setValue(new Event<>(new String[]{EVENT_INSTALLATION_FAILED, packageNameOrErrorDescription}));
                 break;
         }
     }
