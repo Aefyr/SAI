@@ -7,6 +7,12 @@
         android:summary="@string/settings_main_home_directory_summary"
         android:title="@string/settings_main_home_directory"/>
 
+    <SwitchPreference
+        android:icon="@drawable/ic_pref_root"
+        android:key="use_root"
+        android:title="@string/settings_main_use_root"
+        android:summary="@string/settings_main_use_root_summary"/>
+
     <Preference
         android:icon="@drawable/ic_pref_info"
         android:key="about"

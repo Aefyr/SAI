@@ -11,6 +11,7 @@
     <string name="installer_app_installed">Приложение установлено</string>
     <string name="installer_open">Запуск</string>
     <string name="installer_app_installed_full">%s установлено</string>
+    <string name="installer_no_root">Root-доступ отсутсвует, будет использован rootless установщик</string>
     <string name="installer_error_generic">Ошибка при установке</string>
     <string name="installer_error_aborted">Установка была отменена пользователем</string>
     <string name="installer_error_blocked">Установка была заблокирована %s</string>
@@ -19,7 +20,9 @@
     <string name="installer_error_incompatible">Устанавливоемое приложение несовместимо с этим устройством</string>
     <string name="installer_error_bad_apks">Выбраны некорректные APK файлы</string>
     <string name="installer_error_storage">Недостаточно места для установки программы</string>
-    <string name="installer_error_lidl_rom">Прошивка вашего устройства не совместима с SAI</string>
+    <string name="installer_error_lidl_rom">Прошивка вашего устройства несовместима с SAI</string>
+    <string name="installer_error_root">Ошибка root-установщика:\n\n %s</string>
+    <string name="installer_error_root_no_root">Невозможно получить root-доступ, пожалуйста отключите настройку \"Использовать root\"</string>
 
 
     <string name="settings_title">Настройки</string>
@@ -27,6 +30,8 @@
     <string name="settings_main_home_directory_summary">Начальная папка в выборе APK\nСейчас: %s</string>
     <string name="settings_main_pick_dir">Выберите папку</string>
     <string name="settings_main_about">О приложении</string>
+    <string name="settings_main_use_root">Использовать root</string>
+    <string name="settings_main_use_root_summary">Попытаться использовать root-установщик. При отсуствии root-доступа SAI всё равно использует rootless-установщик</string>
 
     <string name="about_source">GitHub</string>
     <string name="about_donate">Поддержать</string>

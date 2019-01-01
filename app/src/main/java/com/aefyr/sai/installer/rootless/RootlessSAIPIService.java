@@ -1,4 +1,4 @@
-package com.aefyr.sai.installer;
+package com.aefyr.sai.installer.rootless;
 
 import android.app.Service;
 import android.content.Intent;
@@ -14,8 +14,8 @@ import androidx.annotation.Nullable;
 /**
  * Handles installation events from the package manager
  */
-public class SAIService extends Service {
-    private static final String TAG = "SAIService";
+public class RootlessSAIPIService extends Service {
+    private static final String TAG = "RootlessSAIPIService";
 
     public static final String ACTION_INSTALLATION_STATUS_NOTIFICATION = "com.aefyr.sai.action.INSTALLATION_STATUS_NOTIFICATION";
     public static final String EXTRA_INSTALLATION_STATUS = "com.aefyr.sai.extra.INSTALLATION_STATUS";

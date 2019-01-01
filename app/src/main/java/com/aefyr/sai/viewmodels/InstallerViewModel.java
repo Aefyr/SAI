@@ -1,7 +1,9 @@
 package com.aefyr.sai.viewmodels;
 
 import android.app.Application;
+import android.content.Context;
 
+import com.aefyr.sai.installer.PackageInstallerProvider;
 import com.aefyr.sai.installer.SAIPackageInstaller;
 import com.aefyr.sai.utils.Event;
 
@@ -19,7 +21,7 @@ public class InstallerViewModel extends AndroidViewModel implements SAIPackageIn
     public static final String EVENT_INSTALLATION_FAILED = "installation_failed";
 
     private SAIPackageInstaller mInstaller;
-
+    private Context mContext;
 
     public enum InstallerState {
         IDLE, INSTALLING
@@ -30,9 +32,8 @@ public class InstallerViewModel extends AndroidViewModel implements SAIPackageIn
 
     public InstallerViewModel(@NonNull Application application) {
         super(application);
-        mInstaller = SAIPackageInstaller.getInstance(application);
-        mInstaller.addStatusListener(this);
-        mState.setValue(mInstaller.isInstallationInProgress() ? InstallerState.INSTALLING : InstallerState.IDLE);
+        mContext = application;
+        ensureInstallerActuality();
     }
 
     public LiveData<InstallerState> getState() {
@@ -44,7 +45,20 @@ public class InstallerViewModel extends AndroidViewModel implements SAIPackageIn
     }
 
     public void installPackages(List<File> apkFiles) {
+        ensureInstallerActuality();
         mInstaller.startInstallationSession(mInstaller.createInstallationSession(apkFiles));
+    }
+
+    private void ensureInstallerActuality() {
+        SAIPackageInstaller actualInstaller = PackageInstallerProvider.getInstaller(mContext);
+        if (actualInstaller != mInstaller) {
+            if (mInstaller != null)
+                mInstaller.removeStatusListener(this);
+
+            mInstaller = actualInstaller;
+            mInstaller.addStatusListener(this);
+            mState.setValue(mInstaller.isInstallationInProgress() ? InstallerState.INSTALLING : InstallerState.IDLE);
+        }
     }
 
     @Override

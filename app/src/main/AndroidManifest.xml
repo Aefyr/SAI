@@ -22,7 +22,7 @@
             </intent-filter>
         </activity>
 
-        <service android:name=".installer.SAIService" />
+        <service android:name=".installer.rootless.RootlessSAIPIService" />
 
         <activity android:name=".ui.activities.PreferencesActivity" />
 

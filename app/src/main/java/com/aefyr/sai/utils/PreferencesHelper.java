@@ -26,4 +26,12 @@ public class PreferencesHelper {
     public void setHomeDirectory(String homeDirectory) {
         mPrefs.edit().putString(PreferencesKeys.HOME_DIRECTORY, homeDirectory).apply();
     }
+
+    public boolean shouldUseRoot() {
+        return mPrefs.getBoolean(PreferencesKeys.USE_ROOT, false);
+    }
+
+    public void setShouldUseRoot(boolean useRoot) {
+        mPrefs.edit().putBoolean(PreferencesKeys.USE_ROOT, useRoot).apply();
+    }
 }

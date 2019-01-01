@@ -13,6 +13,7 @@
     <string name="installer_app_installed">App installed</string>
     <string name="installer_open">Open</string>
     <string name="installer_app_installed_full">%s has been installed</string>
+    <string name="installer_no_root">Unable to acquire root access, proceeding with rootless installer</string>
     <string name="installer_error_generic">Installation failed</string>
     <string name="installer_error_aborted">Installation was cancelled by user</string>
     <string name="installer_error_blocked">Installation was blocked by %s</string>
@@ -22,6 +23,8 @@
     <string name="installer_error_bad_apks">Invalid APK files selected</string>
     <string name="installer_error_storage">Not enough storage space to install the app</string>
     <string name="installer_error_lidl_rom">Your ROM is incompatible with SAI</string>
+    <string name="installer_error_root">Rooted installer error:\n\n %s</string>
+    <string name="installer_error_root_no_root">Unable to acquire root access, please disable \"Use root\" preference</string>
 
     <string name="settings_title">Settings</string>
     <string name="settings_main_home_directory">Home Directory</string>
@@ -34,5 +37,7 @@
     <string name="about_source_link" translatable="false">https://github.com/Aefyr/SAI</string>
     <string name="about_donate">Donate</string>
     <string name="about_donate_link" translatable="false">https://yasobe.ru/na/sai</string>
+    <string name="settings_main_use_root">Use root</string>
+    <string name="settings_main_use_root_summary">Try using rooted installer. If SAI is unable to acquire root access it will fallback to rootless installer</string>
 
 </resources>

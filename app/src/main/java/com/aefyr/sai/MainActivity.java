@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 import com.aefyr.sai.ui.activities.PreferencesActivity;
 import com.aefyr.sai.ui.dialogs.AppInstalledDialogFragment;
@@ -27,6 +28,7 @@ import androidx.lifecycle.ViewModelProviders;
 public class MainActivity extends AppCompatActivity implements FilePickerDialogFragment.OnFilesSelectedListener {
     private InstallerViewModel mViewModel;
     private Button mButton;
+    private ImageButton mButtonSettings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +38,7 @@ public class MainActivity extends AppCompatActivity implements FilePickerDialogF
         setContentView(R.layout.activity_main);
 
         mButton = findViewById(R.id.button_install);
+        mButtonSettings = findViewById(R.id.ib_settings);
 
         mViewModel = ViewModelProviders.of(this).get(InstallerViewModel.class);
         mViewModel.getState().observe(this, (state) -> {
@@ -43,10 +46,23 @@ public class MainActivity extends AppCompatActivity implements FilePickerDialogF
                 case IDLE:
                     mButton.setText(R.string.installer_pick_apks);
                     mButton.setEnabled(true);
+                    mButtonSettings.setEnabled(true);
+
+                    mButtonSettings.setEnabled(true);
+                    mButtonSettings.animate()
+                            .alpha(1f)
+                            .setDuration(200)
+                            .start();
                     break;
                 case INSTALLING:
                     mButton.setText(R.string.installer_installation_in_progress);
                     mButton.setEnabled(false);
+
+                    mButtonSettings.setEnabled(false);
+                    mButtonSettings.animate()
+                            .alpha(0f)
+                            .setDuration(200)
+                            .start();
                     break;
             }
         });
