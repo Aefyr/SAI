@@ -31,7 +31,7 @@
     <string name="settings_main_pick_dir">Выберите папку</string>
     <string name="settings_main_about">О приложении</string>
     <string name="settings_main_use_root">Использовать root</string>
-    <string name="settings_main_use_root_summary">Попытаться использовать root-установщик. При отсуствии root-доступа SAI всё равно использует rootless-установщик</string>
+    <string name="settings_main_use_root_summary">Попытаться использовать root-установщик. При отсутствии root-доступа SAI всё равно использует rootless-установщик</string>
 
     <string name="about_source">GitHub</string>
     <string name="about_donate">Поддержать</string>
