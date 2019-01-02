@@ -2,10 +2,13 @@ package com.aefyr.sai.viewmodels;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 
 import com.aefyr.sai.installer.PackageInstallerProvider;
 import com.aefyr.sai.installer.SAIPackageInstaller;
 import com.aefyr.sai.utils.Event;
+import com.aefyr.sai.utils.PreferencesKeys;
 
 import java.io.File;
 import java.util.List;
@@ -16,7 +19,7 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-public class InstallerViewModel extends AndroidViewModel implements SAIPackageInstaller.InstallationStatusListener {
+public class InstallerViewModel extends AndroidViewModel implements SAIPackageInstaller.InstallationStatusListener, SharedPreferences.OnSharedPreferenceChangeListener {
     public static final String EVENT_PACKAGE_INSTALLED = "package_installed";
     public static final String EVENT_INSTALLATION_FAILED = "installation_failed";
 
@@ -33,6 +36,7 @@ public class InstallerViewModel extends AndroidViewModel implements SAIPackageIn
     public InstallerViewModel(@NonNull Application application) {
         super(application);
         mContext = application;
+        PreferenceManager.getDefaultSharedPreferences(mContext).registerOnSharedPreferenceChangeListener(this);
         ensureInstallerActuality();
     }
 
@@ -65,6 +69,7 @@ public class InstallerViewModel extends AndroidViewModel implements SAIPackageIn
     protected void onCleared() {
         super.onCleared();
         mInstaller.removeStatusListener(this);
+        PreferenceManager.getDefaultSharedPreferences(mContext).unregisterOnSharedPreferenceChangeListener(this);
     }
 
     @Override
@@ -83,5 +88,11 @@ public class InstallerViewModel extends AndroidViewModel implements SAIPackageIn
                 mEvents.setValue(new Event<>(new String[]{EVENT_INSTALLATION_FAILED, packageNameOrErrorDescription}));
                 break;
         }
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        if(key.equals(PreferencesKeys.USE_ROOT))
+            ensureInstallerActuality();
     }
 }
