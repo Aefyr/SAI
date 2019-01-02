@@ -93,6 +93,9 @@ public class Root {
     }
 
     public void terminate() {
+        if(mIsTerminated)
+            return;
+
         mIsTerminated = true;
         mSuProcess.destroy();
     }

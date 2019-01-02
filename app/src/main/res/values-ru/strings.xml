@@ -11,7 +11,7 @@
     <string name="installer_app_installed">Приложение установлено</string>
     <string name="installer_open">Запуск</string>
     <string name="installer_app_installed_full">%s установлено</string>
-    <string name="installer_no_root">Root-доступ отсутсвует, будет использован rootless установщик</string>
+    <string name="installer_no_root">Root-доступ отсутствует, будет использован rootless установщик</string>
     <string name="installer_error_generic">Ошибка при установке</string>
     <string name="installer_error_aborted">Установка была отменена пользователем</string>
     <string name="installer_error_blocked">Установка была заблокирована %s</string>
