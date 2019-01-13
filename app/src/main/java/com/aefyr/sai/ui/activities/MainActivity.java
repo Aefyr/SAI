@@ -1,15 +1,16 @@
-package com.aefyr.sai;
+package com.aefyr.sai.ui.activities;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Environment;
 import android.widget.Button;
 import android.widget.ImageButton;
 
-import com.aefyr.sai.ui.activities.PreferencesActivity;
+import com.aefyr.sai.R;
 import com.aefyr.sai.ui.dialogs.AppInstalledDialogFragment;
 import com.aefyr.sai.ui.dialogs.FilePickerDialogFragment;
-import com.aefyr.sai.ui.dialogs.SimpleAlertDialogFragment;
+import com.aefyr.sai.utils.AlertsUtils;
 import com.aefyr.sai.utils.PermissionsUtils;
 import com.aefyr.sai.utils.PreferencesHelper;
 import com.aefyr.sai.utils.Theme;
@@ -21,7 +22,6 @@ import java.io.File;
 import java.util.List;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.StringRes;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
 
@@ -76,13 +76,13 @@ public class MainActivity extends AppCompatActivity implements FilePickerDialogF
                     showPackageInstalledAlert(eventData[1]);
                     break;
                 case InstallerViewModel.EVENT_INSTALLATION_FAILED:
-                    showAlert(getString(R.string.installer_installation_failed), eventData[1]);
+                    AlertsUtils.showAlert(this, getString(R.string.installer_installation_failed), eventData[1]);
                     break;
             }
         });
 
         mButton.setOnClickListener((v) -> checkPermissionsAndPickFiles());
-        findViewById(R.id.button_help).setOnClickListener((v) -> showAlert(R.string.help, R.string.installer_help));
+        findViewById(R.id.button_help).setOnClickListener((v) -> AlertsUtils.showAlert(this, R.string.help, R.string.installer_help));
         findViewById(R.id.ib_toggle_theme).setOnClickListener((v -> {
             Theme.getInstance(this).setDark(!Theme.getInstance(this).isDark());
             startActivity(new Intent(this, MainActivity.class));
@@ -108,18 +108,15 @@ public class MainActivity extends AppCompatActivity implements FilePickerDialogF
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (requestCode == PermissionsUtils.REQUEST_CODE_STORAGE_PERMISSIONS)
-            checkPermissionsAndPickFiles();
-        else
-            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-    }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
-    private void showAlert(@StringRes int title, @StringRes int message) {
-        showAlert(getText(title), getText(message));
-    }
+        if (requestCode == PermissionsUtils.REQUEST_CODE_STORAGE_PERMISSIONS) {
+            if (grantResults.length == 0 || grantResults[0] == PackageManager.PERMISSION_DENIED)
+                AlertsUtils.showAlert(this, R.string.error, R.string.permissions_required_storage);
+            else
+                checkPermissionsAndPickFiles();
+        }
 
-    private void showAlert(CharSequence title, CharSequence message) {
-        SimpleAlertDialogFragment.newInstance(title, message).show(getSupportFragmentManager(), "dialog_alert");
     }
 
     private void showPackageInstalledAlert(String packageName) {

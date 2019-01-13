@@ -1,12 +1,14 @@
 package com.aefyr.sai.ui.fragments;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Environment;
 
 import com.aefyr.sai.R;
 import com.aefyr.sai.ui.activities.AboutActivity;
 import com.aefyr.sai.ui.dialogs.FilePickerDialogFragment;
+import com.aefyr.sai.utils.AlertsUtils;
 import com.aefyr.sai.utils.PermissionsUtils;
 import com.aefyr.sai.utils.PreferencesHelper;
 import com.github.angads25.filepicker.model.DialogConfigs;
@@ -69,13 +71,18 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Fil
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
         if (requestCode == PermissionsUtils.REQUEST_CODE_STORAGE_PERMISSIONS) {
-            if (mPendingFilePicker != null) {
-                openFilePicker(mPendingFilePicker);
-                mPendingFilePicker = null;
+            if (grantResults.length == 0 || grantResults[0] == PackageManager.PERMISSION_DENIED)
+                AlertsUtils.showAlert(this, R.string.error, R.string.permissions_required_storage);
+            else {
+                if (mPendingFilePicker != null) {
+                    openFilePicker(mPendingFilePicker);
+                    mPendingFilePicker = null;
+                }
             }
-        } else
-            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
     }
 
     @Override

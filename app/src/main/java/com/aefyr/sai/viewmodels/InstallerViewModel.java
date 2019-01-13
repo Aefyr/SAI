@@ -92,7 +92,7 @@ public class InstallerViewModel extends AndroidViewModel implements SAIPackageIn
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        if(key.equals(PreferencesKeys.USE_ROOT))
+        if (key.equals(PreferencesKeys.USE_ROOT))
             ensureInstallerActuality();
     }
 }

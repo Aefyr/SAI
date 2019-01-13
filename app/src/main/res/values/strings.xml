@@ -6,6 +6,8 @@
     <string name="help">Help</string>
     <string name="error">Error</string>
 
+    <string name="permissions_required_storage">SAI requires permission to access storage</string>
+
     <string name="installer_installation_failed">App not installed</string>
     <string name="installer_installation_in_progress">Installing…</string>
     <string name="installer_pick_apks">Pick APKs</string>

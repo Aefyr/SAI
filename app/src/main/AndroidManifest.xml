@@ -14,7 +14,7 @@
         android:roundIcon="@mipmap/icon"
         android:theme="@style/AppTheme.Light"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".MainActivity">
+        <activity android:name=".ui.activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

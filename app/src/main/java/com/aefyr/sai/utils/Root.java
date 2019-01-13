@@ -93,7 +93,7 @@ public class Root {
     }
 
     public void terminate() {
-        if(mIsTerminated)
+        if (mIsTerminated)
             return;
 
         mIsTerminated = true;
