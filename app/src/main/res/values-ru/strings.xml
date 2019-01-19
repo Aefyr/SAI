@@ -30,6 +30,8 @@
     <string name="settings_title">Настройки</string>
     <string name="settings_main_home_directory">Папка по умолчанию</string>
     <string name="settings_main_home_directory_summary">Начальная папка в выборе APK\nСейчас: %s</string>
+    <string name="settings_main_file_picker_sort">Сортировка файлов</string>
+    <string name="settings_main_file_picker_sort_summary">В выборе APK\nСейчас: %s</string>
     <string name="settings_main_pick_dir">Выберите папку</string>
     <string name="settings_main_about">О приложении</string>
     <string name="settings_main_use_root">Использовать root</string>

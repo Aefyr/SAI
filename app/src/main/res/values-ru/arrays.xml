@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="file_picker_sort_variants">
+        <item>"По имени (Алфавитный порядок)"</item>
+        <item>"По имени (Обратный алфавитный порядок)"</item>
+        <item>"Сначала новые"</item>
+        <item>"Сначала старые"</item>
+    </string-array>
+
+</resources>

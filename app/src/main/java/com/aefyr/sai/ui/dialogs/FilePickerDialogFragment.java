@@ -27,6 +27,8 @@ public class FilePickerDialogFragment extends DialogFragment {
     private static final String ARG_STARTING_FOLDER = "start";
     private static final String ARG_ERROR_FOLDER = "error";
     private static final String ARG_EXTENSIONS = "extensions";
+    private static final String ARG_SORT_BY = "sort_by";
+    private static final String ARG_SORT_ORDER = "sort_order";
 
     public interface OnFilesSelectedListener {
         void onFilesSelected(String tag, List<File> files);
@@ -50,6 +52,10 @@ public class FilePickerDialogFragment extends DialogFragment {
         args.putString(ARG_STARTING_FOLDER, properties.offset.getAbsolutePath());
         args.putString(ARG_ERROR_FOLDER, properties.error_dir.getAbsolutePath());
         args.putStringArray(ARG_EXTENSIONS, properties.extensions);
+        args.putInt(ARG_SORT_BY, properties.sortBy);
+        args.putInt(ARG_SORT_ORDER, properties.sortOrder);
+        //properties.
+        //args.putInt(ARG_SORT_BY, properties.);
 
         fragment.setArguments(args);
 
@@ -73,6 +79,8 @@ public class FilePickerDialogFragment extends DialogFragment {
         mDialogProperties.offset = new File(args.getString(ARG_STARTING_FOLDER, mDialogProperties.offset.getAbsolutePath()));
         mDialogProperties.error_dir = new File(args.getString(ARG_ERROR_FOLDER, mDialogProperties.error_dir.getAbsolutePath()));
         mDialogProperties.extensions = args.getStringArray(ARG_EXTENSIONS);
+        mDialogProperties.sortBy = args.getInt(ARG_SORT_BY, mDialogProperties.sortBy);
+        mDialogProperties.sortOrder = args.getInt(ARG_SORT_ORDER, mDialogProperties.sortOrder);
     }
 
     @NonNull

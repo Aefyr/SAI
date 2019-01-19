@@ -29,8 +29,10 @@
     <string name="installer_error_root_no_root">Unable to acquire root access, please disable \"Use root\" preference</string>
 
     <string name="settings_title">Settings</string>
-    <string name="settings_main_home_directory">Home Directory</string>
+    <string name="settings_main_home_directory">Home directory</string>
     <string name="settings_main_home_directory_summary">Starting directory in APKs picker\nCurrently: %s</string>
+    <string name="settings_main_file_picker_sort">Files sorting</string>
+    <string name="settings_main_file_picker_sort_summary">When picking APKs\nCurrently: %s</string>
     <string name="settings_main_pick_dir">Pick Directory</string>
     <string name="settings_main_about">About</string>
 

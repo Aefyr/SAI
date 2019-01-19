@@ -38,12 +38,12 @@
 
     <style name="AlertDialog.AppTheme.Light" parent="ThemeOverlay.AppCompat.Dialog.Alert">
         <item name="android:windowBackground">@drawable/bg_rounded_alert_dialog</item>
-        <item name="android:background">@color/colorPureWhite</item>
+        <item name="android:backgroundTint">@color/colorPureWhite</item>
     </style>
 
     <style name="AlertDialog.AppTheme.Dark" parent="ThemeOverlay.AppCompat.Dialog.Alert">
         <item name="android:windowBackground">@drawable/bg_rounded_alert_dialog</item>
-        <item name="android:background">@color/colorGreaterGrey</item>
+        <item name="android:backgroundTint">@color/colorGreaterGrey</item>
         <item name="android:textColorPrimary">@color/colorAlmostWhite</item>
         <item name="android:textColorSecondary">@color/colorAlmostWhite</item>
     </style>

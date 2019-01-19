@@ -26,9 +26,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
 
 public class MainActivity extends AppCompatActivity implements FilePickerDialogFragment.OnFilesSelectedListener {
+
     private InstallerViewModel mViewModel;
     private Button mButton;
     private ImageButton mButtonSettings;
+    private PreferencesHelper mHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +38,8 @@ public class MainActivity extends AppCompatActivity implements FilePickerDialogF
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mHelper = PreferencesHelper.getInstance(this);
 
         mButton = findViewById(R.id.button_install);
         mButtonSettings = findViewById(R.id.ib_settings);
@@ -100,8 +104,10 @@ public class MainActivity extends AppCompatActivity implements FilePickerDialogF
         properties.selection_mode = DialogConfigs.MULTI_MODE;
         properties.selection_type = DialogConfigs.FILE_SELECT;
         properties.root = Environment.getExternalStorageDirectory();
-        properties.offset = new File(PreferencesHelper.getInstance(this).getHomeDirectory());
+        properties.offset = new File(mHelper.getHomeDirectory());
         properties.extensions = new String[]{"apk"};
+        properties.sortBy = mHelper.getFilePickerSortBy();
+        properties.sortOrder = mHelper.getFilePickerSortOrder();
 
         FilePickerDialogFragment.newInstance(null, getString(R.string.installer_pick_apks), properties).show(getSupportFragmentManager(), "dialog_files_picker");
     }

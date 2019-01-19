@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="file_picker_sort_variants">
+        <item>"By name (Alphabetical)"</item>
+        <item>"By name (Reverse alphabetical)"</item>
+        <item>"Later modified first"</item>
+        <item>"Older modified first"</item>
+    </string-array>
+
+</resources>

@@ -4,8 +4,15 @@
     <Preference
         android:icon="@drawable/ic_pref_home"
         android:key="home_directory"
-        android:summary="@string/settings_main_home_directory_summary"
-        android:title="@string/settings_main_home_directory"/>
+        android:title="@string/settings_main_home_directory"
+        android:summary="@string/settings_main_home_directory_summary" />
+
+    <Preference
+        android:icon="@drawable/ic_pref_sort"
+        android:key="file_picker_sort"
+        android:title="@string/settings_main_file_picker_sort"
+        android:summary="@string/settings_main_file_picker_sort_summary"/>
+
 
     <SwitchPreference
         android:icon="@drawable/ic_pref_root"
