@@ -18,7 +18,6 @@ public class RootedSAIPackageInstaller extends SAIPackageInstaller {
 
     @SuppressLint("StaticFieldLeak")//This is application context, lul
     private static RootedSAIPackageInstaller sInstance;
-    private Context mContext;
     private Root mSu;
 
     public static RootedSAIPackageInstaller getInstance(Context c) {
@@ -26,7 +25,7 @@ public class RootedSAIPackageInstaller extends SAIPackageInstaller {
     }
 
     private RootedSAIPackageInstaller(Context c) {
-        mContext = c;
+        super(c);
         mSu = new Root();
         sInstance = this;
     }
@@ -39,7 +38,7 @@ public class RootedSAIPackageInstaller extends SAIPackageInstaller {
                 mSu = new Root();
                 if (!mSu.isAcquired()) {
                     //I don't know if this can even happen, because InstallerViewModel calls PackageInstallerProvider.getInstaller, which checks root access and returns correct installer in response, before every installation
-                    dispatchCurrentSessionUpdate(InstallationStatus.INSTALLATION_FAILED, mContext.getString(R.string.installer_error_root, mContext.getString(R.string.installer_error_root_no_root)));
+                    dispatchCurrentSessionUpdate(InstallationStatus.INSTALLATION_FAILED, getContext().getString(R.string.installer_error_root, getContext().getString(R.string.installer_error_root_no_root)));
                     installationCompleted();
                     return;
                 }
@@ -56,18 +55,18 @@ public class RootedSAIPackageInstaller extends SAIPackageInstaller {
             int sessionId = Integer.parseInt(sessionIdMatcher.group(1));
 
             for (File apkFile : apkFiles)
-                ensureCommandSucceeded(mSu.exec(String.format("pm install-write -S %d %d \"%s\" \"%s\"", apkFile.length(), sessionId, apkFile.getName(), apkFile.getAbsolutePath())));
+                ensureCommandSucceeded(mSu.exec(String.format("cat \"%s\" | pm install-write -S %d %d \"%s\"", apkFile.getAbsolutePath(), apkFile.length(), sessionId, apkFile.getName())));
 
             result = ensureCommandSucceeded(mSu.exec(String.format("pm install-commit %d ", sessionId)));
             if (result.toLowerCase().contains("success"))
                 dispatchCurrentSessionUpdate(InstallationStatus.INSTALLATION_SUCCEED, "null");
             else
-                dispatchCurrentSessionUpdate(InstallationStatus.INSTALLATION_FAILED, mContext.getString(R.string.installer_error_root, result));
+                dispatchCurrentSessionUpdate(InstallationStatus.INSTALLATION_FAILED, getContext().getString(R.string.installer_error_root, result));
 
             installationCompleted();
         } catch (Exception e) {
             Log.w(TAG, e);
-            dispatchCurrentSessionUpdate(InstallationStatus.INSTALLATION_FAILED, mContext.getString(R.string.installer_error_root, e.getMessage()));
+            dispatchCurrentSessionUpdate(InstallationStatus.INSTALLATION_FAILED, getContext().getString(R.string.installer_error_root, e.getMessage()));
             installationCompleted();
         }
     }

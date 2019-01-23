@@ -23,7 +23,6 @@ public class RootlessSAIPackageInstaller extends SAIPackageInstaller {
 
     @SuppressLint("StaticFieldLeak")//This is application context, lul
     private static RootlessSAIPackageInstaller sInstance;
-    private Context mContext;
 
     private BroadcastReceiver mFurtherInstallationEventsReceiver = new BroadcastReceiver() {
         @Override
@@ -46,14 +45,14 @@ public class RootlessSAIPackageInstaller extends SAIPackageInstaller {
     }
 
     private RootlessSAIPackageInstaller(Context c) {
-        mContext = c.getApplicationContext();
-        mContext.registerReceiver(mFurtherInstallationEventsReceiver, new IntentFilter(RootlessSAIPIService.ACTION_INSTALLATION_STATUS_NOTIFICATION));
+        super(c);
+        getContext().registerReceiver(mFurtherInstallationEventsReceiver, new IntentFilter(RootlessSAIPIService.ACTION_INSTALLATION_STATUS_NOTIFICATION));
         sInstance = this;
     }
 
     @Override
     protected void installApkFiles(List<File> apkFiles) {
-        PackageInstaller packageInstaller = mContext.getPackageManager().getPackageInstaller();
+        PackageInstaller packageInstaller = getContext().getPackageManager().getPackageInstaller();
         try {
             PackageInstaller.SessionParams sessionParams = new PackageInstaller.SessionParams(PackageInstaller.SessionParams.MODE_FULL_INSTALL);
             int sessionID = packageInstaller.createSession(sessionParams);
@@ -68,8 +67,8 @@ public class RootlessSAIPackageInstaller extends SAIPackageInstaller {
                 outputStream.close();
             }
 
-            Intent callbackIntent = new Intent(mContext, RootlessSAIPIService.class);
-            PendingIntent pendingIntent = PendingIntent.getService(mContext, 0, callbackIntent, 0);
+            Intent callbackIntent = new Intent(getContext(), RootlessSAIPIService.class);
+            PendingIntent pendingIntent = PendingIntent.getService(getContext(), 0, callbackIntent, 0);
             session.commit(pendingIntent.getIntentSender());
             session.close();
         } catch (Exception e) {

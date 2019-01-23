@@ -105,7 +105,7 @@ public class MainActivity extends AppCompatActivity implements FilePickerDialogF
         properties.selection_type = DialogConfigs.FILE_SELECT;
         properties.root = Environment.getExternalStorageDirectory();
         properties.offset = new File(mHelper.getHomeDirectory());
-        properties.extensions = new String[]{"apk"};
+        properties.extensions = new String[]{"apk", "zip"};
         properties.sortBy = mHelper.getFilePickerSortBy();
         properties.sortOrder = mHelper.getFilePickerSortOrder();
 
@@ -131,6 +131,18 @@ public class MainActivity extends AppCompatActivity implements FilePickerDialogF
 
     @Override
     public void onFilesSelected(String tag, List<File> files) {
+        if (files.size() == 1 && files.get(0).getName().endsWith(".zip")) {
+            mViewModel.installPackagesFromZip(files.get(0));
+            return;
+        }
+
+        for (File f : files) {
+            if (f.getName().endsWith(".zip")) {
+                AlertsUtils.showAlert(this, R.string.error, R.string.installer_error_mixed_extensions);
+                return;
+            }
+        }
+
         mViewModel.installPackages(files);
     }
 }

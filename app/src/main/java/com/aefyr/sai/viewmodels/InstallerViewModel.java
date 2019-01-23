@@ -53,6 +53,11 @@ public class InstallerViewModel extends AndroidViewModel implements SAIPackageIn
         mInstaller.startInstallationSession(mInstaller.createInstallationSession(apkFiles));
     }
 
+    public void installPackagesFromZip(File zipWithApkFiles) {
+        ensureInstallerActuality();
+        mInstaller.startInstallationSession(mInstaller.createInstallationSession(zipWithApkFiles));
+    }
+
     private void ensureInstallerActuality() {
         SAIPackageInstaller actualInstaller = PackageInstallerProvider.getInstaller(mContext);
         if (actualInstaller != mInstaller) {
