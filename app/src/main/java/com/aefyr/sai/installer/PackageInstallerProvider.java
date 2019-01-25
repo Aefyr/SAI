@@ -12,9 +12,7 @@ import com.aefyr.sai.utils.Root;
 public class PackageInstallerProvider {
     public static SAIPackageInstaller getInstaller(Context c) {
         if (PreferencesHelper.getInstance(c).shouldUseRoot()) {
-            Root test = new Root();
-            test.terminate();
-            if (test.isAcquired())
+            if (Root.requestRoot())
                 return RootedSAIPackageInstaller.getInstance(c);
 
             Toast.makeText(c, R.string.installer_no_root, Toast.LENGTH_LONG).show();

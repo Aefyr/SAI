@@ -12,6 +12,7 @@ import com.aefyr.sai.ui.dialogs.SingleChoiceListDialogFragment;
 import com.aefyr.sai.utils.AlertsUtils;
 import com.aefyr.sai.utils.PermissionsUtils;
 import com.aefyr.sai.utils.PreferencesHelper;
+import com.aefyr.sai.utils.Root;
 import com.github.angads25.filepicker.model.DialogConfigs;
 import com.github.angads25.filepicker.model.DialogProperties;
 
@@ -57,7 +58,15 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Fil
             return true;
         });
 
-
+        findPreference("use_root").setOnPreferenceChangeListener((preference, newValue) -> {
+            if ((boolean) newValue) {
+                if (!Root.requestRoot()) {
+                    AlertsUtils.showAlert(this, R.string.error, R.string.settings_main_use_root_error);
+                    return false;
+                }
+            }
+            return true;
+        });
     }
 
     private void openFilePicker(FilePickerDialogFragment filePicker) {

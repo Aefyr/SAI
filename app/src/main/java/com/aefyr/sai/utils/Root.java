@@ -107,4 +107,16 @@ public class Root {
     public boolean isAcquired() {
         return mIsAcquired;
     }
+
+    public static boolean requestRoot() {
+        try {
+            Process root = Runtime.getRuntime().exec("su -c exit");
+            root.waitFor();
+            return root.exitValue() == 0;
+        } catch (Exception e) {
+            Log.w(TAG, "Unable to acquire root access: ");
+            Log.w(TAG, e);
+            return false;
+        }
+    }
 }

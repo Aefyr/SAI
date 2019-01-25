@@ -46,5 +46,6 @@
     <string name="about_donate_link" translatable="false">https://yasobe.ru/na/sai</string>
     <string name="settings_main_use_root">Use root</string>
     <string name="settings_main_use_root_summary">Try using rooted installer. If SAI is unable to acquire root access it will fallback to rootless installer</string>
+    <string name="settings_main_use_root_error">Unable to acquire root access</string>
 
 </resources>
