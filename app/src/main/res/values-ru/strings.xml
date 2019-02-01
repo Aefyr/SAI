@@ -39,6 +39,8 @@
     <string name="settings_main_use_root">Использовать root</string>
     <string name="settings_main_use_root_summary">Попытаться использовать root-установщик. При отсутствии root-доступа SAI всё равно использует rootless-установщик</string>
     <string name="settings_main_use_root_error">Не удалось получить root-доступ</string>
+    <string name="settings_main_sign_apks">Подписывать APK</string>
+    <string name="settings_main_sign_apks_summary">Подписывать APK перед установкой. Можно включить (но до первой установки приложения), чтобы можно было потом обновлять приложения независимо от подписи скачанного APK</string>
 
     <string name="about_source">GitHub</string>
     <string name="about_donate">Поддержать</string>

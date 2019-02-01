@@ -20,6 +20,12 @@
         android:title="@string/settings_main_use_root"
         android:summary="@string/settings_main_use_root_summary"/>
 
+    <SwitchPreference
+        android:icon="@drawable/ic_pref_key"
+        android:key="sign_apks"
+        android:title="@string/settings_main_sign_apks"
+        android:summary="@string/settings_main_sign_apks_summary"/>
+
     <Preference
         android:icon="@drawable/ic_pref_info"
         android:key="about"

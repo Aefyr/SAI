@@ -7,5 +7,6 @@ public class PreferencesKeys {
     public static final String FILE_PICKER_SORT_RAW = "file_picker_sort_raw";
     public static final String FILE_PICKER_SORT_BY = "file_picker_sort_by";
     public static final String FILE_PICKER_SORT_ORDER = "file_picker_sort_order";
+    public static final String SIGN_APKS = "sign_apks";
 
 }

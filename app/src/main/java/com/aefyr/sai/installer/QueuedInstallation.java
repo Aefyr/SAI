@@ -1,9 +1,12 @@
 package com.aefyr.sai.installer;
 
 import android.content.Context;
+import android.util.Log;
 
+import com.aefyr.pseudoapksigner.PseudoApkSigner;
 import com.aefyr.sai.R;
 import com.aefyr.sai.utils.IOUtils;
+import com.aefyr.sai.utils.PreferencesHelper;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -15,8 +18,13 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
 class QueuedInstallation {
+    private static final String TAG = "SAIQueuedInstallation";
+    private static final String FILE_NAME_PAST = "testkey.past";
+    private static final String FILE_NAME_PRIVATE_KEY = "testkey.pk8";
+
     private Context mContext;
     private File mZipWithApkFiles;
+    private boolean mShouldExtractZip;
     private List<File> mApkFiles;
     private File mCacheDirectory;
     private long mId;
@@ -30,6 +38,7 @@ class QueuedInstallation {
     QueuedInstallation(Context c, File zipWithApkFiles, long id) {
         mContext = c;
         mZipWithApkFiles = zipWithApkFiles;
+        mShouldExtractZip = true;
         mId = id;
     }
 
@@ -38,10 +47,12 @@ class QueuedInstallation {
     }
 
     List<File> getApkFiles() throws Exception {
-        if (mApkFiles != null)
-            return mApkFiles;
+        if (mShouldExtractZip)
+            extractZip();
 
-        extractZip();
+        if (PreferencesHelper.getInstance(mContext).shouldSignApks())
+            signApks();
+
         return mApkFiles;
     }
 
@@ -60,11 +71,7 @@ class QueuedInstallation {
     }
 
     private void extractZip() throws Exception {
-        if (mZipWithApkFiles == null)
-            return;
-
-        mCacheDirectory = new File(mContext.getCacheDir(), String.valueOf(System.currentTimeMillis()));
-        mCacheDirectory.mkdirs();
+        createCacheDir();
 
         ZipFile zipFile = new ZipFile(mZipWithApkFiles);
         Enumeration<? extends ZipEntry> entries = zipFile.entries();
@@ -89,5 +96,52 @@ class QueuedInstallation {
             mApkFiles.add(tempApkFile);
         }
         zipFile.close();
+    }
+
+    private void signApks() throws Exception {
+        if (mCacheDirectory == null)
+            createCacheDir();
+
+        checkAndPrepareSigningEnvironment();
+
+        ArrayList<File> originalApkFiles = new ArrayList<>(mApkFiles);
+        mApkFiles.clear();
+
+        PseudoApkSigner apkSigner = new PseudoApkSigner(new File(getSigningEnvironmentDir(), FILE_NAME_PAST), new File(getSigningEnvironmentDir(), FILE_NAME_PRIVATE_KEY));
+        for (File apkFile : originalApkFiles) {
+            String rawFileName = apkFile.getName();
+            int indexOfLastDot = rawFileName.lastIndexOf('.');
+            String fileName = rawFileName.substring(0, indexOfLastDot);
+            String fileExtension = rawFileName.substring(indexOfLastDot);
+
+            File signedApkFile = new File(mCacheDirectory, String.format("%s_signed.%s", fileName, fileExtension));
+            apkSigner.sign(apkFile, signedApkFile);
+
+            mApkFiles.add(signedApkFile);
+        }
+    }
+
+    private void checkAndPrepareSigningEnvironment() throws Exception {
+        File signingEnvironment = getSigningEnvironmentDir();
+        File pastFile = new File(signingEnvironment, FILE_NAME_PAST);
+        File privateKeyFile = new File(signingEnvironment, FILE_NAME_PRIVATE_KEY);
+
+        if (pastFile.exists() && privateKeyFile.exists())
+            return;
+
+        Log.d(TAG, "Preparing signing environment...");
+        signingEnvironment.mkdir();
+
+        IOUtils.copyFileFromAssets(mContext, FILE_NAME_PAST, pastFile);
+        IOUtils.copyFileFromAssets(mContext, FILE_NAME_PRIVATE_KEY, privateKeyFile);
+    }
+
+    private File getSigningEnvironmentDir() {
+        return new File(mContext.getFilesDir(), "signing");
+    }
+
+    private void createCacheDir() {
+        mCacheDirectory = new File(mContext.getCacheDir(), String.valueOf(System.currentTimeMillis()));
+        mCacheDirectory.mkdirs();
     }
 }

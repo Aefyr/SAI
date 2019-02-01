@@ -38,14 +38,16 @@
     <string name="settings_main_file_picker_sort_summary">When picking APKs\nCurrently: %s</string>
     <string name="settings_main_pick_dir">Pick Directory</string>
     <string name="settings_main_about">About</string>
+    <string name="settings_main_use_root">Use root</string>
+    <string name="settings_main_use_root_summary">Try using rooted installer. If SAI is unable to acquire root access it will fallback to rootless installer</string>
+    <string name="settings_main_use_root_error">Unable to acquire root access</string>
+    <string name="settings_main_sign_apks">Sign APKs</string>
+    <string name="settings_main_sign_apks_summary">Sign APKs before installing. You can enable this (before first app installation) to update apps independently from downloaded APKs signature</string>
 
     <string name="about_author" translatable="false">by polychromaticfox</string>
     <string name="about_source">GitHub</string>
     <string name="about_source_link" translatable="false">https://github.com/Aefyr/SAI</string>
     <string name="about_donate">Donate</string>
     <string name="about_donate_link" translatable="false">https://yasobe.ru/na/sai</string>
-    <string name="settings_main_use_root">Use root</string>
-    <string name="settings_main_use_root_summary">Try using rooted installer. If SAI is unable to acquire root access it will fallback to rootless installer</string>
-    <string name="settings_main_use_root_error">Unable to acquire root access</string>
 
 </resources>

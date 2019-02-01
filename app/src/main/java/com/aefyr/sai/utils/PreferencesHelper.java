@@ -61,4 +61,12 @@ public class PreferencesHelper {
         mPrefs.edit().putInt(PreferencesKeys.FILE_PICKER_SORT_ORDER, sortOrder).apply();
     }
 
+    public boolean shouldSignApks() {
+        return mPrefs.getBoolean(PreferencesKeys.SIGN_APKS, false);
+    }
+
+    public void setShouldSignApks(boolean signApks) {
+        mPrefs.edit().putBoolean(PreferencesKeys.SIGN_APKS, signApks).apply();
+    }
+
 }
