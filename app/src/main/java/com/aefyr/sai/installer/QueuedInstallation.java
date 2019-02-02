@@ -112,7 +112,7 @@ class QueuedInstallation {
             String rawFileName = apkFile.getName();
             int indexOfLastDot = rawFileName.lastIndexOf('.');
             String fileName = rawFileName.substring(0, indexOfLastDot);
-            String fileExtension = rawFileName.substring(indexOfLastDot);
+            String fileExtension = rawFileName.substring(indexOfLastDot + 1);
 
             File signedApkFile = new File(mCacheDirectory, String.format("%s_signed.%s", fileName, fileExtension));
             apkSigner.sign(apkFile, signedApkFile);
