@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity implements FilePickerDialogF
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Theme.getInstance(this).apply(this);
+        Theme.apply(this);
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity implements FilePickerDialogF
         mViewModel.getState().observe(this, (state) -> {
             switch (state) {
                 case IDLE:
-                    mButton.setText(R.string.installer_pick_apks);
+                    mButton.setText(R.string.installer_install_apks);
                     mButton.setEnabled(true);
                     mButtonSettings.setEnabled(true);
 

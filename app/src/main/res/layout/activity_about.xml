@@ -17,6 +17,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
+            android:tint="?attr/colorAccent"
             app:srcCompat="@drawable/logo" />
 
         <TextView
@@ -43,10 +44,10 @@
             android:layout_below="@+id/tv_about_author"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="8dp"
-            android:orientation="vertical">
+            android:orientation="horizontal">
 
             <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:cardBackgroundColor="?attr/colorAccent"
                 app:cardCornerRadius="@dimen/cards_corners_radius"
@@ -56,14 +57,15 @@
                 <Button
                     android:id="@+id/button_about_source"
                     style="@style/SAIButton"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:text="@string/about_source"
                     android:textColor="?attr/colorPrimary" />
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:cardBackgroundColor="?attr/colorAccent"
                 app:cardCornerRadius="@dimen/cards_corners_radius"
@@ -75,8 +77,9 @@
                     style="@style/SAIButton"
                     android:layout_width="match_parent"
                     android:layout_gravity="center"
+                    android:background="@drawable/bg_outline_button"
                     android:text="@string/about_donate"
-                    android:textColor="?attr/colorPrimary" />
+                    android:textColor="?attr/colorAccent" />
             </androidx.cardview.widget.CardView>
 
         </LinearLayout>

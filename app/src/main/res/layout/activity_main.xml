@@ -10,11 +10,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:orientation="vertical">
+        android:orientation="horizontal"
+        android:weightSum="2">
 
         <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             app:cardBackgroundColor="?attr/colorAccent"
             app:cardCornerRadius="@dimen/cards_corners_radius"
             app:cardElevation="@dimen/cards_elevation"
@@ -23,16 +25,17 @@
             <Button
                 android:id="@+id/button_install"
                 style="@style/SAIButton"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_gravity="center"
-                android:text="@string/installer_pick_apks"
+                android:text="@string/installer_install_apks"
                 android:textColor="?attr/colorPrimary" />
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:cardBackgroundColor="?attr/colorAccent"
+            android:layout_weight="1"
+            app:cardBackgroundColor="?attr/colorPrimary"
             app:cardCornerRadius="@dimen/cards_corners_radius"
             app:cardElevation="@dimen/cards_elevation"
             app:cardUseCompatPadding="true">
@@ -40,13 +43,16 @@
             <Button
                 android:id="@+id/button_help"
                 style="@style/SAIButton"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_gravity="center"
+                android:background="@drawable/bg_outline_button"
                 android:text="@string/help"
-                android:textColor="?attr/colorPrimary" />
+                android:textColor="?attr/colorAccent" />
         </androidx.cardview.widget.CardView>
 
+
     </LinearLayout>
+
 
     <com.aefyr.sai.view.coolbar.Coolbar
         android:layout_width="match_parent"

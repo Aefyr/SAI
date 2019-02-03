@@ -3,8 +3,9 @@
     <style name="AppTheme.Light" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/colorPureWhite</item>
         <item name="colorPrimaryDark">@color/colorPureWhite</item>
-        <item name="colorAccent">@color/colorHotPink</item>
+        <item name="colorAccent">@color/colorCoolBlue</item>
         <item name="android:windowBackground">@color/colorPureWhite</item>
+        <item name="titleTextColor">@color/colorFineGrey</item>
         <item name="alertDialogTheme">@style/AlertDialog.AppTheme.Light</item>
     </style>
 

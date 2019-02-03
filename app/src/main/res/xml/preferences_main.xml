@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    
+
     <Preference
         android:icon="@drawable/ic_pref_home"
         android:key="home_directory"
@@ -11,24 +11,24 @@
         android:icon="@drawable/ic_pref_sort"
         android:key="file_picker_sort"
         android:title="@string/settings_main_file_picker_sort"
-        android:summary="@string/settings_main_file_picker_sort_summary"/>
+        android:summary="@string/settings_main_file_picker_sort_summary" />
 
 
     <SwitchPreference
         android:icon="@drawable/ic_pref_root"
         android:key="use_root"
         android:title="@string/settings_main_use_root"
-        android:summary="@string/settings_main_use_root_summary"/>
+        android:summary="@string/settings_main_use_root_summary" />
 
     <SwitchPreference
         android:icon="@drawable/ic_pref_key"
         android:key="sign_apks"
         android:title="@string/settings_main_sign_apks"
-        android:summary="@string/settings_main_sign_apks_summary"/>
+        android:summary="@string/settings_main_sign_apks_summary" />
 
     <Preference
         android:icon="@drawable/ic_pref_info"
         android:key="about"
-        android:title="@string/settings_main_about"/>
+        android:title="@string/settings_main_about" />
 
 </PreferenceScreen>

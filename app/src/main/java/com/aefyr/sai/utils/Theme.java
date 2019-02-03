@@ -28,8 +28,8 @@ public class Theme {
         mPrefs.edit().putBoolean(PreferencesKeys.DARK_THEME, dark).apply();
     }
 
-    public void apply(Context c) {
-        if (isDark())
+    public static void apply(Context c) {
+        if (Theme.getInstance(c).isDark())
             c.setTheme(R.style.AppTheme_Dark);
     }
 }

@@ -2,9 +2,10 @@
 <resources>
     <color name="colorNeutralGray">#9e9e9e</color>
 
-    <color name="colorHotPink">#ff4e3e</color>
+    <color name="colorCoolBlue">#639eff</color>
     <color name="colorPureWhite">#ffffff</color>
 
+    <color name="colorFineGrey">#444444</color>
     <color name="colorGreatGrey">#3a404a</color>
     <color name="colorGreaterGrey">#343944</color>
     <color name="colorAlmostWhite">#e5e5e5</color>
