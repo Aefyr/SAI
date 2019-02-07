@@ -30,7 +30,7 @@ public class RootlessSAIPIService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         int status = intent.getIntExtra(PackageInstaller.EXTRA_STATUS, -999);
-        switch (intent.getIntExtra(PackageInstaller.EXTRA_STATUS, -999)) {
+        switch (status) {
             case PackageInstaller.STATUS_PENDING_USER_ACTION:
                 Log.d(TAG, "Requesting user confirmation for installation");
                 sendStatusChangeBroadcast(intent.getIntExtra(PackageInstaller.EXTRA_SESSION_ID, -1), STATUS_CONFIRMATION_PENDING, intent.getStringExtra(PackageInstaller.EXTRA_PACKAGE_NAME));

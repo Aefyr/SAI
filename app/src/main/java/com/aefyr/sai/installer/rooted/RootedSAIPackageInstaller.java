@@ -2,6 +2,7 @@ package com.aefyr.sai.installer.rooted;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.pm.PackageInfo;
 import android.util.Log;
 
 import com.aefyr.sai.R;
@@ -59,7 +60,7 @@ public class RootedSAIPackageInstaller extends SAIPackageInstaller {
 
             result = ensureCommandSucceeded(mSu.exec(String.format("pm install-commit %d ", sessionId)));
             if (result.toLowerCase().contains("success"))
-                dispatchCurrentSessionUpdate(InstallationStatus.INSTALLATION_SUCCEED, "null");
+                dispatchCurrentSessionUpdate(InstallationStatus.INSTALLATION_SUCCEED, getPackageNameFromApk(apkFiles));
             else
                 dispatchCurrentSessionUpdate(InstallationStatus.INSTALLATION_FAILED, getContext().getString(R.string.installer_error_root, result));
 
@@ -75,5 +76,14 @@ public class RootedSAIPackageInstaller extends SAIPackageInstaller {
         if (result == null || result.length() == 0)
             throw new RuntimeException(mSu.readError());
         return result;
+    }
+
+    private String getPackageNameFromApk(List<File> apkFiles) {
+        for (File apkFile : apkFiles) {
+            PackageInfo packageInfo = getContext().getPackageManager().getPackageArchiveInfo(apkFile.getAbsolutePath(), 0);
+            if (packageInfo != null)
+                return packageInfo.packageName;
+        }
+        return "null";
     }
 }
