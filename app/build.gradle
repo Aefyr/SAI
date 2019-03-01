@@ -7,8 +7,8 @@ android {
         applicationId "com.aefyr.sai"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 16
-        versionName "1.15"
+        versionCode 17
+        versionName "1.16"
     }
     buildTypes {
         release {
@@ -24,12 +24,12 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
-    implementation 'androidx.appcompat:appcompat:1.1.0-alpha01'
-    implementation 'com.google.android.material:material:1.1.0-alpha03'
+    implementation 'androidx.appcompat:appcompat:1.1.0-alpha02'
+    implementation 'com.google.android.material:material:1.1.0-alpha04'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
     implementation 'com.android.support:preference-v7:28.0.0'
     implementation 'com.google.firebase:firebase-core:16.0.7'
-    implementation 'com.crashlytics.sdk.android:crashlytics:2.9.8'
+    implementation 'com.crashlytics.sdk.android:crashlytics:2.9.9'
     implementation 'com.github.aefyr:pseudoapksigner:1.1'
 }
 

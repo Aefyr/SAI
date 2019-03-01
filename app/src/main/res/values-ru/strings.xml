@@ -24,7 +24,7 @@
     <string name="installer_error_bad_apks">Выбраны некорректные APK файлы</string>
     <string name="installer_error_storage">Недостаточно места для установки приложения</string>
     <string name="installer_error_lidl_rom">Прошивка вашего устройства несовместима с rootless-установщиком. Если у вас есть root-доступ, попробуйте включить root-установщик в настройках SAI</string>
-    <string name="installer_error_root">Ошибка root-установщика:\n\n %s</string>
+    <string name="installer_error_root">Ошибка root-установщика:\n\n%s</string>
     <string name="installer_error_root_no_root">Невозможно получить root-доступ, пожалуйста отключите настройку \"Использовать root\"</string>
     <string name="installer_error_while_extracting">Ошибка при распаковке ZIP: %s</string>
     <string name="installer_error_zip_contains_non_apks">ZIP архив содержит файлы с расширением отличным от .apk</string>

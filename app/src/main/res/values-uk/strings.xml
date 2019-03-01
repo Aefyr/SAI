@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="about_donate">Підтримати</string>
+    <string name="about_source">GitHub</string>
+    <string name="error">Помилка</string>
+    <string name="help">Допомога</string>
+    <string name="installer_app_installed">Додаток не установлено</string>
+    <string name="installer_app_installed_full">%s установлено</string>
+    <string name="installer_error_aborted">Установка була відмінена користувачем</string>
+    <string name="installer_error_bad_apks">Вибрані некоректні APK файли</string>
+    <string name="installer_error_blocked">Установка була заблокована %s</string>
+    <string name="installer_error_blocked_device">пристроем</string>
+    <string name="installer_error_conflict">"Неможливо установити додаток, так як він конфліктує з уже установленим додатком з таким же ім'ям пакета"</string>
+    <string name="installer_error_generic">Помилка при установці</string>
+    <string name="installer_error_incompatible">Установлюваний додаток несумісний з цим пристроєм</string>
+    <string name="installer_error_lidl_rom">Прошивка вашого пристрою несумісна з rootless-установником. Якщо у вас є root-доступ, спробуйте ввімкнути root-установник в налаштуваннях SAI</string>
+    <string name="installer_error_mixed_extensions">Виберіть або один ZIP файл, або кілька APK файлів</string>
+    <string name="installer_error_root">Помилка root-установника:\n\n%s</string>
+    <string name="installer_error_root_no_root">Неможливо отримати root-доступ, будь ласка вимкніть опцію \"Використовувати root\"</string>
+    <string name="installer_error_storage">Недостатньо місця для установки додатка</string>
+    <string name="installer_error_while_extracting">Помилка при розпакуванні ZIP: %s</string>
+    <string name="installer_error_zip_contains_non_apks">ZIP архів містить файли з розширенням відмінним від .apk</string>
+    <string name="installer_help"><b>Що таке SAI?</b>\nSAI (Split APKs Installer) це інсталятор додатків, що складаються з декількох APK. Його можна застосовувати для встановлення додатків, поширених як App Bundle, тому що Android не надає вбудованого способу для цього, крім Google Play.\n\n<b>Як використовувати SAI?</b>\nНатисніть на кнопку \"Інсталювати APK\" і оберіть базовий APK і додаткові APK під ваший пристрій, або ZIP-архів, що містить всі необхідні APK, потім натисніть кнопку \"Вибрати\" для установки.</string>
+    <string name="installer_install_apks">Інсталювати APK</string>
+    <string name="installer_installation_failed">Додаток не установлено</string>
+    <string name="installer_installation_in_progress">Установка…</string>
+    <string name="installer_no_root">Root-доступ відсутній, буде використаний rootless-установник</string>
+    <string name="installer_open">Запуск</string>
+    <string name="installer_pick_apks">Виберіть APK для установки</string>
+    <string name="permissions_required_storage">SAI необхідний дозвіл на доступ до файлів</string>
+    <string name="settings_main_about">Про додаток</string>
+    <string name="settings_main_file_picker_sort">Сортування файлів</string>
+    <string name="settings_main_file_picker_sort_summary">В виборі APK\nЗараз: %s</string>
+    <string name="settings_main_home_directory">Тека за замовчуванням</string>
+    <string name="settings_main_home_directory_summary">Початкова тека при виборі APK\nЗараз: %s</string>
+    <string name="settings_main_pick_dir">Виберіть теку</string>
+    <string name="settings_main_sign_apks">Підписувати APK</string>
+    <string name="settings_main_sign_apks_summary">Підписувати APK перед установкою. Можна ввімкнути (але до установки додатку), щоб можна було потім оновлювати додатки незалежно від підпису завантаженого APK</string>
+    <string name="settings_main_use_root">Використовувати root</string>
+    <string name="settings_main_use_root_error">Не вдалося отримати root-доступ</string>
+    <string name="settings_main_use_root_summary">Спробувати використовувати root-інсталер. При відсутності root-доступу SAI все одно використовує rootless-інсталер</string>
+    <string name="settings_title">Налаштування</string>
+</resources>

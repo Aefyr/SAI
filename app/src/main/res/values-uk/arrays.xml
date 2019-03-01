@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="file_picker_sort_variants">
+        <item>За іменем (Алфавітний порядок)</item>
+        <item>За іменем (Зворотній алфавітний порядок)</item>
+        <item>Спочатку нові</item>
+        <item>Спочатку старі</item>
+    </string-array>
+</resources>
