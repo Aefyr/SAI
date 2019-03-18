@@ -2,12 +2,19 @@ package com.aefyr.sai.viewmodels;
 
 import android.app.Application;
 import android.content.Context;
+import android.net.Uri;
 
 import com.aefyr.sai.installer.PackageInstallerProvider;
 import com.aefyr.sai.installer.SAIPackageInstaller;
+import com.aefyr.sai.model.apksource.DefaultApkSource;
+import com.aefyr.sai.model.apksource.ZipApkSource;
+import com.aefyr.sai.model.filedescriptor.ContentUriFileDescriptor;
+import com.aefyr.sai.model.filedescriptor.FileDescriptor;
+import com.aefyr.sai.model.filedescriptor.NormalFileDescriptor;
 import com.aefyr.sai.utils.Event;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -46,12 +53,22 @@ public class InstallerViewModel extends AndroidViewModel implements SAIPackageIn
 
     public void installPackages(List<File> apkFiles) {
         ensureInstallerActuality();
-        mInstaller.startInstallationSession(mInstaller.createInstallationSession(apkFiles));
+
+        ArrayList<FileDescriptor> descriptors = new ArrayList<>(apkFiles.size());
+        for (File f : apkFiles)
+            descriptors.add(new NormalFileDescriptor(f));
+
+        mInstaller.startInstallationSession(mInstaller.createInstallationSession(new DefaultApkSource(descriptors)));
     }
 
     public void installPackagesFromZip(File zipWithApkFiles) {
         ensureInstallerActuality();
-        mInstaller.startInstallationSession(mInstaller.createInstallationSession(zipWithApkFiles));
+        mInstaller.startInstallationSession(mInstaller.createInstallationSession(new ZipApkSource(mContext, new NormalFileDescriptor(zipWithApkFiles))));
+    }
+
+    public void installPackagesFromContentProviderZip(Uri zipContentUri) {
+        ensureInstallerActuality();
+        mInstaller.startInstallationSession(mInstaller.createInstallationSession(new ZipApkSource(mContext, new ContentUriFileDescriptor(mContext, zipContentUri))));
     }
 
     private void ensureInstallerActuality() {

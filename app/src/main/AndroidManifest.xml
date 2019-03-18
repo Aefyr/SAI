@@ -14,11 +14,30 @@
         android:roundIcon="@mipmap/icon"
         android:theme="@style/AppTheme.Light"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".ui.activities.MainActivity">
+        <activity
+            android:name=".ui.activities.MainActivity"
+            android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:scheme="file"
+                    android:mimeType="*/*"
+                    android:host="*"
+                    android:pathPattern=".*\\.apks" />
+                <data
+                    android:scheme="content"
+                    android:mimeType="*/*"
+                    android:host="*"
+                    android:pathPattern=".*\\.apks" />
             </intent-filter>
         </activity>
 
@@ -26,7 +45,7 @@
 
         <activity android:name=".ui.activities.PreferencesActivity" />
 
-        <activity android:name=".ui.activities.AboutActivity"/>
+        <activity android:name=".ui.activities.AboutActivity" />
     </application>
 
 </manifest>

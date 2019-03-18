@@ -2,6 +2,7 @@ package com.aefyr.sai.ui.activities;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.widget.Button;
@@ -10,6 +11,7 @@ import android.widget.ImageButton;
 import com.aefyr.sai.R;
 import com.aefyr.sai.ui.dialogs.AppInstalledDialogFragment;
 import com.aefyr.sai.ui.dialogs.FilePickerDialogFragment;
+import com.aefyr.sai.ui.dialogs.InstallationConfirmationDialogFragment;
 import com.aefyr.sai.utils.AlertsUtils;
 import com.aefyr.sai.utils.PermissionsUtils;
 import com.aefyr.sai.utils.PreferencesHelper;
@@ -25,7 +27,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
 
-public class MainActivity extends AppCompatActivity implements FilePickerDialogFragment.OnFilesSelectedListener {
+public class MainActivity extends AppCompatActivity implements FilePickerDialogFragment.OnFilesSelectedListener, InstallationConfirmationDialogFragment.ConfirmationListener {
 
     private InstallerViewModel mViewModel;
     private Button mButton;
@@ -89,11 +91,24 @@ public class MainActivity extends AppCompatActivity implements FilePickerDialogF
         findViewById(R.id.button_help).setOnClickListener((v) -> AlertsUtils.showAlert(this, R.string.help, R.string.installer_help));
         findViewById(R.id.ib_toggle_theme).setOnClickListener((v -> {
             Theme.getInstance(this).setDark(!Theme.getInstance(this).isDark());
-            startActivity(new Intent(this, MainActivity.class));
-            finish();
-            overridePendingTransition(R.anim.alpha_in, R.anim.alpha_out);
+            recreate();
         }));
         findViewById(R.id.ib_settings).setOnClickListener((v) -> startActivity(new Intent(MainActivity.this, PreferencesActivity.class)));
+
+        Intent intent = getIntent();
+        if (Intent.ACTION_VIEW.equals(intent.getAction()) && intent.getData() != null) {
+            //TODO should cancel previous dialog if it exists
+            InstallationConfirmationDialogFragment.newInstance(intent.getData()).show(getSupportFragmentManager(), "installation_confirmation_dialog");
+            getIntent().setData(null);
+        }
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        if (Intent.ACTION_VIEW.equals(intent.getAction()) && intent.getData() != null) {
+            InstallationConfirmationDialogFragment.newInstance(intent.getData()).show(getSupportFragmentManager(), "installation_confirmation_dialog");
+        }
     }
 
     private void checkPermissionsAndPickFiles() {
@@ -105,7 +120,7 @@ public class MainActivity extends AppCompatActivity implements FilePickerDialogF
         properties.selection_type = DialogConfigs.FILE_SELECT;
         properties.root = Environment.getExternalStorageDirectory();
         properties.offset = new File(mHelper.getHomeDirectory());
-        properties.extensions = new String[]{"apk", "zip"};
+        properties.extensions = new String[]{"apk", "zip", "apks"};
         properties.sortBy = mHelper.getFilePickerSortBy();
         properties.sortOrder = mHelper.getFilePickerSortOrder();
 
@@ -131,18 +146,23 @@ public class MainActivity extends AppCompatActivity implements FilePickerDialogF
 
     @Override
     public void onFilesSelected(String tag, List<File> files) {
-        if (files.size() == 1 && files.get(0).getName().endsWith(".zip")) {
+        if (files.size() == 1 && (files.get(0).getName().endsWith(".zip") || files.get(0).getName().endsWith(".apks"))) {
             mViewModel.installPackagesFromZip(files.get(0));
             return;
         }
 
         for (File f : files) {
-            if (f.getName().endsWith(".zip")) {
+            if (!f.getName().endsWith(".apk")) {
                 AlertsUtils.showAlert(this, R.string.error, R.string.installer_error_mixed_extensions);
                 return;
             }
         }
 
         mViewModel.installPackages(files);
+    }
+
+    @Override
+    public void onConfirmed(Uri apksFileUri) {
+        mViewModel.installPackagesFromContentProviderZip(apksFileUri);
     }
 }

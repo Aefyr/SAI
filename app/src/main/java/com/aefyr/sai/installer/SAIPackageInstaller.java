@@ -3,15 +3,12 @@ package com.aefyr.sai.installer;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 import android.util.LongSparseArray;
 
-import com.aefyr.sai.R;
+import com.aefyr.sai.model.apksource.ApkSource;
 
-import java.io.File;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -57,15 +54,9 @@ public abstract class SAIPackageInstaller {
         mListeners.remove(listener);
     }
 
-    public long createInstallationSession(List<File> apkFiles) {
+    public long createInstallationSession(ApkSource apkSource) {
         long installationID = mLastInstallationID++;
-        mCreatedInstallationSessions.put(installationID, new QueuedInstallation(getContext(), apkFiles, installationID));
-        return installationID;
-    }
-
-    public long createInstallationSession(File zipWithApkFiles) {
-        long installationID = mLastInstallationID++;
-        mCreatedInstallationSessions.put(installationID, new QueuedInstallation(getContext(), zipWithApkFiles, installationID));
+        mCreatedInstallationSessions.put(installationID, new QueuedInstallation(getContext(), apkSource, installationID));
         return installationID;
     }
 
@@ -94,28 +85,13 @@ public abstract class SAIPackageInstaller {
 
         dispatchCurrentSessionUpdate(InstallationStatus.INSTALLING, null);
 
-        mExecutor.execute(() -> {
-
-            List<File> apkFiles;
-            try {
-                apkFiles = installation.getApkFiles();
-            } catch (Exception e) {
-                Log.w(TAG, e);
-                dispatchCurrentSessionUpdate(InstallationStatus.INSTALLATION_FAILED, getContext().getString(R.string.installer_error_while_extracting, e.getMessage()));
-                installationCompleted();
-                return;
-            }
-
-            installApkFiles(apkFiles);
-        });
+        mExecutor.execute(() -> installApkFiles(installation.getApkSource()));
     }
 
-    protected abstract void installApkFiles(List<File> apkFiles);
+    protected abstract void installApkFiles(ApkSource apkSource);
 
     protected void installationCompleted() {
         mInstallationInProgress = false;
-        QueuedInstallation lastInstallation = mOngoingInstallation;
-        mMiscExecutor.submit(lastInstallation::clear);
         mOngoingInstallation = null;
         processQueue();
     }

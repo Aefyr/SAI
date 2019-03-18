@@ -9,14 +9,13 @@ import android.content.IntentFilter;
 import android.content.pm.PackageInstaller;
 import android.util.Log;
 
+import com.aefyr.sai.R;
 import com.aefyr.sai.installer.SAIPackageInstaller;
+import com.aefyr.sai.model.apksource.ApkSource;
 import com.aefyr.sai.utils.IOUtils;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.List;
 
 public class RootlessSAIPackageInstaller extends SAIPackageInstaller {
     private static final String TAG = "RootlessSAIPI";
@@ -51,16 +50,16 @@ public class RootlessSAIPackageInstaller extends SAIPackageInstaller {
     }
 
     @Override
-    protected void installApkFiles(List<File> apkFiles) {
+    protected void installApkFiles(ApkSource apkSource) {
         PackageInstaller packageInstaller = getContext().getPackageManager().getPackageInstaller();
         try {
             PackageInstaller.SessionParams sessionParams = new PackageInstaller.SessionParams(PackageInstaller.SessionParams.MODE_FULL_INSTALL);
             int sessionID = packageInstaller.createSession(sessionParams);
 
             PackageInstaller.Session session = packageInstaller.openSession(sessionID);
-            for (File apkFile : apkFiles) {
-                InputStream inputStream = new FileInputStream(apkFile);
-                OutputStream outputStream = session.openWrite(apkFile.getName(), 0, apkFile.length());
+            while (apkSource.nextApk()) {
+                InputStream inputStream = apkSource.openApkInputStream();
+                OutputStream outputStream = session.openWrite(apkSource.getApkName(), 0, apkSource.getApkLength());
                 IOUtils.copyStream(inputStream, outputStream);
                 session.fsync(outputStream);
                 inputStream.close();
@@ -73,7 +72,7 @@ public class RootlessSAIPackageInstaller extends SAIPackageInstaller {
             session.close();
         } catch (Exception e) {
             Log.w(TAG, e);
-            dispatchCurrentSessionUpdate(SAIPackageInstaller.InstallationStatus.INSTALLATION_FAILED, null);
+            dispatchCurrentSessionUpdate(SAIPackageInstaller.InstallationStatus.INSTALLATION_FAILED, getContext().getString(R.string.installer_error_rootless, e.getMessage()));
             installationCompleted();
         }
     }

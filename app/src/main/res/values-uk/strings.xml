@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="yes">Да</string>
+    <string name="no">Нет</string>
+    <string name="cancel">Отмена</string>
+
     <string name="about_donate">Підтримати</string>
     <string name="about_source">GitHub</string>
     <string name="error">Помилка</string>
     <string name="help">Допомога</string>
+
+    <string name="installer_installation_confirmation">Установить \"%s\"?</string>
     <string name="installer_app_installed">Додаток не установлено</string>
     <string name="installer_app_installed_full">%s установлено</string>
     <string name="installer_error_aborted">Установка була відмінена користувачем</string>
@@ -14,19 +20,20 @@
     <string name="installer_error_generic">Помилка при установці</string>
     <string name="installer_error_incompatible">Установлюваний додаток несумісний з цим пристроєм</string>
     <string name="installer_error_lidl_rom">Прошивка вашого пристрою несумісна з rootless-установником. Якщо у вас є root-доступ, спробуйте ввімкнути root-установник в налаштуваннях SAI</string>
-    <string name="installer_error_mixed_extensions">Виберіть або один ZIP файл, або кілька APK файлів</string>
+    <string name="installer_error_mixed_extensions">Виберіть або один .zip/.apks файл, або кілька .apk файлів</string>
     <string name="installer_error_root">Помилка root-установника:\n\n%s</string>
+    <string name="installer_error_rootless">Помилка rootless-установника:\n\n%s</string>
     <string name="installer_error_root_no_root">Неможливо отримати root-доступ, будь ласка вимкніть опцію \"Використовувати root\"</string>
     <string name="installer_error_storage">Недостатньо місця для установки додатка</string>
     <string name="installer_error_while_extracting">Помилка при розпакуванні ZIP: %s</string>
     <string name="installer_error_zip_contains_non_apks">ZIP архів містить файли з розширенням відмінним від .apk</string>
-    <string name="installer_help"><b>Що таке SAI?</b>\nSAI (Split APKs Installer) це інсталятор додатків, що складаються з декількох APK. Його можна застосовувати для встановлення додатків, поширених як App Bundle, тому що Android не надає вбудованого способу для цього, крім Google Play.\n\n<b>Як використовувати SAI?</b>\nНатисніть на кнопку \"Інсталювати APK\" і оберіть базовий APK і додаткові APK під ваший пристрій, або ZIP-архів, що містить всі необхідні APK, потім натисніть кнопку \"Вибрати\" для установки.</string>
+    <string name="installer_help"><b>Що таке SAI?</b>\nSAI (Split APKs Installer) це інсталятор додатків, що складаються з декількох APK. Його можна застосовувати для встановлення додатків, поширених як App Bundle, тому що Android не надає вбудованого способу для цього, крім Google Play.\n\n<b>Як використовувати SAI?</b>\nНатисніть на кнопку \"Інсталювати APK\" і оберіть базовий APK і додаткові APK під ваший пристрій, або ZIP-архів, що містить всі необхідні APK, потім натисніть кнопку \"Вибрати\" для установки.\n\n<b>.apks</b>\nВы можете переименовать .zip архив, содержащий .apk файлы в .apks (Например: somesplitapp.zip -> somesplitapp.apks), чтобы его можно было открыть с помощью SAI из других приложений.</string>
     <string name="installer_install_apks">Інсталювати APK</string>
     <string name="installer_installation_failed">Додаток не установлено</string>
     <string name="installer_installation_in_progress">Установка…</string>
     <string name="installer_no_root">Root-доступ відсутній, буде використаний rootless-установник</string>
     <string name="installer_open">Запуск</string>
-    <string name="installer_pick_apks">Виберіть APK для установки</string>
+    <string name="installer_pick_apks">Виберіть файли для установки</string>
     <string name="permissions_required_storage">SAI необхідний дозвіл на доступ до файлів</string>
     <string name="settings_main_about">Про додаток</string>
     <string name="settings_main_file_picker_sort">Сортування файлів</string>

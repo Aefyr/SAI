@@ -1,16 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <string name="yes">Да</string>
+    <string name="no">Нет</string>
+    <string name="cancel">Отмена</string>
     <string name="help">Помощь</string>
     <string name="error">Ошибка</string>
 
     <string name="permissions_required_storage">SAI необходимо разрешение на доступ к файлам</string>
 
+    <string name="installer_installation_confirmation">Установить \"%s\"?</string>
     <string name="installer_installation_failed">Приложение не установлено</string>
     <string name="installer_installation_in_progress">Установка…</string>
     <string name="installer_install_apks">Установить APK</string>
-    <string name="installer_help"><b>Что такое SAI?</b>\nSAI (Split APKs Installer) это установщик приложений, состоящих из нескольких APK. Его можно применять для установки приложений, распространяемых как App Bundle, потому что Android не предоставляет встроенного способа для этого, помимо Google Play.\n\n<b>Как использовать SAI?</b>\nНажмите на кнопку \"Установить APK\" и выберите базовый APK и дополнительные APK под ваше устройство, либо ZIP архив, содержащий все необходимые APK, затем нажмите снизу кнопку \"Выбрать\" для начала процесса установки.</string>
-    <string name="installer_pick_apks">Выберите APK для установки</string>
+    <string name="installer_help"><b>Что такое SAI?</b>\nSAI (Split APKs Installer) это установщик приложений, состоящих из нескольких APK. Его можно применять для установки приложений, распространяемых как App Bundle, потому что Android не предоставляет встроенного способа для этого, помимо Google Play.\n\n<b>Как использовать SAI?</b>\nНажмите на кнопку \"Установить APK\" и выберите базовый APK и дополнительные APK под ваше устройство, либо ZIP архив, содержащий все необходимые APK, затем нажмите снизу кнопку \"Выбрать\" для начала процесса установки.\n\n<b>.apks</b>\nВы можете переименовать .zip архив, содержащий .apk файлы в .apks (Например: somesplitapp.zip -> somesplitapp.apks), чтобы его можно было открыть с помощью SAI из других приложений.</string>
+    <string name="installer_pick_apks">Выберите файлы для установки</string>
     <string name="installer_app_installed">Приложение установлено</string>
     <string name="installer_open">Запуск</string>
     <string name="installer_app_installed_full">%s установлено</string>
@@ -25,10 +29,11 @@
     <string name="installer_error_storage">Недостаточно места для установки приложения</string>
     <string name="installer_error_lidl_rom">Прошивка вашего устройства несовместима с rootless-установщиком. Если у вас есть root-доступ, попробуйте включить root-установщик в настройках SAI</string>
     <string name="installer_error_root">Ошибка root-установщика:\n\n%s</string>
+    <string name="installer_error_rootless">Ошибка rootless-установщика:\n\n%s</string>
     <string name="installer_error_root_no_root">Невозможно получить root-доступ, пожалуйста отключите настройку \"Использовать root\"</string>
     <string name="installer_error_while_extracting">Ошибка при распаковке ZIP: %s</string>
     <string name="installer_error_zip_contains_non_apks">ZIP архив содержит файлы с расширением отличным от .apk</string>
-    <string name="installer_error_mixed_extensions">Выберите либо один ZIP файл, либо несколько APK файлов</string>
+    <string name="installer_error_mixed_extensions">Выберите либо один .zip/.apks файл, либо несколько .apk файлов</string>
 
     <string name="settings_title">Настройки</string>
     <string name="settings_main_home_directory">Папка по умолчанию</string>

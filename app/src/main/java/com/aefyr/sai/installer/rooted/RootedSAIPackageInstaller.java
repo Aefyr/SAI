@@ -7,10 +7,10 @@ import android.util.Log;
 
 import com.aefyr.sai.R;
 import com.aefyr.sai.installer.SAIPackageInstaller;
+import com.aefyr.sai.model.apksource.ApkSource;
 import com.aefyr.sai.utils.Root;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -32,7 +32,7 @@ public class RootedSAIPackageInstaller extends SAIPackageInstaller {
 
     @SuppressLint("DefaultLocale")
     @Override
-    protected void installApkFiles(List<File> apkFiles) {
+    protected void installApkFiles(ApkSource apkSource) {
         try {
             if (!Root.requestRoot()) {
                 //I don't know if this can even happen, because InstallerViewModel calls PackageInstallerProvider.getInstaller, which checks root access and returns correct installer in response, before every installation
@@ -41,22 +41,19 @@ public class RootedSAIPackageInstaller extends SAIPackageInstaller {
                 return;
             }
 
-            int totalSize = 0;
-            for (File apkFile : apkFiles)
-                totalSize += apkFile.length();
-
-            String result = ensureCommandSucceeded(Root.exec(String.format("pm install-create -r -S %d", totalSize)));
+            String result = ensureCommandSucceeded(Root.exec("pm install-create -r"));
             Pattern sessionIdPattern = Pattern.compile("(\\d+)");
             Matcher sessionIdMatcher = sessionIdPattern.matcher(result);
             sessionIdMatcher.find();
             int sessionId = Integer.parseInt(sessionIdMatcher.group(1));
 
-            for (File apkFile : apkFiles)
-                ensureCommandSucceeded(Root.exec(String.format("pm install-write -S %d %d \"%s\"", apkFile.length(), sessionId, apkFile.getName()), new FileInputStream(apkFile)));
+            while (apkSource.nextApk())
+                ensureCommandSucceeded(Root.exec(String.format("pm install-write -S %d %d \"%s\"", apkSource.getApkLength(), sessionId, apkSource.getApkName()), apkSource.openApkInputStream()));
+
 
             result = ensureCommandSucceeded(Root.exec(String.format("pm install-commit %d ", sessionId)));
             if (result.toLowerCase().contains("success"))
-                dispatchCurrentSessionUpdate(InstallationStatus.INSTALLATION_SUCCEED, getPackageNameFromApk(apkFiles));
+                dispatchCurrentSessionUpdate(InstallationStatus.INSTALLATION_SUCCEED, "null");
             else
                 dispatchCurrentSessionUpdate(InstallationStatus.INSTALLATION_FAILED, getContext().getString(R.string.installer_error_root, result));
 
@@ -70,7 +67,7 @@ public class RootedSAIPackageInstaller extends SAIPackageInstaller {
 
     private String ensureCommandSucceeded(Root.Result result) {
         if (!result.isSuccessful())
-            throw new RuntimeException(result.err);
+            throw new RuntimeException(result.toString());
         return result.out;
     }
 

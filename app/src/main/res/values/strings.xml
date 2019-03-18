@@ -2,17 +2,21 @@
     <string name="app_name" translatable="false">SAI</string>
     <string name="app_name_full" translatable="false">Split APKs Installer</string>
 
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="cancel">Cancel</string>
     <string name="ok" translatable="false">OK</string>
     <string name="help">Help</string>
     <string name="error">Error</string>
 
     <string name="permissions_required_storage">SAI requires permission to access storage</string>
 
+    <string name="installer_installation_confirmation">Install \"%s\"?</string>
     <string name="installer_installation_failed">App not installed</string>
     <string name="installer_installation_in_progress">Installing…</string>
     <string name="installer_install_apks">Install APKs</string>
-    <string name="installer_help"><b>What is SAI?</b>\nSAI (Split APKs Installer) is an app that lets you install multiple APKs as if it was a single package. This is useful for installing apps that are distributed as App Bundles since Android provides no built-in way to install them from sources other than Google Play.\n\n<b>How to use SAI?</b>\nClick \"Install APKs\" button and select base APK and additional configuration-specific APKs or a ZIP archive that contains all required APKs, then click \"Select\" button to start installation process.</string>
-    <string name="installer_pick_apks">Select APKs to install</string>
+    <string name="installer_help"><b>What is SAI?</b>\nSAI (Split APKs Installer) is an app that lets you install multiple APKs as if it was a single package. This is useful for installing apps that are distributed as App Bundles since Android provides no built-in way to install them from sources other than Google Play.\n\n<b>How to use SAI?</b>\nClick \"Install APKs\" button and select base APK and additional configuration-specific APKs or a ZIP archive that contains all required APKs, then click \"Select\" button to start installation process.\n\n<b>.apks</b>\nYou can rename a .zip archive that contains .apk files to .apks (e.g.: somesplitapp.zip -> somesplitapp.apks), so it can be opened with SAI from other apps.</string>
+    <string name="installer_pick_apks">Select files to install</string>
     <string name="installer_app_installed">App installed</string>
     <string name="installer_open">Open</string>
     <string name="installer_app_installed_full">%s has been installed</string>
@@ -27,10 +31,11 @@
     <string name="installer_error_storage">Not enough storage space to install the app</string>
     <string name="installer_error_lidl_rom">Your ROM is incompatible with rootless installer. Try enabling rooted installer in SAI settings if you have root</string>
     <string name="installer_error_root">Rooted installer error:\n\n %s</string>
+    <string name="installer_error_rootless">Rootless installer error:\n\n %s</string>
     <string name="installer_error_root_no_root">Unable to acquire root access, please disable \"Use root\" preference</string>
     <string name="installer_error_while_extracting">Error while extracting APK files from ZIP: %s</string>
     <string name="installer_error_zip_contains_non_apks">ZIP contains non-apk files</string>
-    <string name="installer_error_mixed_extensions">You must select either a single ZIP or multiple APKs</string>
+    <string name="installer_error_mixed_extensions">You must select either a single .zip/.apks file or multiple .apk files</string>
 
     <string name="settings_title">Settings</string>
     <string name="settings_main_home_directory">Home directory</string>
