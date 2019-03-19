@@ -35,12 +35,17 @@ public class ZipApkSource implements ApkSource {
         }
 
         mCurrentZipEntry = mZipInputStream.getNextEntry();
-        if (mCurrentZipEntry == null)
+        if (mCurrentZipEntry == null){
+            mZipInputStream.close();
             return false;
+        }
 
-        if (mCurrentZipEntry.isDirectory() || !mCurrentZipEntry.getName().endsWith(".apk"))
+
+        if (mCurrentZipEntry.isDirectory() || !mCurrentZipEntry.getName().endsWith(".apk")){
+            mZipInputStream.close();
             throw new IllegalArgumentException(mContext.getString(R.string.installer_error_zip_contains_non_apks));
-
+        }
+        
         return true;
     }
 
