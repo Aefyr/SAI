@@ -6,4 +6,14 @@
         <item>Спочатку нові</item>
         <item>Спочатку старі</item>
     </string-array>
+
+    <string-array name="themes">
+        <item>"SAI"</item>
+        <item>"Ruby"</item>
+        <item>"Rena"</item>
+        <item>"Ukrrooter"</item>
+        <item>"Омлет (Amoled)"</item>
+        <item>"Pixel"</item>
+    </string-array>
+
 </resources>

@@ -10,4 +10,24 @@
     <color name="colorGreaterGrey">#343944</color>
     <color name="colorAlmostWhite">#e5e5e5</color>
     <color name="colorPerfectPink">#ffbcbc</color>
+
+    <color name="colorAccentRena">#e52c5f</color>
+    <color name="colorPrimaryRena">#212735</color>
+    <color name="colorTextPrimaryRena">#f7f4f4</color>
+    <color name="colorTextSecondaryRena">#c9cacb</color>
+
+    <color name="colorAccentRooter">#00ff00</color>
+    <color name="colorPrimaryRooter">#ab00ff</color>
+    <color name="colorTextPrimaryRooter">#00ff00</color>
+    <color name="colorTextSecondaryRooter">#00ff00</color>
+
+    <color name="colorAccentOmelette">#ffffff</color>
+    <color name="colorPrimaryOmelette">#000000</color>
+    <color name="colorTextPrimaryOmelette">#ffffff</color>
+    <color name="colorTextSecondaryOmelette">#ffffff</color>
+
+    <color name="colorAccentPixel">#448aff</color>
+    <color name="colorPrimaryPixel">#ffffff</color>
+    <color name="colorTextPrimaryPixel">#de000000</color>
+    <color name="colorTextSecondaryPixel">#de000000</color>
 </resources>

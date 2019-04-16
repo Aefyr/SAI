@@ -34,6 +34,7 @@
     <string name="installer_error_while_extracting">Ошибка при распаковке ZIP: %s</string>
     <string name="installer_error_zip_contains_non_apks">ZIP архив содержит файлы с расширением отличным от .apk</string>
     <string name="installer_error_mixed_extensions">Выберите либо один .zip/.apks файл, либо несколько .apk файлов</string>
+    <string name="installer_select_theme">Выбрать тему</string>
 
     <string name="settings_title">Настройки</string>
     <string name="settings_main_home_directory">Папка по умолчанию</string>

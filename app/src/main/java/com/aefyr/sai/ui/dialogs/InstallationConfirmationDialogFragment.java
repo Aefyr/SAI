@@ -2,8 +2,10 @@ package com.aefyr.sai.ui.dialogs;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 
 import com.aefyr.sai.R;
 
@@ -47,7 +49,7 @@ public class InstallationConfirmationDialogFragment extends DialogFragment {
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         return new AlertDialog.Builder(getContext())
-                .setMessage(getString(R.string.installer_installation_confirmation, mApksFileUri.getLastPathSegment()))
+                .setMessage(getString(R.string.installer_installation_confirmation, getFileNameFromUri(mApksFileUri)))
                 .setPositiveButton(R.string.yes, (d, w) -> {
                     mListener.onConfirmed(mApksFileUri);
                     dismiss();
@@ -67,5 +69,26 @@ public class InstallationConfirmationDialogFragment extends DialogFragment {
         } catch (Exception e) {
             throw new IllegalStateException("Activity/Fragment that uses InstallationConfirmationDialogFragment must implement InstallationConfirmationDialogFragment.ConfirmationListener");
         }
+    }
+
+    private String getFileNameFromUri(Uri uri) {
+        if (uri.getPath() == null)
+            return "???";
+
+        String[] pathParts = uri.getPath().split("/");
+        String fallbackName = pathParts[pathParts.length - 1];
+
+        Cursor cursor = getContext().getContentResolver().query(uri, new String[]{MediaStore.MediaColumns.DISPLAY_NAME}, null, null, null);
+        if (cursor == null)
+            return fallbackName;
+
+        cursor.moveToFirst();
+        String name = cursor.getString(0);
+        cursor.close();
+
+        if (name == null)
+            return fallbackName;
+
+        return fallbackName;
     }
 }

@@ -47,4 +47,5 @@
     <string name="settings_main_use_root_error">Не вдалося отримати root-доступ</string>
     <string name="settings_main_use_root_summary">Спробувати використовувати root-інсталер. При відсутності root-доступу SAI все одно використовує rootless-інсталер</string>
     <string name="settings_title">Налаштування</string>
+    <string name="installer_select_theme">Выбрать тему</string>
 </resources>

@@ -4,7 +4,6 @@ import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 
-import com.aefyr.sai.R;
 import com.aefyr.sai.utils.Theme;
 import com.github.angads25.filepicker.model.DialogProperties;
 import com.github.angads25.filepicker.view.FilePickerDialog;
@@ -86,7 +85,7 @@ public class FilePickerDialogFragment extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-        FilePickerDialog dialog = new FilePickerDialog(getContext(), mDialogProperties, Theme.getInstance(getContext()).isDark() ? R.style.AppTheme_Dark : R.style.AppTheme_Light);
+        FilePickerDialog dialog = new FilePickerDialog(getContext(), mDialogProperties, Theme.getInstance(getContext()).getCurrentTheme());
         dialog.setDialogSelectionListener((files) -> {
             if (mListener == null)
                 return;

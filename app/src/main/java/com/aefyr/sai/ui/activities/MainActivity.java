@@ -12,6 +12,7 @@ import com.aefyr.sai.R;
 import com.aefyr.sai.ui.dialogs.AppInstalledDialogFragment;
 import com.aefyr.sai.ui.dialogs.FilePickerDialogFragment;
 import com.aefyr.sai.ui.dialogs.InstallationConfirmationDialogFragment;
+import com.aefyr.sai.ui.dialogs.ThemeSelectionDialogFragment;
 import com.aefyr.sai.utils.AlertsUtils;
 import com.aefyr.sai.utils.PermissionsUtils;
 import com.aefyr.sai.utils.PreferencesHelper;
@@ -89,10 +90,7 @@ public class MainActivity extends AppCompatActivity implements FilePickerDialogF
 
         mButton.setOnClickListener((v) -> checkPermissionsAndPickFiles());
         findViewById(R.id.button_help).setOnClickListener((v) -> AlertsUtils.showAlert(this, R.string.help, R.string.installer_help));
-        findViewById(R.id.ib_toggle_theme).setOnClickListener((v -> {
-            Theme.getInstance(this).setDark(!Theme.getInstance(this).isDark());
-            recreate();
-        }));
+        findViewById(R.id.ib_toggle_theme).setOnClickListener((v -> new ThemeSelectionDialogFragment().show(getSupportFragmentManager(), "theme_selection_dialog")));
         findViewById(R.id.ib_settings).setOnClickListener((v) -> startActivity(new Intent(MainActivity.this, PreferencesActivity.class)));
 
         Intent intent = getIntent();

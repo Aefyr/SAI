@@ -46,42 +46,17 @@
             android:layout_marginTop="8dp"
             android:orientation="horizontal">
 
-            <androidx.cardview.widget.CardView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:cardBackgroundColor="?attr/colorAccent"
-                app:cardCornerRadius="@dimen/cards_corners_radius"
-                app:cardElevation="@dimen/cards_elevation"
-                app:cardUseCompatPadding="true">
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/button_about_source"
+                style="@style/SAIMaterialButton"
+                android:layout_margin="8dp"
+                android:text="@string/about_source" />
 
-                <Button
-                    android:id="@+id/button_about_source"
-                    style="@style/SAIButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="@string/about_source"
-                    android:textColor="?attr/colorPrimary" />
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:cardBackgroundColor="?attr/colorAccent"
-                app:cardCornerRadius="@dimen/cards_corners_radius"
-                app:cardElevation="@dimen/cards_elevation"
-                app:cardUseCompatPadding="true">
-
-                <Button
-                    android:id="@+id/button_about_donate"
-                    style="@style/SAIButton"
-                    android:layout_width="match_parent"
-                    android:layout_gravity="center"
-                    android:background="@drawable/bg_outline_button"
-                    android:text="@string/about_donate"
-                    android:textColor="?attr/colorAccent" />
-            </androidx.cardview.widget.CardView>
-
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/button_about_donate"
+                style="@style/SAIMaterialButton.Outlined"
+                android:layout_margin="8dp"
+                android:text="@string/about_donate" />
         </LinearLayout>
     </RelativeLayout>
 </FrameLayout>
