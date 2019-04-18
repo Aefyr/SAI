@@ -13,6 +13,8 @@
         <item name="android:statusBarColor">@color/colorPureWhite</item>
         <item name="alertDialogTheme">@style/AlertDialog.AppTheme.Light</item>
         <item name="android:textViewStyle">@style/SAITextViewStyle</item>
+        <item name="filePickerDialogSelectButtonStyle">@style/SAIMaterialButton</item>
+        <item name="filePickerDialogCancelButtonStyle">@style/SAIMaterialButton.Outlined</item>
     </style>
 
     <style name="AppTheme.Dark" parent="Theme.MaterialComponents.NoActionBar">
@@ -27,6 +29,8 @@
         <item name="android:textColorSecondary">@color/colorAlmostWhite</item>
         <item name="alertDialogTheme">@style/AlertDialog.AppTheme.Dark</item>
         <item name="android:textViewStyle">@style/SAITextViewStyle</item>
+        <item name="filePickerDialogSelectButtonStyle">@style/SAIMaterialButton</item>
+        <item name="filePickerDialogCancelButtonStyle">@style/SAIMaterialButton.Outlined</item>
     </style>
 
     <style name="AppTheme.Simple.Dark" parent="AppTheme.Dark">
