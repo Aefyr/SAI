@@ -89,6 +89,6 @@ public class InstallationConfirmationDialogFragment extends DialogFragment {
         if (name == null)
             return fallbackName;
 
-        return fallbackName;
+        return name;
     }
 }
