@@ -21,7 +21,7 @@ public class ContentUriFileDescriptor implements FileDescriptor {
 
     @Override
     public String name() throws Exception {
-        try(Cursor cursor = mContentResolver.query(mContentUri, new String[]{MediaStore.MediaColumns.DISPLAY_NAME}, null, null, null)) {
+        try (Cursor cursor = mContentResolver.query(mContentUri, new String[]{MediaStore.MediaColumns.DISPLAY_NAME}, null, null, null)) {
             if (cursor == null)
                 throw new BadContentProviderException("Cursor is null");
 
@@ -37,7 +37,7 @@ public class ContentUriFileDescriptor implements FileDescriptor {
 
     @Override
     public long length() throws Exception {
-        try(Cursor cursor = mContentResolver.query(mContentUri, new String[]{MediaStore.MediaColumns.SIZE}, null, null, null)){
+        try (Cursor cursor = mContentResolver.query(mContentUri, new String[]{MediaStore.MediaColumns.SIZE}, null, null, null)) {
             if (cursor == null)
                 throw new BadContentProviderException("Cursor is null");
 

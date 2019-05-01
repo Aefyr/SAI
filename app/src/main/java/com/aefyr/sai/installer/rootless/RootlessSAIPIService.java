@@ -6,10 +6,10 @@ import android.content.pm.PackageInstaller;
 import android.os.IBinder;
 import android.util.Log;
 
+import androidx.annotation.Nullable;
+
 import com.aefyr.sai.R;
 import com.aefyr.sai.utils.Utils;
-
-import androidx.annotation.Nullable;
 
 /**
  * Handles installation events from the package manager

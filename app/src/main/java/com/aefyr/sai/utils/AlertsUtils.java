@@ -1,10 +1,10 @@
 package com.aefyr.sai.utils;
 
-import com.aefyr.sai.ui.dialogs.SimpleAlertDialogFragment;
-
 import androidx.annotation.StringRes;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+
+import com.aefyr.sai.ui.dialogs.SimpleAlertDialogFragment;
 
 public class AlertsUtils {
 

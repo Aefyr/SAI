@@ -7,12 +7,12 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 
-import com.aefyr.sai.R;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
+
+import com.aefyr.sai.R;
 
 public class InstallationConfirmationDialogFragment extends DialogFragment {
     private static final String ARG_APKS_FILE = "file";
@@ -78,7 +78,7 @@ public class InstallationConfirmationDialogFragment extends DialogFragment {
         String[] pathParts = uri.getPath().split("/");
         String fallbackName = pathParts[pathParts.length - 1];
 
-        try(Cursor cursor = getContext().getContentResolver().query(uri, new String[]{MediaStore.MediaColumns.DISPLAY_NAME}, null, null, null)) {
+        try (Cursor cursor = getContext().getContentResolver().query(uri, new String[]{MediaStore.MediaColumns.DISPLAY_NAME}, null, null, null)) {
             if (cursor == null)
                 return fallbackName;
 

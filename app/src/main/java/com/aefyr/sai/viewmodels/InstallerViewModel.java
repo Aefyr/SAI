@@ -4,6 +4,12 @@ import android.app.Application;
 import android.content.Context;
 import android.net.Uri;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+
 import com.aefyr.sai.installer.PackageInstallerProvider;
 import com.aefyr.sai.installer.SAIPackageInstaller;
 import com.aefyr.sai.model.apksource.DefaultApkSource;
@@ -16,12 +22,6 @@ import com.aefyr.sai.utils.Event;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.lifecycle.AndroidViewModel;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 
 public class InstallerViewModel extends AndroidViewModel implements SAIPackageInstaller.InstallationStatusListener {
     public static final String EVENT_PACKAGE_INSTALLED = "package_installed";

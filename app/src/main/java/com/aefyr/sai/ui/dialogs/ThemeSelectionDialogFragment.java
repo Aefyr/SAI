@@ -3,13 +3,13 @@ package com.aefyr.sai.ui.dialogs;
 import android.app.Dialog;
 import android.os.Bundle;
 
-import com.aefyr.sai.R;
-import com.aefyr.sai.utils.Theme;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
+
+import com.aefyr.sai.R;
+import com.aefyr.sai.utils.Theme;
 
 public class ThemeSelectionDialogFragment extends DialogFragment {
 

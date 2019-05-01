@@ -7,14 +7,14 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.aefyr.sai.R;
-
-import java.util.Objects;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
+
+import com.aefyr.sai.R;
+
+import java.util.Objects;
 
 public class AppInstalledDialogFragment extends DialogFragment {
     private static final String ARG_PACKAGE = "package";

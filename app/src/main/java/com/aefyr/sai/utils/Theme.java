@@ -5,9 +5,9 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.SparseIntArray;
 
-import com.aefyr.sai.R;
-
 import androidx.annotation.StyleRes;
+
+import com.aefyr.sai.R;
 
 public class Theme {
     private static Theme sInstance;

@@ -5,14 +5,14 @@ import android.os.Handler;
 import android.os.Looper;
 import android.util.LongSparseArray;
 
+import androidx.annotation.Nullable;
+
 import com.aefyr.sai.model.apksource.ApkSource;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-
-import androidx.annotation.Nullable;
 
 public abstract class SAIPackageInstaller {
 

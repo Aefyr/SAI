@@ -2,12 +2,12 @@ package com.aefyr.sai.ui.activities;
 
 import android.os.Bundle;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+
 import com.aefyr.sai.R;
 import com.aefyr.sai.ui.fragments.PreferencesFragment;
 import com.aefyr.sai.utils.Theme;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
 
 public class PreferencesActivity extends AppCompatActivity {
     private static final String TAG_PREFERENCES_FRAGMENT = "preferences";

@@ -3,14 +3,14 @@ package com.aefyr.sai.ui.dialogs;
 import android.app.Dialog;
 import android.os.Bundle;
 
-import com.aefyr.sai.R;
-
-import java.util.Objects;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
+
+import com.aefyr.sai.R;
+
+import java.util.Objects;
 
 public class SimpleAlertDialogFragment extends DialogFragment {
     private static final String ARG_TITLE = "title";

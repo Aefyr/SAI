@@ -90,12 +90,12 @@ public class RootedSAIPackageInstaller extends SAIPackageInstaller {
             Root.Result installationResult = Root.exec(String.format("pm install-commit %d ", sessionId));
             if (!installationResult.isSuccessful()) {
                 mIsAwaitingBroadcast.set(false);
-                dispatchCurrentSessionUpdate(InstallationStatus.INSTALLATION_FAILED, getContext().getString(R.string.installer_error_root, getDeviceInfo() + "\n"+ installationResult.toString()));
+                dispatchCurrentSessionUpdate(InstallationStatus.INSTALLATION_FAILED, getContext().getString(R.string.installer_error_root, getDeviceInfo() + "\n" + installationResult.toString()));
                 installationCompleted();
             }
         } catch (Exception e) {
             Log.w(TAG, e);
-            dispatchCurrentSessionUpdate(InstallationStatus.INSTALLATION_FAILED, getContext().getString(R.string.installer_error_root, getDeviceInfo()+ "\n"+ e.getMessage()));
+            dispatchCurrentSessionUpdate(InstallationStatus.INSTALLATION_FAILED, getContext().getString(R.string.installer_error_root, getDeviceInfo() + "\n" + e.getMessage()));
             installationCompleted();
         }
     }
@@ -106,8 +106,8 @@ public class RootedSAIPackageInstaller extends SAIPackageInstaller {
         return result.out;
     }
 
-    private String getDeviceInfo(){
-        return String.format("%s: %s %s | %s | Android %s", getContext().getString(R.string.installer_device), Build.BRAND, Build.MODEL, isMiui()? "MIUI" : "Not MIUI", Build.VERSION.RELEASE);
+    private String getDeviceInfo() {
+        return String.format("%s: %s %s | %s | Android %s", getContext().getString(R.string.installer_device), Build.BRAND, Build.MODEL, isMiui() ? "MIUI" : "Not MIUI", Build.VERSION.RELEASE);
     }
 
     private boolean isMiui() {
