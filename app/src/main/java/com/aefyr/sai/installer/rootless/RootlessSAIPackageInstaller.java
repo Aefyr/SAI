@@ -52,28 +52,29 @@ public class RootlessSAIPackageInstaller extends SAIPackageInstaller {
     @Override
     protected void installApkFiles(ApkSource apkSource) {
         PackageInstaller packageInstaller = getContext().getPackageManager().getPackageInstaller();
+        PackageInstaller.Session session = null;
         try {
             PackageInstaller.SessionParams sessionParams = new PackageInstaller.SessionParams(PackageInstaller.SessionParams.MODE_FULL_INSTALL);
             int sessionID = packageInstaller.createSession(sessionParams);
 
-            PackageInstaller.Session session = packageInstaller.openSession(sessionID);
+            session = packageInstaller.openSession(sessionID);
             while (apkSource.nextApk()) {
-                InputStream inputStream = apkSource.openApkInputStream();
-                OutputStream outputStream = session.openWrite(apkSource.getApkName(), 0, apkSource.getApkLength());
-                IOUtils.copyStream(inputStream, outputStream);
-                session.fsync(outputStream);
-                inputStream.close();
-                outputStream.close();
+                try (InputStream inputStream = apkSource.openApkInputStream(); OutputStream outputStream = session.openWrite(apkSource.getApkName(), 0, apkSource.getApkLength())) {
+                    IOUtils.copyStream(inputStream, outputStream);
+                    session.fsync(outputStream);
+                }
             }
 
             Intent callbackIntent = new Intent(getContext(), RootlessSAIPIService.class);
             PendingIntent pendingIntent = PendingIntent.getService(getContext(), 0, callbackIntent, 0);
             session.commit(pendingIntent.getIntentSender());
-            session.close();
         } catch (Exception e) {
             Log.w(TAG, e);
             dispatchCurrentSessionUpdate(SAIPackageInstaller.InstallationStatus.INSTALLATION_FAILED, getContext().getString(R.string.installer_error_rootless, e.getMessage()));
             installationCompleted();
+        } finally {
+            if (session != null)
+                session.close();
         }
     }
 }

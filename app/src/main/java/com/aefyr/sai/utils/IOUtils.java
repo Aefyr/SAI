@@ -20,23 +20,15 @@ public class IOUtils {
     }
 
     public static void copyFile(File original, File destination) throws IOException {
-        FileInputStream inputStream = new FileInputStream(original);
-        FileOutputStream outputStream = new FileOutputStream(destination);
-
-        copyStream(inputStream, outputStream);
-
-        inputStream.close();
-        outputStream.close();
+        try (FileInputStream inputStream = new FileInputStream(original); FileOutputStream outputStream = new FileOutputStream(destination)) {
+            copyStream(inputStream, outputStream);
+        }
     }
 
     public static void copyFileFromAssets(Context context, String assetFileName, File destination) throws IOException {
-        InputStream inputStream = context.getAssets().open(assetFileName);
-        FileOutputStream outputStream = new FileOutputStream(destination);
-
-        copyStream(inputStream, outputStream);
-
-        inputStream.close();
-        outputStream.close();
+        try (InputStream inputStream = context.getAssets().open(assetFileName); FileOutputStream outputStream = new FileOutputStream(destination)) {
+            copyStream(inputStream, outputStream);
+        }
     }
 
 }

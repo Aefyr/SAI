@@ -5,7 +5,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.pm.PackageInfo;
+import android.os.Build;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.aefyr.sai.BuildConfig;
@@ -13,10 +14,9 @@ import com.aefyr.sai.R;
 import com.aefyr.sai.installer.SAIPackageInstaller;
 import com.aefyr.sai.model.apksource.ApkSource;
 import com.aefyr.sai.utils.Root;
+import com.aefyr.sai.utils.Utils;
 import com.crashlytics.android.Crashlytics;
 
-import java.io.File;
-import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -90,12 +90,12 @@ public class RootedSAIPackageInstaller extends SAIPackageInstaller {
             Root.Result installationResult = Root.exec(String.format("pm install-commit %d ", sessionId));
             if (!installationResult.isSuccessful()) {
                 mIsAwaitingBroadcast.set(false);
-                dispatchCurrentSessionUpdate(InstallationStatus.INSTALLATION_FAILED, getContext().getString(R.string.installer_error_root, installationResult.toString()));
+                dispatchCurrentSessionUpdate(InstallationStatus.INSTALLATION_FAILED, getContext().getString(R.string.installer_error_root, getDeviceInfo() + "\n"+ installationResult.toString()));
                 installationCompleted();
             }
         } catch (Exception e) {
             Log.w(TAG, e);
-            dispatchCurrentSessionUpdate(InstallationStatus.INSTALLATION_FAILED, getContext().getString(R.string.installer_error_root, e.getMessage()));
+            dispatchCurrentSessionUpdate(InstallationStatus.INSTALLATION_FAILED, getContext().getString(R.string.installer_error_root, getDeviceInfo()+ "\n"+ e.getMessage()));
             installationCompleted();
         }
     }
@@ -106,12 +106,11 @@ public class RootedSAIPackageInstaller extends SAIPackageInstaller {
         return result.out;
     }
 
-    private String getPackageNameFromApk(List<File> apkFiles) {
-        for (File apkFile : apkFiles) {
-            PackageInfo packageInfo = getContext().getPackageManager().getPackageArchiveInfo(apkFile.getAbsolutePath(), 0);
-            if (packageInfo != null)
-                return packageInfo.packageName;
-        }
-        return "null";
+    private String getDeviceInfo(){
+        return String.format("%s: %s %s | %s | Android %s", getContext().getString(R.string.installer_device), Build.BRAND, Build.MODEL, isMiui()? "MIUI" : "Not MIUI", Build.VERSION.RELEASE);
+    }
+
+    private boolean isMiui() {
+        return !TextUtils.isEmpty(Utils.getSystemProperty("ro.miui.ui.version.name"));
     }
 }

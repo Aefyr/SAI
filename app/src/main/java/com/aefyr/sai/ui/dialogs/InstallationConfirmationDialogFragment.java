@@ -78,17 +78,17 @@ public class InstallationConfirmationDialogFragment extends DialogFragment {
         String[] pathParts = uri.getPath().split("/");
         String fallbackName = pathParts[pathParts.length - 1];
 
-        Cursor cursor = getContext().getContentResolver().query(uri, new String[]{MediaStore.MediaColumns.DISPLAY_NAME}, null, null, null);
-        if (cursor == null)
-            return fallbackName;
+        try(Cursor cursor = getContext().getContentResolver().query(uri, new String[]{MediaStore.MediaColumns.DISPLAY_NAME}, null, null, null)) {
+            if (cursor == null)
+                return fallbackName;
 
-        cursor.moveToFirst();
-        String name = cursor.getString(0);
-        cursor.close();
+            cursor.moveToFirst();
+            String name = cursor.getString(0);
 
-        if (name == null)
-            return fallbackName;
+            if (name == null)
+                return fallbackName;
 
-        return name;
+            return name;
+        }
     }
 }

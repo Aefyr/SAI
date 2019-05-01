@@ -15,7 +15,6 @@ import java.util.concurrent.Executors;
 import androidx.annotation.Nullable;
 
 public abstract class SAIPackageInstaller {
-    private static final String TAG = "SAIPI";
 
     public enum InstallationStatus {
         QUEUED, INSTALLING, INSTALLATION_SUCCEED, INSTALLATION_FAILED
@@ -24,7 +23,6 @@ public abstract class SAIPackageInstaller {
     private Context mContext;
     private Handler mHandler = new Handler(Looper.getMainLooper());
     private ExecutorService mExecutor = Executors.newSingleThreadExecutor();
-    private ExecutorService mMiscExecutor = Executors.newSingleThreadExecutor();
 
     private ArrayDeque<QueuedInstallation> mInstallationQueue = new ArrayDeque<>();
     private ArrayList<InstallationStatusListener> mListeners = new ArrayList<>();

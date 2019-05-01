@@ -1,13 +1,15 @@
 package com.aefyr.sai.utils;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.util.Log;
+
+import androidx.annotation.Nullable;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
-
-import androidx.annotation.Nullable;
 
 public class Utils {
 
@@ -30,6 +32,18 @@ public class Utils {
         pw.close();
 
         return sw.toString();
+    }
+
+    @SuppressLint("PrivateApi")
+    public static String getSystemProperty(String key) {
+        try {
+            return (String) Class.forName("android.os.SystemProperties")
+                    .getDeclaredMethod("get", String.class)
+                    .invoke(null, key);
+        } catch (Exception e) {
+            Log.w("SAIUtils", e);
+            return null;
+        }
     }
 
 }

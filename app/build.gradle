@@ -7,8 +7,8 @@ android {
         applicationId "com.aefyr.sai"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 20
-        versionName "1.19"
+        versionCode 21
+        versionName "1.20"
     }
     buildTypes {
         release {
