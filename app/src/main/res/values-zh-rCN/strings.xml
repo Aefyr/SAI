@@ -1,11 +1,7 @@
 <resources>
-    <string name="app_name" translatable="false">SAI</string>
-    <string name="app_name_full" translatable="false">Split APKs Installer</string>
-
     <string name="yes">是</string>
     <string name="no">否</string>
     <string name="cancel">取消</string>
-    <string name="ok" translatable="false">OK</string>
     <string name="help">帮助</string>
     <string name="error">错误</string>
 
@@ -52,10 +48,6 @@
     <string name="settings_main_sign_apks">签名 APK</string>
     <string name="settings_main_sign_apks_summary">安装前签名APK。您可以启用此功能(在首次安装应用之前) to update apps independently from downloaded APKs signature</string>
 
-    <string name="about_author" translatable="false">by polychromaticfox</string>
     <string name="about_source">GitHub</string>
-    <string name="about_source_link" translatable="false">https://github.com/Aefyr/SAI</string>
     <string name="about_donate">捐赠</string>
-    <string name="about_donate_link" translatable="false">https://yasobe.ru/na/sai</string>
-
 </resources>
