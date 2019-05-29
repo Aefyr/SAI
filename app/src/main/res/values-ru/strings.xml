@@ -38,6 +38,9 @@
     <string name="installer_error_mixed_extensions">Выберите либо один .zip/.apks файл, либо несколько .apk файлов</string>
     <string name="installer_select_theme">Выбрать тему</string>
     <string name="installer_device">Устройство</string>
+    <string name="installer_miui_warning_title">Обнаружена MIUI</string>
+    <string name="installer_miui_warning_message">Похоже, у вас MIUI. MIUI известна своим ломанием стандартных фич Android API и некоторые юзеры сообщали, что SAI не работает на MIUI. Обычно это решается отключением оптимизаций MIUI в настройках для разработчиков, что я рекомендую вам сделать.</string>
+    <string name="installer_miui_warning_open_dev_settings">Открыть настройки для разработчиков</string>
 
     <string name="settings_title">Настройки</string>
     <string name="settings_main_home_directory">Папка по умолчанию</string>

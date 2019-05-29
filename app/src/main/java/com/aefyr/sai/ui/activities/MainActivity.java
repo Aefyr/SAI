@@ -5,6 +5,7 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.preference.PreferenceManager;
 import android.widget.Button;
 import android.widget.ImageButton;
 
@@ -17,11 +18,14 @@ import com.aefyr.sai.ui.dialogs.AppInstalledDialogFragment;
 import com.aefyr.sai.ui.dialogs.ErrorLogDialogFragment;
 import com.aefyr.sai.ui.dialogs.FilePickerDialogFragment;
 import com.aefyr.sai.ui.dialogs.InstallationConfirmationDialogFragment;
+import com.aefyr.sai.ui.dialogs.MiuiWarningDialogFragment;
 import com.aefyr.sai.ui.dialogs.ThemeSelectionDialogFragment;
 import com.aefyr.sai.utils.AlertsUtils;
 import com.aefyr.sai.utils.PermissionsUtils;
 import com.aefyr.sai.utils.PreferencesHelper;
+import com.aefyr.sai.utils.PreferencesKeys;
 import com.aefyr.sai.utils.Theme;
+import com.aefyr.sai.utils.Utils;
 import com.aefyr.sai.viewmodels.InstallerViewModel;
 import com.github.angads25.filepicker.model.DialogConfigs;
 import com.github.angads25.filepicker.model.DialogProperties;
@@ -42,6 +46,8 @@ public class MainActivity extends AppCompatActivity implements FilePickerDialogF
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        showMiuiWarning();
 
         mHelper = PreferencesHelper.getInstance(this);
 
@@ -163,5 +169,10 @@ public class MainActivity extends AppCompatActivity implements FilePickerDialogF
     @Override
     public void onConfirmed(Uri apksFileUri) {
         mViewModel.installPackagesFromContentProviderZip(apksFileUri);
+    }
+
+    private void showMiuiWarning() {
+        if (Utils.isMiui() && !PreferenceManager.getDefaultSharedPreferences(this).getBoolean(PreferencesKeys.MIUI_WARNING_SHOWN, false))
+            new MiuiWarningDialogFragment().show(getSupportFragmentManager(), "miui_warning_dialog");
     }
 }

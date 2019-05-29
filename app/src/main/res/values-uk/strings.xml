@@ -51,4 +51,7 @@
     <string name="settings_title">Налаштування</string>
     <string name="installer_select_theme">Вибрати тему</string>
     <string name="installer_device">Пристрій</string>
+    <string name="installer_miui_warning_title">Обнаружена MIUI</string>
+    <string name="installer_miui_warning_message">Похоже, у вас MIUI. MIUI известна своим ломанием стандартных фич Android API и некоторые юзеры сообщали, что SAI не работает на MIUI. Обычно это решается отключением оптимизаций MIUI в настройках для разработчиков, что я рекомендую вам сделать.</string>
+    <string name="installer_miui_warning_open_dev_settings">Открыть настройки для разработчиков</string>
 </resources>

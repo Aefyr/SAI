@@ -40,6 +40,9 @@
     <string name="installer_error_mixed_extensions">You must select either a single .zip/.apks file or multiple .apk files</string>
     <string name="installer_select_theme">Select theme</string>
     <string name="installer_device">Device</string>
+    <string name="installer_miui_warning_title">MIUI detected</string>
+    <string name="installer_miui_warning_message">Looks like your device is running MIUI. MIUI is known for breaking standard Android API features and some SAI users have reported SAI not working on MIUI. Usually it can be fixed by disabling MIUI optimizations in developer settings, which I suggest you should do.</string>
+    <string name="installer_miui_warning_open_dev_settings">Open developer settings</string>
 
     <string name="settings_title">Settings</string>
     <string name="settings_main_home_directory">Home directory</string>
