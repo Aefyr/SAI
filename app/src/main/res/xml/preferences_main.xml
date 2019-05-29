@@ -26,6 +26,12 @@
         android:title="@string/settings_main_sign_apks"
         android:summary="@string/settings_main_sign_apks_summary" />
 
+    <SwitchPreference
+        android:icon="@drawable/ic_pref_unarchive"
+        android:key="extract_archives"
+        android:title="@string/settings_main_extract_archives"
+        android:summary="@string/settings_main_extract_archives_summary" />
+
     <Preference
         android:icon="@drawable/ic_pref_info"
         android:key="about"

@@ -69,4 +69,8 @@ public class PreferencesHelper {
         mPrefs.edit().putBoolean(PreferencesKeys.SIGN_APKS, signApks).apply();
     }
 
+    public boolean shouldExtractArchives() {
+        return mPrefs.getBoolean(PreferencesKeys.EXTRACT_ARCHIVES, false);
+    }
+
 }

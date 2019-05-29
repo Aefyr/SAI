@@ -12,12 +12,15 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.aefyr.sai.installer.PackageInstallerProvider;
 import com.aefyr.sai.installer.SAIPackageInstaller;
+import com.aefyr.sai.model.apksource.ApkSource;
 import com.aefyr.sai.model.apksource.DefaultApkSource;
 import com.aefyr.sai.model.apksource.ZipApkSource;
+import com.aefyr.sai.model.apksource.ZipExtractorApkSource;
 import com.aefyr.sai.model.filedescriptor.ContentUriFileDescriptor;
 import com.aefyr.sai.model.filedescriptor.FileDescriptor;
 import com.aefyr.sai.model.filedescriptor.NormalFileDescriptor;
 import com.aefyr.sai.utils.Event;
+import com.aefyr.sai.utils.PreferencesHelper;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -63,12 +66,26 @@ public class InstallerViewModel extends AndroidViewModel implements SAIPackageIn
 
     public void installPackagesFromZip(File zipWithApkFiles) {
         ensureInstallerActuality();
-        mInstaller.startInstallationSession(mInstaller.createInstallationSession(new ZipApkSource(mContext, new NormalFileDescriptor(zipWithApkFiles))));
+
+        ApkSource apkSource;
+        if (PreferencesHelper.getInstance(mContext).shouldExtractArchives())
+            apkSource = new ZipExtractorApkSource(mContext, new NormalFileDescriptor(zipWithApkFiles));
+        else
+            apkSource = new ZipApkSource(mContext, new NormalFileDescriptor(zipWithApkFiles));
+
+        mInstaller.startInstallationSession(mInstaller.createInstallationSession(apkSource));
     }
 
     public void installPackagesFromContentProviderZip(Uri zipContentUri) {
         ensureInstallerActuality();
-        mInstaller.startInstallationSession(mInstaller.createInstallationSession(new ZipApkSource(mContext, new ContentUriFileDescriptor(mContext, zipContentUri))));
+
+        ApkSource apkSource;
+        if (PreferencesHelper.getInstance(mContext).shouldExtractArchives())
+            apkSource = new ZipExtractorApkSource(mContext, new ContentUriFileDescriptor(mContext, zipContentUri));
+        else
+            apkSource = new ZipApkSource(mContext, new ContentUriFileDescriptor(mContext, zipContentUri));
+
+        mInstaller.startInstallationSession(mInstaller.createInstallationSession(apkSource));
     }
 
     private void ensureInstallerActuality() {

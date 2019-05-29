@@ -31,4 +31,12 @@ public class IOUtils {
         }
     }
 
+    public static void deleteRecursively(File f) {
+        if (f.isDirectory()) {
+            for (File child : f.listFiles())
+                deleteRecursively(child);
+        }
+        f.delete();
+    }
+
 }

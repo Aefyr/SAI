@@ -54,4 +54,6 @@
     <string name="installer_miui_warning_title">Обнаружена MIUI</string>
     <string name="installer_miui_warning_message">Похоже, у вас MIUI. MIUI известна своим ломанием стандартных фич Android API и некоторые юзеры сообщали, что SAI не работает на MIUI. Обычно это решается отключением оптимизаций MIUI в настройках для разработчиков, что я рекомендую вам сделать.</string>
     <string name="installer_miui_warning_open_dev_settings">Открыть настройки для разработчиков</string>
+    <string name="settings_main_extract_archives">Разархивировать APK файлы</string>
+    <string name="settings_main_extract_archives_summary">Разархивировать APK из .zip/.apks архивов во временные файлы перед установкой. Если отключено, SAI будет устанавливать APK напрямую из архива без создания временных файлов. Не рекомендуется включать</string>
 </resources>

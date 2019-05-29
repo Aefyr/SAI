@@ -13,6 +13,7 @@ import androidx.annotation.Nullable;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.zip.ZipEntry;
 
 public class Utils {
 
@@ -56,6 +57,14 @@ public class Utils {
 
     public static boolean isMiui() {
         return !TextUtils.isEmpty(getSystemProperty("ro.miui.ui.version.name"));
+    }
+
+    public static String getFileNameFromZipEntry(ZipEntry zipEntry){
+        String path = zipEntry.getName();
+        int lastIndexOfSeparator = path.lastIndexOf("/");
+        if (lastIndexOfSeparator == -1)
+            return path;
+        return path.substring(lastIndexOfSeparator + 1);
     }
 
 }

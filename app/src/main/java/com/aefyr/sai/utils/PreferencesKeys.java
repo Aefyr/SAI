@@ -9,5 +9,6 @@ public class PreferencesKeys {
     public static final String FILE_PICKER_SORT_ORDER = "file_picker_sort_order";
     public static final String SIGN_APKS = "sign_apks";
     public static final String MIUI_WARNING_SHOWN = "miui_warning_shown";
+    public static final String EXTRACT_ARCHIVES = "extract_archives";
 
 }

@@ -52,6 +52,8 @@
     <string name="settings_main_use_root_error">无法获取 Root访问权限</string>
     <string name="settings_main_sign_apks">签名 APK</string>
     <string name="settings_main_sign_apks_summary">安装前签名APK。您可以启用此功能(在首次安装应用之前) to update apps independently from downloaded APKs signature</string>
+    <string name="settings_main_extract_archives">Extract APKs from archives</string>
+    <string name="settings_main_extract_archives_summary">Extract APK files from .zip/.apks archives into temporary files before installing them. If disabled, SAI will install APKs directly from archives without temp files. Not recommended to enable</string>
 
     <string name="about_source">GitHub</string>
     <string name="about_donate">捐赠</string>

@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.aefyr.sai.R;
 import com.aefyr.sai.model.filedescriptor.FileDescriptor;
+import com.aefyr.sai.utils.Utils;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -64,11 +65,7 @@ public class ZipApkSource implements ApkSource {
 
     @Override
     public String getApkName() {
-        String path = mCurrentZipEntry.getName();
-        int lastIndexOfSeparator = path.lastIndexOf("/");
-        if (lastIndexOfSeparator == -1)
-            return path;
-        return path.substring(lastIndexOfSeparator + 1);
+        return Utils.getFileNameFromZipEntry(mCurrentZipEntry);
     }
 
     /**
