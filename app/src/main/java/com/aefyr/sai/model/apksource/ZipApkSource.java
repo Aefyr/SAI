@@ -15,6 +15,7 @@ public class ZipApkSource implements ApkSource {
     private Context mContext;
     private FileDescriptor mZipFileDescriptor;
     private boolean mIsOpen;
+    private int mSeenApkFiles = 0;
 
     private ZipInputStream mZipInputStream;
     private ZipEntry mCurrentZipEntry;
@@ -34,17 +35,19 @@ public class ZipApkSource implements ApkSource {
             mIsOpen = true;
         }
 
-        mCurrentZipEntry = mZipInputStream.getNextEntry();
+        do {
+            mCurrentZipEntry = mZipInputStream.getNextEntry();
+        } while (mCurrentZipEntry != null && (mCurrentZipEntry.isDirectory() || !mCurrentZipEntry.getName().endsWith(".apk")));
+
         if (mCurrentZipEntry == null) {
             mZipInputStream.close();
+
+            if (mSeenApkFiles == 0)
+                throw new IllegalArgumentException(mContext.getString(R.string.installer_error_zip_contains_no_apks));
+
             return false;
         }
-
-
-        if (mCurrentZipEntry.isDirectory() || !mCurrentZipEntry.getName().endsWith(".apk")) {
-            mZipInputStream.close();
-            throw new IllegalArgumentException(mContext.getString(R.string.installer_error_zip_contains_non_apks));
-        }
+        mSeenApkFiles++;
 
         return true;
     }
@@ -61,7 +64,11 @@ public class ZipApkSource implements ApkSource {
 
     @Override
     public String getApkName() {
-        return mCurrentZipEntry.getName();
+        String path = mCurrentZipEntry.getName();
+        int lastIndexOfSeparator = path.lastIndexOf("/");
+        if (lastIndexOfSeparator == -1)
+            return path;
+        return path.substring(lastIndexOfSeparator + 1);
     }
 
     /**

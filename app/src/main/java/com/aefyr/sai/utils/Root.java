@@ -40,11 +40,13 @@ public class Root {
     }
 
     private static Result execInternal(String command, @Nullable InputStream inputPipe) {
+        StringBuilder stdOutSb = new StringBuilder();
+        StringBuilder stdErrSb = new StringBuilder();
+
         try {
             Process process = Runtime.getRuntime().exec(String.format("su -c %s", command));
 
-            StringBuilder stdOutSb = new StringBuilder();
-            StringBuilder stdErrSb = new StringBuilder();
+
             Thread stdOutD = writeStreamToStringBuilder(stdOutSb, process.getInputStream());
             Thread stdErrD = writeStreamToStringBuilder(stdErrSb, process.getErrorStream());
 
@@ -62,7 +64,7 @@ public class Root {
         } catch (Exception e) {
             Log.w(TAG, "Unable execute command: ");
             Log.w(TAG, e);
-            return new Result(command, -1, "", "Java exception: " + Utils.throwableToString(e));
+            return new Result(command, -1, stdOutSb.toString().trim(), stdErrSb.toString() + "\n\n<!> SAI Root Java exception: " + Utils.throwableToString(e));
         }
     }
 

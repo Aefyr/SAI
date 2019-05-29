@@ -8,6 +8,8 @@
     <string name="ok" translatable="false">OK</string>
     <string name="help">Help</string>
     <string name="error">Error</string>
+    <string name="copy">Copy</string>
+    <string name="copied">Copied</string>
 
     <string name="permissions_required_storage">SAI requires permission to access storage</string>
 
@@ -34,7 +36,7 @@
     <string name="installer_error_rootless">Rootless installer error:\n\n %s</string>
     <string name="installer_error_root_no_root">Unable to acquire root access, please disable \"Use root\" preference</string>
     <string name="installer_error_while_extracting">Error while extracting APK files from ZIP: %s</string>
-    <string name="installer_error_zip_contains_non_apks">ZIP contains non-apk files</string>
+    <string name="installer_error_zip_contains_no_apks">ZIP doesn\'t contain any apk files</string>
     <string name="installer_error_mixed_extensions">You must select either a single .zip/.apks file or multiple .apk files</string>
     <string name="installer_select_theme">Select theme</string>
     <string name="installer_device">Device</string>

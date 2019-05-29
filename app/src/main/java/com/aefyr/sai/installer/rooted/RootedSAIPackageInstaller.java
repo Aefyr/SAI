@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Build;
-import android.text.TextUtils;
 import android.util.Log;
 
 import com.aefyr.sai.BuildConfig;
@@ -107,10 +106,6 @@ public class RootedSAIPackageInstaller extends SAIPackageInstaller {
     }
 
     private String getDeviceInfo() {
-        return String.format("%s: %s %s | %s | Android %s", getContext().getString(R.string.installer_device), Build.BRAND, Build.MODEL, isMiui() ? "MIUI" : "Not MIUI", Build.VERSION.RELEASE);
-    }
-
-    private boolean isMiui() {
-        return !TextUtils.isEmpty(Utils.getSystemProperty("ro.miui.ui.version.name"));
+        return String.format("%s: %s %s | %s | Android %s", getContext().getString(R.string.installer_device), Build.BRAND, Build.MODEL, Utils.isMiui() ? "MIUI" : "Not MIUI", Build.VERSION.RELEASE);
     }
 }

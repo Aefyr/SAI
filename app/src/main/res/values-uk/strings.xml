@@ -8,6 +8,8 @@
     <string name="about_source">GitHub</string>
     <string name="error">Помилка</string>
     <string name="help">Допомога</string>
+    <string name="copy">Скопіювати</string>
+    <string name="copied">Скопійовано</string>
 
     <string name="installer_installation_confirmation">Установити \"%s\"?</string>
     <string name="installer_app_installed">Додаток не установлено</string>
@@ -26,7 +28,7 @@
     <string name="installer_error_root_no_root">Неможливо отримати root-доступ, будь ласка вимкніть опцію \"Використовувати root\"</string>
     <string name="installer_error_storage">Недостатньо місця для установки додатка</string>
     <string name="installer_error_while_extracting">Помилка при розпакуванні ZIP: %s</string>
-    <string name="installer_error_zip_contains_non_apks">ZIP архів містить файли з розширенням відмінним від .apk</string>
+    <string name="installer_error_zip_contains_no_apks">ZIP архів не містить .apk файлів</string>
     <string name="installer_help"><b>Що таке SAI?</b>\nSAI (Split APKs Installer) це інсталятор додатків, що складаються з декількох APK. Його можна застосовувати для встановлення додатків, поширених як App Bundle, тому що Android не надає вбудованого способу для цього, крім Google Play.\n\n<b>Як використовувати SAI?</b>\nНатисніть на кнопку \"Інсталювати APK\" і оберіть базовий APK і додаткові APK під ваший пристрій, або ZIP-архів, що містить всі необхідні APK, потім натисніть кнопку \"Вибрати\" для установки.\n\n<b>.apks</b>\nВи можете перейменувати .zip архів, який містить .apk файли, в .apks (Наприклад: somesplitapp.zip -> somesplitapp.apks), щоб його можна було відкрити за допомогою SAI.</string>
     <string name="installer_install_apks">Інсталювати APK</string>
     <string name="installer_installation_failed">Додаток не установлено</string>

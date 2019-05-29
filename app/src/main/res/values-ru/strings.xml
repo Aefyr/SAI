@@ -6,6 +6,8 @@
     <string name="cancel">Отмена</string>
     <string name="help">Помощь</string>
     <string name="error">Ошибка</string>
+    <string name="copy">Скопировать</string>
+    <string name="copied">Скопировано</string>
 
     <string name="permissions_required_storage">SAI необходимо разрешение на доступ к файлам</string>
 
@@ -32,7 +34,7 @@
     <string name="installer_error_rootless">Ошибка rootless-установщика:\n\n%s</string>
     <string name="installer_error_root_no_root">Невозможно получить root-доступ, пожалуйста отключите настройку \"Использовать root\"</string>
     <string name="installer_error_while_extracting">Ошибка при распаковке ZIP: %s</string>
-    <string name="installer_error_zip_contains_non_apks">ZIP архив содержит файлы с расширением отличным от .apk</string>
+    <string name="installer_error_zip_contains_no_apks">ZIP архив не содержит .apk файлов</string>
     <string name="installer_error_mixed_extensions">Выберите либо один .zip/.apks файл, либо несколько .apk файлов</string>
     <string name="installer_select_theme">Выбрать тему</string>
     <string name="installer_device">Устройство</string>

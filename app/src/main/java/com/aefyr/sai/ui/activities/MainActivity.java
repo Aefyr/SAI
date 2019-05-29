@@ -14,6 +14,7 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.aefyr.sai.R;
 import com.aefyr.sai.ui.dialogs.AppInstalledDialogFragment;
+import com.aefyr.sai.ui.dialogs.ErrorLogDialogFragment;
 import com.aefyr.sai.ui.dialogs.FilePickerDialogFragment;
 import com.aefyr.sai.ui.dialogs.InstallationConfirmationDialogFragment;
 import com.aefyr.sai.ui.dialogs.ThemeSelectionDialogFragment;
@@ -83,7 +84,7 @@ public class MainActivity extends AppCompatActivity implements FilePickerDialogF
                     showPackageInstalledAlert(eventData[1]);
                     break;
                 case InstallerViewModel.EVENT_INSTALLATION_FAILED:
-                    AlertsUtils.showAlert(this, getString(R.string.installer_installation_failed), eventData[1]);
+                    ErrorLogDialogFragment.newInstance(getString(R.string.installer_installation_failed), eventData[1]).show(getSupportFragmentManager(), "installation_error_dialog");
                     break;
             }
         });

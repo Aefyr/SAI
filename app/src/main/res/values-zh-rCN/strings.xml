@@ -4,6 +4,8 @@
     <string name="cancel">取消</string>
     <string name="help">帮助</string>
     <string name="error">错误</string>
+    <string name="copy">Copy</string>
+    <string name="copied">Copied</string>
 
     <string name="permissions_required_storage">SAI 需要访问存储的权限</string>
 
@@ -30,7 +32,7 @@
     <string name="installer_error_rootless">免Root安装器 错误:\n\n %s</string>
     <string name="installer_error_root_no_root">无法获取 Root访问权限，请禁用 \"使用 Root\" 选项</string>
     <string name="installer_error_while_extracting">从ZIP中提取APK文件时出错: %s</string>
-    <string name="installer_error_zip_contains_non_apks">ZIP包含非apk文件</string>
+    <string name="installer_error_zip_contains_no_apks">ZIP存档不包含.apk文件</string>
     <string name="installer_error_mixed_extensions">您必须选择单个 .zip/.apks 文件或多个 .apk 文件</string>
     <string name="installer_select_theme">选择主题</string>
     <string name="installer_device">设备</string>

@@ -1,9 +1,12 @@
 package com.aefyr.sai.utils;
 
 import android.annotation.SuppressLint;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.text.TextUtils;
 import android.util.Log;
 
 import androidx.annotation.Nullable;
@@ -44,6 +47,15 @@ public class Utils {
             Log.w("SAIUtils", e);
             return null;
         }
+    }
+
+    public static void copyTextToClipboard(Context c, CharSequence text) {
+        ClipboardManager clipboardManager = (ClipboardManager) c.getSystemService(Context.CLIPBOARD_SERVICE);
+        clipboardManager.setPrimaryClip(ClipData.newPlainText("text", text));
+    }
+
+    public static boolean isMiui() {
+        return !TextUtils.isEmpty(getSystemProperty("ro.miui.ui.version.name"));
     }
 
 }
