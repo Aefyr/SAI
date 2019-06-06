@@ -51,9 +51,9 @@
     <string name="settings_title">Налаштування</string>
     <string name="installer_select_theme">Вибрати тему</string>
     <string name="installer_device">Пристрій</string>
-    <string name="installer_miui_warning_title">Обнаружена MIUI</string>
-    <string name="installer_miui_warning_message">Похоже, у вас MIUI. MIUI известна своим ломанием стандартных фич Android API и некоторые юзеры сообщали, что SAI не работает на MIUI. Обычно это решается отключением оптимизаций MIUI в настройках для разработчиков, что я рекомендую вам сделать.</string>
-    <string name="installer_miui_warning_open_dev_settings">Открыть настройки для разработчиков</string>
-    <string name="settings_main_extract_archives">Разархивировать APK файлы</string>
-    <string name="settings_main_extract_archives_summary">Разархивировать APK из .zip/.apks архивов во временные файлы перед установкой. Если отключено, SAI будет устанавливать APK напрямую из архива без создания временных файлов. Не рекомендуется включать</string>
+    <string name="installer_miui_warning_title">Виявлено MIUI</string>
+    <string name="installer_miui_warning_message">Схоже, у вас MIUI. MIUI відома своїм ламанням стандартних функцій Android API і деякі користувачі повідомляли, що SAI не працює на MIUI. Зазвичай це вирішується відключенням оптимізацій MIUI в налаштуваннях для розробників, що я рекомендую вам зробити.</string>
+    <string name="installer_miui_warning_open_dev_settings">Відкрити налаштування для розробників</string>
+    <string name="settings_main_extract_archives">Розархівувати APK файли</string>
+    <string name="settings_main_extract_archives_summary">Розархівувати APK з .zip/.apks архівів в тимчасові файли перед установкою. Якщо вимкнено, SAI буде встановлювати APK безпосередньо з архіву без створення тимчасових файлів. Не рекомендується вмикати</string>
 </resources>
