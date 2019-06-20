@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <style name="AppTheme.Light" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="colorPrimary">@color/colorPureWhite</item>
@@ -12,6 +12,8 @@
         <item name="android:textViewStyle">@style/SAITextViewStyle</item>
         <item name="filePickerDialogSelectButtonStyle">@style/SAIMaterialButton</item>
         <item name="filePickerDialogCancelButtonStyle">@style/SAIMaterialButton.Outlined</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="27">true</item>
+        <item name="android:navigationBarColor" tools:targetApi="27">@color/colorPureWhite</item>
     </style>
 
     <style name="AppTheme.Dark" parent="Theme.MaterialComponents.NoActionBar">
@@ -26,6 +28,8 @@
         <item name="android:textViewStyle">@style/SAITextViewStyle</item>
         <item name="filePickerDialogSelectButtonStyle">@style/SAIMaterialButton</item>
         <item name="filePickerDialogCancelButtonStyle">@style/SAIMaterialButton.Outlined</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="27">false</item>
+        <item name="android:navigationBarColor">@color/colorGreaterGrey</item>
     </style>
 
     <style name="AppTheme.Simple.Dark" parent="AppTheme.Dark">
@@ -37,6 +41,7 @@
         <item name="android:textColorPrimary">?attr/simpleThemeTextPrimaryColor</item>
         <item name="android:textColorSecondary">?attr/simpleThemeTextSecondaryColor</item>
         <item name="alertDialogTheme">@style/AlertDialog.AppTheme.Simple.Dark</item>
+        <item name="android:navigationBarColor">?attr/simpleThemePrimaryColor</item>
     </style>
 
     <style name="AppTheme.Simple.Light" parent="AppTheme.Light">
@@ -48,6 +53,7 @@
         <item name="android:textColorPrimary">?attr/simpleThemeTextPrimaryColor</item>
         <item name="android:textColorSecondary">?attr/simpleThemeTextSecondaryColor</item>
         <item name="alertDialogTheme">@style/AlertDialog.AppTheme.Simple.Light</item>
+        <item name="android:navigationBarColor" tools:targetApi="27">?attr/simpleThemePrimaryColor</item>
     </style>
 
     <style name="AppTheme.Rena" parent="AppTheme.Simple.Dark">
