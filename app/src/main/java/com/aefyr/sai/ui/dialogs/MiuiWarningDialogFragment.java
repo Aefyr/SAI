@@ -32,7 +32,13 @@ public class MiuiWarningDialogFragment extends DialogFragment {
                 .setMessage(R.string.installer_miui_warning_message)
                 .setPositiveButton(R.string.installer_miui_warning_open_dev_settings, (d, w) -> {
                     PreferenceManager.getDefaultSharedPreferences(getContext()).edit().putBoolean(PreferencesKeys.MIUI_WARNING_SHOWN, true).apply();
-                    startActivity(new Intent(Settings.ACTION_APPLICATION_DEVELOPMENT_SETTINGS));
+
+                    try {
+                        startActivity(new Intent(Settings.ACTION_APPLICATION_DEVELOPMENT_SETTINGS));
+                    } catch (Exception e) {
+                        SimpleAlertDialogFragment.newInstance(getString(R.string.error), getString(R.string.installer_miui_warning_oof)).show(getFragmentManager(), "alert_oof");
+                    }
+
                     dismiss();
                 })
                 .create();

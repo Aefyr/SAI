@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
 
     <style name="AppTheme.Light" parent="Theme.MaterialComponents.Light.NoActionBar">
@@ -5,49 +6,61 @@
         <item name="colorPrimaryDark">@color/colorPureWhite</item>
         <item name="colorAccent">@color/colorCoolBlue</item>
         <item name="android:windowBackground">@color/colorPureWhite</item>
+        <item name="android:windowLightStatusBar">true</item>
         <item name="titleTextColor">@color/colorFineGrey</item>
         <item name="android:textColorPrimary">@color/colorFineGrey</item>
         <item name="android:textColorSecondary">@color/colorFineGrey</item>
+        <item name="android:statusBarColor">@color/colorPureWhite</item>
         <item name="alertDialogTheme">@style/AlertDialog.AppTheme.Light</item>
         <item name="android:textViewStyle">@style/SAITextViewStyle</item>
         <item name="filePickerDialogSelectButtonStyle">@style/SAIMaterialButton</item>
         <item name="filePickerDialogCancelButtonStyle">@style/SAIMaterialButton.Outlined</item>
+        <item name="android:windowLightNavigationBar">true</item>
+        <item name="android:navigationBarColor">@color/colorPureWhite</item>
     </style>
 
     <style name="AppTheme.Dark" parent="Theme.MaterialComponents.NoActionBar">
         <item name="colorPrimary">@color/colorGreaterGrey</item>
-        <item name="colorPrimaryDark">@color/colorGreaterGrey</item>
+        <item name="colorPrimaryDark">@color/colorGreatGrey</item>
         <item name="colorAccent">@color/colorPerfectPink</item>
         <item name="android:windowBackground">@color/colorGreaterGrey</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:statusBarColor">@color/colorGreaterGrey</item>
         <item name="titleTextColor">@color/colorAlmostWhite</item>
-        <item name="android:textColorPrimary">@color/colorFineGrey</item>
+        <item name="android:textColorPrimary">@color/colorAlmostWhite</item>
         <item name="android:textColorSecondary">@color/colorAlmostWhite</item>
         <item name="alertDialogTheme">@style/AlertDialog.AppTheme.Dark</item>
         <item name="android:textViewStyle">@style/SAITextViewStyle</item>
         <item name="filePickerDialogSelectButtonStyle">@style/SAIMaterialButton</item>
         <item name="filePickerDialogCancelButtonStyle">@style/SAIMaterialButton.Outlined</item>
+        <item name="android:windowLightNavigationBar">false</item>
+        <item name="android:navigationBarColor">@color/colorGreaterGrey</item>
     </style>
 
     <style name="AppTheme.Simple.Dark" parent="AppTheme.Dark">
         <item name="colorPrimary">?attr/simpleThemePrimaryColor</item>
         <item name="colorPrimaryDark">?attr/simpleThemePrimaryColor</item>
         <item name="colorAccent">?attr/simpleThemeAccentColor</item>
+        <item name="android:statusBarColor">?attr/simpleThemePrimaryColor</item>
         <item name="android:windowBackground">?attr/simpleThemePrimaryColor</item>
         <item name="titleTextColor">?attr/simpleThemeTextPrimaryColor</item>
         <item name="android:textColorPrimary">?attr/simpleThemeTextPrimaryColor</item>
         <item name="android:textColorSecondary">?attr/simpleThemeTextSecondaryColor</item>
         <item name="alertDialogTheme">@style/AlertDialog.AppTheme.Simple.Dark</item>
+        <item name="android:navigationBarColor">?attr/simpleThemePrimaryColor</item>
     </style>
 
     <style name="AppTheme.Simple.Light" parent="AppTheme.Light">
         <item name="colorPrimary">?attr/simpleThemePrimaryColor</item>
         <item name="colorPrimaryDark">?attr/simpleThemePrimaryColor</item>
         <item name="colorAccent">?attr/simpleThemeAccentColor</item>
+        <item name="android:statusBarColor">?attr/simpleThemePrimaryColor</item>
         <item name="android:windowBackground">?attr/simpleThemePrimaryColor</item>
         <item name="titleTextColor">?attr/simpleThemeTextPrimaryColor</item>
         <item name="android:textColorPrimary">?attr/simpleThemeTextPrimaryColor</item>
         <item name="android:textColorSecondary">?attr/simpleThemeTextSecondaryColor</item>
         <item name="alertDialogTheme">@style/AlertDialog.AppTheme.Simple.Light</item>
+        <item name="android:navigationBarColor">?attr/simpleThemePrimaryColor</item>
     </style>
 
     <style name="AppTheme.Rena" parent="AppTheme.Simple.Dark">
@@ -76,79 +89,6 @@
         <item name="simpleThemeAccentColor">@color/colorAccentPixel</item>
         <item name="simpleThemeTextPrimaryColor">@color/colorTextPrimaryPixel</item>
         <item name="simpleThemeTextSecondaryColor">@color/colorTextSecondaryPixel</item>
-    </style>
-
-    <style name="SAIMaterialButton" parent="Widget.MaterialComponents.Button.UnelevatedButton">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:paddingLeft">24dp</item>
-        <item name="android:paddingRight">24dp</item>
-        <item name="android:paddingTop">12dp</item>
-        <item name="android:paddingBottom">12dp</item>
-        <item name="android:textSize">15sp</item>
-        <item name="android:textAllCaps">false</item>
-        <item name="android:singleLine">true</item>
-        <item name="colorPrimary">?attr/colorAccent</item>
-        <item name="colorOnPrimary">?attr/colorPrimaryDark</item>
-        <item name="android:theme">@style/SAIMaterialButton</item>
-        <item name="cornerRadius">20dp</item>
-        <item name="android:letterSpacing">0</item>
-    </style>
-
-    <style name="SAIMaterialButton.Outlined" parent="Widget.MaterialComponents.Button.OutlinedButton">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:paddingLeft">24dp</item>
-        <item name="android:paddingRight">24dp</item>
-        <item name="android:paddingTop">12dp</item>
-        <item name="android:paddingBottom">12dp</item>
-        <item name="android:textSize">15sp</item>
-        <item name="android:textAllCaps">false</item>
-        <item name="android:singleLine">true</item>
-        <item name="colorPrimary">?attr/colorAccent</item>
-        <item name="android:theme">@style/SAIMaterialButton.Outlined</item>
-        <item name="cornerRadius">20dp</item>
-        <item name="android:letterSpacing">0</item>
-        <item name="strokeWidth">2dp</item>
-        <item name="strokeColor">?attr/colorAccent</item>
-    </style>
-
-    <style name="SAICoolbarImageButton" parent="Widget.AppCompat.ImageButton">
-        <item name="android:background">?attr/selectableItemBackgroundBorderless</item>
-        <item name="android:scaleType">fitCenter</item>
-        <item name="android:padding">12dp</item>
-        <item name="android:tint">?attr/colorAccent</item>
-        <item name="android:layout_width">56dp</item>
-        <item name="android:layout_height">56dp</item>
-    </style>
-
-
-    <style name="SAITextViewStyle" parent="Base.Widget.AppCompat.TextView">
-        <item name="android:textColor">?android:attr/textColorSecondary</item>
-    </style>
-
-    <style name="AlertDialog.AppTheme.Light" parent="ThemeOverlay.MaterialComponents.Dialog.Alert">
-        <item name="android:windowBackground">@drawable/bg_rounded_alert_dialog</item>
-        <item name="android:backgroundTint">@color/colorPureWhite</item>
-        <item name="colorPrimary">?attr/colorAccent</item>
-        <item name="textColorAlertDialogListItem">?android:attr/textColorSecondary</item>
-    </style>
-
-    <style name="AlertDialog.AppTheme.Dark" parent="ThemeOverlay.MaterialComponents.Dialog.Alert">
-        <item name="android:windowBackground">@drawable/bg_rounded_alert_dialog</item>
-        <item name="android:backgroundTint">?attr/colorPrimaryDark</item>
-        <item name="colorPrimary">?attr/colorAccent</item>
-        <item name="textColorAlertDialogListItem">?android:attr/textColorSecondary</item>
-    </style>
-
-    <style name="AlertDialog.AppTheme.Simple.Light" parent="AlertDialog.AppTheme.Light">
-        <item name="android:textColorPrimary">?attr/simpleThemeTextSecondaryColor</item>
-        <item name="android:textColorSecondary">?attr/simpleThemeTextPrimaryColor</item>
-    </style>
-
-    <style name="AlertDialog.AppTheme.Simple.Dark" parent="AlertDialog.AppTheme.Dark">
-        <item name="android:textColorPrimary">?attr/simpleThemeTextSecondaryColor</item>
-        <item name="android:textColorSecondary">?attr/simpleThemeTextPrimaryColor</item>
     </style>
 
 </resources>

@@ -56,4 +56,5 @@
     <string name="installer_miui_warning_open_dev_settings">Відкрити налаштування для розробників</string>
     <string name="settings_main_extract_archives">Розархівувати APK файли</string>
     <string name="settings_main_extract_archives_summary">Розархівувати APK з .zip/.apks архівів в тимчасові файли перед установкою. Якщо вимкнено, SAI буде встановлювати APK безпосередньо з архіву без створення тимчасових файлів. Не рекомендується вмикати</string>
+    <string name="installer_miui_warning_oof">Не удалось открыть настройки для разработчиков. Найс прошивка</string>
 </resources>
