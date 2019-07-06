@@ -4,7 +4,7 @@
     <string name="cancel">取消</string>
     <string name="help">帮助</string>
     <string name="error">错误</string>
-    <string name="copy">Copy</string>
+    <string name="copy">复制</string>
     <string name="copied">Copied</string>
 
     <string name="permissions_required_storage">SAI 需要访问存储的权限</string>
@@ -36,10 +36,10 @@
     <string name="installer_error_mixed_extensions">您必须选择单个 .zip/.apks 文件或多个 .apk 文件</string>
     <string name="installer_select_theme">选择主题</string>
     <string name="installer_device">设备</string>
-    <string name="installer_miui_warning_title">MIUI detected</string>
-    <string name="installer_miui_warning_message">Looks like your device is running MIUI. MIUI is known for breaking standard Android API features and some SAI users have reported SAI not working on MIUI. Usually it can be fixed by disabling MIUI optimizations in developer settings, which I suggest you should do.</string>
-    <string name="installer_miui_warning_open_dev_settings">Open developer settings</string>
-    <string name="installer_miui_warning_oof">Unable to open development settings. Cool ROM</string>
+    <string name="installer_miui_warning_title">MIUI 检测</string>
+    <string name="installer_miui_warning_message">看起来您的设备正在运行MIUI。\nMIUI以破坏标准的Android API功能而闻名，一些SAI用户报告称SAI不在MIUI上工作。\n通常可以通过在 开发者选项 中禁用 MIUI优化 来修复它，我建议你应该这样做。</string>
+    <string name="installer_miui_warning_open_dev_settings">开启开发者选项</string>
+    <string name="installer_miui_warning_oof">无法开启开发者选项。 Cool ROM</string>
 
     <string name="settings_title">设置</string>
     <string name="settings_main_home_directory">主目录</string>
@@ -53,8 +53,8 @@
     <string name="settings_main_use_root_error">无法获取 Root访问权限</string>
     <string name="settings_main_sign_apks">签名 APK</string>
     <string name="settings_main_sign_apks_summary">安装前签名APK。您可以启用此功能(在首次安装应用之前) to update apps independently from downloaded APKs signature</string>
-    <string name="settings_main_extract_archives">Extract APKs from archives</string>
-    <string name="settings_main_extract_archives_summary">Extract APK files from .zip/.apks archives into temporary files before installing them. If disabled, SAI will install APKs directly from archives without temp files. Not recommended to enable</string>
+    <string name="settings_main_extract_archives">从压缩包中提取APKs</string>
+    <string name="settings_main_extract_archives_summary">在安装之前，将 .zip/.apks 压缩包中的 APK文件 解压缩到临时文件中。 如果禁用，SAI将直接从没有临时文件的压缩包中安装APK。 不建议启用</string>
 
     <string name="about_source">GitHub</string>
     <string name="about_donate">捐赠</string>
