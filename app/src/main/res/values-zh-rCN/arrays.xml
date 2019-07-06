@@ -2,10 +2,10 @@
 <resources>
 
     <string-array name="file_picker_sort_variants">
-        <item>"按名称（按字母顺序排列）"</item>
-        <item>"按名称（反向字母）"</item>
-        <item>"稍后修改后的第一"</item>
-        <item>"旧的修改后的第一"</item>
+        <item>"按名称 (A-Z)"</item>
+        <item>"按名称 (Z-A)"</item>
+        <item>"修改时间 (升序)"</item>
+        <item>"修改时间 (降序)"</item>
     </string-array>
 
     <string-array name="themes">
