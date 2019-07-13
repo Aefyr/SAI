@@ -1,0 +1,61 @@
+<resources>
+    <string name="yes">是</string>
+    <string name="no">否</string>
+    <string name="cancel">取消</string>
+    <string name="help">幫助</string>
+    <string name="error">錯誤</string>
+    <string name="copy">複製</string>
+    <string name="copied">Copied</string>
+
+    <string name="permissions_required_storage">SAI 需要訪問存儲的權限</string>
+
+    <string name="installer_installation_confirmation">安裝 \"%s\"?</string>
+    <string name="installer_installation_failed">App 已安裝</string>
+    <string name="installer_installation_in_progress">安裝中…</string>
+    <string name="installer_install_apks">安裝 APKs</string>
+    <string name="installer_help"><b>What is SAI?</b>\nSAI (Split APKs Installer) is an app that lets you install multiple APKs as if it was a single package. This is useful for installing apps that are distributed as App Bundles since Android provides no built-in way to install them from sources other than Google Play.\n\n<b>How to use SAI?</b>\nClick \"Install APKs\" button and select base APK and additional configuration-specific APKs or a ZIP archive that contains all required APKs, then click \"Select\" button to start installation process.\n\n<b>.apks</b>\nYou can rename a . zip archive that contains .apk files to .apks (eg: somesplitapp.zip -> somesplitapp.apks), so it can be opened with SAI from other apps.</string>
+    <string name="installer_pick_apks">選擇要安裝的文件</string>
+    <string name="installer_app_installed">App 已安裝</string>
+    <string name="installer_open">打開</string>
+    <string name="installer_app_installed_full">%s 已安裝</string>
+    <string name="installer_no_root">無法獲得 Root訪問權限，繼續使用 免Root安裝器</string>
+    <string name="installer_error_generic">安裝失敗</string>
+    <string name="installer_error_aborted">用戶取消了安裝</string>
+    <string name="installer_error_blocked">安裝被 %s 阻止了</string>
+    <string name="installer_error_blocked_device">設備</string>
+    <string name="installer_error_conflict">無法安裝應用程序，因為它與已安裝具有相同程序包名的應用程序衝突</string>
+    <string name="installer_error_incompatible">應用程序與此設備不兼容</string>
+    <string name="installer_error_bad_apks">選擇了無效的APK文件</string>
+    <string name="installer_error_storage">沒有足夠的存儲空間來安裝應用程序</string>
+    <string name="installer_error_lidl_rom">您的ROM與 免Root安裝器 不兼容。如果您有 Root權限，請嘗試在 SAI 設置中啟用 Root安裝器</string>
+    <string name="installer_error_root">Root安裝器 錯誤:\n\n %s</string>
+    <string name="installer_error_rootless">免Root安裝器 錯誤:\n\n %s</string>
+    <string name="installer_error_root_no_root">無法獲取 Root訪問權限，請禁用 \"使用 Root\" 選項</string>
+    <string name="installer_error_while_extracting">從ZIP中提取APK文件時出錯: %s</string>
+    <string name="installer_error_zip_contains_no_apks">ZIP存檔不包含.apk文件</string>
+    <string name="installer_error_mixed_extensions">您必須選擇單個 .zip/.apks 文件或多個 .apk 文件</string>
+    <string name="installer_select_theme">選擇主題</string>
+    <string name="installer_device">設備</string>
+    <string name="installer_miui_warning_title">MIUI 檢測</string>
+    <string name="installer_miui_warning_message">看起來您的設備正在運行MIUI。 \nMIUI以破壞標準的Android API功能而聞名，一些SAI用戶報告稱SAI不在MIUI上工作。 \n通常可以通過在 開發者選項 中禁用 MIUI優化 來修復它，我建議你應該這樣做。 </string>
+    <string name="installer_miui_warning_open_dev_settings">開啟開發者選項</string>
+    <string name="installer_miui_warning_oof">無法開啟開發者選項。 Cool ROM</string>
+
+    <string name="settings_title">設置</string>
+    <string name="settings_main_home_directory">主目錄</string>
+    <string name="settings_main_home_directory_summary">APKs選擇器的啟動目錄\n當前: %s</string>
+    <string name="settings_main_file_picker_sort">文件排序</string>
+    <string name="settings_main_file_picker_sort_summary">選擇APK時\n當前: %s</string>
+    <string name="settings_main_pick_dir">選擇目錄</string>
+    <string name="settings_main_about">關於</string>
+    <string name="settings_main_use_root">使用 Root</string>
+    <string name="settings_main_use_root_summary">嘗試使用 Root安裝器。如果 SAI 無法獲得 Root訪問權限，它將回退到 免Root安裝器</string>
+    <string name="settings_main_use_root_error">無法獲取 Root訪問權限</string>
+    <string name="settings_main_sign_apks">簽名 APK</string>
+    <string name="settings_main_sign_apks_summary">安裝前簽名APK。您可以啟用此功能(在首次安裝應用之前) to update apps independently from downloaded APKs signature</string>
+    <string name="settings_main_extract_archives">從壓縮包中提取APKs</string>
+    <string name="settings_main_extract_archives_summary">在安裝之前，將 .zip/.apks 壓縮包中的 APK文件 解壓縮到臨時文件中。如果禁用，SAI將直接從沒有臨時文件的壓縮包中安裝APK。不建議啟用</string>
+
+    <string name="about_source">GitHub</string>
+    <string name="about_donate">捐贈</string>
+</resources>
