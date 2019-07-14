@@ -1,5 +1,6 @@
 package com.aefyr.sai.installer;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
@@ -8,12 +9,14 @@ import android.util.LongSparseArray;
 import androidx.annotation.Nullable;
 
 import com.aefyr.sai.model.apksource.ApkSource;
+import com.crashlytics.android.Crashlytics;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+@SuppressLint("DefaultLocale")
 public abstract class SAIPackageInstaller {
 
     public enum InstallationStatus {
@@ -89,6 +92,7 @@ public abstract class SAIPackageInstaller {
     protected abstract void installApkFiles(ApkSource apkSource);
 
     protected void installationCompleted() {
+        Crashlytics.log(String.format("%s->installationCompleted(); mOngoingInstallation.id=%d", getClass().getSimpleName(), dbgGetOngoingInstallationId()));
         mInstallationInProgress = false;
         mOngoingInstallation = null;
         processQueue();
@@ -96,12 +100,18 @@ public abstract class SAIPackageInstaller {
 
     protected void dispatchSessionUpdate(long sessionID, InstallationStatus status, String packageNameOrError) {
         mHandler.post(() -> {
+            Crashlytics.log(String.format("%s->dispatchSessionUpdate(%d, %s, %s)", getClass().getSimpleName(), sessionID, status.name(), packageNameOrError));
             for (InstallationStatusListener listener : mListeners)
                 listener.onStatusChanged(sessionID, status, packageNameOrError);
         });
     }
 
     protected void dispatchCurrentSessionUpdate(InstallationStatus status, String packageNameOrError) {
+        Crashlytics.log(String.format("%s->dispatchCurrentSessionUpdate(%s, %s); mOngoingInstallation.id=%d", getClass().getSimpleName(), status.name(), packageNameOrError, dbgGetOngoingInstallationId()));
         dispatchSessionUpdate(mOngoingInstallation.getId(), status, packageNameOrError);
+    }
+
+    private long dbgGetOngoingInstallationId() {
+        return mOngoingInstallation != null ? mOngoingInstallation.getId() : -1;
     }
 }

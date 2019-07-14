@@ -11,6 +11,7 @@ import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.aefyr.sai.R;
@@ -112,6 +113,9 @@ public class MainActivity extends AppCompatActivity implements FilePickerDialogF
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         if (Intent.ACTION_VIEW.equals(intent.getAction()) && intent.getData() != null) {
+            DialogFragment existingDialog = (DialogFragment) getSupportFragmentManager().findFragmentByTag("installation_confirmation_dialog");
+            if (existingDialog != null)
+                existingDialog.dismiss();
             InstallationConfirmationDialogFragment.newInstance(intent.getData()).show(getSupportFragmentManager(), "installation_confirmation_dialog");
         }
     }
