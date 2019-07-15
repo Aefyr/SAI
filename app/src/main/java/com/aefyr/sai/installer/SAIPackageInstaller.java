@@ -114,4 +114,8 @@ public abstract class SAIPackageInstaller {
     private long dbgGetOngoingInstallationId() {
         return mOngoingInstallation != null ? mOngoingInstallation.getId() : -1;
     }
+
+    protected QueuedInstallation getOngoingInstallation() {
+        return mOngoingInstallation;
+    }
 }

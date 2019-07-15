@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageInstaller;
 import android.util.Log;
+import android.util.SparseLongArray;
 
 import com.aefyr.sai.R;
 import com.aefyr.sai.installer.SAIPackageInstaller;
@@ -26,18 +27,31 @@ public class RootlessSAIPackageInstaller extends SAIPackageInstaller {
     private BroadcastReceiver mFurtherInstallationEventsReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
+            long sessionId = mSessionsMap.get(intent.getIntExtra(RootlessSAIPIService.EXTRA_SESSION_ID, -1), -1);
+            if (sessionId == -1)
+                return;
             switch (intent.getIntExtra(RootlessSAIPIService.EXTRA_INSTALLATION_STATUS, -1)) {
                 case RootlessSAIPIService.STATUS_SUCCESS:
-                    dispatchCurrentSessionUpdate(SAIPackageInstaller.InstallationStatus.INSTALLATION_SUCCEED, intent.getStringExtra(RootlessSAIPIService.EXTRA_PACKAGE_NAME));
-                    installationCompleted();
+                    dispatchSessionUpdate(sessionId, SAIPackageInstaller.InstallationStatus.INSTALLATION_SUCCEED, intent.getStringExtra(RootlessSAIPIService.EXTRA_PACKAGE_NAME));
+                    if (getOngoingInstallation() != null && sessionId == getOngoingInstallation().getId())
+                        installationCompleted();
                     break;
                 case RootlessSAIPIService.STATUS_FAILURE:
-                    dispatchCurrentSessionUpdate(SAIPackageInstaller.InstallationStatus.INSTALLATION_FAILED, intent.getStringExtra(RootlessSAIPIService.EXTRA_ERROR_DESCRIPTION));
-                    installationCompleted();
+                    dispatchSessionUpdate(sessionId, SAIPackageInstaller.InstallationStatus.INSTALLATION_FAILED, intent.getStringExtra(RootlessSAIPIService.EXTRA_ERROR_DESCRIPTION));
+                    if (getOngoingInstallation() != null && sessionId == getOngoingInstallation().getId())
+                        installationCompleted();
                     break;
             }
         }
     };
+
+    private PackageInstaller mPackageInstaller;
+
+    /**
+     * Maps Android PackageInstaller session id to SAIPackageInstaller QueuedInstallation id
+     */
+    private SparseLongArray mSessionsMap = new SparseLongArray();
+
 
     public static RootlessSAIPackageInstaller getInstance(Context c) {
         return sInstance != null ? sInstance : new RootlessSAIPackageInstaller(c);
@@ -45,19 +59,22 @@ public class RootlessSAIPackageInstaller extends SAIPackageInstaller {
 
     private RootlessSAIPackageInstaller(Context c) {
         super(c);
+        mPackageInstaller = getContext().getPackageManager().getPackageInstaller();
         getContext().registerReceiver(mFurtherInstallationEventsReceiver, new IntentFilter(RootlessSAIPIService.ACTION_INSTALLATION_STATUS_NOTIFICATION));
         sInstance = this;
     }
 
     @Override
     protected void installApkFiles(ApkSource apkSource) {
-        PackageInstaller packageInstaller = getContext().getPackageManager().getPackageInstaller();
+        cleanOldSessions();
+
         PackageInstaller.Session session = null;
         try {
             PackageInstaller.SessionParams sessionParams = new PackageInstaller.SessionParams(PackageInstaller.SessionParams.MODE_FULL_INSTALL);
-            int sessionID = packageInstaller.createSession(sessionParams);
+            int sessionID = mPackageInstaller.createSession(sessionParams);
+            mSessionsMap.put(sessionID, getOngoingInstallation().getId());
 
-            session = packageInstaller.openSession(sessionID);
+            session = mPackageInstaller.openSession(sessionID);
             while (apkSource.nextApk()) {
                 try (InputStream inputStream = apkSource.openApkInputStream(); OutputStream outputStream = session.openWrite(apkSource.getApkName(), 0, apkSource.getApkLength())) {
                     IOUtils.copyStream(inputStream, outputStream);
@@ -76,5 +93,21 @@ public class RootlessSAIPackageInstaller extends SAIPackageInstaller {
             if (session != null)
                 session.close();
         }
+    }
+
+    private void cleanOldSessions() {
+        int cleanedSessions = 0;
+        long start = System.currentTimeMillis();
+
+        for (PackageInstaller.SessionInfo sessionInfo : mPackageInstaller.getMySessions()) {
+            try {
+                mPackageInstaller.abandonSession(sessionInfo.getSessionId());
+                cleanedSessions++;
+            } catch (Exception e) {
+                Log.w(TAG, "Unable to abandon session", e);
+            }
+        }
+
+        Log.d(TAG, String.format("Cleaned %d sessions in %d ms.", cleanedSessions, (System.currentTimeMillis() - start)));
     }
 }

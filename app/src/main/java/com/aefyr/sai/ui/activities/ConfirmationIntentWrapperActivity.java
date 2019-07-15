@@ -2,7 +2,6 @@ package com.aefyr.sai.ui.activities;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageInstaller;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -35,7 +34,7 @@ public class ConfirmationIntentWrapperActivity extends AppCompatActivity {
             startActivityForResult(confirmationIntent, REQUEST_CODE_CONFIRM_INSTALLATION);
         } catch (Exception e) {
             Crashlytics.logException(e);
-            sendErrorBroadcast(intent.getIntExtra(PackageInstaller.EXTRA_SESSION_ID, -1), getString(R.string.installer_error_lidl_rom));
+            sendErrorBroadcast(intent.getIntExtra(RootlessSAIPIService.EXTRA_SESSION_ID, -1), getString(R.string.installer_error_lidl_rom));
             finish();
         }
     }
@@ -56,7 +55,7 @@ public class ConfirmationIntentWrapperActivity extends AppCompatActivity {
 
         if (!mFinishedProperly) {
             Intent intent = getIntent();
-            sendErrorBroadcast(intent.getIntExtra(PackageInstaller.EXTRA_SESSION_ID, -1), getString(R.string.installer_error_aborted));
+            sendErrorBroadcast(intent.getIntExtra(RootlessSAIPIService.EXTRA_SESSION_ID, -1), getString(R.string.installer_error_aborted));
         }
     }
 

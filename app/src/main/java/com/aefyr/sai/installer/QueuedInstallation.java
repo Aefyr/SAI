@@ -6,7 +6,7 @@ import com.aefyr.sai.model.apksource.ApkSource;
 import com.aefyr.sai.model.apksource.SignerApkSource;
 import com.aefyr.sai.utils.PreferencesHelper;
 
-class QueuedInstallation {
+public class QueuedInstallation {
 
     private Context mContext;
     private ApkSource mApkSource;
@@ -18,7 +18,7 @@ class QueuedInstallation {
         mId = id;
     }
 
-    long getId() {
+    public long getId() {
         return mId;
     }
 

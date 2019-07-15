@@ -32,6 +32,7 @@ public class InstallerViewModel extends AndroidViewModel implements SAIPackageIn
 
     private SAIPackageInstaller mInstaller;
     private Context mContext;
+    private long mOngoingSessionId;
 
     public enum InstallerState {
         IDLE, INSTALLING
@@ -61,7 +62,8 @@ public class InstallerViewModel extends AndroidViewModel implements SAIPackageIn
         for (File f : apkFiles)
             descriptors.add(new NormalFileDescriptor(f));
 
-        mInstaller.startInstallationSession(mInstaller.createInstallationSession(new DefaultApkSource(descriptors)));
+        mOngoingSessionId = mInstaller.createInstallationSession(new DefaultApkSource(descriptors));
+        mInstaller.startInstallationSession(mOngoingSessionId);
     }
 
     public void installPackagesFromZip(File zipWithApkFiles) {
@@ -73,7 +75,8 @@ public class InstallerViewModel extends AndroidViewModel implements SAIPackageIn
         else
             apkSource = new ZipApkSource(mContext, new NormalFileDescriptor(zipWithApkFiles));
 
-        mInstaller.startInstallationSession(mInstaller.createInstallationSession(apkSource));
+        mOngoingSessionId = mInstaller.createInstallationSession(apkSource);
+        mInstaller.startInstallationSession(mOngoingSessionId);
     }
 
     public void installPackagesFromContentProviderZip(Uri zipContentUri) {
@@ -85,7 +88,8 @@ public class InstallerViewModel extends AndroidViewModel implements SAIPackageIn
         else
             apkSource = new ZipApkSource(mContext, new ContentUriFileDescriptor(mContext, zipContentUri));
 
-        mInstaller.startInstallationSession(mInstaller.createInstallationSession(apkSource));
+        mOngoingSessionId = mInstaller.createInstallationSession(apkSource);
+        mInstaller.startInstallationSession(mOngoingSessionId);
     }
 
     private void ensureInstallerActuality() {
@@ -108,6 +112,9 @@ public class InstallerViewModel extends AndroidViewModel implements SAIPackageIn
 
     @Override
     public void onStatusChanged(long installationID, SAIPackageInstaller.InstallationStatus status, @Nullable String packageNameOrErrorDescription) {
+        if (installationID != mOngoingSessionId)
+            return;
+
         switch (status) {
             case QUEUED:
             case INSTALLING:
