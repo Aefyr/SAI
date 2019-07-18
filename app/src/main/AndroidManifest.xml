@@ -34,10 +34,51 @@
                     android:host="*"
                     android:pathPattern=".*\\.apks" />
                 <data
+                    android:scheme="file"
+                    android:mimeType="*/*"
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\.apks" />
+                <data
+                    android:scheme="file"
+                    android:mimeType="*/*"
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\.apks" />
+                <data
+                    android:scheme="file"
+                    android:mimeType="*/*"
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\.apks" />
+                <data
+                    android:scheme="file"
+                    android:mimeType="*/*"
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\.apks" />
+
+                <data
                     android:scheme="content"
                     android:mimeType="*/*"
                     android:host="*"
                     android:pathPattern=".*\\.apks" />
+                <data
+                    android:scheme="content"
+                    android:mimeType="*/*"
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\.apks" />
+                <data
+                    android:scheme="content"
+                    android:mimeType="*/*"
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\.apks" />
+                <data
+                    android:scheme="content"
+                    android:mimeType="*/*"
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\.apks" />
+                <data
+                    android:scheme="content"
+                    android:mimeType="*/*"
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\.apks" />
             </intent-filter>
         </activity>
 
