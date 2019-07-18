@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.aefyr.sai.R;
 import com.aefyr.sai.installer.rootless.RootlessSAIPIService;
-import com.crashlytics.android.Crashlytics;
+import com.aefyr.sai.utils.Logs;
 
 public class ConfirmationIntentWrapperActivity extends AppCompatActivity {
 
@@ -33,7 +33,7 @@ public class ConfirmationIntentWrapperActivity extends AppCompatActivity {
         try {
             startActivityForResult(confirmationIntent, REQUEST_CODE_CONFIRM_INSTALLATION);
         } catch (Exception e) {
-            Crashlytics.logException(e);
+            Logs.logException(e);
             sendErrorBroadcast(intent.getIntExtra(RootlessSAIPIService.EXTRA_SESSION_ID, -1), getString(R.string.installer_error_lidl_rom));
             finish();
         }

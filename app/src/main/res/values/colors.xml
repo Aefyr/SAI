@@ -30,4 +30,9 @@
     <color name="colorPrimaryPixel">#ffffff</color>
     <color name="colorTextPrimaryPixel">#de000000</color>
     <color name="colorTextSecondaryPixel">#de000000</color>
+
+    <color name="colorAccentFDroid">#8bc34a</color>
+    <color name="colorPrimaryFDroid">@color/colorPureWhite</color>
+    <color name="colorTextPrimaryFDroid">@color/colorFineGrey</color>
+    <color name="colorTextSecondaryFDroid">@color/colorFineGrey</color>
 </resources>

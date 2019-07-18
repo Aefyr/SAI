@@ -16,6 +16,22 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    flavorDimensions "version"
+    productFlavors {
+        normal {
+            dimension "version"
+            buildConfigField "int", "DEFAULT_THEME", "0"
+        }
+
+        fdroid {
+            dimension "version"
+            applicationIdSuffix ".fdroid"
+            versionNameSuffix "/F-Droid"
+            buildConfigField "int", "DEFAULT_THEME", "6"
+        }
+    }
+
     compileOptions {
         sourceCompatibility = '1.8'
         targetCompatibility = '1.8'
@@ -24,13 +40,24 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
-    implementation 'androidx.appcompat:appcompat:1.1.0-beta01'
-    implementation 'com.google.android.material:material:1.1.0-alpha07'
+    implementation 'androidx.appcompat:appcompat:1.1.0-rc01'
+    implementation 'com.google.android.material:material:1.1.0-alpha08'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
     implementation 'com.android.support:preference-v7:28.0.0'
-    implementation 'com.google.firebase:firebase-core:17.0.0'
-    implementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
     implementation 'com.github.aefyr:pseudoapksigner:1.5'
+
+    //Google services
+    normalImplementation 'com.google.firebase:firebase-core:17.0.1'
+    normalImplementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
+}
+
+//Cancel google services/fabric plugins for fdroid flavor
+gradle.taskGraph.beforeTask {
+    String taskName = it.name.toLowerCase()
+    if(taskName.contains("fdroid") && (taskName.contains("googleservices") || taskName.contains("fabric"))){
+        println(String.format("Cancelling task \"%s\" due to fdroid build flavor", it.name))
+        it.setEnabled(false)
+    }
 }
 
 apply plugin: 'com.google.gms.google-services'
