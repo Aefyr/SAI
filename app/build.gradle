@@ -26,7 +26,7 @@ android {
 
         fdroid {
             dimension "version"
-            applicationIdSuffix ".fdroid"
+            applicationId "com.aefyr.sai.fdroid"
             versionNameSuffix "/F-Droid"
             buildConfigField "int", "DEFAULT_THEME", "6"
         }
