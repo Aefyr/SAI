@@ -91,4 +91,11 @@
         <item name="simpleThemeTextSecondaryColor">@color/colorTextSecondaryPixel</item>
     </style>
 
+    <style name="AppTheme.FDroid" parent="AppTheme.Simple.Light">
+        <item name="simpleThemePrimaryColor">@color/colorPrimaryFDroid</item>
+        <item name="simpleThemeAccentColor">@color/colorAccentFDroid</item>
+        <item name="simpleThemeTextPrimaryColor">@color/colorTextPrimaryFDroid</item>
+        <item name="simpleThemeTextSecondaryColor">@color/colorTextSecondaryFDroid</item>
+    </style>
+
 </resources>

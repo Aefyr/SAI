@@ -12,9 +12,9 @@ import com.aefyr.sai.BuildConfig;
 import com.aefyr.sai.R;
 import com.aefyr.sai.installer.SAIPackageInstaller;
 import com.aefyr.sai.model.apksource.ApkSource;
+import com.aefyr.sai.utils.Logs;
 import com.aefyr.sai.utils.Root;
 import com.aefyr.sai.utils.Utils;
-import com.crashlytics.android.Crashlytics;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.regex.Matcher;
@@ -43,7 +43,7 @@ public class RootedSAIPackageInstaller extends SAIPackageInstaller {
                 if (!installerPackage.equals(BuildConfig.APPLICATION_ID))
                     return;
             } catch (Exception e) {
-                Crashlytics.logException(e);
+                Logs.logException(e);
                 Log.wtf(TAG, e);
             }
 

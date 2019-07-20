@@ -7,6 +7,7 @@ import android.util.SparseIntArray;
 
 import androidx.annotation.StyleRes;
 
+import com.aefyr.sai.BuildConfig;
 import com.aefyr.sai.R;
 
 public class Theme {
@@ -30,13 +31,14 @@ public class Theme {
         mThemes.append(3, R.style.AppTheme_Rooter);
         mThemes.append(4, R.style.AppTheme_Omelette);
         mThemes.append(5, R.style.AppTheme_Pixel);
+        mThemes.append(6, R.style.AppTheme_FDroid);
 
         mPrefs = PreferenceManager.getDefaultSharedPreferences(c);
         sInstance = this;
     }
 
     public int getCurrentThemeId() {
-        return mPrefs.getInt(PreferencesKeys.CURRENT_THEME, 0);
+        return mPrefs.getInt(PreferencesKeys.CURRENT_THEME, BuildConfig.DEFAULT_THEME);
     }
 
     public void setCurrentTheme(int themeId) {
