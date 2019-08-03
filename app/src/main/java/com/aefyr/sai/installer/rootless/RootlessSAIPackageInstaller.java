@@ -6,6 +6,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageInstaller;
 import android.util.Log;
 import android.util.SparseLongArray;
@@ -71,6 +72,8 @@ public class RootlessSAIPackageInstaller extends SAIPackageInstaller {
         PackageInstaller.Session session = null;
         try {
             PackageInstaller.SessionParams sessionParams = new PackageInstaller.SessionParams(PackageInstaller.SessionParams.MODE_FULL_INSTALL);
+            sessionParams.setInstallLocation(PackageInfo.INSTALL_LOCATION_AUTO);
+
             int sessionID = mPackageInstaller.createSession(sessionParams);
             mSessionsMap.put(sessionID, getOngoingInstallation().getId());
 

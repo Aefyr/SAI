@@ -76,7 +76,7 @@ public class RootedSAIPackageInstaller extends SAIPackageInstaller {
                 return;
             }
 
-            String result = ensureCommandSucceeded(Root.exec(String.format("pm install-create -r -i %s", BuildConfig.APPLICATION_ID)));
+            String result = ensureCommandSucceeded(Root.exec(String.format("pm install-create -r --install-location 0 -i %s", BuildConfig.APPLICATION_ID)));
             Pattern sessionIdPattern = Pattern.compile("(\\d+)");
             Matcher sessionIdMatcher = sessionIdPattern.matcher(result);
             sessionIdMatcher.find();
