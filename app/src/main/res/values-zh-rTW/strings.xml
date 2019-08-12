@@ -9,7 +9,10 @@
 
     <string name="permissions_required_storage">SAI 需要訪問存儲的權限</string>
 
-    <string name="installer_installation_confirmation">安裝 \"%s\"?</string>
+    <string name="main_installer">Installer</string>
+    <string name="main_backup">Backup</string>
+
+        <string name="installer_installation_confirmation">安裝 \"%s\"?</string>
     <string name="installer_installation_failed">App 已安裝</string>
     <string name="installer_installation_in_progress">安裝中…</string>
     <string name="installer_install_apks">安裝 APKs</string>
@@ -40,6 +43,11 @@
     <string name="installer_miui_warning_message">看起來您的設備正在運行MIUI。 \nMIUI以破壞標準的Android API功能而聞名，一些SAI用戶報告稱SAI不在MIUI上工作。 \n通常可以通過在 開發者選項 中禁用 MIUI優化 來修復它，我建議你應該這樣做。 </string>
     <string name="installer_miui_warning_open_dev_settings">開啟開發者選項</string>
     <string name="installer_miui_warning_oof">無法開啟開發者選項。 Cool ROM</string>
+
+    <string name="backup_backup">SAI Backup</string>
+    <string name="backup_backup_in_progress">Backing up %s...</string>
+    <string name="backup_backup_success">Successfully backed up %s</string>
+    <string name="backup_backup_failed">Failed to backup %s</string>
 
     <string name="settings_title">設置</string>
     <string name="settings_main_home_directory">主目錄</string>

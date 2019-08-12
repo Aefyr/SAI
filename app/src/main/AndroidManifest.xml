@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
     <application
         android:allowBackup="false"
@@ -88,6 +89,8 @@
 
         <activity android:name=".ui.activities.AboutActivity" />
         <activity android:name=".ui.activities.ConfirmationIntentWrapperActivity" />
+
+        <service android:name=".backup.BackupService" />
     </application>
 
 </manifest>

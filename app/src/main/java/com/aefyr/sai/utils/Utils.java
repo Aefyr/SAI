@@ -6,6 +6,7 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -59,12 +60,16 @@ public class Utils {
         return !TextUtils.isEmpty(getSystemProperty("ro.miui.ui.version.name"));
     }
 
-    public static String getFileNameFromZipEntry(ZipEntry zipEntry){
+    public static String getFileNameFromZipEntry(ZipEntry zipEntry) {
         String path = zipEntry.getName();
         int lastIndexOfSeparator = path.lastIndexOf("/");
         if (lastIndexOfSeparator == -1)
             return path;
         return path.substring(lastIndexOfSeparator + 1);
+    }
+
+    public static boolean apiIsAtLeast(int sdkInt) {
+        return Build.VERSION.SDK_INT >= sdkInt;
     }
 
 }

@@ -134,6 +134,15 @@
         <item name="android:textColor">?android:attr/textColorSecondary</item>
     </style>
 
+    <style name="SAIBottomNavigationView" parent="Widget.MaterialComponents.BottomNavigationView">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="elevation">0dp</item>
+        <item name="itemIconTint">@color/selector_bottom_navigation</item>
+        <item name="itemTextColor">@color/selector_bottom_navigation</item>
+    </style>
+
     <style name="AlertDialog.AppTheme.Light" parent="ThemeOverlay.MaterialComponents.Dialog.Alert">
         <item name="android:windowBackground">@drawable/bg_rounded_alert_dialog</item>
         <item name="android:backgroundTint">@color/colorPureWhite</item>

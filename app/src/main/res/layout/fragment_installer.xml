@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:orientation="horizontal">
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/button_install"
+        style="@style/SAIMaterialButton"
+        android:layout_margin="8dp"
+        android:text="@string/installer_install_apks" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/button_help"
+        style="@style/SAIMaterialButton.Outlined"
+        android:layout_margin="8dp"
+        android:text="@string/help" />
+
+</LinearLayout>

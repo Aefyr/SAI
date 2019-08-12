@@ -13,6 +13,9 @@
 
     <string name="permissions_required_storage">SAI requires permission to access storage</string>
 
+    <string name="main_installer">Installer</string>
+    <string name="main_backup">Backup</string>
+
     <string name="installer_installation_confirmation">Install \"%s\"?</string>
     <string name="installer_installation_failed">App not installed</string>
     <string name="installer_installation_in_progress">Installing…</string>
@@ -44,6 +47,11 @@
     <string name="installer_miui_warning_message">Looks like your device is running MIUI. MIUI is known for breaking standard Android API features and some SAI users have reported SAI not working on MIUI. Usually it can be fixed by disabling MIUI optimizations in developer settings, which I suggest you should do.</string>
     <string name="installer_miui_warning_open_dev_settings">Open developer settings</string>
     <string name="installer_miui_warning_oof">Unable to open development settings. Cool ROM</string>
+
+    <string name="backup_backup">SAI Backup</string>
+    <string name="backup_backup_in_progress">Backing up %s...</string>
+    <string name="backup_backup_success">Successfully backed up %s</string>
+    <string name="backup_backup_failed">Failed to backup %s</string>
 
     <string name="settings_title">Settings</string>
     <string name="settings_main_home_directory">Home directory</string>

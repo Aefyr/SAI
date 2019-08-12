@@ -6,27 +6,17 @@
     android:layout_height="match_parent"
     tools:context=".ui.activities.MainActivity">
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:orientation="horizontal">
+    <FrameLayout
+        android:id="@+id/container_main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/bottomnav_main"
+        android:layout_below="@id/coolbar_main">
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/button_install"
-            style="@style/SAIMaterialButton"
-            android:layout_margin="8dp"
-            android:text="@string/installer_install_apks" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/button_help"
-            style="@style/SAIMaterialButton.Outlined"
-            android:layout_margin="8dp"
-            android:text="@string/help" />
-    </LinearLayout>
-
+    </FrameLayout>
 
     <com.aefyr.sai.view.coolbar.Coolbar
+        android:id="@+id/coolbar_main"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
@@ -47,5 +37,11 @@
             app:srcCompat="@drawable/ic_settings"
             tools:ignore="MissingPrefix" />
     </com.aefyr.sai.view.coolbar.Coolbar>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomnav_main"
+        style="@style/SAIBottomNavigationView"
+        android:layout_alignParentBottom="true"
+        app:menu="@menu/bottom_navigation" />
 
 </RelativeLayout>

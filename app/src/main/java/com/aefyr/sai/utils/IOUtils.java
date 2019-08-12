@@ -8,6 +8,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.zip.CRC32;
 
 public class IOUtils {
 
@@ -37,6 +38,19 @@ public class IOUtils {
                 deleteRecursively(child);
         }
         f.delete();
+    }
+
+    public static long calculateFileCrc32(File file) throws IOException {
+        try (FileInputStream fileInputStream = new FileInputStream(file)) {
+            CRC32 crc32 = new CRC32();
+            byte[] buffer = new byte[1024 * 1024];
+            int read;
+
+            while ((read = fileInputStream.read(buffer)) > 0)
+                crc32.update(buffer, 0, read);
+
+            return crc32.getValue();
+        }
     }
 
 }
