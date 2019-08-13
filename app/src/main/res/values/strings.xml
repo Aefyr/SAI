@@ -49,6 +49,7 @@
     <string name="installer_miui_warning_oof">Unable to open development settings. Cool ROM</string>
 
     <string name="backup_backup">SAI Backup</string>
+    <string name="backup_backup_status">Backing up %d apps</string>
     <string name="backup_backup_in_progress">Backing up %s...</string>
     <string name="backup_backup_success">Successfully backed up %s</string>
     <string name="backup_backup_failed">Failed to backup %s</string>

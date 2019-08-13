@@ -13,8 +13,8 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.Looper;
 import android.util.Log;
-import android.util.Pair;
 
+import androidx.annotation.MainThread;
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
@@ -27,10 +27,10 @@ import com.aefyr.sai.utils.Utils;
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.ArrayList;
-import java.util.Deque;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
-import java.util.concurrent.ConcurrentLinkedDeque;
+import java.util.Set;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.zip.ZipEntry;
@@ -50,11 +50,9 @@ public class BackupService extends Service {
     private NotificationManagerCompat mNotificationManager;
     private Random mRandom = new Random();
 
-    private Pair<PackageMeta, Uri> mCurrentBackup;
-    private long mLastProgressUpdate = 0;
-    private Deque<Pair<PackageMeta, Uri>> mQueue = new ConcurrentLinkedDeque<>();
+    private Set<BackupTask> mTasks = new HashSet<>();
 
-    private Executor mExecutor = Executors.newSingleThreadExecutor();
+    private Executor mExecutor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
     private Handler mHandler = new Handler(Looper.getMainLooper());
 
     public static void enqueueBackup(Context c, PackageMeta packageMeta, Uri destination) {
@@ -79,6 +77,7 @@ public class BackupService extends Service {
         PackageMeta packageMeta = intent.getParcelableExtra(EXTRA_PACKAGE_META);
         Uri destination = intent.getParcelableExtra(EXTRA_DESTINATION);
         enqueue(packageMeta, destination);
+
         return START_NOT_STICKY;
     }
 
@@ -88,32 +87,25 @@ public class BackupService extends Service {
         return null;
     }
 
+    @MainThread
     private void enqueue(PackageMeta packageMeta, Uri destination) {
-        mQueue.add(new Pair<>(packageMeta, destination));
-        processQueue();
+        BackupTask backupTask = new BackupTask(packageMeta, destination);
+        mTasks.add(backupTask);
+
+        updateStatus();
+        mExecutor.execute(() -> backup(backupTask));
     }
 
-    private void processQueue() {
-        if (mCurrentBackup != null)
-            return;
-
-        if (mQueue.isEmpty()) {
-            die();
-            return;
-        }
-
-        mCurrentBackup = mQueue.remove();
-        publishProgress(0, 1, true);
-        mExecutor.execute(() -> backup(mCurrentBackup.first, mCurrentBackup.second));
+    @MainThread
+    private void taskFinished(BackupTask backupTask) {
+        mTasks.remove(backupTask);
+        updateStatus();
     }
 
-    private void backupCompleted(boolean successfully) {
-        notifyBackupCompleted(mCurrentBackup.first, successfully);
-        mCurrentBackup = null;
-        processQueue();
-    }
+    private void backup(BackupTask backupTask) {
+        Uri destination = backupTask.destinationUri;
+        PackageMeta packageMeta = backupTask.packageMeta;
 
-    private void backup(PackageMeta packageMeta, Uri destination) {
         try (ZipOutputStream zipOutputStream = new ZipOutputStream(getContentResolver().openOutputStream(destination));) {
             ApplicationInfo applicationInfo = getPackageManager().getApplicationInfo(packageMeta.packageName, 0);
 
@@ -143,67 +135,46 @@ public class BackupService extends Service {
                 zipOutputStream.putNextEntry(zipEntry);
 
                 try (FileInputStream apkInputStream = new FileInputStream(apkFile)) {
-                    byte[] buffer = new byte[1024 * 256];
+                    //TODO DON'T FORGET TO FIX BUFFER SIZE AND REMOVE Thread.sleep
+                    byte[] buffer = new byte[1024];
                     int read;
 
                     while ((read = apkInputStream.read(buffer)) > 0) {
+                        Thread.sleep(50);
                         zipOutputStream.write(buffer, 0, read);
                         currentProgress += read;
-                        publishProgress(currentProgress, maxProgress, false);
+                        backupTask.publishProgress(currentProgress, maxProgress, false);
                     }
                     IOUtils.copyStream(apkInputStream, zipOutputStream);
                 }
-
                 zipOutputStream.closeEntry();
             }
-
-            mHandler.post(() -> backupCompleted(true));
+            backupTask.finished();
         } catch (Exception e) {
             Log.w(TAG, e);
-            mHandler.post(() -> backupCompleted(false));
+            backupTask.failed(e);
         }
-
-
     }
 
-    private void die() {
-        stopForeground(true);
-        stopSelf();
-    }
-
-    private void publishProgress(long current, long goal, boolean force) {
-        int progress = (int) (current / (goal / 100));
-        publishProgress(progress, 100, force);
-    }
-
-    private void publishProgress(int current, int goal, boolean force) {
-        if (System.currentTimeMillis() - mLastProgressUpdate < PROGRESS_NOTIFICATION_UPDATE_CD && !force)
+    @MainThread
+    private void updateStatus() {
+        if (mTasks.isEmpty()) {
+            die();
             return;
-
-        mLastProgressUpdate = System.currentTimeMillis();
+        }
 
         Notification notification = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_backup)
                 .setContentTitle(getString(R.string.backup_backup))
-                .setProgress(goal, current, false)
-                .setContentText(getString(R.string.backup_backup_in_progress, mCurrentBackup.first.label))
+                .setContentText(getString(R.string.backup_backup_status, mTasks.size()))
                 .build();
 
         startForeground(NOTIFICATION_ID, notification);
     }
 
-    private void notifyBackupCompleted(PackageMeta packageMeta, boolean successfully) {
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID)
-                .setSmallIcon(R.drawable.ic_backup)
-                .setContentTitle(getString(R.string.backup_backup));
-
-        if (successfully) {
-            builder.setContentText(getString(R.string.backup_backup_success, packageMeta.label));
-        } else {
-            builder.setContentText(getString(R.string.backup_backup_failed, packageMeta.label));
-        }
-
-        mNotificationManager.notify(1000 + mRandom.nextInt(100000), builder.build());
+    private void die() {
+        stopForeground(true);
+        stopSelf();
     }
 
     private void prepareNotificationsStuff() {
@@ -213,6 +184,7 @@ public class BackupService extends Service {
             mNotificationManager.createNotificationChannel(new NotificationChannel(NOTIFICATION_CHANNEL_ID, getString(R.string.backup_backup), NotificationManager.IMPORTANCE_DEFAULT));
         }
 
+        //TODO is this really necessary?
         Notification notification = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_backup)
                 .setContentTitle(getString(R.string.backup_backup))
@@ -220,6 +192,73 @@ public class BackupService extends Service {
                 .build();
 
         startForeground(NOTIFICATION_ID, notification);
+    }
+
+    private class BackupTask {
+        PackageMeta packageMeta;
+        Uri destinationUri;
+
+        private long mLastProgressUpdate;
+        private int mProgressNotificationId;
+        private long mTaskCreationTime = System.currentTimeMillis();
+
+        BackupTask(PackageMeta packageMeta, Uri destinationUri) {
+            this.packageMeta = packageMeta;
+            this.destinationUri = destinationUri;
+
+            mProgressNotificationId = 1000 + mRandom.nextInt(100000);
+        }
+
+        void publishProgress(long current, long goal, boolean force) {
+            int progress = (int) (current / (goal / 100));
+            publishProgress(progress, 100, force);
+        }
+
+        void publishProgress(int current, int goal, boolean force) {
+            if (System.currentTimeMillis() - mLastProgressUpdate < PROGRESS_NOTIFICATION_UPDATE_CD && !force)
+                return;
+
+            mLastProgressUpdate = System.currentTimeMillis();
+
+            Notification notification = new NotificationCompat.Builder(BackupService.this, NOTIFICATION_CHANNEL_ID)
+                    .setOnlyAlertOnce(true)
+                    .setWhen(mTaskCreationTime)
+                    .setOngoing(true)
+                    .setSmallIcon(R.drawable.ic_backup)
+                    .setContentTitle(getString(R.string.backup_backup))
+                    .setProgress(goal, current, false)
+                    .setContentText(getString(R.string.backup_backup_in_progress, packageMeta.label))
+                    .build();
+
+            mNotificationManager.notify(mProgressNotificationId, notification);
+        }
+
+        void finished() {
+            notifyBackupCompleted(true);
+            mHandler.post(() -> BackupService.this.taskFinished(this));
+        }
+
+        void failed(@Nullable Exception e) {
+            notifyBackupCompleted(false);
+            mHandler.post(() -> BackupService.this.taskFinished(this));
+        }
+
+        private void notifyBackupCompleted(boolean successfully) {
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(BackupService.this, NOTIFICATION_CHANNEL_ID)
+                    .setWhen(System.currentTimeMillis())
+                    .setOnlyAlertOnce(false)
+                    .setOngoing(false)
+                    .setSmallIcon(R.drawable.ic_backup)
+                    .setContentTitle(getString(R.string.backup_backup));
+
+            if (successfully) {
+                builder.setContentText(getString(R.string.backup_backup_success, packageMeta.label));
+            } else {
+                builder.setContentText(getString(R.string.backup_backup_failed, packageMeta.label));
+            }
+
+            mNotificationManager.notify(mProgressNotificationId, builder.build());
+        }
     }
 
 }
