@@ -13,6 +13,7 @@
 
     <string name="main_installer">Установка</string>
     <string name="main_backup">Бэкап</string>
+    <string name="main_navigation_disabled">Невозможно использовать открыть с помощью во время установки</string>
 
     <string name="installer_installation_confirmation">Установити \"%s\"?</string>
     <string name="installer_app_installed">Додаток не установлено</string>
@@ -62,6 +63,7 @@
     <string name="installer_miui_warning_oof">Не вдалося відкрити налаштування для розробників. \"Хороша\" прошивка</string>
 
     <string name="backup_backup">SAI Бэкап</string>
+    <string name="backup_backup_prompt">Забэкапить %s?</string>
     <string name="backup_backup_status">Выполняется бэкап %d приложений</string>
     <string name="backup_backup_in_progress">Выполняется бэкап %s...</string>
     <string name="backup_backup_success">%s успешно бэкапнуто</string>

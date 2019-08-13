@@ -11,8 +11,9 @@
 
     <string name="main_installer">Installer</string>
     <string name="main_backup">Backup</string>
+    <string name="main_navigation_disabled">Unable to perform open with during ongoing installation</string>
 
-        <string name="installer_installation_confirmation">安裝 \"%s\"?</string>
+    <string name="installer_installation_confirmation">安裝 \"%s\"?</string>
     <string name="installer_installation_failed">App 已安裝</string>
     <string name="installer_installation_in_progress">安裝中…</string>
     <string name="installer_install_apks">安裝 APKs</string>
@@ -45,6 +46,7 @@
     <string name="installer_miui_warning_oof">無法開啟開發者選項。 Cool ROM</string>
 
     <string name="backup_backup">SAI Backup</string>
+    <string name="backup_backup_prompt">Backup %s?</string>
     <string name="backup_backup_status">Backing up %d apps</string>
     <string name="backup_backup_in_progress">Backing up %s...</string>
     <string name="backup_backup_success">Successfully backed up %s</string>

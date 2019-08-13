@@ -48,7 +48,13 @@ public class BackupRepository {
             List<PackageMeta> packages = new ArrayList<>();
 
             for (ApplicationInfo applicationInfo : applicationInfos) {
-                packages.add(new PackageMeta(applicationInfo.packageName, applicationInfo.loadLabel(pm).toString()));
+                PackageMeta packageMeta = new PackageMeta.Builder(applicationInfo.packageName)
+                        .setLabel(applicationInfo.loadLabel(pm).toString())
+                        .setHasSplits(applicationInfo.splitPublicSourceDirs != null && applicationInfo.splitPublicSourceDirs.length > 0)
+                        .setIsSystemApp((applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) != 0)
+                        .build();
+
+                packages.add(packageMeta);
             }
             Collections.sort(packages, (p1, p2) -> p1.label.compareToIgnoreCase(p2.label));
 

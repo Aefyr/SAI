@@ -1,6 +1,7 @@
 package com.aefyr.sai.ui.activities;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.MenuItem;
@@ -35,7 +36,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
     private boolean mIsNavigationEnabled = true;
 
-    //TODO fix bug when action view happend and fragment switches but not bottomnavigation
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Theme.apply(this);
@@ -64,13 +64,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
         Intent intent = getIntent();
         if (Intent.ACTION_VIEW.equals(intent.getAction()) && intent.getData() != null) {
-            //TODO beb
-            if (!mIsNavigationEnabled) {
-                Toast.makeText(this, "beb, im busy", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            mFragmentNavigator.switchTo("installer");
-            getInstallerFragment().onActionView(intent.getData());
+            deliverActionViewUri(intent.getData());
             getIntent().setData(null);
         }
     }
@@ -79,14 +73,18 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         if (Intent.ACTION_VIEW.equals(intent.getAction()) && intent.getData() != null) {
-            //TODO beb
-            if (!mIsNavigationEnabled) {
-                Toast.makeText(this, "beb, im busy", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            mFragmentNavigator.switchTo("installer");
-            getInstallerFragment().onActionView(intent.getData());
+            deliverActionViewUri(intent.getData());
         }
+    }
+
+    private void deliverActionViewUri(Uri uri) {
+        if (!mIsNavigationEnabled) {
+            Toast.makeText(this, R.string.main_navigation_disabled, Toast.LENGTH_SHORT).show();
+            return;
+        }
+        mBottomNavigationView.getMenu().getItem(0).setChecked(true);
+        mFragmentNavigator.switchTo("installer");
+        getInstallerFragment().onActionView(uri);
     }
 
     private void showMiuiWarning() {

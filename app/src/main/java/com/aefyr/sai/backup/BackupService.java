@@ -260,5 +260,4 @@ public class BackupService extends Service {
             mNotificationManager.notify(mProgressNotificationId, builder.build());
         }
     }
-
 }

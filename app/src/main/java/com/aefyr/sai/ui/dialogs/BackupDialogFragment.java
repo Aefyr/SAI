@@ -4,7 +4,6 @@ import android.app.Dialog;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -45,9 +44,8 @@ public class BackupDialogFragment extends DialogFragment {
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         return new AlertDialog.Builder(getContext())
-                .setMessage("backup " + mPackage.label + "?")
+                .setMessage(getString(R.string.backup_backup_prompt, mPackage.label))
                 .setPositiveButton(R.string.yes, (d, w) -> {
-                    Toast.makeText(getContext(), "backing up " + mPackage.label, Toast.LENGTH_SHORT).show();
                     BackupService.enqueueBackup(getContext(), mPackage, Uri.fromFile(generateBackupFilePath()));
                     dismiss();
                 })
@@ -59,9 +57,5 @@ public class BackupDialogFragment extends DialogFragment {
         File backupsDir = new File(Environment.getExternalStorageDirectory(), "SAI");
         backupsDir.mkdir();
         return new File(backupsDir, String.format("%s-%d.apks", mPackage.packageName, System.currentTimeMillis()));
-    }
-
-    private void doBackup() {
-        //WorkManag
     }
 }
