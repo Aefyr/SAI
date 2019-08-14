@@ -5,7 +5,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.MenuItem;
-import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -15,7 +14,6 @@ import androidx.fragment.app.Fragment;
 import com.aefyr.sai.R;
 import com.aefyr.sai.backup.BackupRepository;
 import com.aefyr.sai.ui.dialogs.MiuiWarningDialogFragment;
-import com.aefyr.sai.ui.dialogs.ThemeSelectionDialogFragment;
 import com.aefyr.sai.ui.fragments.BackupFragment;
 import com.aefyr.sai.ui.fragments.InstallerFragment;
 import com.aefyr.sai.utils.FragmentNavigator;
@@ -26,7 +24,6 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener, FragmentNavigator.FragmentFactory {
 
-    private ImageButton mButtonSettings;
     private BottomNavigationView mBottomNavigationView;
 
     private FragmentNavigator mFragmentNavigator;
@@ -48,7 +45,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
         showMiuiWarning();
 
-        mButtonSettings = findViewById(R.id.ib_settings);
 
         mBottomNavigationView = findViewById(R.id.bottomnav_main);
         mBottomNavigationView.setOnNavigationItemSelectedListener(this);
@@ -58,9 +54,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         mBackupFragment = mFragmentNavigator.findFragmentByTag("backup");
         if (savedInstanceState == null)
             mFragmentNavigator.switchTo("installer");
-
-        findViewById(R.id.ib_toggle_theme).setOnClickListener((v -> new ThemeSelectionDialogFragment().show(getSupportFragmentManager(), "theme_selection_dialog")));
-        findViewById(R.id.ib_settings).setOnClickListener((v) -> startActivity(new Intent(this, PreferencesActivity.class)));
 
         Intent intent = getIntent();
         if (Intent.ACTION_VIEW.equals(intent.getAction()) && intent.getData() != null) {
@@ -99,12 +92,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             mBottomNavigationView.getMenu().getItem(i).setEnabled(enabled);
         }
         mBottomNavigationView.animate()
-                .alpha(enabled ? 1f : 0.4f)
-                .setDuration(300)
-                .start();
-
-        mButtonSettings.setEnabled(enabled);
-        mButtonSettings.animate()
                 .alpha(enabled ? 1f : 0.4f)
                 .setDuration(300)
                 .start();

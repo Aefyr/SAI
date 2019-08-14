@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <color name="colorNeutralGray">#9e9e9e</color>
 
     <color name="colorCoolBlue">#639eff</color>
@@ -35,4 +35,9 @@
     <color name="colorPrimaryFDroid">@color/colorPureWhite</color>
     <color name="colorTextPrimaryFDroid">@color/colorFineGrey</color>
     <color name="colorTextSecondaryFDroid">@color/colorFineGrey</color>
+
+    <!-- Hack for inactive outline color -->
+    <color name="mtrl_textinput_default_box_stroke_color" tools:override="true">
+        @color/textinputlayout_outline_color
+    </color>
 </resources>

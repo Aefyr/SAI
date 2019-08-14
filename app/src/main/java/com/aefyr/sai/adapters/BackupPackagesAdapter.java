@@ -46,7 +46,7 @@ public class BackupPackagesAdapter extends RecyclerView.Adapter<BackupPackagesAd
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         PackageMeta packageMeta = mPackages.get(position);
 
-        holder.appName.setText(packageMeta.label);
+        holder.appName.setText(String.format("%s (%s)", packageMeta.label, packageMeta.versionName));
         holder.appPackage.setText(packageMeta.packageName);
     }
 

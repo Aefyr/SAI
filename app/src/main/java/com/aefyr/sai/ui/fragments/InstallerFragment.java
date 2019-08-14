@@ -1,11 +1,13 @@
 package com.aefyr.sai.ui.fragments;
 
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -14,10 +16,12 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.aefyr.sai.R;
 import com.aefyr.sai.ui.activities.MainActivity;
+import com.aefyr.sai.ui.activities.PreferencesActivity;
 import com.aefyr.sai.ui.dialogs.AppInstalledDialogFragment;
 import com.aefyr.sai.ui.dialogs.ErrorLogDialogFragment;
 import com.aefyr.sai.ui.dialogs.FilePickerDialogFragment;
 import com.aefyr.sai.ui.dialogs.InstallationConfirmationDialogFragment;
+import com.aefyr.sai.ui.dialogs.ThemeSelectionDialogFragment;
 import com.aefyr.sai.utils.AlertsUtils;
 import com.aefyr.sai.utils.PermissionsUtils;
 import com.aefyr.sai.utils.PreferencesHelper;
@@ -32,6 +36,7 @@ public class InstallerFragment extends SaiBaseFragment implements FilePickerDial
 
     private InstallerViewModel mViewModel;
     private Button mButton;
+    private ImageButton mButtonSettings;
 
     private PreferencesHelper mHelper;
 
@@ -42,6 +47,7 @@ public class InstallerFragment extends SaiBaseFragment implements FilePickerDial
         mHelper = PreferencesHelper.getInstance(getContext());
 
         mButton = findViewById(R.id.button_install);
+        mButtonSettings = findViewById(R.id.ib_settings);
 
         mViewModel = ViewModelProviders.of(this).get(InstallerViewModel.class);
         mViewModel.getState().observe(this, (state) -> {
@@ -72,6 +78,9 @@ public class InstallerFragment extends SaiBaseFragment implements FilePickerDial
                     break;
             }
         });
+
+        findViewById(R.id.ib_toggle_theme).setOnClickListener((v -> new ThemeSelectionDialogFragment().show(getChildFragmentManager(), "theme_selection_dialog")));
+        mButtonSettings.setOnClickListener((v) -> startActivity(new Intent(getContext(), PreferencesActivity.class)));
 
         mButton.setOnClickListener((v) -> checkPermissionsAndPickFiles());
         findViewById(R.id.button_help).setOnClickListener((v) -> AlertsUtils.showAlert(this, R.string.help, R.string.installer_help));
@@ -119,6 +128,12 @@ public class InstallerFragment extends SaiBaseFragment implements FilePickerDial
 
     private void setNavigationEnabled(boolean enabled) {
         ((MainActivity) getActivity()).setNavigationEnabled(enabled);
+
+        mButtonSettings.setEnabled(enabled);
+        mButtonSettings.animate()
+                .alpha(enabled ? 1f : 0.4f)
+                .setDuration(300)
+                .start();
     }
 
     @Override

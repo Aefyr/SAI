@@ -167,4 +167,19 @@
         <item name="android:textColorSecondary">?attr/simpleThemeTextPrimaryColor</item>
     </style>
 
+    <style name="SAIChip.Filter" parent="Widget.MaterialComponents.Chip.Action">
+        <item name="android:checkable">true</item>
+        <item name="chipBackgroundColor">@color/selector_chip_background_color</item>
+    </style>
+
+    <style name="SAITextInputLayout.OutlinedBox.Dense" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+        <item name="boxCornerRadiusBottomEnd">@dimen/textinputlayout_box_corners_radius</item>
+        <item name="boxCornerRadiusBottomStart">@dimen/textinputlayout_box_corners_radius</item>
+        <item name="boxCornerRadiusTopEnd">@dimen/textinputlayout_box_corners_radius</item>
+        <item name="boxCornerRadiusTopStart">@dimen/textinputlayout_box_corners_radius</item>
+        <item name="android:backgroundTint">?attr/colorAccent</item>
+        <item name="boxStrokeColor">?attr/colorAccent</item>
+        <item name="hintTextColor">?attr/colorAccent</item>
+    </style>
+
 </resources>

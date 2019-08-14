@@ -10,7 +10,7 @@
     <string name="permissions_required_storage">SAI 需要訪問存儲的權限</string>
 
     <string name="main_installer">Installer</string>
-    <string name="main_backup">Backup</string>
+    <string name="main_backup">Export</string>
     <string name="main_navigation_disabled">Unable to perform open with during ongoing installation</string>
 
     <string name="installer_installation_confirmation">安裝 \"%s\"?</string>
@@ -45,12 +45,15 @@
     <string name="installer_miui_warning_open_dev_settings">開啟開發者選項</string>
     <string name="installer_miui_warning_oof">無法開啟開發者選項。 Cool ROM</string>
 
-    <string name="backup_backup">SAI Backup</string>
-    <string name="backup_backup_prompt">Backup %s?</string>
-    <string name="backup_backup_status">Backing up %d apps</string>
-    <string name="backup_backup_in_progress">Backing up %s...</string>
-    <string name="backup_backup_success">Successfully backed up %s</string>
-    <string name="backup_backup_failed">Failed to backup %s</string>
+    <string name="backup_backup">Export</string>
+    <string name="backup_backup_prompt">Export %s?</string>
+    <string name="backup_backup_status">Exporting %d apps</string>
+    <string name="backup_backup_in_progress">Exporting %s...</string>
+    <string name="backup_backup_success">Successfully exported %s</string>
+    <string name="backup_backup_failed">Failed to export %s</string>
+    <string name="backup_search_hint">Search apps</string>
+    <string name="backup_search_splits_only">Split APKs only</string>
+    <string name="backup_search_show_system_apps">Show system apps</string>
 
     <string name="settings_title">設置</string>
     <string name="settings_main_home_directory">主目錄</string>

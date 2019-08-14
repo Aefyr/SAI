@@ -12,7 +12,7 @@
     <string name="permissions_required_storage">SAI необходимо разрешение на доступ к файлам</string>
 
     <string name="main_installer">Установка</string>
-    <string name="main_backup">Бэкап</string>
+    <string name="main_backup">Экспорт</string>
     <string name="main_navigation_disabled">Невозможно использовать открыть с помощью во время установки</string>
 
     <string name="installer_installation_confirmation">Установить \"%s\"?</string>
@@ -47,12 +47,15 @@
     <string name="installer_miui_warning_open_dev_settings">Открыть настройки для разработчиков</string>
     <string name="installer_miui_warning_oof">Не удалось открыть настройки для разработчиков. Найс прошивка</string>
 
-    <string name="backup_backup">SAI Бэкап</string>
-    <string name="backup_backup_prompt">Забэкапить %s?</string>
-    <string name="backup_backup_status">Выполняется бэкап %d приложений</string>
-    <string name="backup_backup_in_progress">Выполняется бэкап %s...</string>
-    <string name="backup_backup_success">%s успешно бэкапнуто</string>
-    <string name="backup_backup_failed">Не удалось забэкапить %s</string>
+    <string name="backup_backup">Экспорт</string>
+    <string name="backup_backup_prompt">Экспортировать %s?</string>
+    <string name="backup_backup_status">Выполняется экспорт %d приложений</string>
+    <string name="backup_backup_in_progress">Выполняется экспорт %s...</string>
+    <string name="backup_backup_success">%s успешно экспортировано</string>
+    <string name="backup_backup_failed">Не удалось экспортировать %s</string>
+    <string name="backup_search_hint">Поиск приложений</string>
+    <string name="backup_search_splits_only">Только split APK</string>
+    <string name="backup_search_show_system_apps">Показывать системные</string>
 
     <string name="settings_title">Настройки</string>
     <string name="settings_main_home_directory">Папка по умолчанию</string>

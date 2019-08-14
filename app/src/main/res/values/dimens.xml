@@ -4,4 +4,5 @@
     <dimen name="cards_elevation">0dp</dimen>
     <dimen name="alert_dialog_corners_radius">12dp</dimen>
     <dimen name="prefs_icons_padding">8dp</dimen>
+    <dimen name="textinputlayout_box_corners_radius">8dp</dimen>
 </resources>
