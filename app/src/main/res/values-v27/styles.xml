@@ -17,6 +17,8 @@
         <item name="filePickerDialogCancelButtonStyle">@style/SAIMaterialButton.Outlined</item>
         <item name="android:windowLightNavigationBar">true</item>
         <item name="android:navigationBarColor">@color/colorPureWhite</item>
+        <item name="colorControlActivated">?attr/colorAccent</item>
+        <item name="android:colorControlActivated">?attr/colorAccent</item>
     </style>
 
     <style name="AppTheme.Dark" parent="Theme.MaterialComponents.NoActionBar">
@@ -35,6 +37,8 @@
         <item name="filePickerDialogCancelButtonStyle">@style/SAIMaterialButton.Outlined</item>
         <item name="android:windowLightNavigationBar">false</item>
         <item name="android:navigationBarColor">@color/colorGreaterGrey</item>
+        <item name="colorControlActivated">?attr/colorAccent</item>
+        <item name="android:colorControlActivated">?attr/colorAccent</item>
     </style>
 
     <style name="AppTheme.Simple.Dark" parent="AppTheme.Dark">

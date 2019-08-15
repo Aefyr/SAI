@@ -15,6 +15,8 @@
         <item name="android:textViewStyle">@style/SAITextViewStyle</item>
         <item name="filePickerDialogSelectButtonStyle">@style/SAIMaterialButton</item>
         <item name="filePickerDialogCancelButtonStyle">@style/SAIMaterialButton.Outlined</item>
+        <item name="colorControlActivated">?attr/colorAccent</item>
+        <item name="android:colorControlActivated">?attr/colorAccent</item>
     </style>
 
     <style name="AppTheme.Dark" parent="Theme.MaterialComponents.NoActionBar">
@@ -31,6 +33,8 @@
         <item name="android:textViewStyle">@style/SAITextViewStyle</item>
         <item name="filePickerDialogSelectButtonStyle">@style/SAIMaterialButton</item>
         <item name="filePickerDialogCancelButtonStyle">@style/SAIMaterialButton.Outlined</item>
+        <item name="colorControlActivated">?attr/colorAccent</item>
+        <item name="android:colorControlActivated">?attr/colorAccent</item>
     </style>
 
     <style name="AppTheme.Simple.Dark" parent="AppTheme.Dark">

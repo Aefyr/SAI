@@ -17,10 +17,10 @@ import com.aefyr.sai.R;
 import com.aefyr.sai.adapters.BackupPackagesAdapter;
 import com.aefyr.sai.model.backup.PackageMeta;
 import com.aefyr.sai.ui.dialogs.BackupDialogFragment;
+import com.aefyr.sai.utils.Utils;
 import com.aefyr.sai.viewmodels.BackupViewModel;
 import com.google.android.material.chip.Chip;
 
-//TODO hide keyboard on fragment exit
 public class BackupFragment extends SaiBaseFragment implements BackupPackagesAdapter.OnItemInteractionListener {
 
 
@@ -93,5 +93,12 @@ public class BackupFragment extends SaiBaseFragment implements BackupPackagesAda
     @Override
     public void onBackupButtonClicked(PackageMeta packageMeta) {
         BackupDialogFragment.newInstance(packageMeta).show(getChildFragmentManager(), null);
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (hidden)
+            Utils.hideKeyboard(this);
     }
 }

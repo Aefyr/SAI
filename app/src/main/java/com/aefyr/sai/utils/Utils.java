@@ -1,6 +1,7 @@
 package com.aefyr.sai.utils;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -9,8 +10,10 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.inputmethod.InputMethodManager;
 
 import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -70,6 +73,16 @@ public class Utils {
 
     public static boolean apiIsAtLeast(int sdkInt) {
         return Build.VERSION.SDK_INT >= sdkInt;
+    }
+
+    public static void hideKeyboard(Activity activity) {
+        InputMethodManager inputMethodManager = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(activity.getWindow().getDecorView().getWindowToken(), 0);
+    }
+
+    public static void hideKeyboard(Fragment fragment) {
+        InputMethodManager inputMethodManager = (InputMethodManager) fragment.requireContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(fragment.requireView().getWindowToken(), 0);
     }
 
 }
