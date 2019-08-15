@@ -58,6 +58,7 @@
     <string name="backup_search_hint">Search apps</string>
     <string name="backup_search_splits_only">Split APKs only</string>
     <string name="backup_search_show_system_apps">Show system apps</string>
+    <string name="backup_error_cant_mkdir">Unable to create a directory for exported apps</string>
 
     <string name="settings_title">Settings</string>
     <string name="settings_main_home_directory">Home directory</string>

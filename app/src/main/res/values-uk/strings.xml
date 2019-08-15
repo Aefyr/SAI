@@ -71,4 +71,5 @@
     <string name="backup_search_hint">Поиск приложений</string>
     <string name="backup_search_splits_only">Только split APK</string>
     <string name="backup_search_show_system_apps">Показывать системные</string>
+    <string name="backup_error_cant_mkdir">Не удается создать директорию для экспортированных приложений</string>
 </resources>

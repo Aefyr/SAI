@@ -170,6 +170,8 @@
     <style name="SAIChip.Filter" parent="Widget.MaterialComponents.Chip.Action">
         <item name="android:checkable">true</item>
         <item name="chipBackgroundColor">@color/selector_chip_background_color</item>
+        <item name="android:textColor">?attr/colorPrimary</item>
+        <item name="checkedIcon">@drawable/ic_chip_checked</item>
     </style>
 
     <style name="SAITextInputLayout.OutlinedBox.Dense" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">

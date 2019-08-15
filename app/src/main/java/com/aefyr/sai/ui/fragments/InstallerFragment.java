@@ -127,7 +127,7 @@ public class InstallerFragment extends SaiBaseFragment implements FilePickerDial
     }
 
     private void setNavigationEnabled(boolean enabled) {
-        ((MainActivity) getActivity()).setNavigationEnabled(enabled);
+        ((MainActivity) requireActivity()).setNavigationEnabled(enabled);
 
         mButtonSettings.setEnabled(enabled);
         mButtonSettings.animate()

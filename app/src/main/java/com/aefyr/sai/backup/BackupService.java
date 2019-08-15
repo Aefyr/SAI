@@ -93,67 +93,13 @@ public class BackupService extends Service {
         mTasks.add(backupTask);
 
         updateStatus();
-        mExecutor.execute(() -> backup(backupTask));
+        mExecutor.execute(backupTask::execute);
     }
 
     @MainThread
     private void taskFinished(BackupTask backupTask) {
         mTasks.remove(backupTask);
         updateStatus();
-    }
-
-    private void backup(BackupTask backupTask) {
-        Uri destination = backupTask.destinationUri;
-        PackageMeta packageMeta = backupTask.packageMeta;
-
-        try (ZipOutputStream zipOutputStream = new ZipOutputStream(getContentResolver().openOutputStream(destination));) {
-            ApplicationInfo applicationInfo = getPackageManager().getApplicationInfo(packageMeta.packageName, 0);
-
-            List<File> apkFiles = new ArrayList<>();
-            apkFiles.add(new File(applicationInfo.publicSourceDir));
-
-            if (applicationInfo.splitPublicSourceDirs != null) {
-                for (String splitPath : applicationInfo.splitPublicSourceDirs)
-                    apkFiles.add(new File(splitPath));
-            }
-
-            long currentProgress = 0;
-            long maxProgress = 0;
-            for (File apkFile : apkFiles) {
-                maxProgress += apkFile.length();
-            }
-
-            for (File apkFile : apkFiles) {
-                zipOutputStream.setMethod(ZipOutputStream.STORED);
-
-                ZipEntry zipEntry = new ZipEntry(apkFile.getName());
-                zipEntry.setMethod(ZipEntry.STORED);
-                zipEntry.setCompressedSize(apkFile.length());
-                zipEntry.setSize(apkFile.length());
-                zipEntry.setCrc(IOUtils.calculateFileCrc32(apkFile));
-
-                zipOutputStream.putNextEntry(zipEntry);
-
-                try (FileInputStream apkInputStream = new FileInputStream(apkFile)) {
-                    //TODO DON'T FORGET TO FIX BUFFER SIZE AND REMOVE Thread.sleep
-                    byte[] buffer = new byte[1024];
-                    int read;
-
-                    while ((read = apkInputStream.read(buffer)) > 0) {
-                        Thread.sleep(50);
-                        zipOutputStream.write(buffer, 0, read);
-                        currentProgress += read;
-                        backupTask.publishProgress(currentProgress, maxProgress, false);
-                    }
-                    IOUtils.copyStream(apkInputStream, zipOutputStream);
-                }
-                zipOutputStream.closeEntry();
-            }
-            backupTask.finished();
-        } catch (Exception e) {
-            Log.w(TAG, e);
-            backupTask.failed(e);
-        }
     }
 
     @MainThread
@@ -206,16 +152,17 @@ public class BackupService extends Service {
             this.packageMeta = packageMeta;
             this.destinationUri = destinationUri;
 
+            //TODO id probably shouldn't be just random
             mProgressNotificationId = 1000 + mRandom.nextInt(100000);
         }
 
-        void publishProgress(long current, long goal, boolean force) {
+        private void publishProgress(long current, long goal) {
             int progress = (int) (current / (goal / 100));
-            publishProgress(progress, 100, force);
+            publishProgress(progress, 100);
         }
 
-        void publishProgress(int current, int goal, boolean force) {
-            if (System.currentTimeMillis() - mLastProgressUpdate < PROGRESS_NOTIFICATION_UPDATE_CD && !force)
+        private void publishProgress(int current, int goal) {
+            if (System.currentTimeMillis() - mLastProgressUpdate < PROGRESS_NOTIFICATION_UPDATE_CD)
                 return;
 
             mLastProgressUpdate = System.currentTimeMillis();
@@ -233,12 +180,12 @@ public class BackupService extends Service {
             mNotificationManager.notify(mProgressNotificationId, notification);
         }
 
-        void finished() {
+        private void finished() {
             notifyBackupCompleted(true);
             mHandler.post(() -> BackupService.this.taskFinished(this));
         }
 
-        void failed(@Nullable Exception e) {
+        private void failed(@Nullable Exception e) {
             notifyBackupCompleted(false);
             mHandler.post(() -> BackupService.this.taskFinished(this));
         }
@@ -258,6 +205,60 @@ public class BackupService extends Service {
             }
 
             mNotificationManager.notify(mProgressNotificationId, builder.build());
+        }
+
+        void execute() {
+            Uri destination = destinationUri;
+            PackageMeta packageMeta = this.packageMeta;
+
+            try (ZipOutputStream zipOutputStream = new ZipOutputStream(getContentResolver().openOutputStream(destination))) {
+                ApplicationInfo applicationInfo = getPackageManager().getApplicationInfo(packageMeta.packageName, 0);
+
+                List<File> apkFiles = new ArrayList<>();
+                apkFiles.add(new File(applicationInfo.publicSourceDir));
+
+                if (applicationInfo.splitPublicSourceDirs != null) {
+                    for (String splitPath : applicationInfo.splitPublicSourceDirs)
+                        apkFiles.add(new File(splitPath));
+                }
+
+                long currentProgress = 0;
+                long maxProgress = 0;
+                for (File apkFile : apkFiles) {
+                    maxProgress += apkFile.length();
+                }
+
+                for (File apkFile : apkFiles) {
+                    zipOutputStream.setMethod(ZipOutputStream.STORED);
+
+                    ZipEntry zipEntry = new ZipEntry(apkFile.getName());
+                    zipEntry.setMethod(ZipEntry.STORED);
+                    zipEntry.setCompressedSize(apkFile.length());
+                    zipEntry.setSize(apkFile.length());
+                    zipEntry.setCrc(IOUtils.calculateFileCrc32(apkFile));
+
+                    zipOutputStream.putNextEntry(zipEntry);
+
+                    try (FileInputStream apkInputStream = new FileInputStream(apkFile)) {
+                        //TODO DON'T FORGET TO FIX BUFFER SIZE AND REMOVE Thread.sleep
+                        byte[] buffer = new byte[1024];
+                        int read;
+
+                        while ((read = apkInputStream.read(buffer)) > 0) {
+                            Thread.sleep(50);
+                            zipOutputStream.write(buffer, 0, read);
+                            currentProgress += read;
+                            publishProgress(currentProgress, maxProgress);
+                        }
+                        IOUtils.copyStream(apkInputStream, zipOutputStream);
+                    }
+                    zipOutputStream.closeEntry();
+                }
+                finished();
+            } catch (Exception e) {
+                Log.w(TAG, e);
+                failed(e);
+            }
         }
     }
 }

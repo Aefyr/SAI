@@ -17,7 +17,7 @@ public abstract class SaiBaseFragment extends Fragment {
     protected abstract int layoutId();
 
     protected <T extends View> T findViewById(@IdRes int id) {
-        return getView().findViewById(id);
+        return requireView().findViewById(id);
     }
 
     @Nullable
