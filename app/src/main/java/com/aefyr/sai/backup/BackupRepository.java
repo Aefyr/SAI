@@ -1,6 +1,9 @@
 package com.aefyr.sai.backup;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -41,6 +44,18 @@ public class BackupRepository {
 
         mContext = c.getApplicationContext();
         mPackagesLiveData.setValue(new ArrayList<>());
+
+        IntentFilter packagesStuffIntentFilter = new IntentFilter(Intent.ACTION_PACKAGE_ADDED);
+        packagesStuffIntentFilter.addAction(Intent.ACTION_PACKAGE_CHANGED);
+        packagesStuffIntentFilter.addAction(Intent.ACTION_PACKAGE_REMOVED);
+        packagesStuffIntentFilter.addDataScheme("package");
+        mContext.registerReceiver(new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                //TODO can be handled without re-fetching all packages
+                fetchPackages();
+            }
+        }, packagesStuffIntentFilter);
 
         fetchPackages();
     }
