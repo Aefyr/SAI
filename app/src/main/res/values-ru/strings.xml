@@ -8,6 +8,7 @@
     <string name="error">Ошибка</string>
     <string name="copy">Скопировать</string>
     <string name="copied">Скопировано</string>
+    <string name="dont_show_again">Больше не показывать</string>
 
     <string name="permissions_required_storage">SAI необходимо разрешение на доступ к файлам</string>
 
@@ -57,6 +58,7 @@
     <string name="backup_search_splits_only">Только split APK</string>
     <string name="backup_search_show_system_apps">Показывать системные</string>
     <string name="backup_error_cant_mkdir">Не удается создать директорию для экспортированных приложений</string>
+    <string name="backup_warning">Пожалуйста, учтите, что функция экспорта ещё в бете. Вот небольшой FAQ:\n\n1) Приложения экспортируются в папку \"SAI\" хранилища телефона\n\n2) SAI экспортирует только APK приложений, но не их данные\n\n3) Приложения экспортируются как .apks файл, который является переименованным ZIP-архивом, содержащим все APK</string>
 
     <string name="settings_title">Настройки</string>
     <string name="settings_main_home_directory">Папка по умолчанию</string>
@@ -72,6 +74,7 @@
     <string name="settings_main_sign_apks_summary">Подписывать APK перед установкой. Можно включить (но до первой установки приложения), чтобы можно было потом обновлять приложения независимо от подписи скачанного APK</string>
     <string name="settings_main_extract_archives">Разархивировать APK файлы</string>
     <string name="settings_main_extract_archives_summary">Разархивировать APK из .zip/.apks архивов во временные файлы перед установкой. Если отключено, SAI будет устанавливать APK напрямую из архива без создания временных файлов. Не рекомендуется включать</string>
+    <string name="settings_main_reset_one_time_warnings">Сбросить одноразовые предупреждения</string>
 
     <string name="about_source">GitHub</string>
     <string name="about_donate">Поддержать</string>

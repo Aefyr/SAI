@@ -6,6 +6,7 @@
     <string name="error">錯誤</string>
     <string name="copy">複製</string>
     <string name="copied">Copied</string>
+    <string name="dont_show_again">Don\'t show again</string>
 
     <string name="permissions_required_storage">SAI 需要訪問存儲的權限</string>
 
@@ -55,8 +56,9 @@
     <string name="backup_search_splits_only">Split APKs only</string>
     <string name="backup_search_show_system_apps">Show system apps</string>
     <string name="backup_error_cant_mkdir">Unable to create a directory for exported apps</string>
+    <string name="backup_warning">Please note, that export feature is still in beta. Here\'s some FAQ about it:\n\n1) Exported apps get saved to \"SAI\" folder in internal storage\n\n2) SAI only exports apps\' APKs, their data isn\'t exported\n\n3) Apps are exported as a .apks file which is a renamed ZIP archive containing all the APKs</string>
 
-    <string name="settings_title">設置</string>
+    <string name="settings_title">設置</string>
     <string name="settings_main_home_directory">主目錄</string>
     <string name="settings_main_home_directory_summary">APKs選擇器的啟動目錄\n當前: %s</string>
     <string name="settings_main_file_picker_sort">文件排序</string>
@@ -70,6 +72,7 @@
     <string name="settings_main_sign_apks_summary">安裝前簽名APK。您可以啟用此功能(在首次安裝應用之前) to update apps independently from downloaded APKs signature</string>
     <string name="settings_main_extract_archives">從壓縮包中提取APKs</string>
     <string name="settings_main_extract_archives_summary">在安裝之前，將 .zip/.apks 壓縮包中的 APK文件 解壓縮到臨時文件中。如果禁用，SAI將直接從沒有臨時文件的壓縮包中安裝APK。不建議啟用</string>
+    <string name="settings_main_reset_one_time_warnings">Reset one-time warnings</string>
 
     <string name="about_source">GitHub</string>
     <string name="about_donate">捐贈</string>

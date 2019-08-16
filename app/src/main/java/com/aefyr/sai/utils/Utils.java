@@ -43,13 +43,14 @@ public class Utils {
     }
 
     @SuppressLint("PrivateApi")
+    @Nullable
     public static String getSystemProperty(String key) {
         try {
             return (String) Class.forName("android.os.SystemProperties")
                     .getDeclaredMethod("get", String.class)
                     .invoke(null, key);
         } catch (Exception e) {
-            Log.w("SAIUtils", e);
+            Log.w("SAIUtils", "Unable to use SystemProperties.get", e);
             return null;
         }
     }

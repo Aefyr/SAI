@@ -36,6 +36,7 @@ import java.util.concurrent.Executors;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
+//TODO add more consistency in case of backup fail
 public class BackupService extends Service {
     private static final String TAG = "BackupService";
 
@@ -240,12 +241,10 @@ public class BackupService extends Service {
                     zipOutputStream.putNextEntry(zipEntry);
 
                     try (FileInputStream apkInputStream = new FileInputStream(apkFile)) {
-                        //TODO DON'T FORGET TO FIX BUFFER SIZE AND REMOVE Thread.sleep
-                        byte[] buffer = new byte[1024];
+                        byte[] buffer = new byte[1024 * 512];
                         int read;
 
                         while ((read = apkInputStream.read(buffer)) > 0) {
-                            Thread.sleep(50);
                             zipOutputStream.write(buffer, 0, read);
                             currentProgress += read;
                             publishProgress(currentProgress, maxProgress);

@@ -10,6 +10,7 @@
     <string name="help">Допомога</string>
     <string name="copy">Скопіювати</string>
     <string name="copied">Скопійовано</string>
+    <string name="dont_show_again">Больше не показывать</string>
 
     <string name="main_installer">Установка</string>
     <string name="main_backup">Экспорт</string>
@@ -61,6 +62,7 @@
     <string name="settings_main_extract_archives">Розархівувати APK файли</string>
     <string name="settings_main_extract_archives_summary">Розархівувати APK з .zip/.apks архівів в тимчасові файли перед установкою. Якщо вимкнено, SAI буде встановлювати APK безпосередньо з архіву без створення тимчасових файлів. Не рекомендується вмикати</string>
     <string name="installer_miui_warning_oof">Не вдалося відкрити налаштування для розробників. \"Хороша\" прошивка</string>
+    <string name="settings_main_reset_one_time_warnings">Сбросить одноразовые предупреждения</string>
 
     <string name="backup_backup">Экспорт</string>
     <string name="backup_backup_prompt">Экспортировать %s?</string>
@@ -72,4 +74,5 @@
     <string name="backup_search_splits_only">Только split APK</string>
     <string name="backup_search_show_system_apps">Показывать системные</string>
     <string name="backup_error_cant_mkdir">Не удается создать директорию для экспортированных приложений</string>
+    <string name="backup_warning">Пожалуйста, учтите, что функция экспорта ещё в бете. Вот небольшой FAQ:\n\n1) Приложения экспортируются в папку \"SAI\" хранилища телефона\n\n2) SAI экспортирует только APK приложений, но не их данные\n\n3) Приложения экспортируются как .apks файл, который является переименованным ZIP-архивом, содержащим все APK</string>
 </resources>

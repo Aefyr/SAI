@@ -17,6 +17,7 @@ import com.aefyr.sai.R;
 import com.aefyr.sai.adapters.BackupPackagesAdapter;
 import com.aefyr.sai.model.backup.PackageMeta;
 import com.aefyr.sai.ui.dialogs.BackupDialogFragment;
+import com.aefyr.sai.ui.dialogs.OneTimeWarningDialogFragment;
 import com.aefyr.sai.utils.Utils;
 import com.aefyr.sai.viewmodels.BackupViewModel;
 import com.google.android.material.chip.Chip;
@@ -34,15 +35,15 @@ public class BackupFragment extends SaiBaseFragment implements BackupPackagesAda
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        OneTimeWarningDialogFragment.showIfNeeded(requireContext(), getChildFragmentManager(), R.string.help, R.string.backup_warning, "backup_faq");
+
         mViewModel = ViewModelProviders.of(this).get(BackupViewModel.class);
 
 
         RecyclerView recyclerView = findViewById(R.id.rv_packages);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-        linearLayoutManager.setInitialPrefetchItemCount(16);
-        recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        recyclerView.getRecycledViewPool().setMaxRecycledViews(0, 32);
+        recyclerView.getRecycledViewPool().setMaxRecycledViews(0, 24);
 
         BackupPackagesAdapter adapter = new BackupPackagesAdapter(getContext());
         adapter.setInteractionListener(this);

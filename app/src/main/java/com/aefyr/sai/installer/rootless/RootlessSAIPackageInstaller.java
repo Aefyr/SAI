@@ -71,8 +71,6 @@ public class RootlessSAIPackageInstaller extends SAIPackageInstaller {
 
         PackageInstaller.Session session = null;
         try {
-            //TODO remove this
-            Thread.sleep(5000);
             PackageInstaller.SessionParams sessionParams = new PackageInstaller.SessionParams(PackageInstaller.SessionParams.MODE_FULL_INSTALL);
             sessionParams.setInstallLocation(PackageInfo.INSTALL_LOCATION_AUTO);
 
