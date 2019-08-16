@@ -5,6 +5,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.util.Log;
 
@@ -94,7 +95,7 @@ public class RootedSAIPackageInstaller extends SAIPackageInstaller {
             }
         } catch (Exception e) {
             Log.w(TAG, e);
-            dispatchCurrentSessionUpdate(InstallationStatus.INSTALLATION_FAILED, getContext().getString(R.string.installer_error_root, getSessionInfo(apkSource) + "\n\n" + e.getMessage()));
+            dispatchCurrentSessionUpdate(InstallationStatus.INSTALLATION_FAILED, getContext().getString(R.string.installer_error_root, getSessionInfo(apkSource) + "\n\n" + Utils.throwableToString(e)));
             installationCompleted();
         }
     }
@@ -106,6 +107,12 @@ public class RootedSAIPackageInstaller extends SAIPackageInstaller {
     }
 
     private String getSessionInfo(ApkSource apkSource) {
-        return String.format("%s: %s %s | %s | Android %s | Using %s ApkSource implementation", getContext().getString(R.string.installer_device), Build.BRAND, Build.MODEL, Utils.isMiui() ? "MIUI" : "Not MIUI", Build.VERSION.RELEASE, apkSource.getClass().getSimpleName());
+        String saiVersion = "???";
+        try {
+            saiVersion = getContext().getPackageManager().getPackageInfo(getContext().getPackageName(), 0).versionName;
+        } catch (PackageManager.NameNotFoundException e) {
+            Log.wtf(TAG, "Unable to get SAI version", e);
+        }
+        return String.format("%s: %s %s | %s | Android %s | Using %s ApkSource implementation | SAI %s", getContext().getString(R.string.installer_device), Build.BRAND, Build.MODEL, Utils.isMiui() ? "MIUI" : "Not MIUI", Build.VERSION.RELEASE, apkSource.getClass().getSimpleName(), saiVersion);
     }
 }
