@@ -78,7 +78,7 @@ public class BackupRepository {
                 try {
                     packageInfo = pm.getPackageInfo(applicationInfo.packageName, 0);
                 } catch (Exception e) {
-                    Logs.wtf(TAG, e);
+                    Log.wtf(TAG, e);
                     Logs.logException(e);
                     continue;
                 }
