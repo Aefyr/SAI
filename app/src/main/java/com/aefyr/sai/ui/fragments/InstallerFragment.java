@@ -40,6 +40,8 @@ public class InstallerFragment extends SaiBaseFragment implements FilePickerDial
 
     private PreferencesHelper mHelper;
 
+    private Uri mPendingActionViewUri;
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -84,9 +86,19 @@ public class InstallerFragment extends SaiBaseFragment implements FilePickerDial
 
         mButton.setOnClickListener((v) -> checkPermissionsAndPickFiles());
         findViewById(R.id.button_help).setOnClickListener((v) -> AlertsUtils.showAlert(this, R.string.help, R.string.installer_help));
+
+        if (mPendingActionViewUri != null) {
+            handleActionView(mPendingActionViewUri);
+            mPendingActionViewUri = null;
+        }
     }
 
-    public void onActionView(Uri uri) {
+    public void handleActionView(Uri uri) {
+        if (!isAdded()) {
+            mPendingActionViewUri = uri;
+            return;
+        }
+
         DialogFragment existingDialog = (DialogFragment) getChildFragmentManager().findFragmentByTag("installation_confirmation_dialog");
         if (existingDialog != null)
             existingDialog.dismiss();

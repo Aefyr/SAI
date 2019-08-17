@@ -35,6 +35,9 @@ public class FragmentNavigator {
     }
 
     public void switchTo(String tag) {
+        if (mCurrentFragment != null && tag.equals(mCurrentFragment.getTag()))
+            return;
+
         ensureStateWasRestored();
 
         FragmentTransaction transaction = mFragmentManager.beginTransaction();

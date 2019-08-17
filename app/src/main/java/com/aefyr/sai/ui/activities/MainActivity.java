@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         }
         mBottomNavigationView.getMenu().getItem(0).setChecked(true);
         mFragmentNavigator.switchTo("installer");
-        getInstallerFragment().onActionView(uri);
+        getInstallerFragment().handleActionView(uri);
     }
 
     private void showMiuiWarning() {
