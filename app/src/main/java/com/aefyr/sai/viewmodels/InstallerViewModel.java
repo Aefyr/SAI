@@ -4,24 +4,27 @@ import android.app.Application;
 import android.content.Context;
 import android.net.Uri;
 
-import com.aefyr.sai.installer.PackageInstallerProvider;
-import com.aefyr.sai.installer.SAIPackageInstaller;
-import com.aefyr.sai.model.apksource.DefaultApkSource;
-import com.aefyr.sai.model.apksource.ZipApkSource;
-import com.aefyr.sai.model.filedescriptor.ContentUriFileDescriptor;
-import com.aefyr.sai.model.filedescriptor.FileDescriptor;
-import com.aefyr.sai.model.filedescriptor.NormalFileDescriptor;
-import com.aefyr.sai.utils.Event;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+
+import com.aefyr.sai.installer.PackageInstallerProvider;
+import com.aefyr.sai.installer.SAIPackageInstaller;
+import com.aefyr.sai.model.apksource.ApkSource;
+import com.aefyr.sai.model.apksource.DefaultApkSource;
+import com.aefyr.sai.model.apksource.ZipApkSource;
+import com.aefyr.sai.model.apksource.ZipExtractorApkSource;
+import com.aefyr.sai.model.filedescriptor.ContentUriFileDescriptor;
+import com.aefyr.sai.model.filedescriptor.FileDescriptor;
+import com.aefyr.sai.model.filedescriptor.NormalFileDescriptor;
+import com.aefyr.sai.utils.Event;
+import com.aefyr.sai.utils.PreferencesHelper;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 public class InstallerViewModel extends AndroidViewModel implements SAIPackageInstaller.InstallationStatusListener {
     public static final String EVENT_PACKAGE_INSTALLED = "package_installed";
@@ -29,6 +32,7 @@ public class InstallerViewModel extends AndroidViewModel implements SAIPackageIn
 
     private SAIPackageInstaller mInstaller;
     private Context mContext;
+    private long mOngoingSessionId;
 
     public enum InstallerState {
         IDLE, INSTALLING
@@ -58,17 +62,34 @@ public class InstallerViewModel extends AndroidViewModel implements SAIPackageIn
         for (File f : apkFiles)
             descriptors.add(new NormalFileDescriptor(f));
 
-        mInstaller.startInstallationSession(mInstaller.createInstallationSession(new DefaultApkSource(descriptors)));
+        mOngoingSessionId = mInstaller.createInstallationSession(new DefaultApkSource(descriptors));
+        mInstaller.startInstallationSession(mOngoingSessionId);
     }
 
     public void installPackagesFromZip(File zipWithApkFiles) {
         ensureInstallerActuality();
-        mInstaller.startInstallationSession(mInstaller.createInstallationSession(new ZipApkSource(mContext, new NormalFileDescriptor(zipWithApkFiles))));
+
+        ApkSource apkSource;
+        if (PreferencesHelper.getInstance(mContext).shouldExtractArchives())
+            apkSource = new ZipExtractorApkSource(mContext, new NormalFileDescriptor(zipWithApkFiles));
+        else
+            apkSource = new ZipApkSource(mContext, new NormalFileDescriptor(zipWithApkFiles));
+
+        mOngoingSessionId = mInstaller.createInstallationSession(apkSource);
+        mInstaller.startInstallationSession(mOngoingSessionId);
     }
 
     public void installPackagesFromContentProviderZip(Uri zipContentUri) {
         ensureInstallerActuality();
-        mInstaller.startInstallationSession(mInstaller.createInstallationSession(new ZipApkSource(mContext, new ContentUriFileDescriptor(mContext, zipContentUri))));
+
+        ApkSource apkSource;
+        if (PreferencesHelper.getInstance(mContext).shouldExtractArchives())
+            apkSource = new ZipExtractorApkSource(mContext, new ContentUriFileDescriptor(mContext, zipContentUri));
+        else
+            apkSource = new ZipApkSource(mContext, new ContentUriFileDescriptor(mContext, zipContentUri));
+
+        mOngoingSessionId = mInstaller.createInstallationSession(apkSource);
+        mInstaller.startInstallationSession(mOngoingSessionId);
     }
 
     private void ensureInstallerActuality() {
@@ -91,6 +112,9 @@ public class InstallerViewModel extends AndroidViewModel implements SAIPackageIn
 
     @Override
     public void onStatusChanged(long installationID, SAIPackageInstaller.InstallationStatus status, @Nullable String packageNameOrErrorDescription) {
+        if (installationID != mOngoingSessionId)
+            return;
+
         switch (status) {
             case QUEUED:
             case INSTALLING:

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- 8% + 8% opacity -->
+    <item android:alpha="1" android:color="?attr/colorAccent" android:state_enabled="true" android:state_selected="true" />
+    <item android:alpha="1" android:color="?attr/colorAccent" android:state_enabled="true" android:state_checked="true" />
+    <!-- 12% of 87% opacity -->
+    <item android:alpha="0.75" android:color="?attr/colorAccent" android:state_enabled="true" />
+    <item android:alpha="0.66" android:color="?attr/colorAccent" />
+</selector>

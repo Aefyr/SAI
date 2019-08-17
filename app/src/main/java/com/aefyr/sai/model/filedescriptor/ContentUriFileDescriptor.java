@@ -21,34 +21,34 @@ public class ContentUriFileDescriptor implements FileDescriptor {
 
     @Override
     public String name() throws Exception {
-        Cursor cursor = mContentResolver.query(mContentUri, new String[]{MediaStore.MediaColumns.DISPLAY_NAME}, null, null, null);
-        if (cursor == null)
-            throw new BadContentProviderException("Cursor is null");
+        try (Cursor cursor = mContentResolver.query(mContentUri, new String[]{MediaStore.MediaColumns.DISPLAY_NAME}, null, null, null)) {
+            if (cursor == null)
+                throw new BadContentProviderException("Cursor is null");
 
-        cursor.moveToFirst();
-        String name = cursor.getString(0);
-        cursor.close();
+            cursor.moveToFirst();
+            String name = cursor.getString(0);
 
-        if (name == null)
-            throw new BadContentProviderException("DISPLAY_NAME column is null");
+            if (name == null)
+                throw new BadContentProviderException("DISPLAY_NAME column is null");
 
-        return name;
+            return name;
+        }
     }
 
     @Override
     public long length() throws Exception {
-        Cursor cursor = mContentResolver.query(mContentUri, new String[]{MediaStore.MediaColumns.SIZE}, null, null, null);
-        if (cursor == null)
-            throw new BadContentProviderException("Cursor is null");
+        try (Cursor cursor = mContentResolver.query(mContentUri, new String[]{MediaStore.MediaColumns.SIZE}, null, null, null)) {
+            if (cursor == null)
+                throw new BadContentProviderException("Cursor is null");
 
-        cursor.moveToFirst();
-        long length = cursor.getLong(0);
-        cursor.close();
+            cursor.moveToFirst();
+            long length = cursor.getLong(0);
 
-        if (length == 0)
-            throw new BadContentProviderException("SIZE column is 0");
+            if (length == 0)
+                throw new BadContentProviderException("SIZE column is 0");
 
-        return length;
+            return length;
+        }
     }
 
     @Override

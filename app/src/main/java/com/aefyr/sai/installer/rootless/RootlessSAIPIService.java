@@ -6,10 +6,11 @@ import android.content.pm.PackageInstaller;
 import android.os.IBinder;
 import android.util.Log;
 
-import com.aefyr.sai.R;
-import com.aefyr.sai.utils.Utils;
-
 import androidx.annotation.Nullable;
+
+import com.aefyr.sai.R;
+import com.aefyr.sai.ui.activities.ConfirmationIntentWrapperActivity;
+import com.aefyr.sai.utils.Utils;
 
 /**
  * Handles installation events from the package manager
@@ -35,13 +36,8 @@ public class RootlessSAIPIService extends Service {
                 Log.d(TAG, "Requesting user confirmation for installation");
                 sendStatusChangeBroadcast(intent.getIntExtra(PackageInstaller.EXTRA_SESSION_ID, -1), STATUS_CONFIRMATION_PENDING, intent.getStringExtra(PackageInstaller.EXTRA_PACKAGE_NAME));
                 Intent confirmationIntent = intent.getParcelableExtra(Intent.EXTRA_INTENT);
-                confirmationIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
-                try {
-                    startActivity(confirmationIntent);
-                } catch (Exception e) {
-                    sendErrorBroadcast(intent.getIntExtra(PackageInstaller.EXTRA_SESSION_ID, -1), getString(R.string.installer_error_lidl_rom));
-                }
+                ConfirmationIntentWrapperActivity.start(this, intent.getIntExtra(PackageInstaller.EXTRA_SESSION_ID, -1), confirmationIntent);
                 break;
             case PackageInstaller.STATUS_SUCCESS:
                 Log.d(TAG, "Installation succeed");

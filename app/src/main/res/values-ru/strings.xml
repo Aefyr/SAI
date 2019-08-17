@@ -6,8 +6,15 @@
     <string name="cancel">Отмена</string>
     <string name="help">Помощь</string>
     <string name="error">Ошибка</string>
+    <string name="copy">Скопировать</string>
+    <string name="copied">Скопировано</string>
+    <string name="dont_show_again">Больше не показывать</string>
 
     <string name="permissions_required_storage">SAI необходимо разрешение на доступ к файлам</string>
+
+    <string name="main_installer">Установка</string>
+    <string name="main_backup">Экспорт</string>
+    <string name="main_navigation_disabled">Невозможно использовать открыть с помощью во время установки</string>
 
     <string name="installer_installation_confirmation">Установить \"%s\"?</string>
     <string name="installer_installation_failed">Приложение не установлено</string>
@@ -32,8 +39,26 @@
     <string name="installer_error_rootless">Ошибка rootless-установщика:\n\n%s</string>
     <string name="installer_error_root_no_root">Невозможно получить root-доступ, пожалуйста отключите настройку \"Использовать root\"</string>
     <string name="installer_error_while_extracting">Ошибка при распаковке ZIP: %s</string>
-    <string name="installer_error_zip_contains_non_apks">ZIP архив содержит файлы с расширением отличным от .apk</string>
+    <string name="installer_error_zip_contains_no_apks">ZIP архив не содержит .apk файлов</string>
     <string name="installer_error_mixed_extensions">Выберите либо один .zip/.apks файл, либо несколько .apk файлов</string>
+    <string name="installer_select_theme">Выбрать тему</string>
+    <string name="installer_device">Устройство</string>
+    <string name="installer_miui_warning_title">Обнаружена MIUI</string>
+    <string name="installer_miui_warning_message">Похоже, у вас MIUI. MIUI известна своим ломанием стандартных фич Android API и некоторые юзеры сообщали, что SAI не работает на MIUI. Обычно это решается отключением оптимизаций MIUI в настройках для разработчиков, что я рекомендую вам сделать.</string>
+    <string name="installer_miui_warning_open_dev_settings">Открыть настройки для разработчиков</string>
+    <string name="installer_miui_warning_oof">Не удалось открыть настройки для разработчиков. Найс прошивка</string>
+
+    <string name="backup_backup">Экспорт</string>
+    <string name="backup_backup_prompt">Экспортировать %s?</string>
+    <string name="backup_backup_status">Выполняется экспорт %d приложений</string>
+    <string name="backup_backup_in_progress">Выполняется экспорт %s...</string>
+    <string name="backup_backup_success">%s успешно экспортировано</string>
+    <string name="backup_backup_failed">Не удалось экспортировать %s</string>
+    <string name="backup_search_hint">Поиск приложений</string>
+    <string name="backup_search_splits_only">Только split APK</string>
+    <string name="backup_search_show_system_apps">Показывать системные</string>
+    <string name="backup_error_cant_mkdir">Не удается создать директорию для экспортированных приложений</string>
+    <string name="backup_warning">Пожалуйста, учтите, что функция экспорта ещё в бете. Вот небольшой FAQ:\n\n1) Приложения экспортируются в папку \"SAI\" хранилища телефона\n\n2) SAI экспортирует только APK приложений, но не их данные\n\n3) Приложения экспортируются как .apks файл, который является переименованным ZIP-архивом, содержащим все APK</string>
 
     <string name="settings_title">Настройки</string>
     <string name="settings_main_home_directory">Папка по умолчанию</string>
@@ -47,6 +72,9 @@
     <string name="settings_main_use_root_error">Не удалось получить root-доступ</string>
     <string name="settings_main_sign_apks">Подписывать APK</string>
     <string name="settings_main_sign_apks_summary">Подписывать APK перед установкой. Можно включить (но до первой установки приложения), чтобы можно было потом обновлять приложения независимо от подписи скачанного APK</string>
+    <string name="settings_main_extract_archives">Разархивировать APK файлы</string>
+    <string name="settings_main_extract_archives_summary">Разархивировать APK из .zip/.apks архивов во временные файлы перед установкой. Если отключено, SAI будет устанавливать APK напрямую из архива без создания временных файлов. Не рекомендуется включать</string>
+    <string name="settings_main_reset_one_time_warnings">Сбросить одноразовые предупреждения</string>
 
     <string name="about_source">GitHub</string>
     <string name="about_donate">Поддержать</string>

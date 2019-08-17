@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="file_picker_sort_variants">
+        <item>"按名稱 (A-Z)"</item>
+        <item>"按名稱 (Z-A)"</item>
+        <item>"修改時間 (升序)"</item>
+        <item>"修改時間 (降序)"</item>
+    </string-array>
+
+    <string-array name="themes">
+        <item>"SAI"</item>
+        <item>"Ruby"</item>
+        <item>"Rena"</item>
+        <item>"Ukrrooter"</item>
+        <item>"Amoled"</item>
+        <item>"Pixel"</item>
+        <item>"SAI (F-Droid)"</item>
+    </string-array>
+
+</resources>

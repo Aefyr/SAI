@@ -14,9 +14,9 @@ import android.view.ViewGroup;
 import android.view.ViewOutlineProvider;
 import android.widget.TextView;
 
-import com.aefyr.sai.R;
-
 import androidx.annotation.AttrRes;
+
+import com.aefyr.sai.R;
 
 public class Coolbar extends ViewGroup {
     private static final int DEFAULT_TITLE_TEXT_SIZE_SP = 24;

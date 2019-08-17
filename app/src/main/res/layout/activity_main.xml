@@ -6,74 +6,18 @@
     android:layout_height="match_parent"
     tools:context=".ui.activities.MainActivity">
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:orientation="horizontal"
-        android:weightSum="2">
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            app:cardBackgroundColor="?attr/colorAccent"
-            app:cardCornerRadius="@dimen/cards_corners_radius"
-            app:cardElevation="@dimen/cards_elevation"
-            app:cardUseCompatPadding="true">
-
-            <Button
-                android:id="@+id/button_install"
-                style="@style/SAIButton"
-                android:layout_width="wrap_content"
-                android:layout_gravity="center"
-                android:text="@string/installer_install_apks"
-                android:textColor="?attr/colorPrimary" />
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            app:cardBackgroundColor="?attr/colorPrimary"
-            app:cardCornerRadius="@dimen/cards_corners_radius"
-            app:cardElevation="@dimen/cards_elevation"
-            app:cardUseCompatPadding="true">
-
-            <Button
-                android:id="@+id/button_help"
-                style="@style/SAIButton"
-                android:layout_width="wrap_content"
-                android:layout_gravity="center"
-                android:background="@drawable/bg_outline_button"
-                android:text="@string/help"
-                android:textColor="?attr/colorAccent" />
-        </androidx.cardview.widget.CardView>
-
-
-    </LinearLayout>
-
-
-    <com.aefyr.sai.view.coolbar.Coolbar
+    <FrameLayout
+        android:id="@+id/container_main"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:elevation="0dp"
-        app:title="@string/app_name_full">
+        android:layout_height="match_parent"
+        android:layout_above="@id/bottomnav_main">
 
-        <ImageButton
-            android:id="@+id/ib_toggle_theme"
-            style="@style/SAICoolbarImageButton"
-            android:rotation="30"
-            app:srcCompat="@drawable/ic_dark_theme" />
+    </FrameLayout>
 
-        <ImageButton
-            android:id="@+id/ib_settings"
-            style="@style/SAICoolbarImageButton"
-            app:coolbar_gravity="start"
-            app:srcCompat="@drawable/ic_settings"
-            tools:ignore="MissingPrefix" />
-    </com.aefyr.sai.view.coolbar.Coolbar>
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomnav_main"
+        style="@style/SAIBottomNavigationView"
+        android:layout_alignParentBottom="true"
+        app:menu="@menu/bottom_navigation" />
 
 </RelativeLayout>

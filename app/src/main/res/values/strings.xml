@@ -8,8 +8,15 @@
     <string name="ok" translatable="false">OK</string>
     <string name="help">Help</string>
     <string name="error">Error</string>
+    <string name="copy">Copy</string>
+    <string name="copied">Copied</string>
+    <string name="dont_show_again">Don\'t show again</string>
 
     <string name="permissions_required_storage">SAI requires permission to access storage</string>
+
+    <string name="main_installer">Installer</string>
+    <string name="main_backup">Export</string>
+    <string name="main_navigation_disabled">Unable to perform open with during ongoing installation</string>
 
     <string name="installer_installation_confirmation">Install \"%s\"?</string>
     <string name="installer_installation_failed">App not installed</string>
@@ -34,8 +41,26 @@
     <string name="installer_error_rootless">Rootless installer error:\n\n %s</string>
     <string name="installer_error_root_no_root">Unable to acquire root access, please disable \"Use root\" preference</string>
     <string name="installer_error_while_extracting">Error while extracting APK files from ZIP: %s</string>
-    <string name="installer_error_zip_contains_non_apks">ZIP contains non-apk files</string>
+    <string name="installer_error_zip_contains_no_apks">ZIP doesn\'t contain any apk files</string>
     <string name="installer_error_mixed_extensions">You must select either a single .zip/.apks file or multiple .apk files</string>
+    <string name="installer_select_theme">Select theme</string>
+    <string name="installer_device">Device</string>
+    <string name="installer_miui_warning_title">MIUI detected</string>
+    <string name="installer_miui_warning_message">Looks like your device is running MIUI. MIUI is known for breaking standard Android API features and some SAI users have reported SAI not working on MIUI. Usually it can be fixed by disabling MIUI optimizations in developer settings, which I suggest you should do.</string>
+    <string name="installer_miui_warning_open_dev_settings">Open developer settings</string>
+    <string name="installer_miui_warning_oof">Unable to open development settings. Cool ROM</string>
+
+    <string name="backup_backup">Export</string>
+    <string name="backup_backup_prompt">Export %s?</string>
+    <string name="backup_backup_status">Exporting %d apps</string>
+    <string name="backup_backup_in_progress">Exporting %s...</string>
+    <string name="backup_backup_success">Successfully exported %s</string>
+    <string name="backup_backup_failed">Failed to export %s</string>
+    <string name="backup_search_hint">Search apps</string>
+    <string name="backup_search_splits_only">Split APKs only</string>
+    <string name="backup_search_show_system_apps">Show system apps</string>
+    <string name="backup_error_cant_mkdir">Unable to create a directory for exported apps</string>
+    <string name="backup_warning">Please note, that export feature is still in beta. Here\'s some FAQ about it:\n\n1) Exported apps get saved to \"SAI\" folder in internal storage\n\n2) SAI only exports apps\' APKs, their data isn\'t exported\n\n3) Apps are exported as a .apks file which is a renamed ZIP archive containing all the APKs</string>
 
     <string name="settings_title">Settings</string>
     <string name="settings_main_home_directory">Home directory</string>
@@ -49,6 +74,9 @@
     <string name="settings_main_use_root_error">Unable to acquire root access</string>
     <string name="settings_main_sign_apks">Sign APKs</string>
     <string name="settings_main_sign_apks_summary">Sign APKs before installing. You can enable this (before first app installation) to update apps independently from downloaded APKs signature</string>
+    <string name="settings_main_extract_archives">Extract APKs from archives</string>
+    <string name="settings_main_extract_archives_summary">Extract APK files from .zip/.apks archives into temporary files before installing them. If disabled, SAI will install APKs directly from archives without temp files. Not recommended to enable</string>
+    <string name="settings_main_reset_one_time_warnings">Reset one-time warnings</string>
 
     <string name="about_author" translatable="false">by polychromaticfox</string>
     <string name="about_source">GitHub</string>

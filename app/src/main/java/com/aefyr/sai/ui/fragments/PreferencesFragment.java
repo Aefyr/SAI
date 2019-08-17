@@ -5,6 +5,10 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Environment;
 
+import androidx.annotation.NonNull;
+import androidx.preference.Preference;
+import androidx.preference.PreferenceFragmentCompat;
+
 import com.aefyr.sai.R;
 import com.aefyr.sai.ui.activities.AboutActivity;
 import com.aefyr.sai.ui.dialogs.FilePickerDialogFragment;
@@ -19,10 +23,6 @@ import com.github.angads25.filepicker.model.DialogProperties;
 import java.io.File;
 import java.util.List;
 import java.util.Objects;
-
-import androidx.annotation.NonNull;
-import androidx.preference.Preference;
-import androidx.preference.PreferenceFragmentCompat;
 
 public class PreferencesFragment extends PreferenceFragmentCompat implements FilePickerDialogFragment.OnFilesSelectedListener, SingleChoiceListDialogFragment.OnItemSelectedListener {
 

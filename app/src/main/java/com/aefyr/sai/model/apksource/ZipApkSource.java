@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.aefyr.sai.R;
 import com.aefyr.sai.model.filedescriptor.FileDescriptor;
+import com.aefyr.sai.utils.Utils;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -15,6 +16,7 @@ public class ZipApkSource implements ApkSource {
     private Context mContext;
     private FileDescriptor mZipFileDescriptor;
     private boolean mIsOpen;
+    private int mSeenApkFiles = 0;
 
     private ZipInputStream mZipInputStream;
     private ZipEntry mCurrentZipEntry;
@@ -34,12 +36,19 @@ public class ZipApkSource implements ApkSource {
             mIsOpen = true;
         }
 
-        mCurrentZipEntry = mZipInputStream.getNextEntry();
-        if (mCurrentZipEntry == null)
-            return false;
+        do {
+            mCurrentZipEntry = mZipInputStream.getNextEntry();
+        } while (mCurrentZipEntry != null && (mCurrentZipEntry.isDirectory() || !mCurrentZipEntry.getName().endsWith(".apk")));
 
-        if (mCurrentZipEntry.isDirectory() || !mCurrentZipEntry.getName().endsWith(".apk"))
-            throw new IllegalArgumentException(mContext.getString(R.string.installer_error_zip_contains_non_apks));
+        if (mCurrentZipEntry == null) {
+            mZipInputStream.close();
+
+            if (mSeenApkFiles == 0)
+                throw new IllegalArgumentException(mContext.getString(R.string.installer_error_zip_contains_no_apks));
+
+            return false;
+        }
+        mSeenApkFiles++;
 
         return true;
     }
@@ -56,7 +65,7 @@ public class ZipApkSource implements ApkSource {
 
     @Override
     public String getApkName() {
-        return mCurrentZipEntry.getName();
+        return Utils.getFileNameFromZipEntry(mCurrentZipEntry);
     }
 
     /**

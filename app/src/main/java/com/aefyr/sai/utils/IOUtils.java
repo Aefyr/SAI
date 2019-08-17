@@ -8,6 +8,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.zip.CRC32;
 
 public class IOUtils {
 
@@ -20,23 +21,36 @@ public class IOUtils {
     }
 
     public static void copyFile(File original, File destination) throws IOException {
-        FileInputStream inputStream = new FileInputStream(original);
-        FileOutputStream outputStream = new FileOutputStream(destination);
-
-        copyStream(inputStream, outputStream);
-
-        inputStream.close();
-        outputStream.close();
+        try (FileInputStream inputStream = new FileInputStream(original); FileOutputStream outputStream = new FileOutputStream(destination)) {
+            copyStream(inputStream, outputStream);
+        }
     }
 
     public static void copyFileFromAssets(Context context, String assetFileName, File destination) throws IOException {
-        InputStream inputStream = context.getAssets().open(assetFileName);
-        FileOutputStream outputStream = new FileOutputStream(destination);
+        try (InputStream inputStream = context.getAssets().open(assetFileName); FileOutputStream outputStream = new FileOutputStream(destination)) {
+            copyStream(inputStream, outputStream);
+        }
+    }
 
-        copyStream(inputStream, outputStream);
+    public static void deleteRecursively(File f) {
+        if (f.isDirectory()) {
+            for (File child : f.listFiles())
+                deleteRecursively(child);
+        }
+        f.delete();
+    }
 
-        inputStream.close();
-        outputStream.close();
+    public static long calculateFileCrc32(File file) throws IOException {
+        try (FileInputStream fileInputStream = new FileInputStream(file)) {
+            CRC32 crc32 = new CRC32();
+            byte[] buffer = new byte[1024 * 1024];
+            int read;
+
+            while ((read = fileInputStream.read(buffer)) > 0)
+                crc32.update(buffer, 0, read);
+
+            return crc32.getValue();
+        }
     }
 
 }

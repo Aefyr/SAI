@@ -3,6 +3,9 @@ package com.aefyr.sai.utils;
 import android.annotation.SuppressLint;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.InputStream;
@@ -10,9 +13,6 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
 public class Root {
     private static final String TAG = "SAIRoot";
@@ -40,11 +40,13 @@ public class Root {
     }
 
     private static Result execInternal(String command, @Nullable InputStream inputPipe) {
+        StringBuilder stdOutSb = new StringBuilder();
+        StringBuilder stdErrSb = new StringBuilder();
+
         try {
             Process process = Runtime.getRuntime().exec(String.format("su -c %s", command));
 
-            StringBuilder stdOutSb = new StringBuilder();
-            StringBuilder stdErrSb = new StringBuilder();
+
             Thread stdOutD = writeStreamToStringBuilder(stdOutSb, process.getInputStream());
             Thread stdErrD = writeStreamToStringBuilder(stdErrSb, process.getErrorStream());
 
@@ -62,7 +64,7 @@ public class Root {
         } catch (Exception e) {
             Log.w(TAG, "Unable execute command: ");
             Log.w(TAG, e);
-            return new Result(command, -1, "", "Java exception: " + Utils.throwableToString(e));
+            return new Result(command, -1, stdOutSb.toString().trim(), stdErrSb.toString() + "\n\n<!> SAI Root Java exception: " + Utils.throwableToString(e));
         }
     }
 

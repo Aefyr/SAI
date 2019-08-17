@@ -1,0 +1,1 @@
+SAI is an app for installing split APKs - apps that consist of multiple APKs. It has both rootless and rooted installation methods.

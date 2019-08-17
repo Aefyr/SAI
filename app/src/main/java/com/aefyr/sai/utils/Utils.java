@@ -1,13 +1,23 @@
 package com.aefyr.sai.utils;
 
+import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.os.Build;
+import android.text.TextUtils;
+import android.util.Log;
+import android.view.inputmethod.InputMethodManager;
+
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
-
-import androidx.annotation.Nullable;
+import java.util.zip.ZipEntry;
 
 public class Utils {
 
@@ -30,6 +40,50 @@ public class Utils {
         pw.close();
 
         return sw.toString();
+    }
+
+    @SuppressLint("PrivateApi")
+    @Nullable
+    public static String getSystemProperty(String key) {
+        try {
+            return (String) Class.forName("android.os.SystemProperties")
+                    .getDeclaredMethod("get", String.class)
+                    .invoke(null, key);
+        } catch (Exception e) {
+            Log.w("SAIUtils", "Unable to use SystemProperties.get", e);
+            return null;
+        }
+    }
+
+    public static void copyTextToClipboard(Context c, CharSequence text) {
+        ClipboardManager clipboardManager = (ClipboardManager) c.getSystemService(Context.CLIPBOARD_SERVICE);
+        clipboardManager.setPrimaryClip(ClipData.newPlainText("text", text));
+    }
+
+    public static boolean isMiui() {
+        return !TextUtils.isEmpty(getSystemProperty("ro.miui.ui.version.name"));
+    }
+
+    public static String getFileNameFromZipEntry(ZipEntry zipEntry) {
+        String path = zipEntry.getName();
+        int lastIndexOfSeparator = path.lastIndexOf("/");
+        if (lastIndexOfSeparator == -1)
+            return path;
+        return path.substring(lastIndexOfSeparator + 1);
+    }
+
+    public static boolean apiIsAtLeast(int sdkInt) {
+        return Build.VERSION.SDK_INT >= sdkInt;
+    }
+
+    public static void hideKeyboard(Activity activity) {
+        InputMethodManager inputMethodManager = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(activity.getWindow().getDecorView().getWindowToken(), 0);
+    }
+
+    public static void hideKeyboard(Fragment fragment) {
+        InputMethodManager inputMethodManager = (InputMethodManager) fragment.requireContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(fragment.requireView().getWindowToken(), 0);
     }
 
 }

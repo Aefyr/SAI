@@ -5,8 +5,6 @@ import android.app.Activity;
 import android.content.pm.PackageManager;
 import android.os.Build;
 
-import java.util.Objects;
-
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
@@ -22,7 +20,7 @@ public class PermissionsUtils {
     }
 
     public static boolean checkAndRequestStoragePermissions(Fragment f) {
-        if (Build.VERSION.SDK_INT >= 23 && (ActivityCompat.checkSelfPermission(Objects.requireNonNull(f.getActivity()), Manifest.permission.READ_EXTERNAL_STORAGE)) == PackageManager.PERMISSION_DENIED) {
+        if (Build.VERSION.SDK_INT >= 23 && (ActivityCompat.checkSelfPermission(f.requireContext(), Manifest.permission.READ_EXTERNAL_STORAGE)) == PackageManager.PERMISSION_DENIED) {
             f.requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_CODE_STORAGE_PERMISSIONS);
             return false;
         }

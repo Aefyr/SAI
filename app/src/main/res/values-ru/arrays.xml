@@ -8,4 +8,14 @@
         <item>"Сначала старые"</item>
     </string-array>
 
+    <string-array name="themes">
+        <item>"SAI"</item>
+        <item>"Ruby"</item>
+        <item>"Rena"</item>
+        <item>"Ukrrooter"</item>
+        <item>"Омлет (Amoled)"</item>
+        <item>"Pixel"</item>
+        <item>"SAI (F-Droid)"</item>
+    </string-array>
+
 </resources>

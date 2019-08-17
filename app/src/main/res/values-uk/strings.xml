@@ -8,6 +8,13 @@
     <string name="about_source">GitHub</string>
     <string name="error">Помилка</string>
     <string name="help">Допомога</string>
+    <string name="copy">Скопіювати</string>
+    <string name="copied">Скопійовано</string>
+    <string name="dont_show_again">Больше не показывать</string>
+
+    <string name="main_installer">Установка</string>
+    <string name="main_backup">Экспорт</string>
+    <string name="main_navigation_disabled">Невозможно использовать открыть с помощью во время установки</string>
 
     <string name="installer_installation_confirmation">Установити \"%s\"?</string>
     <string name="installer_app_installed">Додаток не установлено</string>
@@ -26,7 +33,7 @@
     <string name="installer_error_root_no_root">Неможливо отримати root-доступ, будь ласка вимкніть опцію \"Використовувати root\"</string>
     <string name="installer_error_storage">Недостатньо місця для установки додатка</string>
     <string name="installer_error_while_extracting">Помилка при розпакуванні ZIP: %s</string>
-    <string name="installer_error_zip_contains_non_apks">ZIP архів містить файли з розширенням відмінним від .apk</string>
+    <string name="installer_error_zip_contains_no_apks">ZIP архів не містить .apk файлів</string>
     <string name="installer_help"><b>Що таке SAI?</b>\nSAI (Split APKs Installer) це інсталятор додатків, що складаються з декількох APK. Його можна застосовувати для встановлення додатків, поширених як App Bundle, тому що Android не надає вбудованого способу для цього, крім Google Play.\n\n<b>Як використовувати SAI?</b>\nНатисніть на кнопку \"Інсталювати APK\" і оберіть базовий APK і додаткові APK під ваший пристрій, або ZIP-архів, що містить всі необхідні APK, потім натисніть кнопку \"Вибрати\" для установки.\n\n<b>.apks</b>\nВи можете перейменувати .zip архів, який містить .apk файли, в .apks (Наприклад: somesplitapp.zip -> somesplitapp.apks), щоб його можна було відкрити за допомогою SAI.</string>
     <string name="installer_install_apks">Інсталювати APK</string>
     <string name="installer_installation_failed">Додаток не установлено</string>
@@ -47,4 +54,25 @@
     <string name="settings_main_use_root_error">Не вдалося отримати root-доступ</string>
     <string name="settings_main_use_root_summary">Спробувати використовувати root-інсталер. При відсутності root-доступу SAI все одно використовує rootless-інсталер</string>
     <string name="settings_title">Налаштування</string>
+    <string name="installer_select_theme">Вибрати тему</string>
+    <string name="installer_device">Пристрій</string>
+    <string name="installer_miui_warning_title">Виявлено MIUI</string>
+    <string name="installer_miui_warning_message">Схоже, у вас MIUI. MIUI відома своїм ламанням стандартних функцій Android API і деякі користувачі повідомляли, що SAI не працює на MIUI. Зазвичай це вирішується відключенням оптимізацій MIUI в налаштуваннях для розробників, що я рекомендую вам зробити.</string>
+    <string name="installer_miui_warning_open_dev_settings">Відкрити налаштування для розробників</string>
+    <string name="settings_main_extract_archives">Розархівувати APK файли</string>
+    <string name="settings_main_extract_archives_summary">Розархівувати APK з .zip/.apks архівів в тимчасові файли перед установкою. Якщо вимкнено, SAI буде встановлювати APK безпосередньо з архіву без створення тимчасових файлів. Не рекомендується вмикати</string>
+    <string name="installer_miui_warning_oof">Не вдалося відкрити налаштування для розробників. \"Хороша\" прошивка</string>
+    <string name="settings_main_reset_one_time_warnings">Сбросить одноразовые предупреждения</string>
+
+    <string name="backup_backup">Экспорт</string>
+    <string name="backup_backup_prompt">Экспортировать %s?</string>
+    <string name="backup_backup_status">Выполняется экспорт %d приложений</string>
+    <string name="backup_backup_in_progress">Выполняется экспорт %s...</string>
+    <string name="backup_backup_success">%s успешно экспортировано</string>
+    <string name="backup_backup_failed">Не удалось экспортировать %s</string>
+    <string name="backup_search_hint">Поиск приложений</string>
+    <string name="backup_search_splits_only">Только split APK</string>
+    <string name="backup_search_show_system_apps">Показывать системные</string>
+    <string name="backup_error_cant_mkdir">Не удается создать директорию для экспортированных приложений</string>
+    <string name="backup_warning">Пожалуйста, учтите, что функция экспорта ещё в бете. Вот небольшой FAQ:\n\n1) Приложения экспортируются в папку \"SAI\" хранилища телефона\n\n2) SAI экспортирует только APK приложений, но не их данные\n\n3) Приложения экспортируются как .apks файл, который является переименованным ZIP-архивом, содержащим все APK</string>
 </resources>

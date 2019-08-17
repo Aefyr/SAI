@@ -1,104 +1,63 @@
 package com.aefyr.sai.ui.activities;
 
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.widget.Button;
-import android.widget.ImageButton;
-
-import com.aefyr.sai.R;
-import com.aefyr.sai.ui.dialogs.AppInstalledDialogFragment;
-import com.aefyr.sai.ui.dialogs.FilePickerDialogFragment;
-import com.aefyr.sai.ui.dialogs.InstallationConfirmationDialogFragment;
-import com.aefyr.sai.utils.AlertsUtils;
-import com.aefyr.sai.utils.PermissionsUtils;
-import com.aefyr.sai.utils.PreferencesHelper;
-import com.aefyr.sai.utils.Theme;
-import com.aefyr.sai.viewmodels.InstallerViewModel;
-import com.github.angads25.filepicker.model.DialogConfigs;
-import com.github.angads25.filepicker.model.DialogProperties;
-
-import java.io.File;
-import java.util.List;
+import android.preference.PreferenceManager;
+import android.view.MenuItem;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.fragment.app.Fragment;
 
-public class MainActivity extends AppCompatActivity implements FilePickerDialogFragment.OnFilesSelectedListener, InstallationConfirmationDialogFragment.ConfirmationListener {
+import com.aefyr.sai.R;
+import com.aefyr.sai.backup.BackupRepository;
+import com.aefyr.sai.ui.dialogs.MiuiWarningDialogFragment;
+import com.aefyr.sai.ui.fragments.BackupFragment;
+import com.aefyr.sai.ui.fragments.InstallerFragment;
+import com.aefyr.sai.utils.FragmentNavigator;
+import com.aefyr.sai.utils.PreferencesKeys;
+import com.aefyr.sai.utils.Theme;
+import com.aefyr.sai.utils.Utils;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-    private InstallerViewModel mViewModel;
-    private Button mButton;
-    private ImageButton mButtonSettings;
-    private PreferencesHelper mHelper;
+public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener, FragmentNavigator.FragmentFactory {
+
+    private BottomNavigationView mBottomNavigationView;
+
+    private FragmentNavigator mFragmentNavigator;
+
+    private InstallerFragment mInstallerFragment;
+    private BackupFragment mBackupFragment;
+
+    private boolean mIsNavigationEnabled = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Theme.apply(this);
 
+        //TODO is this ok?
+        BackupRepository.getInstance(this);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mHelper = PreferencesHelper.getInstance(this);
+        showMiuiWarning();
 
-        mButton = findViewById(R.id.button_install);
-        mButtonSettings = findViewById(R.id.ib_settings);
 
-        mViewModel = ViewModelProviders.of(this).get(InstallerViewModel.class);
-        mViewModel.getState().observe(this, (state) -> {
-            switch (state) {
-                case IDLE:
-                    mButton.setText(R.string.installer_install_apks);
-                    mButton.setEnabled(true);
-                    mButtonSettings.setEnabled(true);
+        mBottomNavigationView = findViewById(R.id.bottomnav_main);
+        mBottomNavigationView.setOnNavigationItemSelectedListener(this);
 
-                    mButtonSettings.setEnabled(true);
-                    mButtonSettings.animate()
-                            .alpha(1f)
-                            .setDuration(200)
-                            .start();
-                    break;
-                case INSTALLING:
-                    mButton.setText(R.string.installer_installation_in_progress);
-                    mButton.setEnabled(false);
-
-                    mButtonSettings.setEnabled(false);
-                    mButtonSettings.animate()
-                            .alpha(0f)
-                            .setDuration(200)
-                            .start();
-                    break;
-            }
-        });
-        mViewModel.getEvents().observe(this, (event) -> {
-            if (event.isConsumed())
-                return;
-
-            String[] eventData = event.consume();
-            switch (eventData[0]) {
-                case InstallerViewModel.EVENT_PACKAGE_INSTALLED:
-                    showPackageInstalledAlert(eventData[1]);
-                    break;
-                case InstallerViewModel.EVENT_INSTALLATION_FAILED:
-                    AlertsUtils.showAlert(this, getString(R.string.installer_installation_failed), eventData[1]);
-                    break;
-            }
-        });
-
-        mButton.setOnClickListener((v) -> checkPermissionsAndPickFiles());
-        findViewById(R.id.button_help).setOnClickListener((v) -> AlertsUtils.showAlert(this, R.string.help, R.string.installer_help));
-        findViewById(R.id.ib_toggle_theme).setOnClickListener((v -> {
-            Theme.getInstance(this).setDark(!Theme.getInstance(this).isDark());
-            recreate();
-        }));
-        findViewById(R.id.ib_settings).setOnClickListener((v) -> startActivity(new Intent(MainActivity.this, PreferencesActivity.class)));
+        mFragmentNavigator = new FragmentNavigator(savedInstanceState, getSupportFragmentManager(), R.id.container_main, this);
+        mInstallerFragment = mFragmentNavigator.findFragmentByTag("installer");
+        mBackupFragment = mFragmentNavigator.findFragmentByTag("backup");
+        if (savedInstanceState == null)
+            mFragmentNavigator.switchTo("installer");
 
         Intent intent = getIntent();
         if (Intent.ACTION_VIEW.equals(intent.getAction()) && intent.getData() != null) {
-            //TODO should cancel previous dialog if it exists
-            InstallationConfirmationDialogFragment.newInstance(intent.getData()).show(getSupportFragmentManager(), "installation_confirmation_dialog");
+            deliverActionViewUri(intent.getData());
             getIntent().setData(null);
         }
     }
@@ -107,62 +66,78 @@ public class MainActivity extends AppCompatActivity implements FilePickerDialogF
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         if (Intent.ACTION_VIEW.equals(intent.getAction()) && intent.getData() != null) {
-            InstallationConfirmationDialogFragment.newInstance(intent.getData()).show(getSupportFragmentManager(), "installation_confirmation_dialog");
+            deliverActionViewUri(intent.getData());
         }
     }
 
-    private void checkPermissionsAndPickFiles() {
-        if (!PermissionsUtils.checkAndRequestStoragePermissions(this))
-            return;
-
-        DialogProperties properties = new DialogProperties();
-        properties.selection_mode = DialogConfigs.MULTI_MODE;
-        properties.selection_type = DialogConfigs.FILE_SELECT;
-        properties.root = Environment.getExternalStorageDirectory();
-        properties.offset = new File(mHelper.getHomeDirectory());
-        properties.extensions = new String[]{"apk", "zip", "apks"};
-        properties.sortBy = mHelper.getFilePickerSortBy();
-        properties.sortOrder = mHelper.getFilePickerSortOrder();
-
-        FilePickerDialogFragment.newInstance(null, getString(R.string.installer_pick_apks), properties).show(getSupportFragmentManager(), "dialog_files_picker");
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
-        if (requestCode == PermissionsUtils.REQUEST_CODE_STORAGE_PERMISSIONS) {
-            if (grantResults.length == 0 || grantResults[0] == PackageManager.PERMISSION_DENIED)
-                AlertsUtils.showAlert(this, R.string.error, R.string.permissions_required_storage);
-            else
-                checkPermissionsAndPickFiles();
-        }
-
-    }
-
-    private void showPackageInstalledAlert(String packageName) {
-        AppInstalledDialogFragment.newInstance(packageName).show(getSupportFragmentManager(), "dialog_app_installed");
-    }
-
-    @Override
-    public void onFilesSelected(String tag, List<File> files) {
-        if (files.size() == 1 && (files.get(0).getName().endsWith(".zip") || files.get(0).getName().endsWith(".apks"))) {
-            mViewModel.installPackagesFromZip(files.get(0));
+    private void deliverActionViewUri(Uri uri) {
+        if (!mIsNavigationEnabled) {
+            Toast.makeText(this, R.string.main_navigation_disabled, Toast.LENGTH_SHORT).show();
             return;
         }
+        mBottomNavigationView.getMenu().getItem(0).setChecked(true);
+        mFragmentNavigator.switchTo("installer");
+        getInstallerFragment().handleActionView(uri);
+    }
 
-        for (File f : files) {
-            if (!f.getName().endsWith(".apk")) {
-                AlertsUtils.showAlert(this, R.string.error, R.string.installer_error_mixed_extensions);
-                return;
-            }
+    private void showMiuiWarning() {
+        if (Utils.isMiui() && !PreferenceManager.getDefaultSharedPreferences(this).getBoolean(PreferencesKeys.MIUI_WARNING_SHOWN, false))
+            new MiuiWarningDialogFragment().show(getSupportFragmentManager(), "miui_warning_dialog");
+    }
+
+    public void setNavigationEnabled(boolean enabled) {
+        mIsNavigationEnabled = enabled;
+
+        for (int i = 0; i < mBottomNavigationView.getMenu().size(); i++) {
+            mBottomNavigationView.getMenu().getItem(i).setEnabled(enabled);
         }
-
-        mViewModel.installPackages(files);
+        mBottomNavigationView.animate()
+                .alpha(enabled ? 1f : 0.4f)
+                .setDuration(300)
+                .start();
     }
 
     @Override
-    public void onConfirmed(Uri apksFileUri) {
-        mViewModel.installPackagesFromContentProviderZip(apksFileUri);
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_installer:
+                mFragmentNavigator.switchTo("installer");
+                break;
+            case R.id.menu_backup:
+                mFragmentNavigator.switchTo("backup");
+                break;
+        }
+
+        return true;
+    }
+
+    @Override
+    public Fragment createFragment(String tag) {
+        switch (tag) {
+            case "installer":
+                return getInstallerFragment();
+            case "backup":
+                return getBackupFragment();
+        }
+
+        throw new IllegalArgumentException("Unknown fragment tag: " + tag);
+    }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        mFragmentNavigator.writeStateToBundle(outState);
+    }
+
+    private InstallerFragment getInstallerFragment() {
+        if (mInstallerFragment == null)
+            mInstallerFragment = new InstallerFragment();
+        return mInstallerFragment;
+    }
+
+    private BackupFragment getBackupFragment() {
+        if (mBackupFragment == null)
+            mBackupFragment = new BackupFragment();
+        return mBackupFragment;
     }
 }
