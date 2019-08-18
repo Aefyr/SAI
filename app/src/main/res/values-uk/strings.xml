@@ -10,11 +10,11 @@
     <string name="help">Допомога</string>
     <string name="copy">Скопіювати</string>
     <string name="copied">Скопійовано</string>
-    <string name="dont_show_again">Больше не показывать</string>
+    <string name="dont_show_again">Більше не показувати</string>
 
     <string name="main_installer">Установка</string>
-    <string name="main_backup">Экспорт</string>
-    <string name="main_navigation_disabled">Невозможно использовать открыть с помощью во время установки</string>
+    <string name="main_backup">Експорт</string>
+    <string name="main_navigation_disabled">Неможливо користуватися \"Відкрити за допомогою\" під час установки</string>
 
     <string name="installer_installation_confirmation">Установити \"%s\"?</string>
     <string name="installer_app_installed">Додаток не установлено</string>
@@ -62,17 +62,17 @@
     <string name="settings_main_extract_archives">Розархівувати APK файли</string>
     <string name="settings_main_extract_archives_summary">Розархівувати APK з .zip/.apks архівів в тимчасові файли перед установкою. Якщо вимкнено, SAI буде встановлювати APK безпосередньо з архіву без створення тимчасових файлів. Не рекомендується вмикати</string>
     <string name="installer_miui_warning_oof">Не вдалося відкрити налаштування для розробників. \"Хороша\" прошивка</string>
-    <string name="settings_main_reset_one_time_warnings">Сбросить одноразовые предупреждения</string>
+    <string name="settings_main_reset_one_time_warnings">Скинути одноразові попередження</string>
 
-    <string name="backup_backup">Экспорт</string>
-    <string name="backup_backup_prompt">Экспортировать %s?</string>
-    <string name="backup_backup_status">Выполняется экспорт %d приложений</string>
-    <string name="backup_backup_in_progress">Выполняется экспорт %s...</string>
-    <string name="backup_backup_success">%s успешно экспортировано</string>
-    <string name="backup_backup_failed">Не удалось экспортировать %s</string>
-    <string name="backup_search_hint">Поиск приложений</string>
-    <string name="backup_search_splits_only">Только split APK</string>
-    <string name="backup_search_show_system_apps">Показывать системные</string>
-    <string name="backup_error_cant_mkdir">Не удается создать директорию для экспортированных приложений</string>
-    <string name="backup_warning">Пожалуйста, учтите, что функция экспорта ещё в бете. Вот небольшой FAQ:\n\n1) Приложения экспортируются в папку \"SAI\" хранилища телефона\n\n2) SAI экспортирует только APK приложений, но не их данные\n\n3) Приложения экспортируются как .apks файл, который является переименованным ZIP-архивом, содержащим все APK</string>
+    <string name="backup_backup">Експорт</string>
+    <string name="backup_backup_prompt">Експортувати %s?</string>
+    <string name="backup_backup_status">Виконується експорт %d додатків</string>
+    <string name="backup_backup_in_progress">Виконується експорт %s...</string>
+    <string name="backup_backup_success">%s успішно експортовано</string>
+    <string name="backup_backup_failed">Не вдалося експортувати %s</string>
+    <string name="backup_search_hint">Пошук додатків</string>
+    <string name="backup_search_splits_only">Тільки split APK</string>
+    <string name="backup_search_show_system_apps">Показувати системні</string>
+    <string name="backup_error_cant_mkdir">Не вдається створити теку для експортованих додатків</string>
+    <string name="backup_warning">Будь ласка, зверніть увагу, що функція експорту перебуває ще в беті. Ось невеликий FAQ:\n\n1) Додатки експортуються в теку \"SAI\" внутрішню пам\'ять телефону\n\n2) SAI експортує тільки APK додатків, але не їх дані\n\n3) Додатки експортуються як .apks файл, який являється перейменованим ZIP-архівом, що містить всі APK</string>
 </resources>
