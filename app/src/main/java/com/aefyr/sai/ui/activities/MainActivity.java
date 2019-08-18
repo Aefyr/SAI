@@ -8,7 +8,6 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import com.aefyr.sai.R;
@@ -18,11 +17,10 @@ import com.aefyr.sai.ui.fragments.BackupFragment;
 import com.aefyr.sai.ui.fragments.InstallerFragment;
 import com.aefyr.sai.utils.FragmentNavigator;
 import com.aefyr.sai.utils.PreferencesKeys;
-import com.aefyr.sai.utils.Theme;
 import com.aefyr.sai.utils.Utils;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener, FragmentNavigator.FragmentFactory {
+public class MainActivity extends ThemedActivity implements BottomNavigationView.OnNavigationItemSelectedListener, FragmentNavigator.FragmentFactory {
 
     private BottomNavigationView mBottomNavigationView;
 
@@ -35,13 +33,12 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Theme.apply(this);
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
 
         //TODO is this ok?
         BackupRepository.getInstance(this);
 
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
 
         showMiuiWarning();
 
