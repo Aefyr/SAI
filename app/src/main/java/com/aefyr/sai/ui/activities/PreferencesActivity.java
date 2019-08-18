@@ -2,20 +2,16 @@ package com.aefyr.sai.ui.activities;
 
 import android.os.Bundle;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 
 import com.aefyr.sai.R;
 import com.aefyr.sai.ui.fragments.PreferencesFragment;
-import com.aefyr.sai.utils.Theme;
 
-public class PreferencesActivity extends AppCompatActivity {
+public class PreferencesActivity extends ThemedActivity {
     private static final String TAG_PREFERENCES_FRAGMENT = "preferences";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Theme.apply(this);
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_preferences);
 

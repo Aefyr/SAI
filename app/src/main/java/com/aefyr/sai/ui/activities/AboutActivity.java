@@ -5,18 +5,13 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import com.aefyr.sai.BuildConfig;
 import com.aefyr.sai.R;
-import com.aefyr.sai.utils.Theme;
 
-public class AboutActivity extends AppCompatActivity {
+public class AboutActivity extends ThemedActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Theme.apply(this);
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about);
 

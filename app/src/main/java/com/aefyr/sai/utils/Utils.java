@@ -82,6 +82,12 @@ public class Utils {
     }
 
     public static void hideKeyboard(Fragment fragment) {
+        Activity activity = fragment.getActivity();
+        if (activity != null) {
+            hideKeyboard(activity);
+            return;
+        }
+
         InputMethodManager inputMethodManager = (InputMethodManager) fragment.requireContext().getSystemService(Context.INPUT_METHOD_SERVICE);
         inputMethodManager.hideSoftInputFromWindow(fragment.requireView().getWindowToken(), 0);
     }

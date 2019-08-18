@@ -35,10 +35,10 @@ public class FragmentNavigator {
     }
 
     public void switchTo(String tag) {
+        ensureStateWasRestored();
+
         if (mCurrentFragment != null && tag.equals(mCurrentFragment.getTag()))
             return;
-
-        ensureStateWasRestored();
 
         FragmentTransaction transaction = mFragmentManager.beginTransaction();
 
@@ -55,7 +55,7 @@ public class FragmentNavigator {
         }
 
         mCurrentFragment = newFragment;
-        transaction.commit();
+        transaction.commitNow();
     }
 
     public <T extends Fragment> T findFragmentByTag(String tag) {
