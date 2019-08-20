@@ -10,20 +10,14 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.aefyr.sai.installer.ApkSourceBuilder;
 import com.aefyr.sai.installer.PackageInstallerProvider;
 import com.aefyr.sai.installer.SAIPackageInstaller;
 import com.aefyr.sai.model.apksource.ApkSource;
-import com.aefyr.sai.model.apksource.DefaultApkSource;
-import com.aefyr.sai.model.apksource.ZipApkSource;
-import com.aefyr.sai.model.apksource.ZipExtractorApkSource;
-import com.aefyr.sai.model.filedescriptor.ContentUriFileDescriptor;
-import com.aefyr.sai.model.filedescriptor.FileDescriptor;
-import com.aefyr.sai.model.filedescriptor.NormalFileDescriptor;
 import com.aefyr.sai.utils.Event;
 import com.aefyr.sai.utils.PreferencesHelper;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
 public class InstallerViewModel extends AndroidViewModel implements SAIPackageInstaller.InstallationStatusListener {
@@ -32,6 +26,7 @@ public class InstallerViewModel extends AndroidViewModel implements SAIPackageIn
 
     private SAIPackageInstaller mInstaller;
     private Context mContext;
+    private PreferencesHelper mPrefsHelper;
     private long mOngoingSessionId;
 
     public enum InstallerState {
@@ -44,6 +39,7 @@ public class InstallerViewModel extends AndroidViewModel implements SAIPackageIn
     public InstallerViewModel(@NonNull Application application) {
         super(application);
         mContext = application;
+        mPrefsHelper = PreferencesHelper.getInstance(mContext);
         ensureInstallerActuality();
     }
 
@@ -58,22 +54,23 @@ public class InstallerViewModel extends AndroidViewModel implements SAIPackageIn
     public void installPackages(List<File> apkFiles) {
         ensureInstallerActuality();
 
-        ArrayList<FileDescriptor> descriptors = new ArrayList<>(apkFiles.size());
-        for (File f : apkFiles)
-            descriptors.add(new NormalFileDescriptor(f));
+        ApkSource apkSource = new ApkSourceBuilder(mContext)
+                .fromApkFiles(apkFiles)
+                .setSigningEnabled(mPrefsHelper.shouldSignApks())
+                .build();
 
-        mOngoingSessionId = mInstaller.createInstallationSession(new DefaultApkSource(descriptors));
+        mOngoingSessionId = mInstaller.createInstallationSession(apkSource);
         mInstaller.startInstallationSession(mOngoingSessionId);
     }
 
     public void installPackagesFromZip(File zipWithApkFiles) {
         ensureInstallerActuality();
 
-        ApkSource apkSource;
-        if (PreferencesHelper.getInstance(mContext).shouldExtractArchives())
-            apkSource = new ZipExtractorApkSource(mContext, new NormalFileDescriptor(zipWithApkFiles));
-        else
-            apkSource = new ZipApkSource(mContext, new NormalFileDescriptor(zipWithApkFiles));
+        ApkSource apkSource = new ApkSourceBuilder(mContext)
+                .fromZipFile(zipWithApkFiles)
+                .setZipExtractionEnabled(mPrefsHelper.shouldSignApks())
+                .setSigningEnabled(mPrefsHelper.shouldSignApks())
+                .build();
 
         mOngoingSessionId = mInstaller.createInstallationSession(apkSource);
         mInstaller.startInstallationSession(mOngoingSessionId);
@@ -82,11 +79,11 @@ public class InstallerViewModel extends AndroidViewModel implements SAIPackageIn
     public void installPackagesFromContentProviderZip(Uri zipContentUri) {
         ensureInstallerActuality();
 
-        ApkSource apkSource;
-        if (PreferencesHelper.getInstance(mContext).shouldExtractArchives())
-            apkSource = new ZipExtractorApkSource(mContext, new ContentUriFileDescriptor(mContext, zipContentUri));
-        else
-            apkSource = new ZipApkSource(mContext, new ContentUriFileDescriptor(mContext, zipContentUri));
+        ApkSource apkSource = new ApkSourceBuilder(mContext)
+                .fromZipContentUri(zipContentUri)
+                .setZipExtractionEnabled(mPrefsHelper.shouldSignApks())
+                .setSigningEnabled(mPrefsHelper.shouldSignApks())
+                .build();
 
         mOngoingSessionId = mInstaller.createInstallationSession(apkSource);
         mInstaller.startInstallationSession(mOngoingSessionId);

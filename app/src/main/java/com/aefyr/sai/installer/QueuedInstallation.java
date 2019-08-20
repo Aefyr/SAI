@@ -3,8 +3,6 @@ package com.aefyr.sai.installer;
 import android.content.Context;
 
 import com.aefyr.sai.model.apksource.ApkSource;
-import com.aefyr.sai.model.apksource.SignerApkSource;
-import com.aefyr.sai.utils.PreferencesHelper;
 
 public class QueuedInstallation {
 
@@ -23,9 +21,6 @@ public class QueuedInstallation {
     }
 
     ApkSource getApkSource() {
-        if (PreferencesHelper.getInstance(mContext).shouldSignApks())
-            return new SignerApkSource(mContext, mApkSource);
-
         return mApkSource;
     }
 }

@@ -59,7 +59,7 @@ public class BackupViewModel extends AndroidViewModel {
     @Override
     protected void onCleared() {
         super.onCleared();
-        BackupRepository.getInstance(mContext).getPackages().removeObserver(mBackupRepoPackagesObserver);
+        mBackupRepo.getPackages().removeObserver(mBackupRepoPackagesObserver);
     }
 
     private class PackagesFilter extends Filter {
@@ -69,13 +69,6 @@ public class BackupViewModel extends AndroidViewModel {
             List<PackageMeta> packages = new ArrayList<>(mRawPackages);
             FilterQuery filterQuery = FilterQuery.fromString(constraint.toString());
             String query = filterQuery.query.toLowerCase();
-
-            if (constraint.length() == 0) {
-                FilterResults results = new FilterResults();
-                results.values = new ArrayList<>(packages);
-                results.count = packages.size();
-                return results;
-            }
 
             Iterator<PackageMeta> iterator = packages.iterator();
             while (iterator.hasNext()) {
@@ -94,21 +87,23 @@ public class BackupViewModel extends AndroidViewModel {
                 }
 
                 //Apply query
-                //Check if app label matches
-                String[] wordsInLabel = packageMeta.label.toLowerCase().split(" ");
-                boolean labelMatches = false;
-                for (String word : wordsInLabel) {
-                    if (word.startsWith(query)) {
-                        labelMatches = true;
-                        break;
+                if (query.length() > 0) {
+                    //Check if app label matches
+                    String[] wordsInLabel = packageMeta.label.toLowerCase().split(" ");
+                    boolean labelMatches = false;
+                    for (String word : wordsInLabel) {
+                        if (word.startsWith(query)) {
+                            labelMatches = true;
+                            break;
+                        }
                     }
+
+                    //Check if app packages matches
+                    boolean packagesMatches = packageMeta.packageName.toLowerCase().startsWith(query);
+
+                    if (!labelMatches && !packagesMatches)
+                        iterator.remove();
                 }
-
-                //Check if app packages matches
-                boolean packagesMatches = packageMeta.packageName.toLowerCase().startsWith(query);
-
-                if (!labelMatches && !packagesMatches)
-                    iterator.remove();
             }
 
             FilterResults results = new FilterResults();
