@@ -68,7 +68,7 @@ public class InstallerViewModel extends AndroidViewModel implements SAIPackageIn
 
         ApkSource apkSource = new ApkSourceBuilder(mContext)
                 .fromZipFile(zipWithApkFiles)
-                .setZipExtractionEnabled(mPrefsHelper.shouldSignApks())
+                .setZipExtractionEnabled(mPrefsHelper.shouldExtractArchives())
                 .setSigningEnabled(mPrefsHelper.shouldSignApks())
                 .build();
 
@@ -81,7 +81,7 @@ public class InstallerViewModel extends AndroidViewModel implements SAIPackageIn
 
         ApkSource apkSource = new ApkSourceBuilder(mContext)
                 .fromZipContentUri(zipContentUri)
-                .setZipExtractionEnabled(mPrefsHelper.shouldSignApks())
+                .setZipExtractionEnabled(mPrefsHelper.shouldExtractArchives())
                 .setSigningEnabled(mPrefsHelper.shouldSignApks())
                 .build();
 

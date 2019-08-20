@@ -91,7 +91,7 @@ public class ApkSourceBuilder {
 
     private void ensureSourceSetOnce() {
         if (mSourceSet)
-            throw new IllegalStateException("Source can be only set once");
+            throw new IllegalStateException("Source can be only be set once");
         mSourceSet = true;
     }
 }
