@@ -53,7 +53,7 @@ public class BackupService extends Service {
 
     private Set<BackupTask> mTasks = new HashSet<>();
 
-    private Executor mExecutor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+    private Executor mExecutor = Executors.newFixedThreadPool(4);
     private Handler mHandler = new Handler(Looper.getMainLooper());
 
     public static void enqueueBackup(Context c, PackageMeta packageMeta, Uri destination) {

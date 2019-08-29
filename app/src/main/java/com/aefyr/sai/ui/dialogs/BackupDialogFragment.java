@@ -72,7 +72,12 @@ public class BackupDialogFragment extends DialogFragment {
             Log.e(TAG, "Unable to mkdir:" + backupsDir.toString());
             return null;
         }
-        return new File(backupsDir, String.format("%s-%d.apks", mPackage.packageName, System.currentTimeMillis()));
+
+        String packageInfoPart = String.format("%s-%s", mPackage.packageName, mPackage.versionName).replace('.', '_');
+        if (packageInfoPart.length() > 160)
+            packageInfoPart = packageInfoPart.substring(0, 160);
+
+        return new File(backupsDir, String.format("%s-%d.apks", packageInfoPart, System.currentTimeMillis()));
     }
 
     private void enqueueBackup() {
