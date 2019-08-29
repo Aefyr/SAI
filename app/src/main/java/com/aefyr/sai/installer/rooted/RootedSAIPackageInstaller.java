@@ -126,10 +126,15 @@ public class RootedSAIPackageInstaller extends SAIPackageInstaller {
         List<Pair<String, String>> attemptedCommands = new ArrayList<>();
 
         for (String commandToAttempt : commandsToAttempt) {
-            String result = ensureCommandSucceeded(Root.exec(commandToAttempt));
-            attemptedCommands.add(new Pair<>(commandToAttempt, result));
+            Root.Result result = Root.exec(commandToAttempt);
+            attemptedCommands.add(new Pair<>(commandToAttempt, result.toString()));
 
-            Integer sessionId = extractSessionId(result);
+            if (!result.isSuccessful()) {
+                Log.w(TAG, String.format("Command failed: %s > %s", commandToAttempt, result));
+                continue;
+            }
+
+            Integer sessionId = extractSessionId(result.out);
             if (sessionId != null)
                 return sessionId;
             else
@@ -137,8 +142,9 @@ public class RootedSAIPackageInstaller extends SAIPackageInstaller {
         }
 
         StringBuilder exceptionMessage = new StringBuilder("Unable to create session, attempted commands: ");
+        int i = 1;
         for (Pair<String, String> attemptedCommand : attemptedCommands) {
-            exceptionMessage.append("\n\n==========================\n")
+            exceptionMessage.append("\n\n").append(i++).append(") ==========================\n")
                     .append(attemptedCommand.first)
                     .append("\nVVVVVVVVVVVVVVVV\n")
                     .append(attemptedCommand.second);
