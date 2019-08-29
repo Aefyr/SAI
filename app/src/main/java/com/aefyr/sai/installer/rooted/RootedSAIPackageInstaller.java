@@ -74,8 +74,8 @@ public class RootedSAIPackageInstaller extends SAIPackageInstaller {
 
     @SuppressLint("DefaultLocale")
     @Override
-    protected void installApkFiles(ApkSource apkSource) {
-        try {
+    protected void installApkFiles(ApkSource aApkSource) {
+        try (ApkSource apkSource = aApkSource) {
             if (!Root.requestRoot()) {
                 //I don't know if this can even happen, because InstallerViewModel calls PackageInstallerProvider.getInstaller, which checks root access and returns correct installer in response, before every installation
                 dispatchCurrentSessionUpdate(InstallationStatus.INSTALLATION_FAILED, getContext().getString(R.string.installer_error_root, getContext().getString(R.string.installer_error_root_no_root)));
@@ -97,7 +97,7 @@ public class RootedSAIPackageInstaller extends SAIPackageInstaller {
             }
         } catch (Exception e) {
             Log.w(TAG, e);
-            dispatchCurrentSessionUpdate(InstallationStatus.INSTALLATION_FAILED, getContext().getString(R.string.installer_error_root, getSessionInfo(apkSource) + "\n\n" + Utils.throwableToString(e)));
+            dispatchCurrentSessionUpdate(InstallationStatus.INSTALLATION_FAILED, getContext().getString(R.string.installer_error_root, getSessionInfo(aApkSource) + "\n\n" + Utils.throwableToString(e)));
             installationCompleted();
         }
     }

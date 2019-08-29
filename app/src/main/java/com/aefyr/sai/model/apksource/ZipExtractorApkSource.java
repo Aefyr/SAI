@@ -48,7 +48,6 @@ public class ZipExtractorApkSource implements ApkSource {
 
         if (mCurrentZipEntry == null) {
             mZipInputStream.close();
-            cleanup();
 
             if (mSeenApkFiles == 0)
                 throw new IllegalArgumentException(mContext.getString(R.string.installer_error_zip_contains_no_apks));
@@ -77,14 +76,15 @@ public class ZipExtractorApkSource implements ApkSource {
         return mCurrentExtractedZipEntryFile.getName();
     }
 
+    @Override
+    public void close() {
+        IOUtils.deleteRecursively(mExtractedFilesDir);
+    }
+
     private void extractCurrentEntry() throws Exception {
         mCurrentExtractedZipEntryFile = new File(mExtractedFilesDir, Utils.getFileNameFromZipEntry(mCurrentZipEntry));
         try (FileOutputStream fileOutputStream = new FileOutputStream(mCurrentExtractedZipEntryFile)) {
             IOUtils.copyStream(mZipInputStream, fileOutputStream);
         }
-    }
-
-    private void cleanup() {
-        IOUtils.deleteRecursively(mExtractedFilesDir);
     }
 }

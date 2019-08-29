@@ -20,7 +20,7 @@ public class SignerApkSource implements ApkSource {
     private Context mContext;
     private boolean mIsPrepared;
     private PseudoApkSigner mApkSigner;
-    private File mCacheDirectory;
+    private File mTempDir;
 
     private File mCurrentSignedApkFile;
 
@@ -32,17 +32,16 @@ public class SignerApkSource implements ApkSource {
     @Override
     public boolean nextApk() throws Exception {
         if (!mWrappedApkSource.nextApk()) {
-            clearCache();
             return false;
         }
 
         if (!mIsPrepared) {
             checkAndPrepareSigningEnvironment();
-            createCacheDir();
+            createTempDir();
             mApkSigner = new PseudoApkSigner(new File(getSigningEnvironmentDir(), FILE_NAME_PAST), new File(getSigningEnvironmentDir(), FILE_NAME_PRIVATE_KEY));
         }
 
-        mCurrentSignedApkFile = new File(mCacheDirectory, getApkName());
+        mCurrentSignedApkFile = new File(mTempDir, getApkName());
         mApkSigner.sign(mWrappedApkSource.openApkInputStream(), new FileOutputStream(mCurrentSignedApkFile));
 
         return true;
@@ -61,6 +60,12 @@ public class SignerApkSource implements ApkSource {
     @Override
     public String getApkName() throws Exception {
         return mWrappedApkSource.getApkName();
+    }
+
+    @Override
+    public void close() {
+        if (mTempDir != null)
+            IOUtils.deleteRecursively(mTempDir);
     }
 
     private void checkAndPrepareSigningEnvironment() throws Exception {
@@ -86,22 +91,8 @@ public class SignerApkSource implements ApkSource {
         return new File(mContext.getFilesDir(), "signing");
     }
 
-    private void createCacheDir() {
-        mCacheDirectory = new File(mContext.getCacheDir(), String.valueOf(System.currentTimeMillis()));
-        mCacheDirectory.mkdirs();
-    }
-
-    private void clearCache() {
-        if (mCacheDirectory != null) {
-            deleteFile(mCacheDirectory);
-        }
-    }
-
-    private void deleteFile(File f) {
-        if (f.isDirectory()) {
-            for (File child : f.listFiles())
-                deleteFile(child);
-        }
-        f.delete();
+    private void createTempDir() {
+        mTempDir = new File(mContext.getFilesDir(), String.valueOf(System.currentTimeMillis()));
+        mTempDir.mkdirs();
     }
 }

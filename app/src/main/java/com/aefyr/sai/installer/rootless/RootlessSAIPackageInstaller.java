@@ -66,11 +66,11 @@ public class RootlessSAIPackageInstaller extends SAIPackageInstaller {
     }
 
     @Override
-    protected void installApkFiles(ApkSource apkSource) {
+    protected void installApkFiles(ApkSource aApkSource) {
         cleanOldSessions();
 
         PackageInstaller.Session session = null;
-        try {
+        try (ApkSource apkSource = aApkSource) {
             PackageInstaller.SessionParams sessionParams = new PackageInstaller.SessionParams(PackageInstaller.SessionParams.MODE_FULL_INSTALL);
             sessionParams.setInstallLocation(PackageInfo.INSTALL_LOCATION_AUTO);
 
