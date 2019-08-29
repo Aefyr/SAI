@@ -1,12 +1,9 @@
 package com.aefyr.sai.ui.dialogs;
 
-import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -22,7 +19,6 @@ import com.aefyr.sai.utils.Utils;
 import java.io.File;
 
 public class BackupDialogFragment extends DialogFragment {
-    private static final String TAG = "BackupDialogFrag";
     private static final String ARG_PACKAGE = "package";
 
     private PackageMeta mPackage;
@@ -66,30 +62,13 @@ public class BackupDialogFragment extends DialogFragment {
         return alertDialog;
     }
 
-    @SuppressLint("DefaultLocale")
-    private File generateBackupFilePath() {
-        File backupsDir = new File(Environment.getExternalStorageDirectory(), "SAI");
-        if (!backupsDir.exists() && !backupsDir.mkdir()) {
-            Log.e(TAG, "Unable to mkdir:" + backupsDir.toString());
-            return null;
-        }
-
-        String packageInfoPart = String.format("%s-%s", mPackage.packageName, mPackage.versionName).replace('.', ',');
-        if (packageInfoPart.length() > 160)
-            packageInfoPart = packageInfoPart.substring(0, 160);
-
-        packageInfoPart = Utils.escapeFileName(packageInfoPart);
-
-        return new File(backupsDir, String.format("%s-%d.apks", packageInfoPart, System.currentTimeMillis()));
-    }
-
     private void enqueueBackup() {
-        File backupFile = generateBackupFilePath();
+        File backupFile = Utils.createBackupFile(mPackage);
         if (backupFile == null) {
             SimpleAlertDialogFragment.newInstance(getText(R.string.error), getText(R.string.backup_error_cant_mkdir)).show(requireFragmentManager(), null);
             return;
         }
-        BackupService.enqueueBackup(getContext(), mPackage, Uri.fromFile(generateBackupFilePath()));
+        BackupService.enqueueBackup(getContext(), mPackage, Uri.fromFile(backupFile));
     }
 
     @Override

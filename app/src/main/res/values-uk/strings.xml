@@ -75,4 +75,7 @@
     <string name="backup_search_show_system_apps">Показувати системні</string>
     <string name="backup_error_cant_mkdir">Не вдається створити теку для експортованих додатків</string>
     <string name="backup_warning">Будь ласка, зверніть увагу, що функція експорту перебуває ще в беті. Ось невеликий FAQ:\n\n1) Додатки експортуються в теку \"SAI\" внутрішню пам\'ять телефону\n\n2) SAI експортує тільки APK додатків, але не їх дані\n\n3) Додатки експортуються як .apks файл, який являється перейменованим ZIP-архівом, що містить всі APK</string>
+    <string name="backup_export_all_splits">Экспорт всех split APK</string>
+    <string name="backup_export_all_splits_prompt">Вы хотите экспортировать все split APK?</string>
+    <string name="backup_preparing">Подготовка приложений...</string>
 </resources>

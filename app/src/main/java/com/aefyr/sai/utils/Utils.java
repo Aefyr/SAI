@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
+import android.os.Environment;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.inputmethod.InputMethodManager;
@@ -15,11 +16,15 @@ import android.view.inputmethod.InputMethodManager;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.aefyr.sai.model.backup.PackageMeta;
+
+import java.io.File;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.zip.ZipEntry;
 
 public class Utils {
+    private static final String TAG = "SAIUtils";
 
     @Nullable
     public static String getAppLabel(Context c, String packageName) {
@@ -94,6 +99,24 @@ public class Utils {
 
     public static String escapeFileName(String name) {
         return name.replaceAll("[\\\\/:*?\"<>|]", "_");
+    }
+
+    @SuppressLint("DefaultLocale")
+    @Nullable
+    public static File createBackupFile(PackageMeta packageMeta) {
+        File backupsDir = new File(Environment.getExternalStorageDirectory(), "SAI");
+        if (!backupsDir.exists() && !backupsDir.mkdir()) {
+            Log.e(TAG, "Unable to mkdir:" + backupsDir.toString());
+            return null;
+        }
+
+        String packageInfoPart = String.format("%s-%s", packageMeta.packageName, packageMeta.versionName).replace('.', ',');
+        if (packageInfoPart.length() > 160)
+            packageInfoPart = packageInfoPart.substring(0, 160);
+
+        packageInfoPart = Utils.escapeFileName(packageInfoPart);
+
+        return new File(backupsDir, String.format("%s-%d.apks", packageInfoPart, System.currentTimeMillis()));
     }
 
 }

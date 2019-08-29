@@ -9,6 +9,7 @@ import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.PopupMenu;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -16,11 +17,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.aefyr.sai.R;
 import com.aefyr.sai.adapters.BackupPackagesAdapter;
 import com.aefyr.sai.model.backup.PackageMeta;
+import com.aefyr.sai.ui.dialogs.BackupAllSplitApksDialogFragment;
 import com.aefyr.sai.ui.dialogs.BackupDialogFragment;
 import com.aefyr.sai.ui.dialogs.OneTimeWarningDialogFragment;
 import com.aefyr.sai.utils.Utils;
 import com.aefyr.sai.viewmodels.BackupViewModel;
 import com.google.android.material.chip.Chip;
+import com.google.android.material.textfield.TextInputLayout;
 
 public class BackupFragment extends SaiBaseFragment implements BackupPackagesAdapter.OnItemInteractionListener {
 
@@ -49,12 +52,13 @@ public class BackupFragment extends SaiBaseFragment implements BackupPackagesAda
         adapter.setInteractionListener(this);
         recyclerView.setAdapter(adapter);
 
-        mViewModel.getPackages().observe(this, adapter::setData);
+        setupToolbar();
 
-        setupSearch();
+        mViewModel.getPackages().observe(this, adapter::setData);
     }
 
-    private void setupSearch() {
+    private void setupToolbar() {
+        //Search
         mEditTextSearch = findViewById(R.id.et_search);
         mChipFilterSplitsOnly = findViewById(R.id.chip_filter_splits);
         mChipFilterIncludeSystemApps = findViewById(R.id.chip_filter_system);
@@ -80,10 +84,32 @@ public class BackupFragment extends SaiBaseFragment implements BackupPackagesAda
         mChipFilterSplitsOnly.setOnCheckedChangeListener(onCheckedChangeListener);
         mChipFilterIncludeSystemApps.setOnCheckedChangeListener(onCheckedChangeListener);
         filterPackages();
+
+        //Menu
+        TextInputLayout textInputLayout = findViewById(R.id.til);
+        textInputLayout.setEndIconOnClickListener(v -> {
+            PopupMenu popupMenu = new PopupMenu(requireContext(), v);
+            popupMenu.getMenuInflater().inflate(R.menu.backup_fragment, popupMenu.getMenu());
+
+            popupMenu.setOnMenuItemClickListener((menuItem) -> {
+                switch (menuItem.getItemId()) {
+                    case R.id.menu_export_all_split_apks:
+                        exportAllSplitApks();
+                        break;
+                }
+                return true;
+            });
+
+            popupMenu.show();
+        });
     }
 
     private void filterPackages() {
         mViewModel.filter(mEditTextSearch.getText().toString(), mChipFilterSplitsOnly.isChecked(), mChipFilterIncludeSystemApps.isChecked());
+    }
+
+    private void exportAllSplitApks() {
+        BackupAllSplitApksDialogFragment.newInstance().show(getChildFragmentManager(), null);
     }
 
     @Override

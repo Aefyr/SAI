@@ -14,10 +14,14 @@
         android:paddingEnd="8dp">
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til"
             style="@style/SAITextInputLayout.OutlinedBox.Dense"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColorHint="?attr/colorAccent"
+            app:endIconDrawable="@drawable/ic_more"
+            app:endIconMode="custom"
+            app:endIconTint="?attr/colorAccent"
             app:startIconDrawable="@drawable/ic_search"
             app:startIconTint="?attr/colorAccent">
 

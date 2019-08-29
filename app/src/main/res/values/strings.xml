@@ -61,6 +61,9 @@
     <string name="backup_search_show_system_apps">Show system apps</string>
     <string name="backup_error_cant_mkdir">Unable to create a directory for exported apps</string>
     <string name="backup_warning">Please note, that export feature is still in beta. Here\'s some FAQ about it:\n\n1) Exported apps get saved to \"SAI\" folder in internal storage\n\n2) SAI only exports apps\' APKs, their data isn\'t exported\n\n3) Apps are exported as a .apks file which is a renamed ZIP archive containing all the APKs</string>
+    <string name="backup_export_all_splits">Export all split APKs</string>
+    <string name="backup_export_all_splits_prompt">Do you want to export all split APKs?</string>
+    <string name="backup_preparing">Preparing apps...</string>
 
     <string name="settings_title">Settings</string>
     <string name="settings_main_home_directory">Home directory</string>

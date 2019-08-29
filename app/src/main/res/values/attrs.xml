@@ -16,4 +16,5 @@
     <attr name="simpleThemeTextPrimaryColor" format="color" />
     <attr name="simpleThemeTextSecondaryColor" format="color" />
 
+    <attr name="popupMenuBackgroundTint" format="color" />
 </resources>

@@ -57,6 +57,9 @@
     <string name="backup_search_show_system_apps">显示系统应用</string>
     <string name="backup_error_cant_mkdir">无法为导出的应用程序创建目录</string>
     <string name="backup_warning">请注意，导出功能仍处于测试阶段。 这是关于它的一些常见问题：\n\n1）导出的应用程序将保存到内部存储中的\"SAI\"文件夹中\n\n2）SAI仅导出应用程序APK，他们的数据不会被导出\n\n3）应用程序导出格式为.apks文件，该文件是包含所有APK的重命名的ZIP压缩包</string>
+    <string name="backup_export_all_splits">Export all split APKs</string>
+    <string name="backup_export_all_splits_prompt">Do you want to export all split APKs?</string>
+    <string name="backup_preparing">Preparing apps...</string>
 
     <string name="settings_title">设置</string>
     <string name="settings_main_home_directory">主目录</string>
