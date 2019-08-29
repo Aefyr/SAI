@@ -92,4 +92,8 @@ public class Utils {
         inputMethodManager.hideSoftInputFromWindow(fragment.requireView().getWindowToken(), 0);
     }
 
+    public static String escapeFileName(String name) {
+        return name.replaceAll("[\\\\/:*?\"<>|]", "_");
+    }
+
 }

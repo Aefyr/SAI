@@ -17,6 +17,7 @@ import com.aefyr.sai.R;
 import com.aefyr.sai.backup.BackupService;
 import com.aefyr.sai.model.backup.PackageMeta;
 import com.aefyr.sai.utils.PermissionsUtils;
+import com.aefyr.sai.utils.Utils;
 
 import java.io.File;
 
@@ -73,9 +74,11 @@ public class BackupDialogFragment extends DialogFragment {
             return null;
         }
 
-        String packageInfoPart = String.format("%s-%s", mPackage.packageName, mPackage.versionName).replace('.', '_');
+        String packageInfoPart = String.format("%s-%s", mPackage.packageName, mPackage.versionName).replace('.', ',');
         if (packageInfoPart.length() > 160)
             packageInfoPart = packageInfoPart.substring(0, 160);
+
+        packageInfoPart = Utils.escapeFileName(packageInfoPart);
 
         return new File(backupsDir, String.format("%s-%d.apks", packageInfoPart, System.currentTimeMillis()));
     }
