@@ -49,6 +49,7 @@
     <string name="backup_backup">导出</string>
     <string name="backup_backup_prompt">导出 %s?</string>
     <string name="backup_backup_status">导出 %d 个应用</string>
+    <string name="backup_backup_export_in_progress">Export in progress</string>
     <string name="backup_backup_in_progress">导出中 %s...</string>
     <string name="backup_backup_success">导出成功 %s</string>
     <string name="backup_backup_failed">导出失败 %s</string>

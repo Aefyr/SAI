@@ -51,6 +51,7 @@
     <string name="backup_backup">Экспорт</string>
     <string name="backup_backup_prompt">Экспортировать %s?</string>
     <string name="backup_backup_status">Выполняется экспорт %d приложений</string>
+    <string name="backup_backup_export_in_progress">Экспорт в процессе</string>
     <string name="backup_backup_in_progress">Выполняется экспорт %s...</string>
     <string name="backup_backup_success">%s успешно экспортировано</string>
     <string name="backup_backup_failed">Не удалось экспортировать %s</string>

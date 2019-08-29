@@ -53,6 +53,7 @@
     <string name="backup_backup">Export</string>
     <string name="backup_backup_prompt">Export %s?</string>
     <string name="backup_backup_status">Exporting %d apps</string>
+    <string name="backup_backup_export_in_progress">Export in progress</string>
     <string name="backup_backup_in_progress">Exporting %s...</string>
     <string name="backup_backup_success">Successfully exported %s</string>
     <string name="backup_backup_failed">Failed to export %s</string>

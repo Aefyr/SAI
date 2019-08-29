@@ -22,6 +22,7 @@ import androidx.core.app.NotificationManagerCompat;
 import com.aefyr.sai.R;
 import com.aefyr.sai.model.backup.PackageMeta;
 import com.aefyr.sai.utils.IOUtils;
+import com.aefyr.sai.utils.NotificationHelper;
 import com.aefyr.sai.utils.Utils;
 
 import java.io.File;
@@ -48,7 +49,7 @@ public class BackupService extends Service {
     private static final int PROGRESS_NOTIFICATION_UPDATE_CD = 500;
 
 
-    private NotificationManagerCompat mNotificationManager;
+    private NotificationHelper mNotificationHelper;
     private Random mRandom = new Random();
 
     private Set<BackupTask> mTasks = new HashSet<>();
@@ -107,16 +108,7 @@ public class BackupService extends Service {
     private void updateStatus() {
         if (mTasks.isEmpty()) {
             die();
-            return;
         }
-
-        Notification notification = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID)
-                .setSmallIcon(R.drawable.ic_backup)
-                .setContentTitle(getString(R.string.backup_backup))
-                .setContentText(getString(R.string.backup_backup_status, mTasks.size()))
-                .build();
-
-        startForeground(NOTIFICATION_ID, notification);
     }
 
     private void die() {
@@ -125,17 +117,17 @@ public class BackupService extends Service {
     }
 
     private void prepareNotificationsStuff() {
-        mNotificationManager = NotificationManagerCompat.from(this);
+        NotificationManagerCompat mNotificationManager = NotificationManagerCompat.from(this);
+        mNotificationHelper = NotificationHelper.getInstance(this);
 
         if (Utils.apiIsAtLeast(Build.VERSION_CODES.O)) {
             mNotificationManager.createNotificationChannel(new NotificationChannel(NOTIFICATION_CHANNEL_ID, getString(R.string.backup_backup), NotificationManager.IMPORTANCE_DEFAULT));
         }
 
-        //TODO is this really necessary?
         Notification notification = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_backup)
                 .setContentTitle(getString(R.string.backup_backup))
-                .setContentText("idle")
+                .setContentText(getText(R.string.backup_backup_export_in_progress))
                 .build();
 
         startForeground(NOTIFICATION_ID, notification);
@@ -178,7 +170,7 @@ public class BackupService extends Service {
                     .setContentText(getString(R.string.backup_backup_in_progress, packageMeta.label))
                     .build();
 
-            mNotificationManager.notify(mProgressNotificationId, notification);
+            mNotificationHelper.notify(mProgressNotificationId, notification, true);
         }
 
         private void finished() {
@@ -205,7 +197,7 @@ public class BackupService extends Service {
                 builder.setContentText(getString(R.string.backup_backup_failed, packageMeta.label));
             }
 
-            mNotificationManager.notify(mProgressNotificationId, builder.build());
+            mNotificationHelper.notify(mProgressNotificationId, builder.build(), false);
         }
 
         void execute() {
