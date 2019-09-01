@@ -17,7 +17,7 @@
     <string name="installer_installation_confirmation">安装 \"%s\"?</string>
     <string name="installer_installation_failed">App 已安装</string>
     <string name="installer_installation_in_progress">安装中…</string>
-    <string name="installer_install_apks">安装 APKs</string>
+    <string name="installer_install_apks">安装APK</string>
     <string name="installer_help"><b>What is SAI?</b>\nSAI (Split APKs Installer) is an app that lets you install multiple APKs as if it was a single package. This is useful for installing apps that are distributed as App Bundles since Android provides no built-in way to install them from sources other than Google Play.\n\n<b>How to use SAI?</b>\nClick \"Install APKs\" button and select base APK and additional configuration-specific APKs or a ZIP archive that contains all required APKs, then click \"Select\" button to start installation process.\n\n<b>.apks</b>\nYou can rename a .zip archive that contains .apk files to .apks (e.g.: somesplitapp.zip -> somesplitapp.apks), so it can be opened with SAI from other apps.</string>
     <string name="installer_pick_apks">选择要安装的文件</string>
     <string name="installer_app_installed">App 已安装</string>
@@ -38,7 +38,7 @@
     <string name="installer_error_root_no_root">无法获取 Root访问权限，请禁用 \"使用 Root\" 选项</string>
     <string name="installer_error_while_extracting">从ZIP中提取APK文件时出错: %s</string>
     <string name="installer_error_zip_contains_no_apks">ZIP存档不包含.apk文件</string>
-    <string name="installer_error_mixed_extensions">您必须选择单个 .zip/.apks 文件或多个 .apk 文件</string>
+    <string name="installer_error_mixed_extensions">您必须选择单个.zip/.apks 文件或多个.apk 文件</string>
     <string name="installer_select_theme">选择主题</string>
     <string name="installer_device">设备</string>
     <string name="installer_miui_warning_title">MIUI 检测</string>
@@ -49,22 +49,22 @@
     <string name="backup_backup">导出</string>
     <string name="backup_backup_prompt">导出 %s?</string>
     <string name="backup_backup_status">导出 %d 个应用</string>
-    <string name="backup_backup_export_in_progress">Export in progress</string>
+    <string name="backup_backup_export_in_progress">导出进行中</string>
     <string name="backup_backup_in_progress">导出中 %s...</string>
     <string name="backup_backup_success">导出成功 %s</string>
     <string name="backup_backup_failed">导出失败 %s</string>
     <string name="backup_search_hint">搜索应用</string>
-    <string name="backup_search_splits_only">仅 Split APKs</string>
+    <string name="backup_search_splits_only">仅 Split APK</string>
     <string name="backup_search_show_system_apps">显示系统应用</string>
     <string name="backup_error_cant_mkdir">无法为导出的应用程序创建目录</string>
     <string name="backup_warning">请注意，导出功能仍处于测试阶段。 这是关于它的一些常见问题：\n\n1）导出的应用程序将保存到内部存储中的\"SAI\"文件夹中\n\n2）SAI仅导出应用程序APK，他们的数据不会被导出\n\n3）应用程序导出格式为.apks文件，该文件是包含所有APK的重命名的ZIP压缩包</string>
-    <string name="backup_export_all_splits">Export all split APKs</string>
-    <string name="backup_export_all_splits_prompt">Do you want to export all split APKs?</string>
-    <string name="backup_preparing">Preparing apps...</string>
+    <string name="backup_export_all_splits">导出所有 Split APK</string>
+    <string name="backup_export_all_splits_prompt">要导出所有 Split APK 吗？</string>
+    <string name="backup_preparing">准备应用...</string>
 
     <string name="settings_title">设置</string>
     <string name="settings_main_home_directory">主目录</string>
-    <string name="settings_main_home_directory_summary">APKs选择器的启动目录\n当前: %s</string>
+    <string name="settings_main_home_directory_summary">APK选择器的启动目录\n当前: %s</string>
     <string name="settings_main_file_picker_sort">文件排序</string>
     <string name="settings_main_file_picker_sort_summary">选择APK时\n当前: %s</string>
     <string name="settings_main_pick_dir">选择目录</string>
@@ -74,8 +74,8 @@
     <string name="settings_main_use_root_error">无法获取 Root访问权限</string>
     <string name="settings_main_sign_apks">签名 APK</string>
     <string name="settings_main_sign_apks_summary">安装前签名APK。您可以启用此功能(在首次安装应用之前) to update apps independently from downloaded APKs signature</string>
-    <string name="settings_main_extract_archives">从压缩包中提取APKs</string>
-    <string name="settings_main_extract_archives_summary">在安装之前，将 .zip/.apks 压缩包中的 APK文件 解压缩到临时文件中。 如果禁用，SAI将直接从没有临时文件的压缩包中安装APK。 不建议启用</string>
+    <string name="settings_main_extract_archives">从压缩包中提取APK</string>
+    <string name="settings_main_extract_archives_summary">在安装之前，将.zip / .apks压缩包中的APK文件，解压缩到临时文件中。 如果禁用，SAI将直接从没有临时文件的压缩包安装APK。 不建议启用</string>
     <string name="settings_main_reset_one_time_warnings">重置一次性警告</string>
 
     <string name="about_source">GitHub</string>
