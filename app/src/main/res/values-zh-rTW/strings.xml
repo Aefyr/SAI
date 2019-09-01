@@ -17,7 +17,7 @@
     <string name="installer_installation_confirmation">安裝 \"%s\"?</string>
     <string name="installer_installation_failed">App 已安裝</string>
     <string name="installer_installation_in_progress">安裝中…</string>
-    <string name="installer_install_apks">安裝 APKs</string>
+    <string name="installer_install_apks">安裝APK</string>
     <string name="installer_help"><b>What is SAI?</b>\nSAI (Split APKs Installer) is an app that lets you install multiple APKs as if it was a single package. This is useful for installing apps that are distributed as App Bundles since Android provides no built-in way to install them from sources other than Google Play.\n\n<b>How to use SAI?</b>\nClick \"Install APKs\" button and select base APK and additional configuration-specific APKs or a ZIP archive that contains all required APKs, then click \"Select\" button to start installation process.\n\n<b>.apks</b>\nYou can rename a . zip archive that contains .apk files to .apks (eg: somesplitapp.zip -> somesplitapp.apks), so it can be opened with SAI from other apps.</string>
     <string name="installer_pick_apks">選擇要安裝的文件</string>
     <string name="installer_app_installed">App 已安裝</string>
@@ -49,22 +49,22 @@
     <string name="backup_backup">導出</string>
     <string name="backup_backup_prompt">導出 %s?</string>
     <string name="backup_backup_status">導出 %d 個應用</string>
-    <string name="backup_backup_export_in_progress">Export in progress</string>
+    <string name="backup_backup_export_in_progress">導出進行中/string>
     <string name="backup_backup_in_progress">導出中 %s...</string>
     <string name="backup_backup_success">導出成功 %s</string>
     <string name="backup_backup_failed">導出失敗 %s</string>
     <string name="backup_search_hint">搜索應用</string>
-    <string name="backup_search_splits_only">僅 Split APKs</string>
+    <string name="backup_search_splits_only">僅 Split APK</string>
     <string name="backup_search_show_system_apps">顯示系統應用</string>
     <string name="backup_error_cant_mkdir">無法為導出的應用程式創建目錄</string>
     <string name="backup_warning">請注意，導出功能仍處於測試階段。這是關於它的​​一些常見問題：\n\n1）導出的應用程式將保存到內部存儲中的\"SAI\"文件夾中\n\n2）SAI僅導出應用程式APK，他們的數據不會被導出\n\n3）應用程式導出格式為.apks文件，該文件是包含所有APK的重命名的ZIP存檔</string>
-    <string name="backup_export_all_splits">Export all split APKs</string>
-    <string name="backup_export_all_splits_prompt">Do you want to export all split APKs?</string>
-    <string name="backup_preparing">Preparing apps...</string>
+    <string name="backup_export_all_splits">導出所有 Split APK</string>
+    <string name="backup_export_all_splits_prompt">要導出所有 Split APK 吗？</string>
+    <string name="backup_preparing">準備應用程式...</string>
 
     <string name="settings_title">設置</string>
     <string name="settings_main_home_directory">主目錄</string>
-    <string name="settings_main_home_directory_summary">APKs選擇器的啟動目錄\n當前: %s</string>
+    <string name="settings_main_home_directory_summary">APK選擇器的啟動目錄\n當前: %s</string>
     <string name="settings_main_file_picker_sort">文件排序</string>
     <string name="settings_main_file_picker_sort_summary">選擇APK時\n當前: %s</string>
     <string name="settings_main_pick_dir">選擇目錄</string>
@@ -74,7 +74,7 @@
     <string name="settings_main_use_root_error">無法獲取 Root訪問權限</string>
     <string name="settings_main_sign_apks">簽名 APK</string>
     <string name="settings_main_sign_apks_summary">安裝前簽名APK。您可以啟用此功能(在首次安裝應用之前) to update apps independently from downloaded APKs signature</string>
-    <string name="settings_main_extract_archives">從壓縮包中提取APKs</string>
+    <string name="settings_main_extract_archives">從壓縮包中提取APK</string>
     <string name="settings_main_extract_archives_summary">在安裝之前，將 .zip/.apks 壓縮包中的 APK文件 解壓縮到臨時文件中。如果禁用，SAI將直接從沒有臨時文件的壓縮包中安裝APK。不建議啟用</string>
     <string name="settings_main_reset_one_time_warnings">重置一次性警告</string>
 
