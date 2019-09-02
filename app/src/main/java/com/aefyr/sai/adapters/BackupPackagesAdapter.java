@@ -1,5 +1,6 @@
 package com.aefyr.sai.adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,10 +8,12 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.AppCompatImageView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.aefyr.sai.R;
 import com.aefyr.sai.model.backup.PackageMeta;
+import com.bumptech.glide.Glide;
 
 import java.util.List;
 
@@ -45,9 +48,7 @@ public class BackupPackagesAdapter extends RecyclerView.Adapter<BackupPackagesAd
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         PackageMeta packageMeta = mPackages.get(position);
-
-        holder.appName.setText(String.format("%s (%s)", packageMeta.label, packageMeta.versionName));
-        holder.appPackage.setText(packageMeta.packageName);
+        holder.bindTo(packageMeta);
     }
 
     @Override
@@ -62,14 +63,18 @@ public class BackupPackagesAdapter extends RecyclerView.Adapter<BackupPackagesAd
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView appName;
-        TextView appPackage;
+        private TextView mAppName;
+        private TextView mAppVersion;
+        private TextView mAppPackage;
+        private AppCompatImageView mAppIcon;
 
-        public ViewHolder(@NonNull View itemView) {
+        private ViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            appName = itemView.findViewById(R.id.tv_app_name);
-            appPackage = itemView.findViewById(R.id.tv_app_package);
+            mAppName = itemView.findViewById(R.id.tv_app_name);
+            mAppVersion = itemView.findViewById(R.id.tv_app_version);
+            mAppPackage = itemView.findViewById(R.id.tv_app_package);
+            mAppIcon = itemView.findViewById(R.id.iv_app_icon);
 
             itemView.findViewById(R.id.ib_backup).setOnClickListener((v) -> {
                 int adapterPosition = getAdapterPosition();
@@ -79,6 +84,17 @@ public class BackupPackagesAdapter extends RecyclerView.Adapter<BackupPackagesAd
                 if (mListener != null)
                     mListener.onBackupButtonClicked(mPackages.get(adapterPosition));
             });
+        }
+
+        @SuppressLint("DefaultLocale")
+        void bindTo(PackageMeta packageMeta) {
+            mAppName.setText(packageMeta.label);
+            mAppVersion.setText(String.format("%s (%d)", packageMeta.versionName, packageMeta.versionCode));
+            mAppPackage.setText(packageMeta.packageName);
+            Glide.with(mAppIcon)
+                    .load(packageMeta.iconUri)
+                    .placeholder(R.drawable.placeholder_app_icon)
+                    .into(mAppIcon);
         }
     }
 

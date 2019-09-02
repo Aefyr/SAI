@@ -1,5 +1,7 @@
 package com.aefyr.sai.model.backup;
 
+import android.content.ContentResolver;
+import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -11,6 +13,7 @@ public class PackageMeta implements Parcelable {
     public boolean isSystemApp;
     public long versionCode;
     public String versionName;
+    public Uri iconUri;
 
     public PackageMeta(String packageName, String label) {
         this.packageName = packageName;
@@ -24,6 +27,7 @@ public class PackageMeta implements Parcelable {
         isSystemApp = in.readInt() == 1;
         versionCode = in.readLong();
         versionName = in.readString();
+        iconUri = in.readParcelable(Uri.class.getClassLoader());
     }
 
     public static final Creator<PackageMeta> CREATOR = new Creator<PackageMeta>() {
@@ -51,6 +55,7 @@ public class PackageMeta implements Parcelable {
         dest.writeInt(isSystemApp ? 1 : 0);
         dest.writeLong(versionCode);
         dest.writeString(versionName);
+        dest.writeParcelable(iconUri, 0);
     }
 
     public static class Builder {
@@ -82,6 +87,16 @@ public class PackageMeta implements Parcelable {
 
         public Builder setVersionName(String versionName) {
             mPackageMeta.versionName = versionName;
+            return this;
+        }
+
+        public Builder setIcon(int iconResId) {
+            mPackageMeta.iconUri = new Uri.Builder()
+                    .scheme(ContentResolver.SCHEME_ANDROID_RESOURCE)
+                    .authority(mPackageMeta.packageName)
+                    .path(String.valueOf(iconResId))
+                    .build();
+
             return this;
         }
 
