@@ -19,6 +19,7 @@
             android:id="@+id/iv_app_icon"
             android:layout_width="56dp"
             android:layout_height="56dp"
+            android:layout_centerVertical="true"
             android:padding="4dp"
             android:scaleType="fitCenter" />
 
