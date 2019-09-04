@@ -29,14 +29,6 @@ public class PreferencesHelper {
         mPrefs.edit().putString(PreferencesKeys.HOME_DIRECTORY, homeDirectory).apply();
     }
 
-    public boolean shouldUseRoot() {
-        return mPrefs.getBoolean(PreferencesKeys.USE_ROOT, false);
-    }
-
-    public void setShouldUseRoot(boolean useRoot) {
-        mPrefs.edit().putBoolean(PreferencesKeys.USE_ROOT, useRoot).apply();
-    }
-
     public int getFilePickerRawSort() {
         return mPrefs.getInt(PreferencesKeys.FILE_PICKER_SORT_RAW, 0);
     }
@@ -71,6 +63,14 @@ public class PreferencesHelper {
 
     public boolean shouldExtractArchives() {
         return mPrefs.getBoolean(PreferencesKeys.EXTRACT_ARCHIVES, false);
+    }
+
+    public void setInstaller(int installer) {
+        mPrefs.edit().putInt(PreferencesKeys.INSTALLER, installer).apply();
+    }
+
+    public int getInstaller() {
+        return mPrefs.getInt(PreferencesKeys.INSTALLER, PreferencesValues.INSTALLER_ROOTLESS);
     }
 
 }

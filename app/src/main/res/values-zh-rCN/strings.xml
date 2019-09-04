@@ -9,6 +9,7 @@
     <string name="dont_show_again">不再显示</string>
 
     <string name="permissions_required_storage">SAI 需要访问存储的权限</string>
+    <string name="permissions_required_shizuku">SAI requires permission to use Shizuku Server</string>
 
     <string name="main_installer">安装</string>
     <string name="main_backup">导出</string>
@@ -33,7 +34,7 @@
     <string name="installer_error_bad_apks">选择了无效的APK文件</string>
     <string name="installer_error_storage">没有足够的存储空间来安装应用程序</string>
     <string name="installer_error_lidl_rom">您的ROM与 免Root安装器 不兼容。 如果您有 Root权限，请尝试在 SAI 设置中启用 Root安装器</string>
-    <string name="installer_error_root">Root安装器 错误:\n\n %s</string>
+    <string name="installer_error_shell">%s安装器 错误:\n\n %s</string>
     <string name="installer_error_rootless">免Root安装器 错误:\n\n %s</string>
     <string name="installer_error_root_no_root">无法获取 Root访问权限，请禁用 \"使用 Root\" 选项</string>
     <string name="installer_error_while_extracting">从ZIP中提取APK文件时出错: %s</string>
@@ -77,6 +78,10 @@
     <string name="settings_main_extract_archives">从压缩包中提取APK</string>
     <string name="settings_main_extract_archives_summary">在安装之前，将.zip / .apks压缩包中的APK文件，解压缩到临时文件中。 如果禁用，SAI将直接从没有临时文件的压缩包安装APK。 不建议启用</string>
     <string name="settings_main_reset_one_time_warnings">重置一次性警告</string>
+    <string name="settings_main_installer">Installer</string>
+    <string name="settings_main_installer_summary">Installer to use for APKs installation.\nCurrently: %s</string>
+    <string name="settings_main_installer_error_no_shizuku">You don\'t have Shizuku installed, please get it from Google Play and set it up</string>
+    <string name="settings_main_installer_error_shizuku_pre_m">SAI doesn\'t support Shizuku on Android versions lower than 6.0</string>
 
     <string name="about_source">GitHub</string>
     <string name="about_donate">捐赠</string>

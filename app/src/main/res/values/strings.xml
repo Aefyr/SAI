@@ -13,6 +13,7 @@
     <string name="dont_show_again">Don\'t show again</string>
 
     <string name="permissions_required_storage">SAI requires permission to access storage</string>
+    <string name="permissions_required_shizuku">SAI requires permission to use Shizuku Server</string>
 
     <string name="main_installer">Installer</string>
     <string name="main_backup">Export</string>
@@ -37,7 +38,7 @@
     <string name="installer_error_bad_apks">Invalid APK files selected</string>
     <string name="installer_error_storage">Not enough storage space to install the app</string>
     <string name="installer_error_lidl_rom">Your ROM is incompatible with rootless installer. Try enabling rooted installer in SAI settings if you have root</string>
-    <string name="installer_error_root">Rooted installer error:\n\n %s</string>
+    <string name="installer_error_shell">%s installer error:\n\n %s</string>
     <string name="installer_error_rootless">Rootless installer error:\n\n %s</string>
     <string name="installer_error_root_no_root">Unable to acquire root access, please disable \"Use root\" preference</string>
     <string name="installer_error_while_extracting">Error while extracting APK files from ZIP: %s</string>
@@ -81,6 +82,10 @@
     <string name="settings_main_extract_archives">Extract APKs from archives</string>
     <string name="settings_main_extract_archives_summary">Extract APK files from .zip/.apks archives into temporary files before installing them. If disabled, SAI will install APKs directly from archives without temp files. Not recommended to enable</string>
     <string name="settings_main_reset_one_time_warnings">Reset one-time warnings</string>
+    <string name="settings_main_installer">Installer</string>
+    <string name="settings_main_installer_summary">Installer to use for APKs installation.\nCurrently: %s</string>
+    <string name="settings_main_installer_error_no_shizuku">You don\'t have Shizuku installed, please get it from Google Play and set it up</string>
+    <string name="settings_main_installer_error_shizuku_pre_m">SAI doesn\'t support Shizuku on Android versions lower than 6.0</string>
 
     <string name="about_author" translatable="false">by polychromaticfox</string>
     <string name="about_source">GitHub</string>

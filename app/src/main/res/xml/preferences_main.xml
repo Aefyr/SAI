@@ -13,12 +13,11 @@
         android:title="@string/settings_main_file_picker_sort"
         android:summary="@string/settings_main_file_picker_sort_summary" />
 
-
-    <SwitchPreference
+    <Preference
         android:icon="@drawable/ic_pref_root"
-        android:key="use_root"
-        android:title="@string/settings_main_use_root"
-        android:summary="@string/settings_main_use_root_summary" />
+        android:key="installer"
+        android:title="@string/settings_main_installer"
+        android:summary="@string/settings_main_installer_summary" />
 
     <SwitchPreference
         android:icon="@drawable/ic_pref_key"

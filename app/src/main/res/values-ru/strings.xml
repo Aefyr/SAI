@@ -11,6 +11,7 @@
     <string name="dont_show_again">Больше не показывать</string>
 
     <string name="permissions_required_storage">SAI необходимо разрешение на доступ к файлам</string>
+    <string name="permissions_required_shizuku">SAI необходимо разрешение на доступ к Shizuku Server</string>
 
     <string name="main_installer">Установка</string>
     <string name="main_backup">Экспорт</string>
@@ -35,7 +36,7 @@
     <string name="installer_error_bad_apks">Выбраны некорректные APK файлы</string>
     <string name="installer_error_storage">Недостаточно места для установки приложения</string>
     <string name="installer_error_lidl_rom">Прошивка вашего устройства несовместима с rootless-установщиком. Если у вас есть root-доступ, попробуйте включить root-установщик в настройках SAI</string>
-    <string name="installer_error_root">Ошибка root-установщика:\n\n%s</string>
+    <string name="installer_error_shell">Ошибка %s-установщика:\n\n%s</string>
     <string name="installer_error_rootless">Ошибка rootless-установщика:\n\n%s</string>
     <string name="installer_error_root_no_root">Невозможно получить root-доступ, пожалуйста отключите настройку \"Использовать root\"</string>
     <string name="installer_error_while_extracting">Ошибка при распаковке ZIP: %s</string>
@@ -79,6 +80,10 @@
     <string name="settings_main_extract_archives">Разархивировать APK файлы</string>
     <string name="settings_main_extract_archives_summary">Разархивировать APK из .zip/.apks архивов во временные файлы перед установкой. Если отключено, SAI будет устанавливать APK напрямую из архива без создания временных файлов. Не рекомендуется включать</string>
     <string name="settings_main_reset_one_time_warnings">Сбросить одноразовые предупреждения</string>
+    <string name="settings_main_installer">Установщик</string>
+    <string name="settings_main_installer_summary">Тип установщика, используемого для установки APK.\nСейчас: %s</string>
+    <string name="settings_main_installer_error_no_shizuku">У вас не установлен Shizuku, пожалуйста установите его из Google Play и настройте</string>
+    <string name="settings_main_installer_error_shizuku_pre_m">SAI не поддерживает Shizuku на версиях Android ниже 6.0</string>
 
     <string name="about_source">GitHub</string>
     <string name="about_donate">Поддержать</string>

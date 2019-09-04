@@ -17,4 +17,10 @@
         <item>"SAI (F-Droid)"</item>
     </string-array>
 
+    <string-array name="installers">
+        <item>"Rootless (рекомендуется)"</item>
+        <item>"Rooted (нужен root-доступ)"</item>
+        <item>"Shizuku (нужен Shizuku 3.x)"</item>
+    </string-array>
+
 </resources>

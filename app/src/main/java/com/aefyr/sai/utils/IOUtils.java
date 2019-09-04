@@ -1,16 +1,20 @@
 package com.aefyr.sai.utils;
 
 import android.content.Context;
+import android.util.Log;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.util.zip.CRC32;
 
 public class IOUtils {
+    private static final String TAG = "IOUtils";
 
     public static void copyStream(InputStream from, OutputStream to) throws IOException {
         byte[] buf = new byte[1024 * 1024];
@@ -51,6 +55,24 @@ public class IOUtils {
 
             return crc32.getValue();
         }
+    }
+
+    public static Thread writeStreamToStringBuilder(StringBuilder builder, InputStream inputStream) {
+        Thread t = new Thread(() -> {
+            try {
+                char[] buf = new char[1024];
+                int len;
+                BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+                while ((len = reader.read(buf)) > 0)
+                    builder.append(buf, 0, len);
+
+                reader.close();
+            } catch (Exception e) {
+                Log.wtf(TAG, e);
+            }
+        });
+        t.start();
+        return t;
     }
 
 }

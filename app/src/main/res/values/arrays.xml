@@ -18,4 +18,16 @@
         <item>"SAI (F-Droid)"</item>
     </string-array>
 
+    <string-array name="installers">
+        <item>"Rootless (recommended)"</item>
+        <item>"Rooted (requires root)"</item>
+        <item>"Shizuku (requires Shizuku 3.x)"</item>
+    </string-array>
+
+    <string-array name="installers_values">
+        <item>"rootless"</item>
+        <item>"rooted"</item>
+        <item>"shizuku"</item>
+    </string-array>
+
 </resources>
