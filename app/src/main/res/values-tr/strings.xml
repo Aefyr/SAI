@@ -5,87 +5,87 @@
     <string name="yes">Evet</string>
     <string name="no">Hayır</string>
     <string name="cancel">İptal</string>
-    <string name="ok" translatable="false">OK</string>
+    <string name="ok" translatable="false">Tamam</string>
     <string name="help">Yardım</string>
     <string name="error">Hata</string>
     <string name="copy">Kopyala</string>
     <string name="copied">Kopyalandı</string>
     <string name="dont_show_again">Bir daha gösterme</string>
 
-    <string name="permissions_required_storage">SAI requires permission to access storage</string>
+    <string name="permissions_required_storage">SAI, depolamaya erişmek için izin gerektirir</string>
 
-    <string name="main_installer">Installer</string>
-    <string name="main_backup">Export</string>
+    <string name="main_installer">Yükleyici</string>
+    <string name="main_backup">Dışa Aktar</string>
     <string name="main_navigation_disabled">Unable to perform open with during ongoing installation</string>
 
-    <string name="installer_installation_confirmation">Install \"%s\"?</string>
-    <string name="installer_installation_failed">App not installed</string>
-    <string name="installer_installation_in_progress">Installing…</string>
-    <string name="installer_install_apks">Install APKs</string>
-    <string name="installer_help"><b>What is SAI?</b>\nSAI (Split APKs Installer) is an app that lets you install multiple APKs as if it was a single package. This is useful for installing apps that are distributed as App Bundles since Android provides no built-in way to install them from sources other than Google Play.\n\n<b>How to use SAI?</b>\nClick \"Install APKs\" button and select base APK and additional configuration-specific APKs or a ZIP archive that contains all required APKs, then click \"Select\" button to start installation process.\n\n<b>.apks</b>\nYou can rename a .zip archive that contains .apk files to .apks (e.g.: somesplitapp.zip -> somesplitapp.apks), so it can be opened with SAI from other apps.</string>
-    <string name="installer_pick_apks">Select files to install</string>
-    <string name="installer_app_installed">App installed</string>
-    <string name="installer_open">Open</string>
-    <string name="installer_app_installed_full">%s has been installed</string>
-    <string name="installer_no_root">Unable to acquire root access, proceeding with rootless installer</string>
-    <string name="installer_error_generic">Installation failed</string>
-    <string name="installer_error_aborted">Installation was cancelled by user</string>
-    <string name="installer_error_blocked">Installation was blocked by %s</string>
-    <string name="installer_error_blocked_device">device</string>
-    <string name="installer_error_conflict">Unable to install the app because it conflicts with an already installed app with same package name</string>
-    <string name="installer_error_incompatible">Application is incompatible with this device</string>
-    <string name="installer_error_bad_apks">Invalid APK files selected</string>
-    <string name="installer_error_storage">Not enough storage space to install the app</string>
-    <string name="installer_error_lidl_rom">Your ROM is incompatible with rootless installer. Try enabling rooted installer in SAI settings if you have root</string>
-    <string name="installer_error_root">Rooted installer error:\n\n %s</string>
-    <string name="installer_error_rootless">Rootless installer error:\n\n %s</string>
-    <string name="installer_error_root_no_root">Unable to acquire root access, please disable \"Use root\" preference</string>
-    <string name="installer_error_while_extracting">Error while extracting APK files from ZIP: %s</string>
-    <string name="installer_error_zip_contains_no_apks">ZIP doesn\'t contain any apk files</string>
-    <string name="installer_error_mixed_extensions">You must select either a single .zip/.apks file or multiple .apk files</string>
-    <string name="installer_select_theme">Select theme</string>
-    <string name="installer_device">Device</string>
-    <string name="installer_miui_warning_title">MIUI detected</string>
-    <string name="installer_miui_warning_message">Looks like your device is running MIUI. MIUI is known for breaking standard Android API features and some SAI users have reported SAI not working on MIUI. Usually it can be fixed by disabling MIUI optimizations in developer settings, which I suggest you should do.</string>
-    <string name="installer_miui_warning_open_dev_settings">Open developer settings</string>
-    <string name="installer_miui_warning_oof">Unable to open development settings. Cool ROM</string>
+    <string name="installer_installation_confirmation">\"%s\" yüklensin mi?</string>
+    <string name="installer_installation_failed">Uygulama yüklenemedi</string>
+    <string name="installer_installation_in_progress">Yükleniyor…</string>
+    <string name="installer_install_apks">APKs Yükle</string>
+    <string name="installer_help"><b>SAI nedir?</b>\nSAI (Split APKs Installer), birden fazla APK\'yı tek bir paketteymiş gibi yüklemenizi sağlayan bir uygulamadır. Android, Google Play dışındaki kaynaklardan yüklemek için yerleşik bir yol sağlamadığından Uygulama Paketi olarak dağıtılan uygulamaları yüklemek için kullanışlıdır.\n\n<b>SAI nasıl kullanılır?</b>\n\"APK\'ları Yükle\" düğmesini tıklayın ve temel APK\'yı ve yapılandırmaya özgü ek APK\'ları veya gerekli tüm APK\'ları içeren bir ZIP arşivini seçin, ardından kurulum işlemini başlatmak için \"Seç\" düğmesini tıklayın.\n\n<b>.apks</b>\n.Apk dosyalarını içeren bir .zip arşivini .apks olarak (örneğin: somesplitapp.zip -> somesplitapp.apks) yeniden adlandırabilirsiniz, böylece diğer uygulamalardan SAI ile açılabilir.</string>
+    <string name="installer_pick_apks">Yüklenecek dosyaları seçin</string>
+    <string name="installer_app_installed">Uygulama yüklendi</string>
+    <string name="installer_open">Aç</string>
+    <string name="installer_app_installed_full">%s yüklendi</string>
+    <string name="installer_no_root">Root erişimi alınamıyor, rootsuz yükleyiciyle devam ediliyor</string>
+    <string name="installer_error_generic">Yükleme başarısız</string>
+    <string name="installer_error_aborted">Yükleme kullanıcı tarafından iptal edildi</string>
+    <string name="installer_error_blocked">Yükleme %s tarafından iptal edildi</string>
+    <string name="installer_error_blocked_device">cihaz</string>
+    <string name="installer_error_conflict">Uygulama yüklenemedi çünkü aynı paket adına sahip önceden yüklenmiş bir uygulamayla çakışıyor</string>
+    <string name="installer_error_incompatible">Uygulama bu cihazla uyumlu değil</string>
+    <string name="installer_error_bad_apks">Geçersiz APK dosyaları seçildi</string>
+    <string name="installer_error_storage">Uygulamayı yüklemek için yeterli depolama alanı yok</string>
+    <string name="installer_error_lidl_rom">ROM\'unuz rootsuz yükleyici ile uyumlu değil. Root varsa, rootlu yükleyiciyi SAI ayarlarından etkinleştirmeyi deneyin</string>
+    <string name="installer_error_root">Rootlu yükleyici hatası:\n\n %s</string>
+    <string name="installer_error_rootless">Rootsuz yükleyici hatası:\n\n %s</string>
+    <string name="installer_error_root_no_root">Root erişimi alınamıyor, lütfen \"Root kullan\" tercihini devre dışı bırakın</string>
+    <string name="installer_error_while_extracting">ZIP\'ten APK dosyaları çıkarılırken hata oluştu: %s</string>
+    <string name="installer_error_zip_contains_no_apks">ZIP herhangi bir apk dosyası içermiyor</string>
+    <string name="installer_error_mixed_extensions">Tek bir .zip/.apks dosyası veya birden fazla .apk dosyası seçmelisiniz</string>
+    <string name="installer_select_theme">Tema seç</string>
+    <string name="installer_device">Cihaz</string>
+    <string name="installer_miui_warning_title">MIUI algılandı</string>
+    <string name="installer_miui_warning_message">Cihazınız MIUI kullanıyor gibi görünüyor. MIUI\'nin standart Android API özelliklerini bozduğu bilinmektedir ve bazı SAI kullanıcıları, SAI\'nin MIUI üzerinde çalışmadığını bildirdi. Genellikle geliştirici ayarlarında MIUI optimizasyonlarını devre dışı bırakarak düzeltilebilir, ki bunu yapmanızı öneririm.</string>
+    <string name="installer_miui_warning_open_dev_settings">Geliştirici ayarlarını aç</string>
+    <string name="installer_miui_warning_oof">Geliştirici ayarları açılamıyor. Harika rom</string>
 
-    <string name="backup_backup">Export</string>
-    <string name="backup_backup_prompt">Export %s?</string>
-    <string name="backup_backup_status">Exporting %d apps</string>
-    <string name="backup_backup_export_in_progress">Export in progress</string>
-    <string name="backup_backup_in_progress">Exporting %s...</string>
-    <string name="backup_backup_success">Successfully exported %s</string>
-    <string name="backup_backup_failed">Failed to export %s</string>
-    <string name="backup_search_hint">Search apps</string>
-    <string name="backup_search_splits_only">Split APKs only</string>
-    <string name="backup_search_show_system_apps">Show system apps</string>
-    <string name="backup_error_cant_mkdir">Unable to create a directory for exported apps</string>
-    <string name="backup_warning">Please note, that export feature is still in beta. Here\'s some FAQ about it:\n\n1) Exported apps get saved to \"SAI\" folder in internal storage\n\n2) SAI only exports apps\' APKs, their data isn\'t exported\n\n3) Apps are exported as a .apks file which is a renamed ZIP archive containing all the APKs</string>
-    <string name="backup_export_all_splits">Export all split APKs</string>
-    <string name="backup_export_all_splits_prompt">Do you want to export all split APKs?</string>
-    <string name="backup_preparing">Preparing apps...</string>
+    <string name="backup_backup">Dışa aktar</string>
+    <string name="backup_backup_prompt">%s dışa aktarılsın mı?</string>
+    <string name="backup_backup_status">%d uygulama dışa aktarılıyor</string>
+    <string name="backup_backup_export_in_progress">Dışa aktarma devam ediyor</string>
+    <string name="backup_backup_in_progress">%s dışa aktarılıyor...</string>
+    <string name="backup_backup_success">%s başarıyla dışa aktarıldı</string>
+    <string name="backup_backup_failed">%s dışa aktarılamadı</string>
+    <string name="backup_search_hint">Uygulama ara</string>
+    <string name="backup_search_splits_only">Yalnızca bölünmüş APK\'lar</string>
+    <string name="backup_search_show_system_apps">Sistem uygulamalarını göster</string>
+    <string name="backup_error_cant_mkdir">Dışa aktarılan uygulamalar için dizin oluşturulamıyor</string>
+    <string name="backup_warning">Lütfen, dışa aktarma özelliğinin hala beta durumda olduğunu unutmayın. İşte bu konuda bazı bilgiler:\n\n1) Dışa aktarılan uygulamalar dahili depolama birimindeki \"SAI\" klasörüne kaydedilir\n\n2) SAI yalnızca uygulamaları dışa aktarır, verileri dışa aktarmaz\n\n3) Uygulamalar tüm APK\'ları içeren yeniden adlandırılmış bir ZIP arşivi olan bir .apks dosyası olarak dışa aktarılır</string>
+    <string name="backup_export_all_splits">Tüm bölünmüş APK\'ları dışa aktar</string>
+    <string name="backup_export_all_splits_prompt">Tüm bölünmüş APK\'lar dışa aktarılsın mı?</string>
+    <string name="backup_preparing">Uygulamalar hazırlanıyor...</string>
 
-    <string name="settings_title">Settings</string>
-    <string name="settings_main_home_directory">Home directoryjsj</string>
-    <string name="settings_main_home_directory_summary">Starting directory in APKs picker\nCurrently: %s</string>
-    <string name="settings_main_file_picker_sort">Files sorting</string>
-    <string name="settings_main_file_picker_sort_summary">When selecting APKs\nCurrently: %s</string>
-    <string name="settings_main_pick_dir">Pick Directory</string>
-    <string name="settings_main_about">About</string>
-    <string name="settings_main_use_root">Use root</string>
-    <string name="settings_main_use_root_summary">Try using rooted installer. If SAI is unable to acquire root access it will fallback to rootless installer</string>
-    <string name="settings_main_use_root_error">Unable to acquire root access</string>
-    <string name="settings_main_sign_apks">Sign APKs</string>
-    <string name="settings_main_sign_apks_summary">Sign APKs before installing. You can enable this (before first app installation) to update apps independently from downloaded APKs signature</string>
-    <string name="settings_main_extract_archives">Extract APKs from archives</string>
-    <string name="settings_main_extract_archives_summary">Extract APK files from .zip/.apks archives into temporary files before installing them. If disabled, SAI will install APKs directly from archives without temp files. Not recommended to enable</string>
-    <string name="settings_main_reset_one_time_warnings">Reset one-time warnings</string>
+    <string name="settings_title">Ayarlar</string>
+    <string name="settings_main_home_directory">Ana dizin</string>
+    <string name="settings_main_home_directory_summary">APK seçicisi başlangıç dizini\nŞu anki: %s</string>
+    <string name="settings_main_file_picker_sort">Dosyaları sıralama</string>
+    <string name="settings_main_file_picker_sort_summary">APK\'ları seçerken\nŞu anki: %s</string>
+    <string name="settings_main_pick_dir">Dizin Seç</string>
+    <string name="settings_main_about">Hakkında</string>
+    <string name="settings_main_use_root">Root kullan</string>
+    <string name="settings_main_use_root_summary">Rootlu yükleyiciyi kullanmayı dener. Eğer SAI root erişimi alamazsa, rootsuz kurulum programına geri döner</string>
+    <string name="settings_main_use_root_error">Root erişimi alınamıyor</string>
+    <string name="settings_main_sign_apks">APK\'ları imzala</string>
+    <string name="settings_main_sign_apks_summary">Yüklemeden önce APK\'ları imzalar. Bunu (ilk uygulama kurulumundan önce) uygulamaları indirilen APK imzasından bağımsız olarak güncellemek için etkinleştirebilirsiniz</string>
+    <string name="settings_main_extract_archives">Arşivlerden APK\'ları çıkar</string>
+    <string name="settings_main_extract_archives_summary">.Zip/.apks arşivlerindeki APK dosyalarını kurmadan önce geçici dosyalara çıkarır. Devre dışı bırakılırsa, SAI, geçici dosyaları olmayan doğrudan APK\'lardan APK yükler. Etkinleştirmek tavsiye edilmez</string>
+    <string name="settings_main_reset_one_time_warnings">Bir kerelik uyarıları sıfırla</string>
 
-    <string name="about_author" translatable="false">by polychromaticfox</string>
+    <string name="about_author" translatable="false">Yapımcı: polychromaticfox</string>
     <string name="about_source">GitHub</string>
     <string name="about_source_link" translatable="false">https://github.com/Aefyr/SAI</string>
-    <string name="about_donate">Donate</string>
+    <string name="about_donate">Bağış yap</string>
     <string name="about_donate_link" translatable="false">https://yasobe.ru/na/sai</string>
 
 </resources>
