@@ -12,7 +12,7 @@
     <string name="copied">Kopyalandı</string>
     <string name="dont_show_again">Bir daha gösterme</string>
 
-    <string name="permissions_required_storage">SAI, depolamaya erişmek için izin gerektirir</string>
+    <string name="permissions_required_storage">SAI, depolamaya erişmek için izin gerektiriyor</string>
 
     <string name="main_installer">Yükleyici</string>
     <string name="main_backup">Dışa Aktar</string>
