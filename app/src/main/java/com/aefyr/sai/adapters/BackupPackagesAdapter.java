@@ -52,6 +52,11 @@ public class BackupPackagesAdapter extends RecyclerView.Adapter<BackupPackagesAd
     }
 
     @Override
+    public void onViewRecycled(@NonNull ViewHolder holder) {
+        holder.recycle();
+    }
+
+    @Override
     public int getItemCount() {
         return mPackages == null ? 0 : mPackages.size();
     }
@@ -95,6 +100,11 @@ public class BackupPackagesAdapter extends RecyclerView.Adapter<BackupPackagesAd
                     .load(packageMeta.iconUri)
                     .placeholder(R.drawable.placeholder_app_icon)
                     .into(mAppIcon);
+        }
+
+        void recycle() {
+            Glide.with(mAppIcon)
+                    .clear(mAppIcon);
         }
     }
 
