@@ -162,17 +162,17 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Fil
             case "installer":
                 boolean installerSet = false;
                 switch (selectedItemIndex) {
-                    case PreferencesValues.INSTALLER_ROOTLESS: //rootless
+                    case PreferencesValues.INSTALLER_ROOTLESS:
                         installerSet = true;
                         break;
-                    case PreferencesValues.INSTALLER_ROOTED: //rooted
+                    case PreferencesValues.INSTALLER_ROOTED:
                         if (!SuShell.getInstance().requestRoot()) {
                             AlertsUtils.showAlert(this, R.string.error, R.string.settings_main_use_root_error);
                             return;
                         }
                         installerSet = true;
                         break;
-                    case PreferencesValues.INSTALLER_SHIZUKU: //shizuku
+                    case PreferencesValues.INSTALLER_SHIZUKU:
                         if (ShizukuClientHelper.isPreM()) {
                             AlertsUtils.showAlert(this, R.string.error, R.string.settings_main_installer_error_shizuku_pre_m);
                             return;

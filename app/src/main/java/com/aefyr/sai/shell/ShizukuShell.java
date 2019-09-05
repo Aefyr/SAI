@@ -36,7 +36,7 @@ public class ShizukuShell implements Shell {
         try {
             return exec(new Command("echo", "test")).isSuccessful();
         } catch (Exception e) {
-            Log.w(TAG, "Unable to acquire root access: ");
+            Log.w(TAG, "Unable to access shizuku: ");
             Log.w(TAG, e);
             return false;
         }

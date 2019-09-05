@@ -2,6 +2,7 @@ package com.aefyr.sai.installer.shizuku;
 
 import android.content.Context;
 
+import com.aefyr.sai.R;
 import com.aefyr.sai.installer.ShellSAIPackageInstaller;
 import com.aefyr.sai.shell.Shell;
 import com.aefyr.sai.shell.ShizukuShell;
@@ -28,5 +29,10 @@ public class ShizukuSAIPackageInstaller extends ShellSAIPackageInstaller {
     @Override
     protected String getInstallerName() {
         return "Shizuku";
+    }
+
+    @Override
+    protected String getShellUnavailableMessage() {
+        return getContext().getString(R.string.installer_error_shizuku_unavailable);
     }
 }

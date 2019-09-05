@@ -71,6 +71,13 @@ public abstract class ShellSAIPackageInstaller extends SAIPackageInstaller {
     @Override
     protected void installApkFiles(ApkSource aApkSource) {
         try (ApkSource apkSource = aApkSource) {
+
+            if (!getShell().isAvailable()) {
+                dispatchCurrentSessionUpdate(InstallationStatus.INSTALLATION_FAILED, getContext().getString(R.string.installer_error_shell, getInstallerName(), getShellUnavailableMessage()));
+                installationCompleted();
+                return;
+            }
+
             int sessionId = createSession();
 
             while (apkSource.nextApk())
@@ -157,4 +164,6 @@ public abstract class ShellSAIPackageInstaller extends SAIPackageInstaller {
     protected abstract Shell getShell();
 
     protected abstract String getInstallerName();
+
+    protected abstract String getShellUnavailableMessage();
 }
