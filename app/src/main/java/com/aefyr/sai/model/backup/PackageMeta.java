@@ -91,6 +91,11 @@ public class PackageMeta implements Parcelable {
         }
 
         public Builder setIcon(int iconResId) {
+            if (iconResId == 0) {
+                mPackageMeta.iconUri = null;
+                return this;
+            }
+
             mPackageMeta.iconUri = new Uri.Builder()
                     .scheme(ContentResolver.SCHEME_ANDROID_RESOURCE)
                     .authority(mPackageMeta.packageName)

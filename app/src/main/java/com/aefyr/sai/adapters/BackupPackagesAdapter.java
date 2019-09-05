@@ -96,8 +96,9 @@ public class BackupPackagesAdapter extends RecyclerView.Adapter<BackupPackagesAd
             mAppName.setText(packageMeta.label);
             mAppVersion.setText(String.format("%s (%d)", packageMeta.versionName, packageMeta.versionCode));
             mAppPackage.setText(packageMeta.packageName);
+            
             Glide.with(mAppIcon)
-                    .load(packageMeta.iconUri)
+                    .load(packageMeta.iconUri != null ? packageMeta.iconUri : R.drawable.placeholder_app_icon)
                     .placeholder(R.drawable.placeholder_app_icon)
                     .into(mAppIcon);
         }
