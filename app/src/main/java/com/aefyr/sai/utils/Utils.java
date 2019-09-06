@@ -110,7 +110,7 @@ public class Utils {
             return null;
         }
 
-        String packageInfoPart = String.format("%s-%s", packageMeta.packageName, packageMeta.versionName).replace('.', ',');
+        String packageInfoPart = String.format("%s-%s(%d)", packageMeta.label, packageMeta.versionName, packageMeta.versionCode).replace('.', ',');
         if (packageInfoPart.length() > 160)
             packageInfoPart = packageInfoPart.substring(0, 160);
 
