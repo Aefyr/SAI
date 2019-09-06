@@ -2,36 +2,26 @@ package com.aefyr.sai.ui.dialogs;
 
 import android.app.Dialog;
 import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
+import androidx.lifecycle.ViewModelProviders;
 
 import com.aefyr.sai.R;
-import com.aefyr.sai.backup.BackupRepository;
-import com.aefyr.sai.backup.BackupService;
-import com.aefyr.sai.model.backup.PackageMeta;
 import com.aefyr.sai.utils.PermissionsUtils;
-import com.aefyr.sai.utils.Utils;
-
-import java.io.File;
-import java.util.List;
+import com.aefyr.sai.viewmodels.BackupAllSplitApksDialogViewModel;
 
 public class BackupAllSplitApksDialogFragment extends DialogFragment {
 
-    private boolean mIsPreparing = false;
+    private BackupAllSplitApksDialogViewModel mViewModel;
 
     public static BackupAllSplitApksDialogFragment newInstance() {
-        BackupAllSplitApksDialogFragment fragment = new BackupAllSplitApksDialogFragment();
-        return fragment;
+        return new BackupAllSplitApksDialogFragment();
     }
 
     @Override
@@ -39,9 +29,11 @@ public class BackupAllSplitApksDialogFragment extends DialogFragment {
         super.onCreate(savedInstanceState);
         setCancelable(false);
 
-        if (savedInstanceState != null) {
-            mIsPreparing = savedInstanceState.getBoolean("preparing", false);
-        }
+        mViewModel = ViewModelProviders.of(this).get(BackupAllSplitApksDialogViewModel.class);
+        mViewModel.getIsBackupEnqueued().observe(this, (isBackupEnqueued) -> {
+            if (isBackupEnqueued)
+                dismiss();
+        });
     }
 
     @NonNull
@@ -53,16 +45,15 @@ public class BackupAllSplitApksDialogFragment extends DialogFragment {
                 .setNegativeButton(R.string.cancel, null)
                 .create();
 
-        alertDialog.setOnShowListener(dialog -> bindDialog());
+        alertDialog.setOnShowListener(dialog -> bindDialog(alertDialog));
 
         return alertDialog;
     }
 
-    private void bindDialog() {
-        AlertDialog dialog = (AlertDialog) getDialog();
-
+    private void bindDialog(AlertDialog dialog) {
         Button positiveButton = dialog.getButton(Dialog.BUTTON_POSITIVE);
-        positiveButton.setVisibility(mIsPreparing ? View.GONE : View.VISIBLE);
+        Button negativeButton = dialog.getButton(Dialog.BUTTON_NEGATIVE);
+
         positiveButton.setOnClickListener((v) -> {
             if (!PermissionsUtils.checkAndRequestStoragePermissions(this))
                 return;
@@ -70,38 +61,16 @@ public class BackupAllSplitApksDialogFragment extends DialogFragment {
             enqueueBackup();
         });
 
-        Button negativeButton = dialog.getButton(Dialog.BUTTON_NEGATIVE);
-        negativeButton.setVisibility(mIsPreparing ? View.GONE : View.VISIBLE);
+        mViewModel.getIsPreparing().observe(this, (isPreparing) -> {
+            positiveButton.setVisibility(isPreparing ? View.GONE : View.VISIBLE);
+            negativeButton.setVisibility(isPreparing ? View.GONE : View.VISIBLE);
 
-        dialog.setMessage(getString(mIsPreparing ? R.string.backup_preparing : R.string.backup_export_all_splits_prompt));
+            dialog.setMessage(getString(isPreparing ? R.string.backup_preparing : R.string.backup_export_all_splits_prompt));
+        });
     }
 
     private void enqueueBackup() {
-        if (mIsPreparing)
-            return;
-
-        mIsPreparing = true;
-        bindDialog();
-
-        new Thread(() -> {
-            List<PackageMeta> packages = BackupRepository.getInstance(requireContext()).getPackages().getValue();
-            if (packages == null)
-                return;
-
-            for (PackageMeta packageMeta : packages) {
-                if (!packageMeta.hasSplits)
-                    continue;
-
-                File backupFile = Utils.createBackupFile(packageMeta);
-                if (backupFile == null) {
-                    Toast.makeText(requireContext(), getString(R.string.backup_backup_failed, packageMeta.label), Toast.LENGTH_SHORT).show();
-                    continue;
-                }
-                BackupService.enqueueBackup(requireContext(), packageMeta, Uri.fromFile(backupFile));
-            }
-
-            new Handler(Looper.getMainLooper()).post(this::dismiss);
-        }).start();
+        mViewModel.backupAllSplits();
     }
 
     @Override
@@ -115,11 +84,5 @@ public class BackupAllSplitApksDialogFragment extends DialogFragment {
             } else
                 enqueueBackup();
         }
-    }
-
-    @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putBoolean("preparing", mIsPreparing);
     }
 }
