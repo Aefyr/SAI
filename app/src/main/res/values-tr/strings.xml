@@ -1,11 +1,8 @@
 <resources>
-    <string name="app_name" translatable="false">SAI</string>
-    <string name="app_name_full" translatable="false">Split APKs Installer</string>
 
     <string name="yes">Evet</string>
     <string name="no">Hayır</string>
     <string name="cancel">İptal</string>
-    <string name="ok" translatable="false">Tamam</string>
     <string name="help">Yardım</string>
     <string name="error">Hata</string>
     <string name="copy">Kopyala</string>
@@ -37,7 +34,7 @@
     <string name="installer_error_bad_apks">Geçersiz APK dosyaları seçildi</string>
     <string name="installer_error_storage">Uygulamayı yüklemek için yeterli depolama alanı yok</string>
     <string name="installer_error_lidl_rom">ROM\'unuz rootsuz yükleyici ile uyumlu değil. Root varsa, rootlu yükleyiciyi SAI ayarlarından etkinleştirmeyi deneyin</string>
-    <string name="installer_error_root">Rootlu yükleyici hatası:\n\n %s</string>
+    <string name="installer_error_shell">%s yükleyici hatası:\n\n %s</string>
     <string name="installer_error_rootless">Rootsuz yükleyici hatası:\n\n %s</string>
     <string name="installer_error_root_no_root">Root erişimi alınamıyor, lütfen \"Root kullan\" tercihini devre dışı bırakın</string>
     <string name="installer_error_while_extracting">ZIP\'ten APK dosyaları çıkarılırken hata oluştu: %s</string>
@@ -82,10 +79,7 @@
     <string name="settings_main_extract_archives_summary">.Zip/.apks arşivlerindeki APK dosyalarını kurmadan önce geçici dosyalara çıkarır. Devre dışı bırakılırsa, SAI, geçici dosyaları olmayan doğrudan APK\'lardan APK yükler. Etkinleştirmek tavsiye edilmez</string>
     <string name="settings_main_reset_one_time_warnings">Bir kerelik uyarıları sıfırla</string>
 
-    <string name="about_author" translatable="false">Yapımcı: polychromaticfox</string>
     <string name="about_source">GitHub</string>
-    <string name="about_source_link" translatable="false">https://github.com/Aefyr/SAI</string>
     <string name="about_donate">Bağış yap</string>
-    <string name="about_donate_link" translatable="false">https://yasobe.ru/na/sai</string>
 
 </resources>
