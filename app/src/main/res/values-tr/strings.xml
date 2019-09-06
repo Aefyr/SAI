@@ -1,0 +1,91 @@
+<resources>
+    <string name="app_name" translatable="false">SAI</string>
+    <string name="app_name_full" translatable="false">Split APKs Installer</string>
+
+    <string name="yes">Evet</string>
+    <string name="no">Hayır</string>
+    <string name="cancel">İptal</string>
+    <string name="ok" translatable="false">Tamam</string>
+    <string name="help">Yardım</string>
+    <string name="error">Hata</string>
+    <string name="copy">Kopyala</string>
+    <string name="copied">Kopyalandı</string>
+    <string name="dont_show_again">Bir daha gösterme</string>
+
+    <string name="permissions_required_storage">SAI, depolamaya erişmek için izin gerektiriyor</string>
+
+    <string name="main_installer">Yükleyici</string>
+    <string name="main_backup">Dışa Aktar</string>
+    <string name="main_navigation_disabled">Unable to perform open with during ongoing installation</string>
+
+    <string name="installer_installation_confirmation">\"%s\" yüklensin mi?</string>
+    <string name="installer_installation_failed">Uygulama yüklenemedi</string>
+    <string name="installer_installation_in_progress">Yükleniyor…</string>
+    <string name="installer_install_apks">APKs Yükle</string>
+    <string name="installer_help"><b>SAI nedir?</b>\nSAI (Split APKs Installer), birden fazla APK\'yı tek bir paketteymiş gibi yüklemenizi sağlayan bir uygulamadır. Android, Google Play dışındaki kaynaklardan yüklemek için yerleşik bir yol sağlamadığından Uygulama Paketi olarak dağıtılan uygulamaları yüklemek için kullanışlıdır.\n\n<b>SAI nasıl kullanılır?</b>\n\"APK\'ları Yükle\" düğmesini tıklayın ve temel APK\'yı ve yapılandırmaya özgü ek APK\'ları veya gerekli tüm APK\'ları içeren bir ZIP arşivini seçin, ardından kurulum işlemini başlatmak için \"Seç\" düğmesini tıklayın.\n\n<b>.apks</b>\n.Apk dosyalarını içeren bir .zip arşivini .apks olarak (örneğin: somesplitapp.zip -> somesplitapp.apks) yeniden adlandırabilirsiniz, böylece diğer uygulamalardan SAI ile açılabilir.</string>
+    <string name="installer_pick_apks">Yüklenecek dosyaları seçin</string>
+    <string name="installer_app_installed">Uygulama yüklendi</string>
+    <string name="installer_open">Aç</string>
+    <string name="installer_app_installed_full">%s yüklendi</string>
+    <string name="installer_no_root">Root erişimi alınamıyor, rootsuz yükleyiciyle devam ediliyor</string>
+    <string name="installer_error_generic">Yükleme başarısız</string>
+    <string name="installer_error_aborted">Yükleme kullanıcı tarafından iptal edildi</string>
+    <string name="installer_error_blocked">Yükleme %s tarafından iptal edildi</string>
+    <string name="installer_error_blocked_device">cihaz</string>
+    <string name="installer_error_conflict">Uygulama yüklenemedi çünkü aynı paket adına sahip önceden yüklenmiş bir uygulamayla çakışıyor</string>
+    <string name="installer_error_incompatible">Uygulama bu cihazla uyumlu değil</string>
+    <string name="installer_error_bad_apks">Geçersiz APK dosyaları seçildi</string>
+    <string name="installer_error_storage">Uygulamayı yüklemek için yeterli depolama alanı yok</string>
+    <string name="installer_error_lidl_rom">ROM\'unuz rootsuz yükleyici ile uyumlu değil. Root varsa, rootlu yükleyiciyi SAI ayarlarından etkinleştirmeyi deneyin</string>
+    <string name="installer_error_root">Rootlu yükleyici hatası:\n\n %s</string>
+    <string name="installer_error_rootless">Rootsuz yükleyici hatası:\n\n %s</string>
+    <string name="installer_error_root_no_root">Root erişimi alınamıyor, lütfen \"Root kullan\" tercihini devre dışı bırakın</string>
+    <string name="installer_error_while_extracting">ZIP\'ten APK dosyaları çıkarılırken hata oluştu: %s</string>
+    <string name="installer_error_zip_contains_no_apks">ZIP herhangi bir apk dosyası içermiyor</string>
+    <string name="installer_error_mixed_extensions">Tek bir .zip/.apks dosyası veya birden fazla .apk dosyası seçmelisiniz</string>
+    <string name="installer_select_theme">Tema seç</string>
+    <string name="installer_device">Cihaz</string>
+    <string name="installer_miui_warning_title">MIUI algılandı</string>
+    <string name="installer_miui_warning_message">Cihazınız MIUI kullanıyor gibi görünüyor. MIUI\'nin standart Android API özelliklerini bozduğu bilinmektedir ve bazı SAI kullanıcıları, SAI\'nin MIUI üzerinde çalışmadığını bildirdi. Genellikle geliştirici ayarlarında MIUI optimizasyonlarını devre dışı bırakarak düzeltilebilir, ki bunu yapmanızı öneririm.</string>
+    <string name="installer_miui_warning_open_dev_settings">Geliştirici ayarlarını aç</string>
+    <string name="installer_miui_warning_oof">Geliştirici ayarları açılamıyor. Harika rom</string>
+
+    <string name="backup_backup">Dışa aktar</string>
+    <string name="backup_backup_prompt">%s dışa aktarılsın mı?</string>
+    <string name="backup_backup_status">%d uygulama dışa aktarılıyor</string>
+    <string name="backup_backup_export_in_progress">Dışa aktarma devam ediyor</string>
+    <string name="backup_backup_in_progress">%s dışa aktarılıyor...</string>
+    <string name="backup_backup_success">%s başarıyla dışa aktarıldı</string>
+    <string name="backup_backup_failed">%s dışa aktarılamadı</string>
+    <string name="backup_search_hint">Uygulama ara</string>
+    <string name="backup_search_splits_only">Yalnızca bölünmüş APK\'lar</string>
+    <string name="backup_search_show_system_apps">Sistem uygulamalarını göster</string>
+    <string name="backup_error_cant_mkdir">Dışa aktarılan uygulamalar için dizin oluşturulamıyor</string>
+    <string name="backup_warning">Lütfen, dışa aktarma özelliğinin hala beta durumda olduğunu unutmayın. İşte bu konuda bazı bilgiler:\n\n1) Dışa aktarılan uygulamalar dahili depolama birimindeki \"SAI\" klasörüne kaydedilir\n\n2) SAI yalnızca uygulamaları dışa aktarır, verileri dışa aktarmaz\n\n3) Uygulamalar tüm APK\'ları içeren yeniden adlandırılmış bir ZIP arşivi olan bir .apks dosyası olarak dışa aktarılır</string>
+    <string name="backup_export_all_splits">Tüm bölünmüş APK\'ları dışa aktar</string>
+    <string name="backup_export_all_splits_prompt">Tüm bölünmüş APK\'lar dışa aktarılsın mı?</string>
+    <string name="backup_preparing">Uygulamalar hazırlanıyor...</string>
+
+    <string name="settings_title">Ayarlar</string>
+    <string name="settings_main_home_directory">Ana dizin</string>
+    <string name="settings_main_home_directory_summary">APK seçicisi başlangıç dizini\nŞu anki: %s</string>
+    <string name="settings_main_file_picker_sort">Dosyaları sıralama</string>
+    <string name="settings_main_file_picker_sort_summary">APK\'ları seçerken\nŞu anki: %s</string>
+    <string name="settings_main_pick_dir">Dizin Seç</string>
+    <string name="settings_main_about">Hakkında</string>
+    <string name="settings_main_use_root">Root kullan</string>
+    <string name="settings_main_use_root_summary">Rootlu yükleyiciyi kullanmayı dener. Eğer SAI root erişimi alamazsa, rootsuz kurulum programına geri döner</string>
+    <string name="settings_main_use_root_error">Root erişimi alınamıyor</string>
+    <string name="settings_main_sign_apks">APK\'ları imzala</string>
+    <string name="settings_main_sign_apks_summary">Yüklemeden önce APK\'ları imzalar. Bunu (ilk uygulama kurulumundan önce) uygulamaları indirilen APK imzasından bağımsız olarak güncellemek için etkinleştirebilirsiniz</string>
+    <string name="settings_main_extract_archives">Arşivlerden APK\'ları çıkar</string>
+    <string name="settings_main_extract_archives_summary">.Zip/.apks arşivlerindeki APK dosyalarını kurmadan önce geçici dosyalara çıkarır. Devre dışı bırakılırsa, SAI, geçici dosyaları olmayan doğrudan APK\'lardan APK yükler. Etkinleştirmek tavsiye edilmez</string>
+    <string name="settings_main_reset_one_time_warnings">Bir kerelik uyarıları sıfırla</string>
+
+    <string name="about_author" translatable="false">Yapımcı: polychromaticfox</string>
+    <string name="about_source">GitHub</string>
+    <string name="about_source_link" translatable="false">https://github.com/Aefyr/SAI</string>
+    <string name="about_donate">Bağış yap</string>
+    <string name="about_donate_link" translatable="false">https://yasobe.ru/na/sai</string>
+
+</resources>
