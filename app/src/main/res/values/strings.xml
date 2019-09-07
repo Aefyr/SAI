@@ -5,7 +5,7 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="cancel">Cancel</string>
-    <string name="ok" translatable="false">OK</string>
+    <string name="ok">OK</string>
     <string name="help">Help</string>
     <string name="error">Error</string>
     <string name="copy">Copy</string>
