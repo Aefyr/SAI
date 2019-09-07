@@ -93,5 +93,6 @@
     <string name="about_source_link" translatable="false">https://github.com/Aefyr/SAI</string>
     <string name="about_donate">Donate</string>
     <string name="about_donate_link" translatable="false">https://yasobe.ru/na/sai</string>
+    <string name="about_licenses">Licenses</string>
 
 </resources>

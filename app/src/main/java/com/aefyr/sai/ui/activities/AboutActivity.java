@@ -18,6 +18,7 @@ public class AboutActivity extends ThemedActivity {
         ((TextView) findViewById(R.id.tv_about_app)).setText(String.format("%s %s", getString(R.string.app_name_full), BuildConfig.VERSION_NAME));
         findViewById(R.id.button_about_source).setOnClickListener((v) -> openLink(getString(R.string.about_source_link)));
         findViewById(R.id.button_about_donate).setOnClickListener((v) -> openLink(getString(R.string.about_donate_link)));
+        findViewById(R.id.button_about_licenses).setOnClickListener((v) -> startActivity(new Intent(this, LicensesActivity.class)));
     }
 
     private void openLink(String link) {

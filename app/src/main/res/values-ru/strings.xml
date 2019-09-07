@@ -88,5 +88,6 @@
 
     <string name="about_source">GitHub</string>
     <string name="about_donate">Поддержать</string>
+    <string name="about_licenses">Лицензии</string>
 
 </resources>

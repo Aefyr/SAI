@@ -90,6 +90,7 @@
 
         <activity android:name=".ui.activities.AboutActivity" />
         <activity android:name=".ui.activities.ConfirmationIntentWrapperActivity" />
+        <activity android:name=".ui.activities.LicensesActivity" />
 
         <service android:name=".backup.BackupService" />
 

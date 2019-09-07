@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -11,6 +12,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.nio.charset.Charset;
 import java.util.zip.CRC32;
 
 public class IOUtils {
@@ -73,6 +75,13 @@ public class IOUtils {
         });
         t.start();
         return t;
+    }
+
+    public static String readStream(InputStream aInputStream, Charset charset) throws IOException {
+        try (InputStream inputStream = aInputStream; ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
+            copyStream(inputStream, outputStream);
+            return new String(outputStream.toByteArray(), charset);
+        }
     }
 
 }
