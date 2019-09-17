@@ -20,9 +20,9 @@
     </string-array>
 
     <string-array name="installers">
-        <item>"Rootless (recommended)"</item>
-        <item>"Rooted (requires root)"</item>
-        <item>"Shizuku (requires Shizuku 3.x)"</item>
+        <item>"默认 (推荐)"</item>
+        <item>"Root (需要 Root)"</item>
+        <item>"Shizuku (需要 Shizuku 3.x)"</item>
     </string-array>
 
 </resources>
