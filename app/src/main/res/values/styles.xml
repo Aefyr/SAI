@@ -93,6 +93,13 @@
         <item name="simpleThemeTextSecondaryColor">@color/colorTextSecondaryFDroid</item>
     </style>
 
+    <style name="AppTheme.Dark2" parent="AppTheme.Simple.Dark">
+        <item name="simpleThemePrimaryColor">@color/colorPrimaryDark2</item>
+        <item name="simpleThemeAccentColor">@color/colorAccentDark2</item>
+        <item name="simpleThemeTextPrimaryColor">@color/colorTextPrimaryDark2</item>
+        <item name="simpleThemeTextSecondaryColor">@color/colorTextSecondaryDark2</item>
+    </style>
+
     <style name="SAIMaterialButton" parent="Widget.MaterialComponents.Button.UnelevatedButton">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>

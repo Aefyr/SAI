@@ -16,6 +16,7 @@
         <item>"Amoled"</item>
         <item>"Pixel"</item>
         <item>"SAI (F-Droid)"</item>
+        <item>"Dark"</item>
     </string-array>
 
     <string-array name="installers">

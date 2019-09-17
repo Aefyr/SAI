@@ -32,6 +32,7 @@ public class Theme {
         mThemes.append(4, R.style.AppTheme_Omelette);
         mThemes.append(5, R.style.AppTheme_Pixel);
         mThemes.append(6, R.style.AppTheme_FDroid);
+        mThemes.append(7, R.style.AppTheme_Dark2);
 
         mPrefs = PreferenceManager.getDefaultSharedPreferences(c);
         sInstance = this;

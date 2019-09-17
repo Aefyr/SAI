@@ -36,6 +36,11 @@
     <color name="colorTextPrimaryFDroid">@color/colorFineGrey</color>
     <color name="colorTextSecondaryFDroid">@color/colorFineGrey</color>
 
+    <color name="colorAccentDark2">#71AAEB</color>
+    <color name="colorPrimaryDark2">#121212</color>
+    <color name="colorTextPrimaryDark2">#ffffff</color>
+    <color name="colorTextSecondaryDark2">#a0a0a0</color>
+
     <!-- Hack for inactive outline color -->
     <color name="mtrl_textinput_default_box_stroke_color" tools:override="true">
         @color/textinputlayout_outline_color
