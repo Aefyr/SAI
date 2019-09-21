@@ -17,12 +17,14 @@
         <ImageButton
             android:id="@+id/ib_toggle_theme"
             style="@style/SAICoolbarImageButton"
+            android:contentDescription="@string/installer_select_theme"
             android:rotation="30"
             app:srcCompat="@drawable/ic_dark_theme" />
 
         <ImageButton
             android:id="@+id/ib_settings"
             style="@style/SAICoolbarImageButton"
+            android:contentDescription="@string/settings_title"
             app:coolbar_gravity="start"
             app:srcCompat="@drawable/ic_settings"
             tools:ignore="MissingPrefix" />
