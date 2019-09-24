@@ -41,6 +41,7 @@
     <string name="installer_installation_failed">Додаток не установлено</string>
     <string name="installer_installation_in_progress">Установка…</string>
     <string name="installer_no_root">Root-доступ відсутній, буде використаний rootless-установник</string>
+    <string name="installer_error_shizuku_unavailable">Немає доступу до Shizuku Server, переконайтеся, що він запущений і SAI дозволений до нього доступ</string>
     <string name="installer_open">Запуск</string>
     <string name="installer_pick_apks">Виберіть файли для установки</string>
     <string name="permissions_required_storage">SAI необхідний дозвіл на доступ до файлів</string>
@@ -85,4 +86,5 @@
     <string name="backup_export_all_splits">Експорт всіх split APK</string>
     <string name="backup_export_all_splits_prompt">Ви бажаєте експортувати всі split APK?</string>
     <string name="backup_preparing">Підготовка додатків...</string>
+    <string name="about_licenses">Ліцензії</string>
 </resources>
