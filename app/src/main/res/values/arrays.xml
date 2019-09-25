@@ -25,4 +25,13 @@
         <item>"Shizuku (requires Shizuku 3.x)"</item>
     </string-array>
 
+    <string-array name="size_units">
+        <item>B</item>
+        <item>KB</item>
+        <item>MB</item>
+        <item>GB</item>
+        <item>TB</item>
+        <item>PB</item>
+    </string-array>
+
 </resources>

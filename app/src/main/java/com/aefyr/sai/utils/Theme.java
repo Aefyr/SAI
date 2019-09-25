@@ -3,19 +3,21 @@ package com.aefyr.sai.utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.util.SparseIntArray;
 
 import androidx.annotation.StyleRes;
 
 import com.aefyr.sai.BuildConfig;
 import com.aefyr.sai.R;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Theme {
     private static Theme sInstance;
 
     private SharedPreferences mPrefs;
 
-    private SparseIntArray mThemes;
+    private List<ThemeDescriptor> mThemes;
 
     public static Theme getInstance(Context c) {
         synchronized (Theme.class) {
@@ -24,15 +26,15 @@ public class Theme {
     }
 
     private Theme(Context c) {
-        mThemes = new SparseIntArray();
-        mThemes.append(0, R.style.AppTheme_Light);
-        mThemes.append(1, R.style.AppTheme_Dark);
-        mThemes.append(2, R.style.AppTheme_Rena);
-        mThemes.append(3, R.style.AppTheme_Rooter);
-        mThemes.append(4, R.style.AppTheme_Omelette);
-        mThemes.append(5, R.style.AppTheme_Pixel);
-        mThemes.append(6, R.style.AppTheme_FDroid);
-        mThemes.append(7, R.style.AppTheme_Dark2);
+        mThemes = new ArrayList<>();
+        mThemes.add(new ThemeDescriptor(R.style.AppTheme_Light, false));
+        mThemes.add(new ThemeDescriptor(R.style.AppTheme_Dark, true));
+        mThemes.add(new ThemeDescriptor(R.style.AppTheme_Rena, true));
+        mThemes.add(new ThemeDescriptor(R.style.AppTheme_Rooter, false));
+        mThemes.add(new ThemeDescriptor(R.style.AppTheme_Omelette, true));
+        mThemes.add(new ThemeDescriptor(R.style.AppTheme_Pixel, false));
+        mThemes.add(new ThemeDescriptor(R.style.AppTheme_FDroid, false));
+        mThemes.add(new ThemeDescriptor(R.style.AppTheme_Dark2, true));
 
         mPrefs = PreferenceManager.getDefaultSharedPreferences(c);
         sInstance = this;
@@ -52,6 +54,33 @@ public class Theme {
 
     @StyleRes
     public int getCurrentTheme() {
-        return mThemes.get(getCurrentThemeId(), R.style.AppTheme_Light);
+        return getCurrentThemeDescriptor().getTheme();
+    }
+
+    public ThemeDescriptor getCurrentThemeDescriptor() {
+        if (getCurrentThemeId() >= mThemes.size())
+            return mThemes.get(0);
+
+        return mThemes.get(getCurrentThemeId());
+    }
+
+    public static class ThemeDescriptor {
+        @StyleRes
+        private int mTheme;
+        private boolean mIsDark;
+
+        private ThemeDescriptor(@StyleRes int theme, boolean isDark) {
+            mTheme = theme;
+            mIsDark = isDark;
+        }
+
+        @StyleRes
+        public int getTheme() {
+            return mTheme;
+        }
+
+        public boolean isDark() {
+            return mIsDark;
+        }
     }
 }

@@ -206,4 +206,16 @@
         <item name="hintTextColor">?attr/colorAccent</item>
     </style>
 
+    <style name="SAIBottomSheetDialog.Backup" parent="Theme.Design.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/SAIBottomSheetDialogStyle.Backup</item>
+    </style>
+
+    <style name="SAIBottomSheetDialog.Backup.Light" parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/SAIBottomSheetDialogStyle.Backup</item>
+    </style>
+
+    <style name="SAIBottomSheetDialogStyle.Backup" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:padding">8dp</item>
+    </style>
 </resources>

@@ -16,11 +16,15 @@ import android.view.inputmethod.InputMethodManager;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.aefyr.sai.R;
 import com.aefyr.sai.model.backup.PackageMeta;
 
 import java.io.File;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.util.Locale;
 import java.util.zip.ZipEntry;
 
 public class Utils {
@@ -117,6 +121,28 @@ public class Utils {
         packageInfoPart = Utils.escapeFileName(packageInfoPart);
 
         return new File(backupsDir, String.format("%s-%d.apks", packageInfoPart, System.currentTimeMillis()));
+    }
+
+    private static DecimalFormat sSizeDecimalFormat;
+
+    public static String formatSize(Context c, long bytes) {
+        if (sSizeDecimalFormat == null) {
+            sSizeDecimalFormat = new DecimalFormat("#.##");
+            sSizeDecimalFormat.setDecimalFormatSymbols(DecimalFormatSymbols.getInstance(Locale.US));
+        }
+
+        String[] units = c.getResources().getStringArray(R.array.size_units);
+
+        for (int i = 0; i < units.length; i++) {
+
+            float size = (float) bytes / (float) Math.pow(1024, i);
+
+            if (size < 1024)
+                return String.format("%s %s", sSizeDecimalFormat.format(size), units[i]);
+
+        }
+
+        return bytes + " B";
     }
 
 }
