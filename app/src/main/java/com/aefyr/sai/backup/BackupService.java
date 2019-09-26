@@ -12,6 +12,8 @@ import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Looper;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.Log;
 
 import androidx.annotation.MainThread;
@@ -28,6 +30,7 @@ import com.aefyr.sai.utils.Utils;
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
@@ -41,8 +44,7 @@ import java.util.zip.ZipOutputStream;
 public class BackupService extends Service {
     private static final String TAG = "BackupService";
 
-    public static String EXTRA_PACKAGE_META = "package";
-    public static String EXTRA_DESTINATION = "destination";
+    public static String EXTRA_TASK_CONFIG = "config";
 
     private static final int NOTIFICATION_ID = 322;
     private static final String NOTIFICATION_CHANNEL_ID = "backup_service";
@@ -57,10 +59,9 @@ public class BackupService extends Service {
     private Executor mExecutor = Executors.newFixedThreadPool(4);
     private Handler mHandler = new Handler(Looper.getMainLooper());
 
-    public static void enqueueBackup(Context c, PackageMeta packageMeta, Uri destination) {
+    public static void enqueueBackup(Context c, BackupTaskConfig config) {
         Intent intent = new Intent(c, BackupService.class);
-        intent.putExtra(EXTRA_PACKAGE_META, packageMeta);
-        intent.putExtra(EXTRA_DESTINATION, destination);
+        intent.putExtra(EXTRA_TASK_CONFIG, config);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             c.startForegroundService(intent);
         } else {
@@ -76,9 +77,8 @@ public class BackupService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        PackageMeta packageMeta = intent.getParcelableExtra(EXTRA_PACKAGE_META);
-        Uri destination = intent.getParcelableExtra(EXTRA_DESTINATION);
-        enqueue(packageMeta, destination);
+        BackupTaskConfig config = intent.getParcelableExtra(EXTRA_TASK_CONFIG);
+        enqueue(config);
 
         return START_NOT_STICKY;
     }
@@ -90,8 +90,8 @@ public class BackupService extends Service {
     }
 
     @MainThread
-    private void enqueue(PackageMeta packageMeta, Uri destination) {
-        BackupTask backupTask = new BackupTask(packageMeta, destination);
+    private void enqueue(BackupTaskConfig backupTaskConfig) {
+        BackupTask backupTask = new BackupTask(backupTaskConfig);
         mTasks.add(backupTask);
 
         updateStatus();
@@ -134,16 +134,14 @@ public class BackupService extends Service {
     }
 
     private class BackupTask {
-        PackageMeta packageMeta;
-        Uri destinationUri;
+        BackupTaskConfig config;
 
         private long mLastProgressUpdate;
         private int mProgressNotificationId;
         private long mTaskCreationTime = System.currentTimeMillis();
 
-        BackupTask(PackageMeta packageMeta, Uri destinationUri) {
-            this.packageMeta = packageMeta;
-            this.destinationUri = destinationUri;
+        BackupTask(BackupTaskConfig config) {
+            this.config = config;
 
             //TODO id probably shouldn't be just random
             mProgressNotificationId = 1000 + mRandom.nextInt(100000);
@@ -167,7 +165,7 @@ public class BackupService extends Service {
                     .setSmallIcon(R.drawable.ic_backup)
                     .setContentTitle(getString(R.string.backup_backup))
                     .setProgress(goal, current, false)
-                    .setContentText(getString(R.string.backup_backup_in_progress, packageMeta.label))
+                    .setContentText(getString(R.string.backup_backup_in_progress, config.packageMeta.label))
                     .build();
 
             mNotificationHelper.notify(mProgressNotificationId, notification, true);
@@ -192,28 +190,37 @@ public class BackupService extends Service {
                     .setContentTitle(getString(R.string.backup_backup));
 
             if (successfully) {
-                builder.setContentText(getString(R.string.backup_backup_success, packageMeta.label));
+                builder.setContentText(getString(R.string.backup_backup_success, config.packageMeta.label));
             } else {
-                builder.setContentText(getString(R.string.backup_backup_failed, packageMeta.label));
+                builder.setContentText(getString(R.string.backup_backup_failed, config.packageMeta.label));
             }
 
             mNotificationHelper.notify(mProgressNotificationId, builder.build(), false);
         }
 
+        private List<File> getAllApkFilesForPackage(String pkg) throws Exception {
+            ApplicationInfo applicationInfo = getPackageManager().getApplicationInfo(pkg, 0);
+
+            List<File> apkFiles = new ArrayList<>();
+            apkFiles.add(new File(applicationInfo.publicSourceDir));
+
+            if (applicationInfo.splitPublicSourceDirs != null) {
+                for (String splitPath : applicationInfo.splitPublicSourceDirs)
+                    apkFiles.add(new File(splitPath));
+            }
+
+            return apkFiles;
+        }
+
         void execute() {
-            Uri destination = destinationUri;
-            PackageMeta packageMeta = this.packageMeta;
+            Uri destination = config.destination;
 
             try (ZipOutputStream zipOutputStream = new ZipOutputStream(getContentResolver().openOutputStream(destination))) {
-                ApplicationInfo applicationInfo = getPackageManager().getApplicationInfo(packageMeta.packageName, 0);
-
-                List<File> apkFiles = new ArrayList<>();
-                apkFiles.add(new File(applicationInfo.publicSourceDir));
-
-                if (applicationInfo.splitPublicSourceDirs != null) {
-                    for (String splitPath : applicationInfo.splitPublicSourceDirs)
-                        apkFiles.add(new File(splitPath));
-                }
+                List<File> apkFiles;
+                if (config.apksToBackup.size() == 0)
+                    apkFiles = getAllApkFilesForPackage(config.packageMeta.packageName);
+                else
+                    apkFiles = config.apksToBackup;
 
                 long currentProgress = 0;
                 long maxProgress = 0;
@@ -251,5 +258,80 @@ public class BackupService extends Service {
                 failed(e);
             }
         }
+    }
+
+    public static class BackupTaskConfig implements Parcelable {
+        private PackageMeta packageMeta;
+        private ArrayList<File> apksToBackup = new ArrayList<>();
+        private Uri destination;
+
+        private BackupTaskConfig(PackageMeta packageMeta, Uri destination) {
+            this.packageMeta = packageMeta;
+            this.destination = destination;
+        }
+
+        BackupTaskConfig(Parcel in) {
+            packageMeta = in.readParcelable(PackageMeta.class.getClassLoader());
+
+            ArrayList<String> apkFilePaths = new ArrayList<>();
+            in.readStringList(apkFilePaths);
+            for (String apkFilePath : apkFilePaths)
+                apksToBackup.add(new File(apkFilePath));
+
+            destination = in.readParcelable(Uri.class.getClassLoader());
+        }
+
+        public static final Creator<BackupTaskConfig> CREATOR = new Creator<BackupTaskConfig>() {
+            @Override
+            public BackupTaskConfig createFromParcel(Parcel in) {
+                return new BackupTaskConfig(in);
+            }
+
+            @Override
+            public BackupTaskConfig[] newArray(int size) {
+                return new BackupTaskConfig[size];
+            }
+        };
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeParcelable(packageMeta, flags);
+
+            ArrayList<String> apkFilePaths = new ArrayList<>();
+            for (File apkFile : apksToBackup)
+                apkFilePaths.add(apkFile.getAbsolutePath());
+            dest.writeStringList(apkFilePaths);
+
+            dest.writeParcelable(destination, 0);
+        }
+
+        public static class Builder {
+            private BackupTaskConfig mConfig;
+
+            public Builder(PackageMeta packageMeta, Uri destination) {
+                mConfig = new BackupTaskConfig(packageMeta, destination);
+            }
+
+            public Builder addApk(File apkFile) {
+                mConfig.apksToBackup.add(apkFile);
+                return this;
+            }
+
+            public Builder addAllApks(Collection<File> apkFiles) {
+                mConfig.apksToBackup.addAll(apkFiles);
+                return this;
+            }
+
+            public BackupTaskConfig build() {
+                return mConfig;
+            }
+        }
+
+
     }
 }

@@ -89,6 +89,18 @@ public class InstallerViewModel extends AndroidViewModel implements SAIPackageIn
         mInstaller.startInstallationSession(mOngoingSessionId);
     }
 
+    public void installPackagesFromContentProviderUris(List<Uri> apkUris) {
+        ensureInstallerActuality();
+
+        ApkSource apkSource = new ApkSourceBuilder(mContext)
+                .fromApkContentUris(apkUris)
+                .setSigningEnabled(mPrefsHelper.shouldSignApks())
+                .build();
+
+        mOngoingSessionId = mInstaller.createInstallationSession(apkSource);
+        mInstaller.startInstallationSession(mOngoingSessionId);
+    }
+
     private void ensureInstallerActuality() {
         SAIPackageInstaller actualInstaller = PackageInstallerProvider.getInstaller(mContext);
         if (actualInstaller != mInstaller) {

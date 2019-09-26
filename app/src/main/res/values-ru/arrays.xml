@@ -25,4 +25,13 @@
         <item>"Shizuku (нужен Shizuku 3.x)"</item>
     </string-array>
 
+    <string-array name="size_units">
+        <item>Б</item>
+        <item>КБ</item>
+        <item>МБ</item>
+        <item>ГБ</item>
+        <item>ТБ</item>
+        <item>ПБ</item>
+    </string-array>
+
 </resources>

@@ -56,7 +56,7 @@ public class BackupAllSplitApksDialogViewModel extends AndroidViewModel {
                     continue;
                 }
 
-                BackupService.enqueueBackup(getApplication(), packageMeta, Uri.fromFile(backupFile));
+                BackupService.enqueueBackup(getApplication(), new BackupService.BackupTaskConfig.Builder(packageMeta, Uri.fromFile(backupFile)).build());
             }
 
             mIsBackupEnqueued.postValue(true);

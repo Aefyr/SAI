@@ -65,6 +65,10 @@
     <string name="backup_export_all_splits">Экспорт всех split APK</string>
     <string name="backup_export_all_splits_prompt">Вы хотите экспортировать все split APK?</string>
     <string name="backup_preparing">Подготовка приложений...</string>
+    <string name="backup_enqueue">Экспортировать</string>
+    <string name="backup_dialog_title">Выберите части split APK для экспорта</string>
+    <string name="backup_load_splits_error">Не удалось получить части split APK</string>
+    <string name="backup_splits_loading">Загрузка...</string>
 
     <string name="settings_title">Настройки</string>
     <string name="settings_main_home_directory">Папка по умолчанию</string>
