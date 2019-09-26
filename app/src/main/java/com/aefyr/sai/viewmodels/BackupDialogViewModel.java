@@ -10,7 +10,8 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.aefyr.sai.adapters.SelectableAdapter;
+import com.aefyr.sai.adapters.selection.Selection;
+import com.aefyr.sai.adapters.selection.SimpleKeyStorage;
 import com.aefyr.sai.model.backup.SplitApkPart;
 import com.aefyr.sai.utils.SimpleAsyncTask;
 
@@ -23,26 +24,16 @@ public class BackupDialogViewModel extends AndroidViewModel {
 
     private MutableLiveData<LoadingState> mLoadingState = new MutableLiveData<>();
     private MutableLiveData<List<SplitApkPart>> mParts = new MutableLiveData<>();
-    private MutableLiveData<SelectableAdapter.SelectedKeysStorage> mLiveSelectedKeysStorage = new MutableLiveData<>();
 
     private LoadPackageTask mLoadPackageTask;
 
-    private final SelectableAdapter.SimpleSelectedKeysStorage mSelectedKeysStorage = new SelectableAdapter.SimpleSelectedKeysStorage();
-    private final SelectableAdapter.SelectionObserver mSelectionObserver;
+    private final SimpleKeyStorage<String> mKeyStorage = new SimpleKeyStorage<>();
+    private final Selection<String> mSelection = new Selection<>(mKeyStorage);
 
     public BackupDialogViewModel(@NonNull Application application) {
         super(application);
         mLoadingState.setValue(LoadingState.EMPTY);
         mParts.setValue(Collections.emptyList());
-        mLiveSelectedKeysStorage.setValue(mSelectedKeysStorage);
-
-        mSelectionObserver = new SelectableAdapter.SelectionObserver() {
-            @Override
-            protected void onSelectionChanged(SelectableAdapter.SelectedKeysStorage storage) {
-                mLiveSelectedKeysStorage.setValue(storage);
-            }
-        };
-        mSelectedKeysStorage.addObserver(mSelectionObserver);
     }
 
     public void setPackage(String pkg) {
@@ -62,8 +53,8 @@ public class BackupDialogViewModel extends AndroidViewModel {
         return mParts;
     }
 
-    public LiveData<SelectableAdapter.SelectedKeysStorage> getSelectedKeysStorage() {
-        return mLiveSelectedKeysStorage;
+    public Selection<String> getSelection() {
+        return mSelection;
     }
 
     public List<File> getSelectedSplitParts() {
@@ -72,18 +63,13 @@ public class BackupDialogViewModel extends AndroidViewModel {
 
         ArrayList<File> selectedParts = new ArrayList<>();
         for (SplitApkPart part : mParts.getValue()) {
-            if (mSelectedKeysStorage.isKeySelected(part.toKey()))
+            if (mSelection.isSelected(part.toKey()))
                 selectedParts.add(part.getPath());
         }
 
         return selectedParts;
     }
 
-    @Override
-    protected void onCleared() {
-        super.onCleared();
-        mSelectedKeysStorage.removeObserver(mSelectionObserver);
-    }
 
     private class LoadPackageTask extends SimpleAsyncTask<String, List<SplitApkPart>> {
 
@@ -111,9 +97,9 @@ public class BackupDialogViewModel extends AndroidViewModel {
 
         @Override
         protected void onWorkDone(List<SplitApkPart> splitApkParts) {
-            mSelectedKeysStorage.clear();
+            mSelection.clear();
             for (SplitApkPart part : splitApkParts)
-                mSelectedKeysStorage.setKeySelected(part.toKey(), true);
+                mSelection.setSelected(part.toKey(), true);
 
             mParts.setValue(splitApkParts);
             mLoadingState.setValue(LoadingState.LOADED);

@@ -2,11 +2,9 @@ package com.aefyr.sai.model.backup;
 
 import androidx.annotation.Nullable;
 
-import com.aefyr.sai.adapters.SelectableAdapter;
-
 import java.io.File;
 
-public class SplitApkPart implements SelectableAdapter.SelectableItem {
+public class SplitApkPart {
 
     private String mName;
     private File mPath;
@@ -40,8 +38,8 @@ public class SplitApkPart implements SelectableAdapter.SelectableItem {
         return mPath.hashCode();
     }
 
-    @Override
     public String toKey() {
         return mPath.getAbsolutePath();
     }
+
 }

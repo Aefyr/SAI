@@ -86,9 +86,9 @@ public class BackupDialogFragment extends BottomSheetDialogFragment {
         partsRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
         partsRecycler.addItemDecoration(new RecyclerPaddingDecoration(0, 0, 0, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 72, getResources().getDisplayMetrics())));
 
-        BackupSplitPartsAdapter adapter = new BackupSplitPartsAdapter(requireContext());
-        adapter.setSelectedItemsStorage(mViewModel.getSelectedKeysStorage().getValue());
+        BackupSplitPartsAdapter adapter = new BackupSplitPartsAdapter(mViewModel.getSelection(), requireContext());
         partsRecycler.setAdapter(adapter);
+
 
         mViewModel.getLoadingState().observe(this, state -> {
             switch (state) {
@@ -98,7 +98,7 @@ public class BackupDialogFragment extends BottomSheetDialogFragment {
                     enqueueButton.setText(R.string.backup_splits_loading);
                     break;
                 case LOADED:
-                    enqueueButton.setEnabled(mViewModel.getSelectedKeysStorage().getValue().getSelectedKeysCount() > 0);
+                    enqueueButton.setEnabled(mViewModel.getSelection().hasSelection());
                     enqueueButton.setText(R.string.backup_enqueue);
                     break;
                 case FAILED:
@@ -111,9 +111,7 @@ public class BackupDialogFragment extends BottomSheetDialogFragment {
             adapter.setData(parts);
             revealBottomSheet();
         });
-        mViewModel.getSelectedKeysStorage().observe(this, storage -> {
-            enqueueButton.setEnabled(storage.getSelectedKeysCount() > 0);
-        });
+        mViewModel.getSelection().asLiveData().observe(this, selection -> enqueueButton.setEnabled(selection.hasSelection()));
     }
 
     private void enqueueBackup() {

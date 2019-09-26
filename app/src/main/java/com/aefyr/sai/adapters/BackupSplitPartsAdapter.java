@@ -11,18 +11,21 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.aefyr.sai.R;
+import com.aefyr.sai.adapters.selection.SelectableAdapter;
+import com.aefyr.sai.adapters.selection.Selection;
 import com.aefyr.sai.model.backup.SplitApkPart;
 import com.aefyr.sai.utils.Utils;
 
 import java.util.List;
 
-public class BackupSplitPartsAdapter extends SelectableAdapter<SplitApkPart, BackupSplitPartsAdapter.ViewHolder> {
+public class BackupSplitPartsAdapter extends SelectableAdapter<String, BackupSplitPartsAdapter.ViewHolder> {
 
     private Context mContext;
     private LayoutInflater mInflater;
     private List<SplitApkPart> mParts;
 
-    public BackupSplitPartsAdapter(Context c) {
+    public BackupSplitPartsAdapter(Selection<String> selection, Context c) {
+        super(selection);
         mContext = c;
         mInflater = LayoutInflater.from(c);
         setHasStableIds(true);
@@ -40,8 +43,8 @@ public class BackupSplitPartsAdapter extends SelectableAdapter<SplitApkPart, Bac
     }
 
     @Override
-    protected SplitApkPart getItemAt(int position) {
-        return mParts.get(position);
+    protected String getKeyForPosition(int position) {
+        return mParts.get(position).toKey();
     }
 
     @Override
@@ -83,7 +86,7 @@ public class BackupSplitPartsAdapter extends SelectableAdapter<SplitApkPart, Bac
                     return;
 
                 SplitApkPart item = mParts.get(adapterPosition);
-                boolean selected = switchSelection(item);
+                boolean selected = switchSelection(item.toKey());
                 mCheck.setChecked(selected);
             });
         }
@@ -93,7 +96,7 @@ public class BackupSplitPartsAdapter extends SelectableAdapter<SplitApkPart, Bac
             mSize.setText(Utils.formatSize(mContext, part.getSize()));
             mPath.setText(part.getPath().getName());
 
-            mCheck.setChecked(isItemSelected(part));
+            mCheck.setChecked(isSelected(part.toKey()));
 
         }
     }
