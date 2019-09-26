@@ -54,6 +54,7 @@ public class Selection<Key> {
         for (Observer<Key> observer : mObservers) {
             observer.onCleared(this);
         }
+        mLiveSelection.setValue(this);
     }
 
     public void addObserver(Observer<Key> observer) {
