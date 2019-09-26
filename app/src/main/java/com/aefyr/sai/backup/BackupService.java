@@ -272,7 +272,12 @@ public class BackupService extends Service {
 
         BackupTaskConfig(Parcel in) {
             packageMeta = in.readParcelable(PackageMeta.class.getClassLoader());
-            apksToBackup = in.readArrayList(File.class.getClassLoader());
+
+            ArrayList<String> apkFilePaths = new ArrayList<>();
+            in.readStringList(apkFilePaths);
+            for (String apkFilePath : apkFilePaths)
+                apksToBackup.add(new File(apkFilePath));
+
             destination = in.readParcelable(Uri.class.getClassLoader());
         }
 
@@ -296,7 +301,12 @@ public class BackupService extends Service {
         @Override
         public void writeToParcel(Parcel dest, int flags) {
             dest.writeParcelable(packageMeta, flags);
-            dest.writeList(apksToBackup);
+
+            ArrayList<String> apkFilePaths = new ArrayList<>();
+            for (File apkFile : apksToBackup)
+                apkFilePaths.add(apkFile.getAbsolutePath());
+            dest.writeStringList(apkFilePaths);
+
             dest.writeParcelable(destination, 0);
         }
 
