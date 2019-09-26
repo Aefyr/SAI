@@ -24,6 +24,7 @@ public class ApkSourceBuilder {
     private List<File> mApkFiles;
     private File mZipFile;
     private Uri mZipUri;
+    private List<Uri> mApkUris;
 
     private boolean mSigningEnabled;
     private boolean mZipExtractionEnabled;
@@ -47,6 +48,12 @@ public class ApkSourceBuilder {
     public ApkSourceBuilder fromZipContentUri(Uri zipUri) {
         ensureSourceSetOnce();
         mZipUri = zipUri;
+        return this;
+    }
+
+    public ApkSourceBuilder fromApkContentUris(List<Uri> uris) {
+        ensureSourceSetOnce();
+        mApkUris = uris;
         return this;
     }
 
@@ -79,6 +86,12 @@ public class ApkSourceBuilder {
                 apkSource = new ZipExtractorApkSource(mContext, new ContentUriFileDescriptor(mContext, mZipUri));
             else
                 apkSource = new ZipApkSource(mContext, new ContentUriFileDescriptor(mContext, mZipUri));
+        } else if (mApkUris != null) {
+            List<FileDescriptor> apkUriDescriptors = new ArrayList<>(mApkUris.size());
+            for (Uri apkUri : mApkUris)
+                apkUriDescriptors.add(new ContentUriFileDescriptor(mContext, apkUri));
+
+            apkSource = new DefaultApkSource(apkUriDescriptors);
         } else {
             throw new IllegalStateException("No source set");
         }

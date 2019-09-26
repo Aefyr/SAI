@@ -1,5 +1,7 @@
 package com.aefyr.sai.ui.fragments;
 
+import android.app.Activity;
+import android.content.ClipData;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -30,9 +32,12 @@ import com.github.angads25.filepicker.model.DialogConfigs;
 import com.github.angads25.filepicker.model.DialogProperties;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 public class InstallerFragment extends SaiBaseFragment implements FilePickerDialogFragment.OnFilesSelectedListener, InstallationConfirmationDialogFragment.ConfirmationListener {
+
+    private static final int REQUEST_CODE_GET_FILES = 337;
 
     private InstallerViewModel mViewModel;
     private Button mButton;
@@ -85,6 +90,7 @@ public class InstallerFragment extends SaiBaseFragment implements FilePickerDial
         mButtonSettings.setOnClickListener((v) -> startActivity(new Intent(getContext(), PreferencesActivity.class)));
 
         mButton.setOnClickListener((v) -> checkPermissionsAndPickFiles());
+        mButton.setOnLongClickListener((v) -> pickFilesWithSaf());
         findViewById(R.id.button_help).setOnClickListener((v) -> AlertsUtils.showAlert(this, R.string.help, R.string.installer_help));
 
         if (mPendingActionViewUri != null) {
@@ -121,6 +127,15 @@ public class InstallerFragment extends SaiBaseFragment implements FilePickerDial
         FilePickerDialogFragment.newInstance(null, getString(R.string.installer_pick_apks), properties).show(getChildFragmentManager(), "dialog_files_picker");
     }
 
+    private boolean pickFilesWithSaf() {
+        Intent getContentIntent = new Intent(Intent.ACTION_GET_CONTENT);
+        getContentIntent.setType("*/*");
+        getContentIntent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+        startActivityForResult(Intent.createChooser(getContentIntent, getString(R.string.installer_pick_apks)), REQUEST_CODE_GET_FILES);
+
+        return true;
+    }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -132,6 +147,31 @@ public class InstallerFragment extends SaiBaseFragment implements FilePickerDial
                 checkPermissionsAndPickFiles();
         }
 
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == REQUEST_CODE_GET_FILES) {
+            if (resultCode != Activity.RESULT_OK || data == null)
+                return;
+
+            if (data.getData() != null) {
+                mViewModel.installPackagesFromContentProviderZip(data.getData());
+                return;
+            }
+
+            if (data.getClipData() != null) {
+                ClipData clipData = data.getClipData();
+                List<Uri> apkUris = new ArrayList<>(clipData.getItemCount());
+
+                for (int i = 0; i < clipData.getItemCount(); i++)
+                    apkUris.add(clipData.getItemAt(i).getUri());
+
+                mViewModel.installPackagesFromContentProviderUris(apkUris);
+            }
+        }
     }
 
     private void showPackageInstalledAlert(String packageName) {
