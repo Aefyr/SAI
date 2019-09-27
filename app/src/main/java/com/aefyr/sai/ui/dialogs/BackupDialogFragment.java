@@ -4,7 +4,6 @@ import android.app.Dialog;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -21,7 +20,6 @@ import com.aefyr.sai.R;
 import com.aefyr.sai.adapters.BackupSplitPartsAdapter;
 import com.aefyr.sai.backup.BackupService;
 import com.aefyr.sai.model.backup.PackageMeta;
-import com.aefyr.sai.ui.recycler.RecyclerPaddingDecoration;
 import com.aefyr.sai.utils.PermissionsUtils;
 import com.aefyr.sai.utils.Theme;
 import com.aefyr.sai.utils.Utils;
@@ -84,7 +82,6 @@ public class BackupDialogFragment extends BottomSheetDialogFragment {
 
         RecyclerView partsRecycler = view.findViewById(R.id.rv_split_parts);
         partsRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
-        partsRecycler.addItemDecoration(new RecyclerPaddingDecoration(0, 0, 0, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 72, getResources().getDisplayMetrics())));
 
         BackupSplitPartsAdapter adapter = new BackupSplitPartsAdapter(mViewModel.getSelection(), this, requireContext());
         partsRecycler.setAdapter(adapter);
