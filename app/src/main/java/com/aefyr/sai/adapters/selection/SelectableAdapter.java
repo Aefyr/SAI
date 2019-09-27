@@ -4,6 +4,8 @@ import android.annotation.SuppressLint;
 
 import androidx.annotation.CallSuper;
 import androidx.annotation.NonNull;
+import androidx.lifecycle.DefaultLifecycleObserver;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.HashMap;
@@ -61,8 +63,15 @@ public abstract class SelectableAdapter<Key, ViewHolder extends RecyclerView.Vie
         }
     };
 
-    public SelectableAdapter(Selection<Key> selection) {
+    public SelectableAdapter(Selection<Key> selection, LifecycleOwner lifecycleOwner) {
         mSelection = selection;
+
+        lifecycleOwner.getLifecycle().addObserver(new DefaultLifecycleObserver() {
+            @Override
+            public void onDestroy(@NonNull LifecycleOwner owner) {
+                unregisterObservers();
+            }
+        });
     }
 
     public final Selection<Key> getSelection() {
@@ -94,21 +103,27 @@ public abstract class SelectableAdapter<Key, ViewHolder extends RecyclerView.Vie
     @CallSuper
     @Override
     public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
-        super.onAttachedToRecyclerView(recyclerView);
-        mSelection.addObserver(mSelectionObserver);
-        registerAdapterDataObserver(mAdapterObserver);
+        registerObservers();
     }
 
     @CallSuper
     @Override
     public void onDetachedFromRecyclerView(@NonNull RecyclerView recyclerView) {
-        super.onDetachedFromRecyclerView(recyclerView);
-        mSelection.removeObserver(mSelectionObserver);
-        unregisterAdapterDataObserver(mAdapterObserver);
+        unregisterObservers();
     }
 
     private void clearKeysMapping() {
         mPositionToKey.clear();
         mKeyToPosition.clear();
+    }
+
+    private void registerObservers() {
+        mSelection.addObserver(mSelectionObserver);
+        registerAdapterDataObserver(mAdapterObserver);
+    }
+
+    private void unregisterObservers() {
+        mSelection.removeObserver(mSelectionObserver);
+        unregisterAdapterDataObserver(mAdapterObserver);
     }
 }

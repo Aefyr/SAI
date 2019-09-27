@@ -86,7 +86,7 @@ public class BackupDialogFragment extends BottomSheetDialogFragment {
         partsRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
         partsRecycler.addItemDecoration(new RecyclerPaddingDecoration(0, 0, 0, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 72, getResources().getDisplayMetrics())));
 
-        BackupSplitPartsAdapter adapter = new BackupSplitPartsAdapter(mViewModel.getSelection(), requireContext());
+        BackupSplitPartsAdapter adapter = new BackupSplitPartsAdapter(mViewModel.getSelection(), this, requireContext());
         partsRecycler.setAdapter(adapter);
 
 

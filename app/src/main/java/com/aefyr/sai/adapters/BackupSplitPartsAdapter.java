@@ -8,6 +8,7 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.aefyr.sai.R;
@@ -24,8 +25,8 @@ public class BackupSplitPartsAdapter extends SelectableAdapter<String, BackupSpl
     private LayoutInflater mInflater;
     private List<SplitApkPart> mParts;
 
-    public BackupSplitPartsAdapter(Selection<String> selection, Context c) {
-        super(selection);
+    public BackupSplitPartsAdapter(Selection<String> selection, LifecycleOwner lifecycleOwner, Context c) {
+        super(selection, lifecycleOwner);
         mContext = c;
         mInflater = LayoutInflater.from(c);
         setHasStableIds(true);

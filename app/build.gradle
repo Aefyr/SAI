@@ -46,6 +46,7 @@ dependencies {
     implementation 'com.github.aefyr:pseudoapksigner:1.5'
     implementation 'com.github.bumptech.glide:glide:4.10.0'
     implementation 'moe.shizuku.privilege:api:3.0.0-alpha10'
+    implementation 'android.arch.lifecycle:common-java8:2.1.0'
 
     //Google services
     normalImplementation 'com.google.firebase:firebase-core:17.2.0'
