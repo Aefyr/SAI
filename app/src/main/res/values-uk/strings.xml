@@ -86,5 +86,11 @@
     <string name="backup_export_all_splits">Експорт всіх split APK</string>
     <string name="backup_export_all_splits_prompt">Ви бажаєте експортувати всі split APK?</string>
     <string name="backup_preparing">Підготовка додатків...</string>
+    <string name="backup_enqueue">Експортувати</string>
+    <string name="backup_dialog_title">Виберіть частини split APK для експорту</string>
+    <string name="backup_load_splits_error">Не вдалося отримати частини split APK</string>
+    <string name="backup_splits_loading">Завантаження...</string>
+
+
     <string name="about_licenses">Ліцензії</string>
 </resources>
