@@ -20,6 +20,7 @@ import com.aefyr.sai.R;
 import com.aefyr.sai.model.backup.PackageMeta;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.text.DecimalFormat;
@@ -107,20 +108,40 @@ public class Utils {
 
     @SuppressLint("DefaultLocale")
     @Nullable
-    public static File createBackupFile(PackageMeta packageMeta) {
+    public static File createBackupFile(Context c, PackageMeta packageMeta) {
         File backupsDir = new File(Environment.getExternalStorageDirectory(), "SAI");
         if (!backupsDir.exists() && !backupsDir.mkdir()) {
             Log.e(TAG, "Unable to mkdir:" + backupsDir.toString());
             return null;
         }
 
-        String packageInfoPart = String.format("%s-%s(%d)", packageMeta.label, packageMeta.versionName, packageMeta.versionCode).replace('.', ',');
-        if (packageInfoPart.length() > 160)
-            packageInfoPart = packageInfoPart.substring(0, 160);
+        String backupFileName = PreferencesHelper.getInstance(c).getBackupFileNameFormat()
+                .toLowerCase()
+                .replace("package", packageMeta.packageName)
+                .replace("name", packageMeta.label)
+                .replace("version", packageMeta.versionName)
+                .replace("versioncode", String.valueOf(packageMeta.versionCode))
+                .replace('.', ',');
 
-        packageInfoPart = Utils.escapeFileName(packageInfoPart);
+        if (backupFileName.length() > 160)
+            backupFileName = backupFileName.substring(0, 160);
 
-        return new File(backupsDir, String.format("%s-%d.apks", packageInfoPart, System.currentTimeMillis()));
+        File backupFile = new File(backupsDir, String.format("%s.apks", backupFileName));
+        int suffix = 0;
+        while (backupFile.exists()) {
+            suffix++;
+            backupFile = new File(backupsDir, String.format("%s(%d).apks", backupFileName, suffix));
+        }
+
+        try {
+            if (!backupFile.createNewFile())
+                return null;
+        } catch (IOException e) {
+            Log.e(TAG, "Unable to create backup file", e);
+            return null;
+        }
+
+        return backupFile;
     }
 
     private static DecimalFormat sSizeDecimalFormat;

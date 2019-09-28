@@ -10,5 +10,5 @@ public class PreferencesKeys {
     public static final String MIUI_WARNING_SHOWN = "miui_warning_shown";
     public static final String EXTRACT_ARCHIVES = "extract_archives";
     public static final String INSTALLER = "installer";
-
+    public static final String BACKUP_FILE_NAME_FORMAT = "backup_file_name_format";
 }

@@ -115,7 +115,8 @@ public class BackupDialogFragment extends BottomSheetDialogFragment {
         if (!PermissionsUtils.checkAndRequestStoragePermissions(this))
             return;
 
-        File backupFile = Utils.createBackupFile(mPackage);
+        //TODO probably shouldn't create files on main thread
+        File backupFile = Utils.createBackupFile(requireContext(), mPackage);
         if (backupFile == null) {
             showError(R.string.backup_error_cant_mkdir);
             dismiss();

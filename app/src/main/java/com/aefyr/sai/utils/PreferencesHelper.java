@@ -73,4 +73,12 @@ public class PreferencesHelper {
         return mPrefs.getInt(PreferencesKeys.INSTALLER, PreferencesValues.INSTALLER_ROOTLESS);
     }
 
+    public void setBackupFileNameFormat(String format) {
+        mPrefs.edit().putString(PreferencesKeys.BACKUP_FILE_NAME_FORMAT, format).apply();
+    }
+
+    public String getBackupFileNameFormat() {
+        return mPrefs.getString(PreferencesKeys.BACKUP_FILE_NAME_FORMAT, PreferencesValues.BACKUP_FILE_NAME_FORMAT_DEFAULT);
+    }
+
 }

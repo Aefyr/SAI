@@ -50,7 +50,7 @@ public class BackupAllSplitApksDialogViewModel extends AndroidViewModel {
                 if (!packageMeta.hasSplits)
                     continue;
 
-                File backupFile = Utils.createBackupFile(packageMeta);
+                File backupFile = Utils.createBackupFile(getApplication(), packageMeta);
                 if (backupFile == null) {
                     Log.wtf("BackupAllSplits", "Unable to create backup file for " + packageMeta.packageName);
                     continue;

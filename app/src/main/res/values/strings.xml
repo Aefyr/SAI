@@ -91,6 +91,8 @@
     <string name="settings_main_installer_summary">Installer to use for APKs installation.\nCurrently: %s</string>
     <string name="settings_main_installer_error_no_shizuku">You don\'t have Shizuku installed, please get it from Google Play and set it up</string>
     <string name="settings_main_installer_error_shizuku_pre_m">SAI doesn\'t support Shizuku on Android versions lower than 6.0</string>
+    <string name="settings_main_backup_file_name_format">Exported app name</string>
+    <string name="settings_main_backup_file_name_format_summary">Exported .apks file name format.\nCurrently: %s</string>
 
     <string name="about_author" translatable="false">by polychromaticfox</string>
     <string name="about_source">GitHub</string>

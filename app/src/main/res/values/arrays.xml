@@ -34,4 +34,16 @@
         <item>PB</item>
     </string-array>
 
+    <string-array name="backup_file_name_formats">
+        <item>NAME_PACKAGE_VERSION.apks</item>
+        <item>NAME.apks</item>
+        <item>NAME_VERSION.apks</item>
+    </string-array>
+
+    <string-array name="backup_file_name_formats_values" translatable="false">
+        <item>NAME_PACKAGE_VERSION</item>
+        <item>NAME</item>
+        <item>NAME_VERSION</item>
+    </string-array>
+
 </resources>

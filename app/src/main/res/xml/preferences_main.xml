@@ -19,6 +19,15 @@
         android:title="@string/settings_main_installer"
         android:summary="@string/settings_main_installer_summary" />
 
+    <ListPreference
+        android:icon="@drawable/ic_pref_backup_name_format"
+        android:key="backup_file_name_format"
+        android:title="@string/settings_main_backup_file_name_format"
+        android:summary="@string/settings_main_backup_file_name_format_summary"
+        android:entries="@array/backup_file_name_formats"
+        android:entryValues="@array/backup_file_name_formats_values"
+        android:defaultValue="NAME_PACKAGE_VERSION" />
+
     <SwitchPreference
         android:icon="@drawable/ic_pref_key"
         android:key="sign_apks"
