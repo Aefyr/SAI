@@ -24,4 +24,10 @@
         <item>"Shizuku (потрібен Shizuku 3.x)"</item>
     </string-array>
 
+    <string-array name="backup_file_name_formats">
+        <item>ІМ\'Я_ПАКЕТ_ВЕРСІЯ.apks</item>
+        <item>ІМ\'Я.apks</item>
+        <item>ІМ\'Я_ВЕРСІЯ.apks</item>
+    </string-array>
+
 </resources>

@@ -70,6 +70,8 @@
     <string name="settings_main_installer_summary">Тип установника, використовуємого для установки APK.\nЗараз: %s</string>
     <string name="settings_main_installer_error_no_shizuku">У вас не встановлено Shizuku, будь ласка установіть його з Google Play і налаштуйте</string>
     <string name="settings_main_installer_error_shizuku_pre_m">SAI не підтримує Shizuku на версіях Android нижче 6.0</string>
+    <string name="settings_main_backup_file_name_format">Ім\'я експортованого додатку</string>
+    <string name="settings_main_backup_file_name_format_summary">Формат імені експортованого .apks файлу.\nЗараз: %s</string>
 
     <string name="backup_backup">Експорт</string>
     <string name="backup_backup_prompt">Експортувати %s?</string>
