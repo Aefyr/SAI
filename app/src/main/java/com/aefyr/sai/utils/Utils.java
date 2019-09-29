@@ -126,11 +126,11 @@ public class Utils {
         if (backupFileName.length() > 160)
             backupFileName = backupFileName.substring(0, 160);
 
-        File backupFile = new File(backupsDir, String.format("%s.apks", backupFileName));
+        File backupFile = new File(backupsDir, escapeFileName(String.format("%s.apks", backupFileName)));
         int suffix = 0;
         while (backupFile.exists()) {
             suffix++;
-            backupFile = new File(backupsDir, String.format("%s(%d).apks", backupFileName, suffix));
+            backupFile = new File(backupsDir, escapeFileName(String.format("%s(%d).apks", backupFileName, suffix)));
         }
 
         try {
