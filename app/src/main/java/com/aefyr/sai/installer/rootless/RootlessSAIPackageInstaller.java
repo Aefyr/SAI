@@ -65,6 +65,7 @@ public class RootlessSAIPackageInstaller extends SAIPackageInstaller {
         sInstance = this;
     }
 
+    @SuppressLint("DefaultLocale")
     @Override
     protected void installApkFiles(ApkSource aApkSource) {
         cleanOldSessions();
@@ -78,8 +79,9 @@ public class RootlessSAIPackageInstaller extends SAIPackageInstaller {
             mSessionsMap.put(sessionID, getOngoingInstallation().getId());
 
             session = mPackageInstaller.openSession(sessionID);
+            int currentApkFile = 0;
             while (apkSource.nextApk()) {
-                try (InputStream inputStream = apkSource.openApkInputStream(); OutputStream outputStream = session.openWrite(apkSource.getApkName(), 0, apkSource.getApkLength())) {
+                try (InputStream inputStream = apkSource.openApkInputStream(); OutputStream outputStream = session.openWrite(String.format("%d.apk", currentApkFile++), 0, apkSource.getApkLength())) {
                     IOUtils.copyStream(inputStream, outputStream);
                     session.fsync(outputStream);
                 }
