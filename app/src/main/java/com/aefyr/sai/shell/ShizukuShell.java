@@ -52,12 +52,19 @@ public class ShizukuShell implements Shell {
         return execInternal(command, inputPipe);
     }
 
+    @Override
+    public String makeLiteral(String arg) {
+        return "'" + arg.replace("'", "'\\''") + "'";
+    }
+
     private Result execInternal(Command command, @Nullable InputStream inputPipe) {
         StringBuilder stdOutSb = new StringBuilder();
         StringBuilder stdErrSb = new StringBuilder();
 
         try {
-            RemoteProcess process = ShizukuService.newProcess(command.toStringArray(), null, null);
+            Command.Builder shCommand = new Command.Builder("sh", "-c", command.toString());
+
+            RemoteProcess process = ShizukuService.newProcess(shCommand.build().toStringArray(), null, null);
 
             Thread stdOutD = IOUtils.writeStreamToStringBuilder(stdOutSb, process.getInputStream());
             Thread stdErrD = IOUtils.writeStreamToStringBuilder(stdErrSb, process.getErrorStream());

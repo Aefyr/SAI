@@ -30,9 +30,6 @@ import java.util.regex.Pattern;
 public abstract class ShellSAIPackageInstaller extends SAIPackageInstaller {
     private static final String TAG = "ShellSAIPI";
 
-    private static final Shell.Command COMMAND_CREATE_SESSION_NORMAL = new Shell.Command("pm", "install-create", "-r", "--install-location", "0", "-i", BuildConfig.APPLICATION_ID);
-    private static final Shell.Command COMMAND_CREATE_SESSION_LITE = new Shell.Command("pm", "install-create", "-r", "-i", BuildConfig.APPLICATION_ID);
-
     private AtomicBoolean mIsAwaitingBroadcast = new AtomicBoolean(false);
 
     private BroadcastReceiver mPackageInstalledBroadcastReceiver = new BroadcastReceiver() {
@@ -80,8 +77,9 @@ public abstract class ShellSAIPackageInstaller extends SAIPackageInstaller {
 
             int sessionId = createSession();
 
+            int currentApkFile = 0;
             while (apkSource.nextApk())
-                ensureCommandSucceeded(getShell().exec(new Shell.Command("pm", "install-write", "-S", String.valueOf(apkSource.getApkLength()), String.valueOf(sessionId), apkSource.getApkName()), apkSource.openApkInputStream()));
+                ensureCommandSucceeded(getShell().exec(new Shell.Command("pm", "install-write", "-S", String.valueOf(apkSource.getApkLength()), String.valueOf(sessionId), String.format("%d.apk", currentApkFile++)), apkSource.openApkInputStream()));
 
             mIsAwaitingBroadcast.set(true);
             Shell.Result installationResult = getShell().exec(new Shell.Command("pm", "install-commit", String.valueOf(sessionId)));
@@ -115,8 +113,8 @@ public abstract class ShellSAIPackageInstaller extends SAIPackageInstaller {
 
     private int createSession() throws RuntimeException {
         ArrayList<Shell.Command> commandsToAttempt = new ArrayList<>();
-        commandsToAttempt.add(COMMAND_CREATE_SESSION_NORMAL);
-        commandsToAttempt.add(COMMAND_CREATE_SESSION_LITE);
+        commandsToAttempt.add(new Shell.Command("pm", "install-create", "-r", "--install-location", "0", "-i", getShell().makeLiteral(BuildConfig.APPLICATION_ID)));
+        commandsToAttempt.add(new Shell.Command("pm", "install-create", "-r", "-i", getShell().makeLiteral(BuildConfig.APPLICATION_ID)));
 
         List<Pair<Shell.Command, String>> attemptedCommands = new ArrayList<>();
 

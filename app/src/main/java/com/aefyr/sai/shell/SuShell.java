@@ -50,14 +50,17 @@ public class SuShell implements Shell {
         return execInternal(command, inputPipe);
     }
 
+    @Override
+    public String makeLiteral(String arg) {
+        return "'" + arg.replace("'", "'\\''") + "'";
+    }
+
     private Result execInternal(Command command, @Nullable InputStream inputPipe) {
         StringBuilder stdOutSb = new StringBuilder();
         StringBuilder stdErrSb = new StringBuilder();
 
         try {
-            Command.Builder suCommand = new Command.Builder("su", "-c");
-            for (String arg : command.toStringArray())
-                suCommand.addArg(arg);
+            Command.Builder suCommand = new Command.Builder("su", "-c", command.toString());
 
             Process process = Runtime.getRuntime().exec(suCommand.build().toStringArray());
 

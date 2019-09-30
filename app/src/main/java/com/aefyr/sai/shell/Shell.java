@@ -16,6 +16,8 @@ public interface Shell {
 
     Result exec(Command command, InputStream inputPipe);
 
+    String makeLiteral(String arg);
+
     class Command {
         private ArrayList<String> mArgs = new ArrayList<>();
 
@@ -40,12 +42,7 @@ public interface Shell {
 
             for (int i = 0; i < mArgs.size(); i++) {
                 String arg = mArgs.get(i);
-
-                if (arg.contains(" "))
-                    sb.append('"').append(arg).append('"');
-                else
-                    sb.append(arg);
-
+                sb.append(arg);
                 if (i < mArgs.size() - 1)
                     sb.append(" ");
             }
