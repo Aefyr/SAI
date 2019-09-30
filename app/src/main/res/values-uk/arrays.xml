@@ -19,7 +19,7 @@
     </string-array>
 
     <string-array name="installers">
-        <item>"Rootless (рекомендуєся)"</item>
+        <item>"Rootless (рекомендується)"</item>
         <item>"Rooted (потрібен root-доступ)"</item>
         <item>"Shizuku (потрібен Shizuku 3.x)"</item>
     </string-array>
