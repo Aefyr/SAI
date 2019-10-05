@@ -1,5 +1,6 @@
 package com.aefyr.sai.shell;
 
+import android.os.Build;
 import android.util.Log;
 
 import androidx.annotation.Nullable;
@@ -72,6 +73,16 @@ public class ShizukuShell implements Shell {
             if (inputPipe != null) {
                 try (OutputStream outputStream = process.getOutputStream(); InputStream inputStream = inputPipe) {
                     IOUtils.copyStream(inputStream, outputStream);
+                } catch (Exception e) {
+                    stdOutD.interrupt();
+                    stdErrD.interrupt();
+
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+                        process.destroyForcibly();
+                    else
+                        process.destroy();
+
+                    throw new RuntimeException(e);
                 }
             }
 
