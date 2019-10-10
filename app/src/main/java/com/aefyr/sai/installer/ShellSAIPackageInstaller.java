@@ -78,8 +78,14 @@ public abstract class ShellSAIPackageInstaller extends SAIPackageInstaller {
             int sessionId = createSession();
 
             int currentApkFile = 0;
-            while (apkSource.nextApk())
+            while (apkSource.nextApk()) {
+                if (apkSource.getApkLength() == -1) {
+                    dispatchCurrentSessionUpdate(InstallationStatus.INSTALLATION_FAILED, getContext().getString(R.string.installer_error_unknown_apk_size));
+                    installationCompleted();
+                    return;
+                }
                 ensureCommandSucceeded(getShell().exec(new Shell.Command("pm", "install-write", "-S", String.valueOf(apkSource.getApkLength()), String.valueOf(sessionId), String.format("%d.apk", currentApkFile++)), apkSource.openApkInputStream()));
+            }
 
             mIsAwaitingBroadcast.set(true);
             Shell.Result installationResult = getShell().exec(new Shell.Command("pm", "install-commit", String.valueOf(sessionId)));
@@ -89,6 +95,7 @@ public abstract class ShellSAIPackageInstaller extends SAIPackageInstaller {
                 installationCompleted();
             }
         } catch (Exception e) {
+            //TODO this catches resources close exception causing a crash, same in rootless installer
             Log.w(TAG, e);
             dispatchCurrentSessionUpdate(InstallationStatus.INSTALLATION_FAILED, getContext().getString(R.string.installer_error_shell, getInstallerName(), getSessionInfo(aApkSource) + "\n\n" + Utils.throwableToString(e)));
             installationCompleted();

@@ -63,9 +63,11 @@ public class SignerApkSource implements ApkSource {
     }
 
     @Override
-    public void close() {
+    public void close() throws Exception {
         if (mTempDir != null)
             IOUtils.deleteRecursively(mTempDir);
+
+        mWrappedApkSource.close();
     }
 
     private void checkAndPrepareSigningEnvironment() throws Exception {

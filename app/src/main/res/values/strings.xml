@@ -45,6 +45,7 @@
     <string name="installer_error_while_extracting">Error while extracting APK files from ZIP: %s</string>
     <string name="installer_error_zip_contains_no_apks">ZIP doesn\'t contain any apk files</string>
     <string name="installer_error_mixed_extensions">You must select either a single .zip/.apks file or multiple .apk files</string>
+    <string name="installer_error_unknown_apk_size">Unable to get APK size from the archive, please enable \"Extract APKs from archives\" setting and try again</string>
     <string name="installer_select_theme">Select theme</string>
     <string name="installer_device">Device</string>
     <string name="installer_miui_warning_title">MIUI detected</string>

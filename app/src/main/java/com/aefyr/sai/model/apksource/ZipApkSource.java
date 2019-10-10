@@ -68,6 +68,12 @@ public class ZipApkSource implements ApkSource {
         return Utils.getFileNameFromZipEntry(mCurrentZipEntry);
     }
 
+    @Override
+    public void close() throws Exception {
+        if (mZipInputStream != null)
+            mZipInputStream.close();
+    }
+
     /**
      * Wraps ZipInputStream so it can be used as seemingly multiple InputStreams that represent each file in the archive.
      * Basically just calls closeEntry instead of close, so ZipInputStream itself won't be closed
