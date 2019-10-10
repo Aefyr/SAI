@@ -46,4 +46,16 @@
         <item>NAME_VERSION</item>
     </string-array>
 
+    <string-array name="install_locations">
+        <item>Let system decide</item>
+        <item>Internal only</item>
+        <item>Prefer external (System may still decide to use internal)</item>
+    </string-array>
+
+    <string-array name="install_locations_values" translatable="false">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
 </resources>

@@ -11,8 +11,10 @@ import android.os.Build;
 import android.os.Environment;
 import android.text.TextUtils;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.inputmethod.InputMethodManager;
 
+import androidx.annotation.AttrRes;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
@@ -164,6 +166,12 @@ public class Utils {
         }
 
         return bytes + " B";
+    }
+
+    public static int getThemeColor(Context c, @AttrRes int attribute) {
+        TypedValue typedValue = new TypedValue();
+        c.getTheme().resolveAttribute(attribute, typedValue, true);
+        return typedValue.data;
     }
 
 }

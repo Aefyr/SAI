@@ -4,8 +4,10 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Environment;
+import android.view.View;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 
@@ -68,6 +70,13 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Fil
             SingleChoiceListDialogFragment.newInstance("installer", R.array.installers, mHelper.getInstaller()).show(getChildFragmentManager(), null);
             return true;
         }));
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        setDividerHeight(0);
     }
 
     private void openFilePicker(FilePickerDialogFragment filePicker) {
@@ -192,6 +201,4 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Fil
                 break;
         }
     }
-
-
 }

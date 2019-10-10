@@ -6,7 +6,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.pm.PackageInfo;
 import android.content.pm.PackageInstaller;
 import android.util.Log;
 import android.util.SparseLongArray;
@@ -15,6 +14,7 @@ import com.aefyr.sai.R;
 import com.aefyr.sai.installer.SAIPackageInstaller;
 import com.aefyr.sai.model.apksource.ApkSource;
 import com.aefyr.sai.utils.IOUtils;
+import com.aefyr.sai.utils.PreferencesHelper;
 
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -73,7 +73,7 @@ public class RootlessSAIPackageInstaller extends SAIPackageInstaller {
         PackageInstaller.Session session = null;
         try (ApkSource apkSource = aApkSource) {
             PackageInstaller.SessionParams sessionParams = new PackageInstaller.SessionParams(PackageInstaller.SessionParams.MODE_FULL_INSTALL);
-            sessionParams.setInstallLocation(PackageInfo.INSTALL_LOCATION_AUTO);
+            sessionParams.setInstallLocation(PreferencesHelper.getInstance(getContext()).getInstallLocation());
 
             int sessionID = mPackageInstaller.createSession(sessionParams);
             mSessionsMap.put(sessionID, getOngoingInstallation().getId());

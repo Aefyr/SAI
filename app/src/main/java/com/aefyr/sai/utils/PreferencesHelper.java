@@ -81,4 +81,17 @@ public class PreferencesHelper {
         return mPrefs.getString(PreferencesKeys.BACKUP_FILE_NAME_FORMAT, PreferencesValues.BACKUP_FILE_NAME_FORMAT_DEFAULT);
     }
 
+    public void setInstallLocation(int installLocation) {
+        mPrefs.edit().putString(PreferencesKeys.INSTALL_LOCATION, String.valueOf(installLocation)).apply();
+    }
+
+    public int getInstallLocation() {
+        String rawInstallLocation = mPrefs.getString(PreferencesKeys.INSTALL_LOCATION, "0");
+        try {
+            return Integer.parseInt(rawInstallLocation);
+        } catch (NumberFormatException e) {
+            return 0;
+        }
+    }
+
 }

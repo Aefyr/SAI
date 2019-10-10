@@ -40,4 +40,10 @@
         <item>ИМЯ_ВЕРСИЯ.apks</item>
     </string-array>
 
+    <string-array name="install_locations">
+        <item>Выбор системы</item>
+        <item>Только внутренняя память</item>
+        <item>Предпочитать внешнюю память (Система всё равно может решить использовать внутреннюю)</item>
+    </string-array>
+
 </resources>

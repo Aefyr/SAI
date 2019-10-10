@@ -94,6 +94,11 @@
     <string name="settings_main_installer_error_shizuku_pre_m">SAI doesn\'t support Shizuku on Android versions lower than 6.0</string>
     <string name="settings_main_backup_file_name_format">Exported app name</string>
     <string name="settings_main_backup_file_name_format_summary">Exported .apks file name format.\nCurrently: %s</string>
+    <string name="settings_main_install_location">Install location</string>
+    <string name="settings_main_install_location_summary">Where to install apps.\nCurrently: %s</string>
+    <string name="settings_category_main_installer">Installer</string>
+    <string name="settings_category_main_export">Export</string>
+    <string name="settings_category_main_other">Other</string>
 
     <string name="about_author" translatable="false">by polychromaticfox</string>
     <string name="about_source">GitHub</string>

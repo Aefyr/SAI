@@ -15,6 +15,7 @@ import com.aefyr.sai.R;
 import com.aefyr.sai.model.apksource.ApkSource;
 import com.aefyr.sai.shell.Shell;
 import com.aefyr.sai.utils.Logs;
+import com.aefyr.sai.utils.PreferencesHelper;
 import com.aefyr.sai.utils.Utils;
 
 import java.util.ArrayList;
@@ -119,8 +120,9 @@ public abstract class ShellSAIPackageInstaller extends SAIPackageInstaller {
     }
 
     private int createSession() throws RuntimeException {
+        String installLocation = String.valueOf(PreferencesHelper.getInstance(getContext()).getInstallLocation());
         ArrayList<Shell.Command> commandsToAttempt = new ArrayList<>();
-        commandsToAttempt.add(new Shell.Command("pm", "install-create", "-r", "--install-location", "0", "-i", getShell().makeLiteral(BuildConfig.APPLICATION_ID)));
+        commandsToAttempt.add(new Shell.Command("pm", "install-create", "-r", "--install-location", installLocation, "-i", getShell().makeLiteral(BuildConfig.APPLICATION_ID)));
         commandsToAttempt.add(new Shell.Command("pm", "install-create", "-r", "-i", getShell().makeLiteral(BuildConfig.APPLICATION_ID)));
 
         List<Pair<Shell.Command, String>> attemptedCommands = new ArrayList<>();

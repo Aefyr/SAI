@@ -92,6 +92,11 @@
     <string name="settings_main_installer_error_shizuku_pre_m">SAI не поддерживает Shizuku на версиях Android ниже 6.0</string>
     <string name="settings_main_backup_file_name_format">Имя экспортированного приложения</string>
     <string name="settings_main_backup_file_name_format_summary">Формат имени экспортированного .apks файла.\nСейчас: %s</string>
+    <string name="settings_main_install_location">Локация установки</string>
+    <string name="settings_main_install_location_summary">Куда устанавливать приложения.\nСейчас: %s</string>
+    <string name="settings_category_main_installer">Установка</string>
+    <string name="settings_category_main_export">Экспорт</string>
+    <string name="settings_category_main_other">Другое</string>
 
     <string name="about_source">GitHub</string>
     <string name="about_donate">Поддержать</string>

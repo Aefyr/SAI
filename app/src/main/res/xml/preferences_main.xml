@@ -1,48 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <Preference
-        android:icon="@drawable/ic_pref_home"
-        android:key="home_directory"
-        android:title="@string/settings_main_home_directory"
-        android:summary="@string/settings_main_home_directory_summary" />
+    <PreferenceCategory
+        android:title="@string/settings_category_main_installer"
+        app:iconSpaceReserved="false">
 
-    <Preference
-        android:icon="@drawable/ic_pref_sort"
-        android:key="file_picker_sort"
-        android:title="@string/settings_main_file_picker_sort"
-        android:summary="@string/settings_main_file_picker_sort_summary" />
+        <Preference
+            android:icon="@drawable/ic_pref_root"
+            android:key="installer"
+            android:title="@string/settings_main_installer"
+            android:summary="@string/settings_main_installer_summary" />
 
-    <Preference
-        android:icon="@drawable/ic_pref_root"
-        android:key="installer"
-        android:title="@string/settings_main_installer"
-        android:summary="@string/settings_main_installer_summary" />
+        <ListPreference
+            android:icon="@drawable/ic_pref_install_location"
+            android:key="install_location"
+            android:title="@string/settings_main_install_location"
+            android:summary="@string/settings_main_install_location_summary"
+            android:entries="@array/install_locations"
+            android:entryValues="@array/install_locations_values"
+            android:defaultValue="0" />
 
-    <ListPreference
-        android:icon="@drawable/ic_pref_backup_name_format"
-        android:key="backup_file_name_format"
-        android:title="@string/settings_main_backup_file_name_format"
-        android:summary="@string/settings_main_backup_file_name_format_summary"
-        android:entries="@array/backup_file_name_formats"
-        android:entryValues="@array/backup_file_name_formats_values"
-        android:defaultValue="NAME_PACKAGE_VERSION" />
+        <SwitchPreference
+            android:icon="@drawable/ic_pref_key"
+            android:key="sign_apks"
+            android:title="@string/settings_main_sign_apks"
+            android:summary="@string/settings_main_sign_apks_summary" />
 
-    <SwitchPreference
-        android:icon="@drawable/ic_pref_key"
-        android:key="sign_apks"
-        android:title="@string/settings_main_sign_apks"
-        android:summary="@string/settings_main_sign_apks_summary" />
+        <SwitchPreference
+            android:icon="@drawable/ic_pref_unarchive"
+            android:key="extract_archives"
+            android:title="@string/settings_main_extract_archives"
+            android:summary="@string/settings_main_extract_archives_summary" />
 
-    <SwitchPreference
-        android:icon="@drawable/ic_pref_unarchive"
-        android:key="extract_archives"
-        android:title="@string/settings_main_extract_archives"
-        android:summary="@string/settings_main_extract_archives_summary" />
+        <Preference
+            android:icon="@drawable/ic_pref_home"
+            android:key="home_directory"
+            android:title="@string/settings_main_home_directory"
+            android:summary="@string/settings_main_home_directory_summary" />
 
-    <Preference
-        android:icon="@drawable/ic_pref_info"
-        android:key="about"
-        android:title="@string/settings_main_about" />
+        <Preference
+            android:icon="@drawable/ic_pref_sort"
+            android:key="file_picker_sort"
+            android:title="@string/settings_main_file_picker_sort"
+            android:summary="@string/settings_main_file_picker_sort_summary" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/settings_category_main_export"
+        app:iconSpaceReserved="false">
+
+        <ListPreference
+            android:icon="@drawable/ic_pref_backup_name_format"
+            android:key="backup_file_name_format"
+            android:title="@string/settings_main_backup_file_name_format"
+            android:summary="@string/settings_main_backup_file_name_format_summary"
+            android:entries="@array/backup_file_name_formats"
+            android:entryValues="@array/backup_file_name_formats_values"
+            android:defaultValue="NAME_PACKAGE_VERSION" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/settings_category_main_other"
+        app:iconSpaceReserved="false">
+
+        <Preference
+            android:icon="@drawable/ic_pref_info"
+            android:key="about"
+            android:title="@string/settings_main_about" />
+
+    </PreferenceCategory>
 
 </PreferenceScreen>

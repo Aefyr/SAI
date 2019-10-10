@@ -11,4 +11,5 @@ public class PreferencesKeys {
     public static final String EXTRACT_ARCHIVES = "extract_archives";
     public static final String INSTALLER = "installer";
     public static final String BACKUP_FILE_NAME_FORMAT = "backup_file_name_format";
+    public static final String INSTALL_LOCATION = "install_location";
 }
