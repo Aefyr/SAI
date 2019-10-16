@@ -29,5 +29,10 @@
         <item>ІМ\'Я.apks</item>
         <item>ІМ\'Я_ВЕРСІЯ.apks</item>
     </string-array>
-
+	
+	<string-array name="install_locations">
+        <item>Вибір системи</item>
+        <item>Тільки внутрішня пам\'ять</item>
+        <item>Надавати перевагу зовнішній пам\'яті (Система все одно може вирішити використовувати внутрішню)</item>
+    </string-array>
 </resources>
