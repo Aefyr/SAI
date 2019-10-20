@@ -19,14 +19,14 @@ public abstract class SelectableAdapter<Key, ViewHolder extends RecyclerView.Vie
 
     private final Selection.Observer<Key> mSelectionObserver = new Selection.Observer<Key>() {
         @Override
-        protected void onKeySelectionChanged(Selection<Key> selection, Key key) {
+        public void onKeySelectionChanged(Selection<Key> selection, Key key, boolean selected) {
             Integer position = mKeyToPosition.get(key);
             if (position != null)
                 notifyItemChanged(position);
         }
 
         @Override
-        protected void onCleared(Selection<Key> selection) {
+        public void onCleared(Selection<Key> selection) {
             clearKeysMapping();
             notifyDataSetChanged();
         }

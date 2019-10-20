@@ -1,13 +1,12 @@
 package com.aefyr.sai.ui.dialogs;
 
-import android.app.Dialog;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,22 +19,18 @@ import com.aefyr.sai.R;
 import com.aefyr.sai.adapters.BackupSplitPartsAdapter;
 import com.aefyr.sai.backup.BackupService;
 import com.aefyr.sai.model.backup.PackageMeta;
+import com.aefyr.sai.ui.dialogs.base.BaseBottomSheetDialogFragment;
 import com.aefyr.sai.utils.PermissionsUtils;
-import com.aefyr.sai.utils.Theme;
 import com.aefyr.sai.utils.Utils;
 import com.aefyr.sai.viewmodels.BackupDialogViewModel;
-import com.google.android.material.bottomsheet.BottomSheetBehavior;
-import com.google.android.material.bottomsheet.BottomSheetDialog;
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 import java.io.File;
 
-public class BackupDialogFragment extends BottomSheetDialogFragment {
+public class BackupDialogFragment extends BaseBottomSheetDialogFragment {
     private static final String ARG_PACKAGE = "package";
 
     private PackageMeta mPackage;
     private BackupDialogViewModel mViewModel;
-    private BottomSheetDialog mDialog;
 
     public static BackupDialogFragment newInstance(PackageMeta packageMeta) {
         Bundle args = new Bundle();
@@ -61,26 +56,25 @@ public class BackupDialogFragment extends BottomSheetDialogFragment {
             mViewModel.setPackage(mPackage.packageName);
     }
 
-    @NonNull
     @Override
-    public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-        mDialog = new BottomSheetDialog(requireContext(), Theme.getInstance(requireContext()).getCurrentThemeDescriptor().isDark() ? R.style.SAIBottomSheetDialog_Backup : R.style.SAIBottomSheetDialog_Backup_Light);
-
-        View contentView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_backup, null);
-        bindDialogContentView(contentView);
-        mDialog.setContentView(contentView);
-
-        return mDialog;
+    protected View onCreateContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        RecyclerView recyclerView = new RecyclerView(requireContext());
+        recyclerView.setOverScrollMode(RecyclerView.OVER_SCROLL_NEVER);
+        return recyclerView;
     }
 
-    private void bindDialogContentView(View view) {
-        Button enqueueButton = view.findViewById(R.id.button_backup);
+    @Override
+    protected void onContentViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        setTitle(R.string.backup_dialog_title);
+
+        Button enqueueButton = getPositiveButton();
+        enqueueButton.setText(R.string.backup_enqueue);
         enqueueButton.setOnClickListener((v) -> enqueueBackup());
 
-        Button cancelButton = view.findViewById(R.id.button_cancel);
+        Button cancelButton = getNegativeButton();
         cancelButton.setOnClickListener((v) -> dismiss());
 
-        RecyclerView partsRecycler = view.findViewById(R.id.rv_split_parts);
+        RecyclerView partsRecycler = (RecyclerView) view;
         partsRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
 
         BackupSplitPartsAdapter adapter = new BackupSplitPartsAdapter(mViewModel.getSelection(), this, requireContext());
@@ -144,12 +138,6 @@ public class BackupDialogFragment extends BottomSheetDialogFragment {
 
             dismiss();
         }
-    }
-
-    private void revealBottomSheet() {
-        FrameLayout bottomSheet = mDialog.findViewById(R.id.design_bottom_sheet);
-        BottomSheetBehavior bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet);
-        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
     }
 
     private void showError(@StringRes int message) {

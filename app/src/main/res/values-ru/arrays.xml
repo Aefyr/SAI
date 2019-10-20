@@ -46,4 +46,13 @@
         <item>Предпочитать внешнюю память (Система всё равно может решить использовать внутреннюю)</item>
     </string-array>
 
+    <string-array name="name_format_parts">
+        <item>Имя</item>
+        <item>Версия</item>
+        <item>Код версии</item>
+        <item>Пакет</item>
+        <item>Время</item>
+    </string-array>
+
+
 </resources>

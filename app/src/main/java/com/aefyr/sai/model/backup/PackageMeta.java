@@ -1,9 +1,18 @@
 package com.aefyr.sai.model.backup;
 
 import android.content.ContentResolver;
+import android.content.Context;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
+
+import androidx.annotation.Nullable;
+
+import com.aefyr.sai.utils.Utils;
 
 public class PackageMeta implements Parcelable {
 
@@ -107,6 +116,28 @@ public class PackageMeta implements Parcelable {
 
         public PackageMeta build() {
             return mPackageMeta;
+        }
+    }
+
+    @Nullable
+    public static PackageMeta forPackage(Context context, String packageName) {
+        try {
+            PackageManager pm = context.getPackageManager();
+
+            ApplicationInfo applicationInfo = pm.getApplicationInfo(packageName, 0);
+            PackageInfo packageInfo = pm.getPackageInfo(packageName, 0);
+
+            return new PackageMeta.Builder(applicationInfo.packageName)
+                    .setLabel(applicationInfo.loadLabel(pm).toString())
+                    .setHasSplits(applicationInfo.splitPublicSourceDirs != null && applicationInfo.splitPublicSourceDirs.length > 0)
+                    .setIsSystemApp((applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) != 0)
+                    .serVersionCode(Utils.apiIsAtLeast(Build.VERSION_CODES.P) ? packageInfo.getLongVersionCode() : packageInfo.versionCode)
+                    .setVersionName(packageInfo.versionName)
+                    .setIcon(applicationInfo.icon)
+                    .build();
+
+        } catch (PackageManager.NameNotFoundException e) {
+            return null;
         }
     }
 }

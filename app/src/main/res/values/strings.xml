@@ -100,6 +100,9 @@
     <string name="settings_category_main_export">Export</string>
     <string name="settings_category_main_other">Other</string>
 
+    <string name="name_format_builder_title">Select parts to include in exported app name</string>
+    <string name="name_format_builder_preview">Preview: %s</string>
+
     <string name="about_author" translatable="false">by polychromaticfox</string>
     <string name="about_source">GitHub</string>
     <string name="about_source_link" translatable="false">https://github.com/Aefyr/SAI</string>

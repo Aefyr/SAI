@@ -117,13 +117,7 @@ public class Utils {
             return null;
         }
 
-        String backupFileName = PreferencesHelper.getInstance(c).getBackupFileNameFormat()
-                .toLowerCase()
-                .replace("package", packageMeta.packageName)
-                .replace("name", packageMeta.label)
-                .replace("version", packageMeta.versionName)
-                .replace("versioncode", String.valueOf(packageMeta.versionCode))
-                .replace('.', ',');
+        String backupFileName = BackupNameFormat.format(PreferencesHelper.getInstance(c).getBackupFileNameFormat(), packageMeta).replace('.', ',');
 
         if (backupFileName.length() > 160)
             backupFileName = backupFileName.substring(0, 160);

@@ -12,11 +12,15 @@ import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 
 import com.aefyr.sai.R;
+import com.aefyr.sai.model.backup.PackageMeta;
 import com.aefyr.sai.shell.SuShell;
 import com.aefyr.sai.ui.activities.AboutActivity;
 import com.aefyr.sai.ui.dialogs.FilePickerDialogFragment;
+import com.aefyr.sai.ui.dialogs.NameFormatBuilderDialogFragment;
 import com.aefyr.sai.ui.dialogs.SingleChoiceListDialogFragment;
+import com.aefyr.sai.ui.dialogs.base.BaseBottomSheetDialogFragment;
 import com.aefyr.sai.utils.AlertsUtils;
+import com.aefyr.sai.utils.BackupNameFormat;
 import com.aefyr.sai.utils.PermissionsUtils;
 import com.aefyr.sai.utils.PreferencesHelper;
 import com.aefyr.sai.utils.PreferencesValues;
@@ -29,13 +33,16 @@ import java.util.Objects;
 
 import moe.shizuku.api.ShizukuClientHelper;
 
-public class PreferencesFragment extends PreferenceFragmentCompat implements FilePickerDialogFragment.OnFilesSelectedListener, SingleChoiceListDialogFragment.OnItemSelectedListener {
+public class PreferencesFragment extends PreferenceFragmentCompat implements FilePickerDialogFragment.OnFilesSelectedListener, SingleChoiceListDialogFragment.OnItemSelectedListener, BaseBottomSheetDialogFragment.OnDismissListener {
 
     private PreferencesHelper mHelper;
 
     private Preference mHomeDirPref;
     private Preference mFilePickerSortPref;
     private Preference mInstallerPref;
+    private Preference mBackupNameFormatPref;
+
+    private PackageMeta mOwnMeta;
 
     private FilePickerDialogFragment mPendingFilePicker;
 
@@ -43,7 +50,8 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Fil
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
         setPreferencesFromResource(R.xml.preferences_main, rootKey);
 
-        mHelper = PreferencesHelper.getInstance(getContext());
+        mHelper = PreferencesHelper.getInstance(requireContext());
+        mOwnMeta = Objects.requireNonNull(PackageMeta.forPackage(requireContext(), requireContext().getPackageName()));
 
         mHomeDirPref = findPreference("home_directory");
         updateHomeDirPrefSummary();
@@ -70,6 +78,13 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Fil
             SingleChoiceListDialogFragment.newInstance("installer", R.array.installers, mHelper.getInstaller()).show(getChildFragmentManager(), null);
             return true;
         }));
+
+        mBackupNameFormatPref = findPreference("backup_file_name_format");
+        updateBackupNameFormatSummary();
+        mBackupNameFormatPref.setOnPreferenceClickListener((p) -> {
+            NameFormatBuilderDialogFragment.newInstance().show(getChildFragmentManager(), "backup_name_format_builder");
+            return true;
+        });
     }
 
     @Override
@@ -106,6 +121,10 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Fil
 
     private void updateInstallerSummary() {
         mInstallerPref.setSummary(getString(R.string.settings_main_installer_summary, getResources().getStringArray(R.array.installers)[mHelper.getInstaller()]));
+    }
+
+    private void updateBackupNameFormatSummary() {
+        mBackupNameFormatPref.setSummary(getString(R.string.settings_main_backup_file_name_format_summary, BackupNameFormat.format(mHelper.getBackupFileNameFormat(), mOwnMeta)));
     }
 
     @Override
@@ -200,5 +219,11 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Fil
                 }
                 break;
         }
+    }
+
+    @Override
+    public void onDismiss(@NonNull String tag) {
+        if (tag.equals("backup_name_format_builder"))
+            updateBackupNameFormatSummary();
     }
 }

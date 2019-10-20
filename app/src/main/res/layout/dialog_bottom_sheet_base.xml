@@ -6,27 +6,24 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/tv_backup_dialog_title"
+        android:id="@+id/tv_bottom_sheet_dialog_base_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:padding="16dp"
-        android:text="@string/backup_dialog_title"
         android:textColor="?android:attr/textColorPrimary"
         android:textSize="18sp" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_split_parts"
+    <FrameLayout
+        android:id="@+id/container_bottom_sheet_dialog_base_content"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:minHeight="72dp"
-        android:overScrollMode="never">
+        android:layout_weight="1">
 
-    </androidx.recyclerview.widget.RecyclerView>
+    </FrameLayout>
 
     <LinearLayout
-        android:id="@+id/container_backup_dialog_buttons"
+        android:id="@+id/container_bottom_sheet_dialog_base_buttons"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -35,7 +32,7 @@
         android:weightSum="2">
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/button_cancel"
+            android:id="@+id/button_bottom_sheet_dialog_base_cancel"
             style="@style/SAIMaterialButton.Outlined"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -44,13 +41,13 @@
             android:text="@string/cancel" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/button_backup"
+            android:id="@+id/button_bottom_sheet_dialog_base_ok"
             style="@style/SAIMaterialButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
             android:layout_weight="1"
-            android:text="@string/backup_enqueue" />
+            android:text="@string/ok" />
     </LinearLayout>
 
 </LinearLayout>

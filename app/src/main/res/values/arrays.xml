@@ -58,4 +58,12 @@
         <item>2</item>
     </string-array>
 
+    <string-array name="name_format_parts">
+        <item>Name</item>
+        <item>Version</item>
+        <item>Version code</item>
+        <item>Package</item>
+        <item>Timestamp</item>
+    </string-array>
+
 </resources>

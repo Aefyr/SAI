@@ -14,11 +14,11 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.aefyr.sai.model.backup.PackageMeta;
-import com.aefyr.sai.utils.Logs;
 import com.aefyr.sai.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
@@ -71,15 +71,18 @@ public class BackupRepository {
             PackageManager pm = mContext.getPackageManager();
 
             List<ApplicationInfo> applicationInfos = pm.getInstalledApplications(0);
+            List<PackageInfo> packageInfos = pm.getInstalledPackages(0);
+
+            HashMap<String, PackageInfo> packageInfoIndex = new HashMap<>(packageInfos.size());
+            for (PackageInfo packageInfo : packageInfos)
+                packageInfoIndex.put(packageInfo.packageName, packageInfo);
+
             List<PackageMeta> packages = new ArrayList<>();
 
             for (ApplicationInfo applicationInfo : applicationInfos) {
-                PackageInfo packageInfo;
-                try {
-                    packageInfo = pm.getPackageInfo(applicationInfo.packageName, 0);
-                } catch (Exception e) {
-                    Log.wtf(TAG, e);
-                    Logs.logException(e);
+                PackageInfo packageInfo = packageInfoIndex.get(applicationInfo.packageName);
+                if (packageInfo == null) {
+                    Log.wtf(TAG, String.format("PackageInfo is null for %s", applicationInfo.packageName));
                     continue;
                 }
 

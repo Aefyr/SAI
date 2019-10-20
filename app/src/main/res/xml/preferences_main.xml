@@ -51,14 +51,11 @@
         android:title="@string/settings_category_main_export"
         app:iconSpaceReserved="false">
 
-        <ListPreference
+        <Preference
             android:icon="@drawable/ic_pref_backup_name_format"
             android:key="backup_file_name_format"
             android:title="@string/settings_main_backup_file_name_format"
-            android:summary="@string/settings_main_backup_file_name_format_summary"
-            android:entries="@array/backup_file_name_formats"
-            android:entryValues="@array/backup_file_name_formats_values"
-            android:defaultValue="NAME_PACKAGE_VERSION" />
+            android:summary="@string/settings_main_backup_file_name_format_summary" />
 
     </PreferenceCategory>
 

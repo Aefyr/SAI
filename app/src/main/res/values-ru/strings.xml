@@ -98,6 +98,9 @@
     <string name="settings_category_main_export">Экспорт</string>
     <string name="settings_category_main_other">Другое</string>
 
+    <string name="name_format_builder_title">Выберите части для генерации имени экспортированного приложения</string>
+    <string name="name_format_builder_preview">Пример: %s</string>
+
     <string name="about_source">GitHub</string>
     <string name="about_donate">Поддержать</string>
     <string name="about_licenses">Лицензии</string>

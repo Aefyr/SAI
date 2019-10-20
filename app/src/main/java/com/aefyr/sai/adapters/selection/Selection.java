@@ -1,5 +1,8 @@
 package com.aefyr.sai.adapters.selection;
 
+import androidx.annotation.NonNull;
+import androidx.lifecycle.DefaultLifecycleObserver;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
@@ -19,13 +22,17 @@ public class Selection<Key> {
     }
 
     public void setSelected(Key key, boolean selected) {
+        boolean currentlySelected = mKeyStorage.isStored(key);
+        if ((currentlySelected && selected) || (!currentlySelected && !selected))
+            return;
+
         if (selected)
             mKeyStorage.store(key);
         else
             mKeyStorage.remove(key);
 
         for (Observer<Key> observer : mObservers) {
-            observer.onKeySelectionChanged(this, key);
+            observer.onKeySelectionChanged(this, key, selected);
         }
         mLiveSelection.setValue(this);
     }
@@ -57,6 +64,16 @@ public class Selection<Key> {
         mLiveSelection.setValue(this);
     }
 
+    public void observe(LifecycleOwner lifecycleOwner, Observer<Key> observer) {
+        addObserver(observer);
+        lifecycleOwner.getLifecycle().addObserver(new DefaultLifecycleObserver() {
+            @Override
+            public void onDestroy(@NonNull LifecycleOwner owner) {
+                removeObserver(observer);
+            }
+        });
+    }
+
     public void addObserver(Observer<Key> observer) {
         mObservers.add(observer);
     }
@@ -70,13 +87,13 @@ public class Selection<Key> {
     }
 
 
-    public static abstract class Observer<Key> {
+    public interface Observer<Key> {
 
-        protected void onKeySelectionChanged(Selection<Key> selection, Key key) {
+        default void onKeySelectionChanged(Selection<Key> selection, Key key, boolean selected) {
 
         }
 
-        protected void onCleared(Selection<Key> selection) {
+        default void onCleared(Selection<Key> selection) {
 
         }
 
