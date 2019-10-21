@@ -15,7 +15,6 @@ import com.aefyr.sai.adapters.BackupNameFormatBuilderPartsAdapter;
 import com.aefyr.sai.model.backup.BackupNameFormatBuilder;
 import com.aefyr.sai.ui.dialogs.base.BaseBottomSheetDialogFragment;
 import com.aefyr.sai.utils.BackupNameFormat;
-import com.aefyr.sai.utils.PreferencesHelper;
 import com.aefyr.sai.viewmodels.NameFormatBuilderViewModel;
 import com.google.android.flexbox.FlexDirection;
 import com.google.android.flexbox.FlexWrap;
@@ -52,7 +51,7 @@ public class NameFormatBuilderDialogFragment extends BaseBottomSheetDialogFragme
 
         getNegativeButton().setOnClickListener((v) -> dismiss());
         getPositiveButton().setOnClickListener((v) -> {
-            PreferencesHelper.getInstance(requireContext()).setBackupFileNameFormat(mViewModel.getFormat().getValue().build());
+            mViewModel.saveFormat();
             dismiss();
         });
 
@@ -70,7 +69,7 @@ public class NameFormatBuilderDialogFragment extends BaseBottomSheetDialogFragme
 
         mViewModel.getSelection().asLiveData().observe(this, (selection) -> getPositiveButton().setEnabled(selection.hasSelection()));
         mViewModel.getFormat().observe(this, (format) -> {
-            preview.setText(getString(R.string.name_format_builder_preview, BackupNameFormat.format(format.build(), mViewModel.getOwnMeta())));
+            preview.setText(format.getParts().isEmpty() ? getString(R.string.name_format_builder_preview_empty) : getString(R.string.name_format_builder_preview, BackupNameFormat.format(format.build(), mViewModel.getOwnMeta())));
         });
     }
 }

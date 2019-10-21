@@ -5,6 +5,7 @@ import android.annotation.SuppressLint;
 import androidx.annotation.CallSuper;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.DefaultLifecycleObserver;
+import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -65,6 +66,9 @@ public abstract class SelectableAdapter<Key, ViewHolder extends RecyclerView.Vie
 
     public SelectableAdapter(Selection<Key> selection, LifecycleOwner lifecycleOwner) {
         mSelection = selection;
+
+        if (lifecycleOwner.getLifecycle().getCurrentState() == Lifecycle.State.DESTROYED)
+            return;
 
         lifecycleOwner.getLifecycle().addObserver(new DefaultLifecycleObserver() {
             @Override

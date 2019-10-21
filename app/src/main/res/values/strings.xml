@@ -102,6 +102,7 @@
 
     <string name="name_format_builder_title">Select parts to include in exported app name</string>
     <string name="name_format_builder_preview">Preview: %s</string>
+    <string name="name_format_builder_preview_empty">Please select at least one part</string>
 
     <string name="about_author" translatable="false">by polychromaticfox</string>
     <string name="about_source">GitHub</string>

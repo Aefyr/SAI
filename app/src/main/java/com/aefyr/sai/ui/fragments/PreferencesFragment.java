@@ -42,7 +42,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Fil
     private Preference mInstallerPref;
     private Preference mBackupNameFormatPref;
 
-    private PackageMeta mOwnMeta;
+    private PackageMeta mDemoMeta;
 
     private FilePickerDialogFragment mPendingFilePicker;
 
@@ -51,7 +51,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Fil
         setPreferencesFromResource(R.xml.preferences_main, rootKey);
 
         mHelper = PreferencesHelper.getInstance(requireContext());
-        mOwnMeta = Objects.requireNonNull(PackageMeta.forPackage(requireContext(), requireContext().getPackageName()));
+        mDemoMeta = Objects.requireNonNull(PackageMeta.forPackage(requireContext(), requireContext().getPackageName()));
 
         mHomeDirPref = findPreference("home_directory");
         updateHomeDirPrefSummary();
@@ -124,7 +124,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Fil
     }
 
     private void updateBackupNameFormatSummary() {
-        mBackupNameFormatPref.setSummary(getString(R.string.settings_main_backup_file_name_format_summary, BackupNameFormat.format(mHelper.getBackupFileNameFormat(), mOwnMeta)));
+        mBackupNameFormatPref.setSummary(getString(R.string.settings_main_backup_file_name_format_summary, BackupNameFormat.format(mHelper.getBackupFileNameFormat(), mDemoMeta)));
     }
 
     @Override

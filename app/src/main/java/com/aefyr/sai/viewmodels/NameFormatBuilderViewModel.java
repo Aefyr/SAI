@@ -49,6 +49,10 @@ public class NameFormatBuilderViewModel extends AndroidViewModel implements Sele
         return mLiveFormat;
     }
 
+    public void saveFormat() {
+        PreferencesHelper.getInstance(getApplication()).setBackupFileNameFormat(mBackupNameFormatBuilder.build());
+    }
+
     @Override
     protected void onCleared() {
         mSelection.removeObserver(this);

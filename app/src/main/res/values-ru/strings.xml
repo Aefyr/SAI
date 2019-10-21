@@ -100,6 +100,7 @@
 
     <string name="name_format_builder_title">Выберите части для генерации имени экспортированного приложения</string>
     <string name="name_format_builder_preview">Пример: %s</string>
+    <string name="name_format_builder_preview_empty">Выберите хотя бы одну часть</string>
 
     <string name="about_source">GitHub</string>
     <string name="about_donate">Поддержать</string>

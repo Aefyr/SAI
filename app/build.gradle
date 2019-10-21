@@ -43,7 +43,7 @@ dependencies {
     implementation 'com.google.android.material:material:1.1.0-beta01'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.1.0'
     implementation 'androidx.preference:preference:1.1.0'
-    implementation 'com.github.aefyr:pseudoapksigner:1.5'
+    implementation 'com.github.aefyr:pseudoapksigner:1.6'
     implementation 'com.github.bumptech.glide:glide:4.10.0'
     implementation 'moe.shizuku.privilege:api:3.0.0-alpha10'
     implementation 'android.arch.lifecycle:common-java8:2.1.0'

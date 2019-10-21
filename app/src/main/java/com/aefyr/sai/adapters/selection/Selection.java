@@ -2,6 +2,7 @@ package com.aefyr.sai.adapters.selection;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.DefaultLifecycleObserver;
+import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -65,6 +66,9 @@ public class Selection<Key> {
     }
 
     public void observe(LifecycleOwner lifecycleOwner, Observer<Key> observer) {
+        if (lifecycleOwner.getLifecycle().getCurrentState() == Lifecycle.State.DESTROYED)
+            return;
+
         addObserver(observer);
         lifecycleOwner.getLifecycle().addObserver(new DefaultLifecycleObserver() {
             @Override
