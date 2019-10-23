@@ -47,6 +47,7 @@ public class NameFormatBuilderDialogFragment extends BaseBottomSheetDialogFragme
 
     @Override
     protected void onContentViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        revealBottomSheet();
         setTitle(R.string.name_format_builder_title);
 
         getNegativeButton().setOnClickListener((v) -> dismiss());
