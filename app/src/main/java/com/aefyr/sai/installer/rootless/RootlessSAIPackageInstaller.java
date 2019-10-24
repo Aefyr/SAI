@@ -15,6 +15,7 @@ import com.aefyr.sai.installer.SAIPackageInstaller;
 import com.aefyr.sai.model.apksource.ApkSource;
 import com.aefyr.sai.utils.IOUtils;
 import com.aefyr.sai.utils.PreferencesHelper;
+import com.aefyr.sai.utils.Utils;
 
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -92,7 +93,7 @@ public class RootlessSAIPackageInstaller extends SAIPackageInstaller {
             session.commit(pendingIntent.getIntentSender());
         } catch (Exception e) {
             Log.w(TAG, e);
-            dispatchCurrentSessionUpdate(SAIPackageInstaller.InstallationStatus.INSTALLATION_FAILED, getContext().getString(R.string.installer_error_rootless, e.getMessage()));
+            dispatchCurrentSessionUpdate(SAIPackageInstaller.InstallationStatus.INSTALLATION_FAILED, getContext().getString(R.string.installer_error_rootless, Utils.throwableToString(e)));
             installationCompleted();
         } finally {
             if (session != null)
