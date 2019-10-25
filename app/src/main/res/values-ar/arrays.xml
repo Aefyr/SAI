@@ -22,7 +22,7 @@
     <string-array name="installers">
         <item>"بدون روت (يوصى به)"</item>
         <item>"روت (يتطلب روت)"</item>
-        <item>"شيزوكو (يتطلب شيزوكو 3.x)"</item>
+        <item>"[Shizuku](يتطلب تطبيق [Shizuku] 3.x)"</item>
     </string-array>
 
     <string-array name="size_units">
