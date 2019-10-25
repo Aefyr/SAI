@@ -4,7 +4,8 @@
     <string name="cancel">取消</string>
     <string name="help">幫助</string>
     <string name="error">錯誤</string>
-    <string name="copy">複製</string>
+        
+    <string name="copy2">複製</string>
     <string name="copied">Copied</string>
     <string name="dont_show_again">不再顯示</string>
 

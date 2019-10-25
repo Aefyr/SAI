@@ -49,7 +49,7 @@ public class ErrorLogDialogFragment extends DialogFragment {
                 .setTitle(mTitle)
                 .setMessage(mLog)
                 .setPositiveButton(R.string.ok, null)
-                .setNeutralButton(R.string.copy, (d, w) -> {
+                .setNeutralButton(R.string.copy2, (d, w) -> {
                     Utils.copyTextToClipboard(getContext(), mLog);
                     Toast.makeText(getContext(), R.string.copied, Toast.LENGTH_SHORT).show();
                     dismiss();
