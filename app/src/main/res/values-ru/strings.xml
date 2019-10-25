@@ -36,7 +36,7 @@
     <string name="installer_error_bad_apks">Выбраны некорректные APK файлы</string>
     <string name="installer_error_storage">Недостаточно места для установки приложения</string>
     <string name="installer_error_lidl_rom">Прошивка вашего устройства несовместима с rootless-установщиком. Попробуйте поменять установщик в настройках SAI</string>
-    <string name="installer_error_shell">Ошибка %s-установщика:\n\n%s</string>
+    <string name="installer_error_shell">Ошибка %1$s-установщика:\n\n%2$s</string>
     <string name="installer_error_rootless">Ошибка rootless-установщика:\n\n%s</string>
     <string name="installer_error_root_no_root">Не удаётся получить root-доступ</string>
     <string name="installer_error_shizuku_unavailable">Нет доступа к Shizuku Server, убедитесь, что он запущен и SAI разрешен к нему доступ</string>

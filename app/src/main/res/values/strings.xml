@@ -38,7 +38,7 @@
     <string name="installer_error_bad_apks">Invalid APK files selected</string>
     <string name="installer_error_storage">Not enough storage space to install the app</string>
     <string name="installer_error_lidl_rom">Your ROM is incompatible with rootless installer. Try selecting another installer in SAI settings.</string>
-    <string name="installer_error_shell">%s installer error:\n\n %s</string>
+    <string name="installer_error_shell">%1$s installer error:\n\n %2$s</string>
     <string name="installer_error_rootless">Rootless installer error:\n\n %s</string>
     <string name="installer_error_root_no_root">Unable to acquire root access</string>
     <string name="installer_error_shizuku_unavailable">Unable to access Shizuku Server, please make sure it\'s running and SAI is authorized to use it</string>
@@ -104,7 +104,7 @@
     <string name="name_format_builder_preview">Preview: %s</string>
     <string name="name_format_builder_preview_empty">Please select at least one part</string>
 
-    <string name="about_author" translatable="false">by polychromaticfox</string>
+    <string name="about_author">by polychromaticfox</string>
     <string name="about_source">GitHub</string>
     <string name="about_source_link" translatable="false">https://github.com/Aefyr/SAI</string>
     <string name="about_donate">Donate</string>

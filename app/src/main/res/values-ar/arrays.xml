@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="file_picker_sort_variants">
+        <item>حسب الإسم (أبجدي)"</item>
+        <item>"حسب الإسم (عكس الترتيب الأبجدي)"</item>
+        <item>"أخر تعديل أولا"</item>
+        <item>"أقدم تعديل أولا"</item>
+    </string-array>
+
+    <string-array name="themes">
+        <item>"فاتح (SAI)"</item>
+        <item>"أحمر داكن"</item>
+        <item>"أحمر"</item>
+        <item>"أرجواني أخضر"</item>
+        <item>"أموليد (أسود)"</item>
+        <item>"بكسل (فاتح)"</item>
+        <item>"فاتح (SAI) (إف - درويد)"</item>
+        <item>"مظم"</item>
+    </string-array>
+
+    <string-array name="installers">
+        <item>"بدون روت (يوصى به)"</item>
+        <item>"روت (يتطلب روت)"</item>
+        <item>"شيزوكو (يتطلب شيزوكو 3.x)"</item>
+    </string-array>
+
+    <string-array name="size_units">
+        <item>بت</item>
+        <item>كيلوبايت</item>
+        <item>ميجابايت</item>
+        <item>جيجابايت</item>
+        <item>تيرابايت</item>
+        <item>بيتابايت</item>
+    </string-array>
+
+    <string-array name="backup_file_name_formats">
+        <item>الإسم_الحزمة_الإصدار.apks</item>
+        <item>الإسم. apks</item>
+        <item>الإسم_الإصدار.apks</item>
+    </string-array>
+
+    <string-array name="backup_file_name_formats_values" translatable="false">
+        <item>الإسم_الحزمة_الإصدار</item>
+        <item>الإسم</item>
+        <item>الإسم_الإصدار</item>
+    </string-array>
+
+    <string-array name="install_locations">
+        <item>دع النظام يقرر</item>
+        <item>التخزين الداخلي فقط</item>
+        <item>يفضل التخزين الخارجي (قد يظل النظام يقرر إستخدام التخزين الداخلي)</item>
+    </string-array>
+
+    <string-array name="name_format_parts">
+        <item>الإسم</item>
+        <item>الإصدار</item>
+        <item>كود الإصدار</item>
+        <item>الحزمة</item>
+        <item>الطابع الزمني</item>
+    </string-array>
+
+</resources>

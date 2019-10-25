@@ -35,7 +35,7 @@
     <string name="installer_error_bad_apks">Geçersiz APK dosyaları seçildi</string>
     <string name="installer_error_storage">Uygulamayı yüklemek için yeterli depolama alanı yok</string>
     <string name="installer_error_lidl_rom">ROM\'unuz rootsuz yükleyici ile uyumlu değil. Root varsa, rootlu yükleyiciyi SAI ayarlarından etkinleştirmeyi deneyin</string>
-    <string name="installer_error_shell">%s yükleyici hatası:\n\n %s</string>
+    <string name="installer_error_shell">%1$s yükleyici hatası:\n\n %2$s</string>
     <string name="installer_error_rootless">Rootsuz yükleyici hatası:\n\n %s</string>
     <string name="installer_error_root_no_root">Root erişimi alınamıyor, lütfen \"Root kullan\" tercihini devre dışı bırakın</string>
     <string name="installer_error_while_extracting">ZIP\'ten APK dosyaları çıkarılırken hata oluştu: %s</string>

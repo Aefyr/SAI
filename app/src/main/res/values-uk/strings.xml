@@ -32,7 +32,7 @@
     <string name="installer_error_mixed_extensions">Оберіть один .zip/.apks файл, або кілька .apk файлів</string>
 	<string name="installer_error_unknown_apk_size">Не вдається отримати розмір APK з архіву, будь ласка, ввімкніть опцію \"Розархівувати APK файли\" в налаштуваннях і спробуйте ще раз</string>
 
-    <string name="installer_error_shell">Помилка %s-установника:\n\n%s</string>
+    <string name="installer_error_shell">Помилка %1$s-установника:\n\n%2$s</string>
     <string name="installer_error_rootless">Помилка rootless-установника:\n\n%s</string>
     <string name="installer_error_root_no_root">Неможливо отримати root-доступ, будь ласка вимкніть опцію \"Використовувати root\"</string>
     <string name="installer_error_storage">Недостатньо місця для встановлення додатку</string>

@@ -35,7 +35,7 @@
     <string name="installer_error_storage">沒有足夠的存儲空間來安裝應用程式</string>
     <string name="installer_error_lidl_rom">您的ROM與 免Root安裝器 不兼容。如果您有 Root權限，請嘗試在 SAI 設置中啟用 Root安裝器</string>
         
-    <string name="installer_error_shell">%s安裝器 錯誤:\n\n %s</string>
+    <string name="installer_error_shell">%1$s安裝器 錯誤:\n\n %2$s</string>
     <string name="installer_error_rootless">免Root安裝器 錯誤:\n\n %s</string>
     <string name="installer_error_root_no_root">無法獲取 Root訪問權限，請禁用 \"使用 Root\" 選項</string>
     <string name="installer_error_while_extracting">從ZIP中提取APK文件時出錯: %s</string>
