@@ -40,12 +40,6 @@
         <item>الإسم_الإصدار.apks</item>
     </string-array>
 
-    <string-array name="backup_file_name_formats_values" translatable="false">
-        <item>الإسم_الحزمة_الإصدار</item>
-        <item>الإسم</item>
-        <item>الإسم_الإصدار</item>
-    </string-array>
-
     <string-array name="install_locations">
         <item>دع النظام يقرر</item>
         <item>التخزين الداخلي فقط</item>
