@@ -87,7 +87,7 @@ public class InstallerFragment extends SaiBaseFragment implements FilePickerDial
         });
 
         findViewById(R.id.ib_toggle_theme).setOnClickListener((v -> new ThemeSelectionDialogFragment().show(getChildFragmentManager(), "theme_selection_dialog")));
-        mButtonSettings.setOnClickListener((v) -> startActivity(new Intent(getContext(), PreferencesActivity.class)));
+        mButtonSettings.setOnClickListener((v) -> PreferencesActivity.open(requireContext(), PreferencesFragment.class, getString(R.string.settings_title)));
 
         mButton.setOnClickListener((v) -> checkPermissionsAndPickFiles());
         mButton.setOnLongClickListener((v) -> pickFilesWithSaf());

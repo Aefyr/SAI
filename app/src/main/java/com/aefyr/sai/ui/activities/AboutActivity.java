@@ -7,8 +7,11 @@ import android.widget.TextView;
 
 import com.aefyr.sai.BuildConfig;
 import com.aefyr.sai.R;
+import com.aefyr.sai.ui.fragments.SuperSecretPreferencesFragment;
 
 public class AboutActivity extends ThemedActivity {
+
+    private static int sLogoClicksCount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,6 +22,14 @@ public class AboutActivity extends ThemedActivity {
         findViewById(R.id.button_about_source).setOnClickListener((v) -> openLink(getString(R.string.about_source_link)));
         findViewById(R.id.button_about_donate).setOnClickListener((v) -> openLink(getString(R.string.about_donate_link)));
         findViewById(R.id.button_about_licenses).setOnClickListener((v) -> startActivity(new Intent(this, LicensesActivity.class)));
+
+        findViewById(R.id.iv_about_logo).setOnClickListener((v) -> sLogoClicksCount++);
+        findViewById(R.id.iv_about_logo).setOnLongClickListener((v) -> {
+            if (sLogoClicksCount >= 3)
+                PreferencesActivity.open(this, SuperSecretPreferencesFragment.class, "Super Secret Settings");
+
+            return sLogoClicksCount >= 3;
+        });
     }
 
     private void openLink(String link) {

@@ -117,7 +117,9 @@ public class Utils {
             return null;
         }
 
-        String backupFileName = BackupNameFormat.format(PreferencesHelper.getInstance(c).getBackupFileNameFormat(), packageMeta).replace('.', ',');
+        String backupFileName = BackupNameFormat.format(PreferencesHelper.getInstance(c).getBackupFileNameFormat(), packageMeta);
+        if (DbgPreferencesHelper.getInstance(c).shouldReplaceDots())
+            backupFileName = backupFileName.replace('.', ',');
 
         if (backupFileName.length() > 160)
             backupFileName = backupFileName.substring(0, 160);
