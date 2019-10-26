@@ -48,6 +48,7 @@ dependencies {
     implementation 'moe.shizuku.privilege:api:3.0.0-alpha10'
     implementation 'android.arch.lifecycle:common-java8:2.1.0'
     implementation 'com.google.android:flexbox:1.1.1'
+    implementation 'androidx.recyclerview:recyclerview:1.1.0-rc01'
 
     //Google services
     normalImplementation 'com.google.firebase:firebase-core:17.2.1'
