@@ -75,7 +75,7 @@
     <string name="settings_main_use_root_summary">Rootlu yükleyiciyi kullanmayı dener. Eğer SAI root erişimi alamazsa, rootsuz kurulum programına geri döner</string>
     <string name="settings_main_use_root_error">Root erişimi alınamıyor</string>
     <string name="settings_main_sign_apks">APK\'ları imzala</string>
-    <string name="settings_main_sign_apks_summary">Yüklemeden önce APK\'ları imzalar. Bunu (ilk uygulama kurulumundan önce) uygulamaları indirilen APK imzasından bağımsız olarak güncellemek için etkinleştirebilirsiniz</string>
+    <string name="settings_main_sign_apks_summary">Yüklemeden önce APK\'ları imzalar</string>
     <string name="settings_main_extract_archives">Arşivlerden APK\'ları çıkar</string>
     <string name="settings_main_extract_archives_summary">.Zip/.apks arşivlerindeki APK dosyalarını kurmadan önce geçici dosyalara çıkarır. Devre dışı bırakılırsa, SAI, geçici dosyaları olmayan doğrudan APK\'lardan APK yükler. Etkinleştirmek tavsiye edilmez</string>
     <string name="settings_main_reset_one_time_warnings">Bir kerelik uyarıları sıfırla</string>

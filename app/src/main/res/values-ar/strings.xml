@@ -81,7 +81,7 @@
     <string name="settings_main_use_root_summary">حاول إستخدام التثبيت بالروت. إذا تعذر على تطبيق "SAI" الحصول على صلاحيات الروت فسيتم الرجوع إلي التثبيت بدون روت</string>
     <string name="settings_main_use_root_error">يتعذر الحصول علي صلاحيات الروت</string>
     <string name="settings_main_sign_apks">توقيع ملفات الـ APK</string>
-    <string name="settings_main_sign_apks_summary">قم بتوقيع ملفات الـ APK قبل التثبيت. يمكنك تمكين هذا (قبل تثبيت التطبيق الأول) لتحديث التطبيقات بشكل مستقل عن توقيع ملفات الـ APK التي تم تنزيلها</string>
+    <string name="settings_main_sign_apks_summary">قم بتوقيع ملفات الـ APK قبل التثبيت.</string>
     <string name="settings_main_extract_archives">إستخراج ملفات الـ APK من الأرشيف</string>
     <string name="settings_main_extract_archives_summary">إستخراج ملفات الـ APK من أرشيف . (zip/.apks) إلى ملفات مؤقتة قبل تثبيتها. في حالة تعطيل هذا الخيار، سيقوم تطبيق "SAI" بتثبيت ملفات الـ APK مباشرة من الأرشيف بدون ملفات مؤقتة. لا يوصي بتمكينه</string>
     <string name="settings_main_reset_one_time_warnings">إعادة تعيين التحذيرات لمرة واحدة</string>

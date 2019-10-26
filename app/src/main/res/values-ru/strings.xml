@@ -82,7 +82,7 @@
     <string name="settings_main_use_root_summary">Попытаться использовать root-установщик. При отсутствии root-доступа SAI всё равно использует rootless-установщик</string>
     <string name="settings_main_use_root_error">Не удалось получить root-доступ</string>
     <string name="settings_main_sign_apks">Подписывать APK</string>
-    <string name="settings_main_sign_apks_summary">Подписывать APK перед установкой. Можно включить (но до первой установки приложения), чтобы можно было потом обновлять приложения независимо от подписи скачанного APK</string>
+    <string name="settings_main_sign_apks_summary">Подписывать APK перед установкой</string>
     <string name="settings_main_extract_archives">Разархивировать APK файлы</string>
     <string name="settings_main_extract_archives_summary">Разархивировать APK из .zip/.apks архивов во временные файлы перед установкой. Если отключено, SAI будет устанавливать APK напрямую из архива без создания временных файлов. Не рекомендуется включать</string>
     <string name="settings_main_reset_one_time_warnings">Сбросить одноразовые предупреждения</string>

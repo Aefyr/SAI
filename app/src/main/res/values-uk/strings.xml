@@ -54,7 +54,7 @@
     <string name="settings_main_home_directory_summary">Початкова папка при виборі APK\nЗараз: %s</string>
     <string name="settings_main_pick_dir">Оберіть папку</string>
     <string name="settings_main_sign_apks">Підписувати APK</string>
-    <string name="settings_main_sign_apks_summary">Підписувати APK перед встановленням. Можна ввімкнути (але до встановлення додатку), щоб можна було потім оновлювати додатки незалежно від підпису завантаженого APK</string>
+    <string name="settings_main_sign_apks_summary">Підписувати APK перед встановленням</string>
     <string name="settings_main_use_root">Використовувати root</string>
     <string name="settings_main_use_root_error">Не вдалося отримати root-доступ</string>
     <string name="settings_main_use_root_summary">Спробувати використовувати root-установник. При відсутності root-доступу SAI все одно використовує rootless-установник</string>

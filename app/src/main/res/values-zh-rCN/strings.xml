@@ -74,7 +74,7 @@
     <string name="settings_main_use_root_summary">尝试使用 Root安装器。如果 SAI 无法获得 Root访问权限，它将回退到 免Root安装器</string>
     <string name="settings_main_use_root_error">无法获取 Root访问权限</string>
     <string name="settings_main_sign_apks">签名 APK</string>
-    <string name="settings_main_sign_apks_summary">安装前签名APK。您可以启用此功能(在首次安装应用之前) to update apps independently from downloaded APKs signature</string>
+    <string name="settings_main_sign_apks_summary">安装前签名APK。</string>
     <string name="settings_main_extract_archives">从压缩包中提取APK</string>
     <string name="settings_main_extract_archives_summary">在安装之前，将.zip / .apks压缩包中的APK文件，解压缩到临时文件中。 如果禁用，SAI将直接从没有临时文件的压缩包安装APK。 不建议启用</string>
     <string name="settings_main_reset_one_time_warnings">重置一次性警告</string>

@@ -84,7 +84,7 @@
     <string name="settings_main_use_root_summary">Try using rooted installer. If SAI is unable to acquire root access it will fallback to rootless installer</string>
     <string name="settings_main_use_root_error">Unable to acquire root access</string>
     <string name="settings_main_sign_apks">Sign APKs</string>
-    <string name="settings_main_sign_apks_summary">Sign APKs before installing. You can enable this (before first app installation) to update apps independently from downloaded APKs signature</string>
+    <string name="settings_main_sign_apks_summary">Sign APKs before installing</string>
     <string name="settings_main_extract_archives">Extract APKs from archives</string>
     <string name="settings_main_extract_archives_summary">Extract APK files from .zip/.apks archives into temporary files before installing them. If disabled, SAI will install APKs directly from archives without temp files. Not recommended to enable</string>
     <string name="settings_main_reset_one_time_warnings">Reset one-time warnings</string>
