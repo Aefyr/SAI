@@ -7,6 +7,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageInstaller;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.util.Log;
 import android.util.SparseLongArray;
 
@@ -75,6 +77,8 @@ public class RootlessSAIPackageInstaller extends SAIPackageInstaller {
         try (ApkSource apkSource = aApkSource) {
             PackageInstaller.SessionParams sessionParams = new PackageInstaller.SessionParams(PackageInstaller.SessionParams.MODE_FULL_INSTALL);
             sessionParams.setInstallLocation(PreferencesHelper.getInstance(getContext()).getInstallLocation());
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+                sessionParams.setInstallReason(PackageManager.INSTALL_REASON_USER);
 
             int sessionID = mPackageInstaller.createSession(sessionParams);
             mSessionsMap.put(sessionID, getOngoingInstallation().getId());
@@ -93,7 +97,7 @@ public class RootlessSAIPackageInstaller extends SAIPackageInstaller {
             session.commit(pendingIntent.getIntentSender());
         } catch (Exception e) {
             Log.w(TAG, e);
-            dispatchCurrentSessionUpdate(SAIPackageInstaller.InstallationStatus.INSTALLATION_FAILED, getContext().getString(R.string.installer_error_rootless, Utils.throwableToString(e)));
+            dispatchCurrentSessionUpdate(InstallationStatus.INSTALLATION_FAILED, getContext().getString(R.string.installer_error_rootless, Utils.throwableToString(e)));
             installationCompleted();
         } finally {
             if (session != null)
