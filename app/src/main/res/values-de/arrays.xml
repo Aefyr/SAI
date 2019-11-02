@@ -40,22 +40,10 @@
         <item>NAME_VERSION.apks</item>
     </string-array>
 
-    <string-array name="backup_file_name_formats_values" translatable="false">
-        <item>NAME_PACKAGE_VERSION</item>
-        <item>NAME</item>
-        <item>NAME_VERSION</item>
-    </string-array>
-
     <string-array name="install_locations">
         <item>System entscheiden lassen</item>
         <item>nur intern</item>
         <item>extern bevorzugen (System benutzt eventuell dennoch intern)</item>
-    </string-array>
-
-    <string-array name="install_locations_values" translatable="false">
-        <item>0</item>
-        <item>1</item>
-        <item>2</item>
     </string-array>
 
     <string-array name="name_format_parts">
