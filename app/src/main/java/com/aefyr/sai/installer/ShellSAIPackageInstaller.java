@@ -14,11 +14,13 @@ import com.aefyr.sai.BuildConfig;
 import com.aefyr.sai.R;
 import com.aefyr.sai.model.apksource.ApkSource;
 import com.aefyr.sai.shell.Shell;
+import com.aefyr.sai.utils.DbgPreferencesHelper;
 import com.aefyr.sai.utils.Logs;
 import com.aefyr.sai.utils.PreferencesHelper;
 import com.aefyr.sai.utils.Utils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.regex.Matcher;
@@ -48,7 +50,6 @@ public abstract class ShellSAIPackageInstaller extends SAIPackageInstaller {
                 if (!installerPackage.equals(BuildConfig.APPLICATION_ID))
                     return;
             } catch (Exception e) {
-                Logs.logException(e);
                 Log.wtf(TAG, e);
             }
 
@@ -122,8 +123,18 @@ public abstract class ShellSAIPackageInstaller extends SAIPackageInstaller {
     private int createSession() throws RuntimeException {
         String installLocation = String.valueOf(PreferencesHelper.getInstance(getContext()).getInstallLocation());
         ArrayList<Shell.Command> commandsToAttempt = new ArrayList<>();
-        commandsToAttempt.add(new Shell.Command("pm", "install-create", "-r", "--install-location", installLocation, "-i", getShell().makeLiteral(BuildConfig.APPLICATION_ID)));
-        commandsToAttempt.add(new Shell.Command("pm", "install-create", "-r", "-i", getShell().makeLiteral(BuildConfig.APPLICATION_ID)));
+
+        String customInstallCreateCommand = DbgPreferencesHelper.getInstance(getContext()).getCustomInstallCreateCommand();
+        if (customInstallCreateCommand != null) {
+            ArrayList<String> args = new ArrayList<>(Arrays.asList(customInstallCreateCommand.split(" ")));
+            String command = args.remove(0);
+            commandsToAttempt.add(new Shell.Command(command, args.toArray(new String[0])));
+            Logs.d(TAG, "Using custom install-create command: " + customInstallCreateCommand);
+        } else {
+            commandsToAttempt.add(new Shell.Command("pm", "install-create", "-r", "--install-location", installLocation, "-i", getShell().makeLiteral(BuildConfig.APPLICATION_ID)));
+            commandsToAttempt.add(new Shell.Command("pm", "install-create", "-r", "-i", getShell().makeLiteral(BuildConfig.APPLICATION_ID)));
+        }
+
 
         List<Pair<Shell.Command, String>> attemptedCommands = new ArrayList<>();
 

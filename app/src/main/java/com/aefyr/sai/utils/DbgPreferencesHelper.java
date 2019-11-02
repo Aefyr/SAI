@@ -21,4 +21,12 @@ public class DbgPreferencesHelper {
     public boolean shouldReplaceDots() {
         return !mPrefs.getBoolean(DbgPreferencesKeys.DONT_REPLACE_DOTS, false);
     }
+
+    public String getCustomInstallCreateCommand() {
+        String command = mPrefs.getString(DbgPreferencesKeys.CUSTOM_INSTALL_CREATE, "null");
+        if ("null".equalsIgnoreCase(command))
+            return null;
+
+        return command;
+    }
 }
