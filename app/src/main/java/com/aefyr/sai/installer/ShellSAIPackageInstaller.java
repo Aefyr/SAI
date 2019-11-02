@@ -47,7 +47,7 @@ public abstract class ShellSAIPackageInstaller extends SAIPackageInstaller {
                 installedPackage = intent.getDataString().replace("package:", "");
                 String installerPackage = getContext().getPackageManager().getInstallerPackageName(installedPackage);
                 Log.d(TAG, "installerPackage=" + installerPackage);
-                if (!installerPackage.equals(BuildConfig.APPLICATION_ID))
+                if (!BuildConfig.APPLICATION_ID.equals(installerPackage))
                     return;
             } catch (Exception e) {
                 Log.wtf(TAG, e);
