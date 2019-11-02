@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="file_picker_sort_variants">
+        <item>"nach Name (von A nach Z)"</item>
+        <item>"nach Name (von Z nach A)"</item>
+        <item>"nach Änderung (neuer)"</item>
+        <item>"nach Änderung (älter)"</item>
+    </string-array>
+
+    <string-array name="themes">
+        <item>"SAI"</item>
+        <item>"Ruby"</item>
+        <item>"Rena"</item>
+        <item>"Ukrrooter"</item>
+        <item>"Amoled"</item>
+        <item>"Pixel"</item>
+        <item>"SAI (F-Droid)"</item>
+        <item>"Dunkel"</item>
+    </string-array>
+
+    <string-array name="installers">
+        <item>"ohne Root (empfohlen)"</item>
+        <item>"mit Root (Root erforderlich)"</item>
+        <item>"Shizuku (Shizuku 3.x erforderlich)"</item>
+    </string-array>
+
+    <string-array name="size_units">
+        <item>B</item>
+        <item>KB</item>
+        <item>MB</item>
+        <item>GB</item>
+        <item>TB</item>
+        <item>PB</item>
+    </string-array>
+
+    <string-array name="backup_file_name_formats">
+        <item>NAME_PACKAGE_VERSION.apks</item>
+        <item>NAME.apks</item>
+        <item>NAME_VERSION.apks</item>
+    </string-array>
+
+    <string-array name="backup_file_name_formats_values" translatable="false">
+        <item>NAME_PACKAGE_VERSION</item>
+        <item>NAME</item>
+        <item>NAME_VERSION</item>
+    </string-array>
+
+    <string-array name="install_locations">
+        <item>System entscheiden lassen</item>
+        <item>nur intern</item>
+        <item>extern bevorzugen (System benutzt eventuell dennoch intern)</item>
+    </string-array>
+
+    <string-array name="install_locations_values" translatable="false">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
+    <string-array name="name_format_parts">
+        <item>Name</item>
+        <item>Version</item>
+        <item>Versionscode</item>
+        <item>Paket</item>
+        <item>Zeitstempel</item>
+    </string-array>
+
+</resources>
