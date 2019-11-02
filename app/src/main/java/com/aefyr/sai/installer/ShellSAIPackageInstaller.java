@@ -42,7 +42,7 @@ public abstract class ShellSAIPackageInstaller extends SAIPackageInstaller {
             if (!mIsAwaitingBroadcast.get())
                 return;
 
-            String installedPackage = "null";
+            String installedPackage;
             try {
                 installedPackage = intent.getDataString().replace("package:", "");
                 String installerPackage = getContext().getPackageManager().getInstallerPackageName(installedPackage);
@@ -51,6 +51,7 @@ public abstract class ShellSAIPackageInstaller extends SAIPackageInstaller {
                     return;
             } catch (Exception e) {
                 Log.wtf(TAG, e);
+                return;
             }
 
             mIsAwaitingBroadcast.set(false);
