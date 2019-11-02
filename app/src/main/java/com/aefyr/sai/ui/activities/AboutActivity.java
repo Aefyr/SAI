@@ -26,7 +26,7 @@ public class AboutActivity extends ThemedActivity {
         findViewById(R.id.iv_about_logo).setOnClickListener((v) -> sLogoClicksCount++);
         findViewById(R.id.iv_about_logo).setOnLongClickListener((v) -> {
             if (sLogoClicksCount >= 3)
-                PreferencesActivity.open(this, SuperSecretPreferencesFragment.class, "Super Secret Settings");
+                PreferencesActivity.open(this, SuperSecretPreferencesFragment.class, getString(R.string.sss));
 
             return sLogoClicksCount >= 3;
         });

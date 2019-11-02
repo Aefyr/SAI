@@ -102,6 +102,9 @@
     <string name="name_format_builder_preview">Пример: %s</string>
     <string name="name_format_builder_preview_empty">Выберите хотя бы одну часть</string>
 
+    <string name="sss_warning_title"><b>ПРЕДУПРЕЖДЕНИЕ</b></string>
+    <string name="sss_warning_summary"><b>Не трогайте эти настройки, если вы не знаете, что делаете. Некоторые опции тут могут сломать SAI или даже повредить вашу систему</b></string>
+
     <string name="about_source">GitHub</string>
     <string name="about_donate">Поддержать</string>
     <string name="about_licenses">Лицензии</string>
