@@ -6,7 +6,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.aefyr.sai.model.backup.PackageMeta;
+import com.aefyr.sai.model.common.PackageMeta;
 import com.aefyr.sai.utils.Stopwatch;
 
 public class SaiPiSessionState implements Comparable<SaiPiSessionState> {

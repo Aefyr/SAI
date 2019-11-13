@@ -11,7 +11,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 
 import com.aefyr.sai.backup.BackupRepository;
-import com.aefyr.sai.model.backup.PackageMeta;
+import com.aefyr.sai.model.common.PackageMeta;
 
 import java.util.ArrayList;
 import java.util.Iterator;

@@ -1,6 +1,6 @@
 package com.aefyr.sai.utils;
 
-import com.aefyr.sai.model.backup.PackageMeta;
+import com.aefyr.sai.model.common.PackageMeta;
 
 public class BackupNameFormat {
 

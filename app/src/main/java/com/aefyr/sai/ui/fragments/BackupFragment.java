@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.aefyr.sai.R;
 import com.aefyr.sai.adapters.BackupPackagesAdapter;
-import com.aefyr.sai.model.backup.PackageMeta;
+import com.aefyr.sai.model.common.PackageMeta;
 import com.aefyr.sai.ui.dialogs.BackupAllSplitApksDialogFragment;
 import com.aefyr.sai.ui.dialogs.BackupDialogFragment;
 import com.aefyr.sai.ui.dialogs.OneTimeWarningDialogFragment;

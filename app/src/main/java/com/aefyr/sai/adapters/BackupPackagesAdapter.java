@@ -12,7 +12,7 @@ import androidx.appcompat.widget.AppCompatImageView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.aefyr.sai.R;
-import com.aefyr.sai.model.backup.PackageMeta;
+import com.aefyr.sai.model.common.PackageMeta;
 import com.bumptech.glide.Glide;
 
 import java.util.List;

@@ -18,7 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.aefyr.sai.R;
 import com.aefyr.sai.adapters.BackupSplitPartsAdapter;
 import com.aefyr.sai.backup.BackupService;
-import com.aefyr.sai.model.backup.PackageMeta;
+import com.aefyr.sai.model.common.PackageMeta;
 import com.aefyr.sai.ui.dialogs.base.BaseBottomSheetDialogFragment;
 import com.aefyr.sai.utils.PermissionsUtils;
 import com.aefyr.sai.utils.Utils;

@@ -22,7 +22,7 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
 import com.aefyr.sai.R;
-import com.aefyr.sai.model.backup.PackageMeta;
+import com.aefyr.sai.model.common.PackageMeta;
 import com.aefyr.sai.utils.IOUtils;
 import com.aefyr.sai.utils.NotificationHelper;
 import com.aefyr.sai.utils.Utils;

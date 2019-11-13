@@ -1,4 +1,4 @@
-package com.aefyr.sai.model.backup;
+package com.aefyr.sai.model.common;
 
 import android.content.ContentResolver;
 import android.content.Context;

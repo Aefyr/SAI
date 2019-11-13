@@ -10,7 +10,7 @@ import androidx.lifecycle.MutableLiveData;
 import com.aefyr.sai.adapters.selection.Selection;
 import com.aefyr.sai.adapters.selection.SimpleKeyStorage;
 import com.aefyr.sai.model.backup.BackupNameFormatBuilder;
-import com.aefyr.sai.model.backup.PackageMeta;
+import com.aefyr.sai.model.common.PackageMeta;
 import com.aefyr.sai.utils.PreferencesHelper;
 
 import java.util.Objects;
