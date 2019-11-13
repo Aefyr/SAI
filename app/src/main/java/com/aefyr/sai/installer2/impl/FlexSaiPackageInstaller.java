@@ -97,6 +97,8 @@ public class FlexSaiPackageInstaller implements SaiPackageInstaller, SaiPiSessio
         for (SaiPackageInstaller installer : mInstallers.values())
             sessions.addAll(installer.getSessions());
 
+        Collections.sort(sessions);
+
         return sessions;
     }
 
