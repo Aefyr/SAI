@@ -9,6 +9,8 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Looper;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.TypedValue;
@@ -168,6 +170,12 @@ public class Utils {
         TypedValue typedValue = new TypedValue();
         c.getTheme().resolveAttribute(attribute, typedValue, true);
         return typedValue.data;
+    }
+
+    private static Handler sMainThreadHandler = new Handler(Looper.getMainLooper());
+
+    public static void onMainThread(Runnable r) {
+        sMainThreadHandler.post(r);
     }
 
 }
