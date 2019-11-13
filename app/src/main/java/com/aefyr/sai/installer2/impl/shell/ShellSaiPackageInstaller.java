@@ -28,22 +28,30 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Semaphore;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public abstract class ShellSaiPackageInstaller extends BaseSaiPackageInstaller {
 
     private static Semaphore mSharedSemaphore = new Semaphore(1);
+    private AtomicBoolean mAwaitingBroadcast = new AtomicBoolean(false);
 
     private ExecutorService mExecutor = Executors.newFixedThreadPool(4);
 
     private String mCurrentSessionId;
 
+    //TODO read package from apk stream, this is too potentially inconsistent
     private final BroadcastReceiver mPackageInstalledBroadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             //TODO do something about double intent delivery, cuz double unlocking will likely break stuff
             Log.d(tag(), intent.toString());
+
+            if (!mAwaitingBroadcast.get())
+                return;
+
+            mAwaitingBroadcast.set(false);
 
             String installedPackage;
             try {
@@ -98,8 +106,10 @@ public abstract class ShellSaiPackageInstaller extends BaseSaiPackageInstaller {
                 ensureCommandSucceeded(getShell().exec(new Shell.Command("pm", "install-write", "-S", String.valueOf(apkSource.getApkLength()), String.valueOf(androidSessionId), String.format("%d.apk", currentApkFile++)), apkSource.openApkInputStream()));
             }
 
+            mAwaitingBroadcast.set(true);
             Shell.Result installationResult = getShell().exec(new Shell.Command("pm", "install-commit", String.valueOf(androidSessionId)));
             if (!installationResult.isSuccessful()) {
+                mAwaitingBroadcast.set(false);
                 setSessionState(sessionId, new SaiPiSessionState(sessionId, SaiPiSessionStatus.INSTALLATION_FAILED, new Exception(getContext().getString(R.string.installer_error_shell, getInstallerName(), getSessionInfo(apkSource) + "\n\n" + installationResult.toString()))));
                 unlockInstallation();
             }

@@ -1,7 +1,6 @@
 package com.aefyr.sai.installer2.impl.rootless;
 
 import android.app.PendingIntent;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -24,7 +23,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class RootlessSaiPackageInstaller extends BaseSaiPackageInstaller {
+public class RootlessSaiPackageInstaller extends BaseSaiPackageInstaller implements RootlessSaiPiBroadcastReceiver.EventObserver {
     private static final String TAG = "RootlessSaiPi";
 
     private static RootlessSaiPackageInstaller sInstance;
@@ -34,24 +33,7 @@ public class RootlessSaiPackageInstaller extends BaseSaiPackageInstaller {
 
     private ConcurrentHashMap<Integer, String> mAndroidPiSessionIdToSaiPiSessionId = new ConcurrentHashMap<>();
 
-    private final BroadcastReceiver mFurtherInstallationEventsReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            String sessionId = mAndroidPiSessionIdToSaiPiSessionId.get(intent.getIntExtra(RootlessSaiPiService.EXTRA_SESSION_ID, -1));
-            if (sessionId == null)
-                return;
-
-            switch (intent.getIntExtra(RootlessSaiPiService.EXTRA_INSTALLATION_STATUS, -1)) {
-                case RootlessSaiPiService.STATUS_SUCCESS:
-                    setSessionState(sessionId, new SaiPiSessionState(sessionId, SaiPiSessionStatus.INSTALLATION_SUCCEED, intent.getStringExtra(RootlessSaiPiService.EXTRA_PACKAGE_NAME)));
-                    break;
-                case RootlessSaiPiService.STATUS_FAILURE:
-                    //TODO do something about exception
-                    setSessionState(sessionId, new SaiPiSessionState(sessionId, SaiPiSessionStatus.INSTALLATION_FAILED, new Exception(intent.getStringExtra(RootlessSaiPiService.EXTRA_ERROR_DESCRIPTION))));
-                    break;
-            }
-        }
-    };
+    private final RootlessSaiPiBroadcastReceiver mBroadcastReceiver;
 
     public static RootlessSaiPackageInstaller getInstance(Context c) {
         synchronized (RootlessSaiPackageInstaller.class) {
@@ -62,7 +44,11 @@ public class RootlessSaiPackageInstaller extends BaseSaiPackageInstaller {
     private RootlessSaiPackageInstaller(Context c) {
         super(c);
         mPackageInstaller = getContext().getPackageManager().getPackageInstaller();
-        getContext().registerReceiver(mFurtherInstallationEventsReceiver, new IntentFilter(RootlessSaiPiService.ACTION_INSTALLATION_STATUS_NOTIFICATION));
+
+        mBroadcastReceiver = new RootlessSaiPiBroadcastReceiver(getContext());
+        mBroadcastReceiver.addEventObserver(this);
+        getContext().registerReceiver(mBroadcastReceiver, new IntentFilter(RootlessSaiPiBroadcastReceiver.ACTION_DELIVER_PI_EVENT));
+
         sInstance = this;
     }
 
@@ -93,8 +79,8 @@ public class RootlessSaiPackageInstaller extends BaseSaiPackageInstaller {
                 }
             }
 
-            Intent callbackIntent = new Intent(getContext(), RootlessSaiPiService.class);
-            PendingIntent pendingIntent = PendingIntent.getService(getContext(), 0, callbackIntent, 0);
+            Intent callbackIntent = new Intent(RootlessSaiPiBroadcastReceiver.ACTION_DELIVER_PI_EVENT);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(getContext(), 0, callbackIntent, 0);
             session.commit(pendingIntent.getIntentSender());
         } catch (Exception e) {
             Log.w(TAG, e);
@@ -105,6 +91,25 @@ public class RootlessSaiPackageInstaller extends BaseSaiPackageInstaller {
         }
     }
 
+    @Override
+    public void onInstallationSucceeded(int androidSessionId, String packageName) {
+        String sessionId = mAndroidPiSessionIdToSaiPiSessionId.get(androidSessionId);
+        if (sessionId == null)
+            return;
+
+        setSessionState(sessionId, new SaiPiSessionState(sessionId, SaiPiSessionStatus.INSTALLATION_SUCCEED, packageName));
+    }
+
+    @Override
+    public void onInstallationFailed(int androidSessionId, Exception exception) {
+        String sessionId = mAndroidPiSessionIdToSaiPiSessionId.get(androidSessionId);
+        if (sessionId == null)
+            return;
+
+        //TODO do something about exception
+        setSessionState(sessionId, new SaiPiSessionState(sessionId, SaiPiSessionStatus.INSTALLATION_FAILED, exception));
+
+    }
 
     @Override
     protected String tag() {

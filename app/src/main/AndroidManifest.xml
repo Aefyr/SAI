@@ -93,7 +93,6 @@
         <activity android:name=".ui.activities.LicensesActivity" />
 
         <service android:name=".backup.BackupService" />
-        <service android:name=".installer2.impl.rootless.RootlessSaiPiService" />
 
         <provider
             android:name="moe.shizuku.api.ShizukuBinderReceiveProvider"
