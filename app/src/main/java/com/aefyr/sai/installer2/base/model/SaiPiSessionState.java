@@ -1,34 +1,27 @@
 package com.aefyr.sai.installer2.base.model;
 
+import android.content.Context;
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import com.aefyr.sai.model.backup.PackageMeta;
+import com.aefyr.sai.utils.Stopwatch;
 
 public class SaiPiSessionState implements Comparable<SaiPiSessionState> {
 
     private String mSessionId;
     private SaiPiSessionStatus mStatus;
     private String mPackageName;
+    private PackageMeta mPackageMeta;
     private Exception mException;
     private long mLastUpdate;
 
-    public SaiPiSessionState(String sessionId, SaiPiSessionStatus status, @Nullable String packageName, @Nullable Exception exception) {
+    private SaiPiSessionState(String sessionId, SaiPiSessionStatus status) {
         mSessionId = sessionId;
         mStatus = status;
-        mPackageName = packageName;
-        mException = exception;
         mLastUpdate = System.currentTimeMillis();
-    }
-
-    public SaiPiSessionState(String sessionId, SaiPiSessionStatus status, @Nullable String packageName) {
-        this(sessionId, status, packageName, null);
-    }
-
-    public SaiPiSessionState(String sessionId, SaiPiSessionStatus status, @Nullable Exception exception) {
-        this(sessionId, status, null, exception);
-    }
-
-    public SaiPiSessionState(String sessionId, SaiPiSessionStatus status) {
-        this(sessionId, status, null, null);
     }
 
     public String sessionId() {
@@ -42,6 +35,11 @@ public class SaiPiSessionState implements Comparable<SaiPiSessionState> {
     @Nullable
     public String packageName() {
         return mPackageName;
+    }
+
+    @Nullable
+    public PackageMeta packageMeta() {
+        return mPackageMeta;
     }
 
     @Nullable
@@ -74,5 +72,37 @@ public class SaiPiSessionState implements Comparable<SaiPiSessionState> {
     @Override
     public int compareTo(SaiPiSessionState o) {
         return Long.compare(o.lastUpdate(), lastUpdate());
+    }
+
+    public static class Builder {
+        private SaiPiSessionState mState;
+
+        public Builder(String sessionId, SaiPiSessionStatus status) {
+            mState = new SaiPiSessionState(sessionId, status);
+        }
+
+        public Builder packageName(String packageName) {
+            mState.mPackageName = packageName;
+            return this;
+        }
+
+        public Builder resolvePackageMeta(Context c) {
+            if (mState.mPackageName == null)
+                return this;
+
+            Stopwatch sw = new Stopwatch();
+            mState.mPackageMeta = PackageMeta.forPackage(c, mState.mPackageName);
+            Log.d("SaiPiSessionState", String.format("Got PackageMeta in %d ms.", sw.millisSinceStart()));
+            return this;
+        }
+
+        public Builder exception(Exception exception) {
+            mState.mException = exception;
+            return this;
+        }
+
+        public SaiPiSessionState build() {
+            return mState;
+        }
     }
 }

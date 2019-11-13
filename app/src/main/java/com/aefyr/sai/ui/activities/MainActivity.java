@@ -14,7 +14,7 @@ import com.aefyr.sai.R;
 import com.aefyr.sai.backup.BackupRepository;
 import com.aefyr.sai.ui.dialogs.MiuiWarningDialogFragment;
 import com.aefyr.sai.ui.fragments.BackupFragment;
-import com.aefyr.sai.ui.fragments.InstallerFragment;
+import com.aefyr.sai.ui.fragments.Installer2Fragment;
 import com.aefyr.sai.utils.FragmentNavigator;
 import com.aefyr.sai.utils.PreferencesKeys;
 import com.aefyr.sai.utils.Utils;
@@ -26,7 +26,7 @@ public class MainActivity extends ThemedActivity implements BottomNavigationView
 
     private FragmentNavigator mFragmentNavigator;
 
-    private InstallerFragment mInstallerFragment;
+    private Installer2Fragment mInstallerFragment;
     private BackupFragment mBackupFragment;
 
     private boolean mIsNavigationEnabled = true;
@@ -126,9 +126,9 @@ public class MainActivity extends ThemedActivity implements BottomNavigationView
         mFragmentNavigator.writeStateToBundle(outState);
     }
 
-    private InstallerFragment getInstallerFragment() {
+    private Installer2Fragment getInstallerFragment() {
         if (mInstallerFragment == null)
-            mInstallerFragment = new InstallerFragment();
+            mInstallerFragment = new Installer2Fragment();
         return mInstallerFragment;
     }
 

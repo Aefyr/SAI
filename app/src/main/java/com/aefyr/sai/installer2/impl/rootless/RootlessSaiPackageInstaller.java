@@ -7,6 +7,8 @@ import android.content.IntentFilter;
 import android.content.pm.PackageInstaller;
 import android.content.pm.PackageManager;
 import android.os.Build;
+import android.os.Handler;
+import android.os.HandlerThread;
 import android.util.Log;
 
 import com.aefyr.sai.installer2.base.model.SaiPiSessionParams;
@@ -30,6 +32,8 @@ public class RootlessSaiPackageInstaller extends BaseSaiPackageInstaller impleme
 
     private PackageInstaller mPackageInstaller;
     private ExecutorService mExecutor = Executors.newFixedThreadPool(4);
+    private final HandlerThread mWorkerThread = new HandlerThread("RootlessSaiPi Worker");
+    private final Handler mWorkerHandler;
 
     private ConcurrentHashMap<Integer, String> mAndroidPiSessionIdToSaiPiSessionId = new ConcurrentHashMap<>();
 
@@ -45,9 +49,12 @@ public class RootlessSaiPackageInstaller extends BaseSaiPackageInstaller impleme
         super(c);
         mPackageInstaller = getContext().getPackageManager().getPackageInstaller();
 
+        mWorkerThread.start();
+        mWorkerHandler = new Handler(mWorkerThread.getLooper());
+
         mBroadcastReceiver = new RootlessSaiPiBroadcastReceiver(getContext());
         mBroadcastReceiver.addEventObserver(this);
-        getContext().registerReceiver(mBroadcastReceiver, new IntentFilter(RootlessSaiPiBroadcastReceiver.ACTION_DELIVER_PI_EVENT));
+        getContext().registerReceiver(mBroadcastReceiver, new IntentFilter(RootlessSaiPiBroadcastReceiver.ACTION_DELIVER_PI_EVENT), null, mWorkerHandler);
 
         sInstance = this;
     }
@@ -55,12 +62,12 @@ public class RootlessSaiPackageInstaller extends BaseSaiPackageInstaller impleme
     @Override
     public void enqueueSession(String sessionId) {
         SaiPiSessionParams params = takeCreatedSession(sessionId);
-        setSessionState(sessionId, new SaiPiSessionState(sessionId, SaiPiSessionStatus.QUEUED));
+        setSessionState(sessionId, new SaiPiSessionState.Builder(sessionId, SaiPiSessionStatus.QUEUED).build());
         mExecutor.submit(() -> install(sessionId, params));
     }
 
     private void install(String sessionId, SaiPiSessionParams params) {
-        setSessionState(sessionId, new SaiPiSessionState(sessionId, SaiPiSessionStatus.INSTALLING));
+        setSessionState(sessionId, new SaiPiSessionState.Builder(sessionId, SaiPiSessionStatus.INSTALLING).build());
         PackageInstaller.Session session = null;
         try (ApkSource apkSource = params.apkSource()) {
             PackageInstaller.SessionParams sessionParams = new PackageInstaller.SessionParams(PackageInstaller.SessionParams.MODE_FULL_INSTALL);
@@ -85,7 +92,7 @@ public class RootlessSaiPackageInstaller extends BaseSaiPackageInstaller impleme
             session.commit(pendingIntent.getIntentSender());
         } catch (Exception e) {
             Log.w(TAG, e);
-            setSessionState(sessionId, new SaiPiSessionState(sessionId, SaiPiSessionStatus.INSTALLATION_FAILED, e));
+            setSessionState(sessionId, new SaiPiSessionState.Builder(sessionId, SaiPiSessionStatus.INSTALLATION_FAILED).exception(e).build());
         } finally {
             if (session != null)
                 session.close();
@@ -98,7 +105,7 @@ public class RootlessSaiPackageInstaller extends BaseSaiPackageInstaller impleme
         if (sessionId == null)
             return;
 
-        setSessionState(sessionId, new SaiPiSessionState(sessionId, SaiPiSessionStatus.INSTALLATION_SUCCEED, packageName));
+        setSessionState(sessionId, new SaiPiSessionState.Builder(sessionId, SaiPiSessionStatus.INSTALLATION_SUCCEED).packageName(packageName).resolvePackageMeta(getContext()).build());
     }
 
     @Override
@@ -108,7 +115,7 @@ public class RootlessSaiPackageInstaller extends BaseSaiPackageInstaller impleme
             return;
 
         //TODO do something about exception
-        setSessionState(sessionId, new SaiPiSessionState(sessionId, SaiPiSessionStatus.INSTALLATION_FAILED, exception));
+        setSessionState(sessionId, new SaiPiSessionState.Builder(sessionId, SaiPiSessionStatus.INSTALLATION_FAILED).exception(exception).build());
 
     }
 

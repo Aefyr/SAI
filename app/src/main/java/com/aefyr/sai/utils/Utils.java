@@ -178,4 +178,13 @@ public class Utils {
         sMainThreadHandler.post(r);
     }
 
+    @Nullable
+    public static String getExtension(String fileName) {
+        int lastDotIndex = fileName.lastIndexOf('.');
+        if (lastDotIndex == -1)
+            return null;
+
+        return fileName.substring(lastDotIndex);
+    }
+
 }

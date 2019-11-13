@@ -52,6 +52,14 @@
     <string name="installer_miui_warning_message">Looks like your device is running MIUI. MIUI is known for breaking standard Android API features and some SAI users have reported SAI not working on MIUI. Usually it can be fixed by disabling MIUI optimizations in developer settings, which I suggest you should do.</string>
     <string name="installer_miui_warning_open_dev_settings">Open developer settings</string>
     <string name="installer_miui_warning_oof">Unable to open development settings. Cool ROM</string>
+    <string name="installer_unknown_app">Unknown app</string>
+    <string name="installer_state_created">Preparing</string>
+    <string name="installer_state_queued">Queued</string>
+    <string name="installer_state_installing">Installing</string>
+    <string name="installer_state_installed">Installed</string>
+    <string name="installer_state_failed">Failed to install</string>
+    <string name="installer_unable_to_launch_app">Unable to launch app</string>
+    <string name="installer_show_full_error">Show full error</string>
 
     <string name="backup_backup">Export</string>
     <string name="backup_backup_prompt">Export %s?</string>

@@ -50,6 +50,14 @@
     <string name="installer_miui_warning_message">Похоже, у вас MIUI. MIUI известна своим ломанием стандартных фич Android API и некоторые юзеры сообщали, что SAI не работает на MIUI. Обычно это решается отключением оптимизаций MIUI в настройках для разработчиков, что я рекомендую вам сделать.</string>
     <string name="installer_miui_warning_open_dev_settings">Открыть настройки для разработчиков</string>
     <string name="installer_miui_warning_oof">Не удалось открыть настройки для разработчиков. Найс прошивка</string>
+    <string name="installer_unknown_app">Неизвестное приложение</string>
+    <string name="installer_state_created">Подготовка</string>
+    <string name="installer_state_queued">В очереди</string>
+    <string name="installer_state_installing">Идёт установка</string>
+    <string name="installer_state_installed">Установлено</string>
+    <string name="installer_state_failed">Не удалось установить</string>
+    <string name="installer_unable_to_launch_app">Не удается запустить приложение</string>
+    <string name="installer_show_full_error">Показать полную ошибку</string>
 
     <string name="backup_backup">Экспорт</string>
     <string name="backup_backup_prompt">Экспортировать %s?</string>

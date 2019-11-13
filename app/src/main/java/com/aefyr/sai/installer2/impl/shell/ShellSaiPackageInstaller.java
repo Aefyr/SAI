@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.os.Build;
+import android.os.Handler;
+import android.os.HandlerThread;
 import android.util.Log;
 import android.util.Pair;
 
@@ -38,6 +40,8 @@ public abstract class ShellSaiPackageInstaller extends BaseSaiPackageInstaller {
     private AtomicBoolean mAwaitingBroadcast = new AtomicBoolean(false);
 
     private ExecutorService mExecutor = Executors.newFixedThreadPool(4);
+    private HandlerThread mWorkerThread = new HandlerThread("RootlessSaiPi Worker");
+    private Handler mWorkerHandler;
 
     private String mCurrentSessionId;
 
@@ -65,32 +69,36 @@ public abstract class ShellSaiPackageInstaller extends BaseSaiPackageInstaller {
                 return;
             }
 
-            setSessionState(mCurrentSessionId, new SaiPiSessionState(mCurrentSessionId, SaiPiSessionStatus.INSTALLATION_SUCCEED, installedPackage));
+            setSessionState(mCurrentSessionId, new SaiPiSessionState.Builder(mCurrentSessionId, SaiPiSessionStatus.INSTALLATION_SUCCEED).packageName(installedPackage).resolvePackageMeta(getContext()).build());
             unlockInstallation();
         }
     };
 
     protected ShellSaiPackageInstaller(Context c) {
         super(c);
+
+        mWorkerThread.start();
+        mWorkerHandler = new Handler(mWorkerThread.getLooper());
+
         IntentFilter packageAddedFilter = new IntentFilter(Intent.ACTION_PACKAGE_ADDED);
         packageAddedFilter.addDataScheme("package");
-        getContext().registerReceiver(mPackageInstalledBroadcastReceiver, packageAddedFilter);
+        getContext().registerReceiver(mPackageInstalledBroadcastReceiver, packageAddedFilter, null, mWorkerHandler);
     }
 
     @Override
     public void enqueueSession(String sessionId) {
         SaiPiSessionParams params = takeCreatedSession(sessionId);
-        setSessionState(sessionId, new SaiPiSessionState(sessionId, SaiPiSessionStatus.QUEUED));
+        setSessionState(sessionId, new SaiPiSessionState.Builder(sessionId, SaiPiSessionStatus.QUEUED).build());
         mExecutor.submit(() -> install(sessionId, params));
     }
 
     private void install(String sessionId, SaiPiSessionParams params) {
         lockInstallation(sessionId);
-        setSessionState(sessionId, new SaiPiSessionState(sessionId, SaiPiSessionStatus.INSTALLING));
+        setSessionState(sessionId, new SaiPiSessionState.Builder(sessionId, SaiPiSessionStatus.INSTALLING).build());
         try (ApkSource apkSource = params.apkSource()) {
 
             if (!getShell().isAvailable()) {
-                setSessionState(sessionId, new SaiPiSessionState(sessionId, SaiPiSessionStatus.INSTALLATION_FAILED, new Exception(getContext().getString(R.string.installer_error_shell, getInstallerName(), getShellUnavailableMessage()))));
+                setSessionState(sessionId, new SaiPiSessionState.Builder(sessionId, SaiPiSessionStatus.INSTALLATION_FAILED).exception(new Exception(getContext().getString(R.string.installer_error_shell, getInstallerName(), getShellUnavailableMessage()))).build());
                 unlockInstallation();
                 return;
             }
@@ -100,7 +108,7 @@ public abstract class ShellSaiPackageInstaller extends BaseSaiPackageInstaller {
             int currentApkFile = 0;
             while (apkSource.nextApk()) {
                 if (apkSource.getApkLength() == -1) {
-                    setSessionState(sessionId, new SaiPiSessionState(sessionId, SaiPiSessionStatus.INSTALLATION_FAILED, new Exception(getContext().getString(R.string.installer_error_unknown_apk_size))));
+                    setSessionState(sessionId, new SaiPiSessionState.Builder(sessionId, SaiPiSessionStatus.INSTALLATION_FAILED).exception(new Exception(getContext().getString(R.string.installer_error_unknown_apk_size))).build());
                     unlockInstallation();
                     return;
                 }
@@ -111,13 +119,13 @@ public abstract class ShellSaiPackageInstaller extends BaseSaiPackageInstaller {
             Shell.Result installationResult = getShell().exec(new Shell.Command("pm", "install-commit", String.valueOf(androidSessionId)));
             if (!installationResult.isSuccessful()) {
                 mAwaitingBroadcast.set(false);
-                setSessionState(sessionId, new SaiPiSessionState(sessionId, SaiPiSessionStatus.INSTALLATION_FAILED, new Exception(getContext().getString(R.string.installer_error_shell, getInstallerName(), getSessionInfo(apkSource) + "\n\n" + installationResult.toString()))));
+                setSessionState(sessionId, new SaiPiSessionState.Builder(sessionId, SaiPiSessionStatus.INSTALLATION_FAILED).exception(new Exception(getContext().getString(R.string.installer_error_shell, getInstallerName(), getSessionInfo(apkSource) + "\n\n" + installationResult.toString()))).build());
                 unlockInstallation();
             }
         } catch (Exception e) {
             //TODO this catches resources close exception causing a crash, same in rootless installer
             Log.w(tag(), e);
-            setSessionState(sessionId, new SaiPiSessionState(sessionId, SaiPiSessionStatus.INSTALLATION_FAILED, new Exception(getContext().getString(R.string.installer_error_shell, getInstallerName(), getSessionInfo(params.apkSource()) + "\n\n" + Utils.throwableToString(e)))));
+            setSessionState(sessionId, new SaiPiSessionState.Builder(sessionId, SaiPiSessionStatus.INSTALLATION_FAILED).exception(new Exception(getContext().getString(R.string.installer_error_shell, getInstallerName(), getSessionInfo(params.apkSource()) + "\n\n" + Utils.throwableToString(e)))).build());
             unlockInstallation();
         }
 

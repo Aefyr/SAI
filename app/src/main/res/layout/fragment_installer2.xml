@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:orientation="vertical">
+
+    <com.aefyr.sai.view.coolbar.Coolbar
+        android:id="@+id/coolbar_main"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="0dp"
+        app:title="@string/app_name_full">
+
+        <ImageButton
+            android:id="@+id/ib_toggle_theme"
+            style="@style/SAICoolbarImageButton"
+            android:contentDescription="@string/installer_select_theme"
+            android:rotation="30"
+            app:srcCompat="@drawable/ic_dark_theme" />
+
+        <ImageButton
+            android:id="@+id/ib_settings"
+            style="@style/SAICoolbarImageButton"
+            android:contentDescription="@string/settings_title"
+            app:coolbar_gravity="start"
+            app:srcCompat="@drawable/ic_settings"
+            tools:ignore="MissingPrefix" />
+    </com.aefyr.sai.view.coolbar.Coolbar>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_installer_sessions"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:foregroundGravity="center"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/button_install"
+            style="@style/SAIMaterialButton"
+            android:layout_margin="8dp"
+            android:text="@string/installer_install_apks" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/button_help"
+            style="@style/SAIMaterialButton.Outlined"
+            android:layout_margin="8dp"
+            android:text="@string/help" />
+    </LinearLayout>
+
+
+</LinearLayout>

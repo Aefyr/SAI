@@ -38,7 +38,7 @@ public abstract class BaseSaiPackageInstaller implements SaiPackageInstaller {
     public String createSession(SaiPiSessionParams params) {
         String sessionId = newSessionId();
         mCreatedSessions.put(sessionId, params);
-        setSessionState(sessionId, new SaiPiSessionState(sessionId, SaiPiSessionStatus.CREATED));
+        setSessionState(sessionId, new SaiPiSessionState.Builder(sessionId, SaiPiSessionStatus.CREATED).build());
         return sessionId;
     }
 
