@@ -86,6 +86,7 @@ public abstract class ShellSaiPackageInstaller extends BaseSaiPackageInstaller {
 
     private void install(String sessionId, SaiPiSessionParams params) {
         lockInstallation(sessionId);
+        setSessionState(sessionId, new SaiPiSessionState(sessionId, SaiPiSessionStatus.INSTALLING));
         try (ApkSource apkSource = params.apkSource()) {
 
             if (!getShell().isAvailable()) {

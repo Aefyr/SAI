@@ -60,6 +60,7 @@ public class RootlessSaiPackageInstaller extends BaseSaiPackageInstaller impleme
     }
 
     private void install(String sessionId, SaiPiSessionParams params) {
+        setSessionState(sessionId, new SaiPiSessionState(sessionId, SaiPiSessionStatus.INSTALLING));
         PackageInstaller.Session session = null;
         try (ApkSource apkSource = params.apkSource()) {
             PackageInstaller.SessionParams sessionParams = new PackageInstaller.SessionParams(PackageInstaller.SessionParams.MODE_FULL_INSTALL);
