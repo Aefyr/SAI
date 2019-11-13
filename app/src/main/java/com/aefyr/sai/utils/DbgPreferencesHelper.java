@@ -29,4 +29,8 @@ public class DbgPreferencesHelper {
 
         return command;
     }
+
+    public boolean useInstaller2() {
+        return mPrefs.getBoolean(DbgPreferencesKeys.USE_INSTALLER_2, false);
+    }
 }
