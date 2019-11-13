@@ -27,7 +27,7 @@ import com.aefyr.sai.ui.dialogs.ThemeSelectionDialogFragment;
 import com.aefyr.sai.utils.AlertsUtils;
 import com.aefyr.sai.utils.PermissionsUtils;
 import com.aefyr.sai.utils.PreferencesHelper;
-import com.aefyr.sai.viewmodels.InstallerViewModel;
+import com.aefyr.sai.viewmodels.LegacyInstallerViewModel;
 import com.github.angads25.filepicker.model.DialogConfigs;
 import com.github.angads25.filepicker.model.DialogProperties;
 
@@ -39,7 +39,7 @@ public class InstallerFragment extends SaiBaseFragment implements FilePickerDial
 
     private static final int REQUEST_CODE_GET_FILES = 337;
 
-    private InstallerViewModel mViewModel;
+    private LegacyInstallerViewModel mViewModel;
     private Button mButton;
     private ImageButton mButtonSettings;
 
@@ -56,7 +56,7 @@ public class InstallerFragment extends SaiBaseFragment implements FilePickerDial
         mButton = findViewById(R.id.button_install);
         mButtonSettings = findViewById(R.id.ib_settings);
 
-        mViewModel = ViewModelProviders.of(this).get(InstallerViewModel.class);
+        mViewModel = ViewModelProviders.of(this).get(LegacyInstallerViewModel.class);
         mViewModel.getState().observe(this, (state) -> {
             switch (state) {
                 case IDLE:
@@ -77,10 +77,10 @@ public class InstallerFragment extends SaiBaseFragment implements FilePickerDial
 
             String[] eventData = event.consume();
             switch (eventData[0]) {
-                case InstallerViewModel.EVENT_PACKAGE_INSTALLED:
+                case LegacyInstallerViewModel.EVENT_PACKAGE_INSTALLED:
                     showPackageInstalledAlert(eventData[1]);
                     break;
-                case InstallerViewModel.EVENT_INSTALLATION_FAILED:
+                case LegacyInstallerViewModel.EVENT_INSTALLATION_FAILED:
                     ErrorLogDialogFragment.newInstance(getString(R.string.installer_installation_failed), eventData[1]).show(getChildFragmentManager(), "installation_error_dialog");
                     break;
             }
