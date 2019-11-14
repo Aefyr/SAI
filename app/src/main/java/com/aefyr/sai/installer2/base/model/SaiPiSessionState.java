@@ -14,6 +14,7 @@ public class SaiPiSessionState implements Comparable<SaiPiSessionState> {
     private String mSessionId;
     private SaiPiSessionStatus mStatus;
     private String mPackageName;
+    private String mAppTempName;
     private PackageMeta mPackageMeta;
     private Exception mException;
     private long mLastUpdate;
@@ -38,6 +39,17 @@ public class SaiPiSessionState implements Comparable<SaiPiSessionState> {
     }
 
     @Nullable
+    public String appTempName() {
+        if (mAppTempName != null)
+            return mAppTempName;
+
+        if (mPackageName != null)
+            return mPackageName;
+
+        return null;
+    }
+
+    @Nullable
     public PackageMeta packageMeta() {
         return mPackageMeta;
     }
@@ -49,6 +61,14 @@ public class SaiPiSessionState implements Comparable<SaiPiSessionState> {
 
     public long lastUpdate() {
         return mLastUpdate;
+    }
+
+    public Builder newBuilder() {
+        return new Builder(mSessionId, mStatus)
+                .packageName(packageName())
+                .appTempName(appTempName())
+                .packageMeta(packageMeta())
+                .exception(exception());
     }
 
     @Override
@@ -77,12 +97,17 @@ public class SaiPiSessionState implements Comparable<SaiPiSessionState> {
     public static class Builder {
         private SaiPiSessionState mState;
 
-        public Builder(String sessionId, SaiPiSessionStatus status) {
+        public Builder(@NonNull String sessionId, @NonNull SaiPiSessionStatus status) {
             mState = new SaiPiSessionState(sessionId, status);
         }
 
-        public Builder packageName(String packageName) {
+        public Builder packageName(@Nullable String packageName) {
             mState.mPackageName = packageName;
+            return this;
+        }
+
+        public Builder appTempName(@Nullable String tempAppName) {
+            mState.mAppTempName = tempAppName;
             return this;
         }
 
@@ -96,12 +121,18 @@ public class SaiPiSessionState implements Comparable<SaiPiSessionState> {
             return this;
         }
 
-        public Builder exception(Exception exception) {
+        public Builder packageMeta(@Nullable PackageMeta packageMeta) {
+            mState.mPackageMeta = packageMeta;
+            return this;
+        }
+
+        public Builder exception(@Nullable Exception exception) {
             mState.mException = exception;
             return this;
         }
 
         public SaiPiSessionState build() {
+            mState.mLastUpdate = System.currentTimeMillis();
             return mState;
         }
     }

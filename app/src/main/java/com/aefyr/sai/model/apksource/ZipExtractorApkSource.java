@@ -1,6 +1,9 @@
 package com.aefyr.sai.model.apksource;
 
 import android.content.Context;
+import android.util.Log;
+
+import androidx.annotation.Nullable;
 
 import com.aefyr.sai.R;
 import com.aefyr.sai.model.filedescriptor.FileDescriptor;
@@ -79,6 +82,17 @@ public class ZipExtractorApkSource implements ApkSource {
     @Override
     public void close() {
         IOUtils.deleteRecursively(mExtractedFilesDir);
+    }
+
+    @Nullable
+    @Override
+    public String getAppName() {
+        try {
+            return mZipFileDescriptor.name();
+        } catch (Exception e) {
+            Log.w("ZipExtractorApkSource", "Unable to get app name", e);
+            return null;
+        }
     }
 
     private void extractCurrentEntry() throws Exception {

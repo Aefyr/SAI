@@ -88,13 +88,14 @@ public abstract class ShellSaiPackageInstaller extends BaseSaiPackageInstaller {
     @Override
     public void enqueueSession(String sessionId) {
         SaiPiSessionParams params = takeCreatedSession(sessionId);
-        setSessionState(sessionId, new SaiPiSessionState.Builder(sessionId, SaiPiSessionStatus.QUEUED).build());
+        setSessionState(sessionId, new SaiPiSessionState.Builder(sessionId, SaiPiSessionStatus.QUEUED).appTempName(params.apkSource().getAppName()).build());
         mExecutor.submit(() -> install(sessionId, params));
     }
 
     private void install(String sessionId, SaiPiSessionParams params) {
         lockInstallation(sessionId);
-        setSessionState(sessionId, new SaiPiSessionState.Builder(sessionId, SaiPiSessionStatus.INSTALLING).build());
+        String appTempName = params.apkSource().getAppName();
+        setSessionState(sessionId, new SaiPiSessionState.Builder(sessionId, SaiPiSessionStatus.INSTALLING).appTempName(appTempName).build());
         try (ApkSource apkSource = params.apkSource()) {
 
             if (!getShell().isAvailable()) {
@@ -108,7 +109,7 @@ public abstract class ShellSaiPackageInstaller extends BaseSaiPackageInstaller {
             int currentApkFile = 0;
             while (apkSource.nextApk()) {
                 if (apkSource.getApkLength() == -1) {
-                    setSessionState(sessionId, new SaiPiSessionState.Builder(sessionId, SaiPiSessionStatus.INSTALLATION_FAILED).exception(new Exception(getContext().getString(R.string.installer_error_unknown_apk_size))).build());
+                    setSessionState(sessionId, new SaiPiSessionState.Builder(sessionId, SaiPiSessionStatus.INSTALLATION_FAILED).appTempName(appTempName).exception(new Exception(getContext().getString(R.string.installer_error_unknown_apk_size))).build());
                     unlockInstallation();
                     return;
                 }
@@ -119,13 +120,13 @@ public abstract class ShellSaiPackageInstaller extends BaseSaiPackageInstaller {
             Shell.Result installationResult = getShell().exec(new Shell.Command("pm", "install-commit", String.valueOf(androidSessionId)));
             if (!installationResult.isSuccessful()) {
                 mAwaitingBroadcast.set(false);
-                setSessionState(sessionId, new SaiPiSessionState.Builder(sessionId, SaiPiSessionStatus.INSTALLATION_FAILED).exception(new Exception(getContext().getString(R.string.installer_error_shell, getInstallerName(), getSessionInfo(apkSource) + "\n\n" + installationResult.toString()))).build());
+                setSessionState(sessionId, new SaiPiSessionState.Builder(sessionId, SaiPiSessionStatus.INSTALLATION_FAILED).appTempName(appTempName).exception(new Exception(getContext().getString(R.string.installer_error_shell, getInstallerName(), getSessionInfo(apkSource) + "\n\n" + installationResult.toString()))).build());
                 unlockInstallation();
             }
         } catch (Exception e) {
             //TODO this catches resources close exception causing a crash, same in rootless installer
             Log.w(tag(), e);
-            setSessionState(sessionId, new SaiPiSessionState.Builder(sessionId, SaiPiSessionStatus.INSTALLATION_FAILED).exception(new Exception(getContext().getString(R.string.installer_error_shell, getInstallerName(), getSessionInfo(params.apkSource()) + "\n\n" + Utils.throwableToString(e)))).build());
+            setSessionState(sessionId, new SaiPiSessionState.Builder(sessionId, SaiPiSessionStatus.INSTALLATION_FAILED).appTempName(appTempName).exception(new Exception(getContext().getString(R.string.installer_error_shell, getInstallerName(), getSessionInfo(params.apkSource()) + "\n\n" + Utils.throwableToString(e)))).build());
             unlockInstallation();
         }
 

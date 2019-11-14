@@ -121,8 +121,8 @@ public class SaiPiSessionsAdapter extends RecyclerView.Adapter<SaiPiSessionsAdap
             PackageMeta packageMeta = state.packageMeta();
             if (packageMeta != null) {
                 mName.setText(packageMeta.label);
-            } else if (state.packageName() != null) {
-                mName.setText(state.packageName());
+            } else if (state.appTempName() != null) {
+                mName.setText(state.appTempName());
             } else {
                 mName.setText(mContext.getString(R.string.installer_unknown_app));
             }

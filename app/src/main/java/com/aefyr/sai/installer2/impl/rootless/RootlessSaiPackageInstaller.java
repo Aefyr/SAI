@@ -36,6 +36,7 @@ public class RootlessSaiPackageInstaller extends BaseSaiPackageInstaller impleme
     private final Handler mWorkerHandler;
 
     private ConcurrentHashMap<Integer, String> mAndroidPiSessionIdToSaiPiSessionId = new ConcurrentHashMap<>();
+    private ConcurrentHashMap<String, String> mSessionIdToAppTempName = new ConcurrentHashMap<>();
 
     private final RootlessSaiPiBroadcastReceiver mBroadcastReceiver;
 
@@ -62,14 +63,20 @@ public class RootlessSaiPackageInstaller extends BaseSaiPackageInstaller impleme
     @Override
     public void enqueueSession(String sessionId) {
         SaiPiSessionParams params = takeCreatedSession(sessionId);
-        setSessionState(sessionId, new SaiPiSessionState.Builder(sessionId, SaiPiSessionStatus.QUEUED).build());
+        setSessionState(sessionId, new SaiPiSessionState.Builder(sessionId, SaiPiSessionStatus.QUEUED).appTempName(params.apkSource().getAppName()).build());
         mExecutor.submit(() -> install(sessionId, params));
     }
 
     private void install(String sessionId, SaiPiSessionParams params) {
-        setSessionState(sessionId, new SaiPiSessionState.Builder(sessionId, SaiPiSessionStatus.INSTALLING).build());
         PackageInstaller.Session session = null;
+        String appTempName = null;
         try (ApkSource apkSource = params.apkSource()) {
+            appTempName = apkSource.getAppName();
+            if (appTempName != null)
+                mSessionIdToAppTempName.put(sessionId, appTempName);
+
+            setSessionState(sessionId, new SaiPiSessionState.Builder(sessionId, SaiPiSessionStatus.INSTALLING).appTempName(appTempName).build());
+
             PackageInstaller.SessionParams sessionParams = new PackageInstaller.SessionParams(PackageInstaller.SessionParams.MODE_FULL_INSTALL);
             sessionParams.setInstallLocation(PreferencesHelper.getInstance(getContext()).getInstallLocation());
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
@@ -92,7 +99,7 @@ public class RootlessSaiPackageInstaller extends BaseSaiPackageInstaller impleme
             session.commit(pendingIntent.getIntentSender());
         } catch (Exception e) {
             Log.w(TAG, e);
-            setSessionState(sessionId, new SaiPiSessionState.Builder(sessionId, SaiPiSessionStatus.INSTALLATION_FAILED).exception(e).build());
+            setSessionState(sessionId, new SaiPiSessionState.Builder(sessionId, SaiPiSessionStatus.INSTALLATION_FAILED).appTempName(appTempName).exception(e).build());
         } finally {
             if (session != null)
                 session.close();
@@ -115,7 +122,7 @@ public class RootlessSaiPackageInstaller extends BaseSaiPackageInstaller impleme
             return;
 
         //TODO do something about exception
-        setSessionState(sessionId, new SaiPiSessionState.Builder(sessionId, SaiPiSessionStatus.INSTALLATION_FAILED).exception(exception).build());
+        setSessionState(sessionId, new SaiPiSessionState.Builder(sessionId, SaiPiSessionStatus.INSTALLATION_FAILED).appTempName(mSessionIdToAppTempName.remove(sessionId)).exception(exception).build());
 
     }
 

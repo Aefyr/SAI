@@ -1,6 +1,9 @@
 package com.aefyr.sai.model.apksource;
 
 import android.content.Context;
+import android.util.Log;
+
+import androidx.annotation.Nullable;
 
 import com.aefyr.sai.R;
 import com.aefyr.sai.model.filedescriptor.FileDescriptor;
@@ -72,6 +75,17 @@ public class ZipApkSource implements ApkSource {
     public void close() throws Exception {
         if (mZipInputStream != null)
             mZipInputStream.close();
+    }
+
+    @Nullable
+    @Override
+    public String getAppName() {
+        try {
+            return mZipFileDescriptor.name();
+        } catch (Exception e) {
+            Log.w("ZipApkSource", "Unable to get app name", e);
+            return null;
+        }
     }
 
     /**

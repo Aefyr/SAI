@@ -2,7 +2,6 @@ package com.aefyr.sai.installer2.impl;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.util.Log;
 
 import com.aefyr.sai.installer2.base.SaiPackageInstaller;
 import com.aefyr.sai.installer2.base.SaiPiSessionObserver;
@@ -59,7 +58,6 @@ public abstract class BaseSaiPackageInstaller implements SaiPackageInstaller {
 
     protected void setSessionState(String sessionId, SaiPiSessionState state) {
         mSessionStates.put(sessionId, state);
-        Log.d(tag(), state.toString() + "\n" + Utils.throwableToString(new Exception()));
         Utils.onMainThread(() -> {
             for (SaiPiSessionObserver observer : mObservers)
                 observer.onSessionStateChanged(state);

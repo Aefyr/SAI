@@ -3,6 +3,8 @@ package com.aefyr.sai.model.apksource;
 import android.content.Context;
 import android.util.Log;
 
+import androidx.annotation.Nullable;
+
 import com.aefyr.pseudoapksigner.PseudoApkSigner;
 import com.aefyr.sai.utils.IOUtils;
 
@@ -68,6 +70,12 @@ public class SignerApkSource implements ApkSource {
             IOUtils.deleteRecursively(mTempDir);
 
         mWrappedApkSource.close();
+    }
+
+    @Nullable
+    @Override
+    public String getAppName() {
+        return mWrappedApkSource.getAppName();
     }
 
     private void checkAndPrepareSigningEnvironment() throws Exception {
