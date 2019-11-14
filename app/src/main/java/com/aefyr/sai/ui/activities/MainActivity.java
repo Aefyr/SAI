@@ -17,6 +17,7 @@ import com.aefyr.sai.ui.fragments.BackupFragment;
 import com.aefyr.sai.ui.fragments.Installer2Fragment;
 import com.aefyr.sai.ui.fragments.InstallerFragment;
 import com.aefyr.sai.ui.fragments.LegacyInstallerFragment;
+import com.aefyr.sai.ui.fragments.PreferencesFragment;
 import com.aefyr.sai.utils.DbgPreferencesHelper;
 import com.aefyr.sai.utils.FragmentNavigator;
 import com.aefyr.sai.utils.PreferencesKeys;
@@ -31,6 +32,7 @@ public class MainActivity extends ThemedActivity implements BottomNavigationView
 
     private InstallerFragment mInstallerFragment;
     private BackupFragment mBackupFragment;
+    private PreferencesFragment mPrefsFragment;
 
     private boolean mIsNavigationEnabled = true;
 
@@ -52,6 +54,7 @@ public class MainActivity extends ThemedActivity implements BottomNavigationView
         mFragmentNavigator = new FragmentNavigator(savedInstanceState, getSupportFragmentManager(), R.id.container_main, this);
         mInstallerFragment = mFragmentNavigator.findFragmentByTag("installer");
         mBackupFragment = mFragmentNavigator.findFragmentByTag("backup");
+        mPrefsFragment = mFragmentNavigator.findFragmentByTag("settings");
         if (savedInstanceState == null)
             mFragmentNavigator.switchTo("installer");
 
@@ -106,6 +109,9 @@ public class MainActivity extends ThemedActivity implements BottomNavigationView
             case R.id.menu_backup:
                 mFragmentNavigator.switchTo("backup");
                 break;
+            case R.id.menu_settings:
+                mFragmentNavigator.switchTo("settings");
+                break;
         }
 
         return true;
@@ -118,6 +124,8 @@ public class MainActivity extends ThemedActivity implements BottomNavigationView
                 return getInstallerFragment();
             case "backup":
                 return getBackupFragment();
+            case "settings":
+                return getPrefsFragment();
         }
 
         throw new IllegalArgumentException("Unknown fragment tag: " + tag);
@@ -139,5 +147,11 @@ public class MainActivity extends ThemedActivity implements BottomNavigationView
         if (mBackupFragment == null)
             mBackupFragment = new BackupFragment();
         return mBackupFragment;
+    }
+
+    private PreferencesFragment getPrefsFragment() {
+        if (mPrefsFragment == null)
+            mPrefsFragment = new PreferencesFragment();
+        return mPrefsFragment;
     }
 }

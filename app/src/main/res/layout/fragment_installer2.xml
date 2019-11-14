@@ -15,29 +15,48 @@
         app:title="@string/app_name_full">
 
         <ImageButton
+            android:id="@+id/ib_help"
+            style="@style/SAICoolbarImageButton"
+            android:contentDescription="@string/help"
+            app:coolbar_gravity="start"
+            app:srcCompat="@drawable/ic_help"
+            tools:ignore="MissingPrefix" />
+
+        <ImageButton
             android:id="@+id/ib_toggle_theme"
             style="@style/SAICoolbarImageButton"
             android:contentDescription="@string/installer_select_theme"
             android:rotation="30"
             app:srcCompat="@drawable/ic_dark_theme" />
-
-        <ImageButton
-            android:id="@+id/ib_settings"
-            style="@style/SAICoolbarImageButton"
-            android:contentDescription="@string/settings_title"
-            app:coolbar_gravity="start"
-            app:srcCompat="@drawable/ic_settings"
-            tools:ignore="MissingPrefix" />
     </com.aefyr.sai.view.coolbar.Coolbar>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_installer_sessions"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1" />
+        android:layout_weight="1"
+        android:visibility="gone">
+
+    </androidx.recyclerview.widget.RecyclerView>
+
+    <FrameLayout
+        android:id="@+id/container_installer_placeholder"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:visibility="visible">
+
+        <TextView
+            android:id="@+id/tv_installer_placeholder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/installer_placeholder_text"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+    </FrameLayout>
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:foregroundGravity="center"
@@ -47,14 +66,11 @@
         <com.google.android.material.button.MaterialButton
             android:id="@+id/button_install"
             style="@style/SAIMaterialButton"
+            android:layout_width="match_parent"
             android:layout_margin="8dp"
+            android:layout_weight="1"
             android:text="@string/installer_install_apks" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/button_help"
-            style="@style/SAIMaterialButton.Outlined"
-            android:layout_margin="8dp"
-            android:text="@string/help" />
     </LinearLayout>
 
 

@@ -60,6 +60,7 @@
     <string name="installer_state_failed">Failed to install</string>
     <string name="installer_unable_to_launch_app">Unable to launch app</string>
     <string name="installer_show_full_error">Show full error</string>
+    <string name="installer_placeholder_text">No installer sessions</string>
 
     <string name="backup_backup">Export</string>
     <string name="backup_backup_prompt">Export %s?</string>

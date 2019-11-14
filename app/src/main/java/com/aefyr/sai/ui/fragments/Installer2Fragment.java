@@ -9,8 +9,8 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -23,7 +23,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.aefyr.sai.R;
 import com.aefyr.sai.adapters.SaiPiSessionsAdapter;
 import com.aefyr.sai.ui.activities.MainActivity;
-import com.aefyr.sai.ui.activities.PreferencesActivity;
 import com.aefyr.sai.ui.dialogs.AppInstalledDialogFragment;
 import com.aefyr.sai.ui.dialogs.ErrorLogDialogFragment2;
 import com.aefyr.sai.ui.dialogs.FilePickerDialogFragment;
@@ -47,8 +46,10 @@ public class Installer2Fragment extends InstallerFragment implements FilePickerD
     private static final int REQUEST_CODE_GET_FILES = 337;
 
     private InstallerViewModel mViewModel;
-    private Button mButton;
-    private ImageButton mButtonSettings;
+
+    private Button mInstallButton;
+    private RecyclerView mSessionsRecycler;
+    private ViewGroup mPlaceholderContainer;
 
     private PreferencesHelper mHelper;
 
@@ -60,14 +61,14 @@ public class Installer2Fragment extends InstallerFragment implements FilePickerD
 
         mHelper = PreferencesHelper.getInstance(getContext());
 
-        mButton = findViewById(R.id.button_install);
-        mButtonSettings = findViewById(R.id.ib_settings);
+        mInstallButton = findViewById(R.id.button_install);
+        mPlaceholderContainer = findViewById(R.id.container_installer_placeholder);
 
-        RecyclerView sessionsRecycler = findViewById(R.id.rv_installer_sessions);
-        sessionsRecycler.setLayoutManager(new LinearLayoutManager(requireContext()));
+        mSessionsRecycler = findViewById(R.id.rv_installer_sessions);
+        mSessionsRecycler.setLayoutManager(new LinearLayoutManager(requireContext()));
         SaiPiSessionsAdapter sessionsAdapter = new SaiPiSessionsAdapter(requireContext());
         sessionsAdapter.setActionsDelegate(this);
-        sessionsRecycler.setAdapter(sessionsAdapter);
+        mSessionsRecycler.setAdapter(sessionsAdapter);
 
         mViewModel = ViewModelProviders.of(this).get(InstallerViewModel.class);
         //TODO do something about this
@@ -99,14 +100,16 @@ public class Installer2Fragment extends InstallerFragment implements FilePickerD
                     break;
             }
         });*/
-        mViewModel.getSessions().observe(this, sessionsAdapter::setData);
+        mViewModel.getSessions().observe(this, (sessions) -> {
+            setPlaceholderShown(sessions.size() == 0);
+            sessionsAdapter.setData(sessions);
+        });
 
         findViewById(R.id.ib_toggle_theme).setOnClickListener((v -> new ThemeSelectionDialogFragment().show(getChildFragmentManager(), "theme_selection_dialog")));
-        mButtonSettings.setOnClickListener((v) -> PreferencesActivity.open(requireContext(), PreferencesFragment.class, getString(R.string.settings_title)));
 
-        mButton.setOnClickListener((v) -> checkPermissionsAndPickFiles());
-        mButton.setOnLongClickListener((v) -> pickFilesWithSaf());
-        findViewById(R.id.button_help).setOnClickListener((v) -> AlertsUtils.showAlert(this, R.string.help, R.string.installer_help));
+        mInstallButton.setOnClickListener((v) -> checkPermissionsAndPickFiles());
+        mInstallButton.setOnLongClickListener((v) -> pickFilesWithSaf());
+        findViewById(R.id.ib_help).setOnClickListener((v) -> AlertsUtils.showAlert(this, R.string.help, R.string.installer_help));
 
         if (mPendingActionViewUri != null) {
             handleActionView(mPendingActionViewUri);
@@ -125,6 +128,16 @@ public class Installer2Fragment extends InstallerFragment implements FilePickerD
         if (existingDialog != null)
             existingDialog.dismiss();
         InstallationConfirmationDialogFragment.newInstance(uri).show(getChildFragmentManager(), "installation_confirmation_dialog");
+    }
+
+    private void setPlaceholderShown(boolean shown) {
+        if (shown) {
+            mPlaceholderContainer.setVisibility(View.VISIBLE);
+            mSessionsRecycler.setVisibility(View.GONE);
+        } else {
+            mPlaceholderContainer.setVisibility(View.GONE);
+            mSessionsRecycler.setVisibility(View.VISIBLE);
+        }
     }
 
     private void checkPermissionsAndPickFiles() {
@@ -197,12 +210,6 @@ public class Installer2Fragment extends InstallerFragment implements FilePickerD
 
     private void setNavigationEnabled(boolean enabled) {
         ((MainActivity) requireActivity()).setNavigationEnabled(enabled);
-
-        mButtonSettings.setEnabled(enabled);
-        mButtonSettings.animate()
-                .alpha(enabled ? 1f : 0.4f)
-                .setDuration(300)
-                .start();
     }
 
     @Override
