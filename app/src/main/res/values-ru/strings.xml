@@ -104,7 +104,7 @@
     <string name="settings_main_install_location">Локация установки</string>
     <string name="settings_main_install_location_summary">Куда устанавливать приложения.\nСейчас: %s</string>
     <string name="settings_main_use_old_installer">Старый установщик</string>
-    <string name="settings_main_use_old_installer_summary">Использовать старую реализацию установщика. Для применения необходим перезапуск SAI, SAI будет закрыто при переключении</string>
+    <string name="settings_main_use_old_installer_summary">Использовать старую реализацию установщика. SAI будет перезапущен для применения этой настройки (Не переключайте, если сейчас идёт установка или экспорт, они могут быть повреждены)</string>
     <string name="settings_category_main_installer">Установка</string>
     <string name="settings_main_installer_show_dialogs">Показывать диалоги установщика</string>
     <string name="settings_main_installer_show_dialogs_summary">Показывать диалог с результатом завершения установки. Вы всегда можете открыть этот диалог вручную, нажав на сессию установки. Действует только на новый установщик</string>

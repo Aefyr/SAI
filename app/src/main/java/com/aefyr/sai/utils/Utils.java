@@ -2,9 +2,11 @@ package com.aefyr.sai.utils;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
@@ -186,5 +188,25 @@ public class Utils {
 
         return fileName.substring(lastDotIndex);
     }
+
+    public static void softRestartApp(Context c) {
+        ActivityManager activityManager = (ActivityManager) c.getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.AppTask task : activityManager.getAppTasks())
+            task.finishAndRemoveTask();
+
+        Intent intent = c.getPackageManager().getLaunchIntentForPackage(c.getPackageName());
+        c.startActivity(intent);
+    }
+
+    public static void hardRestartApp(Context c) {
+        ActivityManager activityManager = (ActivityManager) c.getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.AppTask task : activityManager.getAppTasks())
+            task.finishAndRemoveTask();
+
+        Intent intent = c.getPackageManager().getLaunchIntentForPackage(c.getPackageName());
+        c.startActivity(intent);
+        System.exit(0);
+    }
+
 
 }

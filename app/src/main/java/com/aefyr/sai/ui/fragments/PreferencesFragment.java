@@ -27,6 +27,7 @@ import com.aefyr.sai.utils.PermissionsUtils;
 import com.aefyr.sai.utils.PreferencesHelper;
 import com.aefyr.sai.utils.PreferencesKeys;
 import com.aefyr.sai.utils.PreferencesValues;
+import com.aefyr.sai.utils.Utils;
 import com.github.angads25.filepicker.model.DialogConfigs;
 import com.github.angads25.filepicker.model.DialogProperties;
 
@@ -239,11 +240,12 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Fil
         getPreferenceManager().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
     }
 
+    @SuppressLint("ApplySharedPref")
     @Override
     public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
         if (key.equals(PreferencesKeys.USE_OLD_INSTALLER)) {
             prefs.edit().putBoolean(PreferencesKeys.USE_OLD_INSTALLER, prefs.getBoolean(PreferencesKeys.USE_OLD_INSTALLER, false)).commit();
-            System.exit(0);
+            Utils.hardRestartApp(requireContext());
         }
     }
 }
