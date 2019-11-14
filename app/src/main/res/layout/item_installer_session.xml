@@ -56,7 +56,7 @@
             android:layout_width="56dp"
             android:layout_height="56dp"
             android:clickable="false"
-            android:padding="10dp"
+            android:padding="8dp"
             android:scaleType="fitCenter"
             android:tint="?colorAccent"
             app:srcCompat="@drawable/ic_error" />
