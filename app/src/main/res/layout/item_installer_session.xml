@@ -27,6 +27,8 @@
             android:id="@+id/tv_session_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:ellipsize="marquee"
+            android:singleLine="true"
             android:text="TextView"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
@@ -34,14 +36,16 @@
             android:id="@+id/tv_session_status"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:ellipsize="marquee"
+            android:singleLine="true"
             android:text="TextView" />
     </LinearLayout>
 
-    <androidx.appcompat.widget.AppCompatImageButton
-        android:id="@+id/ib_installed_app_action"
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/iv_installed_app_action"
         android:layout_width="56dp"
         android:layout_height="56dp"
-        android:background="?attr/selectableItemBackgroundBorderless"
+        android:clickable="false"
         android:padding="8dp"
         android:scaleType="fitCenter"
         android:tint="?colorAccent"

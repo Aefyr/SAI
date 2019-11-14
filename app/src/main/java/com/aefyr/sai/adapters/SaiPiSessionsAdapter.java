@@ -4,7 +4,6 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -84,7 +83,7 @@ public class SaiPiSessionsAdapter extends RecyclerView.Adapter<SaiPiSessionsAdap
         private TextView mName;
         private TextView mStatus;
         private ImageView mAppIcon;
-        private ImageButton mActionButton;
+        private ImageView mActionIcon;
 
         private ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -93,10 +92,9 @@ public class SaiPiSessionsAdapter extends RecyclerView.Adapter<SaiPiSessionsAdap
             mName = itemView.findViewById(R.id.tv_session_name);
             mStatus = itemView.findViewById(R.id.tv_session_status);
             mAppIcon = itemView.findViewById(R.id.iv_app_icon);
-            mActionButton = itemView.findViewById(R.id.ib_installed_app_action);
+            mActionIcon = itemView.findViewById(R.id.iv_installed_app_action);
 
-
-            View.OnClickListener actionOnClickListener = (v) -> {
+            mContainer.setOnClickListener((v) -> {
                 int adapterPosition = getAdapterPosition();
                 if (adapterPosition == RecyclerView.NO_POSITION)
                     return;
@@ -110,9 +108,7 @@ public class SaiPiSessionsAdapter extends RecyclerView.Adapter<SaiPiSessionsAdap
                         showException(state.exception());
                         break;
                 }
-            };
-            mActionButton.setOnClickListener(actionOnClickListener);
-            mContainer.setOnClickListener(actionOnClickListener);
+            });
         }
 
         private void bindTo(SaiPiSessionState state) {
@@ -143,17 +139,17 @@ public class SaiPiSessionsAdapter extends RecyclerView.Adapter<SaiPiSessionsAdap
 
             switch (state.status()) {
                 case INSTALLATION_SUCCEED:
-                    mActionButton.setImageResource(R.drawable.ic_launch);
-                    mActionButton.setVisibility(state.packageName() != null ? View.VISIBLE : View.GONE);
+                    mActionIcon.setImageResource(R.drawable.ic_launch);
+                    mActionIcon.setVisibility(state.packageName() != null ? View.VISIBLE : View.GONE);
                     mContainer.setClickable(state.packageName() != null);
                     break;
                 case INSTALLATION_FAILED:
-                    mActionButton.setImageResource(R.drawable.ic_error);
-                    mActionButton.setVisibility(state.exception() != null ? View.VISIBLE : View.GONE);
+                    mActionIcon.setImageResource(R.drawable.ic_error);
+                    mActionIcon.setVisibility(state.exception() != null ? View.VISIBLE : View.GONE);
                     mContainer.setClickable(state.exception() != null);
                     break;
                 default:
-                    mActionButton.setVisibility(View.GONE);
+                    mActionIcon.setVisibility(View.GONE);
                     mContainer.setClickable(false);
                     break;
             }
