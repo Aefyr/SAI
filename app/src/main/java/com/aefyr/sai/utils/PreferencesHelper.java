@@ -94,4 +94,12 @@ public class PreferencesHelper {
         }
     }
 
+    public boolean useOldInstaller() {
+        return mPrefs.getBoolean(PreferencesKeys.USE_OLD_INSTALLER, false);
+    }
+
+    public boolean showInstallerDialogs() {
+        return mPrefs.getBoolean(PreferencesKeys.SHOW_INSTALLER_DIALOGS, true);
+    }
+
 }

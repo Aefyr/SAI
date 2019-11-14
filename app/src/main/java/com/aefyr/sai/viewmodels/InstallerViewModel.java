@@ -14,9 +14,8 @@ import com.aefyr.sai.installer2.base.model.SaiPiSessionParams;
 import com.aefyr.sai.installer2.base.model.SaiPiSessionState;
 import com.aefyr.sai.installer2.impl.FlexSaiPackageInstaller;
 import com.aefyr.sai.model.apksource.ApkSource;
-import com.aefyr.sai.utils.Event;
+import com.aefyr.sai.utils.Event2;
 import com.aefyr.sai.utils.PreferencesHelper;
-import com.aefyr.sai.utils.Utils;
 
 import java.io.File;
 import java.util.List;
@@ -35,7 +34,7 @@ public class InstallerViewModel extends AndroidViewModel implements SaiPiSession
     private MutableLiveData<List<SaiPiSessionState>> mSessions = new MutableLiveData<>();
 
     private MutableLiveData<InstallerState> mState = new MutableLiveData<>();
-    private MutableLiveData<Event<String[]>> mEvents = new MutableLiveData<>();
+    private MutableLiveData<Event2> mEvents = new MutableLiveData<>();
 
     public InstallerViewModel(@NonNull Application application) {
         super(application);
@@ -49,7 +48,7 @@ public class InstallerViewModel extends AndroidViewModel implements SaiPiSession
         return mState;
     }
 
-    public LiveData<Event<String[]>> getEvents() {
+    public LiveData<Event2> getEvents() {
         return mEvents;
     }
 
@@ -117,11 +116,11 @@ public class InstallerViewModel extends AndroidViewModel implements SaiPiSession
                 break;
             case INSTALLATION_SUCCEED:
                 mState.setValue(InstallerState.IDLE);
-                mEvents.setValue(new Event<>(new String[]{EVENT_PACKAGE_INSTALLED, state.packageName()}));
+                mEvents.setValue(new Event2(EVENT_PACKAGE_INSTALLED, state.packageName()));
                 break;
             case INSTALLATION_FAILED:
                 mState.setValue(InstallerState.IDLE);
-                mEvents.setValue(new Event<>(new String[]{EVENT_INSTALLATION_FAILED, state.exception() == null ? null : Utils.throwableToString(state.exception())}));
+                mEvents.setValue(new Event2(EVENT_INSTALLATION_FAILED, state.exception()));
                 break;
         }
 

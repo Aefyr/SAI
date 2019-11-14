@@ -12,4 +12,6 @@ public class PreferencesKeys {
     public static final String INSTALLER = "installer";
     public static final String BACKUP_FILE_NAME_FORMAT = "backup_file_name_format";
     public static final String INSTALL_LOCATION = "install_location";
+    public static final String USE_OLD_INSTALLER = "use_old_installer";
+    public static final String SHOW_INSTALLER_DIALOGS = "show_installer_dialogs";
 }

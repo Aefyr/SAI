@@ -3,6 +3,25 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <PreferenceCategory
+        android:title="@string/settings_category_main_ui"
+        app:iconSpaceReserved="false">
+
+        <SwitchPreference
+            android:icon="@drawable/ic_pref_old_installer"
+            android:key="use_old_installer"
+            android:title="@string/settings_main_use_old_installer"
+            android:summary="@string/settings_main_use_old_installer_summary" />
+
+        <SwitchPreference
+            android:icon="@drawable/ic_pref_show_dialogs"
+            android:key="show_installer_dialogs"
+            android:title="@string/settings_main_installer_show_dialogs"
+            android:summary="@string/settings_main_installer_show_dialogs_summary"
+            android:defaultValue="true" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
         android:title="@string/settings_category_main_installer"
         app:iconSpaceReserved="false">
 

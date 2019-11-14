@@ -71,35 +71,24 @@ public class Installer2Fragment extends InstallerFragment implements FilePickerD
         mSessionsRecycler.setAdapter(sessionsAdapter);
 
         mViewModel = ViewModelProviders.of(this).get(InstallerViewModel.class);
-        //TODO do something about this
-        /*mViewModel.getState().observe(this, (state) -> {
-            switch (state) {
-                case IDLE:
-                    mButton.setText(R.string.installer_install_apks);
-                    mButton.setEnabled(true);
-                    setNavigationEnabled(true);
-                    break;
-                case INSTALLING:
-                    mButton.setText(R.string.installer_installation_in_progress);
-                    mButton.setEnabled(false);
-                    setNavigationEnabled(false);
-                    break;
-            }
-        });
         mViewModel.getEvents().observe(this, (event) -> {
             if (event.isConsumed())
                 return;
 
-            String[] eventData = event.consume();
-            switch (eventData[0]) {
+            if (!mHelper.showInstallerDialogs()) {
+                event.consume();
+                return;
+            }
+
+            switch (event.type()) {
                 case InstallerViewModel.EVENT_PACKAGE_INSTALLED:
-                    showPackageInstalledAlert(eventData[1]);
+                    showPackageInstalledAlert(event.consume());
                     break;
                 case InstallerViewModel.EVENT_INSTALLATION_FAILED:
-                    ErrorLogDialogFragment.newInstance(getString(R.string.installer_installation_failed), eventData[1]).show(getChildFragmentManager(), "installation_error_dialog");
+                    ErrorLogDialogFragment2.newInstance(getString(R.string.installer_installation_failed), event.consume(), false).show(getChildFragmentManager(), "installation_error_dialog");
                     break;
             }
-        });*/
+        });
         mViewModel.getSessions().observe(this, (sessions) -> {
             setPlaceholderShown(sessions.size() == 0);
             sessionsAdapter.setData(sessions);
