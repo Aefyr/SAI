@@ -1,5 +1,9 @@
 package com.aefyr.sai.model.apksource;
 
+import android.util.Log;
+
+import androidx.annotation.Nullable;
+
 import com.aefyr.sai.model.filedescriptor.FileDescriptor;
 
 import java.io.InputStream;
@@ -36,5 +40,16 @@ public class DefaultApkSource implements ApkSource {
     @Override
     public String getApkName() throws Exception {
         return mCurrentApk.name();
+    }
+
+    @Nullable
+    @Override
+    public String getAppName() {
+        try {
+            return mApkFileDescriptors.size() == 1 ? mApkFileDescriptors.get(0).name() : null;
+        } catch (Exception e) {
+            Log.w("DefaultApkSource", "Unable to get app name", e);
+            return null;
+        }
     }
 }
