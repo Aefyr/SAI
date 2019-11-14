@@ -1,6 +1,8 @@
 package com.aefyr.sai.ui.fragments;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Environment;
@@ -23,6 +25,7 @@ import com.aefyr.sai.utils.AlertsUtils;
 import com.aefyr.sai.utils.BackupNameFormat;
 import com.aefyr.sai.utils.PermissionsUtils;
 import com.aefyr.sai.utils.PreferencesHelper;
+import com.aefyr.sai.utils.PreferencesKeys;
 import com.aefyr.sai.utils.PreferencesValues;
 import com.github.angads25.filepicker.model.DialogConfigs;
 import com.github.angads25.filepicker.model.DialogProperties;
@@ -33,7 +36,7 @@ import java.util.Objects;
 
 import moe.shizuku.api.ShizukuClientHelper;
 
-public class PreferencesFragment extends PreferenceFragmentCompat implements FilePickerDialogFragment.OnFilesSelectedListener, SingleChoiceListDialogFragment.OnItemSelectedListener, BaseBottomSheetDialogFragment.OnDismissListener {
+public class PreferencesFragment extends PreferenceFragmentCompat implements FilePickerDialogFragment.OnFilesSelectedListener, SingleChoiceListDialogFragment.OnItemSelectedListener, BaseBottomSheetDialogFragment.OnDismissListener, SharedPreferences.OnSharedPreferenceChangeListener {
 
     private PreferencesHelper mHelper;
 
@@ -46,6 +49,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Fil
 
     private FilePickerDialogFragment mPendingFilePicker;
 
+    @SuppressLint("ApplySharedPref")
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
         setPreferencesFromResource(R.xml.preferences_main, rootKey);
@@ -85,6 +89,8 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Fil
             NameFormatBuilderDialogFragment.newInstance().show(getChildFragmentManager(), "backup_name_format_builder");
             return true;
         });
+
+        getPreferenceManager().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
     }
 
     @Override
@@ -225,5 +231,19 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Fil
     public void onDismiss(@NonNull String tag) {
         if (tag.equals("backup_name_format_builder"))
             updateBackupNameFormatSummary();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        getPreferenceManager().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
+        if (key.equals(PreferencesKeys.USE_OLD_INSTALLER)) {
+            prefs.edit().putBoolean(PreferencesKeys.USE_OLD_INSTALLER, prefs.getBoolean(PreferencesKeys.USE_OLD_INSTALLER, false)).commit();
+            System.exit(0);
+        }
     }
 }
