@@ -31,8 +31,6 @@ public class MainActivity extends ThemedActivity implements BottomNavigationView
     private FragmentNavigator mFragmentNavigator;
 
     private InstallerFragment mInstallerFragment;
-    private BackupFragment mBackupFragment;
-    private PreferencesFragment mPrefsFragment;
 
     private boolean mIsNavigationEnabled = true;
 
@@ -53,8 +51,6 @@ public class MainActivity extends ThemedActivity implements BottomNavigationView
 
         mFragmentNavigator = new FragmentNavigator(savedInstanceState, getSupportFragmentManager(), R.id.container_main, this);
         mInstallerFragment = mFragmentNavigator.findFragmentByTag("installer");
-        mBackupFragment = mFragmentNavigator.findFragmentByTag("backup");
-        mPrefsFragment = mFragmentNavigator.findFragmentByTag("settings");
         if (savedInstanceState == null)
             mFragmentNavigator.switchTo("installer");
 
@@ -123,9 +119,9 @@ public class MainActivity extends ThemedActivity implements BottomNavigationView
             case "installer":
                 return getInstallerFragment();
             case "backup":
-                return getBackupFragment();
+                return new BackupFragment();
             case "settings":
-                return getPrefsFragment();
+                return new PreferencesFragment();
         }
 
         throw new IllegalArgumentException("Unknown fragment tag: " + tag);
@@ -141,17 +137,5 @@ public class MainActivity extends ThemedActivity implements BottomNavigationView
         if (mInstallerFragment == null)
             mInstallerFragment = DbgPreferencesHelper.getInstance(this).useInstaller2() ? new Installer2Fragment() : new LegacyInstallerFragment();
         return mInstallerFragment;
-    }
-
-    private BackupFragment getBackupFragment() {
-        if (mBackupFragment == null)
-            mBackupFragment = new BackupFragment();
-        return mBackupFragment;
-    }
-
-    private PreferencesFragment getPrefsFragment() {
-        if (mPrefsFragment == null)
-            mPrefsFragment = new PreferencesFragment();
-        return mPrefsFragment;
     }
 }
