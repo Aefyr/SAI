@@ -27,13 +27,8 @@ public class InstallerViewModel extends AndroidViewModel implements SaiPiSession
     private FlexSaiPackageInstaller mInstaller;
     private PreferencesHelper mPrefsHelper;
 
-    public enum InstallerState {
-        IDLE, INSTALLING
-    }
-
     private MutableLiveData<List<SaiPiSessionState>> mSessions = new MutableLiveData<>();
 
-    private MutableLiveData<InstallerState> mState = new MutableLiveData<>();
     private MutableLiveData<Event2> mEvents = new MutableLiveData<>();
 
     public InstallerViewModel(@NonNull Application application) {
@@ -42,10 +37,6 @@ public class InstallerViewModel extends AndroidViewModel implements SaiPiSession
 
         mInstaller = FlexSaiPackageInstaller.getInstance(getApplication());
         mInstaller.registerSessionObserver(this);
-    }
-
-    public LiveData<InstallerState> getState() {
-        return mState;
     }
 
     public LiveData<Event2> getEvents() {
@@ -62,8 +53,7 @@ public class InstallerViewModel extends AndroidViewModel implements SaiPiSession
                 .setSigningEnabled(mPrefsHelper.shouldSignApks())
                 .build();
 
-        String sessionId = mInstaller.createSessionOnInstaller(mPrefsHelper.getInstaller(), new SaiPiSessionParams(apkSource));
-        mInstaller.enqueueSession(sessionId);
+        install(apkSource);
     }
 
     public void installPackagesFromZip(List<File> zipWithApkFiles) {
@@ -74,8 +64,7 @@ public class InstallerViewModel extends AndroidViewModel implements SaiPiSession
                     .setSigningEnabled(mPrefsHelper.shouldSignApks())
                     .build();
 
-            String sessionId = mInstaller.createSessionOnInstaller(mPrefsHelper.getInstaller(), new SaiPiSessionParams(apkSource));
-            mInstaller.enqueueSession(sessionId);
+            install(apkSource);
         }
     }
 
@@ -86,8 +75,7 @@ public class InstallerViewModel extends AndroidViewModel implements SaiPiSession
                 .setSigningEnabled(mPrefsHelper.shouldSignApks())
                 .build();
 
-        String sessionId = mInstaller.createSessionOnInstaller(mPrefsHelper.getInstaller(), new SaiPiSessionParams(apkSource));
-        mInstaller.enqueueSession(sessionId);
+        install(apkSource);
     }
 
     public void installPackagesFromContentProviderUris(List<Uri> apkUris) {
@@ -96,30 +84,25 @@ public class InstallerViewModel extends AndroidViewModel implements SaiPiSession
                 .setSigningEnabled(mPrefsHelper.shouldSignApks())
                 .build();
 
-        String sessionId = mInstaller.createSessionOnInstaller(mPrefsHelper.getInstaller(), new SaiPiSessionParams(apkSource));
-        mInstaller.enqueueSession(sessionId);
+        install(apkSource);
+    }
+
+    private void install(ApkSource apkSource) {
+        mInstaller.enqueueSession(mInstaller.createSessionOnInstaller(mPrefsHelper.getInstaller(), new SaiPiSessionParams(apkSource)));
     }
 
     @Override
     protected void onCleared() {
-        super.onCleared();
         mInstaller.unregisterSessionObserver(this);
     }
 
     @Override
     public void onSessionStateChanged(SaiPiSessionState state) {
         switch (state.status()) {
-            case CREATED:
-            case QUEUED:
-            case INSTALLING:
-                mState.setValue(InstallerState.INSTALLING);
-                break;
             case INSTALLATION_SUCCEED:
-                mState.setValue(InstallerState.IDLE);
                 mEvents.setValue(new Event2(EVENT_PACKAGE_INSTALLED, state.packageName()));
                 break;
             case INSTALLATION_FAILED:
-                mState.setValue(InstallerState.IDLE);
                 mEvents.setValue(new Event2(EVENT_INSTALLATION_FAILED, state.exception()));
                 break;
         }
