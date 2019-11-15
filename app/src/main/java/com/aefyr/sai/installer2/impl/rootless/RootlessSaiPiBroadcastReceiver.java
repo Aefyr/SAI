@@ -45,6 +45,7 @@ class RootlessSaiPiBroadcastReceiver extends BroadcastReceiver {
                 dispatchOnConfirmationPending(intent.getIntExtra(PackageInstaller.EXTRA_SESSION_ID, -1), intent.getStringExtra(PackageInstaller.EXTRA_PACKAGE_NAME));
                 Intent confirmationIntent = intent.getParcelableExtra(Intent.EXTRA_INTENT);
 
+                //TODO !!! make a fixed ConfirmationIntentWrapperActivity cause this one will not work properly
                 ConfirmationIntentWrapperActivity.start(context, intent.getIntExtra(PackageInstaller.EXTRA_SESSION_ID, -1), confirmationIntent);
                 break;
             case PackageInstaller.STATUS_SUCCESS:
