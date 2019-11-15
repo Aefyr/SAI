@@ -6,4 +6,5 @@
     <dimen name="prefs_icons_padding">8dp</dimen>
     <dimen name="textinputlayout_box_corners_radius">8dp</dimen>
     <dimen name="installer_sessions_recycler_bottom_padding">72dp</dimen>
+    <dimen name="installer_sessions_recycler_top_padding">8dp</dimen>
 </resources>

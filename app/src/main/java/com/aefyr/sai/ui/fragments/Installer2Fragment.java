@@ -70,7 +70,7 @@ public class Installer2Fragment extends InstallerFragment implements FilePickerD
         SaiPiSessionsAdapter sessionsAdapter = new SaiPiSessionsAdapter(requireContext());
         sessionsAdapter.setActionsDelegate(this);
         mSessionsRecycler.setAdapter(sessionsAdapter);
-        mSessionsRecycler.addItemDecoration(new RecyclerPaddingDecoration(0, 0, 0, requireContext().getResources().getDimensionPixelSize(R.dimen.installer_sessions_recycler_bottom_padding)));
+        mSessionsRecycler.addItemDecoration(new RecyclerPaddingDecoration(0, requireContext().getResources().getDimensionPixelSize(R.dimen.installer_sessions_recycler_top_padding), 0, requireContext().getResources().getDimensionPixelSize(R.dimen.installer_sessions_recycler_bottom_padding)));
 
         mViewModel = ViewModelProviders.of(this).get(InstallerViewModel.class);
         mViewModel.getEvents().observe(this, (event) -> {
