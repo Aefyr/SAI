@@ -10,7 +10,6 @@ import androidx.annotation.Nullable;
 
 import com.aefyr.sai.BuildConfig;
 import com.aefyr.sai.R;
-import com.aefyr.sai.ui.activities.ConfirmationIntentWrapperActivity;
 import com.aefyr.sai.utils.Utils;
 
 import java.util.HashSet;
@@ -19,6 +18,8 @@ class RootlessSaiPiBroadcastReceiver extends BroadcastReceiver {
     private static final String TAG = "RootlessSaiPiBR";
 
     public static final String ACTION_DELIVER_PI_EVENT = BuildConfig.APPLICATION_ID + ".action.RootlessSaiPiBroadcastReceiver.ACTION_DELIVER_PI_EVENT";
+
+    public static final int STATUS_BAD_ROM = -322;
 
     private Context mContext;
 
@@ -45,8 +46,7 @@ class RootlessSaiPiBroadcastReceiver extends BroadcastReceiver {
                 dispatchOnConfirmationPending(intent.getIntExtra(PackageInstaller.EXTRA_SESSION_ID, -1), intent.getStringExtra(PackageInstaller.EXTRA_PACKAGE_NAME));
                 Intent confirmationIntent = intent.getParcelableExtra(Intent.EXTRA_INTENT);
 
-                //TODO !!! make a fixed ConfirmationIntentWrapperActivity cause this one will not work properly
-                ConfirmationIntentWrapperActivity.start(context, intent.getIntExtra(PackageInstaller.EXTRA_SESSION_ID, -1), confirmationIntent);
+                ConfirmationIntentWrapperActivity2.start(context, intent.getIntExtra(PackageInstaller.EXTRA_SESSION_ID, -1), confirmationIntent);
                 break;
             case PackageInstaller.STATUS_SUCCESS:
                 Log.d(TAG, "Installation succeed");
@@ -99,6 +99,9 @@ class RootlessSaiPiBroadcastReceiver extends BroadcastReceiver {
 
             case PackageInstaller.STATUS_FAILURE_STORAGE:
                 return mContext.getString(R.string.installer_error_storage);
+
+            case STATUS_BAD_ROM:
+                return mContext.getString(R.string.installer_error_lidl_rom);
         }
         return mContext.getString(R.string.installer_error_generic);
     }

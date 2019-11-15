@@ -91,6 +91,7 @@
         <activity android:name=".ui.activities.AboutActivity" />
         <activity android:name=".ui.activities.ConfirmationIntentWrapperActivity" />
         <activity android:name=".ui.activities.LicensesActivity" />
+        <activity android:name=".installer2.impl.rootless.ConfirmationIntentWrapperActivity2" />
 
         <service android:name=".backup.BackupService" />
 
