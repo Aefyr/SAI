@@ -105,8 +105,8 @@
     <string name="settings_main_backup_file_name_format_summary">Exported .apks file name format.\nCurrently: %s</string>
     <string name="settings_main_install_location">Install location</string>
     <string name="settings_main_install_location_summary">Where to install apps.\nCurrently: %s</string>
-    <string name="settings_main_use_old_installer">Old installer</string>
-    <string name="settings_main_use_old_installer_summary">Use old installer implementation. SAI will be restarted to apply this setting (Don\'t switch if there are ongoing installations or exports, they may be corrupted)</string>
+    <string name="settings_main_use_old_installer">Legacy installer</string>
+    <string name="settings_main_use_old_installer_summary">Use legacy installer implementation. SAI will be restarted to apply this setting (Don\'t switch if there are ongoing installations or exports, they may be corrupted)</string>
     <string name="settings_main_installer_show_dialogs">Show installer dialogs</string>
     <string name="settings_main_installer_show_dialogs_summary">Show dialogs when installation fails or succeeds. You can always open those dialogs manually by tapping installation session entry. Only affects new installer</string>
     <string name="settings_category_main_installer">Installer</string>
