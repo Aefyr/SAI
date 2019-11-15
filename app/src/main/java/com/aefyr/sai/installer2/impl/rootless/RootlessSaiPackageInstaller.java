@@ -121,7 +121,6 @@ public class RootlessSaiPackageInstaller extends BaseSaiPackageInstaller impleme
         if (sessionId == null)
             return;
 
-        //TODO do something about exception
         setSessionState(sessionId, new SaiPiSessionState.Builder(sessionId, SaiPiSessionStatus.INSTALLATION_FAILED).appTempName(mSessionIdToAppTempName.remove(sessionId)).exception(exception).build());
 
     }

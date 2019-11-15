@@ -112,8 +112,6 @@ public class SaiPiSessionsAdapter extends RecyclerView.Adapter<SaiPiSessionsAdap
         }
 
         private void bindTo(SaiPiSessionState state) {
-
-            //TODO make ApkSources provide temp file names until app is installed
             PackageMeta packageMeta = state.packageMeta();
             if (packageMeta != null) {
                 mName.setText(packageMeta.label);
