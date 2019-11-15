@@ -208,5 +208,9 @@ public class Utils {
         System.exit(0);
     }
 
+    public static int dpToPx(Context c, int dp) {
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, c.getResources().getDisplayMetrics());
+    }
+
 
 }

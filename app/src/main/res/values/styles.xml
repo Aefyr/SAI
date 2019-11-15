@@ -135,6 +135,23 @@
         <item name="strokeColor">?attr/colorAccent</item>
     </style>
 
+    <style name="SAIMaterialButton.ExtendedFab" parent="Widget.MaterialComponents.Button">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">56dp</item>
+        <item name="android:paddingLeft">24dp</item>
+        <item name="android:paddingRight">24dp</item>
+        <item name="android:paddingTop">12dp</item>
+        <item name="android:paddingBottom">12dp</item>
+        <item name="android:textSize">13sp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:singleLine">true</item>
+        <item name="colorPrimary">?attr/colorAccent</item>
+        <item name="colorOnPrimary">?attr/colorPrimaryDark</item>
+        <item name="android:theme">@style/SAIMaterialButton</item>
+        <item name="cornerRadius">24dp</item>
+        <item name="android:letterSpacing">0</item>
+    </style>
+
     <style name="SAICoolbarImageButton" parent="Widget.AppCompat.ImageButton">
         <item name="android:background">?attr/selectableItemBackgroundBorderless</item>
         <item name="android:scaleType">fitCenter</item>
@@ -151,8 +168,7 @@
     <style name="SAIBottomNavigationView" parent="Widget.MaterialComponents.BottomNavigationView">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:background">@android:color/transparent</item>
-        <item name="elevation">0dp</item>
+        <item name="android:background">?android:attr/windowBackground</item>
         <item name="itemIconTint">@color/selector_bottom_navigation</item>
         <item name="itemTextColor">@color/selector_bottom_navigation</item>
     </style>

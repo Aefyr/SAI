@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -11,6 +11,7 @@
         android:id="@+id/coolbar_main"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
         android:elevation="0dp"
         app:title="@string/app_name_full">
 
@@ -34,6 +35,7 @@
         android:id="@+id/rv_installer_sessions"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@id/coolbar_main"
         android:layout_weight="1"
         android:visibility="gone">
 
@@ -43,6 +45,7 @@
         android:id="@+id/container_installer_placeholder"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@id/coolbar_main"
         android:layout_weight="1"
         android:visibility="visible">
 
@@ -55,23 +58,15 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
     </FrameLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:foregroundGravity="center"
-        android:gravity="center"
-        android:orientation="horizontal">
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/button_install"
-            style="@style/SAIMaterialButton"
-            android:layout_width="match_parent"
-            android:layout_margin="8dp"
-            android:layout_weight="1"
-            android:text="@string/installer_install_apks" />
-
-    </LinearLayout>
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/button_install"
+        style="@style/SAIMaterialButton.ExtendedFab"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="8dp"
+        android:text="@string/installer_install_apks"
+        app:icon="@drawable/ic_install_full"
+        app:iconSize="16dp" />
 
 
-</LinearLayout>
+</RelativeLayout>

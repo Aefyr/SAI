@@ -28,6 +28,7 @@ import com.aefyr.sai.ui.dialogs.ErrorLogDialogFragment2;
 import com.aefyr.sai.ui.dialogs.FilePickerDialogFragment;
 import com.aefyr.sai.ui.dialogs.InstallationConfirmationDialogFragment;
 import com.aefyr.sai.ui.dialogs.ThemeSelectionDialogFragment;
+import com.aefyr.sai.ui.recycler.RecyclerPaddingDecoration;
 import com.aefyr.sai.utils.AlertsUtils;
 import com.aefyr.sai.utils.PermissionsUtils;
 import com.aefyr.sai.utils.PreferencesHelper;
@@ -69,6 +70,7 @@ public class Installer2Fragment extends InstallerFragment implements FilePickerD
         SaiPiSessionsAdapter sessionsAdapter = new SaiPiSessionsAdapter(requireContext());
         sessionsAdapter.setActionsDelegate(this);
         mSessionsRecycler.setAdapter(sessionsAdapter);
+        mSessionsRecycler.addItemDecoration(new RecyclerPaddingDecoration(0, 0, 0, requireContext().getResources().getDimensionPixelSize(R.dimen.installer_sessions_recycler_bottom_padding)));
 
         mViewModel = ViewModelProviders.of(this).get(InstallerViewModel.class);
         mViewModel.getEvents().observe(this, (event) -> {
