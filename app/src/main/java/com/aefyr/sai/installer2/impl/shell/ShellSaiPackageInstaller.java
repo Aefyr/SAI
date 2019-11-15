@@ -49,7 +49,6 @@ public abstract class ShellSaiPackageInstaller extends BaseSaiPackageInstaller {
     private final BroadcastReceiver mPackageInstalledBroadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            //TODO do something about double intent delivery, cuz double unlocking will likely break stuff
             Log.d(tag(), intent.toString());
 
             if (!mAwaitingBroadcast.get())
