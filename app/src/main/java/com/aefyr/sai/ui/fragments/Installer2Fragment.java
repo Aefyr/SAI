@@ -22,7 +22,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.aefyr.sai.R;
 import com.aefyr.sai.adapters.SaiPiSessionsAdapter;
-import com.aefyr.sai.ui.activities.MainActivity;
 import com.aefyr.sai.ui.dialogs.AppInstalledDialogFragment;
 import com.aefyr.sai.ui.dialogs.ErrorLogDialogFragment2;
 import com.aefyr.sai.ui.dialogs.FilePickerDialogFragment;
@@ -67,8 +66,10 @@ public class Installer2Fragment extends InstallerFragment implements FilePickerD
 
         mSessionsRecycler = findViewById(R.id.rv_installer_sessions);
         mSessionsRecycler.setLayoutManager(new LinearLayoutManager(requireContext()));
+
         SaiPiSessionsAdapter sessionsAdapter = new SaiPiSessionsAdapter(requireContext());
         sessionsAdapter.setActionsDelegate(this);
+
         mSessionsRecycler.setAdapter(sessionsAdapter);
         mSessionsRecycler.addItemDecoration(new RecyclerPaddingDecoration(0, requireContext().getResources().getDimensionPixelSize(R.dimen.installer_sessions_recycler_top_padding), 0, requireContext().getResources().getDimensionPixelSize(R.dimen.installer_sessions_recycler_bottom_padding)));
 
@@ -97,10 +98,10 @@ public class Installer2Fragment extends InstallerFragment implements FilePickerD
         });
 
         findViewById(R.id.ib_toggle_theme).setOnClickListener((v -> new ThemeSelectionDialogFragment().show(getChildFragmentManager(), "theme_selection_dialog")));
+        findViewById(R.id.ib_help).setOnClickListener((v) -> AlertsUtils.showAlert(this, R.string.help, R.string.installer_help));
 
         mInstallButton.setOnClickListener((v) -> checkPermissionsAndPickFiles());
         mInstallButton.setOnLongClickListener((v) -> pickFilesWithSaf());
-        findViewById(R.id.ib_help).setOnClickListener((v) -> AlertsUtils.showAlert(this, R.string.help, R.string.installer_help));
 
         if (mPendingActionViewUri != null) {
             handleActionView(mPendingActionViewUri);
@@ -118,6 +119,7 @@ public class Installer2Fragment extends InstallerFragment implements FilePickerD
         DialogFragment existingDialog = (DialogFragment) getChildFragmentManager().findFragmentByTag("installation_confirmation_dialog");
         if (existingDialog != null)
             existingDialog.dismiss();
+
         InstallationConfirmationDialogFragment.newInstance(uri).show(getChildFragmentManager(), "installation_confirmation_dialog");
     }
 
@@ -197,10 +199,6 @@ public class Installer2Fragment extends InstallerFragment implements FilePickerD
 
     private void showPackageInstalledAlert(String packageName) {
         AppInstalledDialogFragment.newInstance(packageName).show(getChildFragmentManager(), "dialog_app_installed");
-    }
-
-    private void setNavigationEnabled(boolean enabled) {
-        ((MainActivity) requireActivity()).setNavigationEnabled(enabled);
     }
 
     @Override
