@@ -43,6 +43,8 @@
     <string name="installer_error_while_extracting">Ошибка при распаковке ZIP: %s</string>
     <string name="installer_error_zip_contains_no_apks">ZIP архив не содержит .apk файлов</string>
     <string name="installer_error_mixed_extensions">Выберите либо один .zip/.apks файл, либо несколько .apk файлов</string>
+    <string name="installer_error_installer2_mixed_extensions_internal">Выберите один или более .apk/.apks/.zip файлов, смешанные типы файлов запрещены</string>
+    <string name="installer_error_installer2_mixed_extensions_saf">Выберите либо один .zip/.apks файл, либо несколько .apk файлов</string>
     <string name="installer_error_unknown_apk_size">Не удается получить размер APK из архива, пожалуйста, включите опцию \"Разархивировать APK файлы\" в настройках и попробуйте снова</string>
     <string name="installer_select_theme">Выбрать тему</string>
     <string name="installer_device">Устройство</string>

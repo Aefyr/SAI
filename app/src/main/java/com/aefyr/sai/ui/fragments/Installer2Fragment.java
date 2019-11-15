@@ -204,7 +204,7 @@ public class Installer2Fragment extends InstallerFragment implements FilePickerD
     @Override
     public void onFilesSelected(String tag, List<File> files) {
         if (files.size() == 0 || !ensureExtensionsConsistency(files)) {
-            AlertsUtils.showAlert(this, R.string.error, R.string.installer_error_mixed_extensions);
+            AlertsUtils.showAlert(this, R.string.error, R.string.installer_error_installer2_mixed_extensions_internal);
             return;
         }
 
@@ -215,7 +215,7 @@ public class Installer2Fragment extends InstallerFragment implements FilePickerD
         } else if (".apk".equals(extension)) {
             mViewModel.installPackages(files);
         } else {
-            AlertsUtils.showAlert(this, R.string.error, R.string.installer_error_mixed_extensions);
+            AlertsUtils.showAlert(this, R.string.error, R.string.installer_error_installer2_mixed_extensions_internal);
         }
     }
 
