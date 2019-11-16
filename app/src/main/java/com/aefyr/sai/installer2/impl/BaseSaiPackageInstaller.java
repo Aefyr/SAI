@@ -8,6 +8,7 @@ import com.aefyr.sai.installer2.base.SaiPiSessionObserver;
 import com.aefyr.sai.installer2.base.model.SaiPiSessionParams;
 import com.aefyr.sai.installer2.base.model.SaiPiSessionState;
 import com.aefyr.sai.installer2.base.model.SaiPiSessionStatus;
+import com.aefyr.sai.utils.Logs;
 import com.aefyr.sai.utils.Utils;
 
 import java.util.ArrayList;
@@ -57,6 +58,7 @@ public abstract class BaseSaiPackageInstaller implements SaiPackageInstaller {
     }
 
     protected void setSessionState(String sessionId, SaiPiSessionState state) {
+        Logs.d(tag(), String.format("%s->setSessionState(%s, %s)", getClass().getSimpleName(), sessionId, state));
         mSessionStates.put(sessionId, state);
         Utils.onMainThread(() -> {
             for (SaiPiSessionObserver observer : mObservers)
