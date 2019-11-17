@@ -101,4 +101,33 @@
     <string name="backup_splits_loading">Завантаження...</string>
 
     <string name="about_licenses">Ліцензії</string>
+    <string name="installer_error_installer2_mixed_extensions_internal">Оберіть один або більше .apk/.apks/.zip файлів, змішані типи файлів заборонені</string>
+    <string name="installer_error_installer2_mixed_extensions_saf">Оберіть один .zip/.apks файл, або більше .apk файлів</string>
+    <string name="installer_placeholder_text">Немає сесій установки</string>
+    <string name="installer_show_full_error">Показати повну помилку</string>
+    <string name="installer_state_created">Підготовка</string>
+    <string name="installer_state_failed">Не вдалося встановити</string>
+    <string name="installer_state_installed">Встановлено</string>
+    <string name="installer_state_installing">Йде встановлення</string>
+    <string name="installer_state_queued">В черзі</string>
+    <string name="installer_unable_to_launch_app">Не вдається запусити додаток</string>
+    <string name="installer_unknown_app">Невідомий додаток</string>
+    <string name="name_format_builder_preview">Приклад: %s</string>
+    <string name="name_format_builder_preview_empty">Оберіть хоча б одну частину</string>
+    <string name="name_format_builder_title">Оберіть частини для генерування імені експортованого додатка</string>
+    <string name="ok">ОК</string>
+    <string name="settings_category_main_ui">Інтерфейс</string>
+    <string name="settings_main_installer_show_dialogs">Показувати діалоги установника</string>
+    <string name="settings_main_installer_show_dialogs_summary">Показувати діалог з результатом завершення встановлення. Ви завжди можете відкрити цей діалог вручну, натиснувши на сесію встановлення. Діє тільки на новий інсталятор</string>
+    <string name="settings_main_use_old_installer">Старий установник</string>
+    <string name="settings_main_use_old_installer_summary">Використовувати стару реалізацію установника. SAI буде перезапущений для застосування цієї настройки (Не перемикайте, якщо зараз йде установка або експорт, вони можуть бути пошкоджені)</string>
+    <string name="sss">Супер секретні налаштування</string>
+    <string name="sss_custom_install_create_summary">Спеціальна команда install-create, яка буде використовуватися для створення сеансу вечора, що використовується у встановлених програмах Rooted та Shizuku, команда не повинна містити пробілів, крім тих, що розділяють аргументи (\'пробіли в лапках\' також будуть розділені на аргументи). Введіть null для відключення</string>
+    <string name="sss_custom_install_create_title">Спеціальна команда install-create</string>
+    <string name="sss_dont_replace_dots_summary">У експортованому імені файла додатка</string>
+    <string name="sss_dont_replace_dots_title">Не замінювати крапки комами</string>
+    <string name="sss_use_installer_2_summary">Перезапуск SAI для застосування</string>
+    <string name="sss_use_installer_2_title">"Використовувати installer2 "</string>
+    <string name="sss_warning_summary"><b>Не чіпайте ці налаштування, якщо ви не знаєте, що робите. Деякі опції тут можуть зламати SAI або навіть пошкодити вашу систему</b></string>
+    <string name="sss_warning_title"><b>ПОПЕРЕДЖЕННЯ</b></string>
 </resources>
