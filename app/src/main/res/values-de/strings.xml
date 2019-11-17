@@ -1,4 +1,6 @@
 <resources>
+    <string name="app_name" translatable="false">SAI</string>
+    <string name="app_name_full" translatable="false">Split APKs Installer</string>
 
     <string name="yes">Ja</string>
     <string name="no">Nein</string>
@@ -43,6 +45,8 @@
     <string name="installer_error_while_extracting">Fehler beim extrahieren von APK-Dateien aus ZIP-Archiv: %s</string>
     <string name="installer_error_zip_contains_no_apks">ZIP-Archiv enthält keine APK-Dateien</string>
     <string name="installer_error_mixed_extensions">Du musst entweder eine .zip/.apks-Datei oder mehrere .apk-Dateien auswählen</string>
+    <string name="installer_error_installer2_mixed_extensions_internal">Du musst eine oder mehrere .apk/.apks/.zip-Dateien auswählen. Unterschiedliche Dateierweiterungen sind nicht erlaubt.</string>
+    <string name="installer_error_installer2_mixed_extensions_saf">Du musst entweder eine .zip/.apks-Datei oder mehrere .apk-Dateien auswählen</string>
     <string name="installer_error_unknown_apk_size">Größe der APK konnte aus dem Archiv nicht abgerufen werden. Bitte aktiviere \"APKs aus Archiv extrahieren\" und versuche es erneut</string>
     <string name="installer_select_theme">Theme auswählen</string>
     <string name="installer_device">Gerät</string>
@@ -50,6 +54,15 @@
     <string name="installer_miui_warning_message">Sieht so aus als wenn dein Gerät MIUI verwendet. MIUI ist dafür bekannt API-Funktionen in Android lahmzulegen und einige SAI-Benutzer haben berichtet, dass SAI unter MIUI nicht funktioniert. Dies kann umgangen werden, in dem man in den Entwickleroptionen von Android die MIUI Optimierungen deaktiviert, was ich auch empfehle zu tun.</string>
     <string name="installer_miui_warning_open_dev_settings">Entwicklereinstellungen öffnen</string>
     <string name="installer_miui_warning_oof">Entwicklereinstellungen konnten nicht geöffnet werden. Tolle ROM</string>
+    <string name="installer_unknown_app">Unbekannte App</string>
+    <string name="installer_state_created">bereite vor</string>
+    <string name="installer_state_queued">ausstehend</string>
+    <string name="installer_state_installing">installiere</string>
+    <string name="installer_state_installed">installiert</string>
+    <string name="installer_state_failed">Installation fehlgeschalgen</string>
+    <string name="installer_unable_to_launch_app">App kann nicht gestartet werden</string>
+    <string name="installer_show_full_error">Vollständigen Fehler anzeigen</string>
+    <string name="installer_placeholder_text">Keine Installersitzungen</string>
 
     <string name="backup_backup">Exportieren</string>
     <string name="backup_backup_prompt">%s exportieren?</string>
@@ -94,13 +107,29 @@
     <string name="settings_main_backup_file_name_format_summary">.apks Dateiname nach dem Exportieren.\nAktuell: %s</string>
     <string name="settings_main_install_location">Installationsort</string>
     <string name="settings_main_install_location_summary">Wo Apps installiert werden.\nAktuell: %s</string>
+    <string name="settings_main_use_old_installer">Alter Installer</string>
+    <string name="settings_main_use_old_installer_summary">Alten Installer benutzen. Damit diese Änderung übernommen wird, wird SAI neu gestartet. (Nicht während laufender Installationen oder Exporte ausführen, da diese sonst beschädigt werden können.)</string>
+    <string name="settings_main_installer_show_dialogs">Installerdialoge anzeigen</string>
+    <string name="settings_main_installer_show_dialogs_summary">Bei fehlgeschlagener/erfolgreicher Installation einen Dialog anzeigen. Du kannst diese Dialoge immer manuell öffnen, in dem Du den Eintrag der Installationssitzung anklickst. Wirkt sich nur auf den neuen Installer aus.</string>
     <string name="settings_category_main_installer">Installer</string>
     <string name="settings_category_main_export">Exportieren</string>
     <string name="settings_category_main_other">Andere</string>
+    <string name="settings_category_main_ui">Oberfläche</string>
 
     <string name="name_format_builder_title">Teile zum Einbinden in exportierten Appnamen auswählen</string>
     <string name="name_format_builder_preview">Vorschau: %s</string>
     <string name="name_format_builder_preview_empty">Bitte wähle mindestens ein Teil aus</string>
+    
+     <!-- These strings that start with "sss_" don't really have to be translated except for the warning maybe -->
+    <string name="sss">Super Geheime Einstellungen</string>
+    <string name="sss_warning_title"><b>WARNUNG</b></string>
+    <string name="sss_warning_summary"><b>Hier solltest Du nur etwas ändern, wenn Du weißt was Du tust. Einige Optionen können SAI oder dein System beschädigen.</b></string>
+    <string name="sss_dont_replace_dots_title">Punkte nicht durch Kommas ersetzen</string>
+    <string name="sss_dont_replace_dots_summary">Im exportierten Appnamen</string>
+    <string name="sss_custom_install_create_title">Benutzerdefinierter Install-Create Befehl</string>
+    <string name="sss_custom_install_create_summary">Benutzerdefinierter Install-Create Befehl, welcher für das erstellen der PM-Sitzung im Root- und Shikuzu-Installer benutzt wird. Der Befehl darf kein Leerzeichen, außer denen zum trennen der Argumente enthalten. (\'Leerzeichen in Anführungseichen\' werden ebenfalls in Argumente aufgeteilt). \"null\" zum Deaktivieren eingeben.</string>
+    <string name="sss_use_installer_2_summary">SAI muss zum Übernehmen neu gestartet werden</string>
+    <string name="sss_use_installer_2_title">Installer2 benutzen</string>
 
     <string name="about_author">von polychromaticfox</string>
     <string name="about_source">GitHub</string>
