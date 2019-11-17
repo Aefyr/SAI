@@ -127,7 +127,7 @@
     <string name="sss_dont_replace_dots_summary">У експортованому імені файла додатка</string>
     <string name="sss_dont_replace_dots_title">Не замінювати крапки комами</string>
     <string name="sss_use_installer_2_summary">Перезапуск SAI для застосування</string>
-    <string name="sss_use_installer_2_title">"Використовувати installer2 "</string>
+    <string name="sss_use_installer_2_title">Використовувати installer2</string>
     <string name="sss_warning_summary"><b>Не чіпайте ці налаштування, якщо ви не знаєте, що робите. Деякі опції тут можуть зламати SAI або навіть пошкодити вашу систему</b></string>
     <string name="sss_warning_title"><b>ПОПЕРЕДЖЕННЯ</b></string>
 </resources>
