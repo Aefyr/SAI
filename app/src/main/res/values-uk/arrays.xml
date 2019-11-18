@@ -35,4 +35,12 @@
         <item>Тільки внутрішня пам\'ять</item>
         <item>Надавати перевагу зовнішній пам\'яті (Система все одно може вирішити використовувати внутрішню)</item>
     </string-array>
+
+    <string-array name="name_format_parts">
+        <item>Ім\'я</item>
+        <item>Версія</item>
+        <item>Код версії</item>
+        <item>Пакет</item>
+        <item>Час</item>
+    </string-array>
 </resources>
