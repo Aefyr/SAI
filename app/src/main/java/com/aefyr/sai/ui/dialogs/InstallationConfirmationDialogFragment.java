@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -13,6 +14,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 
 import com.aefyr.sai.R;
+import com.aefyr.sai.utils.Logs;
 
 public class InstallationConfirmationDialogFragment extends DialogFragment {
     private static final String ARG_APKS_FILE = "file";
@@ -89,6 +91,10 @@ public class InstallationConfirmationDialogFragment extends DialogFragment {
                 return fallbackName;
 
             return name;
+        } catch (Exception e) {
+            Log.w("InstallConfirmDialog", "Unable to get apk file name from uri", e);
+            Logs.logException(e);
+            return fallbackName;
         }
     }
 }
