@@ -1,6 +1,7 @@
 package com.aefyr.sai.ui.dialogs;
 
 import android.app.Dialog;
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
@@ -63,7 +64,15 @@ public class AppInstalledDialogFragment extends DialogFragment {
 
         Intent finalAppLaunchIntent = appLaunchIntent;
         if (appLaunchIntent != null)
-            builder.setPositiveButton(R.string.installer_open, (d, w) -> startActivity(finalAppLaunchIntent));
+            builder.setPositiveButton(R.string.installer_open, (d, w) -> {
+                try {
+                    startActivity(finalAppLaunchIntent);
+                } catch (ActivityNotFoundException e) {
+                    Log.w("AppInstalledDialog", "Unable to launch activity", e);
+                    SimpleAlertDialogFragment.newInstance(getString(R.string.error), getString(R.string.installer_unable_to_launch_app)).show(requireFragmentManager(), null);
+                }
+                dismiss();
+            });
 
         return builder.create();
     }
