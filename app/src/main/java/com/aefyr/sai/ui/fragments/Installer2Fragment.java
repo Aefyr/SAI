@@ -97,7 +97,7 @@ public class Installer2Fragment extends InstallerFragment implements FilePickerD
             sessionsAdapter.setData(sessions);
         });
 
-        findViewById(R.id.ib_toggle_theme).setOnClickListener((v -> new ThemeSelectionDialogFragment().show(getChildFragmentManager(), "theme_selection_dialog")));
+        findViewById(R.id.ib_toggle_theme).setOnClickListener((v -> ThemeSelectionDialogFragment.newInstance(requireContext()).show(getChildFragmentManager(), "theme_selection_dialog")));
         findViewById(R.id.ib_help).setOnClickListener((v) -> AlertsUtils.showAlert(this, R.string.help, R.string.installer_help));
 
         mInstallButton.setOnClickListener((v) -> checkPermissionsAndPickFiles());

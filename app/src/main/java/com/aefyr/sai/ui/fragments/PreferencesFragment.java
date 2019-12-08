@@ -68,7 +68,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Fil
         mFilePickerSortPref = findPreference("file_picker_sort");
         updateFilePickerSortSummary();
         mFilePickerSortPref.setOnPreferenceClickListener((p) -> {
-            SingleChoiceListDialogFragment.newInstance("sort", R.array.file_picker_sort_variants, mHelper.getFilePickerRawSort()).show(getChildFragmentManager(), null);
+            SingleChoiceListDialogFragment.newInstance("sort", getText(R.string.settings_main_file_picker_sort), R.array.file_picker_sort_variants, mHelper.getFilePickerRawSort()).show(getChildFragmentManager(), null);
             return true;
         });
 
@@ -80,7 +80,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Fil
         mInstallerPref = findPreference("installer");
         updateInstallerSummary();
         mInstallerPref.setOnPreferenceClickListener((p -> {
-            SingleChoiceListDialogFragment.newInstance("installer", R.array.installers, mHelper.getInstaller()).show(getChildFragmentManager(), null);
+            SingleChoiceListDialogFragment.newInstance("installer", getText(R.string.settings_main_installer), R.array.installers, mHelper.getInstaller()).show(getChildFragmentManager(), null);
             return true;
         }));
 

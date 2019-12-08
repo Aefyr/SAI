@@ -12,7 +12,7 @@
         android:gravity="center"
         android:padding="16dp"
         android:textColor="?android:attr/textColorPrimary"
-        android:textSize="18sp" />
+        android:textSize="20sp" />
 
     <FrameLayout
         android:id="@+id/container_bottom_sheet_dialog_base_content"
@@ -34,7 +34,7 @@
         <com.google.android.material.button.MaterialButton
             android:id="@+id/button_bottom_sheet_dialog_base_cancel"
             style="@style/SAIMaterialButton.Outlined"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
             android:layout_weight="1"
@@ -43,7 +43,7 @@
         <com.google.android.material.button.MaterialButton
             android:id="@+id/button_bottom_sheet_dialog_base_ok"
             style="@style/SAIMaterialButton"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
             android:layout_weight="1"

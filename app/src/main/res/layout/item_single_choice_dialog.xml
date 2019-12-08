@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/container_single_choice_item"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?attr/selectableItemBackground"
+    android:clickable="true"
+    android:focusable="true"
+    android:orientation="vertical"
+    android:paddingStart="16dp"
+    android:paddingEnd="16dp">
+
+    <com.google.android.material.radiobutton.MaterialRadioButton
+        android:id="@+id/rb_single_choice_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        android:buttonTint="@color/selector_radio_button"
+        android:clickable="false"
+        android:focusable="false"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:text="Some item"
+        android:textColor="?android:textColorPrimary"
+        android:textSize="18sp"
+        app:useMaterialThemeColors="true" />
+</FrameLayout>

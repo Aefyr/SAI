@@ -1,28 +1,31 @@
 package com.aefyr.sai.ui.dialogs;
 
-import android.app.Dialog;
+import android.content.Context;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
-import androidx.fragment.app.DialogFragment;
 
 import com.aefyr.sai.R;
 import com.aefyr.sai.utils.Theme;
 
-public class ThemeSelectionDialogFragment extends DialogFragment {
+public class ThemeSelectionDialogFragment extends SingleChoiceListDialogFragment {
 
-    @NonNull
+    public static ThemeSelectionDialogFragment newInstance(Context context) {
+        ThemeSelectionDialogFragment fragment = new ThemeSelectionDialogFragment();
+
+        Bundle args = new Bundle();
+        args.putString(ARG_TAG, "whatever");
+        args.putString(ARG_TITLE, context.getString(R.string.installer_select_theme));
+        args.putInt(ARG_ITEMS_ARRAY_RES, R.array.themes);
+        args.putInt(ARG_CHECKED_ITEM, Theme.getInstance(context).getCurrentThemeId());
+
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     @Override
-    public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-        return new AlertDialog.Builder(getContext())
-                .setTitle(R.string.installer_select_theme)
-                .setSingleChoiceItems(R.array.themes, Theme.getInstance(getContext()).getCurrentThemeId(), (d, w) -> {
-                    Theme.getInstance(getContext()).setCurrentTheme(w);
-                    dismiss();
-                    getActivity().recreate();
-                })
-                .create();
+    protected void deliverSelectionResult(String tag, int selectedItemIndex) {
+        Theme.getInstance(getContext()).setCurrentTheme(selectedItemIndex);
+        requireActivity().recreate();
+        dismiss();
     }
 }
+

@@ -86,7 +86,7 @@ public class LegacyInstallerFragment extends InstallerFragment implements FilePi
             }
         });
 
-        findViewById(R.id.ib_toggle_theme).setOnClickListener((v -> new ThemeSelectionDialogFragment().show(getChildFragmentManager(), "theme_selection_dialog")));
+        findViewById(R.id.ib_toggle_theme).setOnClickListener((v -> ThemeSelectionDialogFragment.newInstance(requireContext()).show(getChildFragmentManager(), "theme_selection_dialog")));
         mButtonSettings.setOnClickListener((v) -> PreferencesActivity.open(requireContext(), PreferencesFragment.class, getString(R.string.settings_title)));
 
         mButton.setOnClickListener((v) -> checkPermissionsAndPickFiles());
