@@ -1,6 +1,9 @@
 package com.aefyr.sai.ui.dialogs;
 
 import android.os.Bundle;
+import android.os.Parcel;
+import android.os.Parcelable;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,31 +18,22 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.aefyr.sai.R;
 import com.aefyr.sai.ui.dialogs.base.BaseBottomSheetDialogFragment;
 
+import java.util.Objects;
+
 public class SingleChoiceListDialogFragment extends BaseBottomSheetDialogFragment {
 
-    protected static final String ARG_TAG = "tag";
-    protected static final String ARG_TITLE = "title";
-    protected static final String ARG_ITEMS_ARRAY_RES = "items_array_res";
-    protected static final String ARG_CHECKED_ITEM = "checked_item";
-
+    protected static final String ARG_PARAMS = "params";
     public interface OnItemSelectedListener {
         void onItemSelected(String dialogTag, int selectedItemIndex);
     }
 
-    private String mTag;
-    private CharSequence mTitle;
-    private int mItemsArrayRes;
-    private int mCheckedItem;
+    private DialogParams mParams;
 
     public static SingleChoiceListDialogFragment newInstance(String tag, CharSequence title, @ArrayRes int items, int checkedItem) {
         SingleChoiceListDialogFragment fragment = new SingleChoiceListDialogFragment();
 
         Bundle args = new Bundle();
-        args.putString(ARG_TAG, tag);
-        args.putCharSequence(ARG_TITLE, title);
-        args.putInt(ARG_ITEMS_ARRAY_RES, items);
-        args.putInt(ARG_CHECKED_ITEM, checkedItem);
-
+        args.putParcelable(ARG_PARAMS, new DialogParams(tag, title, items, checkedItem));
         fragment.setArguments(args);
         return fragment;
     }
@@ -52,10 +46,7 @@ public class SingleChoiceListDialogFragment extends BaseBottomSheetDialogFragmen
         if (args == null)
             return;
 
-        mTag = args.getString(ARG_TAG);
-        mTitle = args.getCharSequence(ARG_TITLE);
-        mItemsArrayRes = args.getInt(ARG_ITEMS_ARRAY_RES);
-        mCheckedItem = args.getInt(ARG_CHECKED_ITEM);
+        mParams = Objects.requireNonNull(args.getParcelable(ARG_PARAMS), "params must not be null");
     }
 
     @Nullable
@@ -70,7 +61,7 @@ public class SingleChoiceListDialogFragment extends BaseBottomSheetDialogFragmen
     protected void onContentViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onContentViewCreated(view, savedInstanceState);
 
-        setTitle(mTitle);
+        setTitle(mParams.title);
         getPositiveButton().setVisibility(View.GONE);
         getNegativeButton().setOnClickListener(v -> dismiss());
 
@@ -105,7 +96,7 @@ public class SingleChoiceListDialogFragment extends BaseBottomSheetDialogFragmen
 
         private ItemsAdapter() {
             mInflater = LayoutInflater.from(requireContext());
-            mItems = getResources().getStringArray(mItemsArrayRes);
+            mItems = getResources().getStringArray(mParams.itemsArrayRes);
         }
 
         @NonNull
@@ -116,7 +107,7 @@ public class SingleChoiceListDialogFragment extends BaseBottomSheetDialogFragmen
 
         @Override
         public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-            holder.bindTo(mItems[position], position == mCheckedItem);
+            holder.bindTo(mItems[position], position == mParams.checkedItem);
         }
 
         @Override
@@ -138,7 +129,7 @@ public class SingleChoiceListDialogFragment extends BaseBottomSheetDialogFragmen
                     if (adapterPosition == RecyclerView.NO_POSITION)
                         return;
 
-                    deliverSelectionResult(mTag, adapterPosition);
+                    deliverSelectionResult(mParams.tag, adapterPosition);
                     dismiss();
                 });
             }
@@ -149,5 +140,51 @@ public class SingleChoiceListDialogFragment extends BaseBottomSheetDialogFragmen
             }
         }
 
+    }
+
+    protected static class DialogParams implements Parcelable {
+        private String tag;
+        private CharSequence title;
+        private int itemsArrayRes;
+        private int checkedItem;
+
+        protected DialogParams(String tag, CharSequence title, @ArrayRes int itemsArrayRes, int checkedItem) {
+            this.tag = tag;
+            this.title = title;
+            this.itemsArrayRes = itemsArrayRes;
+            this.checkedItem = checkedItem;
+        }
+
+        protected DialogParams(Parcel in) {
+            tag = in.readString();
+            title = TextUtils.CHAR_SEQUENCE_CREATOR.createFromParcel(in);
+            itemsArrayRes = in.readInt();
+            checkedItem = in.readInt();
+        }
+
+        public static final Creator<DialogParams> CREATOR = new Creator<DialogParams>() {
+            @Override
+            public DialogParams createFromParcel(Parcel in) {
+                return new DialogParams(in);
+            }
+
+            @Override
+            public DialogParams[] newArray(int size) {
+                return new DialogParams[size];
+            }
+        };
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeString(tag);
+            TextUtils.writeToParcel(title, dest, 0);
+            dest.writeInt(itemsArrayRes);
+            dest.writeInt(checkedItem);
+        }
     }
 }

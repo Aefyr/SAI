@@ -12,10 +12,7 @@ public class ThemeSelectionDialogFragment extends SingleChoiceListDialogFragment
         ThemeSelectionDialogFragment fragment = new ThemeSelectionDialogFragment();
 
         Bundle args = new Bundle();
-        args.putString(ARG_TAG, "whatever");
-        args.putString(ARG_TITLE, context.getString(R.string.installer_select_theme));
-        args.putInt(ARG_ITEMS_ARRAY_RES, R.array.themes);
-        args.putInt(ARG_CHECKED_ITEM, Theme.getInstance(context).getCurrentThemeId());
+        args.putParcelable(ARG_PARAMS, new DialogParams("whatever", context.getString(R.string.installer_select_theme), R.array.themes, Theme.getInstance(context).getCurrentThemeId()));
 
         fragment.setArguments(args);
         return fragment;
