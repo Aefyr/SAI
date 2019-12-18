@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RadioButton;
+import android.widget.TextView;
 
 import androidx.annotation.ArrayRes;
 import androidx.annotation.NonNull;
@@ -29,11 +30,37 @@ public class SingleChoiceListDialogFragment extends BaseBottomSheetDialogFragmen
 
     private DialogParams mParams;
 
+    /**
+     * Create a SingleChoiceListDialogFragment with item checking
+     *
+     * @param tag
+     * @param title
+     * @param items
+     * @param checkedItem
+     * @return
+     */
     public static SingleChoiceListDialogFragment newInstance(String tag, CharSequence title, @ArrayRes int items, int checkedItem) {
         SingleChoiceListDialogFragment fragment = new SingleChoiceListDialogFragment();
 
         Bundle args = new Bundle();
         args.putParcelable(ARG_PARAMS, new DialogParams(tag, title, items, checkedItem));
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    /**
+     * Create a SingleChoiceListDialogFragment without item checking
+     *
+     * @param tag
+     * @param title
+     * @param items
+     * @return
+     */
+    public static SingleChoiceListDialogFragment newInstance(String tag, CharSequence title, @ArrayRes int items) {
+        SingleChoiceListDialogFragment fragment = new SingleChoiceListDialogFragment();
+
+        Bundle args = new Bundle();
+        args.putParcelable(ARG_PARAMS, new DialogParams(tag, title, items));
         fragment.setArguments(args);
         return fragment;
     }
@@ -107,7 +134,7 @@ public class SingleChoiceListDialogFragment extends BaseBottomSheetDialogFragmen
 
         @Override
         public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-            holder.bindTo(mItems[position], position == mParams.checkedItem);
+            holder.bindTo(mItems[position], mParams.checkedItem != -1, position == mParams.checkedItem);
         }
 
         @Override
@@ -118,11 +145,13 @@ public class SingleChoiceListDialogFragment extends BaseBottomSheetDialogFragmen
         class ViewHolder extends RecyclerView.ViewHolder {
 
             private RadioButton mRadioButton;
+            private TextView mText;
 
             ViewHolder(@NonNull View itemView) {
                 super(itemView);
 
                 mRadioButton = itemView.findViewById(R.id.rb_single_choice_item);
+                mText = itemView.findViewById(R.id.tv_single_choice_item);
 
                 itemView.setOnClickListener((v) -> {
                     int adapterPosition = getAdapterPosition();
@@ -134,9 +163,15 @@ public class SingleChoiceListDialogFragment extends BaseBottomSheetDialogFragmen
                 });
             }
 
-            private void bindTo(String item, boolean checked) {
-                mRadioButton.setText(item);
-                mRadioButton.setChecked(checked);
+            private void bindTo(String item, boolean checkingEnabled, boolean checked) {
+                mText.setText(item);
+
+                if (checkingEnabled) {
+                    mRadioButton.setVisibility(View.VISIBLE);
+                    mRadioButton.setChecked(checked);
+                } else {
+                    mRadioButton.setVisibility(View.GONE);
+                }
             }
         }
 
@@ -153,6 +188,13 @@ public class SingleChoiceListDialogFragment extends BaseBottomSheetDialogFragmen
             this.title = title;
             this.itemsArrayRes = itemsArrayRes;
             this.checkedItem = checkedItem;
+        }
+
+        protected DialogParams(String tag, CharSequence title, @ArrayRes int itemsArrayRes) {
+            this.tag = tag;
+            this.title = title;
+            this.itemsArrayRes = itemsArrayRes;
+            this.checkedItem = -1;
         }
 
         protected DialogParams(Parcel in) {
