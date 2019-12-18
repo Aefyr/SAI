@@ -10,7 +10,6 @@ import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
 import android.text.TextUtils;
@@ -23,10 +22,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.aefyr.sai.R;
-import com.aefyr.sai.model.common.PackageMeta;
 
-import java.io.File;
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.text.DecimalFormat;
@@ -110,40 +106,6 @@ public class Utils {
 
     public static String escapeFileName(String name) {
         return name.replaceAll("[\\\\/:*?\"<>|]", "_");
-    }
-
-    @SuppressLint("DefaultLocale")
-    @Nullable
-    public static File createBackupFile(Context c, PackageMeta packageMeta) {
-        File backupsDir = new File(Environment.getExternalStorageDirectory(), "SAI");
-        if (!backupsDir.exists() && !backupsDir.mkdir()) {
-            Log.e(TAG, "Unable to mkdir:" + backupsDir.toString());
-            return null;
-        }
-
-        String backupFileName = BackupNameFormat.format(PreferencesHelper.getInstance(c).getBackupFileNameFormat(), packageMeta);
-        if (DbgPreferencesHelper.getInstance(c).shouldReplaceDots())
-            backupFileName = backupFileName.replace('.', ',');
-
-        if (backupFileName.length() > 160)
-            backupFileName = backupFileName.substring(0, 160);
-
-        File backupFile = new File(backupsDir, escapeFileName(String.format("%s.apks", backupFileName)));
-        int suffix = 0;
-        while (backupFile.exists()) {
-            suffix++;
-            backupFile = new File(backupsDir, escapeFileName(String.format("%s(%d).apks", backupFileName, suffix)));
-        }
-
-        try {
-            if (!backupFile.createNewFile())
-                return null;
-        } catch (IOException e) {
-            Log.e(TAG, "Unable to create backup file", e);
-            return null;
-        }
-
-        return backupFile;
     }
 
     private static DecimalFormat sSizeDecimalFormat;

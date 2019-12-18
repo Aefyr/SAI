@@ -1,6 +1,7 @@
 package com.aefyr.sai.viewmodels;
 
 import android.app.Application;
+import android.content.ContentResolver;
 import android.net.Uri;
 import android.util.Log;
 
@@ -11,10 +12,10 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.aefyr.sai.backup.BackupRepository;
 import com.aefyr.sai.backup.BackupService;
+import com.aefyr.sai.backup.BackupUtils;
 import com.aefyr.sai.model.common.PackageMeta;
-import com.aefyr.sai.utils.Utils;
+import com.aefyr.sai.utils.PreferencesHelper;
 
-import java.io.File;
 import java.util.List;
 
 public class BackupAllSplitApksDialogViewModel extends AndroidViewModel {
@@ -22,8 +23,13 @@ public class BackupAllSplitApksDialogViewModel extends AndroidViewModel {
     private MutableLiveData<Boolean> mIsPreparing = new MutableLiveData<>();
     private MutableLiveData<Boolean> mIsBackupEnqueued = new MutableLiveData<>();
 
+    private Uri mBackupDirUri;
+
     public BackupAllSplitApksDialogViewModel(@NonNull Application application) {
         super(application);
+
+        mBackupDirUri = PreferencesHelper.getInstance(getApplication()).getBackupDirUri();
+
         mIsPreparing.setValue(false);
         mIsBackupEnqueued.setValue(false);
     }
@@ -50,18 +56,22 @@ public class BackupAllSplitApksDialogViewModel extends AndroidViewModel {
                 if (!packageMeta.hasSplits)
                     continue;
 
-                File backupFile = Utils.createBackupFile(getApplication(), packageMeta);
-                if (backupFile == null) {
+                Uri backupFileUri = BackupUtils.createBackupFile(getApplication(), mBackupDirUri, packageMeta);
+                if (backupFileUri == null) {
                     Log.wtf("BackupAllSplits", "Unable to create backup file for " + packageMeta.packageName);
                     continue;
                 }
 
-                BackupService.enqueueBackup(getApplication(), new BackupService.BackupTaskConfig.Builder(packageMeta, Uri.fromFile(backupFile)).build());
+                BackupService.enqueueBackup(getApplication(), new BackupService.BackupTaskConfig.Builder(packageMeta, backupFileUri).build());
             }
 
             mIsBackupEnqueued.postValue(true);
             mIsPreparing.postValue(false);
         }).start();
+    }
+
+    public boolean doesRequireStoragePermissions() {
+        return !ContentResolver.SCHEME_CONTENT.equals(mBackupDirUri.getScheme());
     }
 
 

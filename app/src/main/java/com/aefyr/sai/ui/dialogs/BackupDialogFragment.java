@@ -1,5 +1,6 @@
 package com.aefyr.sai.ui.dialogs;
 
+import android.content.ContentResolver;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -18,19 +19,19 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.aefyr.sai.R;
 import com.aefyr.sai.adapters.BackupSplitPartsAdapter;
 import com.aefyr.sai.backup.BackupService;
+import com.aefyr.sai.backup.BackupUtils;
 import com.aefyr.sai.model.common.PackageMeta;
 import com.aefyr.sai.ui.dialogs.base.BaseBottomSheetDialogFragment;
 import com.aefyr.sai.utils.PermissionsUtils;
-import com.aefyr.sai.utils.Utils;
+import com.aefyr.sai.utils.PreferencesHelper;
 import com.aefyr.sai.viewmodels.BackupDialogViewModel;
-
-import java.io.File;
 
 public class BackupDialogFragment extends BaseBottomSheetDialogFragment {
     private static final String ARG_PACKAGE = "package";
 
     private PackageMeta mPackage;
     private BackupDialogViewModel mViewModel;
+    private Uri mBackupDirUri;
 
     public static BackupDialogFragment newInstance(PackageMeta packageMeta) {
         Bundle args = new Bundle();
@@ -44,6 +45,8 @@ public class BackupDialogFragment extends BaseBottomSheetDialogFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        mBackupDirUri = PreferencesHelper.getInstance(requireContext()).getBackupDirUri();
 
         mViewModel = ViewModelProviders.of(this).get(BackupDialogViewModel.class);
 
@@ -106,24 +109,28 @@ public class BackupDialogFragment extends BaseBottomSheetDialogFragment {
     }
 
     private void enqueueBackup() {
-        if (!PermissionsUtils.checkAndRequestStoragePermissions(this))
+        if (doesRequireStoragePermissions() && !PermissionsUtils.checkAndRequestStoragePermissions(this))
             return;
 
         //TODO probably shouldn't create files on main thread
-        File backupFile = Utils.createBackupFile(requireContext(), mPackage);
-        if (backupFile == null) {
+        Uri backupFileUri = BackupUtils.createBackupFile(requireContext(), mBackupDirUri, mPackage);
+        if (backupFileUri == null) {
             showError(R.string.backup_error_cant_mkdir);
             dismiss();
             return;
         }
 
-        BackupService.BackupTaskConfig config = new BackupService.BackupTaskConfig.Builder(mPackage, Uri.fromFile(backupFile))
+        BackupService.BackupTaskConfig config = new BackupService.BackupTaskConfig.Builder(mPackage, backupFileUri)
                 .addAllApks(mViewModel.getSelectedSplitParts())
                 .build();
 
         BackupService.enqueueBackup(getContext(), config);
 
         dismiss();
+    }
+
+    private boolean doesRequireStoragePermissions() {
+        return !ContentResolver.SCHEME_CONTENT.equals(mBackupDirUri.getScheme());
     }
 
     @Override

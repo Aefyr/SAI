@@ -76,6 +76,12 @@
             android:title="@string/settings_main_backup_file_name_format"
             android:summary="@string/settings_main_backup_file_name_format_summary" />
 
+        <Preference
+            android:icon="@drawable/ic_pref_backup_dir"
+            android:key="backup_backup_dir"
+            android:title="@string/settings_main_backup_backup_dir"
+            android:summary="@string/settings_main_backup_backup_dir_summary" />
+
     </PreferenceCategory>
 
     <PreferenceCategory

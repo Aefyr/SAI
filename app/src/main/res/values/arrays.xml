@@ -66,4 +66,10 @@
         <item>Timestamp</item>
     </string-array>
 
+    <string-array name="backup_dir_selection_methods">
+        <item>Internal file picker</item>
+        <item>System file picker</item>
+    </string-array>
+
+
 </resources>

@@ -1,9 +1,11 @@
 package com.aefyr.sai.ui.fragments;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.View;
@@ -39,12 +41,15 @@ import moe.shizuku.api.ShizukuClientHelper;
 
 public class PreferencesFragment extends PreferenceFragmentCompat implements FilePickerDialogFragment.OnFilesSelectedListener, SingleChoiceListDialogFragment.OnItemSelectedListener, BaseBottomSheetDialogFragment.OnDismissListener, SharedPreferences.OnSharedPreferenceChangeListener {
 
+    private static final int REQUEST_CODE_SELECT_BACKUP_DIR = 1334;
+
     private PreferencesHelper mHelper;
 
     private Preference mHomeDirPref;
     private Preference mFilePickerSortPref;
     private Preference mInstallerPref;
     private Preference mBackupNameFormatPref;
+    private Preference mBackupDirPref;
 
     private PackageMeta mDemoMeta;
 
@@ -91,6 +96,13 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Fil
             return true;
         });
 
+        mBackupDirPref = findPreference(PreferencesKeys.BACKUP_DIR);
+        updateBackupDirSummary();
+        mBackupDirPref.setOnPreferenceClickListener(p -> {
+            selectBackupDir();
+            return true;
+        });
+
         getPreferenceManager().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
     }
 
@@ -118,6 +130,10 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Fil
         openFilePicker(FilePickerDialogFragment.newInstance("home", getString(R.string.settings_main_pick_dir), properties));
     }
 
+    private void selectBackupDir() {
+        SingleChoiceListDialogFragment.newInstance("backup_dir_selection_method", getText(R.string.settings_main_backup_backup_dir_dialog), R.array.backup_dir_selection_methods).show(getChildFragmentManager(), "backup_dir_selection_method");
+    }
+
     private void updateHomeDirPrefSummary() {
         mHomeDirPref.setSummary(getString(R.string.settings_main_home_directory_summary, mHelper.getHomeDirectory()));
     }
@@ -132,6 +148,10 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Fil
 
     private void updateBackupNameFormatSummary() {
         mBackupNameFormatPref.setSummary(getString(R.string.settings_main_backup_file_name_format_summary, BackupNameFormat.format(mHelper.getBackupFileNameFormat(), mDemoMeta)));
+    }
+
+    private void updateBackupDirSummary() {
+        mBackupDirPref.setSummary(getString(R.string.settings_main_backup_backup_dir_summary, mHelper.getBackupDirUri()));
     }
 
     @Override
@@ -160,11 +180,36 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Fil
     }
 
     @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == REQUEST_CODE_SELECT_BACKUP_DIR) {
+            if (resultCode != Activity.RESULT_OK)
+                return;
+
+            data = Objects.requireNonNull(data);
+            Uri backupDirUri = Objects.requireNonNull(data.getData());
+            requireContext().getContentResolver().takePersistableUriPermission(backupDirUri, Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+
+            mHelper.setBackupDirUri(backupDirUri.toString());
+            updateBackupDirSummary();
+        }
+    }
+
+    @Override
     public void onFilesSelected(String tag, List<File> files) {
         switch (tag) {
             case "home":
                 mHelper.setHomeDirectory(files.get(0).getAbsolutePath());
                 updateHomeDirPrefSummary();
+                break;
+            case "backup_dir":
+                mHelper.setBackupDirUri(new Uri.Builder()
+                        .scheme("file")
+                        .path(files.get(0).getAbsolutePath())
+                        .build()
+                        .toString());
+                updateBackupDirSummary();
                 break;
         }
     }
@@ -223,6 +268,22 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Fil
                 if (installerSet) {
                     mHelper.setInstaller(selectedItemIndex);
                     updateInstallerSummary();
+                }
+                break;
+            case "backup_dir_selection_method":
+                switch (selectedItemIndex) {
+                    case 0:
+                        DialogProperties properties = new DialogProperties();
+                        properties.selection_mode = DialogConfigs.SINGLE_MODE;
+                        properties.selection_type = DialogConfigs.DIR_SELECT;
+                        properties.root = Environment.getExternalStorageDirectory();
+
+                        openFilePicker(FilePickerDialogFragment.newInstance("backup_dir", getString(R.string.settings_main_pick_dir), properties));
+                        break;
+                    case 1:
+                        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT_TREE);
+                        startActivityForResult(Intent.createChooser(intent, getString(R.string.installer_pick_apks)), REQUEST_CODE_SELECT_BACKUP_DIR);
+                        break;
                 }
                 break;
         }

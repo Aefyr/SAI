@@ -54,5 +54,10 @@
         <item>Время</item>
     </string-array>
 
+    <string-array name="backup_dir_selection_methods">
+        <item>Встроенный файлпикер</item>
+        <item>Системный файлпикер</item>
+    </string-array>
+
 
 </resources>

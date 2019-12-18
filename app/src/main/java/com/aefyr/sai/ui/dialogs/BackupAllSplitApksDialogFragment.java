@@ -55,7 +55,7 @@ public class BackupAllSplitApksDialogFragment extends DialogFragment {
         Button negativeButton = dialog.getButton(Dialog.BUTTON_NEGATIVE);
 
         positiveButton.setOnClickListener((v) -> {
-            if (!PermissionsUtils.checkAndRequestStoragePermissions(this))
+            if (mViewModel.doesRequireStoragePermissions() && !PermissionsUtils.checkAndRequestStoragePermissions(this))
                 return;
 
             enqueueBackup();
