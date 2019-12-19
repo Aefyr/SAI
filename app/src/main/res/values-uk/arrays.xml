@@ -43,4 +43,9 @@
         <item>Пакет</item>
         <item>Час</item>
     </string-array>
+
+    <string-array name="backup_dir_selection_methods">
+        <item>Вбудований провідник</item>
+        <item>Системний провідник</item>
+    </string-array>
 </resources>
