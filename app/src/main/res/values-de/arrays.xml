@@ -34,12 +34,6 @@
         <item>PB</item>
     </string-array>
 
-    <string-array name="backup_file_name_formats">
-        <item>NAME_PACKAGE_VERSION.apks</item>
-        <item>NAME.apks</item>
-        <item>NAME_VERSION.apks</item>
-    </string-array>
-
     <string-array name="install_locations">
         <item>System entscheiden lassen</item>
         <item>nur intern</item>
@@ -52,6 +46,11 @@
         <item>Versionscode</item>
         <item>Paket</item>
         <item>Zeitstempel</item>
+    </string-array>
+    
+    <string-array name="backup_dir_selection_methods">
+        <item>intern (SAI)</item>
+        <item>System (Android)</item>
     </string-array>
 
 </resources>
