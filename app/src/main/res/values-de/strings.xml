@@ -1,6 +1,4 @@
 <resources>
-    <string name="app_name" translatable="false">SAI</string>
-    <string name="app_name_full" translatable="false">Split APKs Installer</string>
 
     <string name="yes">Ja</string>
     <string name="no">Nein</string>
