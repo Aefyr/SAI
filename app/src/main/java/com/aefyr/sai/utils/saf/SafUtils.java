@@ -14,7 +14,7 @@ public class SafUtils {
 
         int indexOfLastColon = path.lastIndexOf(':');
         if (indexOfLastColon == -1)
-            throw new IllegalArgumentException("Given uri does not contain a colon");
+            throw new IllegalArgumentException("Given uri does not contain a colon: " + docUri);
 
         return path.substring(0, indexOfLastColon);
     }
@@ -24,7 +24,7 @@ public class SafUtils {
 
         int indexOfLastColon = path.lastIndexOf(':');
         if (indexOfLastColon == -1)
-            throw new IllegalArgumentException("Given uri does not contain a colon");
+            throw new IllegalArgumentException("Given uri does not contain a colon: " + docUri);
 
         return path.substring(indexOfLastColon + 1);
     }
