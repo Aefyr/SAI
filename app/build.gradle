@@ -40,7 +40,7 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
     implementation 'androidx.appcompat:appcompat:1.1.0'
-    implementation 'com.google.android.material:material:1.2.0-alpha02'
+    implementation 'com.google.android.material:material:1.2.0-alpha03'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.1.0'
     implementation 'androidx.preference:preference:1.1.0'
     implementation 'com.github.aefyr:pseudoapksigner:1.6'
@@ -52,7 +52,7 @@ dependencies {
     implementation 'androidx.documentfile:documentfile:1.0.1'
 
     //Google services
-    normalImplementation 'com.google.firebase:firebase-core:17.2.1'
+    normalImplementation 'com.google.firebase:firebase-core:17.2.2'
     normalImplementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
 }
 
