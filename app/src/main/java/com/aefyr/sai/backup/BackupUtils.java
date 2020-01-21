@@ -24,14 +24,23 @@ import java.util.Objects;
 public class BackupUtils {
     private static final String TAG = "BackupUtils";
 
+    /**
+     * @param c
+     * @param backupDirUri
+     * @param packageMeta
+     * @param apksFile     if true, created file will have .apks extension, otherwise - .apk
+     * @return
+     */
     @SuppressLint("DefaultLocale")
     @Nullable
-    public static Uri createBackupFile(Context c, Uri backupDirUri, PackageMeta packageMeta) {
+    public static Uri createBackupFile(Context c, Uri backupDirUri, PackageMeta packageMeta, boolean apksFile) {
+
+        String extension = apksFile ? "apks" : "apk";
 
         if (ContentResolver.SCHEME_FILE.equals(backupDirUri.getScheme())) {
-            return createBackupUriViaFileIO(c, new File(Objects.requireNonNull(backupDirUri.getPath())), packageMeta);
+            return createBackupUriViaFileIO(c, new File(Objects.requireNonNull(backupDirUri.getPath())), packageMeta, extension);
         } else if (ContentResolver.SCHEME_CONTENT.equals(backupDirUri.getScheme())) {
-            return createBackupUriViaSaf(c, backupDirUri, packageMeta);
+            return createBackupUriViaSaf(c, backupDirUri, packageMeta, extension);
         }
 
         return null;
@@ -39,7 +48,7 @@ public class BackupUtils {
 
     @SuppressLint("DefaultLocale")
     @Nullable
-    private static Uri createBackupUriViaFileIO(Context c, File backupsDir, PackageMeta packageMeta) {
+    private static Uri createBackupUriViaFileIO(Context c, File backupsDir, PackageMeta packageMeta, String extension) {
         if (!backupsDir.exists() && !backupsDir.mkdir()) {
             Log.e(TAG, "Unable to mkdir:" + backupsDir.toString());
             return null;
@@ -47,11 +56,11 @@ public class BackupUtils {
 
         String backupFileName = getFileNameForPackageMeta(c, packageMeta);
 
-        File backupFile = new File(backupsDir, Utils.escapeFileName(String.format("%s.apks", backupFileName)));
+        File backupFile = new File(backupsDir, Utils.escapeFileName(String.format("%s.%s", backupFileName, extension)));
         int suffix = 0;
         while (backupFile.exists()) {
             suffix++;
-            backupFile = new File(backupsDir, Utils.escapeFileName(String.format("%s(%d).apks", backupFileName, suffix)));
+            backupFile = new File(backupsDir, Utils.escapeFileName(String.format("%s(%d).%s", backupFileName, suffix, extension)));
         }
 
         try {
@@ -67,21 +76,21 @@ public class BackupUtils {
 
     @SuppressLint("DefaultLocale")
     @Nullable
-    private static Uri createBackupUriViaSaf(Context c, Uri backupDirUri, PackageMeta packageMeta) {
+    private static Uri createBackupUriViaSaf(Context c, Uri backupDirUri, PackageMeta packageMeta, String extension) {
         DocumentFile backupDirFile = DocumentFile.fromTreeUri(c, backupDirUri);
         if (backupDirFile == null)
             return null;
 
         String backupFileName = getFileNameForPackageMeta(c, packageMeta);
 
-        String actualBackupFileName = String.format("%s.apks", backupFileName);
+        String actualBackupFileName = String.format("%s.%s", backupFileName, extension);
         int suffix = 0;
         while (true) {
             DocumentFile backupFileCandidate = DocumentFile.fromSingleUri(c, SafUtils.buildChildDocumentUri(backupDirUri, actualBackupFileName));
             if (backupFileCandidate == null || !backupFileCandidate.exists())
                 break;
 
-            actualBackupFileName = String.format("%s(%d).apks", backupFileName, ++suffix);
+            actualBackupFileName = String.format("%s(%d).%s", backupFileName, ++suffix, extension);
         }
 
         DocumentFile backupFile = backupDirFile.createFile("saf/sucks", FileUtils.buildValidFatFilename(actualBackupFileName));

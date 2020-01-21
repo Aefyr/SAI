@@ -56,7 +56,7 @@ public class BackupAllSplitApksDialogViewModel extends AndroidViewModel {
                 if (!packageMeta.hasSplits)
                     continue;
 
-                Uri backupFileUri = BackupUtils.createBackupFile(getApplication(), mBackupDirUri, packageMeta);
+                Uri backupFileUri = BackupUtils.createBackupFile(getApplication(), mBackupDirUri, packageMeta, true);
                 if (backupFileUri == null) {
                     Log.wtf("BackupAllSplits", "Unable to create backup file for " + packageMeta.packageName);
                     continue;

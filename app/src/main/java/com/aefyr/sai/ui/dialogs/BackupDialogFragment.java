@@ -26,6 +26,9 @@ import com.aefyr.sai.utils.PermissionsUtils;
 import com.aefyr.sai.utils.PreferencesHelper;
 import com.aefyr.sai.viewmodels.BackupDialogViewModel;
 
+import java.io.File;
+import java.util.List;
+
 public class BackupDialogFragment extends BaseBottomSheetDialogFragment {
     private static final String ARG_PACKAGE = "package";
 
@@ -112,8 +115,10 @@ public class BackupDialogFragment extends BaseBottomSheetDialogFragment {
         if (doesRequireStoragePermissions() && !PermissionsUtils.checkAndRequestStoragePermissions(this))
             return;
 
+        List<File> selectedApks = mViewModel.getSelectedSplitParts();
+
         //TODO probably shouldn't create files on main thread
-        Uri backupFileUri = BackupUtils.createBackupFile(requireContext(), mBackupDirUri, mPackage);
+        Uri backupFileUri = BackupUtils.createBackupFile(requireContext(), mBackupDirUri, mPackage, selectedApks.size() > 1);
         if (backupFileUri == null) {
             showError(R.string.backup_error_cant_mkdir);
             dismiss();
@@ -121,7 +126,8 @@ public class BackupDialogFragment extends BaseBottomSheetDialogFragment {
         }
 
         BackupService.BackupTaskConfig config = new BackupService.BackupTaskConfig.Builder(mPackage, backupFileUri)
-                .addAllApks(mViewModel.getSelectedSplitParts())
+                .addAllApks(selectedApks)
+                .setPackApksIntoAnArchive(selectedApks.size() > 1)
                 .build();
 
         BackupService.enqueueBackup(getContext(), config);
