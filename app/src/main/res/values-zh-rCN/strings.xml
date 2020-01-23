@@ -89,7 +89,7 @@
     <string name="settings_main_pick_dir">选择目录</string>
     <string name="settings_main_about">关于</string>
     <string name="settings_main_use_root">使用 Root</string>
-    <string name="settings_main_use_root_summary">尝试使用 Root安装模式。如果无法获得 Root权限，SAI将使用到 免Root安装</string>
+    <string name="settings_main_use_root_summary">尝试使用 Root安装模式。如果无法获得 Root权限，SAI将使用 免Root安装</string>
     <string name="settings_main_use_root_error">无法获取Root权限</string>
     <string name="settings_main_sign_apks">签名 APK</string>
     <string name="settings_main_sign_apks_summary">安装前对APK进行签名。</string>
@@ -98,7 +98,7 @@
     <string name="settings_main_reset_one_time_warnings">重置所有一次性警告(Reset one-time warnings)</string>
     <string name="settings_main_installer">安装模式</string>
     <string name="settings_main_installer_summary">安装APK的安装模式。\n当前: %s</string>
-    <string name="settings_main_installer_error_no_shizuku">您没有安装 Shizuku，请从 Google Play 下载并进行设置</string>
+    <string name="settings_main_installer_error_no_shizuku">您没有安装 Shizuku，请从 Google Play 下载并进行配置</string>
     <string name="settings_main_installer_error_shizuku_pre_m">SAI 不支持在Android 6.0 以下系统，请使用 Shizuku</string>
     <string name="settings_main_backup_file_name_format">导出的apk文件名</string>
     <string name="settings_main_backup_file_name_format_summary">导出的apk文件名形式 \n当前: %s</string>
