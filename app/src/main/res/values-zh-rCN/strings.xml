@@ -19,12 +19,12 @@
     <string name="installer_installation_failed">App 已安装</string>
     <string name="installer_installation_in_progress">安装中…</string>
     <string name="installer_install_apks">安装APK</string>
-    <string name="installer_help"><b>What is SAI?</b>\nSAI (Split APKs Installer) is an app that lets you install multiple APKs as if it was a single package. This is useful for installing apps that are distributed as App Bundles since Android provides no built-in way to install them from sources other than Google Play.\n\n<b>How to use SAI?</b>\nClick \"Install APKs\" button and select base APK and additional configuration-specific APKs or a ZIP archive that contains all required APKs, then click \"Select\" button to start installation process.\n\n<b>.apks</b>\nYou can rename a .zip archive that contains .apk files to .apks (e.g.: somesplitapp.zip -> somesplitapp.apks), so it can be opened with SAI from other apps.</string>
+    <string name="installer_help"><b>何谓SAI?</b>\nSAI (Split APKs Installer) 可以像安装单个apk一样安装Split Apk（分包apk）。This is useful for installing apps that are distributed as App Bundles since Android provides no built-in way to install them from sources other than Google Play.注意，SAI不是破解APK的应用！\n\n<b>如何使用SAI?</b>\n点击 \"安装APKs\" ，选择base APK and additional configuration-specific APKs or a ZIP archive that contains all required APKs，然后点击 \"安装\" 。\n\n<b>.apks</b>\nYou can rename a .zip archive that contains .apk files to .apks (e.g.: somesplitapp.zip -> somesplitapp.apks), so it can be opened with SAI from other apps.</string>
     <string name="installer_pick_apks">选择要安装的文件</string>
     <string name="installer_app_installed">App 已安装</string>
     <string name="installer_open">打开</string>
     <string name="installer_app_installed_full">%s 已安装</string>
-    <string name="installer_no_root">无法获得 Root访问权限，继续使用 免Root安装器</string>
+    <string name="installer_no_root">无法获得 Root访问权限，继续使用 免Root安装</string>
     <string name="installer_error_generic">安装失败</string>
     <string name="installer_error_aborted">用户取消了安装</string>
     <string name="installer_error_blocked">安装被 %s 阻止了</string>
@@ -33,19 +33,33 @@
     <string name="installer_error_incompatible">应用程序与此设备不兼容</string>
     <string name="installer_error_bad_apks">选择了无效的APK文件</string>
     <string name="installer_error_storage">没有足够的存储空间来安装应用程序</string>
-    <string name="installer_error_lidl_rom">您的ROM与 免Root安装器 不兼容。 如果您有 Root权限，请尝试在 SAI 设置中启用 Root安装器</string>
+    <string name="installer_error_lidl_rom">您的ROM与 免Root安装 不兼容。 如果您有 Root权限，请尝试在 SAI 设置中启用 Root安装器</string>
     <string name="installer_error_shell">%1$s安装器 错误:\n\n %2$s</string>
-    <string name="installer_error_rootless">免Root安装器 错误:\n\n %s</string>
+    <string name="installer_error_rootless">免Root安装 错误:\n\n %s</string>
     <string name="installer_error_root_no_root">无法获取 Root访问权限，请禁用 \"使用 Root\" 选项</string>
+    <string name="installer_error_shizuku_unavailable">无法连接Shizuku Serve，请检查Shizuku Manager是否正常。</string>
     <string name="installer_error_while_extracting">从ZIP中提取APK文件时出错: %s</string>
     <string name="installer_error_zip_contains_no_apks">ZIP存档不包含.apk文件</string>
     <string name="installer_error_mixed_extensions">您必须选择单个.zip/.apks 文件或多个.apk 文件</string>
+    <string name="installer_error_installer2_mixed_extensions_internal">你已经选择了一个或多个 .apk/.apks/.zip 文件，仅允许使用单一扩展名</string>
+    <string name="installer_error_installer2_mixed_extensions_saf">你已经选择了 一个单.zip/.apks 文件 或 多.apk 文件</string>
+    <string name="installer_error_unknown_apk_size">无法从从压缩包获取apk文件大小，请打开“从压缩包中提取APK”选项后再试</string>
     <string name="installer_select_theme">选择主题</string>
     <string name="installer_device">设备</string>
     <string name="installer_miui_warning_title">MIUI 检测</string>
-    <string name="installer_miui_warning_message">看起来您的设备正在运行MIUI。\nMIUI以破坏标准的Android API功能而闻名，一些SAI用户报告称SAI不在MIUI上工作。\n通常可以通过在 开发者选项 中禁用 MIUI优化 来修复它，我建议你应该这样做。</string>
-    <string name="installer_miui_warning_open_dev_settings">开启开发者选项</string>
-    <string name="installer_miui_warning_oof">无法开启开发者选项。 Cool ROM</string>
+    <string name="installer_miui_warning_message">看起来您的设备正在运行MIUI。\nMIUI以魔改标准的Android API而闻名，一些用户报告称SAI无法在MIUI上使用。\n通常可以通过在 开发者选项 中禁用 MIUI优化 来修复它，我建议您应该这样做。</string>
+    <string name="installer_miui_warning_open_dev_settings">打开 开发者选项</string>
+    <string name="installer_miui_warning_oof">无法打开 开发者选项。 Cool ROM</string>
+	<string name="installer_unknown_app">未知app</string>
+    <string name="installer_state_created">准备中</string>
+    <string name="installer_state_queued">等待中</string>
+    <string name="installer_state_installing">安装中</string>
+    <string name="installer_state_installed">安装完成</string>
+    <string name="installer_state_failed">安装失败</string>
+    <string name="installer_unable_to_launch_app">无法启动app</string>
+    <string name="installer_show_full_error">展示全部错误信息</string>
+    <string name="installer_placeholder_text">无安装任务</string>
+
 
     <string name="backup_backup">导出</string>
     <string name="backup_backup_prompt">导出 %s?</string>
@@ -62,6 +76,10 @@
     <string name="backup_export_all_splits">导出所有 Split APK</string>
     <string name="backup_export_all_splits_prompt">要导出所有 Split APK 吗？</string>
     <string name="backup_preparing">准备应用...</string>
+    <string name="backup_enqueue">加入队列(Enqueue)</string>
+    <string name="backup_dialog_title">选择要导出的split APK</string>
+    <string name="backup_load_splits_error">无法获取部分split APK</string>
+    <string name="backup_splits_loading">加载中...</string>
 
     <string name="settings_title">设置</string>
     <string name="settings_main_home_directory">主目录</string>
@@ -71,18 +89,43 @@
     <string name="settings_main_pick_dir">选择目录</string>
     <string name="settings_main_about">关于</string>
     <string name="settings_main_use_root">使用 Root</string>
-    <string name="settings_main_use_root_summary">尝试使用 Root安装器。如果 SAI 无法获得 Root访问权限，它将回退到 免Root安装器</string>
+    <string name="settings_main_use_root_summary">尝试使用 Root安装。如果 SAI 无法获得 Root访问权限，它将回退到 免Root安装</string>
     <string name="settings_main_use_root_error">无法获取 Root访问权限</string>
     <string name="settings_main_sign_apks">签名 APK</string>
     <string name="settings_main_sign_apks_summary">安装前签名APK。</string>
     <string name="settings_main_extract_archives">从压缩包中提取APK</string>
     <string name="settings_main_extract_archives_summary">在安装之前，将.zip / .apks压缩包中的APK文件，解压缩到临时文件中。 如果禁用，SAI将直接从没有临时文件的压缩包安装APK。 不建议启用</string>
     <string name="settings_main_reset_one_time_warnings">重置一次性警告</string>
-    <string name="settings_main_installer">安装程序</string>
-    <string name="settings_main_installer_summary">用于APK安装的安装程序。\n当前: %s</string>
+    <string name="settings_main_installer">安装模式</string>
+    <string name="settings_main_installer_summary">安装APK的安装模式。\n当前: %s</string>
     <string name="settings_main_installer_error_no_shizuku">您没有安装 Shizuku，请从 Google Play 获取并进行设置</string>
     <string name="settings_main_installer_error_shizuku_pre_m">SAI 不支持在Android 6.0 以下系统，使用 Shizuku</string>
+    <string name="settings_main_backup_file_name_format">导出的apk文件名</string>
+    <string name="settings_main_backup_file_name_format_summary">导出的apk文件名形式。\n当前: %s</string>
+    <string name="settings_main_backup_backup_dir">导出apk目录</string>
+    <string name="settings_main_backup_backup_dir_summary">导出apk文件目录。\n当前: %s</string>
+    <string name="settings_main_backup_backup_dir_dialog">选择...</string>
+    <string name="settings_main_install_location">安装位置</string>
+    <string name="settings_main_install_location_summary">安装应用的位置\n当前: %s</string>
+    <string name="settings_main_use_old_installer">旧版安装模式</string>
+    <string name="settings_main_use_old_installer_summary">使用旧版安装实现接口，重启SAI生效(若有安装或导出任务正在进行，请不要随意开启或关闭该选项。）</string>
+    <string name="settings_main_installer_show_dialogs">显示前台系统安装界面</string>
+    <string name="settings_main_installer_show_dialogs_summary">一律显示系统安装界面，而不是使用静默安装。 你可以点击安装任务列表中的应用手动弹出界面。立即生效</string>
+    <string name="settings_category_main_installer">安装</string>
+    <string name="settings_category_main_export">导出</string>
+    <string name="settings_category_main_other">其他</string>
+    <string name="settings_category_main_ui">外观</string>
 
+	<string name="name_format_builder_title">选择导出apk文件名形式</string>
+    <string name="name_format_builder_preview">预览: %s</string>
+    <string name="name_format_builder_preview_empty">请至少选一个部分。</string>
+    
+	<string name="sss_warning_title"><b>危险!!!</b></string>
+    <string name="sss_warning_summary"><b>请不要修改这里的任何选项（除非你知道你非常了解这些选项）。\n部分选项可能引起SAI甚至系统损坏！！！\n部分选项可能引起SAI甚至系统损坏！！！\n部分选项可能引起SAI甚至系统损坏！！！</b></string>
+
+    <string name="about_author">由polychromaticfox开发</string>
     <string name="about_source">GitHub</string>
     <string name="about_donate">捐赠</string>
+    <string name="about_licenses">许可证</string>
+
 </resources>

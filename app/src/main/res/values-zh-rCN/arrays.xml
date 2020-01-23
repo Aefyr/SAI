@@ -21,8 +21,42 @@
 
     <string-array name="installers">
         <item>"默认 (推荐)"</item>
-        <item>"Root (需要 Root)"</item>
-        <item>"Shizuku (需要 Shizuku 3.x)"</item>
+        <item>"Root模式 (需要 Root)"</item>
+        <item>"Shizuku模式 (需要 Shizuku 3.x)"</item>
     </string-array>
+
+    <string-array name="backup_file_name_formats">
+        <item>名称_包名_版本.apks</item>
+        <item>名称.apks</item>
+        <item>名称_版本.apks</item>
+    </string-array>
+
+    <string-array name="backup_file_name_formats_values" translatable="false">
+        <item>名称_包名_版本</item>
+        <item>名称</item>
+        <item>名称_版本</item>
+    </string-array>
+
+    <string-array name="install_locations">
+        <item>由系统决定</item>
+        <item>内部储存</item>
+        <item>外部储存，如SD卡(可能无效)</item>
+    </string-array>
+
+    
+    <string-array name="name_format_parts">
+        <item>应用名称</item>
+        <item>版本</item>
+        <item>内部版本号</item>
+        <item>包名</item>
+        <item>时间</item>
+    </string-array>
+
+    <string-array name="backup_dir_selection_methods">
+        <item>内置文件选择器</item>
+        <item>系统文件选择器（SAF）</item>
+    </string-array>
+
+
 
 </resources>
