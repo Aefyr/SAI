@@ -12,6 +12,7 @@
     </androidx.recyclerview.widget.RecyclerView>
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/card_search"
         android:layout_width="match_parent"
         android:layout_height="64dp"
         android:layout_marginStart="10dp"
