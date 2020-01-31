@@ -184,7 +184,7 @@ public class BackupViewModel extends AndroidViewModel {
                     SortFilterConfigOption selectedOption = config.getSelectedOption();
                     switch (selectedOption.id()) {
                         case "name":
-                            Collections.sort(list, (o1, o2) -> (selectedOption.ascending() ? 1 : -1) * o1.label.compareTo(o2.label));
+                            Collections.sort(list, (o1, o2) -> (selectedOption.ascending() ? 1 : -1) * o1.label.compareToIgnoreCase(o2.label));
                             break;
                         case "install":
                             Collections.sort(list, (o1, o2) -> (selectedOption.ascending() ? 1 : -1) * Long.compare(o1.installTime, o2.installTime));
