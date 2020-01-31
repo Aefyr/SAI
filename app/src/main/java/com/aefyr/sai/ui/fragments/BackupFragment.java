@@ -22,14 +22,12 @@ import com.aefyr.sai.model.common.PackageMeta;
 import com.aefyr.sai.ui.dialogs.BackupAllSplitApksDialogFragment;
 import com.aefyr.sai.ui.dialogs.BackupDialogFragment;
 import com.aefyr.sai.ui.dialogs.OneTimeWarningDialogFragment;
+import com.aefyr.sai.ui.recycler.RecyclerPaddingDecoration;
 import com.aefyr.sai.utils.Utils;
 import com.aefyr.sai.viewmodels.BackupViewModel;
-import com.google.android.material.textfield.TextInputLayout;
 
 public class BackupFragment extends SaiBaseFragment implements BackupPackagesAdapter.OnItemInteractionListener, FilterDialog.OnApplyConfigListener {
 
-
-    private EditText mEditTextSearch;
 
     private BackupViewModel mViewModel;
 
@@ -44,6 +42,8 @@ public class BackupFragment extends SaiBaseFragment implements BackupPackagesAda
 
         RecyclerView recyclerView = findViewById(R.id.rv_packages);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        int padding = requireContext().getResources().getDimensionPixelSize(R.dimen.backup_recycler_top_bottom_padding);
+        recyclerView.addItemDecoration(new RecyclerPaddingDecoration(0, padding, 0, padding));
 
         recyclerView.getRecycledViewPool().setMaxRecycledViews(0, 24);
 
@@ -62,9 +62,8 @@ public class BackupFragment extends SaiBaseFragment implements BackupPackagesAda
 
     private void setupToolbar() {
         //Search
-        mEditTextSearch = findViewById(R.id.et_search);
-
-        mEditTextSearch.addTextChangedListener(new TextWatcher() {
+        EditText editTextSearch = findViewById(R.id.et_search);
+        editTextSearch.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -81,9 +80,7 @@ public class BackupFragment extends SaiBaseFragment implements BackupPackagesAda
             }
         });
 
-        //Menu
-        TextInputLayout textInputLayout = findViewById(R.id.til);
-        textInputLayout.setEndIconOnClickListener(v -> {
+        findViewById(R.id.ib_backup_search_more).setOnClickListener(v -> {
             PopupMenu popupMenu = new PopupMenu(requireContext(), v);
             popupMenu.getMenuInflater().inflate(R.menu.backup_fragment, popupMenu.getMenu());
 

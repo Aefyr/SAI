@@ -11,7 +11,10 @@
         <attr name="titleColor" format="color" />
     </declare-styleable>
 
+    <attr name="colorPrimaryLight" format="color" />
+
     <attr name="simpleThemePrimaryColor" format="color" />
+    <attr name="simpleThemePrimaryLightColor" format="color" />
     <attr name="simpleThemeAccentColor" format="color" />
     <attr name="simpleThemeTextPrimaryColor" format="color" />
     <attr name="simpleThemeTextSecondaryColor" format="color" />
