@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 
 import androidx.annotation.NonNull;
@@ -14,6 +13,9 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.aefyr.flexfilter.builtin.DefaultFilterConfigViewHolderFactory;
+import com.aefyr.flexfilter.config.core.ComplexFilterConfig;
+import com.aefyr.flexfilter.ui.FilterDialog;
 import com.aefyr.sai.R;
 import com.aefyr.sai.adapters.BackupPackagesAdapter;
 import com.aefyr.sai.model.common.PackageMeta;
@@ -22,15 +24,12 @@ import com.aefyr.sai.ui.dialogs.BackupDialogFragment;
 import com.aefyr.sai.ui.dialogs.OneTimeWarningDialogFragment;
 import com.aefyr.sai.utils.Utils;
 import com.aefyr.sai.viewmodels.BackupViewModel;
-import com.google.android.material.chip.Chip;
 import com.google.android.material.textfield.TextInputLayout;
 
-public class BackupFragment extends SaiBaseFragment implements BackupPackagesAdapter.OnItemInteractionListener {
+public class BackupFragment extends SaiBaseFragment implements BackupPackagesAdapter.OnItemInteractionListener, FilterDialog.OnApplyConfigListener {
 
 
     private EditText mEditTextSearch;
-    private Chip mChipFilterSplitsOnly;
-    private Chip mChipFilterIncludeSystemApps;
 
     private BackupViewModel mViewModel;
 
@@ -54,14 +53,16 @@ public class BackupFragment extends SaiBaseFragment implements BackupPackagesAda
 
         setupToolbar();
 
+        findViewById(R.id.button_backup_filter).setOnClickListener(v -> {
+            FilterDialog.newInstance(getString(R.string.backup_filter), mViewModel.getFilterConfig(), DefaultFilterConfigViewHolderFactory.class).show(getChildFragmentManager(), null);
+        });
+
         mViewModel.getPackages().observe(this, adapter::setData);
     }
 
     private void setupToolbar() {
         //Search
         mEditTextSearch = findViewById(R.id.et_search);
-        mChipFilterSplitsOnly = findViewById(R.id.chip_filter_splits);
-        mChipFilterIncludeSystemApps = findViewById(R.id.chip_filter_system);
 
         mEditTextSearch.addTextChangedListener(new TextWatcher() {
             @Override
@@ -76,14 +77,9 @@ public class BackupFragment extends SaiBaseFragment implements BackupPackagesAda
 
             @Override
             public void afterTextChanged(Editable s) {
-                filterPackages();
+                mViewModel.search(s.toString());
             }
         });
-
-        CompoundButton.OnCheckedChangeListener onCheckedChangeListener = (group, checkedId) -> filterPackages();
-        mChipFilterSplitsOnly.setOnCheckedChangeListener(onCheckedChangeListener);
-        mChipFilterIncludeSystemApps.setOnCheckedChangeListener(onCheckedChangeListener);
-        filterPackages();
 
         //Menu
         TextInputLayout textInputLayout = findViewById(R.id.til);
@@ -102,10 +98,6 @@ public class BackupFragment extends SaiBaseFragment implements BackupPackagesAda
 
             popupMenu.show();
         });
-    }
-
-    private void filterPackages() {
-        mViewModel.filter(mEditTextSearch.getText().toString(), mChipFilterSplitsOnly.isChecked(), mChipFilterIncludeSystemApps.isChecked());
     }
 
     private void exportAllSplitApks() {
@@ -127,5 +119,10 @@ public class BackupFragment extends SaiBaseFragment implements BackupPackagesAda
         super.onHiddenChanged(hidden);
         if (hidden)
             Utils.hideKeyboard(this);
+    }
+
+    @Override
+    public void onApplyConfig(ComplexFilterConfig config) {
+        mViewModel.applyFilterConfig(config);
     }
 }

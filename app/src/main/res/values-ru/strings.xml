@@ -81,6 +81,16 @@
     <string name="backup_dialog_title">Выберите части split APK для экспорта</string>
     <string name="backup_load_splits_error">Не удалось получить части split APK</string>
     <string name="backup_splits_loading">Загрузка...</string>
+    <string name="backup_filter">Фильтры</string>
+    <string name="backup_filter_common_option_doesnt_matter">Неважно</string>
+    <string name="backup_filter_common_option_yes">Да</string>
+    <string name="backup_filter_common_option_no">Нет</string>
+    <string name="backup_filter_split_apk">Split APK</string>
+    <string name="backup_filter_system_app">Системное приложение</string>
+    <string name="backup_filter_sort">Сортировка</string>
+    <string name="backup_filter_sort_option_name">Имя</string>
+    <string name="backup_filter_sort_option_installed">Дата установки</string>
+    <string name="backup_filter_sort_option_updated">Дата обновления</string>
 
     <string name="settings_title">Настройки</string>
     <string name="settings_main_home_directory">Папка по умолчанию</string>

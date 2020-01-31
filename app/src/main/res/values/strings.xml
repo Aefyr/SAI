@@ -83,6 +83,16 @@
     <string name="backup_dialog_title">Select split APK parts to export</string>
     <string name="backup_load_splits_error">Unable to get split APK parts</string>
     <string name="backup_splits_loading">Loading...</string>
+    <string name="backup_filter">Filter</string>
+    <string name="backup_filter_common_option_doesnt_matter">Doesn\'t matter</string>
+    <string name="backup_filter_common_option_yes">Yes</string>
+    <string name="backup_filter_common_option_no">No</string>
+    <string name="backup_filter_split_apk">Split APK</string>
+    <string name="backup_filter_system_app">System app</string>
+    <string name="backup_filter_sort">Sort</string>
+    <string name="backup_filter_sort_option_name">Name</string>
+    <string name="backup_filter_sort_option_installed">Install date</string>
+    <string name="backup_filter_sort_option_updated">Update date</string>
 
     <string name="settings_title">Settings</string>
     <string name="settings_main_home_directory">Home directory</string>
