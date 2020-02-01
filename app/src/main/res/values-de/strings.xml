@@ -91,6 +91,10 @@
     <string name="backup_filter_sort_option_name">Name</string>
     <string name="backup_filter_sort_option_installed">Installationsdatum</string>
     <string name="backup_filter_sort_option_updated">Aktualisierungsdatum</string>
+    <string name="backup_app_feature_split">APK teilen</string>
+    <string name="backup_app_feature_system_app">System App</string>
+    <string name="backup_app_feature_install_date">Installiert am: %s</string>
+    <string name="backup_app_feature_update_date">Aktualisiert am: %s</string>
 
     <string name="settings_title">Einstellungen</string>
     <string name="settings_main_home_directory">Heimatverzeichnis</string>
@@ -126,6 +130,8 @@
     <string name="settings_category_main_export">Exportieren</string>
     <string name="settings_category_main_other">Andere</string>
     <string name="settings_category_main_ui">Oberfläche</string>
+    <string name="settings_main_ui_show_app_features">App-Funktionen anzeigen</string>
+    <string name="settings_main_ui_show_app_features_summary">Kontextbezogene App-Funktions-Kennzeichen auf dem Exportbildschirm anzeigen</string>
 
     <string name="name_format_builder_title">Teile zum Einbinden in exportierten Appnamen auswählen</string>
     <string name="name_format_builder_preview">Vorschau: %s</string>
