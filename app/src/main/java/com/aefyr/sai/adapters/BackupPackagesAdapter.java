@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -56,7 +57,7 @@ public class BackupPackagesAdapter extends RecyclerView.Adapter<BackupPackagesAd
         notifyDataSetChanged();
     }
 
-    public void setFilterConfig(BackupPackagesFilterConfig config, boolean applyNow) {
+    public void setFilterConfig(@Nullable BackupPackagesFilterConfig config, boolean applyNow) {
         mFilterConfig = config;
 
         if (applyNow)

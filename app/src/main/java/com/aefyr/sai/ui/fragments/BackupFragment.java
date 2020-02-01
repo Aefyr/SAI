@@ -1,5 +1,6 @@
 package com.aefyr.sai.ui.fragments;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -25,13 +26,17 @@ import com.aefyr.sai.ui.dialogs.BackupDialogFragment;
 import com.aefyr.sai.ui.dialogs.OneTimeWarningDialogFragment;
 import com.aefyr.sai.ui.recycler.RecyclerPaddingDecoration;
 import com.aefyr.sai.utils.MathUtils;
+import com.aefyr.sai.utils.PreferencesHelper;
+import com.aefyr.sai.utils.PreferencesKeys;
 import com.aefyr.sai.utils.Utils;
 import com.aefyr.sai.viewmodels.BackupViewModel;
 
-public class BackupFragment extends SaiBaseFragment implements BackupPackagesAdapter.OnItemInteractionListener, FilterDialog.OnApplyConfigListener {
+public class BackupFragment extends SaiBaseFragment implements BackupPackagesAdapter.OnItemInteractionListener, FilterDialog.OnApplyConfigListener, SharedPreferences.OnSharedPreferenceChangeListener {
 
 
     private BackupViewModel mViewModel;
+
+    private BackupPackagesAdapter mAdapter;
 
     private int mSearchBarOffset;
 
@@ -51,9 +56,9 @@ public class BackupFragment extends SaiBaseFragment implements BackupPackagesAda
 
         recyclerView.getRecycledViewPool().setMaxRecycledViews(0, 24);
 
-        BackupPackagesAdapter adapter = new BackupPackagesAdapter(getContext());
-        adapter.setInteractionListener(this);
-        recyclerView.setAdapter(adapter);
+        mAdapter = new BackupPackagesAdapter(getContext());
+        mAdapter.setInteractionListener(this);
+        recyclerView.setAdapter(mAdapter);
 
         setupToolbar();
 
@@ -61,8 +66,16 @@ public class BackupFragment extends SaiBaseFragment implements BackupPackagesAda
             FilterDialog.newInstance(getString(R.string.backup_filter), mViewModel.getRawFilterConfig(), DefaultFilterConfigViewHolderFactory.class).show(getChildFragmentManager(), null);
         });
 
-        mViewModel.getBackupFilterConfig().observe(getViewLifecycleOwner(), config -> adapter.setFilterConfig(config, false));
-        mViewModel.getPackages().observe(getViewLifecycleOwner(), adapter::setData);
+        invalidateAppFeaturesVisibility();
+        mViewModel.getPackages().observe(getViewLifecycleOwner(), mAdapter::setData);
+
+        PreferencesHelper.getInstance(requireContext()).getPrefs().registerOnSharedPreferenceChangeListener(this);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        PreferencesHelper.getInstance(requireContext()).getPrefs().unregisterOnSharedPreferenceChangeListener(this);
     }
 
     private void setupToolbar() {
@@ -129,6 +142,16 @@ public class BackupFragment extends SaiBaseFragment implements BackupPackagesAda
         BackupAllSplitApksDialogFragment.newInstance().show(getChildFragmentManager(), null);
     }
 
+    private void invalidateAppFeaturesVisibility() {
+        if (PreferencesHelper.getInstance(requireContext()).shouldShowAppFeatures()) {
+            mViewModel.getBackupFilterConfig().observe(getViewLifecycleOwner(), config -> mAdapter.setFilterConfig(config, false));
+            mAdapter.setFilterConfig(mViewModel.getBackupFilterConfig().getValue(), true);
+        } else {
+            mViewModel.getBackupFilterConfig().removeObservers(getViewLifecycleOwner());
+            mAdapter.setFilterConfig(null, true);
+        }
+    }
+
     @Override
     protected int layoutId() {
         return R.layout.fragment_backup;
@@ -149,5 +172,12 @@ public class BackupFragment extends SaiBaseFragment implements BackupPackagesAda
     @Override
     public void onApplyConfig(ComplexFilterConfig config) {
         mViewModel.applyFilterConfig(config);
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        if (PreferencesKeys.SHOW_APP_FEATURES.equals(key)) {
+            invalidateAppFeaturesVisibility();
+        }
     }
 }

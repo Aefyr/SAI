@@ -19,6 +19,13 @@
             android:summary="@string/settings_main_installer_show_dialogs_summary"
             android:defaultValue="true" />
 
+        <SwitchPreference
+            android:icon="@drawable/ic_pref_feature"
+            android:key="show_app_features"
+            android:title="@string/settings_main_ui_show_app_features"
+            android:summary="@string/settings_main_ui_show_app_features_summary"
+            android:defaultValue="true" />
+
     </PreferenceCategory>
 
     <PreferenceCategory
