@@ -93,6 +93,10 @@
     <string name="backup_filter_sort_option_name">Name</string>
     <string name="backup_filter_sort_option_installed">Install date</string>
     <string name="backup_filter_sort_option_updated">Update date</string>
+    <string name="backup_app_feature_split">Split APK</string>
+    <string name="backup_app_feature_system_app">System app</string>
+    <string name="backup_app_feature_install_date">Installed: %s</string>
+    <string name="backup_app_feature_update_date">Updated: %s</string>
 
     <string name="settings_title">Settings</string>
     <string name="settings_main_home_directory">Home directory</string>

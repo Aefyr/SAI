@@ -252,4 +252,10 @@
         <item name="android:background">@android:color/transparent</item>
         <item name="android:padding">8dp</item>
     </style>
+
+    <style name="FeatureChipTextAppearance" parent="TextAppearance.AppCompat.Small">
+        <item name="android:textSize">12sp</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+    </style>
+
 </resources>

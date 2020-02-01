@@ -10,7 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.cardview.widget.CardView;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -41,7 +41,7 @@ public class BackupFragment extends SaiBaseFragment implements BackupPackagesAda
 
         OneTimeWarningDialogFragment.showIfNeeded(requireContext(), getChildFragmentManager(), R.string.help, R.string.backup_warning, "backup_faq");
 
-        mViewModel = ViewModelProviders.of(this).get(BackupViewModel.class);
+        mViewModel = new ViewModelProvider(this).get(BackupViewModel.class);
 
 
         RecyclerView recyclerView = findViewById(R.id.rv_packages);
@@ -58,10 +58,11 @@ public class BackupFragment extends SaiBaseFragment implements BackupPackagesAda
         setupToolbar();
 
         findViewById(R.id.button_backup_filter).setOnClickListener(v -> {
-            FilterDialog.newInstance(getString(R.string.backup_filter), mViewModel.getFilterConfig(), DefaultFilterConfigViewHolderFactory.class).show(getChildFragmentManager(), null);
+            FilterDialog.newInstance(getString(R.string.backup_filter), mViewModel.getRawFilterConfig(), DefaultFilterConfigViewHolderFactory.class).show(getChildFragmentManager(), null);
         });
 
-        mViewModel.getPackages().observe(this, adapter::setData);
+        mViewModel.getBackupFilterConfig().observe(getViewLifecycleOwner(), config -> adapter.setFilterConfig(config, false));
+        mViewModel.getPackages().observe(getViewLifecycleOwner(), adapter::setData);
     }
 
     private void setupToolbar() {

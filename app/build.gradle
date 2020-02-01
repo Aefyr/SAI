@@ -55,6 +55,8 @@ dependencies {
     //Google services
     normalImplementation 'com.google.firebase:firebase-core:17.2.2'
     normalImplementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
+
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.1'
 }
 
 //Cancel google services/fabric plugins for fdroid flavor

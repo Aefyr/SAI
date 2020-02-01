@@ -91,6 +91,10 @@
     <string name="backup_filter_sort_option_name">Имя</string>
     <string name="backup_filter_sort_option_installed">Дата установки</string>
     <string name="backup_filter_sort_option_updated">Дата обновления</string>
+    <string name="backup_app_feature_split">Split APK</string>
+    <string name="backup_app_feature_system_app">Системное</string>
+    <string name="backup_app_feature_install_date">Установлено: %s</string>
+    <string name="backup_app_feature_update_date">Обновлено: %s</string>
 
     <string name="settings_title">Настройки</string>
     <string name="settings_main_home_directory">Папка по умолчанию</string>
