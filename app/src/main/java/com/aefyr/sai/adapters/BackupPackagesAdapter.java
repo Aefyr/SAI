@@ -167,7 +167,7 @@ public class BackupPackagesAdapter extends RecyclerView.Adapter<BackupPackagesAd
                     features.add(new SimpleAppFeature(res.getString(R.string.backup_app_feature_install_date, mInstallOrUpdateDateSdf.format(packageMeta.installTime))));
                     break;
                 case UPDATE_TIME:
-                    features.add(new SimpleAppFeature(res.getString(R.string.backup_app_feature_update_date, mInstallOrUpdateDateSdf.format(packageMeta.installTime))));
+                    features.add(new SimpleAppFeature(res.getString(R.string.backup_app_feature_update_date, mInstallOrUpdateDateSdf.format(packageMeta.updateTime))));
                     break;
             }
 
