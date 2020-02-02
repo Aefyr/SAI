@@ -126,9 +126,9 @@ public class BackupPackagesFilterConfig {
                 .addOption(BackupPackagesFilterConfig.SORT_INSTALL, getString(c, R.string.backup_filter_sort_option_installed))
                 .addOption(BackupPackagesFilterConfig.SORT_UPDATE, getString(c, R.string.backup_filter_sort_option_updated));
 
-        SortFilterConfigOption nameOption = sortFilter.options().get(getSort().ordinal());
-        nameOption.setSelected();
-        nameOption.setAscending(mSortAscending);
+        SortFilterConfigOption selectedSortOption = sortFilter.options().get(getSort().ordinal());
+        selectedSortOption.setSelected();
+        selectedSortOption.setAscending(mSortAscending);
 
         filters.add(sortFilter);
 
