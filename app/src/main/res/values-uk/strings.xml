@@ -76,7 +76,7 @@
     <string name="settings_main_backup_file_name_format_summary">Формат імені експортованого .apks файлу.\nЗараз: %s</string>
     <string name="settings_main_backup_backup_dir">Папка експортованих додатків</string>
     <string name="settings_main_backup_backup_dir_summary">Папка, в яку SAI має експортувати додатки.\nЗараз: %s</string>
-    <string name="settings_main_backup_backup_dir_dialog">Обрати папку через</string>
+    <string name="settings_main_backup_backup_dir_dialog">Обрати папку:</string>
 	<string name="settings_main_install_location">Локація встановлення</string>
     <string name="settings_main_install_location_summary">Куди встановлювати додатки.\nЗараз: %s</string>
     <string name="settings_category_main_installer">Встановлення</string>
@@ -102,7 +102,21 @@
     <string name="backup_dialog_title">Оберіть частини split APK для експорту</string>
     <string name="backup_load_splits_error">Не вдалося отримати частини split APK</string>
     <string name="backup_splits_loading">Завантаження...</string>
-
+<string name="backup_filter">Фільтри</string>
+    <string name="backup_filter_common_option_doesnt_matter">Не важливо</string>
+    <string name="backup_filter_common_option_yes">Так</string>
+    <string name="backup_filter_common_option_no">Ні</string>
+    <string name="backup_filter_split_apk">Split APK</string>
+    <string name="backup_filter_system_app">Системний додаток</string>
+    <string name="backup_filter_sort">Сортування</string>
+    <string name="backup_filter_sort_option_name">Ім\'я</string>
+    <string name="backup_filter_sort_option_installed">Дата встановлення</string>
+    <string name="backup_filter_sort_option_updated">Дата оновлення</string>
+    <string name="backup_app_feature_split">Split APK</string>
+    <string name="backup_app_feature_system_app">Системний</string>
+    <string name="backup_app_feature_install_date">Встановлено: %s</string>
+    <string name="backup_app_feature_update_date">Оновлено: %s</string>
+    
     <string name="about_licenses">Ліцензії</string>
     <string name="installer_error_installer2_mixed_extensions_internal">Оберіть один або більше .apk/.apks/.zip файлів, змішані типи файлів заборонені</string>
     <string name="installer_error_installer2_mixed_extensions_saf">Оберіть один .zip/.apks файл, або більше .apk файлів</string>
@@ -120,6 +134,8 @@
     <string name="name_format_builder_title">Оберіть частини для генерування імені експортованого додатка</string>
     <string name="ok">ОК</string>
     <string name="settings_category_main_ui">Інтерфейс</string>
+    <string name="settings_main_ui_show_app_features">Показувати особливості додатків</string>
+    <string name="settings_main_ui_show_app_features_summary">Показувати контекстні бірки особливостей в додатків на екрані експорту</string>
     <string name="settings_main_installer_show_dialogs">Показувати діалоги установника</string>
     <string name="settings_main_installer_show_dialogs_summary">Показувати діалог з результатом завершення встановлення. Ви завжди можете відкрити цей діалог вручну, натиснувши на сесію встановлення. Діє тільки на новий інсталятор</string>
     <string name="settings_main_use_old_installer">Старий установник</string>
