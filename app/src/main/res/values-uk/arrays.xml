@@ -45,7 +45,7 @@
     </string-array>
 
     <string-array name="backup_dir_selection_methods">
-        <item>Вбудований провідник</item>
-        <item>Системний провідник</item>
+        <item>Вбудована можливість</item>
+        <item>Системний варіант</item>
     </string-array>
 </resources>
