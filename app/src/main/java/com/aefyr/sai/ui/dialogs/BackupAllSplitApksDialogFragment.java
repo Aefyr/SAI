@@ -10,7 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.aefyr.sai.R;
 import com.aefyr.sai.utils.PermissionsUtils;
@@ -29,7 +29,7 @@ public class BackupAllSplitApksDialogFragment extends DialogFragment {
         super.onCreate(savedInstanceState);
         setCancelable(false);
 
-        mViewModel = ViewModelProviders.of(this).get(BackupAllSplitApksDialogViewModel.class);
+        mViewModel = new ViewModelProvider(this).get(BackupAllSplitApksDialogViewModel.class);
         mViewModel.getIsBackupEnqueued().observe(this, (isBackupEnqueued) -> {
             if (isBackupEnqueued)
                 dismiss();
@@ -79,7 +79,7 @@ public class BackupAllSplitApksDialogFragment extends DialogFragment {
 
         if (requestCode == PermissionsUtils.REQUEST_CODE_STORAGE_PERMISSIONS) {
             if (grantResults.length == 0 || grantResults[0] == PackageManager.PERMISSION_DENIED) {
-                SimpleAlertDialogFragment.newInstance(getText(R.string.error), getText(R.string.permissions_required_storage)).show(requireFragmentManager(), null);
+                SimpleAlertDialogFragment.newInstance(getText(R.string.error), getText(R.string.permissions_required_storage)).show(getParentFragmentManager(), null);
                 dismiss();
             } else
                 enqueueBackup();
