@@ -16,7 +16,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -47,7 +47,6 @@ public class Installer2Fragment extends InstallerFragment implements FilePickerD
 
     private InstallerViewModel mViewModel;
 
-    private Button mInstallButton;
     private RecyclerView mSessionsRecycler;
     private ViewGroup mPlaceholderContainer;
 
@@ -61,7 +60,6 @@ public class Installer2Fragment extends InstallerFragment implements FilePickerD
 
         mHelper = PreferencesHelper.getInstance(getContext());
 
-        mInstallButton = findViewById(R.id.button_install);
         mPlaceholderContainer = findViewById(R.id.container_installer_placeholder);
 
         mSessionsRecycler = findViewById(R.id.rv_installer_sessions);
@@ -73,8 +71,8 @@ public class Installer2Fragment extends InstallerFragment implements FilePickerD
         mSessionsRecycler.setAdapter(sessionsAdapter);
         mSessionsRecycler.addItemDecoration(new RecyclerPaddingDecoration(0, requireContext().getResources().getDimensionPixelSize(R.dimen.installer_sessions_recycler_top_padding), 0, requireContext().getResources().getDimensionPixelSize(R.dimen.installer_sessions_recycler_bottom_padding)));
 
-        mViewModel = ViewModelProviders.of(this).get(InstallerViewModel.class);
-        mViewModel.getEvents().observe(this, (event) -> {
+        mViewModel = new ViewModelProvider(this).get(InstallerViewModel.class);
+        mViewModel.getEvents().observe(getViewLifecycleOwner(), (event) -> {
             if (event.isConsumed())
                 return;
 
@@ -92,7 +90,7 @@ public class Installer2Fragment extends InstallerFragment implements FilePickerD
                     break;
             }
         });
-        mViewModel.getSessions().observe(this, (sessions) -> {
+        mViewModel.getSessions().observe(getViewLifecycleOwner(), (sessions) -> {
             setPlaceholderShown(sessions.size() == 0);
             sessionsAdapter.setData(sessions);
         });
@@ -100,8 +98,9 @@ public class Installer2Fragment extends InstallerFragment implements FilePickerD
         findViewById(R.id.ib_toggle_theme).setOnClickListener((v -> ThemeSelectionDialogFragment.newInstance(requireContext()).show(getChildFragmentManager(), "theme_selection_dialog")));
         findViewById(R.id.ib_help).setOnClickListener((v) -> AlertsUtils.showAlert(this, R.string.help, R.string.installer_help));
 
-        mInstallButton.setOnClickListener((v) -> checkPermissionsAndPickFiles());
-        mInstallButton.setOnLongClickListener((v) -> pickFilesWithSaf());
+        Button installButtton = findViewById(R.id.button_install);
+        installButtton.setOnClickListener((v) -> checkPermissionsAndPickFiles());
+        installButtton.setOnLongClickListener((v) -> pickFilesWithSaf());
 
         if (mPendingActionViewUri != null) {
             handleActionView(mPendingActionViewUri);
