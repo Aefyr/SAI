@@ -154,12 +154,6 @@ public class BackupPackagesAdapter extends RecyclerView.Adapter<BackupPackagesAd
 
             Resources res = itemView.getResources();
 
-            if (mFilterConfig.getSplitApkFilter() == BackupPackagesFilterConfig.SimpleFilterMode.WHATEVER && packageMeta.hasSplits)
-                features.add(new SimpleAppFeature(res.getString(R.string.backup_app_feature_split)));
-
-            if (mFilterConfig.getSystemAppFilter() == BackupPackagesFilterConfig.SimpleFilterMode.WHATEVER && packageMeta.isSystemApp)
-                features.add(new SimpleAppFeature(res.getString(R.string.backup_app_feature_system_app)));
-
             switch (mFilterConfig.getSort()) {
                 case NAME:
                     break;
@@ -170,6 +164,12 @@ public class BackupPackagesAdapter extends RecyclerView.Adapter<BackupPackagesAd
                     features.add(new SimpleAppFeature(res.getString(R.string.backup_app_feature_update_date, mInstallOrUpdateDateSdf.format(packageMeta.updateTime))));
                     break;
             }
+
+            if (mFilterConfig.getSplitApkFilter() == BackupPackagesFilterConfig.SimpleFilterMode.WHATEVER && packageMeta.hasSplits)
+                features.add(new SimpleAppFeature(res.getString(R.string.backup_app_feature_split)));
+
+            if (mFilterConfig.getSystemAppFilter() == BackupPackagesFilterConfig.SimpleFilterMode.WHATEVER && packageMeta.isSystemApp)
+                features.add(new SimpleAppFeature(res.getString(R.string.backup_app_feature_system_app)));
 
             return features;
         }
