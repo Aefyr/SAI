@@ -3,7 +3,7 @@ package com.aefyr.sai.ui.activities;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -26,7 +26,7 @@ public class LicensesActivity extends ThemedActivity {
         LicensesAdapter adapter = new LicensesAdapter(this);
         recyclerView.setAdapter(adapter);
 
-        LicensesViewModel viewModel = ViewModelProviders.of(this).get(LicensesViewModel.class);
+        LicensesViewModel viewModel = new ViewModelProvider(this).get(LicensesViewModel.class);
         viewModel.getLicenses().observe(this, adapter::setLicenses);
     }
 }
