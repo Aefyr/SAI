@@ -2,9 +2,9 @@ package com.aefyr.sai.viewmodels;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.SharedPreferences;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.StringRes;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -18,8 +18,6 @@ import com.aefyr.flexfilter.builtin.filter.singlechoice.SingleChoiceFilterConfig
 import com.aefyr.flexfilter.builtin.filter.sort.SortFilterConfig;
 import com.aefyr.flexfilter.builtin.filter.sort.SortFilterConfigOption;
 import com.aefyr.flexfilter.config.core.ComplexFilterConfig;
-import com.aefyr.flexfilter.config.core.FilterConfig;
-import com.aefyr.sai.R;
 import com.aefyr.sai.backup.BackupRepository;
 import com.aefyr.sai.model.backup.BackupPackagesFilterConfig;
 import com.aefyr.sai.model.common.PackageMeta;
@@ -31,12 +29,12 @@ import java.util.List;
 //TODO applier should have setConfig or something
 public class BackupViewModel extends AndroidViewModel {
 
-    private Context mContext;
+    private SharedPreferences mFilterPrefs;
 
     private BackupRepository mBackupRepo;
     private Observer<List<PackageMeta>> mBackupRepoPackagesObserver;
 
-    private ComplexFilterConfig mFilterConfig;
+    private ComplexFilterConfig mComplexFilterConfig;
     private final BackupCustomFilterFactory mFilterFactory = new BackupCustomFilterFactory();
 
     private String mCurrentSearchQuery = "";
@@ -51,28 +49,35 @@ public class BackupViewModel extends AndroidViewModel {
 
     public BackupViewModel(@NonNull Application application) {
         super(application);
-        mContext = application;
 
-        mFilterConfig = createDefaultFilterConfig();
+        mFilterPrefs = application.getSharedPreferences("backup_filter", Context.MODE_PRIVATE);
+
+        BackupPackagesFilterConfig filterConfig = new BackupPackagesFilterConfig(mFilterPrefs);
+        mBackupFilterConfig.setValue(filterConfig);
+        mComplexFilterConfig = filterConfig.toComplexFilterConfig(application);
 
         mPackagesLiveData.setValue(new ArrayList<>());
 
-        mBackupRepo = BackupRepository.getInstance(mContext);
+        mBackupRepo = BackupRepository.getInstance(application);
         mBackupRepoPackagesObserver = (packages) -> search(mCurrentSearchQuery);
         mBackupRepo.getPackages().observeForever(mBackupRepoPackagesObserver);
 
         mLiveFilterApplier.asLiveData().observeForever(mLiveFilterObserver);
-        mBackupFilterConfig.setValue(new BackupPackagesFilterConfig(mFilterConfig));
+        mBackupFilterConfig.setValue(new BackupPackagesFilterConfig(mComplexFilterConfig));
     }
 
     public void applyFilterConfig(ComplexFilterConfig config) {
-        mFilterConfig = config;
-        mBackupFilterConfig.setValue(new BackupPackagesFilterConfig(config));
+        mComplexFilterConfig = config;
+
+        BackupPackagesFilterConfig newFilterConfig = new BackupPackagesFilterConfig(config);
+        newFilterConfig.saveToPrefs(mFilterPrefs);
+        mBackupFilterConfig.setValue(newFilterConfig);
+
         search(mCurrentSearchQuery);
     }
 
     public ComplexFilterConfig getRawFilterConfig() {
-        return mFilterConfig;
+        return mComplexFilterConfig;
     }
 
     public LiveData<List<PackageMeta>> getPackages() {
@@ -90,7 +95,7 @@ public class BackupViewModel extends AndroidViewModel {
 
     private ComplexCustomFilter<PackageMeta> createComplexFilter(String searchQuery) {
         return new ComplexCustomFilter.Builder<PackageMeta>()
-                .with(mFilterConfig, mFilterFactory)
+                .with(mComplexFilterConfig, mFilterFactory)
                 .add(new SearchFilter(searchQuery))
                 .build();
     }
@@ -130,45 +135,6 @@ public class BackupViewModel extends AndroidViewModel {
 
             return !labelMatches && !packagesMatches;
         }
-    }
-
-    private String getString(@StringRes int id) {
-        return getApplication().getString(id);
-    }
-
-    private SingleChoiceFilterConfig createYesNoWhateverFilterConfig(String id, CharSequence name) {
-        return new SingleChoiceFilterConfig(id, name)
-                .addOption(BackupPackagesFilterConfig.FILTER_MODE_WHATEVER, getString(R.string.backup_filter_common_option_doesnt_matter))
-                .addOption(BackupPackagesFilterConfig.FILTER_MODE_YES, getString(R.string.backup_filter_common_option_yes))
-                .addOption(BackupPackagesFilterConfig.FILTER_MODE_NO, getString(R.string.no));
-    }
-
-    private ComplexFilterConfig createDefaultFilterConfig() {
-        ArrayList<FilterConfig> filters = new ArrayList<>();
-
-        //Sort
-        SortFilterConfig sortFilter = new SortFilterConfig("sort", getString(R.string.backup_filter_sort))
-                .addOption(BackupPackagesFilterConfig.SORT_NAME, getString(R.string.backup_filter_sort_option_name))
-                .addOption(BackupPackagesFilterConfig.SORT_INSTALL, getString(R.string.backup_filter_sort_option_installed))
-                .addOption(BackupPackagesFilterConfig.SORT_UPDATE, getString(R.string.backup_filter_sort_option_updated));
-
-        SortFilterConfigOption nameOption = sortFilter.options().get(0);
-        nameOption.setSelected();
-        nameOption.setAscending(true);
-
-        filters.add(sortFilter);
-
-        //Split APK
-        SingleChoiceFilterConfig splitApkFilter = createYesNoWhateverFilterConfig(BackupPackagesFilterConfig.FILTER_SPLIT, getString(R.string.backup_filter_split_apk));
-        splitApkFilter.options().get(1).setSelected();
-        filters.add(splitApkFilter);
-
-        //System app
-        SingleChoiceFilterConfig systemAppFilter = createYesNoWhateverFilterConfig(BackupPackagesFilterConfig.FILTER_SYSTEM_APP, getString(R.string.backup_filter_system_app));
-        systemAppFilter.options().get(0).setSelected();
-        filters.add(systemAppFilter);
-
-        return new ComplexFilterConfig(filters);
     }
 
     //TODO clean this up
