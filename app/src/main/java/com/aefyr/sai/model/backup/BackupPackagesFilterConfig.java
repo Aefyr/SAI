@@ -112,19 +112,19 @@ public class BackupPackagesFilterConfig {
 
     private SingleChoiceFilterConfig createYesNoWhateverFilterConfig(Context c, String id, CharSequence name) {
         return new SingleChoiceFilterConfig(id, name)
-                .addOption(BackupPackagesFilterConfig.FILTER_MODE_WHATEVER, getString(c, R.string.backup_filter_common_option_doesnt_matter))
-                .addOption(BackupPackagesFilterConfig.FILTER_MODE_YES, getString(c, R.string.backup_filter_common_option_yes))
-                .addOption(BackupPackagesFilterConfig.FILTER_MODE_NO, getString(c, R.string.no));
+                .addOption(FILTER_MODE_WHATEVER, getString(c, R.string.backup_filter_common_option_doesnt_matter))
+                .addOption(FILTER_MODE_YES, getString(c, R.string.backup_filter_common_option_yes))
+                .addOption(FILTER_MODE_NO, getString(c, R.string.no));
     }
 
     public ComplexFilterConfig toComplexFilterConfig(Context c) {
         ArrayList<FilterConfig> filters = new ArrayList<>();
 
         //Sort
-        SortFilterConfig sortFilter = new SortFilterConfig(BackupPackagesFilterConfig.FILTER_SORT, getString(c, R.string.backup_filter_sort))
-                .addOption(BackupPackagesFilterConfig.SORT_NAME, getString(c, R.string.backup_filter_sort_option_name))
-                .addOption(BackupPackagesFilterConfig.SORT_INSTALL, getString(c, R.string.backup_filter_sort_option_installed))
-                .addOption(BackupPackagesFilterConfig.SORT_UPDATE, getString(c, R.string.backup_filter_sort_option_updated));
+        SortFilterConfig sortFilter = new SortFilterConfig(FILTER_SORT, getString(c, R.string.backup_filter_sort))
+                .addOption(SORT_NAME, getString(c, R.string.backup_filter_sort_option_name))
+                .addOption(SORT_INSTALL, getString(c, R.string.backup_filter_sort_option_installed))
+                .addOption(SORT_UPDATE, getString(c, R.string.backup_filter_sort_option_updated));
 
         SortFilterConfigOption selectedSortOption = sortFilter.options().get(getSort().ordinal());
         selectedSortOption.setSelected();
@@ -133,12 +133,12 @@ public class BackupPackagesFilterConfig {
         filters.add(sortFilter);
 
         //Split APK
-        SingleChoiceFilterConfig splitApkFilter = createYesNoWhateverFilterConfig(c, BackupPackagesFilterConfig.FILTER_SPLIT, getString(c, R.string.backup_filter_split_apk));
+        SingleChoiceFilterConfig splitApkFilter = createYesNoWhateverFilterConfig(c, FILTER_SPLIT, getString(c, R.string.backup_filter_split_apk));
         splitApkFilter.options().get(getSplitApkFilter().ordinal()).setSelected();
         filters.add(splitApkFilter);
 
         //System app
-        SingleChoiceFilterConfig systemAppFilter = createYesNoWhateverFilterConfig(c, BackupPackagesFilterConfig.FILTER_SYSTEM_APP, getString(c, R.string.backup_filter_system_app));
+        SingleChoiceFilterConfig systemAppFilter = createYesNoWhateverFilterConfig(c, FILTER_SYSTEM_APP, getString(c, R.string.backup_filter_system_app));
         systemAppFilter.options().get(getSystemAppFilter().ordinal()).setSelected();
         filters.add(systemAppFilter);
 
