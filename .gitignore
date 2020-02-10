@@ -6,3 +6,4 @@
 /build
 /captures
 .externalNativeBuild
+crowdin.properties
