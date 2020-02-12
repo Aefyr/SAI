@@ -236,6 +236,14 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Fil
                         mHelper.setFilePickerSortBy(DialogConfigs.SORT_BY_LAST_MODIFIED);
                         mHelper.setFilePickerSortOrder(DialogConfigs.SORT_ORDER_REVERSE);
                         break;
+                    case 4:
+                        mHelper.setFilePickerSortBy(DialogConfigs.SORT_BY_SIZE);
+                        mHelper.setFilePickerSortOrder(DialogConfigs.SORT_ORDER_REVERSE);
+                        break;
+                    case 5:
+                        mHelper.setFilePickerSortBy(DialogConfigs.SORT_BY_SIZE);
+                        mHelper.setFilePickerSortOrder(DialogConfigs.SORT_ORDER_NORMAL);
+                        break;
                 }
                 updateFilePickerSortSummary();
                 break;

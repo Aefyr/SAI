@@ -6,6 +6,8 @@
         <item>"By name (Reverse alphabetical)"</item>
         <item>"Later modified first"</item>
         <item>"Older modified first"</item>
+        <item>"Smallest file size first"</item>
+        <item>"Biggest file size first"</item>
     </string-array>
 
     <string-array name="themes">
