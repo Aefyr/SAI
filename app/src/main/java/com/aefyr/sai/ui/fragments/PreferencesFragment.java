@@ -312,8 +312,8 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Fil
     }
 
     @Override
-    public void onDismiss(@NonNull String tag) {
-        switch (tag) {
+    public void onDialogDismissed(@NonNull String dialogTag) {
+        switch (dialogTag) {
             case "backup_name_format_builder":
                 updateBackupNameFormatSummary();
                 break;

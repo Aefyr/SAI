@@ -83,7 +83,7 @@ public class BaseBottomSheetDialogFragment extends BottomSheetDialogFragment {
         ((TextView) mDialog.findViewById(R.id.tv_bottom_sheet_dialog_base_title)).setText(title);
     }
 
-    public void revealBottomSheet() {
+    protected void revealBottomSheet() {
         FrameLayout bottomSheet = mDialog.findViewById(R.id.design_bottom_sheet);
         BottomSheetBehavior bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet);
         bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
@@ -98,13 +98,13 @@ public class BaseBottomSheetDialogFragment extends BottomSheetDialogFragment {
             parent = requireActivity();
 
         if (parent instanceof OnDismissListener && getTag() != null)
-            ((OnDismissListener) parent).onDismiss(getTag());
+            ((OnDismissListener) parent).onDialogDismissed(getTag());
 
     }
 
     public interface OnDismissListener {
 
-        void onDismiss(@NonNull String tag);
+        void onDialogDismissed(@NonNull String dialogTag);
 
     }
 }
