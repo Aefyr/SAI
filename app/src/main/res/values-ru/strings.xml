@@ -132,6 +132,7 @@
     <string name="settings_category_main_ui">Интерфейс</string>
     <string name="settings_main_ui_show_app_features">Показывать особенности приложений</string>
     <string name="settings_main_ui_show_app_features_summary">Показывать контекстные бейджы особенностей у приложений на экране экспорта</string>
+    <string name="settings_main_ui_theme">Тема</string>
 
     <string name="name_format_builder_title">Выберите части для генерации имени экспортированного приложения</string>
     <string name="name_format_builder_preview">Пример: %s</string>

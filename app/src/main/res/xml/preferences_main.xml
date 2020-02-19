@@ -6,6 +6,11 @@
         android:title="@string/settings_category_main_ui"
         app:iconSpaceReserved="false">
 
+        <Preference
+            android:icon="@drawable/ic_pref_theme"
+            android:key="theme"
+            android:title="@string/settings_main_ui_theme" />
+
         <SwitchPreference
             android:icon="@drawable/ic_pref_old_installer"
             android:key="use_old_installer"

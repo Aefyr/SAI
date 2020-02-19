@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:left="@dimen/prefs_icons_padding"
+        android:top="@dimen/prefs_icons_padding"
+        android:right="@dimen/prefs_icons_padding"
+        android:bottom="@dimen/prefs_icons_padding">
+        <rotate
+            android:fromDegrees="30"
+            android:toDegrees="30">
+            <bitmap
+                android:src="@drawable/ic_dark_theme"
+                android:tint="?attr/colorAccent" />
+        </rotate>
+    </item>
+</layer-list>

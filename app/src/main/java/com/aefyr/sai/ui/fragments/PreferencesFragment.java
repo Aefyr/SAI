@@ -22,6 +22,7 @@ import com.aefyr.sai.ui.activities.AboutActivity;
 import com.aefyr.sai.ui.dialogs.FilePickerDialogFragment;
 import com.aefyr.sai.ui.dialogs.NameFormatBuilderDialogFragment;
 import com.aefyr.sai.ui.dialogs.SingleChoiceListDialogFragment;
+import com.aefyr.sai.ui.dialogs.ThemeSelectionDialogFragment;
 import com.aefyr.sai.ui.dialogs.base.BaseBottomSheetDialogFragment;
 import com.aefyr.sai.utils.AlertsUtils;
 import com.aefyr.sai.utils.BackupNameFormat;
@@ -29,6 +30,7 @@ import com.aefyr.sai.utils.PermissionsUtils;
 import com.aefyr.sai.utils.PreferencesHelper;
 import com.aefyr.sai.utils.PreferencesKeys;
 import com.aefyr.sai.utils.PreferencesValues;
+import com.aefyr.sai.utils.Theme;
 import com.aefyr.sai.utils.Utils;
 import com.github.angads25.filepicker.model.DialogConfigs;
 import com.github.angads25.filepicker.model.DialogProperties;
@@ -50,6 +52,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Fil
     private Preference mInstallerPref;
     private Preference mBackupNameFormatPref;
     private Preference mBackupDirPref;
+    private Preference mThemePref;
 
     private PackageMeta mDemoMeta;
 
@@ -103,6 +106,13 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Fil
             return true;
         });
 
+        mThemePref = findPreference(PreferencesKeys.THEME);
+        updateThemeSummary();
+        mThemePref.setOnPreferenceClickListener(p -> {
+            ThemeSelectionDialogFragment.newInstance(requireContext()).show(getChildFragmentManager(), "theme");
+            return true;
+        });
+
         getPreferenceManager().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
     }
 
@@ -152,6 +162,10 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Fil
 
     private void updateBackupDirSummary() {
         mBackupDirPref.setSummary(getString(R.string.settings_main_backup_backup_dir_summary, mHelper.getBackupDirUri()));
+    }
+
+    private void updateThemeSummary() {
+        mThemePref.setSummary(getResources().getStringArray(R.array.themes)[Theme.getInstance(requireContext()).getCurrentThemeId()]);
     }
 
     @Override
@@ -299,8 +313,14 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Fil
 
     @Override
     public void onDismiss(@NonNull String tag) {
-        if (tag.equals("backup_name_format_builder"))
-            updateBackupNameFormatSummary();
+        switch (tag) {
+            case "backup_name_format_builder":
+                updateBackupNameFormatSummary();
+                break;
+            case "theme":
+                updateThemeSummary();
+                break;
+        }
     }
 
     @Override
