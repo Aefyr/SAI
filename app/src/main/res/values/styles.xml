@@ -3,6 +3,7 @@
     <style name="AppTheme.Light" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="colorPrimary">@color/colorPureWhite</item>
         <item name="colorPrimaryDark">@color/colorPureWhite</item>
+        <item name="colorPrimaryLight">@color/colorPrimaryLightSai</item>
         <item name="colorAccent">@color/colorCoolBlue</item>
         <item name="android:windowBackground">@color/colorPureWhite</item>
         <item name="titleTextColor">@color/colorFineGrey</item>
@@ -21,6 +22,7 @@
     <style name="AppTheme.Dark" parent="Theme.MaterialComponents.NoActionBar">
         <item name="colorPrimary">@color/colorGreaterGrey</item>
         <item name="colorPrimaryDark">@color/colorGreaterGrey</item>
+        <item name="colorPrimaryLight">@color/colorPrimaryLightRuby</item>
         <item name="colorAccent">@color/colorPerfectPink</item>
         <item name="android:windowBackground">@color/colorGreaterGrey</item>
         <item name="titleTextColor">@color/colorAlmostWhite</item>
@@ -39,6 +41,7 @@
     <style name="AppTheme.Simple.Dark" parent="AppTheme.Dark">
         <item name="colorPrimary">?attr/simpleThemePrimaryColor</item>
         <item name="colorPrimaryDark">?attr/simpleThemePrimaryColor</item>
+        <item name="colorPrimaryLight">?attr/simpleThemePrimaryLightColor</item>
         <item name="colorAccent">?attr/simpleThemeAccentColor</item>
         <item name="android:windowBackground">?attr/simpleThemePrimaryColor</item>
         <item name="titleTextColor">?attr/simpleThemeTextPrimaryColor</item>
@@ -50,6 +53,7 @@
     <style name="AppTheme.Simple.Light" parent="AppTheme.Light">
         <item name="colorPrimary">?attr/simpleThemePrimaryColor</item>
         <item name="colorPrimaryDark">?attr/simpleThemePrimaryColor</item>
+        <item name="colorPrimaryLight">?attr/simpleThemePrimaryLightColor</item>
         <item name="colorAccent">?attr/simpleThemeAccentColor</item>
         <item name="android:windowBackground">?attr/simpleThemePrimaryColor</item>
         <item name="titleTextColor">?attr/simpleThemeTextPrimaryColor</item>
@@ -60,6 +64,7 @@
 
     <style name="AppTheme.Rena" parent="AppTheme.Simple.Dark">
         <item name="simpleThemePrimaryColor">@color/colorPrimaryRena</item>
+        <item name="simpleThemePrimaryLightColor">@color/colorPrimaryLightRena</item>
         <item name="simpleThemeAccentColor">@color/colorAccentRena</item>
         <item name="simpleThemeTextPrimaryColor">@color/colorTextPrimaryRena</item>
         <item name="simpleThemeTextSecondaryColor">@color/colorTextSecondaryRena</item>
@@ -67,6 +72,7 @@
 
     <style name="AppTheme.Rooter" parent="AppTheme.Simple.Dark">
         <item name="simpleThemePrimaryColor">@color/colorPrimaryRooter</item>
+        <item name="simpleThemePrimaryLightColor">@color/colorPrimaryLightRooter</item>
         <item name="simpleThemeAccentColor">@color/colorAccentRooter</item>
         <item name="simpleThemeTextPrimaryColor">@color/colorTextPrimaryRooter</item>
         <item name="simpleThemeTextSecondaryColor">@color/colorTextSecondaryRooter</item>
@@ -74,6 +80,7 @@
 
     <style name="AppTheme.Omelette" parent="AppTheme.Simple.Dark">
         <item name="simpleThemePrimaryColor">@color/colorPrimaryOmelette</item>
+        <item name="simpleThemePrimaryLightColor">@color/colorPrimaryLightOmelette</item>
         <item name="simpleThemeAccentColor">@color/colorAccentOmelette</item>
         <item name="simpleThemeTextPrimaryColor">@color/colorTextPrimaryOmelette</item>
         <item name="simpleThemeTextSecondaryColor">@color/colorTextSecondaryOmelette</item>
@@ -81,6 +88,7 @@
 
     <style name="AppTheme.Pixel" parent="AppTheme.Simple.Light">
         <item name="simpleThemePrimaryColor">@color/colorPrimaryPixel</item>
+        <item name="simpleThemePrimaryLightColor">@color/colorPrimaryLightPixel</item>
         <item name="simpleThemeAccentColor">@color/colorAccentPixel</item>
         <item name="simpleThemeTextPrimaryColor">@color/colorTextPrimaryPixel</item>
         <item name="simpleThemeTextSecondaryColor">@color/colorTextSecondaryPixel</item>
@@ -88,6 +96,7 @@
 
     <style name="AppTheme.FDroid" parent="AppTheme.Simple.Light">
         <item name="simpleThemePrimaryColor">@color/colorPrimaryFDroid</item>
+        <item name="simpleThemePrimaryLightColor">@color/colorPrimaryLightFDroid</item>
         <item name="simpleThemeAccentColor">@color/colorAccentFDroid</item>
         <item name="simpleThemeTextPrimaryColor">@color/colorTextPrimaryFDroid</item>
         <item name="simpleThemeTextSecondaryColor">@color/colorTextSecondaryFDroid</item>
@@ -95,6 +104,7 @@
 
     <style name="AppTheme.Dark2" parent="AppTheme.Simple.Dark">
         <item name="simpleThemePrimaryColor">@color/colorPrimaryDark2</item>
+        <item name="simpleThemePrimaryLightColor">@color/colorPrimaryLightDark2</item>
         <item name="simpleThemeAccentColor">@color/colorAccentDark2</item>
         <item name="simpleThemeTextPrimaryColor">@color/colorTextPrimaryDark2</item>
         <item name="simpleThemeTextSecondaryColor">@color/colorTextSecondaryDark2</item>
@@ -242,4 +252,10 @@
         <item name="android:background">@android:color/transparent</item>
         <item name="android:padding">8dp</item>
     </style>
+
+    <style name="FeatureChipTextAppearance" parent="TextAppearance.AppCompat.Small">
+        <item name="android:textSize">12sp</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+    </style>
+
 </resources>

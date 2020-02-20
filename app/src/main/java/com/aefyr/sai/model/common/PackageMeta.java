@@ -23,6 +23,8 @@ public class PackageMeta implements Parcelable {
     public long versionCode;
     public String versionName;
     public Uri iconUri;
+    public long installTime;
+    public long updateTime;
 
     public PackageMeta(String packageName, String label) {
         this.packageName = packageName;
@@ -37,6 +39,8 @@ public class PackageMeta implements Parcelable {
         versionCode = in.readLong();
         versionName = in.readString();
         iconUri = in.readParcelable(Uri.class.getClassLoader());
+        installTime = in.readLong();
+        updateTime = in.readLong();
     }
 
     public static final Creator<PackageMeta> CREATOR = new Creator<PackageMeta>() {
@@ -65,6 +69,8 @@ public class PackageMeta implements Parcelable {
         dest.writeLong(versionCode);
         dest.writeString(versionName);
         dest.writeParcelable(iconUri, 0);
+        dest.writeLong(installTime);
+        dest.writeLong(updateTime);
     }
 
     public static class Builder {
@@ -114,6 +120,16 @@ public class PackageMeta implements Parcelable {
             return this;
         }
 
+        public Builder setInstallTime(long installTime) {
+            mPackageMeta.installTime = installTime;
+            return this;
+        }
+
+        public Builder setUpdateTime(long updateTime) {
+            mPackageMeta.updateTime = updateTime;
+            return this;
+        }
+
         public PackageMeta build() {
             return mPackageMeta;
         }
@@ -134,6 +150,8 @@ public class PackageMeta implements Parcelable {
                     .serVersionCode(Utils.apiIsAtLeast(Build.VERSION_CODES.P) ? packageInfo.getLongVersionCode() : packageInfo.versionCode)
                     .setVersionName(packageInfo.versionName)
                     .setIcon(applicationInfo.icon)
+                    .setInstallTime(packageInfo.firstInstallTime)
+                    .setUpdateTime(packageInfo.lastUpdateTime)
                     .build();
 
         } catch (PackageManager.NameNotFoundException e) {

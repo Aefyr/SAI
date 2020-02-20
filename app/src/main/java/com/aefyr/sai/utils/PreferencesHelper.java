@@ -24,6 +24,10 @@ public class PreferencesHelper {
         sInstance = this;
     }
 
+    public SharedPreferences getPrefs() {
+        return mPrefs;
+    }
+
     public String getHomeDirectory() {
         return mPrefs.getString(PreferencesKeys.HOME_DIRECTORY, Environment.getExternalStorageDirectory().getAbsolutePath());
     }
@@ -115,6 +119,10 @@ public class PreferencesHelper {
 
     public void setBackupDirUri(String uri) {
         mPrefs.edit().putString(PreferencesKeys.BACKUP_DIR, uri).apply();
+    }
+
+    public boolean shouldShowAppFeatures() {
+        return mPrefs.getBoolean(PreferencesKeys.SHOW_APP_FEATURES, true);
     }
 
 }

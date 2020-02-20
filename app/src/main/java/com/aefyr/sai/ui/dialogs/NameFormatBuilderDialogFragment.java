@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.aefyr.sai.R;
@@ -28,15 +28,14 @@ public class NameFormatBuilderDialogFragment extends BaseBottomSheetDialogFragme
     private NameFormatBuilderViewModel mViewModel;
 
     public static NameFormatBuilderDialogFragment newInstance() {
-        NameFormatBuilderDialogFragment fragment = new NameFormatBuilderDialogFragment();
-        return fragment;
+        return new NameFormatBuilderDialogFragment();
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mViewModel = ViewModelProviders.of(this).get(NameFormatBuilderViewModel.class);
+        mViewModel = new ViewModelProvider(this).get(NameFormatBuilderViewModel.class);
     }
 
     @Nullable
@@ -68,6 +67,7 @@ public class NameFormatBuilderDialogFragment extends BaseBottomSheetDialogFragme
 
         TextView preview = view.findViewById(R.id.tv_name_builder_sample);
 
+        //TODO probably use getViewLifecycleOwner(), but no idea, how it is supposed to work in DialogFragment
         mViewModel.getSelection().asLiveData().observe(this, (selection) -> getPositiveButton().setEnabled(selection.hasSelection()));
         mViewModel.getFormat().observe(this, (format) -> {
             preview.setText(format.getParts().isEmpty() ? getString(R.string.name_format_builder_preview_empty) : getString(R.string.name_format_builder_preview, BackupNameFormat.format(format.build(), mViewModel.getOwnMeta())));

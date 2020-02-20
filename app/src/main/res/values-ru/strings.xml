@@ -81,6 +81,20 @@
     <string name="backup_dialog_title">Выберите части split APK для экспорта</string>
     <string name="backup_load_splits_error">Не удалось получить части split APK</string>
     <string name="backup_splits_loading">Загрузка...</string>
+    <string name="backup_filter">Фильтры</string>
+    <string name="backup_filter_common_option_doesnt_matter">Неважно</string>
+    <string name="backup_filter_common_option_yes">Да</string>
+    <string name="backup_filter_common_option_no">Нет</string>
+    <string name="backup_filter_split_apk">Split APK</string>
+    <string name="backup_filter_system_app">Системное приложение</string>
+    <string name="backup_filter_sort">Сортировка</string>
+    <string name="backup_filter_sort_option_name">Имя</string>
+    <string name="backup_filter_sort_option_installed">Дата установки</string>
+    <string name="backup_filter_sort_option_updated">Дата обновления</string>
+    <string name="backup_app_feature_split">Split APK</string>
+    <string name="backup_app_feature_system_app">Системное</string>
+    <string name="backup_app_feature_install_date">Установлено: %s</string>
+    <string name="backup_app_feature_update_date">Обновлено: %s</string>
 
     <string name="settings_title">Настройки</string>
     <string name="settings_main_home_directory">Папка по умолчанию</string>
@@ -116,6 +130,9 @@
     <string name="settings_category_main_export">Экспорт</string>
     <string name="settings_category_main_other">Другое</string>
     <string name="settings_category_main_ui">Интерфейс</string>
+    <string name="settings_main_ui_show_app_features">Показывать особенности приложений</string>
+    <string name="settings_main_ui_show_app_features_summary">Показывать контекстные бейджы особенностей у приложений на экране экспорта</string>
+    <string name="settings_main_ui_theme">Тема</string>
 
     <string name="name_format_builder_title">Выберите части для генерации имени экспортированного приложения</string>
     <string name="name_format_builder_preview">Пример: %s</string>

@@ -22,6 +22,7 @@ import com.aefyr.sai.ui.activities.AboutActivity;
 import com.aefyr.sai.ui.dialogs.FilePickerDialogFragment;
 import com.aefyr.sai.ui.dialogs.NameFormatBuilderDialogFragment;
 import com.aefyr.sai.ui.dialogs.SingleChoiceListDialogFragment;
+import com.aefyr.sai.ui.dialogs.ThemeSelectionDialogFragment;
 import com.aefyr.sai.ui.dialogs.base.BaseBottomSheetDialogFragment;
 import com.aefyr.sai.utils.AlertsUtils;
 import com.aefyr.sai.utils.BackupNameFormat;
@@ -29,6 +30,7 @@ import com.aefyr.sai.utils.PermissionsUtils;
 import com.aefyr.sai.utils.PreferencesHelper;
 import com.aefyr.sai.utils.PreferencesKeys;
 import com.aefyr.sai.utils.PreferencesValues;
+import com.aefyr.sai.utils.Theme;
 import com.aefyr.sai.utils.Utils;
 import com.github.angads25.filepicker.model.DialogConfigs;
 import com.github.angads25.filepicker.model.DialogProperties;
@@ -50,6 +52,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Fil
     private Preference mInstallerPref;
     private Preference mBackupNameFormatPref;
     private Preference mBackupDirPref;
+    private Preference mThemePref;
 
     private PackageMeta mDemoMeta;
 
@@ -73,7 +76,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Fil
         mFilePickerSortPref = findPreference("file_picker_sort");
         updateFilePickerSortSummary();
         mFilePickerSortPref.setOnPreferenceClickListener((p) -> {
-            SingleChoiceListDialogFragment.newInstance("sort", getText(R.string.settings_main_file_picker_sort), R.array.file_picker_sort_variants, mHelper.getFilePickerRawSort()).show(getChildFragmentManager(), null);
+            SingleChoiceListDialogFragment.newInstance(getText(R.string.settings_main_file_picker_sort), R.array.file_picker_sort_variants, mHelper.getFilePickerRawSort()).show(getChildFragmentManager(), "sort");
             return true;
         });
 
@@ -85,7 +88,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Fil
         mInstallerPref = findPreference("installer");
         updateInstallerSummary();
         mInstallerPref.setOnPreferenceClickListener((p -> {
-            SingleChoiceListDialogFragment.newInstance("installer", getText(R.string.settings_main_installer), R.array.installers, mHelper.getInstaller()).show(getChildFragmentManager(), null);
+            SingleChoiceListDialogFragment.newInstance(getText(R.string.settings_main_installer), R.array.installers, mHelper.getInstaller()).show(getChildFragmentManager(), "installer");
             return true;
         }));
 
@@ -100,6 +103,13 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Fil
         updateBackupDirSummary();
         mBackupDirPref.setOnPreferenceClickListener(p -> {
             selectBackupDir();
+            return true;
+        });
+
+        mThemePref = findPreference(PreferencesKeys.THEME);
+        updateThemeSummary();
+        mThemePref.setOnPreferenceClickListener(p -> {
+            ThemeSelectionDialogFragment.newInstance(requireContext()).show(getChildFragmentManager(), "theme");
             return true;
         });
 
@@ -131,7 +141,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Fil
     }
 
     private void selectBackupDir() {
-        SingleChoiceListDialogFragment.newInstance("backup_dir_selection_method", getText(R.string.settings_main_backup_backup_dir_dialog), R.array.backup_dir_selection_methods).show(getChildFragmentManager(), "backup_dir_selection_method");
+        SingleChoiceListDialogFragment.newInstance(getText(R.string.settings_main_backup_backup_dir_dialog), R.array.backup_dir_selection_methods).show(getChildFragmentManager(), "backup_dir_selection_method");
     }
 
     private void updateHomeDirPrefSummary() {
@@ -152,6 +162,10 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Fil
 
     private void updateBackupDirSummary() {
         mBackupDirPref.setSummary(getString(R.string.settings_main_backup_backup_dir_summary, mHelper.getBackupDirUri()));
+    }
+
+    private void updateThemeSummary() {
+        mThemePref.setSummary(getResources().getStringArray(R.array.themes)[Theme.getInstance(requireContext()).getCurrentThemeId()]);
     }
 
     @Override
@@ -236,6 +250,14 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Fil
                         mHelper.setFilePickerSortBy(DialogConfigs.SORT_BY_LAST_MODIFIED);
                         mHelper.setFilePickerSortOrder(DialogConfigs.SORT_ORDER_REVERSE);
                         break;
+                    case 4:
+                        mHelper.setFilePickerSortBy(DialogConfigs.SORT_BY_SIZE);
+                        mHelper.setFilePickerSortOrder(DialogConfigs.SORT_ORDER_REVERSE);
+                        break;
+                    case 5:
+                        mHelper.setFilePickerSortBy(DialogConfigs.SORT_BY_SIZE);
+                        mHelper.setFilePickerSortOrder(DialogConfigs.SORT_ORDER_NORMAL);
+                        break;
                 }
                 updateFilePickerSortSummary();
                 break;
@@ -290,9 +312,15 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Fil
     }
 
     @Override
-    public void onDismiss(@NonNull String tag) {
-        if (tag.equals("backup_name_format_builder"))
-            updateBackupNameFormatSummary();
+    public void onDialogDismissed(@NonNull String dialogTag) {
+        switch (dialogTag) {
+            case "backup_name_format_builder":
+                updateBackupNameFormatSummary();
+                break;
+            case "theme":
+                updateThemeSummary();
+                break;
+        }
     }
 
     @Override

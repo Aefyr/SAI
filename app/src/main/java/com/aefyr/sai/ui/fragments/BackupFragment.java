@@ -1,38 +1,44 @@
 package com.aefyr.sai.ui.fragments;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.PopupMenu;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.cardview.widget.CardView;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.aefyr.flexfilter.builtin.DefaultFilterConfigViewHolderFactory;
+import com.aefyr.flexfilter.config.core.ComplexFilterConfig;
+import com.aefyr.flexfilter.ui.FilterDialog;
 import com.aefyr.sai.R;
 import com.aefyr.sai.adapters.BackupPackagesAdapter;
 import com.aefyr.sai.model.common.PackageMeta;
 import com.aefyr.sai.ui.dialogs.BackupAllSplitApksDialogFragment;
 import com.aefyr.sai.ui.dialogs.BackupDialogFragment;
 import com.aefyr.sai.ui.dialogs.OneTimeWarningDialogFragment;
+import com.aefyr.sai.ui.recycler.RecyclerPaddingDecoration;
+import com.aefyr.sai.utils.MathUtils;
+import com.aefyr.sai.utils.PreferencesHelper;
+import com.aefyr.sai.utils.PreferencesKeys;
 import com.aefyr.sai.utils.Utils;
 import com.aefyr.sai.viewmodels.BackupViewModel;
-import com.google.android.material.chip.Chip;
-import com.google.android.material.textfield.TextInputLayout;
 
-public class BackupFragment extends SaiBaseFragment implements BackupPackagesAdapter.OnItemInteractionListener {
+public class BackupFragment extends SaiBaseFragment implements BackupPackagesAdapter.OnItemInteractionListener, FilterDialog.OnApplyConfigListener, SharedPreferences.OnSharedPreferenceChangeListener {
 
-
-    private EditText mEditTextSearch;
-    private Chip mChipFilterSplitsOnly;
-    private Chip mChipFilterIncludeSystemApps;
 
     private BackupViewModel mViewModel;
+
+    private BackupPackagesAdapter mAdapter;
+
+    private int mSearchBarOffset;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -40,30 +46,42 @@ public class BackupFragment extends SaiBaseFragment implements BackupPackagesAda
 
         OneTimeWarningDialogFragment.showIfNeeded(requireContext(), getChildFragmentManager(), R.string.help, R.string.backup_warning, "backup_faq");
 
-        mViewModel = ViewModelProviders.of(this).get(BackupViewModel.class);
+        mViewModel = new ViewModelProvider(this).get(BackupViewModel.class);
 
 
         RecyclerView recyclerView = findViewById(R.id.rv_packages);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        int padding = requireContext().getResources().getDimensionPixelSize(R.dimen.backup_recycler_top_bottom_padding);
+        recyclerView.addItemDecoration(new RecyclerPaddingDecoration(0, padding, 0, padding));
 
         recyclerView.getRecycledViewPool().setMaxRecycledViews(0, 24);
 
-        BackupPackagesAdapter adapter = new BackupPackagesAdapter(getContext());
-        adapter.setInteractionListener(this);
-        recyclerView.setAdapter(adapter);
+        mAdapter = new BackupPackagesAdapter(getContext());
+        mAdapter.setInteractionListener(this);
+        recyclerView.setAdapter(mAdapter);
 
         setupToolbar();
 
-        mViewModel.getPackages().observe(this, adapter::setData);
+        findViewById(R.id.button_backup_filter).setOnClickListener(v -> {
+            FilterDialog.newInstance(getString(R.string.backup_filter), mViewModel.getRawFilterConfig(), DefaultFilterConfigViewHolderFactory.class).show(getChildFragmentManager(), null);
+        });
+
+        invalidateAppFeaturesVisibility();
+        mViewModel.getPackages().observe(getViewLifecycleOwner(), mAdapter::setData);
+
+        PreferencesHelper.getInstance(requireContext()).getPrefs().registerOnSharedPreferenceChangeListener(this);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        PreferencesHelper.getInstance(requireContext()).getPrefs().unregisterOnSharedPreferenceChangeListener(this);
     }
 
     private void setupToolbar() {
         //Search
-        mEditTextSearch = findViewById(R.id.et_search);
-        mChipFilterSplitsOnly = findViewById(R.id.chip_filter_splits);
-        mChipFilterIncludeSystemApps = findViewById(R.id.chip_filter_system);
-
-        mEditTextSearch.addTextChangedListener(new TextWatcher() {
+        EditText editTextSearch = findViewById(R.id.et_search);
+        editTextSearch.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -76,18 +94,11 @@ public class BackupFragment extends SaiBaseFragment implements BackupPackagesAda
 
             @Override
             public void afterTextChanged(Editable s) {
-                filterPackages();
+                mViewModel.search(s.toString());
             }
         });
 
-        CompoundButton.OnCheckedChangeListener onCheckedChangeListener = (group, checkedId) -> filterPackages();
-        mChipFilterSplitsOnly.setOnCheckedChangeListener(onCheckedChangeListener);
-        mChipFilterIncludeSystemApps.setOnCheckedChangeListener(onCheckedChangeListener);
-        filterPackages();
-
-        //Menu
-        TextInputLayout textInputLayout = findViewById(R.id.til);
-        textInputLayout.setEndIconOnClickListener(v -> {
+        findViewById(R.id.ib_backup_search_more).setOnClickListener(v -> {
             PopupMenu popupMenu = new PopupMenu(requireContext(), v);
             popupMenu.getMenuInflater().inflate(R.menu.backup_fragment, popupMenu.getMenu());
 
@@ -102,14 +113,43 @@ public class BackupFragment extends SaiBaseFragment implements BackupPackagesAda
 
             popupMenu.show();
         });
-    }
 
-    private void filterPackages() {
-        mViewModel.filter(mEditTextSearch.getText().toString(), mChipFilterSplitsOnly.isChecked(), mChipFilterIncludeSystemApps.isChecked());
+        CardView searchBar = findViewById(R.id.card_search);
+        RecyclerView recyclerView = findViewById(R.id.rv_packages);
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                if (dy == 0)
+                    mSearchBarOffset = 0;
+                else
+                    mSearchBarOffset = MathUtils.clamp(mSearchBarOffset - dy, -searchBar.getHeight(), 0);
+
+                searchBar.setTranslationY(mSearchBarOffset);
+            }
+
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                    if (mSearchBarOffset != 0 && mSearchBarOffset != -searchBar.getHeight())
+                        recyclerView.smoothScrollBy(0, mSearchBarOffset - MathUtils.closest(mSearchBarOffset, 0, -searchBar.getHeight()));
+                }
+
+            }
+        });
     }
 
     private void exportAllSplitApks() {
         BackupAllSplitApksDialogFragment.newInstance().show(getChildFragmentManager(), null);
+    }
+
+    private void invalidateAppFeaturesVisibility() {
+        if (PreferencesHelper.getInstance(requireContext()).shouldShowAppFeatures()) {
+            mViewModel.getBackupFilterConfig().observe(getViewLifecycleOwner(), config -> mAdapter.setFilterConfig(config, false));
+            mAdapter.setFilterConfig(mViewModel.getBackupFilterConfig().getValue(), true);
+        } else {
+            mViewModel.getBackupFilterConfig().removeObservers(getViewLifecycleOwner());
+            mAdapter.setFilterConfig(null, true);
+        }
     }
 
     @Override
@@ -127,5 +167,17 @@ public class BackupFragment extends SaiBaseFragment implements BackupPackagesAda
         super.onHiddenChanged(hidden);
         if (hidden)
             Utils.hideKeyboard(this);
+    }
+
+    @Override
+    public void onApplyConfig(ComplexFilterConfig config) {
+        mViewModel.applyFilterConfig(config);
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        if (PreferencesKeys.SHOW_APP_FEATURES.equals(key)) {
+            invalidateAppFeaturesVisibility();
+        }
     }
 }

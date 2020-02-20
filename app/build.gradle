@@ -7,8 +7,8 @@ android {
         applicationId "com.aefyr.sai"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 43
-        versionName "3.2"
+        versionCode 45
+        versionName "3.4"
     }
     buildTypes {
         release {
@@ -40,8 +40,8 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
     implementation 'androidx.appcompat:appcompat:1.1.0'
-    implementation 'com.google.android.material:material:1.2.0-alpha03'
-    implementation 'androidx.lifecycle:lifecycle-extensions:2.1.0'
+    implementation 'com.google.android.material:material:1.2.0-alpha04'
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
     implementation 'androidx.preference:preference:1.1.0'
     implementation 'com.github.aefyr:pseudoapksigner:1.6'
     implementation 'com.github.bumptech.glide:glide:4.10.0'
@@ -50,10 +50,13 @@ dependencies {
     implementation 'com.google.android:flexbox:1.1.1'
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
     implementation 'androidx.documentfile:documentfile:1.0.1'
+    implementation "com.github.aefyr.flexfilter:flexfilter:0.7-alpha"
 
     //Google services
     normalImplementation 'com.google.firebase:firebase-core:17.2.2'
     normalImplementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
+
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.1'
 }
 
 //Cancel google services/fabric plugins for fdroid flavor

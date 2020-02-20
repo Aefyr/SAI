@@ -1,66 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingStart="8dp"
-        android:paddingTop="8dp"
-        android:paddingEnd="8dp">
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/til"
-            style="@style/SAITextInputLayout.OutlinedBox.Dense"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColorHint="?attr/colorAccent"
-            app:endIconDrawable="@drawable/ic_more"
-            app:endIconMode="custom"
-            app:endIconTint="?attr/colorAccent"
-            app:startIconDrawable="@drawable/ic_search"
-            app:startIconTint="?attr/colorAccent">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/et_search"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:hint="@string/backup_search_hint"
-                android:inputType="text"
-                android:singleLine="true" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-
-        <com.google.android.material.chip.ChipGroup
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chip_filter_splits"
-                style="@style/SAIChip.Filter"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:checked="true"
-                android:text="@string/backup_search_splits_only" />
-
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chip_filter_system"
-                style="@style/SAIChip.Filter"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/backup_search_show_system_apps" />
-        </com.google.android.material.chip.ChipGroup>
-
-    </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_packages"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-</LinearLayout>
+        android:layout_height="match_parent">
+
+    </androidx.recyclerview.widget.RecyclerView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_search"
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginEnd="8dp"
+        app:cardBackgroundColor="?colorPrimaryLight"
+        app:cardCornerRadius="10dp"
+        app:cardUseCompatPadding="true"
+        app:contentPadding="4dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="4dp"
+                android:padding="6dp"
+                android:tint="?android:textColorSecondary"
+                app:srcCompat="@drawable/ic_search" />
+
+            <EditText
+                android:id="@+id/et_search"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="4dp"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                android:ems="10"
+                android:hint="@string/backup_search_hint"
+                android:inputType="text"
+                android:padding="4dp"
+                android:singleLine="true"
+                android:textColorHint="?android:textColorSecondary"
+                android:textSize="16sp" />
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/ib_backup_search_more"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center_vertical"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:tint="?android:textColorSecondary"
+                app:srcCompat="@drawable/ic_more" />
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/button_backup_filter"
+        style="@style/SAIMaterialButton.ExtendedFab"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginBottom="8dp"
+        android:text="@string/backup_filter"
+        app:icon="@drawable/ic_filter"
+        app:iconSize="16dp" />
+
+</FrameLayout>

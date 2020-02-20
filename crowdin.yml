@@ -1,0 +1,5 @@
+files:
+  - source: '/app/src/main/res/values/[sa][tr][r][ia][ny][gs]*.xml'
+    translation: /app/src/main/res/values-%two_letters_code%/%original_file_name%
+    translate_attributes: 0
+    content_segmentation: 0

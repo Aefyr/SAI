@@ -33,17 +33,16 @@ public class SingleChoiceListDialogFragment extends BaseBottomSheetDialogFragmen
     /**
      * Create a SingleChoiceListDialogFragment with item checking
      *
-     * @param tag
      * @param title
      * @param items
      * @param checkedItem
      * @return
      */
-    public static SingleChoiceListDialogFragment newInstance(String tag, CharSequence title, @ArrayRes int items, int checkedItem) {
+    public static SingleChoiceListDialogFragment newInstance(CharSequence title, @ArrayRes int items, int checkedItem) {
         SingleChoiceListDialogFragment fragment = new SingleChoiceListDialogFragment();
 
         Bundle args = new Bundle();
-        args.putParcelable(ARG_PARAMS, new DialogParams(tag, title, items, checkedItem));
+        args.putParcelable(ARG_PARAMS, new DialogParams(title, items, checkedItem));
         fragment.setArguments(args);
         return fragment;
     }
@@ -51,16 +50,15 @@ public class SingleChoiceListDialogFragment extends BaseBottomSheetDialogFragmen
     /**
      * Create a SingleChoiceListDialogFragment without item checking
      *
-     * @param tag
      * @param title
      * @param items
      * @return
      */
-    public static SingleChoiceListDialogFragment newInstance(String tag, CharSequence title, @ArrayRes int items) {
+    public static SingleChoiceListDialogFragment newInstance(CharSequence title, @ArrayRes int items) {
         SingleChoiceListDialogFragment fragment = new SingleChoiceListDialogFragment();
 
         Bundle args = new Bundle();
-        args.putParcelable(ARG_PARAMS, new DialogParams(tag, title, items));
+        args.putParcelable(ARG_PARAMS, new DialogParams(title, items));
         fragment.setArguments(args);
         return fragment;
     }
@@ -74,6 +72,7 @@ public class SingleChoiceListDialogFragment extends BaseBottomSheetDialogFragmen
             return;
 
         mParams = Objects.requireNonNull(args.getParcelable(ARG_PARAMS), "params must not be null");
+        mParams.setTag(getTag());
     }
 
     @Nullable
@@ -183,18 +182,20 @@ public class SingleChoiceListDialogFragment extends BaseBottomSheetDialogFragmen
         private int itemsArrayRes;
         private int checkedItem;
 
-        protected DialogParams(String tag, CharSequence title, @ArrayRes int itemsArrayRes, int checkedItem) {
-            this.tag = tag;
+        protected DialogParams(CharSequence title, @ArrayRes int itemsArrayRes, int checkedItem) {
             this.title = title;
             this.itemsArrayRes = itemsArrayRes;
             this.checkedItem = checkedItem;
         }
 
-        protected DialogParams(String tag, CharSequence title, @ArrayRes int itemsArrayRes) {
-            this.tag = tag;
+        protected DialogParams(CharSequence title, @ArrayRes int itemsArrayRes) {
             this.title = title;
             this.itemsArrayRes = itemsArrayRes;
             this.checkedItem = -1;
+        }
+
+        protected void setTag(String tag) {
+            this.tag = tag;
         }
 
         protected DialogParams(Parcel in) {

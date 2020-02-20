@@ -2,7 +2,7 @@ package com.aefyr.sai.viewmodels;
 
 import android.app.Application;
 import android.content.Context;
-import android.widget.Filter;
+import android.content.SharedPreferences;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -10,136 +10,202 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 
+import com.aefyr.flexfilter.applier.ComplexCustomFilter;
+import com.aefyr.flexfilter.applier.CustomFilter;
+import com.aefyr.flexfilter.applier.LiveFilterApplier;
+import com.aefyr.flexfilter.builtin.DefaultCustomFilterFactory;
+import com.aefyr.flexfilter.builtin.filter.singlechoice.SingleChoiceFilterConfig;
+import com.aefyr.flexfilter.builtin.filter.sort.SortFilterConfig;
+import com.aefyr.flexfilter.builtin.filter.sort.SortFilterConfigOption;
+import com.aefyr.flexfilter.config.core.ComplexFilterConfig;
 import com.aefyr.sai.backup.BackupRepository;
+import com.aefyr.sai.model.backup.BackupPackagesFilterConfig;
 import com.aefyr.sai.model.common.PackageMeta;
 
 import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.Collections;
 import java.util.List;
 
+//TODO applier should have setConfig or something
 public class BackupViewModel extends AndroidViewModel {
 
-    private Context mContext;
+    private SharedPreferences mFilterPrefs;
 
     private BackupRepository mBackupRepo;
     private Observer<List<PackageMeta>> mBackupRepoPackagesObserver;
 
-    private FilterQuery mCurrentFilterQuery = new FilterQuery("", true, true);
-    private Filter mFilter = new PackagesFilter();
-    private List<PackageMeta> mRawPackages = new ArrayList<>();
+    private ComplexFilterConfig mComplexFilterConfig;
+    private final BackupCustomFilterFactory mFilterFactory = new BackupCustomFilterFactory();
+
+    private String mCurrentSearchQuery = "";
 
     private MutableLiveData<List<PackageMeta>> mPackagesLiveData = new MutableLiveData<>();
 
+    private MutableLiveData<BackupPackagesFilterConfig> mBackupFilterConfig = new MutableLiveData<>();
+
+    private LiveFilterApplier<PackageMeta> mLiveFilterApplier = new LiveFilterApplier<>();
+    private final Observer<List<PackageMeta>> mLiveFilterObserver = (packages) -> mPackagesLiveData.setValue(packages);
+
+
     public BackupViewModel(@NonNull Application application) {
         super(application);
-        mContext = application;
+
+        mFilterPrefs = application.getSharedPreferences("backup_filter", Context.MODE_PRIVATE);
+
+        BackupPackagesFilterConfig filterConfig = new BackupPackagesFilterConfig(mFilterPrefs);
+        mBackupFilterConfig.setValue(filterConfig);
+        mComplexFilterConfig = filterConfig.toComplexFilterConfig(application);
 
         mPackagesLiveData.setValue(new ArrayList<>());
 
-        mBackupRepo = BackupRepository.getInstance(mContext);
-        mBackupRepoPackagesObserver = (packages) -> filter(mCurrentFilterQuery);
+        mBackupRepo = BackupRepository.getInstance(application);
+        mBackupRepoPackagesObserver = (packages) -> search(mCurrentSearchQuery);
         mBackupRepo.getPackages().observeForever(mBackupRepoPackagesObserver);
+
+        mLiveFilterApplier.asLiveData().observeForever(mLiveFilterObserver);
+        mBackupFilterConfig.setValue(new BackupPackagesFilterConfig(mComplexFilterConfig));
+    }
+
+    public void applyFilterConfig(ComplexFilterConfig config) {
+        mComplexFilterConfig = config;
+
+        BackupPackagesFilterConfig newFilterConfig = new BackupPackagesFilterConfig(config);
+        newFilterConfig.saveToPrefs(mFilterPrefs);
+        mBackupFilterConfig.setValue(newFilterConfig);
+
+        search(mCurrentSearchQuery);
+    }
+
+    public ComplexFilterConfig getRawFilterConfig() {
+        return mComplexFilterConfig;
     }
 
     public LiveData<List<PackageMeta>> getPackages() {
         return mPackagesLiveData;
     }
 
-    public void filter(String query, boolean splitsOnly, boolean includeSystemApps) {
-        filter(new FilterQuery(query, splitsOnly, includeSystemApps));
+    public LiveData<BackupPackagesFilterConfig> getBackupFilterConfig() {
+        return mBackupFilterConfig;
     }
 
-    private void filter(FilterQuery filterQuery) {
-        mCurrentFilterQuery = filterQuery;
-        //TODO probably do something about this cuz concurrency. Tho it should still be fine
-        mRawPackages = mBackupRepo.getPackages().getValue();
-        mFilter.filter(filterQuery.serializeToString());
+    public void search(String query) {
+        mCurrentSearchQuery = query;
+        mLiveFilterApplier.apply(createComplexFilter(query), new ArrayList<>(mBackupRepo.getPackages().getValue()));
+    }
+
+    private ComplexCustomFilter<PackageMeta> createComplexFilter(String searchQuery) {
+        return new ComplexCustomFilter.Builder<PackageMeta>()
+                .with(mComplexFilterConfig, mFilterFactory)
+                .add(new SearchFilter(searchQuery))
+                .build();
     }
 
     @Override
     protected void onCleared() {
         super.onCleared();
         mBackupRepo.getPackages().removeObserver(mBackupRepoPackagesObserver);
+        mLiveFilterApplier.asLiveData().removeObserver(mLiveFilterObserver);
     }
 
-    private class PackagesFilter extends Filter {
+    private static class SearchFilter implements CustomFilter<PackageMeta> {
+
+        private String mQuery;
+
+        SearchFilter(String query) {
+            mQuery = query;
+        }
 
         @Override
-        protected FilterResults performFiltering(CharSequence constraint) {
-            List<PackageMeta> packages = new ArrayList<>(mRawPackages);
-            FilterQuery filterQuery = FilterQuery.fromString(constraint.toString());
-            String query = filterQuery.query.toLowerCase();
+        public boolean filterSimple(PackageMeta packageMeta) {
+            if (mQuery.length() == 0)
+                return false;
 
-            Iterator<PackageMeta> iterator = packages.iterator();
-            while (iterator.hasNext()) {
-                PackageMeta packageMeta = iterator.next();
-
-                //Apply splitsOnly
-                if (filterQuery.splitsOnly && !packageMeta.hasSplits) {
-                    iterator.remove();
-                    continue;
-                }
-
-                //Apply includeSystemApps
-                if (!filterQuery.includeSystemApps && packageMeta.isSystemApp) {
-                    iterator.remove();
-                    continue;
-                }
-
-                //Apply query
-                if (query.length() > 0) {
-                    //Check if app label matches
-                    String[] wordsInLabel = packageMeta.label.toLowerCase().split(" ");
-                    boolean labelMatches = false;
-                    for (String word : wordsInLabel) {
-                        if (word.startsWith(query)) {
-                            labelMatches = true;
-                            break;
-                        }
-                    }
-
-                    //Check if app packages matches
-                    boolean packagesMatches = packageMeta.packageName.toLowerCase().startsWith(query);
-
-                    if (!labelMatches && !packagesMatches)
-                        iterator.remove();
+            //Check if app label matches
+            String[] wordsInLabel = packageMeta.label.toLowerCase().split(" ");
+            boolean labelMatches = false;
+            for (String word : wordsInLabel) {
+                if (word.startsWith(mQuery)) {
+                    labelMatches = true;
+                    break;
                 }
             }
 
-            FilterResults results = new FilterResults();
-            results.values = new ArrayList<>(packages);
-            results.count = packages.size();
-            return results;
-        }
+            //Check if app packages matches
+            boolean packagesMatches = packageMeta.packageName.toLowerCase().startsWith(mQuery);
 
-        @Override
-        protected void publishResults(CharSequence constraint, FilterResults results) {
-            mPackagesLiveData.setValue((List<PackageMeta>) results.values);
+            return !labelMatches && !packagesMatches;
         }
     }
 
-    private static class FilterQuery {
-        String query;
-        boolean splitsOnly;
-        boolean includeSystemApps;
+    //TODO clean this up
+    private static class BackupCustomFilterFactory implements DefaultCustomFilterFactory<PackageMeta> {
 
-        FilterQuery(String query, boolean splitsOnly, boolean includeSystemApps) {
-            this.query = query;
-            this.splitsOnly = splitsOnly;
-            this.includeSystemApps = includeSystemApps;
+        @Override
+        public CustomFilter<PackageMeta> createCustomSingleChoiceFilter(SingleChoiceFilterConfig config) {
+            switch (config.id()) {
+                case BackupPackagesFilterConfig.FILTER_SPLIT:
+                    return createSplitFilter(config);
+                case BackupPackagesFilterConfig.FILTER_SYSTEM_APP:
+                    return createSystemAppFilter(config);
+            }
+            throw new IllegalArgumentException("Unsupported filter: " + config.id());
         }
 
-        static FilterQuery fromString(String serializedFilterQuery) {
-            boolean splitsOnly = serializedFilterQuery.charAt(0) == '1';
-            boolean includeSystemApps = serializedFilterQuery.charAt(1) == '1';
-            String query = serializedFilterQuery.substring(2);
-            return new FilterQuery(query, splitsOnly, includeSystemApps);
+        @Override
+        public CustomFilter<PackageMeta> createCustomSortFilter(SortFilterConfig config) {
+            return new CustomFilter<PackageMeta>() {
+                @Override
+                public List<PackageMeta> filterComplex(List<PackageMeta> list) {
+                    SortFilterConfigOption selectedOption = config.getSelectedOption();
+                    switch (selectedOption.id()) {
+                        case BackupPackagesFilterConfig.SORT_NAME:
+                            Collections.sort(list, (o1, o2) -> (selectedOption.ascending() ? 1 : -1) * o1.label.compareToIgnoreCase(o2.label));
+                            break;
+                        case BackupPackagesFilterConfig.SORT_INSTALL:
+                            Collections.sort(list, (o1, o2) -> (selectedOption.ascending() ? 1 : -1) * Long.compare(o1.installTime, o2.installTime));
+                            break;
+                        case BackupPackagesFilterConfig.SORT_UPDATE:
+                            Collections.sort(list, (o1, o2) -> (selectedOption.ascending() ? 1 : -1) * Long.compare(o1.updateTime, o2.updateTime));
+                            break;
+                    }
+
+                    return list;
+                }
+            };
         }
 
-        String serializeToString() {
-            return new StringBuilder().append(splitsOnly ? '1' : '0')
-                    .append(includeSystemApps ? '1' : '0')
-                    .append(query).toString();
+        private CustomFilter<PackageMeta> createSplitFilter(SingleChoiceFilterConfig config) {
+            return new CustomFilter<PackageMeta>() {
+                @Override
+                public boolean filterSimple(PackageMeta packageMeta) {
+                    String selectedOption = config.getSelectedOption().id();
+                    switch (selectedOption) {
+                        case BackupPackagesFilterConfig.FILTER_MODE_YES:
+                            return !packageMeta.hasSplits;
+                        case BackupPackagesFilterConfig.FILTER_MODE_NO:
+                            return packageMeta.hasSplits;
+                    }
+
+                    return false;
+                }
+            };
+        }
+
+        private CustomFilter<PackageMeta> createSystemAppFilter(SingleChoiceFilterConfig config) {
+            return new CustomFilter<PackageMeta>() {
+                @Override
+                public boolean filterSimple(PackageMeta packageMeta) {
+                    String selectedOption = config.getSelectedOption().id();
+                    switch (selectedOption) {
+                        case BackupPackagesFilterConfig.FILTER_MODE_YES:
+                            return !packageMeta.isSystemApp;
+                        case BackupPackagesFilterConfig.FILTER_MODE_NO:
+                            return packageMeta.isSystemApp;
+                    }
+
+                    return false;
+                }
+            };
         }
     }
 }

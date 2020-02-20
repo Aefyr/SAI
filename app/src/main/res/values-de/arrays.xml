@@ -6,6 +6,8 @@
         <item>"nach Name (von Z nach A)"</item>
         <item>"nach Änderung (neuer)"</item>
         <item>"nach Änderung (älter)"</item>
+        <item>"Smallest file size first"</item>
+        <item>"Biggest file size first"</item>
     </string-array>
 
     <string-array name="themes">

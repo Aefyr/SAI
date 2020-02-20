@@ -12,7 +12,7 @@ import android.widget.Button;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -28,6 +28,7 @@ import com.aefyr.sai.viewmodels.BackupDialogViewModel;
 
 import java.io.File;
 import java.util.List;
+import java.util.Objects;
 
 public class BackupDialogFragment extends BaseBottomSheetDialogFragment {
     private static final String ARG_PACKAGE = "package";
@@ -51,12 +52,12 @@ public class BackupDialogFragment extends BaseBottomSheetDialogFragment {
 
         mBackupDirUri = PreferencesHelper.getInstance(requireContext()).getBackupDirUri();
 
-        mViewModel = ViewModelProviders.of(this).get(BackupDialogViewModel.class);
+        mViewModel = new ViewModelProvider(this).get(BackupDialogViewModel.class);
 
         Bundle args = getArguments();
         if (args == null)
             return;
-        mPackage = args.getParcelable(ARG_PACKAGE);
+        mPackage = Objects.requireNonNull(args.getParcelable(ARG_PACKAGE));
 
         if (savedInstanceState == null)
             mViewModel.setPackage(mPackage.packageName);
@@ -154,6 +155,6 @@ public class BackupDialogFragment extends BaseBottomSheetDialogFragment {
     }
 
     private void showError(@StringRes int message) {
-        SimpleAlertDialogFragment.newInstance(getText(R.string.error), getText(message)).show(requireFragmentManager(), null);
+        SimpleAlertDialogFragment.newInstance(getText(R.string.error), getText(message)).show(getParentFragmentManager(), null);
     }
 }

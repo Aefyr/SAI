@@ -6,6 +6,8 @@
         <item>"按名称 (Z-A)"</item>
         <item>"修改时间 (升序)"</item>
         <item>"修改时间 (降序)"</item>
+        <item>"Smallest file size first"</item>
+        <item>"Biggest file size first"</item>
     </string-array>
 
     <string-array name="themes">
