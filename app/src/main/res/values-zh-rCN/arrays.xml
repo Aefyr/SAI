@@ -4,10 +4,10 @@
     <string-array name="file_picker_sort_variants">
         <item>"按名称 (A-Z)"</item>
         <item>"按名称 (Z-A)"</item>
-        <item>"修改时间 (升序)"</item>
-        <item>"修改时间 (降序)"</item>
-        <item>"Smallest file size first"</item>
-        <item>"Biggest file size first"</item>
+        <item>"按修改时间 (升序)"</item>
+        <item>"按修改时间 (降序)"</item>
+        <item>"按文件大小(升序)"</item>
+        <item>"按文件大小(降序)"</item>
     </string-array>
 
     <string-array name="themes">
@@ -17,7 +17,7 @@
         <item>"Ukrrooter"</item>
         <item>"Amoled"</item>
         <item>"Pixel"</item>
-        <item>"默认(F-Droid) SAI (F-Droid)"</item>
+        <item>"F-Droid默认 SAI (F-Droid)"</item>
         <item>"暗黑 Dark"</item>
     </string-array>
 

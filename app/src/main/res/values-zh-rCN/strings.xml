@@ -17,9 +17,9 @@
 
     <string name="installer_installation_confirmation">安装 \"%s\"?</string>
     <string name="installer_installation_failed">App 已安装</string>
-    <string name="installer_installation_in_progress">安装中…</string>
+    <string name="installer_installation_in_progress">正在安装…</string>
     <string name="installer_install_apks">安装APK</string>
-    <string name="installer_help"><b>何谓SAI?</b>\nSAI(Split APKs Installer)可以像安装单个apk一样安装Split Apk（分包apk）。这对安装以 App Bundles 模式打包发布的应用会很有帮助，因为除 Google Play 以外，Android没有提供相关方法安装分包apk(Split Apk)。注意，SAI不是破解APK的应用！\n\n<b>如何使用SAI?</b>\n点击 \"安装APKs\" ，选择base APK 以及需要的Config APK 或包含以上全部.zip/.apks压缩包，然后点击 \"安装\" 。\n\n<b>.apks</b>\n你可以将包含全部Split Apk（分包Apk）的.zip压缩包重命名为.apks后缀名，此操作可以（从其他应用，如文件管理器、下载管理器…）直接打开SAI。\n长按“选择”使用系统文件选择器（SAF），而不是SAI内置选择器。</string>
+    <string name="installer_help"><b>何谓SAI?</b>\nSAI (Split APKs Installer)可以像安装单个apk一样安装Split Apk（分包apk）。这对安装以 App Bundles 模式打包发布的应用会很有帮助。（由于除 Google Play 以外，Android没有提供原生方法直接安装分包apk(Split Apk)。）\n注意，SAI不是用于破解APK的应用！\n\n<b>如何使用SAI?</b>\n点击 \"安装APKs\" ，选择 base APK 以及需要的Config APK 或包含以上全部.zip/.apks压缩包，然后点击 \"安装\" 。\n\n<b>.apks</b>\n你可以将包含全部Split Apk（分包Apk）的.zip压缩包重命名为.apks后缀名，此操作可以（从其他应用，如文件管理器、下载管理器…）直接打开SAI。\n长按“选择”使用系统文件选择器（SAF），而不是SAI内置选择器。</string>
     <string name="installer_pick_apks">选择要安装的文件</string>
     <string name="installer_app_installed">App 已安装</string>
     <string name="installer_open">打开</string>
@@ -80,7 +80,7 @@
     <string name="backup_dialog_title">选择要导出的split APK</string>
     <string name="backup_load_splits_error">无法获取部分split APK</string>
     <string name="backup_splits_loading">加载中...</string>
-	<string name="backup_filter">筛选器</string>
+    <string name="backup_filter">筛选器</string>
     <string name="backup_filter_common_option_doesnt_matter">不筛选</string>
     <string name="backup_filter_common_option_yes">是</string>
     <string name="backup_filter_common_option_no">否</string>
@@ -113,7 +113,7 @@
     <string name="settings_main_installer">安装模式</string>
     <string name="settings_main_installer_summary">安装APK的安装模式。\n当前: %s</string>
     <string name="settings_main_installer_error_no_shizuku">您没有安装 Shizuku，请从 Google Play 下载并进行配置</string>
-    <string name="settings_main_installer_error_shizuku_pre_m">SAI 不支持在Android 6.0 以下系统，请使用 Shizuku</string>
+    <string name="settings_main_installer_error_shizuku_pre_m">SAI 不支持在Android 6.0 以下系统，请使用 Shizuku安装模式</string>
     <string name="settings_main_backup_file_name_format">导出的apk文件名</string>
     <string name="settings_main_backup_file_name_format_summary">导出的apk文件名形式 \n当前: %s</string>
     <string name="settings_main_backup_backup_dir">导出apk目录</string>
@@ -124,19 +124,19 @@
     <string name="settings_main_use_old_installer">旧版安装模式</string>
     <string name="settings_main_use_old_installer_summary">使用旧版安装实现接口。重启SAI生效(若有安装或导出任务正在进行，请不要随意开启或关闭该选项。)</string>
     <string name="settings_main_installer_show_dialogs">显示前台系统安装界面</string>
-    <string name="settings_main_installer_show_dialogs_summary">一律显示系统安装界面，而不是使用静默安装。 你可以点击安装任务列表中的应用手动弹出界面。立即生效</string>
+    <string name="settings_main_installer_show_dialogs_summary">一律显示系统安装界面，而不是静默安装。 你可以点击安装任务列表中正在运行的应用手动弹出界面。立即生效</string>
     <string name="settings_category_main_installer">安装</string>
     <string name="settings_category_main_export">导出</string>
     <string name="settings_category_main_other">其他</string>
     <string name="settings_category_main_ui">外观</string>
-	<string name="settings_main_ui_theme">主题</string>
+    <string name="settings_main_ui_theme">主题</string>
 	
 	<string name="name_format_builder_title">选择导出apk文件名形式</string>
     <string name="name_format_builder_preview">预览: %s</string>
     <string name="name_format_builder_preview_empty">请至少选一个部分。</string>
     
 	<string name="sss_warning_title"><b>危险!!!</b></string>
-    <string name="sss_warning_summary"><b>请不要修改这里的任何选项（除非你知道你非常了解这些选项）。\n部分选项可能引起SAI甚至ROM损坏！！！\n部分选项可能引起SAI甚至系统损坏！！！\n部分选项可能引起SAI甚至系统损坏！！！</b></string>
+    <string name="sss_warning_summary"><b>警告！请不要修改这里的任何选项（除非你知道你非常了解这些选项）。\n部分选项可能引起SAI甚至ROM损坏！！！\n部分选项可能引起SAI甚至ROM损坏！！！\n部分选项可能引起SAI甚至ROM损坏！！！</b></string>
 
     <string name="about_author">由polychromaticfox开发</string>
     <string name="about_source">GitHub</string>
