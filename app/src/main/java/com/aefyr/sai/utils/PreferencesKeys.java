@@ -17,4 +17,5 @@ public class PreferencesKeys {
     public static final String BACKUP_DIR = "backup_backup_dir";
     public static final String SHOW_APP_FEATURES = "show_app_features";
     public static final String THEME = "theme";
+    public static final String SAF_TIP_SHOWN = "saf_tip_shown";
 }

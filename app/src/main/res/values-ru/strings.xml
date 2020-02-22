@@ -61,6 +61,7 @@
     <string name="installer_unable_to_launch_app">Не удается запустить приложение</string>
     <string name="installer_show_full_error">Показать полную ошибку</string>
     <string name="installer_placeholder_text">Нет сессий установки</string>
+    <string name="installer_saf_tip">Удерживайте для использования системного файлпикера.\n(Нажмите на эту подсказку, чтобы навсегда скрыть её)</string>
 
     <string name="backup_backup">Экспорт</string>
     <string name="backup_backup_prompt">Экспортировать %s?</string>

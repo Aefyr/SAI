@@ -35,6 +35,8 @@ import com.aefyr.sai.utils.Utils;
 import com.aefyr.sai.viewmodels.InstallerViewModel;
 import com.github.angads25.filepicker.model.DialogConfigs;
 import com.github.angads25.filepicker.model.DialogProperties;
+import com.tomergoldst.tooltips.ToolTip;
+import com.tomergoldst.tooltips.ToolTipsManager;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -53,6 +55,8 @@ public class Installer2Fragment extends InstallerFragment implements FilePickerD
     private PreferencesHelper mHelper;
 
     private Uri mPendingActionViewUri;
+
+    private ToolTipsManager mToolTipsManager;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -102,10 +106,34 @@ public class Installer2Fragment extends InstallerFragment implements FilePickerD
         installButtton.setOnClickListener((v) -> checkPermissionsAndPickFiles());
         installButtton.setOnLongClickListener((v) -> pickFilesWithSaf());
 
+        if (mHelper.shouldShowSafTip()) {
+            mToolTipsManager = new ToolTipsManager((view1, anchorViewId, byUser) -> {
+                if (byUser)
+                    mHelper.setSafTipShown();
+            });
+
+            ToolTip tooltip = new ToolTip.Builder(requireContext(), installButtton, ((ViewGroup) view), getText(R.string.installer_saf_tip), ToolTip.POSITION_ABOVE)
+                    .setBackgroundColor(Utils.getThemeColor(requireContext(), R.attr.colorAccent))
+                    .setTextAppearance(R.style.SAITooltipTextAppearance)
+                    .setGravity(ToolTip.GRAVITY_CENTER)
+                    .build();
+
+            installButtton.post(() -> mToolTipsManager.show(tooltip));
+        }
+
         if (mPendingActionViewUri != null) {
             handleActionView(mPendingActionViewUri);
             mPendingActionViewUri = null;
         }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+
+        if (mToolTipsManager != null)
+            mToolTipsManager.dismissAll();
+
     }
 
     @Override

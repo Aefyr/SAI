@@ -258,4 +258,8 @@
         <item name="android:fontFamily">sans-serif-medium</item>
     </style>
 
+    <style name="SAITooltipTextAppearance" parent="TextAppearance.AppCompat.Small">
+        <item name="android:textColor">?attr/colorPrimary</item>
+    </style>
+
 </resources>

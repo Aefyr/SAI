@@ -125,4 +125,12 @@ public class PreferencesHelper {
         return mPrefs.getBoolean(PreferencesKeys.SHOW_APP_FEATURES, true);
     }
 
+    public boolean shouldShowSafTip() {
+        return !mPrefs.getBoolean(PreferencesKeys.SAF_TIP_SHOWN, false);
+    }
+
+    public void setSafTipShown() {
+        mPrefs.edit().putBoolean(PreferencesKeys.SAF_TIP_SHOWN, true).apply();
+    }
+
 }
