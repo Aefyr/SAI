@@ -24,6 +24,7 @@ import com.aefyr.sai.model.common.PackageMeta;
 import com.aefyr.sai.ui.dialogs.BackupAllSplitApksDialogFragment;
 import com.aefyr.sai.ui.dialogs.BackupDialogFragment;
 import com.aefyr.sai.ui.dialogs.OneTimeWarningDialogFragment;
+import com.aefyr.sai.ui.dialogs.SimpleAlertDialogFragment;
 import com.aefyr.sai.ui.recycler.RecyclerPaddingDecoration;
 import com.aefyr.sai.utils.MathUtils;
 import com.aefyr.sai.utils.PreferencesHelper;
@@ -106,6 +107,9 @@ public class BackupFragment extends SaiBaseFragment implements BackupPackagesAda
                 switch (menuItem.getItemId()) {
                     case R.id.menu_export_all_split_apks:
                         exportAllSplitApks();
+                        break;
+                    case R.id.menu_backup_help:
+                        SimpleAlertDialogFragment.newInstance(requireContext(), R.string.help, R.string.backup_warning).show(getChildFragmentManager(), null);
                         break;
                 }
                 return true;

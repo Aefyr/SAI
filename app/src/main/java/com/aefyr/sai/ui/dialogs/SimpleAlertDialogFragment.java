@@ -1,10 +1,12 @@
 package com.aefyr.sai.ui.dialogs;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 
@@ -18,6 +20,10 @@ public class SimpleAlertDialogFragment extends DialogFragment {
 
     private CharSequence mTitle;
     private CharSequence mMessage;
+
+    public static SimpleAlertDialogFragment newInstance(Context c, @StringRes int title, @StringRes int message) {
+        return newInstance(c.getText(title), c.getText(message));
+    }
 
     public static SimpleAlertDialogFragment newInstance(CharSequence title, CharSequence message) {
         SimpleAlertDialogFragment fragment = new SimpleAlertDialogFragment();

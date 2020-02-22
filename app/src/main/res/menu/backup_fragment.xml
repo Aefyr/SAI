@@ -3,4 +3,8 @@
     <item
         android:title="@string/backup_export_all_splits"
         android:id="@+id/menu_export_all_split_apks" />
+
+    <item
+        android:title="@string/help"
+        android:id="@+id/menu_backup_help" />
 </menu>
