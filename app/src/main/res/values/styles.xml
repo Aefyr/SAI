@@ -134,6 +134,7 @@
         <item name="android:paddingRight">24dp</item>
         <item name="android:paddingTop">12dp</item>
         <item name="android:paddingBottom">12dp</item>
+        <item name="android:textColor">@color/selector_outlined_button_text_color</item>
         <item name="android:textSize">15sp</item>
         <item name="android:textAllCaps">false</item>
         <item name="android:singleLine">true</item>
@@ -142,7 +143,7 @@
         <item name="cornerRadius">20dp</item>
         <item name="android:letterSpacing">0</item>
         <item name="strokeWidth">2dp</item>
-        <item name="strokeColor">?attr/colorAccent</item>
+        <item name="strokeColor">@color/selector_outlined_button_outline_color</item>
     </style>
 
     <style name="SAIMaterialButton.ExtendedFab" parent="Widget.MaterialComponents.Button">
