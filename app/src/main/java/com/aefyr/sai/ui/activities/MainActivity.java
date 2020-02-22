@@ -12,7 +12,6 @@ import androidx.fragment.app.Fragment;
 
 import com.aefyr.sai.R;
 import com.aefyr.sai.backup.BackupRepository;
-import com.aefyr.sai.ui.dialogs.MiuiWarningDialogFragment;
 import com.aefyr.sai.ui.fragments.BackupFragment;
 import com.aefyr.sai.ui.fragments.Installer2Fragment;
 import com.aefyr.sai.ui.fragments.InstallerFragment;
@@ -80,8 +79,10 @@ public class MainActivity extends ThemedActivity implements BottomNavigationView
     }
 
     private void showMiuiWarning() {
-        if (Utils.isMiui() && !PreferenceManager.getDefaultSharedPreferences(this).getBoolean(PreferencesKeys.MIUI_WARNING_SHOWN, false))
-            new MiuiWarningDialogFragment().show(getSupportFragmentManager(), "miui_warning_dialog");
+        if (Utils.isMiui() && !PreferenceManager.getDefaultSharedPreferences(this).getBoolean(PreferencesKeys.MIUI_WARNING_SHOWN, false)) {
+            startActivity(new Intent(this, MiActivity.class));
+            finish();
+        }
     }
 
     public void setNavigationEnabled(boolean enabled) {

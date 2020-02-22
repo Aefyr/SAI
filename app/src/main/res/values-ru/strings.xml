@@ -49,9 +49,9 @@
     <string name="installer_select_theme">Выбрать тему</string>
     <string name="installer_device">Устройство</string>
     <string name="installer_miui_warning_title">Обнаружена MIUI</string>
-    <string name="installer_miui_warning_message">Похоже, у вас MIUI. MIUI известна своим ломанием стандартных фич Android API и некоторые юзеры сообщали, что SAI не работает на MIUI. Обычно это решается отключением оптимизаций MIUI в настройках для разработчиков, что я рекомендую вам сделать.</string>
+    <string name="installer_miui_warning_message"><b>Серьёзно, прочтите это!</b>\n\nИзвините, что трачу ваше время, но мне надоели юзеры MIUI, которые пропускали предыдущую версию этого предупреждения.\n\nПохоже, у вас MIUI. MIUI известна своим ломанием стандартных фич Android API и многие юзеры SAI сообщали, что на MIUI установки в SAI заканчиваются с ошибкой \"Ошибка при установке\" без реальной на то причины. Обычно это решается отключением оптимизаций MIUI в настройках для разработчиков, что я рекомендую вам сделать.\n\nКонечно, вы можете попробовать использовать SAI не меняя этой настройки, но перед тем, как жаловаться на ошибки установки, попробуйте её отключить. Если на вашей версии MIUI нету данной настройки или она не помогает, то я ничего сделать не могу, жалуйтесь Xiaomi.</string>
     <string name="installer_miui_warning_open_dev_settings">Открыть настройки для разработчиков</string>
-    <string name="installer_miui_warning_oof">Не удалось открыть настройки для разработчиков. Найс прошивка</string>
+    <string name="installer_miui_warning_oof">Не удалось открыть настройки для разработчиков. Вы можете попробовать открыть их вручную, загуглите, как это сделать.</string>
     <string name="installer_unknown_app">Неизвестное приложение</string>
     <string name="installer_state_created">Подготовка</string>
     <string name="installer_state_queued">В очереди</string>
@@ -140,6 +140,9 @@
 
     <string name="sss_warning_title"><b>ПРЕДУПРЕЖДЕНИЕ</b></string>
     <string name="sss_warning_summary"><b>Не трогайте эти настройки, если вы не знаете, что делаете. Некоторые опции тут могут сломать SAI или даже повредить вашу систему</b></string>
+
+    <string name="mi_continue_countdown">Вы сможете продолжить через %d сек.</string>
+    <string name="mi_continue">Продолжить</string>
 
     <string name="about_source">GitHub</string>
     <string name="about_donate">Поддержать</string>
