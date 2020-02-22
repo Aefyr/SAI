@@ -73,7 +73,7 @@
     <string name="backup_search_splits_only">Только split APK</string>
     <string name="backup_search_show_system_apps">Показывать системные</string>
     <string name="backup_error_cant_mkdir">Не удается создать директорию для экспортированных приложений</string>
-    <string name="backup_warning">Пожалуйста, учтите, что функция экспорта ещё в бете. Вот небольшой FAQ:\n\n1) Приложения экспортируются в папку \"SAI\" хранилища телефона\n\n2) SAI экспортирует только APK приложений, но не их данные\n\n3) Приложения экспортируются как .apks файл, который является переименованным ZIP-архивом, содержащим все APK</string>
+    <string name="backup_warning">1) По умолчанию, приложения экспортируются в папку \"SAI\" хранилища телефона. Вы можете выбрать свою папку в настройках\n\n2) SAI экспортирует только APK приложений, но не их данные\n\n3) Приложения экспортируются как .apks файл, который является переименованным ZIP-архивом, содержащим все APK</string>
     <string name="backup_export_all_splits">Экспорт всех split APK</string>
     <string name="backup_export_all_splits_prompt">Вы хотите экспортировать все split APK?</string>
     <string name="backup_preparing">Подготовка приложений...</string>
