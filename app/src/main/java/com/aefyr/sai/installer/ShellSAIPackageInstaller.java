@@ -16,6 +16,7 @@ import com.aefyr.sai.model.apksource.ApkSource;
 import com.aefyr.sai.shell.Shell;
 import com.aefyr.sai.utils.DbgPreferencesHelper;
 import com.aefyr.sai.utils.Logs;
+import com.aefyr.sai.utils.MiuiUtils;
 import com.aefyr.sai.utils.PreferencesHelper;
 import com.aefyr.sai.utils.Utils;
 
@@ -118,7 +119,7 @@ public abstract class ShellSAIPackageInstaller extends SAIPackageInstaller {
         } catch (PackageManager.NameNotFoundException e) {
             Log.wtf(TAG, "Unable to get SAI version", e);
         }
-        return String.format("%s: %s %s | %s | Android %s | Using %s ApkSource implementation | SAI %s", getContext().getString(R.string.installer_device), Build.BRAND, Build.MODEL, Utils.isMiui() ? "MIUI" : "Not MIUI", Build.VERSION.RELEASE, apkSource.getClass().getSimpleName(), saiVersion);
+        return String.format("%s: %s %s | %s | Android %s | Using %s ApkSource implementation | SAI %s", getContext().getString(R.string.installer_device), Build.BRAND, Build.MODEL, MiuiUtils.isMiui() ? "MIUI" : "Not MIUI", Build.VERSION.RELEASE, apkSource.getClass().getSimpleName(), saiVersion);
     }
 
     private int createSession() throws RuntimeException {

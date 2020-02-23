@@ -18,9 +18,9 @@ import com.aefyr.sai.ui.fragments.InstallerFragment;
 import com.aefyr.sai.ui.fragments.LegacyInstallerFragment;
 import com.aefyr.sai.ui.fragments.PreferencesFragment;
 import com.aefyr.sai.utils.FragmentNavigator;
+import com.aefyr.sai.utils.MiuiUtils;
 import com.aefyr.sai.utils.PreferencesHelper;
 import com.aefyr.sai.utils.PreferencesKeys;
-import com.aefyr.sai.utils.Utils;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends ThemedActivity implements BottomNavigationView.OnNavigationItemSelectedListener, FragmentNavigator.FragmentFactory {
@@ -79,7 +79,7 @@ public class MainActivity extends ThemedActivity implements BottomNavigationView
     }
 
     private void showMiuiWarning() {
-        if (Utils.isMiui() && !PreferenceManager.getDefaultSharedPreferences(this).getBoolean(PreferencesKeys.MIUI_WARNING_SHOWN, false)) {
+        if (MiuiUtils.isMiui() && !PreferenceManager.getDefaultSharedPreferences(this).getBoolean(PreferencesKeys.MIUI_WARNING_SHOWN, false)) {
             startActivity(new Intent(this, MiActivity.class));
             finish();
         }

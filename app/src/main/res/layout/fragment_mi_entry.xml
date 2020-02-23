@@ -21,6 +21,14 @@
             android:textStyle="bold" />
 
         <TextView
+            android:id="@+id/tv_mi_miui_ver"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="4dp"
+            android:text="TextView" />
+
+        <TextView
             android:id="@+id/tv_mi_entry_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

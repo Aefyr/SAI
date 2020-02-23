@@ -17,6 +17,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.aefyr.sai.R;
 import com.aefyr.sai.ui.dialogs.SimpleAlertDialogFragment;
 import com.aefyr.sai.ui.fragments.SaiBaseFragment;
+import com.aefyr.sai.utils.MiuiUtils;
 import com.aefyr.sai.viewmodels.MiEntryViewModel;
 
 public class MiEntryFragment extends SaiBaseFragment {
@@ -40,6 +41,8 @@ public class MiEntryFragment extends SaiBaseFragment {
         super.onViewCreated(view, savedInstanceState);
 
         setupMD3Animations();
+
+        ((TextView) findViewById(R.id.tv_mi_miui_ver)).setText(getString(R.string.mi_miui_version, MiuiUtils.getMiuiVersionName(), MiuiUtils.getMiuiVersionCode()));
 
         findViewById(R.id.button_mi_open_dev_settings).setOnClickListener(v -> openDevSettings());
 

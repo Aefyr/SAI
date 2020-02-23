@@ -12,7 +12,6 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
-import android.text.TextUtils;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.inputmethod.InputMethodManager;
@@ -70,10 +69,6 @@ public class Utils {
     public static void copyTextToClipboard(Context c, CharSequence text) {
         ClipboardManager clipboardManager = (ClipboardManager) c.getSystemService(Context.CLIPBOARD_SERVICE);
         clipboardManager.setPrimaryClip(ClipData.newPlainText("text", text));
-    }
-
-    public static boolean isMiui() {
-        return !TextUtils.isEmpty(getSystemProperty("ro.miui.ui.version.name"));
     }
 
     public static String getFileNameFromZipEntry(ZipEntry zipEntry) {
