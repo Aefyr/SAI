@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="file_picker_sort_variants">
+        <item>"İsime göre (Alfabetik)"</item>
+        <item>"İsime göre (Ters alfabetik)"</item>
+        <item>"Önce Modfiye Edilene göre"</item>
+        <item>"Eski modifiye Edilene göre"</item>
+        <item>"Küçük Botutlu olana göre"</item>
+        <item>"Büyük Boyutlu olana göre"</item>
+    </string-array>
+
+    <string-array name="themes">
+        <item>"SAI (beyaz-mavi)"</item>
+        <item>"Yakut (siyah-pembe)"</item>
+        <item>"Rena"</item>
+        <item>"Ukrrooter (mor-yeşil)"</item>
+        <item>"Amoled (siyah-beyaz)"</item>
+        <item>"Piksel (beyaz-mavi)"</item>
+        <item>"SAI (beyaz-yeşil)-(F-Droid)"</item>
+        <item>"Koyu (siyah-mavi)"</item>
+    </string-array>
+
+    <string-array name="installers">
+        <item>"Köksüz (önerilen)"</item>
+        <item>"Köklü (kök gerektirir)"</item>
+        <item>"Shizuku (Shizuku 3.x sürümü gerektirir)"</item>
+    </string-array>
+
+    <string-array name="size_units">
+        <item>Bayt</item>
+        <item>KiloBayt</item>
+        <item>MegaBayt</item>
+        <item>GigaBayt</item>
+        <item>TeraBayt</item>
+        <item>PetaBayt</item>
+    </string-array>
+
+    <string-array name="backup_file_name_formats">
+        <item>İSİM_PAKET_SÜRÜM.apks</item>
+        <item>İSİM.apks</item>
+        <item>İSİM_SÜRÜM.apks</item>
+    </string-array>
+
+    <string-array name="install_locations">
+        <item>Sistemin seçimi</item>
+        <item>Yalnızca dahili bellek</item>
+        <item>Harici Belleği Tercih et (Sistem yinede dahili)</item>
+    </string-array>
+
+    <string-array name="name_format_parts">
+        <item>İsim</item>
+        <item>Sürüm</item>
+        <item>Sürüm kodu</item>
+        <item>Paket</item>
+        <item>Zamana göre</item>
+    </string-array>
+
+    <string-array name="backup_dir_selection_methods">
+        <item>Dahili dosya seçici</item>
+        <item>Sistem dosyası seçici</item>
+    </string-array>
+
+
+</resources>
