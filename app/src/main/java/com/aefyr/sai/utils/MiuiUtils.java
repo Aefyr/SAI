@@ -17,7 +17,7 @@ public class MiuiUtils {
 
     public static int getMiuiVersionCode() {
         try {
-            return Integer.parseInt(Objects.requireNonNull(Utils.getSystemProperty("ro.miui.ui.version.name")));
+            return Integer.parseInt(Objects.requireNonNull(Utils.getSystemProperty("ro.miui.ui.version.code")));
         } catch (Exception e) {
             return -1;
         }
