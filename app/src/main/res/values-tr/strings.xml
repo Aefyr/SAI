@@ -1,4 +1,6 @@
 <resources>
+    <string name="app_name" translatable="false">SAI</string>
+    <string name="app_name_full" translatable="false">Bölünmüş APKs Yükleyici</string>
 
     <string name="yes">Evet</string>
     <string name="no">Hayır</string>
@@ -11,10 +13,11 @@
     <string name="dont_show_again">Bir daha gösterme</string>
 
     <string name="permissions_required_storage">SAI, depolamaya erişmek için izin gerektiriyor</string>
+    <string name="permissions_required_shizuku">SAI, Shizuku Sunucusu'nu kullanmak için izin gerektirir</string>
 
     <string name="main_installer">Yükleyici</string>
     <string name="main_backup">Dışa Aktar</string>
-    <string name="main_navigation_disabled">Unable to perform open with during ongoing installation</string>
+    <string name="main_navigation_disabled">Devam eden kurulum sırasında açık işlem yapılamıyor</string>
 
     <string name="installer_installation_confirmation">\"%s\" yüklensin mi?</string>
     <string name="installer_installation_failed">Uygulama yüklenemedi</string>
@@ -38,6 +41,7 @@
     <string name="installer_error_shell">%1$s yükleyici hatası:\n\n %2$s</string>
     <string name="installer_error_rootless">Rootsuz yükleyici hatası:\n\n %s</string>
     <string name="installer_error_root_no_root">Root erişimi alınamıyor, lütfen \"Root kullan\" tercihini devre dışı bırakın</string>
+    <string name="installer_error_shizuku_unavailable">Shizuku Sunucu'ya erişilemiyor, lütfen çalıştığından ve SAI'nin onu kullanmaya yetkili olduğundan emin olun</string>
     <string name="installer_error_while_extracting">ZIP\'ten APK dosyaları çıkarılırken hata oluştu: %s</string>
     <string name="installer_error_zip_contains_no_apks">ZIP herhangi bir apk dosyası içermiyor</string>
     <string name="installer_error_mixed_extensions">Tek bir .zip/.apks dosyası veya birden fazla .apk dosyası seçmelisiniz</string>
@@ -47,6 +51,16 @@
     <string name="installer_miui_warning_message">Cihazınız MIUI kullanıyor gibi görünüyor. MIUI\'nin standart Android API özelliklerini bozduğu bilinmektedir ve bazı SAI kullanıcıları, SAI\'nin MIUI üzerinde çalışmadığını bildirdi. Genellikle geliştirici ayarlarında MIUI optimizasyonlarını devre dışı bırakarak düzeltilebilir, ki bunu yapmanızı öneririm.</string>
     <string name="installer_miui_warning_open_dev_settings">Geliştirici ayarlarını aç</string>
     <string name="installer_miui_warning_oof">Geliştirici ayarları açılamıyor. Harika rom</string>
+    <string name="installer_unknown_app">Bilinmeyen uygulama</string>
+    <string name="installer_state_created">Hazır</string>
+    <string name="installer_state_queued">Kuyruğa Alındı</string>
+    <string name="installer_state_installing">Yükleniyor</string>
+    <string name="installer_state_installed">Yüklendi</string>
+    <string name="installer_state_failed">Yükleme başarısız</string>
+    <string name="installer_unable_to_launch_app">Uygulama başlatılamıyor</string>
+    <string name="installer_show_full_error">Tam hatayı göster</string>
+    <string name="installer_placeholder_text">Yükleme oturumu yok</string>
+    <string name="installer_saf_tip">Sistem dosyası seçiciyi kullanmak için uzun tıklayın.\n(Sonsuza kadar gizlemek için bu ipucuna tıklayın)</string>
 
     <string name="backup_backup">Dışa aktar</string>
     <string name="backup_backup_prompt">%s dışa aktarılsın mı?</string>
@@ -63,6 +77,7 @@
     <string name="backup_export_all_splits">Tüm bölünmüş APK\'ları dışa aktar</string>
     <string name="backup_export_all_splits_prompt">Tüm bölünmüş APK\'lar dışa aktarılsın mı?</string>
     <string name="backup_preparing">Uygulamalar hazırlanıyor...</string>
+    <string name="backup_enqueue">Sıraya al</string>
 
     <string name="settings_title">Ayarlar</string>
     <string name="settings_main_home_directory">Ana dizin</string>
@@ -78,9 +93,19 @@
     <string name="settings_main_sign_apks_summary">Yüklemeden önce APK\'ları imzalar</string>
     <string name="settings_main_extract_archives">Arşivlerden APK\'ları çıkar</string>
     <string name="settings_main_extract_archives_summary">.Zip/.apks arşivlerindeki APK dosyalarını kurmadan önce geçici dosyalara çıkarır. Devre dışı bırakılırsa, SAI, geçici dosyaları olmayan doğrudan APK\'lardan APK yükler. Etkinleştirmek tavsiye edilmez</string>
-    <string name="settings_main_reset_one_time_warnings">Bir kerelik uyarıları sıfırla</string>
+    <string name="settings_main_reset_one_time_warnings">Uyarıları bir kerelik sıfırla</string>
 
+    <string name="sss">Süper Gizli Ayarlar</string>
+    <string name="sss_warning_title"><b>UYARI</b></string>
+    <string name="sss_use_installer_2_summary">Uygulamak için SAI'yi yeniden başlatın</string>
+    <string name="sss_use_installer_2_title">Yükleyici2' yi kullan</string>
+
+    <string name="mi_continue_countdown"> %d İçinde devam edebilirsiniz</string>
+    <string name="mi_continue">Devam et</string>
+
+    <string name="about_author">Geliştirici polychromaticfox</string>
     <string name="about_source">GitHub</string>
     <string name="about_donate">Bağış yap</string>
+    <string name="about_licenses">Lisanslar</string>
 
 </resources>
