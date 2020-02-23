@@ -144,7 +144,7 @@
 
     <string name="mi_continue_countdown">Вы сможете продолжить через %d сек.</string>
     <string name="mi_continue">Продолжить</string>
-    <string name="mi_miui_version">Версия MIUI - %1$s (%2$d)</string>
+    <string name="mi_miui_version">Версия MIUI - %1$s (%2$d (%3$s))</string>
 
     <string name="about_source">GitHub</string>
     <string name="about_donate">Поддержать</string>

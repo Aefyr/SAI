@@ -154,7 +154,7 @@
 
     <string name="mi_continue_countdown">You can continue in %d s.</string>
     <string name="mi_continue">Continue</string>
-    <string name="mi_miui_version">MIUI version - %1$s (%2$d)</string>
+    <string name="mi_miui_version">MIUI version - %1$s (%2$d (%3$s))</string>
 
     <string name="about_author">by polychromaticfox</string>
     <string name="about_source">GitHub</string>

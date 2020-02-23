@@ -42,7 +42,7 @@ public class MiEntryFragment extends SaiBaseFragment {
 
         setupMD3Animations();
 
-        ((TextView) findViewById(R.id.tv_mi_miui_ver)).setText(getString(R.string.mi_miui_version, MiuiUtils.getMiuiVersionName(), MiuiUtils.getMiuiVersionCode()));
+        ((TextView) findViewById(R.id.tv_mi_miui_ver)).setText(getString(R.string.mi_miui_version, MiuiUtils.getMiuiVersionName(), MiuiUtils.getMiuiVersionCode(), MiuiUtils.getActualMiuiVersion()));
 
         findViewById(R.id.button_mi_open_dev_settings).setOnClickListener(v -> openDevSettings());
 

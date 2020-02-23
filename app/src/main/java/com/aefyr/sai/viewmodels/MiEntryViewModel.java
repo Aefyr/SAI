@@ -7,6 +7,8 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.aefyr.sai.utils.MiuiUtils;
+
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
@@ -26,18 +28,23 @@ public class MiEntryViewModel extends AndroidViewModel {
     public MiEntryViewModel(@NonNull Application application) {
         super(application);
 
-        ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
-        mTimerScheduledFuture = scheduler.scheduleAtFixedRate(() -> {
-            if (mPaused.get())
-                return;
+        if (!MiuiUtils.isFixedMiui()) {
+            ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+            mTimerScheduledFuture = scheduler.scheduleAtFixedRate(() -> {
+                if (mPaused.get())
+                    return;
 
-            mCountdown--;
-            mCountdownLiveData.postValue(mCountdown);
+                mCountdown--;
+                mCountdownLiveData.postValue(mCountdown);
 
-            if (mCountdown == 0)
-                mTimerScheduledFuture.cancel(false);
+                if (mCountdown == 0)
+                    mTimerScheduledFuture.cancel(false);
 
-        }, 0, 1, TimeUnit.SECONDS);
+            }, 0, 1, TimeUnit.SECONDS);
+        } else {
+            mCountdown = 0;
+            mCountdownLiveData.setValue(mCountdown);
+        }
     }
 
     public LiveData<Integer> getCountdown() {

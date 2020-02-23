@@ -1,5 +1,6 @@
 package com.aefyr.sai.utils;
 
+import android.os.Build;
 import android.text.TextUtils;
 
 import java.util.Objects;
@@ -21,5 +22,55 @@ public class MiuiUtils {
         } catch (Exception e) {
             return -1;
         }
+    }
+
+    public static String getActualMiuiVersion() {
+        return Build.VERSION.INCREMENTAL;
+    }
+
+    private static int[] parseVersionIntoParts(String version) {
+        try {
+            String[] versionParts = version.split("\\.");
+            int[] intVersionParts = new int[versionParts.length];
+
+            for (int i = 0; i < versionParts.length; i++)
+                intVersionParts[i] = Integer.parseInt(versionParts[i]);
+
+            return intVersionParts;
+        } catch (Exception e) {
+            return new int[]{-1};
+        }
+    }
+
+    /**
+     * @return 0 if versions are equal, values less than 0 if ver1 is lower than ver2, value more than 0 if ver1 is higher than ver2
+     */
+    private static int compareVersions(String version1, String version2) {
+        if (version1.equals(version2))
+            return 0;
+
+        int[] version1Parts = parseVersionIntoParts(version1);
+        int[] version2Parts = parseVersionIntoParts(version2);
+
+        for (int i = 0; i < version2Parts.length; i++) {
+            if (i >= version1Parts.length)
+                return -1;
+
+            if (version1Parts[i] < version2Parts[i])
+                return -1;
+
+            if (version1Parts[i] > version2Parts[i])
+                return 1;
+        }
+
+        return 1;
+    }
+
+    public static boolean isActualMiuiVersionAtLeast(String targetVer) {
+        return compareVersions(getActualMiuiVersion(), targetVer) >= 0;
+    }
+
+    public static boolean isFixedMiui() {
+        return isActualMiuiVersionAtLeast("20.2.20");
     }
 }
