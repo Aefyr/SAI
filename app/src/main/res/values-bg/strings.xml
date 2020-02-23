@@ -1,9 +1,45 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <resources>
-
+    <string name="abc_action_bar_home_description">Навигирай към начален екран</string>
+    <string name="abc_action_bar_up_description">Навигирай нагоре</string>
+    <string name="abc_action_menu_overflow_description">Още опции</string>
+    <string name="abc_action_mode_done">Готово</string>
+    <string name="abc_activity_chooser_view_see_all">Преглед на всички</string>
+    <string name="abc_activitychooserview_choose_application">Изберете приложение</string>
+    <string name="abc_capital_off">ИЗКЛ.</string>
+    <string name="abc_capital_on">ВКЛ.</string>
+    <string name="abc_menu_alt_shortcut_label">Alt+</string>
+    <string name="abc_menu_ctrl_shortcut_label">Ctrl+</string>
+    <string name="abc_menu_delete_shortcut_label">delete</string>
+    <string name="abc_menu_enter_shortcut_label">enter</string>
+    <string name="abc_menu_function_shortcut_label">Function+</string>
+    <string name="abc_menu_meta_shortcut_label">Meta+</string>
+    <string name="abc_menu_shift_shortcut_label">Shift+</string>
+    <string name="abc_menu_space_shortcut_label">шпация</string>
+    <string name="abc_menu_sym_shortcut_label">Sym+</string>
+    <string name="abc_prepend_shortcut_label">Menu+</string>
+    <string name="abc_search_hint">Търси…</string>
+    <string name="abc_searchview_description_clear">Изчисти заявката</string>
+    <string name="abc_searchview_description_query">Заявка за търсене</string>
+    <string name="abc_searchview_description_search">Търсене</string>
+    <string name="abc_searchview_description_submit">Изпрати заявката</string>
+    <string name="abc_searchview_description_voice">Гласово търсене</string>
+    <string name="abc_shareactionprovider_share_with">Сподели с:</string>
+    <string name="abc_shareactionprovider_share_with_application">Споделяне с: %s</string>
+    <string name="abc_toolbar_collapse_description">Свиване</string>
+    <string name="about_author">by polychromaticfox</string>
     <string name="about_donate">Помогни</string>
+    <string name="about_donate_link">https://yasobe.ru/na/sai</string>
     <string name="about_licenses">Лицензи</string>
     <string name="about_source">GitHub</string>
+    <string name="about_source_link">https://github.com/Aefyr/SAI</string>
+    <string name="app_name">SAI</string>
+    <string name="app_name_full">Split APKs Инсталатор</string>
+    <string name="appbar_scrolling_view_behavior">com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior</string>
+    <string name="backup_app_feature_install_date">Инсталиран: %s</string>
+    <string name="backup_app_feature_split">Split APK</string>
+    <string name="backup_app_feature_system_app">Системни</string>
+    <string name="backup_app_feature_update_date">Обновен: %s</string>
     <string name="backup_backup">Експорт</string>
     <string name="backup_backup_export_in_progress">Експорта е в процес</string>
     <string name="backup_backup_failed">Не успя да експортира %s</string>
@@ -16,32 +52,86 @@
     <string name="backup_error_cant_mkdir">Не успя да създаде директория за експортирани приложения</string>
     <string name="backup_export_all_splits">Експорт на всички split APK</string>
     <string name="backup_export_all_splits_prompt">Ще експортирате ли всички split APK?</string>
+    <string name="backup_filter">Филтър</string>
+    <string name="backup_filter_common_option_doesnt_matter">Без значение</string>
+    <string name="backup_filter_common_option_no">Не</string>
+    <string name="backup_filter_common_option_yes">Да</string>
+    <string name="backup_filter_sort">Сортирай</string>
+    <string name="backup_filter_sort_option_installed">Дата инстал.</string>
+    <string name="backup_filter_sort_option_name">Име</string>
+    <string name="backup_filter_sort_option_updated">Дата обнов.</string>
+    <string name="backup_filter_split_apk">Split APK</string>
+    <string name="backup_filter_system_app">Системни</string>
     <string name="backup_load_splits_error">Не успя да получи частите на split APK</string>
     <string name="backup_preparing">Подготовка на приложенията...</string>
     <string name="backup_search_hint">Търсене на приложения</string>
     <string name="backup_search_show_system_apps">Покажи системни</string>
     <string name="backup_search_splits_only">Само split APK</string>
-    <string name="backup_splits_loading">Изтегляне...</string>
+    <string name="backup_splits_loading">Зарежда...</string>
     <string name="backup_warning">"Моля, забележете, че функция Експорт още е бета. Малък FAQ:
 
 1) Приложенията се експортират в папка \"SAI\" памет телефон
 
 2) SAI експортира само APK приложения, без данните им
 
-3) Приложенията се експортират като .apks файл, който си е преименуван ZIP-архив, съдържащ всички APK"</string>
+3) Приложенията се експортират като .apks файл, който си е преименуван ZIP-архив, съдържащ всички APKs"</string>
+    <string name="bottom_sheet_behavior">com.google.android.material.bottomsheet.BottomSheetBehavior</string>
     <string name="cancel">Отмяна</string>
+    <string name="cancel_button_label">Отмяна</string>
+    <string name="character_counter_content_description">Въведени знаци %1$d of %2$d</string>
+    <string name="character_counter_overflowed_content_description">Надвишен лимит знаци %1$d of %2$d</string>
+    <string name="character_counter_pattern">%1$d / %2$d</string>
+    <string name="chip_text">Чип текст</string>
+    <string name="choose_button_label">Изберете</string>
+    <string name="clear_text_end_icon_content_description">Изчисти текста</string>
+    <string name="com.crashlytics.android.build_id">7697438f-e9a3-4a32-8144-27318637f15a</string>
+    <string name="common_google_play_services_enable_button">Активирай</string>
+    <string name="common_google_play_services_enable_text">"%1$s няма да работи, освен ако не активирате услугите за Google Play."</string>
+    <string name="common_google_play_services_enable_title">Активирай услуги за Google Play</string>
+    <string name="common_google_play_services_install_button">Инсталиране</string>
+    <string name="common_google_play_services_install_text">"%1$s няма да се изпълнява, тъй като услугите за Google Play не са инсталирани на устройството ви."</string>
+    <string name="common_google_play_services_install_title">Изтегляне на услугите за Google Play</string>
+    <string name="common_google_play_services_notification_channel_name">Наличност на услугите за Google Play</string>
+    <string name="common_google_play_services_notification_ticker">Грешка в услугите за Google Play</string>
+    <string name="common_google_play_services_unknown_issue">%1$s има проблеми с услугите за Google Play. Моля, опитайте отново.</string>
+    <string name="common_google_play_services_unsupported_text">"%1$s няма да се изпълнява, тъй като услугите за Google Play не се поддържат от устройството ви."</string>
+    <string name="common_google_play_services_update_button">Актуализиране</string>
+    <string name="common_google_play_services_update_text">"%1$s няма да се изпълнява, освен ако не актуализирате услугите за Google Play."</string>
+    <string name="common_google_play_services_update_title">Актуализиране на услугите за Google Play</string>
+    <string name="common_google_play_services_updating_text">%1$s няма да се изпълнява без услугите за Google Play. Понастоящем те се актуализират.</string>
+    <string name="common_google_play_services_wear_update_text">Необходима е нова версия на услугите за Google Play. Скоро тя ще се актуализира автоматично.</string>
+    <string name="common_open_on_phone">Отвори на телефона</string>
+    <string name="common_signin_button_text">Вход</string>
+    <string name="common_signin_button_text_long">Вход с Google</string>
     <string name="copied">Изкопирано</string>
-    <string name="copy2">Изкопирай</string>
-    <string name="dont_show_again">Повече не показвай</string>
+    <string name="copy">Копирай</string>
+    <string name="copy2">Копирай</string>
+    <string name="default_dir">/sdcard</string>
+    <string name="default_web_client_id">29668295084-efat6nc2032ivs90vfn2rtm7cvo1r9np.apps.googleusercontent.com</string>
+    <string name="dont_show_again">"Повече не показвай"</string>
     <string name="error">Грешка</string>
+    <string name="error_dir_access">Недостъпна директория</string>
+    <string name="error_icon_content_description">Грешка</string>
+    <string name="expand_button_title">Разширени</string>
+    <string name="exposed_dropdown_menu_content_description">Показвай падащо меню</string>
+    <string name="fab_transformation_scrim_behavior">com.google.android.material.transformation.FabTransformationScrimBehavior</string>
+    <string name="fab_transformation_sheet_behavior">com.google.android.material.transformation.FabTransformationSheetBehavior</string>
+    <string name="firebase_database_url">https://justfcm-4dfd5.firebaseio.com</string>
+    <string name="gcm_defaultSenderId">29668295084</string>
+    <string name="google_api_key">AIzaSyD_57MaSePalK4rIzwRbhh72LgaLF5TXpM</string>
+    <string name="google_app_id">1:29668295084:android:8320ff2e3d10145a</string>
+    <string name="google_crash_reporting_api_key">AIzaSyD_57MaSePalK4rIzwRbhh72LgaLF5TXpM</string>
+    <string name="google_storage_bucket">justfcm-4dfd5.appspot.com</string>
     <string name="help">Помощ</string>
+    <string name="hide_bottom_view_on_scroll_behavior">com.google.android.material.behavior.HideBottomViewOnScrollBehavior</string>
+    <string name="icon_content_description">Икона Диалог</string>
     <string name="installer_app_installed">Приложението се инсталира</string>
     <string name="installer_app_installed_full">%s е инсталирано</string>
     <string name="installer_device">Устройство</string>
     <string name="installer_error_aborted">Инсталацията бе отменена от потребителя</string>
     <string name="installer_error_bad_apks">Избрани са некоректни APK файлове</string>
     <string name="installer_error_blocked">Инсталацията бе блокирана %s</string>
-    <string name="installer_error_blocked_device">устройство</string>
+    <string name="installer_error_blocked_device">Устройство</string>
     <string name="installer_error_conflict">Невъзможно е да се инсталира приложението, тъй като конфликтува с вече инсталирано, с такова име на пакета</string>
     <string name="installer_error_generic">Грешка при инсталиране</string>
     <string name="installer_error_incompatible">Инсталираното приложение е несъвместимо с това устройство</string>
@@ -53,14 +143,14 @@
     <string name="installer_error_rootless">"Грешка rootless-инсталатор:
 
 %s"</string>
-    <string name="installer_error_shell">"Грешка %1$s-инсталатор:
+    <string name="installer_error_shell">"%1$s-Грешка инсталатор:
 
 %2$s"</string>
-    <string name="installer_error_shizuku_unavailable">Няма достъп до Shizuku Server, убедете се, че е стартиран и SAI има достъп до него</string>
+    <string name="installer_error_shizuku_unavailable">"Няма достъп до Shizuku Server, убедете се, че е стартиран и SAI има достъп до него"</string>
     <string name="installer_error_storage">Недостатъчно място за инсталиране на приложение</string>
     <string name="installer_error_unknown_apk_size">Не успя да получи размера на APK от архива, моля, включете опция \"Разархивирай APK файлове\" в настройки и опитайте пак</string>
     <string name="installer_error_while_extracting">Грешка при разопаковане на ZIP: %s</string>
-    <string name="installer_error_zip_contains_no_apks">ZIP архива не съдержа .apk файлове</string>
+    <string name="installer_error_zip_contains_no_apks">"ZIP архива не съдержа .apk файлове"</string>
     <string name="installer_help"><b>Какво е SAI?</b>"
 SAI (Split APKs Installer) е инсталатор на приложения, състоящи се от няколко APK. Може да го използвате за инсталатор на приложения, разпространявани като App Bundle, тъй като Android не предоставя вграден начин, освен Google Play.
 
@@ -68,10 +158,10 @@ SAI (Split APKs Installer) е инсталатор на приложения, с
 Натиснете на бутон \"Инсталирай APK\" и изберете базов APK и допълнителни APK за вашето устройство, или ZIP архив, съдържащ всички необходими APK, и после бутона отдолу \"Избери\" за започване на инсталация.
 
 "<b>.apks</b>"
-Може да преименувате .zip архиви, съдържащи .apk файлове, в .apks (Например: somesplitapp.zip -> somesplitapp.apks), за да може да се отвори с помощта на SAI от други приложения.
+Може да преименувате .zip архиви, съдържащи .apk файлове, в .apks (Например: somesplitapp.zip -&gt; somesplitapp.apks), за да може да се отвори с помощта на SAI от други приложения.
 
 "<b>Инсталиране на приложения от външно хранилище</b>"
-Може да използвате продължително натискане на бутон инсталиране, за Избор на файлове от системния експлорер, който поддържа външно хранилище."</string>
+Може да използвате продължително натискане на бутон инсталиране, за Избор на файлове от системния експлорер, който поддържа външно хранилище.</string>
     <string name="installer_install_apks">Инсталирай APK</string>
     <string name="installer_installation_confirmation">Инсталирай \"%s\"?</string>
     <string name="installer_installation_failed">Приложение не се инсталира</string>
@@ -83,7 +173,7 @@ SAI (Split APKs Installer) е инсталатор на приложения, с
     <string name="installer_no_root">Root-достъп липсва, ще се използва rootless инсталация</string>
     <string name="installer_open">Старт</string>
     <string name="installer_pick_apks">Изберете файлове за инсталиране</string>
-    <string name="installer_placeholder_text">Няма сесия на инсталиране</string>
+    <string name="installer_placeholder_text">Няма сесия за инсталиране</string>
     <string name="installer_select_theme">Избери тема</string>
     <string name="installer_show_full_error">Показа пълна грешка</string>
     <string name="installer_state_created">Подготовка</string>
@@ -93,17 +183,64 @@ SAI (Split APKs Installer) е инсталатор на приложения, с
     <string name="installer_state_queued">В опашка</string>
     <string name="installer_unable_to_launch_app">Не успя да стартира приложението</string>
     <string name="installer_unknown_app">Неизвестно приложение</string>
+    <string name="label_parent_dir">...</string>
+    <string name="label_parent_directory">Родителска директория</string>
+    <string name="last_edit">Последна редакция: %s</string>
     <string name="main_backup">Експорт</string>
-    <string name="main_installer">Инсталиране</string>
+    <string name="main_installer">Инсталатор</string>
     <string name="main_navigation_disabled">Невъзможно е използване да се отвори по време на инсталация</string>
+    <string name="mtrl_badge_numberless_content_description">Ново известие</string>
+    <string name="mtrl_chip_close_icon_content_description">Изтрий %1$s</string>
+    <string name="mtrl_exceed_max_badge_number_suffix">%1$d%2$s</string>
+    <string name="mtrl_picker_a11y_next_month">Промяна следващ месец</string>
+    <string name="mtrl_picker_a11y_prev_month">Промяна предишен месец</string>
+    <string name="mtrl_picker_announce_current_selection">Текущ избор: %1$s</string>
+    <string name="mtrl_picker_cancel">\@android:string/отмяна</string>
+    <string name="mtrl_picker_confirm">\@android:string/ok</string>
+    <string name="mtrl_picker_date_header_selected">%1$s</string>
+    <string name="mtrl_picker_date_header_title">Изберете дата</string>
+    <string name="mtrl_picker_date_header_unselected">Избрана дата</string>
+    <string name="mtrl_picker_day_of_week_column_header">Колона дни: %1$s</string>
+    <string name="mtrl_picker_invalid_format">Невалиден формат.</string>
+    <string name="mtrl_picker_invalid_format_example">Пример: %1$s</string>
+    <string name="mtrl_picker_invalid_format_use">Използва: %1$s</string>
+    <string name="mtrl_picker_invalid_range">Невалиден диапазон.</string>
+    <string name="mtrl_picker_navigate_to_year_description">Навигирайте до година %1$s</string>
+    <string name="mtrl_picker_out_of_range">Извън диапазон: %1$s</string>
+    <string name="mtrl_picker_range_header_only_end_selected">Начална дата – %1$s</string>
+    <string name="mtrl_picker_range_header_only_start_selected">%1$s – Последна дата</string>
+    <string name="mtrl_picker_range_header_selected">%1$s – %2$s</string>
+    <string name="mtrl_picker_range_header_title">Изберете диапазон на дати</string>
+    <string name="mtrl_picker_range_header_unselected">Начална дата – Последна дата</string>
+    <string name="mtrl_picker_save">Запиши</string>
+    <string name="mtrl_picker_text_input_date_hint">Дата</string>
+    <string name="mtrl_picker_text_input_date_range_end_hint">Последна дата</string>
+    <string name="mtrl_picker_text_input_date_range_start_hint">Начална дата</string>
+    <string name="mtrl_picker_text_input_day_abbr">d</string>
+    <string name="mtrl_picker_text_input_month_abbr">m</string>
+    <string name="mtrl_picker_text_input_year_abbr">y</string>
+    <string name="mtrl_picker_toggle_to_calendar_input_mode">Превключи режим въвеждане на календар</string>
+    <string name="mtrl_picker_toggle_to_day_selection">Клик, да превключи избиране на ден</string>
+    <string name="mtrl_picker_toggle_to_text_input_mode">Превключи към въвеждане на текст</string>
+    <string name="mtrl_picker_toggle_to_year_selection">Тап да превключи избиране на година</string>
     <string name="name_format_builder_preview">Пример: %s</string>
     <string name="name_format_builder_preview_empty">Изберете поне една част</string>
     <string name="name_format_builder_title">Изберете части за генерация на име на експортираното приложение</string>
-    <string name="no">Нет</string>
+    <string name="no">Не</string>
+    <string name="not_set">Не е зададено</string>
+    <string name="ok">OK</string>
+    <string name="password_toggle_content_description">Покажи парола</string>
+    <string name="path_password_eye">M12,4.5C7,4.5 2.73,7.61 1,12c1.73,4.39 6,7.5 11,7.5s9.27,-3.11 11,-7.5c-1.73,-4.39 -6,-7.5 -11,-7.5zM12,17c-2.76,0 -5,-2.24 -5,-5s2.24,-5 5,-5 5,2.24 5,5 -2.24,5 -5,5zM12,9c-1.66,0 -3,1.34 -3,3s1.34,3 3,3 3,-1.34 3,-3 -1.34,-3 -3,-3z</string>
+    <string name="path_password_eye_mask_strike_through">M2,4.27 L19.73,22 L22.27,19.46 L4.54,1.73 L4.54,1 L23,1 L23,23 L1,23 L1,4.27 Z</string>
+    <string name="path_password_eye_mask_visible">M2,4.27 L2,4.27 L4.54,1.73 L4.54,1.73 L4.54,1 L23,1 L23,23 L1,23 L1,4.27 Z</string>
+    <string name="path_password_strike_through">M3.27,4.27 L19.74,20.74</string>
     <string name="permissions_required_shizuku">SAI се нуждае от разрешение на достъп до Shizuku Server</string>
     <string name="permissions_required_storage">SAI се нуждае от разрешение на достъп до файлове</string>
+    <string name="preference_copied">Копирахте „%1$s“ в буферната памет.</string>
+    <string name="project_id">justfcm-4dfd5</string>
+    <string name="search_menu_title">Търсене</string>
     <string name="settings_category_main_export">Експорт</string>
-    <string name="settings_category_main_installer">Инсталиране</string>
+    <string name="settings_category_main_installer">Инсталатор</string>
     <string name="settings_category_main_other">Друго</string>
     <string name="settings_category_main_ui">Интерфейс</string>
     <string name="settings_main_about">За приложението</string>
@@ -117,32 +254,45 @@ SAI (Split APKs Installer) е инсталатор на приложения, с
     <string name="settings_main_extract_archives">Разархивирай APK файлове</string>
     <string name="settings_main_extract_archives_summary">Разархивирай APK от .zip/.apks архиви във временни файлове преди инсталиране. Ако е изключено, SAI ще инсталира APK направо от архива без създаване на временни файлове. Не се препоръчва включване</string>
     <string name="settings_main_file_picker_sort">Сортировка на файлове</string>
-    <string name="settings_main_file_picker_sort_summary">"В избора на APK
+    <string name="settings_main_file_picker_sort_summary">"Когато са избрани APKs
 Сега: %s"</string>
     <string name="settings_main_home_directory">Папка подразб.</string>
     <string name="settings_main_home_directory_summary">"Начална папка в избора на APK
 Сега: %s"</string>
     <string name="settings_main_install_location">Място на инсталиране</string>
-    <string name="settings_main_install_location_summary">"Къде да се инсталира приложението.
+    <string name="settings_main_install_location_summary">"Къде да инсталира приложението.
 Сега: %s"</string>
     <string name="settings_main_installer">Инсталатор</string>
     <string name="settings_main_installer_error_no_shizuku">Нямате инсталиран Shizuku, моля сложете го през Google Play и го настройте</string>
     <string name="settings_main_installer_error_shizuku_pre_m">SAI не поддържа Shizuku на версии Android под 6.0</string>
     <string name="settings_main_installer_show_dialogs">Показвай диалог инсталиране</string>
     <string name="settings_main_installer_show_dialogs_summary">Показвай диалог с резултата от завършена инсталация. Винаги можете да отворите диалога, кликвайки на сесията. Действа само на новия инсталатор</string>
-    <string name="settings_main_installer_summary">"Тип инсталатор, използван за APK.
+    <string name="settings_main_installer_summary">"Инсталатор, използван за APK.
 Сега: %s"</string>
     <string name="settings_main_pick_dir">Изберете папка</string>
     <string name="settings_main_reset_one_time_warnings">Ресет единични предупреждения</string>
     <string name="settings_main_sign_apks">Подписвай APK</string>
     <string name="settings_main_sign_apks_summary">Подписвай APK преди инсталиране</string>
+    <string name="settings_main_ui_show_app_features">Покажи възможности приложение</string>
+    <string name="settings_main_ui_show_app_features_summary">Показвай контекстна икона приложение на експорт екрана</string>
     <string name="settings_main_use_old_installer">Стар инсталатор</string>
     <string name="settings_main_use_old_installer_summary">Използвай стария вид инсталатор. SAI ще се рестартира за прилагане на тази настройка (Не превключвайте, ако се инсталира или експортира, за да не се повредят )</string>
     <string name="settings_main_use_root">Използвай root</string>
     <string name="settings_main_use_root_error">Не успя да получи root-достъп</string>
     <string name="settings_main_use_root_summary">Пробвай да използва root-инсталатор. При отсъствие на root-достъп SAI, пак се използва rootless-инсталатор</string>
     <string name="settings_title">Настройки</string>
-    <string name="sss_warning_summary"><b>Не променяйте тези настройки, ако не знаете за какво са. Някои опции тук може да повредят SAI или даже системата ви</b></string>
+    <string name="sss">Супер секретни настройки</string>
+    <string name="sss_custom_install_create_summary">Потребителска команда създай-инсталирай, която ще бъде използвана за създаване на pm сесия, използвана в Рут и Shizuku инсталатори, командата не трябва да съдържа интервали, освен тези, които разделят аргументи (\'интервали в кавички \' също ще бъдат разделени на аргументи) , Въведете null \", за да деактивирате</string>
+    <string name="sss_custom_install_create_title">Потребителска команда създай-инсталирай</string>
+    <string name="sss_dont_replace_dots_summary">В експортираното име на приложението</string>
+    <string name="sss_dont_replace_dots_title">Не замествайте точки със запетаи</string>
+    <string name="sss_use_installer_2_summary">Рестартирайте SAI да приложи</string>
+    <string name="sss_use_installer_2_title">Използвай инсталатор2</string>
+    <string name="sss_warning_summary"><b>"Не променяйте тези настройки, ако не знаете за какво са. Някои опции тук може да повредят SAI или даже системата ви"</b></string>
     <string name="sss_warning_title"><b>ПРЕДУПРЕЖДЕНИЕ</b></string>
+    <string name="status_bar_notification_info_overflow">999+</string>
+    <string name="summary_collapsed_preference_list">%1$s, %2$s</string>
+    <string name="v7_preference_off">ИЗКЛ.</string>
+    <string name="v7_preference_on">ВКЛ.</string>
     <string name="yes">Да</string>
 </resources>
