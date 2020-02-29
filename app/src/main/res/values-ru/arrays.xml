@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <string-array name="file_picker_sort_variants">
         <item>"По имени (Алфавитный порядок)"</item>
         <item>"По имени (Обратный алфавитный порядок)"</item>
@@ -9,7 +8,6 @@
         <item>"По размеру, сначала маленькие"</item>
         <item>"По размеру, сначала большие"</item>
     </string-array>
-
     <string-array name="themes">
         <item>"SAI"</item>
         <item>"Ruby"</item>
@@ -20,13 +18,11 @@
         <item>"SAI (F-Droid)"</item>
         <item>"Тёмная"</item>
     </string-array>
-
     <string-array name="installers">
         <item>"Rootless (рекомендуется)"</item>
         <item>"Rooted (нужен root-доступ)"</item>
         <item>"Shizuku (нужен Shizuku 3.x)"</item>
     </string-array>
-
     <string-array name="size_units">
         <item>Б</item>
         <item>КБ</item>
@@ -35,19 +31,16 @@
         <item>ТБ</item>
         <item>ПБ</item>
     </string-array>
-
     <string-array name="backup_file_name_formats">
         <item>ИМЯ_ПАКЕТ_ВЕРСИЯ.apks</item>
         <item>ИМЯ.apks</item>
         <item>ИМЯ_ВЕРСИЯ.apks</item>
     </string-array>
-
     <string-array name="install_locations">
         <item>Выбор системы</item>
         <item>Только внутренняя память</item>
         <item>Предпочитать внешнюю память (Система всё равно может решить использовать внутреннюю)</item>
     </string-array>
-
     <string-array name="name_format_parts">
         <item>Имя</item>
         <item>Версия</item>
@@ -55,11 +48,8 @@
         <item>Пакет</item>
         <item>Время</item>
     </string-array>
-
     <string-array name="backup_dir_selection_methods">
         <item>Встроенный файлпикер</item>
         <item>Системный файлпикер</item>
     </string-array>
-
-
 </resources>
