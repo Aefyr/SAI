@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="yes">نعم</string>
     <string name="no">لا</string>
@@ -8,19 +9,16 @@
     <string name="copy2">نسخ</string>
     <string name="copied">تم النسخ</string>
     <string name="dont_show_again">لا تظهر مرة أخرى</string>
-
-    <string name="permissions_required_storage">يتطلب "SAI" إذناً للوصول إلى التخزين</string>
-    <string name="permissions_required_shizuku">يتطلب "SAI" إذناً لإستخدام خادم (Shizuku)</string>
-
+    <string name="permissions_required_storage">يتطلب \"SAI\" إذناً للوصول إلى التخزين</string>
+    <string name="permissions_required_shizuku">يتطلب \"SAI\" إذناً لإستخدام خادم (Shizuku)</string>
     <string name="main_installer">تثبيت</string>
     <string name="main_backup">تصدير</string>
     <string name="main_navigation_disabled">يتعذر إجراء الفتح أثناء التثبيت المستمر</string>
-
     <string name="installer_installation_confirmation">تثبيت \"%s\"؟</string>
     <string name="installer_installation_failed">التطبيق ليس مثبتاً</string>
     <string name="installer_installation_in_progress">جارٍ التثبيت...</string>
     <string name="installer_install_apks">تثبيت ملفات الـ APK</string>
-    <string name="installer_help"><b>ما هو تطبيق الـ (SAI) ؟</b>\nتطبيق الـ (SAI)( تثبيت ملفات APK المقسمة) هو تطبيق يتيح لك تثبيت العديد من ملفات الـ APK كما لو كانت حزمة واحدة. يعد ذلك مفيداً لتثبيت التطبيقات التي يتم توزيعها على شكل حزم تطبيقات لأن نظام أندرويد لا يوفر طريقة مضمنة لتثبيتها من مصادر أخرى غير Google Play .\n\n<b>كيفية إستخدام تطبيق الـ (SAI) ؟</b>\nأنقر على زر \"تثبيت ملفات الـ APK\" وحدد الـ APK الأساسي وملفات الـ APK الإضافية الخاصة بجهازك أو أرشيف(ZIP) الذي يحتوي على كل ملفات الـ (APK) المطلوبة، ثم أنقر على زر \"تحديد\" لبدء عملية التثبيت..\n\n<b>.ملفات الـ (APK) </b>\nيمكن إعادة تسمية أرشيف(zip) الذي يحتوي على ملفات الـ (apk) إلى (apks) (مثال: somesplitapp.zip -> somesplitapp.apks) ، بحيث يمكن فتحه بواسطة تطبيق (SAI) من تطبيقات أخرى..</string>
+    <string name="installer_help"><b>ما هو تطبيق الـ (SAI) ؟</b>\nتطبيق الـ (SAI)( تثبيت ملفات APK المقسمة) هو تطبيق يتيح لك تثبيت العديد من ملفات الـ APK كما لو كانت حزمة واحدة. يعد ذلك مفيداً لتثبيت التطبيقات التي يتم توزيعها على شكل حزم تطبيقات لأن نظام أندرويد لا يوفر طريقة مضمنة لتثبيتها من مصادر أخرى غير Google Play .\n\n<b>كيفية إستخدام تطبيق الـ (SAI) ؟</b>\nأنقر على زر \"تثبيت ملفات الـ APK\" وحدد الـ APK الأساسي وملفات الـ APK الإضافية الخاصة بجهازك أو أرشيف(ZIP) الذي يحتوي على كل ملفات الـ (APK) المطلوبة، ثم أنقر على زر \"تحديد\" لبدء عملية التثبيت..\n\n<b>.ملفات الـ (APK) </b>\nيمكن إعادة تسمية أرشيف(zip) الذي يحتوي على ملفات الـ (apk) إلى (apks) (مثال: somesplitapp.zip -&gt; somesplitapp.apks) ، بحيث يمكن فتحه بواسطة تطبيق (SAI) من تطبيقات أخرى..</string>
     <string name="installer_pick_apks">حدد الملفات التي تريد تثبيتها</string>
     <string name="installer_app_installed">تم تثبيت التطبيق</string>
     <string name="installer_open">فتح</string>
@@ -34,22 +32,33 @@
     <string name="installer_error_incompatible">التطبيق غير متوافق مع هذا الجهاز</string>
     <string name="installer_error_bad_apks">ملفات الـ APK المحددة غير صالحة</string>
     <string name="installer_error_storage">لا توجد مساحة تخزين كافية لتثبيت التطبيق</string>
-    <string name="installer_error_lidl_rom">ذاكرة الـ "ROM" الخاص بك غير متوافقة مع التثبيت بدون روت. حاول تحديد تثبيت آخر في إعدادات الـ "SAI" .</string>
+    <string name="installer_error_lidl_rom">ذاكرة الـ \"ROM\" الخاص بك غير متوافقة مع التثبيت بدون روت. حاول تحديد تثبيت آخر في إعدادات الـ \"SAI\" .</string>
     <string name="installer_error_shell">%1$s خطأ في التثبيت:\n\n %2$s</string>
     <string name="installer_error_rootless">خطأ فى التثبيت بدون روت:\n\n %s</string>
     <string name="installer_error_root_no_root">يتعذر الحصول علي صلاحيات الروت</string>
-    <string name="installer_error_shizuku_unavailable">يتعذر الوصول إلى خادم (Shizuku) ، يرجى التأكد من تشغيله و "SAI" مصرح له باستخدامه</string>
+    <string name="installer_error_shizuku_unavailable">يتعذر الوصول إلى خادم (Shizuku) ، يرجى التأكد من تشغيله و \"SAI\" مصرح له باستخدامه</string>
     <string name="installer_error_while_extracting">حدث خطأ أثناء إستخراج ملفات الـ APK من ملف (الـ ZIP):%s</string>
     <string name="installer_error_zip_contains_no_apks">لا يحتوي ملف الـ ZIP علي أي ملفات APK</string>
     <string name="installer_error_mixed_extensions">يجب تحديد إما ملف (zip/.apks) واحد أو ملفات (apk) متعددة</string>
-    <string name="installer_error_unknown_apk_size">يتعذر الحصول على حجم الـ APK من الأرشيف، يرجى تمكين إعداد \" إستخراج ملفات الـ APK من الأرشيف/" وحاول مرة أخرى</string>
+    <string name="installer_error_installer2_mixed_extensions_internal">You have to select one or more .apk/.apks/.zip files, no mixed extensions allowed</string>
+    <string name="installer_error_installer2_mixed_extensions_saf">You have to select either a single .zip/.apks file or multiple .apk files</string>
+    <string name="installer_error_unknown_apk_size">يتعذر الحصول على حجم الـ APK من الأرشيف، يرجى تمكين إعداد \" إستخراج ملفات الـ APK من الأرشيف/\" وحاول مرة أخرى</string>
     <string name="installer_select_theme">حدد السمة</string>
     <string name="installer_device">الجهاز</string>
     <string name="installer_miui_warning_title">تم إكتشاف MIUI</string>
-    <string name="installer_miui_warning_message">يبدو أن جهازك يقوم بتشغيل "MIUI" . يعرف "MIUI" بكسر ميزات "Android API"  القياسية وقد أبلغ بعض مستخدمي "SAI" بأن "SAI" لا يعمل على "MIUI" . عادة ما يمكن إصلاحه عن طريق تعطيل تحسينات "MIUI" في إعدادات المطور، وهو ما أقترح عليك فعله.</string>
+    <string name="installer_miui_warning_message"><b>Seriously, read this one-time warning!</b>\n\nSorry for taking your time, but I\'m really tired of people with MIUI who have been skipping the previous version of this warning.\n\nLooks like your device is running MIUI. MIUI is known for breaking standard Android API features and a lot of SAI users have reported installations failing on MIUI for no reason with \"Installation failed\". Usually it can be fixed by disabling MIUI optimizations in developer settings, which I suggest you should do.\n\nOf course you can try using SAI without disabling MIUI optimization, but if it doesn\'t work, try disabling it before complaining to me about failed installations. If your MIUI version doesn\'t have that toggle or it doesn\'t help, there\'s nothing I can do.\n\nThis issue is supposed to be fixed on MIUI 20.2.20 and up.</string>
     <string name="installer_miui_warning_open_dev_settings">فتح إعدادات المطور</string>
-    <string name="installer_miui_warning_oof">يتعذر فتح إعدادات التطوير. Cool Rom</string>
-
+    <string name="installer_miui_warning_oof">Unable to open developer settings. You can try opening them manually, google how to do that.</string>
+    <string name="installer_unknown_app">تطبيق غير معروف</string>
+    <string name="installer_state_created">Preparing</string>
+    <string name="installer_state_queued">Queued</string>
+    <string name="installer_state_installing">Installing</string>
+    <string name="installer_state_installed">المثبتة</string>
+    <string name="installer_state_failed">فشل فى التثبيت</string>
+    <string name="installer_unable_to_launch_app">Unable to launch app</string>
+    <string name="installer_show_full_error">Show full error</string>
+    <string name="installer_placeholder_text">No installer sessions</string>
+    <string name="installer_saf_tip">Long click to use system file picker.\n(Click this tooltip to hide it forever)</string>
     <string name="backup_backup">تصدير</string>
     <string name="backup_backup_prompt">هل تريد تصدير %s؟</string>
     <string name="backup_backup_status">جارٍ تصدير %d تطبيقات</string>
@@ -61,7 +70,7 @@
     <string name="backup_search_splits_only">ملفات APK المقسمة فقط</string>
     <string name="backup_search_show_system_apps">إظهار تطبيقات النظام</string>
     <string name="backup_error_cant_mkdir">يتعذر إنشاء مجلد للتطبيقات التي يتم تصديرها</string>
-    <string name="backup_warning">يرجى ملاحظة ، أن ميزة التصدير لا تزال في مرحلة تجريبية. إليك بعض التعليمات حول هذا الأمر:\n\n1) يتم حفظ التطبيقات التي تم تصديرها إلى مجلد "SAI" في وحدة التخزين الداخلية\n\n2) يقوم "SAI" بتصدير ملفات الـ APK للتطبيقات فقط، ولا يتم تصدير البيانات الخاصة بها\n\n3) يتم تصدير التطبيقات كملف (apks) وهو أرشيف مضغوط باسم ZIP يحتوي على جميع ملفات الـ APK.</string>
+    <string name="backup_warning">1) By default, exported apps are saved to \"SAI\" folder in internal storage. You can set custom folder in settings\n\n2) SAI only exports apps\' APKs, their data isn\'t exported\n\n3) Apps are exported as a .apks file which is a renamed ZIP archive containing all the APKs</string>
     <string name="backup_export_all_splits">تصدير جميع ملفات الـ APK المقسمة</string>
     <string name="backup_export_all_splits_prompt">هل تريد تصدير جميع ملفات الـ APK المقسمة؟</string>
     <string name="backup_preparing">جارٍ تحضير التطبيقات ...</string>
@@ -69,7 +78,20 @@
     <string name="backup_dialog_title">حدد أجزاء الـ APK المقسمة لتصديرها</string>
     <string name="backup_load_splits_error">يتعذر الحصول علي أجزاء APK المقسمة</string>
     <string name="backup_splits_loading">جارٍ التحميل...</string>
-
+    <string name="backup_filter">Filter</string>
+    <string name="backup_filter_common_option_doesnt_matter">Doesn\'t matter</string>
+    <string name="backup_filter_common_option_yes">Yes</string>
+    <string name="backup_filter_common_option_no">No</string>
+    <string name="backup_filter_split_apk">Split APK</string>
+    <string name="backup_filter_system_app">System app</string>
+    <string name="backup_filter_sort">Sort</string>
+    <string name="backup_filter_sort_option_name">Name</string>
+    <string name="backup_filter_sort_option_installed">Install date</string>
+    <string name="backup_filter_sort_option_updated">Update date</string>
+    <string name="backup_app_feature_split">Split APK</string>
+    <string name="backup_app_feature_system_app">System app</string>
+    <string name="backup_app_feature_install_date">Installed: %s</string>
+    <string name="backup_app_feature_update_date">Updated: %s</string>
     <string name="settings_title">الإعدادات</string>
     <string name="settings_main_home_directory">المجلد الرئيسي</string>
     <string name="settings_main_home_directory_summary">المجلد الذي يتم فتحه عند النقر على زر تثبيت ملفات الـ (APK)\nحالياً: %s</string>
@@ -78,31 +100,53 @@
     <string name="settings_main_pick_dir">إختار المجلد</string>
     <string name="settings_main_about">حول</string>
     <string name="settings_main_use_root">إستخدام الروت</string>
-    <string name="settings_main_use_root_summary">حاول إستخدام التثبيت بالروت. إذا تعذر على تطبيق "SAI" الحصول على صلاحيات الروت فسيتم الرجوع إلي التثبيت بدون روت</string>
+    <string name="settings_main_use_root_summary">حاول إستخدام التثبيت بالروت. إذا تعذر على تطبيق \"SAI\" الحصول على صلاحيات الروت فسيتم الرجوع إلي التثبيت بدون روت</string>
     <string name="settings_main_use_root_error">يتعذر الحصول علي صلاحيات الروت</string>
     <string name="settings_main_sign_apks">توقيع ملفات الـ APK</string>
     <string name="settings_main_sign_apks_summary">قم بتوقيع ملفات الـ APK قبل التثبيت.</string>
     <string name="settings_main_extract_archives">إستخراج ملفات الـ APK من الأرشيف</string>
-    <string name="settings_main_extract_archives_summary">إستخراج ملفات الـ APK من أرشيف . (zip/.apks) إلى ملفات مؤقتة قبل تثبيتها. في حالة تعطيل هذا الخيار، سيقوم تطبيق "SAI" بتثبيت ملفات الـ APK مباشرة من الأرشيف بدون ملفات مؤقتة. لا يوصي بتمكينه</string>
+    <string name="settings_main_extract_archives_summary">إستخراج ملفات الـ APK من أرشيف . (zip/.apks) إلى ملفات مؤقتة قبل تثبيتها. في حالة تعطيل هذا الخيار، سيقوم تطبيق \"SAI\" بتثبيت ملفات الـ APK مباشرة من الأرشيف بدون ملفات مؤقتة. لا يوصي بتمكينه</string>
     <string name="settings_main_reset_one_time_warnings">إعادة تعيين التحذيرات لمرة واحدة</string>
     <string name="settings_main_installer">التثبيت</string>
     <string name="settings_main_installer_summary">التثبيت المستخدم لتثبيت ملفات الـ (APK)\nحالياً: %s</string>
     <string name="settings_main_installer_error_no_shizuku">ليس لديك تطبيق (Shizuku) مثبتاً ، يرجى الحصول عليه من Google Play وإعداده</string>
-    <string name="settings_main_installer_error_shizuku_pre_m">تطبيق"SAI" لا يدعم (Shizuku) علي إصدارات الأندرويد الاقل من 6.0</string>
+    <string name="settings_main_installer_error_shizuku_pre_m">تطبيق\"SAI\" لا يدعم (Shizuku) علي إصدارات الأندرويد الاقل من 6.0</string>
     <string name="settings_main_backup_file_name_format">إسم التطبيق الذي يتم تصديره</string>
     <string name="settings_main_backup_file_name_format_summary">تنسيق اسم ملف الـ (apks) الذي يتم تصديره.\nحالياً: %s</string>
+    <string name="settings_main_backup_backup_dir">Exported apps directory</string>
+    <string name="settings_main_backup_backup_dir_summary">Directory where SAI will export apps.\nCurrently: %s</string>
+    <string name="settings_main_backup_backup_dir_dialog">Select directory with</string>
     <string name="settings_main_install_location">موقع التثبيت</string>
     <string name="settings_main_install_location_summary">مكان تثبيت التطبيقات.\nحالياً: %s</string>
+    <string name="settings_main_use_old_installer">Legacy installer</string>
+    <string name="settings_main_use_old_installer_summary">Use legacy installer implementation. SAI will be restarted to apply this setting (Don\'t switch if there are ongoing installations or exports, they may be corrupted)</string>
+    <string name="settings_main_installer_show_dialogs">Show installer dialogs</string>
+    <string name="settings_main_installer_show_dialogs_summary">Show dialogs when installation fails or succeeds. You can always open those dialogs manually by tapping installation session entry. Only affects new installer</string>
     <string name="settings_category_main_installer">التثبيت</string>
     <string name="settings_category_main_export">التصدير</string>
     <string name="settings_category_main_other">أخري</string>
-
+    <string name="settings_category_main_ui">UI</string>
+    <string name="settings_main_ui_show_app_features">Show app features</string>
+    <string name="settings_main_ui_show_app_features_summary">Show contextual app feature badges on export screen</string>
+    <string name="settings_main_ui_theme">Theme</string>
     <string name="name_format_builder_title">حدد الأجزاء لتضمينها في إسم التطبيق الذي يتم تصديره</string>
     <string name="name_format_builder_preview">معاينة:%s</string>
-
+    <string name="name_format_builder_preview_empty">Please select at least one part</string>
+    <!-- These strings that start with "sss_" don't really have to be translated except for the warning maybe -->
+    <string name="sss">Super Secret Settings</string>
+    <string name="sss_warning_title"><b>WARNING</b></string>
+    <string name="sss_warning_summary"><b>Don\'t touch anything here unless you know what you\'re doing. Some options here can break SAI or even damage your system</b></string>
+    <string name="sss_dont_replace_dots_title">Don\'t replace dots with commas</string>
+    <string name="sss_dont_replace_dots_summary">In exported app file name</string>
+    <string name="sss_custom_install_create_title">Custom install-create command</string>
+    <string name="sss_custom_install_create_summary">Custom install-create command that will be used to create pm session used in Rooted and Shizuku installers, the command must not contain any spaces except for the ones that separate arguments (\'spaces in quotes\' will be split into arguments as well). Enter \"null\" to disable</string>
+    <string name="sss_use_installer_2_summary">Restart SAI to apply</string>
+    <string name="sss_use_installer_2_title">Use installer2</string>
+    <string name="mi_continue_countdown">You can continue in %d s.</string>
+    <string name="mi_continue">Continue</string>
+    <string name="mi_miui_version">MIUI version - %1$s (%2$d (%3$s))</string>
     <string name="about_author">بواسطة (polychromaticfox)</string>
     <string name="about_source">موقع (GitHub)</string>
     <string name="about_donate">تبرع</string>
     <string name="about_licenses">التراخيص</string>
-
 </resources>
