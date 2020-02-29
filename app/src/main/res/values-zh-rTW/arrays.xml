@@ -1,15 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <string-array name="file_picker_sort_variants">
         <item>"按名稱 (A-Z)"</item>
         <item>"按名稱 (Z-A)"</item>
         <item>"修改時間 (升序)"</item>
         <item>"修改時間 (降序)"</item>
-        <item>"Smallest file size first"</item>
-        <item>"Biggest file size first"</item>
+        <item>"大小（正序）"</item>
+        <item>"大小（倒序）"</item>
     </string-array>
-
     <string-array name="themes">
         <item>"SAI"</item>
         <item>"Ruby"</item>
@@ -20,11 +18,38 @@
         <item>"SAI (F-Droid)"</item>
         <item>"Dark"</item>
     </string-array>
-
     <string-array name="installers">
         <item>"Rootless (recommended)"</item>
         <item>"Rooted (requires root)"</item>
         <item>"Shizuku (requires Shizuku 3.x)"</item>
     </string-array>
-
+    <string-array name="size_units">
+        <item>B</item>
+        <item>KB</item>
+        <item>MB</item>
+        <item>GB</item>
+        <item>TB</item>
+        <item>PB</item>
+    </string-array>
+    <string-array name="backup_file_name_formats">
+        <item>名稱_包名_版本號.apks</item>
+        <item>名稱.apks</item>
+        <item>名稱_版本號.apks</item>
+    </string-array>
+    <string-array name="install_locations">
+        <item>由作業系統指定</item>
+        <item>僅內部存儲空間</item>
+        <item>外置存儲空間優先（可能無效）</item>
+    </string-array>
+    <string-array name="name_format_parts">
+        <item>名稱</item>
+        <item>版本</item>
+        <item>版本號</item>
+        <item>包名</item>
+        <item>時間戳</item>
+    </string-array>
+    <string-array name="backup_dir_selection_methods">
+        <item>內部文件選擇題</item>
+        <item>作業系統文件選擇器（SAF）</item>
+    </string-array>
 </resources>
