@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="file_picker_sort_variants">
-        <item>За іменем (Алфавітний порядок)</item>
-        <item>За іменем (Зворотній алфавітний порядок)</item>
-        <item>Спочатку нові</item>
-        <item>Спочатку старі</item>
-        <item>"По размеру, сначала маленькие"</item>
-        <item>"По размеру, сначала большие"</item>
+        <item>"За іменем (Алфавітний порядок)"</item>
+        <item>"За іменем (Зворотній алфавітний порядок)"</item>
+        <item>"Спочатку нові"</item>
+        <item>"Спочатку старі"</item>
+        <item>"Спочатку меншого розміру файли"</item>
+        <item>"Спочатку більшого розміру файли"</item>
     </string-array>
-
     <string-array name="themes">
         <item>"SAI"</item>
         <item>"Ruby"</item>
@@ -19,25 +18,29 @@
         <item>"SAI (F-Droid)"</item>
         <item>"Темна"</item>
     </string-array>
-
     <string-array name="installers">
         <item>"Rootless (рекомендується)"</item>
         <item>"Rooted (потрібен root-доступ)"</item>
         <item>"Shizuku (потрібен Shizuku 3.x)"</item>
     </string-array>
-
+    <string-array name="size_units">
+        <item>Б</item>
+        <item>КБ</item>
+        <item>МБ</item>
+        <item>ГБ</item>
+        <item>ТБ</item>
+        <item>ПБ</item>
+    </string-array>
     <string-array name="backup_file_name_formats">
         <item>ІМ\'Я_ПАКЕТ_ВЕРСІЯ.apks</item>
         <item>ІМ\'Я.apks</item>
         <item>ІМ\'Я_ВЕРСІЯ.apks</item>
     </string-array>
-	
-	<string-array name="install_locations">
+    <string-array name="install_locations">
         <item>Вибір системи</item>
         <item>Тільки внутрішня пам\'ять</item>
         <item>Надавати перевагу зовнішній пам\'яті (Система все одно може вирішити використовувати внутрішню)</item>
     </string-array>
-
     <string-array name="name_format_parts">
         <item>Ім\'я</item>
         <item>Версія</item>
@@ -45,7 +48,6 @@
         <item>Пакет</item>
         <item>Час</item>
     </string-array>
-
     <string-array name="backup_dir_selection_methods">
         <item>Вбудована можливість</item>
         <item>Системний варіант</item>
