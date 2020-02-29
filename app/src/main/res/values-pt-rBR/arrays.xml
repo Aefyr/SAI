@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="file_picker_sort_variants">
+        <item>"Nome (A - Z)"</item>
+        <item>"Nome (Z - A)"</item>
+        <item>"Data (mais recente)"</item>
+        <item>"Data (mais antigo)"</item>
+        <item>"Tamanho (menor)"</item>
+        <item>"Tamanho (maior)"</item>
+    </string-array>
+    <string-array name="themes">
+        <item>"SAI"</item>
+        <item>"Ruby"</item>
+        <item>"Rena"</item>
+        <item>"Ukrrooter"</item>
+        <item>"Amoled"</item>
+        <item>"Pixel"</item>
+        <item>"SAI (F-Droid)"</item>
+        <item>"Escuro"</item>
+    </string-array>
+    <string-array name="installers">
+        <item>"Sem root (recomendado)"</item>
+        <item>"Com root (requer root)"</item>
+        <item>"Shizuku (requer Shizuku 3.x)"</item>
+    </string-array>
+    <string-array name="size_units">
+        <item>B</item>
+        <item>KB</item>
+        <item>MB</item>
+        <item>GB</item>
+        <item>TB</item>
+        <item>PB</item>
+    </string-array>
+    <string-array name="backup_file_name_formats">
+        <item>NOME_PACOTE_VERSÃO.apks</item>
+        <item>NOME.apks</item>
+        <item>NOME_VERSÃO.apks</item>
+    </string-array>
+    <string-array name="install_locations">
+        <item>Deixar o sistema decidir</item>
+        <item>Apenas interno</item>
+        <item>Preferir externo (sistema ainda pode decidir usar interno)</item>
+    </string-array>
+    <string-array name="name_format_parts">
+        <item>Nome</item>
+        <item>Versão</item>
+        <item>Código da versão</item>
+        <item>Pacote</item>
+        <item>Horário</item>
+    </string-array>
+    <string-array name="backup_dir_selection_methods">
+        <item>Seletor de arquivos interno</item>
+        <item>Seletor de arquivos do sistema</item>
+    </string-array>
+</resources>

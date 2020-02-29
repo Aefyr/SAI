@@ -1,5 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <string name="yes">Ja</string>
     <string name="no">Nein</string>
     <string name="cancel">Abbrechen</string>
@@ -9,19 +9,16 @@
     <string name="copy2">Kopieren</string>
     <string name="copied">kopiert</string>
     <string name="dont_show_again">Nicht mehr anzeigen</string>
-
     <string name="permissions_required_storage">SAI benötigt Berechtigungen für den Zugriff auf den Speicher</string>
     <string name="permissions_required_shizuku">SAI benötigt Berechtigungen zum nutzen des Shizuku Server</string>
-
     <string name="main_installer">Installer</string>
     <string name="main_backup">Exportieren</string>
     <string name="main_navigation_disabled">Öffnen während einer laufenden Installation nicht möglich</string>
-
     <string name="installer_installation_confirmation">Installiere \"%s\"?</string>
     <string name="installer_installation_failed">App nicht installiert</string>
     <string name="installer_installation_in_progress">Installiere…</string>
     <string name="installer_install_apks">APKs installieren</string>
-    <string name="installer_help"><b>Was ist SAI?</b>\nSAI (Split APKs Installer) ist eine App die dich mehrere APKs installieren lässt, als wäre es nur ein Paket. Das ist nützlich für das Installieren von Apps die als Pakete bereitgestellt werden, da Android keine Möglichkeit hat diese aus anderen Quellen als Google Play zu installieren.\n\n<b>Wie wird SAI benutzt?</b>Klicke auf \"APKs installieren\" und wähle eine APK und zusätzliche konfigurationsspezifische oder ein ZIP-Archiv das alle erforderlichen APKs enthält. Klicke anschließend auf \"Auswählen\" um die Installation zu starten.\n\n<b>.apks</b>\nDu kannst ZIP-Archive die .apk-Dateien enthalten zu .apks-Dateien umbenennen (z.B. irgendeinesplitapp.zip -> irgendeinesplitapp.apks), so dass diese aus anderen Apps in SAI geöffnet werden können.</string>
+    <string name="installer_help"><b>Was ist SAI?</b>\nSAI (Split APKs Installer) ist eine App die dich mehrere APKs installieren lässt, als wäre es nur ein Paket. Das ist nützlich für das Installieren von Apps die als Pakete bereitgestellt werden, da Android keine Möglichkeit hat diese aus anderen Quellen als Google Play zu installieren.\n\n<b>Wie wird SAI benutzt?</b>Klicke auf \"APKs installieren\" und wähle eine APK und zusätzliche konfigurationsspezifische oder ein ZIP-Archiv das alle erforderlichen APKs enthält. Klicke anschließend auf \"Auswählen\" um die Installation zu starten.\n\n<b>.apks</b>\nDu kannst ZIP-Archive die .apk-Dateien enthalten zu .apks-Dateien umbenennen (z.B. irgendeinesplitapp.zip -&gt; irgendeinesplitapp.apks), so dass diese aus anderen Apps in SAI geöffnet werden können.</string>
     <string name="installer_pick_apks">Dateien zum Installieren auswählen</string>
     <string name="installer_app_installed">App installiert</string>
     <string name="installer_open">Öffnen</string>
@@ -49,9 +46,9 @@
     <string name="installer_select_theme">Theme auswählen</string>
     <string name="installer_device">Gerät</string>
     <string name="installer_miui_warning_title">MIUI entdeckt</string>
-    <string name="installer_miui_warning_message">Sieht so aus als wenn dein Gerät MIUI verwendet. MIUI ist dafür bekannt API-Funktionen in Android lahmzulegen und einige SAI-Benutzer haben berichtet, dass SAI unter MIUI nicht funktioniert. Dies kann umgangen werden, in dem man in den Entwickleroptionen von Android die MIUI Optimierungen deaktiviert, was ich auch empfehle zu tun.</string>
+    <string name="installer_miui_warning_message"><b>Ernsthaft, lies diese einmalige Warnung!</b>\n\nEntschuldigung, dass ich dir die Zeit stehlen muss, aber ich bin die Leute mit MIUI leid, welche die vorherige Version dieser Warnung übersprungen haben.\n\nSieht so aus als wenn dein Gerät MIUI verwendet. MIUI ist dafür bekannt API-Funktionen in Android lahmzulegen und einige SAI-Benutzer haben berichtet, dass SAI unter MIUI nicht funktioniert. Dies kann umgangen werden, in dem man in den Entwickleroptionen von Android die MIUI Optimierungen deaktiviert, was ich auch empfehle zu tun.\n\nDu kannst SAI auch ohne die Deaktivierung der MIUI Optimierungen verwenden, aber wenn es nicht funktioniert, dann deaktiviere erst die Optimierungen bevor Du dich bei mir über fehlgeschlagene Installationen beschwerst. Wenn deine MIUI-Version keinen Schalter für das deaktivieren der Optimierungen hat oder das deaktivieren nicht geholfen hat, dann kann ich auch nichts daran ändern.\n\nDieser Fehler ist vermeintlich in MIUI 20.2.20 und höher behoben.</string>
     <string name="installer_miui_warning_open_dev_settings">Entwicklereinstellungen öffnen</string>
-    <string name="installer_miui_warning_oof">Entwicklereinstellungen konnten nicht geöffnet werden. Tolle ROM</string>
+    <string name="installer_miui_warning_oof">Entwicklereinstellungen konnten nicht geöffnet werden. Du kannst versuchen diese manuell zu öffnen. Google wie man das tut.</string>
     <string name="installer_unknown_app">Unbekannte App</string>
     <string name="installer_state_created">bereite vor</string>
     <string name="installer_state_queued">ausstehend</string>
@@ -61,7 +58,7 @@
     <string name="installer_unable_to_launch_app">App kann nicht gestartet werden</string>
     <string name="installer_show_full_error">Vollständigen Fehler anzeigen</string>
     <string name="installer_placeholder_text">Keine Installersitzungen</string>
-
+    <string name="installer_saf_tip">Lange klicken, um die Systemdateiauswahl zu verwenden.\n(Diesen Tooltip anklicken, um ihn für immer auszublenden)</string>
     <string name="backup_backup">Exportieren</string>
     <string name="backup_backup_prompt">%s exportieren?</string>
     <string name="backup_backup_status">Exportiere %d Apps</string>
@@ -73,7 +70,7 @@
     <string name="backup_search_splits_only">Nur getrennte APKs</string>
     <string name="backup_search_show_system_apps">Systemapps anzeigen</string>
     <string name="backup_error_cant_mkdir">Verzeichnis für exportierte Apps konnte nicht erstellt werden</string>
-    <string name="backup_warning">Bitte nimm zur Kenntnis, dass die Exportfunktion noch in Entwicklung ist. Hier einige häufig gestellte Fragen dazu:\n\n1) Exportierte Apps werden im \"SAI\" Ordner im interen Speicher gespeichert\n\n2) SAI exportiert nur Apps\' APKs, deren Daten werde nicht exportiert\n\n3) Apps die als .apks-Datei exportiert werden, da es sich nur um ein ZIP-Archiv handelt, enthalten alle APKs</string>
+    <string name="backup_warning">1) Standardmäßig werden alle Apps in den \"SAI\"-Ordner im internen Speicher abgelegt. Du kannst in den Einstellungen einen eigenen Ordner festlegen.\n\n2) SAI exportiert ausschließlich die APKs der Apps und nicht deren Daten.\n\n3) Apps werden als .apks-Datei exportiert, wobei es sich um ein ZIP-Archiv handelt, welches alle APKs enthält.</string>
     <string name="backup_export_all_splits">Alle getrennten APKs exportieren</string>
     <string name="backup_export_all_splits_prompt">Möchtest Du alle getrennten APKs exportieren?</string>
     <string name="backup_preparing">Bereite Apps vor...</string>
@@ -95,7 +92,6 @@
     <string name="backup_app_feature_system_app">System App</string>
     <string name="backup_app_feature_install_date">Installiert am: %s</string>
     <string name="backup_app_feature_update_date">Aktualisiert am: %s</string>
-
     <string name="settings_title">Einstellungen</string>
     <string name="settings_main_home_directory">Heimatverzeichnis</string>
     <string name="settings_main_home_directory_summary">Startverzeichnis beim Auswählen von APKs\nAktuell: %s</string>
@@ -132,12 +128,11 @@
     <string name="settings_category_main_ui">Oberfläche</string>
     <string name="settings_main_ui_show_app_features">App-Funktionen anzeigen</string>
     <string name="settings_main_ui_show_app_features_summary">Kontextbezogene App-Funktions-Kennzeichen auf dem Exportbildschirm anzeigen</string>
-
+    <string name="settings_main_ui_theme">Theme</string>
     <string name="name_format_builder_title">Teile zum Einbinden in exportierten Appnamen auswählen</string>
     <string name="name_format_builder_preview">Vorschau: %s</string>
     <string name="name_format_builder_preview_empty">Bitte wähle mindestens ein Teil aus</string>
-    
-     <!-- These strings that start with "sss_" don't really have to be translated except for the warning maybe -->
+    <!-- These strings that start with "sss_" don't really have to be translated except for the warning maybe -->
     <string name="sss">Super Geheime Einstellungen</string>
     <string name="sss_warning_title"><b>WARNUNG</b></string>
     <string name="sss_warning_summary"><b>Hier solltest Du nur etwas ändern, wenn Du weißt was Du tust. Einige Optionen können SAI oder dein System beschädigen.</b></string>
@@ -147,10 +142,11 @@
     <string name="sss_custom_install_create_summary">Benutzerdefinierter Install-Create Befehl, welcher für das erstellen der PM-Sitzung im Root- und Shikuzu-Installer benutzt wird. Der Befehl darf kein Leerzeichen, außer denen zum trennen der Argumente enthalten. (\'Leerzeichen in Anführungseichen\' werden ebenfalls in Argumente aufgeteilt). \"null\" zum Deaktivieren eingeben.</string>
     <string name="sss_use_installer_2_summary">SAI muss zum Übernehmen neu gestartet werden</string>
     <string name="sss_use_installer_2_title">Installer2 benutzen</string>
-
+    <string name="mi_continue_countdown">Du kannst in %d s fortfahren.</string>
+    <string name="mi_continue">Fortfahren</string>
+    <string name="mi_miui_version">MIUI-Version - %1$s (%2$d (%3$s))</string>
     <string name="about_author">von polychromaticfox</string>
     <string name="about_source">GitHub</string>
     <string name="about_donate">Spenden</string>
     <string name="about_licenses">Lizenzen</string>
-
 </resources>

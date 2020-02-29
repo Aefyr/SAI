@@ -1,148 +1,172 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <string name="about_donate">Помогни</string>
-    <string name="about_licenses">Лицензи</string>
-    <string name="about_source">GitHub</string>
-    <string name="backup_backup">Експорт</string>
-    <string name="backup_backup_export_in_progress">Експорта е в процес</string>
-    <string name="backup_backup_failed">Не успя да експортира %s</string>
-    <string name="backup_backup_in_progress">Върви експорт %s...</string>
-    <string name="backup_backup_prompt">Експортирай %s?</string>
-    <string name="backup_backup_status">Изпълнява експорт на %d приложение</string>
-    <string name="backup_backup_success">%s бе успешно експортирано</string>
-    <string name="backup_dialog_title">Изберете части split APK за експорт</string>
-    <string name="backup_enqueue">Експортирай</string>
-    <string name="backup_error_cant_mkdir">Не успя да създаде директория за експортирани приложения</string>
-    <string name="backup_export_all_splits">Експорт на всички split APK</string>
-    <string name="backup_export_all_splits_prompt">Ще експортирате ли всички split APK?</string>
-    <string name="backup_load_splits_error">Не успя да получи частите на split APK</string>
-    <string name="backup_preparing">Подготовка на приложенията...</string>
-    <string name="backup_search_hint">Търсене на приложения</string>
-    <string name="backup_search_show_system_apps">Покажи системни</string>
-    <string name="backup_search_splits_only">Само split APK</string>
-    <string name="backup_splits_loading">Изтегляне...</string>
-    <string name="backup_warning">"Моля, забележете, че функция Експорт още е бета. Малък FAQ:
-
-1) Приложенията се експортират в папка \"SAI\" памет телефон
-
-2) SAI експортира само APK приложения, без данните им
-
-3) Приложенията се експортират като .apks файл, който си е преименуван ZIP-архив, съдържащ всички APK"</string>
+    <string name="yes">Да</string>
+    <string name="no">Нет</string>
     <string name="cancel">Отмяна</string>
-    <string name="copied">Изкопирано</string>
-    <string name="copy2">Изкопирай</string>
-    <string name="dont_show_again">Повече не показвай</string>
-    <string name="error">Грешка</string>
+    <string name="ok">Добре</string>
     <string name="help">Помощ</string>
-    <string name="installer_app_installed">Приложението се инсталира</string>
-    <string name="installer_app_installed_full">%s е инсталирано</string>
-    <string name="installer_device">Устройство</string>
-    <string name="installer_error_aborted">Инсталацията бе отменена от потребителя</string>
-    <string name="installer_error_bad_apks">Избрани са некоректни APK файлове</string>
-    <string name="installer_error_blocked">Инсталацията бе блокирана %s</string>
-    <string name="installer_error_blocked_device">устройство</string>
-    <string name="installer_error_conflict">Невъзможно е да се инсталира приложението, тъй като конфликтува с вече инсталирано, с такова име на пакета</string>
-    <string name="installer_error_generic">Грешка при инсталиране</string>
-    <string name="installer_error_incompatible">Инсталираното приложение е несъвместимо с това устройство</string>
-    <string name="installer_error_installer2_mixed_extensions_internal">Изберете един или повече .apk/.apks/.zip файлове, смесен вид файлове не допуща</string>
-    <string name="installer_error_installer2_mixed_extensions_saf">Изберете един .zip/.apks файл, или няколко .apk файла</string>
-    <string name="installer_error_lidl_rom">Фърмуера на устройството е несъвместимо с rootless-инсталация. Пробвайте да смените инсталатора в настройки SAI</string>
-    <string name="installer_error_mixed_extensions">Изберете един .zip/.apks файл, или няколко .apk файла</string>
-    <string name="installer_error_root_no_root">Не успя да получи root-достъп</string>
-    <string name="installer_error_rootless">"Грешка rootless-инсталатор:
-
-%s"</string>
-    <string name="installer_error_shell">"Грешка %1$s-инсталатор:
-
-%2$s"</string>
-    <string name="installer_error_shizuku_unavailable">Няма достъп до Shizuku Server, убедете се, че е стартиран и SAI има достъп до него</string>
-    <string name="installer_error_storage">Недостатъчно място за инсталиране на приложение</string>
-    <string name="installer_error_unknown_apk_size">Не успя да получи размера на APK от архива, моля, включете опция \"Разархивирай APK файлове\" в настройки и опитайте пак</string>
-    <string name="installer_error_while_extracting">Грешка при разопаковане на ZIP: %s</string>
-    <string name="installer_error_zip_contains_no_apks">ZIP архива не съдержа .apk файлове</string>
-    <string name="installer_help"><b>Какво е SAI?</b>"
-SAI (Split APKs Installer) е инсталатор на приложения, състоящи се от няколко APK. Може да го използвате за инсталатор на приложения, разпространявани като App Bundle, тъй като Android не предоставя вграден начин, освен Google Play.
-
-"<b>Как се използва SAI?</b>"
-Натиснете на бутон \"Инсталирай APK\" и изберете базов APK и допълнителни APK за вашето устройство, или ZIP архив, съдържащ всички необходими APK, и после бутона отдолу \"Избери\" за започване на инсталация.
-
-"<b>.apks</b>"
-Може да преименувате .zip архиви, съдържащи .apk файлове, в .apks (Например: somesplitapp.zip -> somesplitapp.apks), за да може да се отвори с помощта на SAI от други приложения.
-
-"<b>Инсталиране на приложения от външно хранилище</b>"
-Може да използвате продължително натискане на бутон инсталиране, за Избор на файлове от системния експлорер, който поддържа външно хранилище."</string>
-    <string name="installer_install_apks">Инсталирай APK</string>
+    <string name="error">Грешка</string>
+    <string name="copy2">Изкопирай</string>
+    <string name="copied">Изкопирано</string>
+    <string name="dont_show_again">Повече не показвай</string>
+    <string name="permissions_required_storage">SAI се нуждае от разрешение на достъп до файлове</string>
+    <string name="permissions_required_shizuku">SAI се нуждае от разрешение на достъп до Shizuku Server</string>
+    <string name="main_installer">Инсталиране</string>
+    <string name="main_backup">Експорт</string>
+    <string name="main_navigation_disabled">Невъзможно е използване да се отвори по време на инсталация</string>
     <string name="installer_installation_confirmation">Инсталирай \"%s\"?</string>
     <string name="installer_installation_failed">Приложение не се инсталира</string>
     <string name="installer_installation_in_progress">Инсталиране…</string>
-    <string name="installer_miui_warning_message">Изглежда, имате MIUI. MIUI е известна с модифицирани приложения Android API и някои потребители съобщават, че SAI не работи на MIUI. Обикновено това се решава с изключена оптимизация MIUI в настройки за разработчици, което и ви препоръчвам.</string>
-    <string name="installer_miui_warning_oof">Не успя да отвори настройки за разработчици. Найс фърмуер</string>
-    <string name="installer_miui_warning_open_dev_settings">Отвори настройки за разработчици</string>
-    <string name="installer_miui_warning_title">Изяви се MIUI</string>
-    <string name="installer_no_root">Root-достъп липсва, ще се използва rootless инсталация</string>
-    <string name="installer_open">Старт</string>
+    <string name="installer_install_apks">Инсталирай APK</string>
+    <string name="installer_help"><b>Какво е SAI?</b>\"
+SAI (Split APKs Installer) е инсталатор на приложения, състоящи се от няколко APK. Може да го използвате за инсталатор на приложения, разпространявани като App Bundle, тъй като Android не предоставя вграден начин, освен Google Play.
+
+\"<b>Как се използва SAI?</b>\"
+Натиснете на бутон \"Инсталирай APK\" и изберете базов APK и допълнителни APK за вашето устройство, или ZIP архив, съдържащ всички необходими APK, и после бутона отдолу \"Избери\" за започване на инсталация.
+
+\"<b>.apks</b>\"
+Може да преименувате .zip архиви, съдържащи .apk файлове, в .apks (Например: somesplitapp.zip -&gt; somesplitapp.apks), за да може да се отвори с помощта на SAI от други приложения.
+
+\"<b>Инсталиране на приложения от външно хранилище</b>\"
+Може да използвате продължително натискане на бутон инсталиране, за Избор на файлове от системния експлорер, който поддържа външно хранилище.\"</string>
     <string name="installer_pick_apks">Изберете файлове за инсталиране</string>
-    <string name="installer_placeholder_text">Няма сесия на инсталиране</string>
+    <string name="installer_app_installed">Приложението се инсталира</string>
+    <string name="installer_open">Старт</string>
+    <string name="installer_app_installed_full">%s е инсталирано</string>
+    <string name="installer_no_root">Root-достъп липсва, ще се използва rootless инсталация</string>
+    <string name="installer_error_generic">Грешка при инсталиране</string>
+    <string name="installer_error_aborted">Инсталацията бе отменена от потребителя</string>
+    <string name="installer_error_blocked">Инсталацията бе блокирана %s</string>
+    <string name="installer_error_blocked_device">устройство</string>
+    <string name="installer_error_conflict">Невъзможно е да се инсталира приложението, тъй като конфликтува с вече инсталирано, с такова име на пакета</string>
+    <string name="installer_error_incompatible">Инсталираното приложение е несъвместимо с това устройство</string>
+    <string name="installer_error_bad_apks">Избрани са некоректни APK файлове</string>
+    <string name="installer_error_storage">Недостатъчно място за инсталиране на приложение</string>
+    <string name="installer_error_lidl_rom">Фърмуера на устройството е несъвместимо с rootless-инсталация. Пробвайте да смените инсталатора в настройки SAI</string>
+    <string name="installer_error_shell">Грешка %1$s-инсталатор:
+
+%2$s</string>
+    <string name="installer_error_rootless">Грешка rootless-инсталатор:
+
+%s</string>
+    <string name="installer_error_root_no_root">Не успя да получи root-достъп</string>
+    <string name="installer_error_shizuku_unavailable">Няма достъп до Shizuku Server, убедете се, че е стартиран и SAI има достъп до него</string>
+    <string name="installer_error_while_extracting">Грешка при разопаковане на ZIP: %s</string>
+    <string name="installer_error_zip_contains_no_apks">ZIP архива не съдержа .apk файлове</string>
+    <string name="installer_error_mixed_extensions">Изберете един .zip/.apks файл, или няколко .apk файла</string>
+    <string name="installer_error_installer2_mixed_extensions_internal">Изберете един или повече .apk/.apks/.zip файлове, смесен вид файлове не допуща</string>
+    <string name="installer_error_installer2_mixed_extensions_saf">Изберете един .zip/.apks файл, или няколко .apk файла</string>
+    <string name="installer_error_unknown_apk_size">Не успя да получи размера на APK от архива, моля, включете опция \"Разархивирай APK файлове\" в настройки и опитайте пак</string>
     <string name="installer_select_theme">Избери тема</string>
-    <string name="installer_show_full_error">Показа пълна грешка</string>
-    <string name="installer_state_created">Подготовка</string>
-    <string name="installer_state_failed">Не успя да се инсталира</string>
-    <string name="installer_state_installed">Инсталирано</string>
-    <string name="installer_state_installing">Върви инсталиране</string>
-    <string name="installer_state_queued">В опашка</string>
-    <string name="installer_unable_to_launch_app">Не успя да стартира приложението</string>
+    <string name="installer_device">Устройство</string>
+    <string name="installer_miui_warning_title">Изяви се MIUI</string>
+    <string name="installer_miui_warning_message"><b>Сериозно, прочетете това еднократно предупреждение!</b>\n\nИзвинете за отделенето време, но има много потребители с MIUI, които пропускат предишната версия на това предупреждение.\n\nОчевидно вашето устройство работи MIUI. MIUI е известен с това, че нарушава стандартните функции на API на Android и много потребители на SAI съобщават, че инсталациите се провалят в MIUI без причина с „Инсталирането не е успешно“. Обикновено това може да бъде поправено чрез деактивиране на MIUI оптимизации в настройките за разработчици, което предлагам да направите.\n\nРазбира се, може да използвате SAI, без да деактивирате MIUI оптимизацията, но ако тя не работи, опитайте да я деактивирате, преди да потърсите съдействие за неуспешни инсталации. Ако вашата версия на MIUI не може да се превключи или и това не помага, не може да ви съдействам.\n\nТози проблем трябва да бъде отстранен на MIUI 20.2.20 и по-нови версии.</string>
+    <string name="installer_miui_warning_open_dev_settings">Отвори настройки за разработчици</string>
+    <string name="installer_miui_warning_oof">Не може да отворите настройки за разработчици. Може да опитате да ги отворите ръчно, Google казва как.</string>
     <string name="installer_unknown_app">Неизвестно приложение</string>
-    <string name="main_backup">Експорт</string>
-    <string name="main_installer">Инсталиране</string>
-    <string name="main_navigation_disabled">Невъзможно е използване да се отвори по време на инсталация</string>
-    <string name="name_format_builder_preview">Пример: %s</string>
-    <string name="name_format_builder_preview_empty">Изберете поне една част</string>
-    <string name="name_format_builder_title">Изберете части за генерация на име на експортираното приложение</string>
-    <string name="no">Нет</string>
-    <string name="permissions_required_shizuku">SAI се нуждае от разрешение на достъп до Shizuku Server</string>
-    <string name="permissions_required_storage">SAI се нуждае от разрешение на достъп до файлове</string>
-    <string name="settings_category_main_export">Експорт</string>
-    <string name="settings_category_main_installer">Инсталиране</string>
-    <string name="settings_category_main_other">Друго</string>
-    <string name="settings_category_main_ui">Интерфейс</string>
-    <string name="settings_main_about">За приложението</string>
-    <string name="settings_main_backup_backup_dir">Папка експортирани приложения</string>
-    <string name="settings_main_backup_backup_dir_dialog">Избери папка от</string>
-    <string name="settings_main_backup_backup_dir_summary">"Папка, където SAI ще експортира приложението.
-Сега: %s"</string>
-    <string name="settings_main_backup_file_name_format">Име на експортираното приложение</string>
-    <string name="settings_main_backup_file_name_format_summary">"Формат с името на експортирания .apks файл.
-Сега: %s"</string>
-    <string name="settings_main_extract_archives">Разархивирай APK файлове</string>
-    <string name="settings_main_extract_archives_summary">Разархивирай APK от .zip/.apks архиви във временни файлове преди инсталиране. Ако е изключено, SAI ще инсталира APK направо от архива без създаване на временни файлове. Не се препоръчва включване</string>
-    <string name="settings_main_file_picker_sort">Сортировка на файлове</string>
-    <string name="settings_main_file_picker_sort_summary">"В избора на APK
-Сега: %s"</string>
+    <string name="installer_state_created">Подготовка</string>
+    <string name="installer_state_queued">В опашка</string>
+    <string name="installer_state_installing">Върви инсталиране</string>
+    <string name="installer_state_installed">Инсталирано</string>
+    <string name="installer_state_failed">Не успя да се инсталира</string>
+    <string name="installer_unable_to_launch_app">Не успя да стартира приложението</string>
+    <string name="installer_show_full_error">Показа пълна грешка</string>
+    <string name="installer_placeholder_text">Няма сесия на инсталиране</string>
+    <string name="installer_saf_tip">Дълго щракване, за да използвате инструмента за избор на системни файлове.\n(Щракнете върху това пояснение, за да го скриете завинаги)</string>
+    <string name="backup_backup">Експорт</string>
+    <string name="backup_backup_prompt">Експортирай %s?</string>
+    <string name="backup_backup_status">Изпълнява експорт на %d приложение</string>
+    <string name="backup_backup_export_in_progress">Експорта е в процес</string>
+    <string name="backup_backup_in_progress">Върви експорт %s...</string>
+    <string name="backup_backup_success">%s бе успешно експортирано</string>
+    <string name="backup_backup_failed">Не успя да експортира %s</string>
+    <string name="backup_search_hint">Търсене на приложения</string>
+    <string name="backup_search_splits_only">Само split APK</string>
+    <string name="backup_search_show_system_apps">Покажи системни</string>
+    <string name="backup_error_cant_mkdir">Не успя да създаде директория за експортирани приложения</string>
+    <string name="backup_warning">1) По подразбиране изнесените приложения се записват в \"SAI\" папка във вътрешната памет. Можете да зададете персонализирана папка в settings\n\n2) SAI експортира само APKs файлове за приложения, техните данни не се експортират\n\n3) Приложения се експортират като .apks файл, който е преименуван ZIP архив, съдържащ всички APKs файлове</string>
+    <string name="backup_export_all_splits">Експорт на всички split APK</string>
+    <string name="backup_export_all_splits_prompt">Ще експортирате ли всички split APK?</string>
+    <string name="backup_preparing">Подготовка на приложенията...</string>
+    <string name="backup_enqueue">Експортирай</string>
+    <string name="backup_dialog_title">Изберете части split APK за експорт</string>
+    <string name="backup_load_splits_error">Не успя да получи частите на split APK</string>
+    <string name="backup_splits_loading">Изтегляне...</string>
+    <string name="backup_filter">Филтър</string>
+    <string name="backup_filter_common_option_doesnt_matter">Без значение</string>
+    <string name="backup_filter_common_option_yes">Да</string>
+    <string name="backup_filter_common_option_no">не</string>
+    <string name="backup_filter_split_apk">Split APK</string>
+    <string name="backup_filter_system_app">Системно приложение</string>
+    <string name="backup_filter_sort">Сортирай</string>
+    <string name="backup_filter_sort_option_name">Име</string>
+    <string name="backup_filter_sort_option_installed">Дата на инсталиране</string>
+    <string name="backup_filter_sort_option_updated">Дата на актуализиране</string>
+    <string name="backup_app_feature_split">Split APK</string>
+    <string name="backup_app_feature_system_app">Система приложение</string>
+    <string name="backup_app_feature_install_date">Инсталирана: %s</string>
+    <string name="backup_app_feature_update_date">Обновено: %s</string>
+    <string name="settings_title">Настройки</string>
     <string name="settings_main_home_directory">Папка подразб.</string>
-    <string name="settings_main_home_directory_summary">"Начална папка в избора на APK
-Сега: %s"</string>
-    <string name="settings_main_install_location">Място на инсталиране</string>
-    <string name="settings_main_install_location_summary">"Къде да се инсталира приложението.
-Сега: %s"</string>
-    <string name="settings_main_installer">Инсталатор</string>
-    <string name="settings_main_installer_error_no_shizuku">Нямате инсталиран Shizuku, моля сложете го през Google Play и го настройте</string>
-    <string name="settings_main_installer_error_shizuku_pre_m">SAI не поддържа Shizuku на версии Android под 6.0</string>
-    <string name="settings_main_installer_show_dialogs">Показвай диалог инсталиране</string>
-    <string name="settings_main_installer_show_dialogs_summary">Показвай диалог с резултата от завършена инсталация. Винаги можете да отворите диалога, кликвайки на сесията. Действа само на новия инсталатор</string>
-    <string name="settings_main_installer_summary">"Тип инсталатор, използван за APK.
-Сега: %s"</string>
+    <string name="settings_main_home_directory_summary">Начална папка в избора на APK
+Сега: %s</string>
+    <string name="settings_main_file_picker_sort">Сортировка на файлове</string>
+    <string name="settings_main_file_picker_sort_summary">В избора на APK
+Сега: %s</string>
     <string name="settings_main_pick_dir">Изберете папка</string>
-    <string name="settings_main_reset_one_time_warnings">Ресет единични предупреждения</string>
+    <string name="settings_main_about">За приложението</string>
+    <string name="settings_main_use_root">Използвай root</string>
+    <string name="settings_main_use_root_summary">Пробвай да използва root-инсталатор. При отсъствие на root-достъп SAI, пак се използва rootless-инсталатор</string>
+    <string name="settings_main_use_root_error">Не успя да получи root-достъп</string>
     <string name="settings_main_sign_apks">Подписвай APK</string>
     <string name="settings_main_sign_apks_summary">Подписвай APK преди инсталиране</string>
+    <string name="settings_main_extract_archives">Разархивирай APK файлове</string>
+    <string name="settings_main_extract_archives_summary">Разархивирай APK от .zip/.apks архиви във временни файлове преди инсталиране. Ако е изключено, SAI ще инсталира APK направо от архива без създаване на временни файлове. Не се препоръчва включване</string>
+    <string name="settings_main_reset_one_time_warnings">Ресет единични предупреждения</string>
+    <string name="settings_main_installer">Инсталатор</string>
+    <string name="settings_main_installer_summary">Тип инсталатор, използван за APK.
+Сега: %s</string>
+    <string name="settings_main_installer_error_no_shizuku">Нямате инсталиран Shizuku, моля сложете го през Google Play и го настройте</string>
+    <string name="settings_main_installer_error_shizuku_pre_m">SAI не поддържа Shizuku на версии Android под 6.0</string>
+    <string name="settings_main_backup_file_name_format">Име на експортираното приложение</string>
+    <string name="settings_main_backup_file_name_format_summary">Формат с името на експортирания .apks файл.
+Сега: %s</string>
+    <string name="settings_main_backup_backup_dir">Папка експортирани приложения</string>
+    <string name="settings_main_backup_backup_dir_summary">Папка, където SAI ще експортира приложението.
+Сега: %s</string>
+    <string name="settings_main_backup_backup_dir_dialog">Избери папка от</string>
+    <string name="settings_main_install_location">Място на инсталиране</string>
+    <string name="settings_main_install_location_summary">Къде да се инсталира приложението.
+Сега: %s</string>
     <string name="settings_main_use_old_installer">Стар инсталатор</string>
     <string name="settings_main_use_old_installer_summary">Използвай стария вид инсталатор. SAI ще се рестартира за прилагане на тази настройка (Не превключвайте, ако се инсталира или експортира, за да не се повредят )</string>
-    <string name="settings_main_use_root">Използвай root</string>
-    <string name="settings_main_use_root_error">Не успя да получи root-достъп</string>
-    <string name="settings_main_use_root_summary">Пробвай да използва root-инсталатор. При отсъствие на root-достъп SAI, пак се използва rootless-инсталатор</string>
-    <string name="settings_title">Настройки</string>
-    <string name="sss_warning_summary"><b>Не променяйте тези настройки, ако не знаете за какво са. Някои опции тук може да повредят SAI или даже системата ви</b></string>
+    <string name="settings_main_installer_show_dialogs">Показвай диалог инсталиране</string>
+    <string name="settings_main_installer_show_dialogs_summary">Показвай диалог с резултата от завършена инсталация. Винаги можете да отворите диалога, кликвайки на сесията. Действа само на новия инсталатор</string>
+    <string name="settings_category_main_installer">Инсталиране</string>
+    <string name="settings_category_main_export">Експорт</string>
+    <string name="settings_category_main_other">Друго</string>
+    <string name="settings_category_main_ui">Интерфейс</string>
+    <string name="settings_main_ui_show_app_features">Покажи функции на приложението</string>
+    <string name="settings_main_ui_show_app_features_summary">Показвй контекстно приложението в екрана за експортиране</string>
+    <string name="settings_main_ui_theme">Тема</string>
+    <string name="name_format_builder_title">Изберете части за генерация на име на експортираното приложение</string>
+    <string name="name_format_builder_preview">Пример: %s</string>
+    <string name="name_format_builder_preview_empty">Изберете поне една част</string>
+    <!-- These strings that start with "sss_" don't really have to be translated except for the warning maybe -->
+    <string name="sss">Супер секретни настройки</string>
     <string name="sss_warning_title"><b>ПРЕДУПРЕЖДЕНИЕ</b></string>
-    <string name="yes">Да</string>
+    <string name="sss_warning_summary"><b>Не променяйте тези настройки, ако не знаете за какво са. Някои опции тук може да повредят SAI или даже системата ви</b></string>
+    <string name="sss_dont_replace_dots_title">Не замествай точки със запетаи</string>
+    <string name="sss_dont_replace_dots_summary">В експорт името на приложението</string>
+    <string name="sss_custom_install_create_title">Потребителска команда за инсталиране</string>
+    <string name="sss_custom_install_create_summary">Персонализирана команда за създаване на инсталационен файл, която ще се използва за създаване на Pm сесия, използвана в rooted и Shizuku инсталатори, командата не трябва да съдържа никакви интервали освен тези, които разделят аргументите (\"пространства в кавички\" ще бъдат разделени на аргументи, както добре). Въведете \"null\", за да забраните</string>
+    <string name="sss_use_installer_2_summary">Рестарт SAI за да приложи</string>
+    <string name="sss_use_installer_2_title">Използвай инсталатор2</string>
+    <string name="mi_continue_countdown">Може да продължите в %d s.</string>
+    <string name="mi_continue">Продължи</string>
+    <string name="mi_miui_version">MIUI версия - %1$s (%2$d (%3$s))</string>
+    <string name="about_author">от polychromaticfox</string>
+    <string name="about_source">GitHub</string>
+    <string name="about_donate">Помогни</string>
+    <string name="about_licenses">Лицензи</string>
 </resources>

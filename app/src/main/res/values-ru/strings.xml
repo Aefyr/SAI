@@ -1,27 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <string name="yes">Да</string>
     <string name="no">Нет</string>
     <string name="cancel">Отмена</string>
+    <string name="ok">ОК</string>
     <string name="help">Помощь</string>
     <string name="error">Ошибка</string>
     <string name="copy2">Скопировать</string>
     <string name="copied">Скопировано</string>
     <string name="dont_show_again">Больше не показывать</string>
-
     <string name="permissions_required_storage">SAI необходимо разрешение на доступ к файлам</string>
     <string name="permissions_required_shizuku">SAI необходимо разрешение на доступ к Shizuku Server</string>
-
     <string name="main_installer">Установка</string>
     <string name="main_backup">Экспорт</string>
     <string name="main_navigation_disabled">Невозможно использовать открыть с помощью во время установки</string>
-
     <string name="installer_installation_confirmation">Установить \"%s\"?</string>
     <string name="installer_installation_failed">Приложение не установлено</string>
     <string name="installer_installation_in_progress">Установка…</string>
     <string name="installer_install_apks">Установить APK</string>
-    <string name="installer_help"><b>Что такое SAI?</b>\nSAI (Split APKs Installer) это установщик приложений, состоящих из нескольких APK. Его можно применять для установки приложений, распространяемых как App Bundle, потому что Android не предоставляет встроенного способа для этого, помимо Google Play.\n\n<b>Как использовать SAI?</b>\nНажмите на кнопку \"Установить APK\" и выберите базовый APK и дополнительные APK под ваше устройство, либо ZIP архив, содержащий все необходимые APK, затем нажмите снизу кнопку \"Выбрать\" для начала процесса установки.\n\n<b>.apks</b>\nВы можете переименовать .zip архив, содержащий .apk файлы, в .apks (Например: somesplitapp.zip -> somesplitapp.apks), чтобы его можно было открыть с помощью SAI из других приложений.\n\n<b>Установка приложений из внешнего хранилища</b>\nВы можете использовать долгое нажатие по кнопке установки, чтобы выбрать файлы системным проводником, который поддерживает внешнее хранилище.</string>
+    <string name="installer_help"><b>Что такое SAI?</b>\nSAI (Split APKs Installer) это установщик приложений, состоящих из нескольких APK. Его можно применять для установки приложений, распространяемых как App Bundle, потому что Android не предоставляет встроенного способа для этого, помимо Google Play.\n\n<b>Как использовать SAI?</b>\nНажмите на кнопку \"Установить APK\" и выберите базовый APK и дополнительные APK под ваше устройство, либо ZIP архив, содержащий все необходимые APK, затем нажмите снизу кнопку \"Выбрать\" для начала процесса установки.\n\n<b>.apks</b>\nВы можете переименовать .zip архив, содержащий .apk файлы, в .apks (Например: somesplitapp.zip -&gt; somesplitapp.apks), чтобы его можно было открыть с помощью SAI из других приложений.\n\n<b>Установка приложений из внешнего хранилища</b>\nВы можете использовать долгое нажатие по кнопке установки, чтобы выбрать файлы системным проводником, который поддерживает внешнее хранилище.</string>
     <string name="installer_pick_apks">Выберите файлы для установки</string>
     <string name="installer_app_installed">Приложение установлено</string>
     <string name="installer_open">Запуск</string>
@@ -62,7 +59,6 @@
     <string name="installer_show_full_error">Показать полную ошибку</string>
     <string name="installer_placeholder_text">Нет сессий установки</string>
     <string name="installer_saf_tip">Удерживайте для использования системного файлпикера.\n(Нажмите на эту подсказку, чтобы навсегда скрыть её)</string>
-
     <string name="backup_backup">Экспорт</string>
     <string name="backup_backup_prompt">Экспортировать %s?</string>
     <string name="backup_backup_status">Выполняется экспорт %d приложений</string>
@@ -96,7 +92,6 @@
     <string name="backup_app_feature_system_app">Системное</string>
     <string name="backup_app_feature_install_date">Установлено: %s</string>
     <string name="backup_app_feature_update_date">Обновлено: %s</string>
-
     <string name="settings_title">Настройки</string>
     <string name="settings_main_home_directory">Папка по умолчанию</string>
     <string name="settings_main_home_directory_summary">Начальная папка в выборе APK\nСейчас: %s</string>
@@ -125,29 +120,33 @@
     <string name="settings_main_install_location_summary">Куда устанавливать приложения.\nСейчас: %s</string>
     <string name="settings_main_use_old_installer">Старый установщик</string>
     <string name="settings_main_use_old_installer_summary">Использовать старую реализацию установщика. SAI будет перезапущен для применения этой настройки (Не переключайте, если сейчас идёт установка или экспорт, они могут быть повреждены)</string>
-    <string name="settings_category_main_installer">Установка</string>
     <string name="settings_main_installer_show_dialogs">Показывать диалоги установщика</string>
     <string name="settings_main_installer_show_dialogs_summary">Показывать диалог с результатом завершения установки. Вы всегда можете открыть этот диалог вручную, нажав на сессию установки. Действует только на новый установщик</string>
+    <string name="settings_category_main_installer">Установка</string>
     <string name="settings_category_main_export">Экспорт</string>
     <string name="settings_category_main_other">Другое</string>
     <string name="settings_category_main_ui">Интерфейс</string>
     <string name="settings_main_ui_show_app_features">Показывать особенности приложений</string>
     <string name="settings_main_ui_show_app_features_summary">Показывать контекстные бейджы особенностей у приложений на экране экспорта</string>
     <string name="settings_main_ui_theme">Тема</string>
-
     <string name="name_format_builder_title">Выберите части для генерации имени экспортированного приложения</string>
     <string name="name_format_builder_preview">Пример: %s</string>
     <string name="name_format_builder_preview_empty">Выберите хотя бы одну часть</string>
-
+    <!-- These strings that start with "sss_" don't really have to be translated except for the warning maybe -->
+    <string name="sss">Супер Секретные Настройки</string>
     <string name="sss_warning_title"><b>ПРЕДУПРЕЖДЕНИЕ</b></string>
     <string name="sss_warning_summary"><b>Не трогайте эти настройки, если вы не знаете, что делаете. Некоторые опции тут могут сломать SAI или даже повредить вашу систему</b></string>
-
+    <string name="sss_dont_replace_dots_title">Не заменять точки запятыми</string>
+    <string name="sss_dont_replace_dots_summary">В имени файла экспортированного приложения</string>
+    <string name="sss_custom_install_create_title">Кастомная команда install-create</string>
+    <string name="sss_custom_install_create_summary">Кастомная команда install-create, которая будет использована для создания сессии pm в Rooted и Shizuku установщиках. Команда не должна содержать пробелов помимо тех, которые разделяют аргументы (\'пробелы в скобках\' так же будут считаться отдельными аргументами). Введите \"null\" для отключения</string>
+    <string name="sss_use_installer_2_summary">Перезапустите SAI для применения</string>
+    <string name="sss_use_installer_2_title">Использовать installer2</string>
     <string name="mi_continue_countdown">Вы сможете продолжить через %d сек.</string>
     <string name="mi_continue">Продолжить</string>
     <string name="mi_miui_version">Версия MIUI - %1$s (%2$d (%3$s))</string>
-
+    <string name="about_author">by polychromaticfox</string>
     <string name="about_source">GitHub</string>
     <string name="about_donate">Поддержать</string>
     <string name="about_licenses">Лицензии</string>
-
 </resources>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="file_picker_sort_variants">
+        <item>"Wg nazwy (Alfabetycznie)"</item>
+        <item>"Wg nazwy (Odwrotnie do alfabetu)"</item>
+        <item>"Najpierw zmodyfikowane później"</item>
+        <item>"Najpierw zmodyfikowane wcześniej"</item>
+        <item>"Najpierw najmniejsze pliki"</item>
+        <item>"Najpierw największe pliki"</item>
+    </string-array>
+    <string-array name="themes">
+        <item>"SAI"</item>
+        <item>"Rubin"</item>
+        <item>"Rena"</item>
+        <item>"Ukrrooter"</item>
+        <item>"Amoled"</item>
+        <item>"Pixel"</item>
+        <item>"SAI (F-Droid)"</item>
+        <item>"Ciemny"</item>
+    </string-array>
+    <string-array name="installers">
+        <item>"Bez root (zalecana)"</item>
+        <item>"Root (wymaga roota)"</item>
+        <item>"Shizuku (wymaga Shizuku 3.x)"</item>
+    </string-array>
+    <string-array name="size_units">
+        <item>B</item>
+        <item>KB</item>
+        <item>MB</item>
+        <item>GB</item>
+        <item>TB</item>
+        <item>PB</item>
+    </string-array>
+    <string-array name="backup_file_name_formats">
+        <item>NAZWA_PAKIET_WERSJA.apks</item>
+        <item>NAZWA.apks</item>
+        <item>NAZWA_WERSJA.apks</item>
+    </string-array>
+    <string-array name="install_locations">
+        <item>Niech system zadecyduje</item>
+        <item>Tylko wewnętrzna</item>
+        <item>Preferuj zewnętrzną (System wciąż może zdecydować się na użycie pam. wewn.)</item>
+    </string-array>
+    <string-array name="name_format_parts">
+        <item>Nazwa</item>
+        <item>Wersja</item>
+        <item>Kod wersji</item>
+        <item>Pakiet</item>
+        <item>Sygnatura czasowa</item>
+    </string-array>
+    <string-array name="backup_dir_selection_methods">
+        <item>Wewn. menedżer plików</item>
+        <item>Systemowy menedżer plików</item>
+    </string-array>
+</resources>

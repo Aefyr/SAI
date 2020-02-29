@@ -1,25 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="yes">是</string>
     <string name="no">否</string>
     <string name="cancel">取消</string>
+    <string name="ok">OK</string>
     <string name="help">帮助</string>
     <string name="error">错误</string>
     <string name="copy2">复制</string>
     <string name="copied">已复制</string>
     <string name="dont_show_again">不再显示</string>
-
     <string name="permissions_required_storage">SAI 需要访问存储的权限</string>
     <string name="permissions_required_shizuku">SAI 需要使用 Shizuku Manager 的权限</string>
-
     <string name="main_installer">安装</string>
     <string name="main_backup">导出</string>
     <string name="main_navigation_disabled">在正在安装时无法执行打开操作</string>
-
     <string name="installer_installation_confirmation">安装 \"%s\"?</string>
     <string name="installer_installation_failed">App 已安装</string>
-    <string name="installer_installation_in_progress">安装中…</string>
+    <string name="installer_installation_in_progress">正在安装…</string>
     <string name="installer_install_apks">安装APK</string>
-    <string name="installer_help"><b>何谓SAI?</b>\nSAI (Split APKs Installer) 可以像安装单个apk一样安装Split Apk（分包apk）。这对安装应用作为App Bundles 会很有帮助，因为除Google Play以外，Android没有提供相关方法安装(Split Apk)注意，SAI不是破解APK的应用！\n\n<b>如何使用SAI?</b>\n点击 \"安装APKs\" ，选择base APK 以及需要的Config APK 或包含以上全部.zip/.apks压缩包，然后点击 \"安装\" 。\n\n<b>.apks</b>\n你可以将包含全部Split Apk（分包Apk）的.zip压缩包重命名为.apks后缀名，此操作可以（从其他应用，如文件管理器、下载管理器…）直接打开SAI。\n长按“选择”使用系统文件选择器（SAF），而不是SAI内置选择器。</string>
+    <string name="installer_help"><b>何谓SAI?</b>\nSAI (Split APKs Installer)可以像安装单个apk一样安装Split Apk（分包apk）。这对安装以 App Bundles 模式打包发布的应用会很有帮助。（由于除 Google Play 以外，Android没有提供原生方法直接安装分包apk(Split Apk)。）\n注意，SAI不是用于破解APK的应用！\n\n<b>如何使用SAI?</b>\n点击 \"安装APKs\" ，选择 base APK 以及需要的Config APK 或包含以上全部.zip/.apks压缩包，然后点击 \"安装\" 。\n\n<b>.apks</b>\n你可以将包含全部Split Apk（分包Apk）的.zip压缩包重命名为.apks后缀名，此操作可以（从其他应用，如文件管理器、下载管理器…）直接打开SAI。\n长按“选择”使用系统文件选择器（SAF），而不是SAI内置选择器。</string>
     <string name="installer_pick_apks">选择要安装的文件</string>
     <string name="installer_app_installed">App 已安装</string>
     <string name="installer_open">打开</string>
@@ -47,10 +46,10 @@
     <string name="installer_select_theme">选择主题</string>
     <string name="installer_device">设备</string>
     <string name="installer_miui_warning_title">MIUI 检查</string>
-    <string name="installer_miui_warning_message">看起来您的设备正在运行MIUI。\nMIUI以魔改标准的Android API而闻名，一些用户报告称SAI无法在MIUI上使用。\n通常可以通过在 开发者选项中禁用 MIUI优化 来修复它，我建议您应该这样做。</string>
+    <string name="installer_miui_warning_message"><b>请认真阅读此一次性警告!</b>\n\n很抱歉花费您的时间。 但我真的厌倦了已经跳过上一个版本的MIUU警告的用户。\n\n看起来您的设备正在运行 MIUI。 MIUI 因魔改标准的 Android API 功能而著称，许多SAI 用户报告了安装失败，原因是“安装失败”。 通常情况下，它可以通过在开发者设置中禁用MIUI优化来修复，我建议您应该这样做。\n\n当然您可以尝试使用 SAI 而不禁用 MIUI 优化， 但如果它不起作用，请先禁用它，然后向我抱怨失败的安装。 如果您的 MIUI 版本没有开关或者它没有帮助，那么我就不会做任何事情。\n\n这个问题本应在 MIUI 20.2.20 及上解决。</string>
     <string name="installer_miui_warning_open_dev_settings">打开 开发者选项</string>
-    <string name="installer_miui_warning_oof">无法打开 开发者选项。 Cool ROM</string>
-	<string name="installer_unknown_app">未知app</string>
+    <string name="installer_miui_warning_oof">无法打开开发者选项，请手动打开。</string>
+    <string name="installer_unknown_app">未知app</string>
     <string name="installer_state_created">准备中</string>
     <string name="installer_state_queued">等待中</string>
     <string name="installer_state_installing">安装中</string>
@@ -59,8 +58,7 @@
     <string name="installer_unable_to_launch_app">无法启动app</string>
     <string name="installer_show_full_error">展示全部错误信息</string>
     <string name="installer_placeholder_text">无安装任务</string>
-
-
+    <string name="installer_saf_tip">长按使用系统文件选择器（saf）\n(点击此处永久隐藏此信息)</string>
     <string name="backup_backup">导出</string>
     <string name="backup_backup_prompt">导出 %s?</string>
     <string name="backup_backup_status">导出 %d 个应用</string>
@@ -72,7 +70,7 @@
     <string name="backup_search_splits_only">仅 Split APK</string>
     <string name="backup_search_show_system_apps">显示系统应用</string>
     <string name="backup_error_cant_mkdir">无法为导出的应用程序创建文件夹</string>
-    <string name="backup_warning">请注意，导出功能仍处于测试阶段。 这是关于它的一些常见问题：\n\n1）导出的应用程序将保存到内部存储中的\"SAI\"文件夹中\n\n2）SAI仅导出应用程序APK，他们的数据不会被导出\n\n3）应用程序导出格式为.apks文件，该文件是包含所有APK的重命名的ZIP压缩包</string>
+    <string name="backup_warning">1）导出的应用程序将保存到内部存储中的\"SAI\"文件夹中，但你也可以自定义文件夹\n\n2）SAI仅导出应用程序APK，他们的数据不会被导出\n\n3）应用程序导出格式为.apks文件，该文件是包含所有APK的重命名的ZIP压缩包</string>
     <string name="backup_export_all_splits">导出所有 Split APK</string>
     <string name="backup_export_all_splits_prompt">要导出所有 Split APK 吗？</string>
     <string name="backup_preparing">准备应用...</string>
@@ -80,7 +78,20 @@
     <string name="backup_dialog_title">选择要导出的split APK</string>
     <string name="backup_load_splits_error">无法获取部分split APK</string>
     <string name="backup_splits_loading">加载中...</string>
-
+    <string name="backup_filter">筛选器</string>
+    <string name="backup_filter_common_option_doesnt_matter">不筛选</string>
+    <string name="backup_filter_common_option_yes">是</string>
+    <string name="backup_filter_common_option_no">否</string>
+    <string name="backup_filter_split_apk">分包应用(Split APK)</string>
+    <string name="backup_filter_system_app">系统应用</string>
+    <string name="backup_filter_sort">排序</string>
+    <string name="backup_filter_sort_option_name">应用名</string>
+    <string name="backup_filter_sort_option_installed">首次安装时间</string>
+    <string name="backup_filter_sort_option_updated">更新时间</string>
+    <string name="backup_app_feature_split">分包应用(Split APK)</string>
+    <string name="backup_app_feature_system_app">系统应用</string>
+    <string name="backup_app_feature_install_date">首次安装于: %s</string>
+    <string name="backup_app_feature_update_date">更新于: %s</string>
     <string name="settings_title">设置</string>
     <string name="settings_main_home_directory">主目录</string>
     <string name="settings_main_home_directory_summary">APK选择器的启动目录\n当前: %s</string>
@@ -108,24 +119,34 @@
     <string name="settings_main_install_location">安装位置</string>
     <string name="settings_main_install_location_summary">安装应用的位置\n当前: %s</string>
     <string name="settings_main_use_old_installer">旧版安装模式</string>
-    <string name="settings_main_use_old_installer_summary">使用旧版安装实现接口。重启SAI生效(若有安装或导出任务正在进行，请不要随意开启或关闭该选项。）</string>
+    <string name="settings_main_use_old_installer_summary">使用旧版安装实现接口。重启SAI生效(若有安装或导出任务正在进行，请不要随意开启或关闭该选项。)</string>
     <string name="settings_main_installer_show_dialogs">显示前台系统安装界面</string>
-    <string name="settings_main_installer_show_dialogs_summary">一律显示系统安装界面，而不是使用静默安装。 你可以点击安装任务列表中的应用手动弹出界面。立即生效</string>
+    <string name="settings_main_installer_show_dialogs_summary">一律显示系统安装界面，而不是静默安装。 你可以点击安装任务列表中正在运行的应用手动弹出界面。立即生效</string>
     <string name="settings_category_main_installer">安装</string>
     <string name="settings_category_main_export">导出</string>
     <string name="settings_category_main_other">其他</string>
     <string name="settings_category_main_ui">外观</string>
-
-	<string name="name_format_builder_title">选择导出apk文件名形式</string>
+    <string name="settings_main_ui_show_app_features">Show app features</string>
+    <string name="settings_main_ui_show_app_features_summary">Show contextual app feature badges on export screen</string>
+    <string name="settings_main_ui_theme">主题</string>
+    <string name="name_format_builder_title">选择导出apk文件名形式</string>
     <string name="name_format_builder_preview">预览: %s</string>
     <string name="name_format_builder_preview_empty">请至少选一个部分。</string>
-    
-	<string name="sss_warning_title"><b>危险!!!</b></string>
-    <string name="sss_warning_summary"><b>请不要修改这里的任何选项（除非你知道你非常了解这些选项）。\n部分选项可能引起SAI甚至ROM损坏！！！\n部分选项可能引起SAI甚至系统损坏！！！\n部分选项可能引起SAI甚至系统损坏！！！</b></string>
-
+    <!-- These strings that start with "sss_" don't really have to be translated except for the warning maybe -->
+    <string name="sss">隐藏设置</string>
+    <string name="sss_warning_title"><b>危险!!!</b></string>
+    <string name="sss_warning_summary"><b>警告！请不要修改这里的任何选项（除非你知道你非常了解这些选项）。\n部分选项可能引起SAI甚至ROM损坏！！！\n部分选项可能引起SAI甚至ROM损坏！！！\n部分选项可能引起SAI甚至ROM损坏！！！</b></string>
+    <string name="sss_dont_replace_dots_title">Don\'t replace dots with commas</string>
+    <string name="sss_dont_replace_dots_summary">In exported app file name</string>
+    <string name="sss_custom_install_create_title">Custom install-create command</string>
+    <string name="sss_custom_install_create_summary">Custom install-create command that will be used to create pm session used in Rooted and Shizuku installers, the command must not contain any spaces except for the ones that separate arguments (\'spaces in quotes\' will be split into arguments as well). Enter \"null\" to disable</string>
+    <string name="sss_use_installer_2_summary">重启SAI生效</string>
+    <string name="sss_use_installer_2_title">使用 installer2</string>
+    <string name="mi_continue_countdown">You can continue in %d s.</string>
+    <string name="mi_continue">Continue</string>
+    <string name="mi_miui_version">MIUI 版本 - %1$s (%2$d (%3$s))</string>
     <string name="about_author">由polychromaticfox开发</string>
     <string name="about_source">GitHub</string>
     <string name="about_donate">捐赠</string>
     <string name="about_licenses">许可证</string>
-
 </resources>
