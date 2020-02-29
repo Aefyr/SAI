@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="file_picker_sort_variants">
+        <item>"Par nom (alphabétique)"</item>
+        <item>"Par nom (alphabétique inversé)"</item>
+        <item>"Modifié plus tard en premier"</item>
+        <item>"Modifié plus ancien en premier"</item>
+        <item>"Plus petite taille de fichier en premier"</item>
+        <item>"Plus grande taille de fichier en premier"</item>
+    </string-array>
+    <string-array name="themes">
+        <item>"SAI"</item>
+        <item>"Rubis"</item>
+        <item>"Rena"</item>
+        <item>"Ukrrooter"</item>
+        <item>"Amoled"</item>
+        <item>"Pixel"</item>
+        <item>"SAI (F-Droid)"</item>
+        <item>"Sombre"</item>
+    </string-array>
+    <string-array name="installers">
+        <item>"Sans Root (recommandé)"</item>
+        <item>"Rooté (nécessite root)"</item>
+        <item>"Shizuku (nécessite Shizuku 3.x)"</item>
+    </string-array>
+    <string-array name="size_units">
+        <item>O</item>
+        <item>KO</item>
+        <item>MO</item>
+        <item>GO</item>
+        <item>TO</item>
+        <item>PO</item>
+    </string-array>
+    <string-array name="backup_file_name_formats">
+        <item>NOM_PACKAGE_VERSION.apks</item>
+        <item>NOM.apks</item>
+        <item>NOM_VERSION.apks</item>
+    </string-array>
+    <string-array name="install_locations">
+        <item>Laisser le système décider</item>
+        <item>Uniquement en interne</item>
+        <item>Préférez l\'externe (le système peut toujours décider d\'utiliser l\'interne)</item>
+    </string-array>
+    <string-array name="name_format_parts">
+        <item>Nom</item>
+        <item>Version</item>
+        <item>Code de la version</item>
+        <item>Paquet</item>
+        <item>Horodatage</item>
+    </string-array>
+    <string-array name="backup_dir_selection_methods">
+        <item>Sélecteur de fichier interne</item>
+        <item>Sélecteur de fichiers système</item>
+    </string-array>
+</resources>
