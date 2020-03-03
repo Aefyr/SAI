@@ -128,7 +128,9 @@ public class SingleChoiceListDialogFragment extends BaseBottomSheetDialogFragmen
         @NonNull
         @Override
         public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            return new ViewHolder(mInflater.inflate(R.layout.item_single_choice_dialog, parent, false));
+            View v = mInflater.inflate(R.layout.item_single_choice_dialog, parent, false);
+            v.requestFocus();
+            return new ViewHolder(v);
         }
 
         @Override
