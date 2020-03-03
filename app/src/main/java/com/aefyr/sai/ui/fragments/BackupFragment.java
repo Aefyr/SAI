@@ -41,6 +41,8 @@ public class BackupFragment extends SaiBaseFragment implements BackupPackagesAda
 
     private int mSearchBarOffset;
 
+    private int mFocusedItemIndex = -1;
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -141,6 +143,22 @@ public class BackupFragment extends SaiBaseFragment implements BackupPackagesAda
 
                 }
             });
+        } else {
+            RecyclerView recyclerView = findViewById(R.id.rv_packages);
+            recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+                @Override
+                public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                    if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                        int yOffset = recyclerView.computeVerticalScrollOffset();
+                        if (mFocusedItemIndex == 0 && yOffset != 0) {
+                            recyclerView.smoothScrollBy(0, -yOffset);
+                        } else if (mFocusedItemIndex == mAdapter.getItemCount() - 1) {
+                            recyclerView.smoothScrollToPosition(mAdapter.getItemCount() - 1);
+                        }
+                    }
+
+                }
+            });
         }
     }
 
@@ -166,6 +184,12 @@ public class BackupFragment extends SaiBaseFragment implements BackupPackagesAda
     @Override
     public void onBackupButtonClicked(PackageMeta packageMeta) {
         BackupDialogFragment.newInstance(packageMeta).show(getChildFragmentManager(), null);
+    }
+
+    @Override
+    public void onItemFocusChanged(boolean hasFocus, int index, PackageMeta packageMeta) {
+        if (hasFocus)
+            mFocusedItemIndex = index;
     }
 
     @Override

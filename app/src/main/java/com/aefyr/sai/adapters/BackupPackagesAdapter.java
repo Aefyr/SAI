@@ -121,6 +121,15 @@ public class BackupPackagesAdapter extends RecyclerView.Adapter<BackupPackagesAd
                     mListener.onBackupButtonClicked(mPackages.get(adapterPosition));
             });
 
+            itemView.findViewById(R.id.ib_backup).setOnFocusChangeListener((v, hasFocus) -> {
+                int adapterPosition = getAdapterPosition();
+                if (adapterPosition == RecyclerView.NO_POSITION)
+                    return;
+
+                if (mListener != null)
+                    mListener.onItemFocusChanged(hasFocus, adapterPosition, mPackages.get(adapterPosition));
+            });
+
             RecyclerView featureRecycler = itemView.findViewById(R.id.rv_backup_app_features);
             FlexboxLayoutManager layoutManager = new FlexboxLayoutManager(itemView.getContext(), FlexDirection.ROW, FlexWrap.WRAP);
             layoutManager.setJustifyContent(JustifyContent.FLEX_START);
@@ -185,6 +194,8 @@ public class BackupPackagesAdapter extends RecyclerView.Adapter<BackupPackagesAd
 
     public interface OnItemInteractionListener {
         void onBackupButtonClicked(PackageMeta packageMeta);
+
+        void onItemFocusChanged(boolean hasFocus, int index, PackageMeta packageMeta);
     }
 
 }
