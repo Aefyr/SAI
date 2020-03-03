@@ -50,7 +50,7 @@ dependencies {
     implementation 'com.google.android:flexbox:1.1.1'
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
     implementation 'androidx.documentfile:documentfile:1.0.1'
-    implementation 'com.github.aefyr.flexfilter:flexfilter:0.7-alpha'
+    implementation 'com.github.aefyr.flexfilter:flexfilter:0.8-alpha'
     implementation 'com.tomergoldst.android:tooltips:1.0.10'
 
     //Google services
