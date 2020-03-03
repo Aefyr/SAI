@@ -118,28 +118,30 @@ public class BackupFragment extends SaiBaseFragment implements BackupPackagesAda
             popupMenu.show();
         });
 
-        CardView searchBar = findViewById(R.id.card_search);
-        RecyclerView recyclerView = findViewById(R.id.rv_packages);
-        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-                if (dy == 0)
-                    mSearchBarOffset = 0;
-                else
-                    mSearchBarOffset = MathUtils.clamp(mSearchBarOffset - dy, -searchBar.getHeight(), 0);
+        if (!Utils.isTv(requireContext())) {
+            CardView searchBar = findViewById(R.id.card_search);
+            RecyclerView recyclerView = findViewById(R.id.rv_packages);
+            recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+                @Override
+                public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                    if (dy == 0)
+                        mSearchBarOffset = 0;
+                    else
+                        mSearchBarOffset = MathUtils.clamp(mSearchBarOffset - dy, -searchBar.getHeight(), 0);
 
-                searchBar.setTranslationY(mSearchBarOffset);
-            }
-
-            @Override
-            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-                    if (mSearchBarOffset != 0 && mSearchBarOffset != -searchBar.getHeight())
-                        recyclerView.smoothScrollBy(0, mSearchBarOffset - MathUtils.closest(mSearchBarOffset, 0, -searchBar.getHeight()));
+                    searchBar.setTranslationY(mSearchBarOffset);
                 }
 
-            }
-        });
+                @Override
+                public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                    if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                        if (mSearchBarOffset != 0 && mSearchBarOffset != -searchBar.getHeight())
+                            recyclerView.smoothScrollBy(0, mSearchBarOffset - MathUtils.closest(mSearchBarOffset, 0, -searchBar.getHeight()));
+                    }
+
+                }
+            });
+        }
     }
 
     private void exportAllSplitApks() {

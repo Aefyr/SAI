@@ -5,6 +5,7 @@
     android:layout_height="wrap_content"
     android:layout_margin="4dp"
     android:enabled="false"
+    android:clickable="false"
     android:focusable="false"
     android:padding="4dp"
     android:text="Last updated: 08.08.18 22:33"

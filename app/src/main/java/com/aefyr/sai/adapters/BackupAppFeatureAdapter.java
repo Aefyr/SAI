@@ -52,6 +52,7 @@ public class BackupAppFeatureAdapter extends RecyclerView.Adapter<BackupAppFeatu
 
         ViewHolder(@NonNull View itemView) {
             super(itemView);
+            itemView.setFocusable(false);
 
             mChip = (Chip) itemView;
         }

@@ -57,6 +57,8 @@
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_gravity="center_vertical"
+                android:focusable="true"
+                android:clickable="true"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:tint="?android:textColorSecondary"
                 app:srcCompat="@drawable/ic_more" />

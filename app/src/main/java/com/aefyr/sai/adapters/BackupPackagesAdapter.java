@@ -130,6 +130,7 @@ public class BackupPackagesAdapter extends RecyclerView.Adapter<BackupPackagesAd
 
             mFeatureAdapter = new BackupAppFeatureAdapter(itemView.getContext());
             featureRecycler.setAdapter(mFeatureAdapter);
+            featureRecycler.setFocusable(false);
         }
 
         @SuppressLint("DefaultLocale")

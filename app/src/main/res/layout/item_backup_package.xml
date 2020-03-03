@@ -64,7 +64,9 @@
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_backup_app_features"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/rv_backup_app_features" />
+        android:focusable="false"
+        android:focusableInTouchMode="false" />
 </LinearLayout>
