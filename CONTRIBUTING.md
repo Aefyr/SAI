@@ -1,5 +1,5 @@
 ## Translations
-Please don't create pull requests for translations, instead, use [SAI's Crowdin](https://polychromaticfox.crowdin.com/split-apks-installer)
+Please don't create pull requests for translations, instead, use [SAI's Crowdin](https://polychromaticfox.crowdin.com/split-apks-installer). Shoot me a message there to add a new language to target languages.
 
 ## Reporting bugs
 [Open an issue](https://github.com/Aefyr/SAI/issues/new?labels=bug) and describe the bug including steps to reproduce it.
