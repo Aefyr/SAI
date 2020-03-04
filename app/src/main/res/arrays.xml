@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="file_picker_sort_variants">
+        <item>"Per nome (Alfabetico)"</item>
+        <item>"Per nome (Alfabetico inverso)"</item>
+        <item>"Prima modifiche recenti"</item>
+        <item>"Prima modifiche antecedenti"</item>
+        <item>"Prima file con dimensioni minori"</item>
+        <item>"Prima file con dimensioni maggiori"</item>
+    </string-array>
+
+    <string-array name="themes">
+        <item>"SAI"</item>
+        <item>"Ruby"</item>
+        <item>"Rena"</item>
+        <item>"Ukrrooter"</item>
+        <item>"Amoled"</item>
+        <item>"Pixel"</item>
+        <item>"SAI (F-Droid)"</item>
+        <item>"Scuro"</item>
+    </string-array>
+
+    <string-array name="installers">
+        <item>"Rootless (consigliato)"</item>
+        <item>"Rooted (richiede accesso root)"</item>
+        <item>"Shizuku (richiede app Shizuku 3.x)"</item>
+    </string-array>
+
+    <string-array name="size_units">
+        <item>B</item>
+        <item>KB</item>
+        <item>MB</item>
+        <item>GB</item>
+        <item>TB</item>
+        <item>PB</item>
+    </string-array>
+
+    <string-array name="backup_file_name_formats">
+        <item>NAME_PACKAGE_VERSION.apks</item>
+        <item>NAME.apks</item>
+        <item>NAME_VERSION.apks</item>
+    </string-array>
+
+    <string-array name="backup_file_name_formats_values" translatable="false">
+        <item>NAME_PACKAGE_VERSION</item>
+        <item>NAME</item>
+        <item>NAME_VERSION</item>
+    </string-array>
+
+    <string-array name="install_locations">
+        <item>Lascia decidere al sistema</item>
+        <item>Solo interna</item>
+        <item>Preferibilmente esterna (Il sistema potrebbe decidere di utilizzare quella interna)</item>
+    </string-array>
+
+    <string-array name="install_locations_values" translatable="false">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
+    <string-array name="name_format_parts">
+        <item>Nome</item>
+        <item>Versione</item>
+        <item>Codice versione</item>
+        <item>Pacchetto</item>
+        <item>Timestamp</item>
+    </string-array>
+
+    <string-array name="backup_dir_selection_methods">
+        <item>Selettore file interno</item>
+        <item>Selettore file di sistema</item>
+    </string-array>
+
+
+</resources>

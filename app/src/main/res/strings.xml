@@ -1,0 +1,166 @@
+<resources>
+    <string name="app_name" translatable="false">SAI</string>
+    <string name="app_name_full" translatable="false">Split APKs Installer</string>
+
+    <string name="yes">Si</string>
+    <string name="no">No</string>
+    <string name="cancel">Indietro</string>
+    <string name="ok">OK</string>
+    <string name="help">Aiuto</string>
+    <string name="error">Errore</string>
+    <string name="copy2">Copia</string>
+    <string name="copied">Copiato</string>
+    <string name="dont_show_again">Non mostrare nuovamente</string>
+
+    <string name="permissions_required_storage">SAI richiede dei permessi per accedere alla memoria</string>
+    <string name="permissions_required_shizuku">SAI richiede dei permessi per utilizzare il Server Shizuku</string>
+
+    <string name="main_installer">Programma di installazione</string>
+    <string name="main_backup">Esporta</string>
+    <string name="main_navigation_disabled">Impossibile eseguire l\'apertura durante un\'installazione in corso</string>
+
+    <string name="installer_installation_confirmation">Installare \"%s\"?</string>
+    <string name="installer_installation_failed">Applicazione non installata</string>
+    <string name="installer_installation_in_progress">Installazione…</string>
+    <string name="installer_install_apks">Installa APK</string>
+    <string name="installer_help"><b>Cos\'è SAI?</b>\nSAI (Split APKs Installer) è un\"app che consente di installare APK multipli come se fossero un unico pacchetto. Ciò è utile per l\'installazione di app distribuite sotto forma di pacchetti suddivisi, poiché Android non fornisce alcun modo integrato per installarle da fonti diverse da Google Play.\n\n<b>Come posso utilizzare SAI?</b>\nClica sul pulsante \"Installa APK\" e seleziona il file APK base con l\'aggiunta del relativo file di configurazione specifico oppure un file archivio ZIP contenente tutti i file APK richiesti, quindi clicca sul pulsante \"Seleziona\" ed inizia il processo di installazione.\n\n<b>.apks</b>\nÈ possibile rinominare un file archivio .zip contenente file .apk in .apks (es.: appsuddivisa.zip -> appsuddivisa.apks), e dunque aprirlo in SAI attraverso altre app.\n\n<b>Installa app da memoria esterna</b>\nÈ possibile eseguire un clic prolungato sul pulsante Installa, per selezionare i file tramite il selettore di file di sistema che supporta l\'accesso su memoria esterna.</string>
+    <string name="installer_pick_apks">Seleziona file da installare</string>
+    <string name="installer_app_installed">App installata</string>
+    <string name="installer_open">Apri</string>
+    <string name="installer_app_installed_full">%s è stata installata</string>
+    <string name="installer_no_root">Impossibile ottenere accesso root, procedi con l\'installazione rootless</string>
+    <string name="installer_error_generic">Installazione non riuscita</string>
+    <string name="installer_error_aborted">Installazione annullata dall\"utente</string>
+    <string name="installer_error_blocked">Installazione bloccata da %s</string>
+    <string name="installer_error_blocked_device">dispositivo</string>
+    <string name="installer_error_conflict">Impossibile installare l\'app poichè in conflitto con un\'altra app già installata e avente lo stesso nome pacchetto</string>
+    <string name="installer_error_incompatible">Applicazione incompatibile con questo dispositivo</string>
+    <string name="installer_error_bad_apks">Il file APK selezionato non è valido</string>
+    <string name="installer_error_storage">Spazio insufficiente per installare l\'app</string>
+    <string name="installer_error_lidl_rom">La tua ROM non è compatibile con il metodo di installazione rootless. Prova a selezionare un altro metodo di Installazione dalle impostazioni di SAI.</string>
+    <string name="installer_error_shell">%1$s errore programma di installazione:\n\n %2$s</string>
+    <string name="installer_error_rootless">Errore installazione rootless:\n\n %s</string>
+    <string name="installer_error_root_no_root">Impossibile ottenere permessi root</string>
+    <string name="installer_error_shizuku_unavailable">Impossibile accedere al Server Shizuku, assicurati che sia in esecuzione e che SAI abbia i permessi richiesti per utilizzarlo</string>
+    <string name="installer_error_while_extracting">Errore durante l\'estrazione dei file dal pacchetto ZIP: %s</string>
+    <string name="installer_error_zip_contains_no_apks">Il pacchetto ZIP non contiene file APK</string>
+    <string name="installer_error_mixed_extensions">È necessario selezionare un singolo file .zip/.apks o più file .apk</string>
+    <string name="installer_error_installer2_mixed_extensions_internal">Devi selezionare uno o più file .apk/.apks/.zip, non sono consentite estensioni miste</string>
+    <string name="installer_error_installer2_mixed_extensions_saf">Devi selezionare un singolo file .zip/.apks o più file .apk</string>
+    <string name="installer_error_unknown_apk_size">Impossibile ottenere le dimensioni dell\'APK dall\'archivio, abilitare l\'impostazione \"Estrai APK dagli archivi\" e riprovare</string>
+    <string name="installer_select_theme">Seleziona tema</string>
+    <string name="installer_device">Dispositivo</string>
+    <string name="installer_miui_warning_title">MIUI rilevata</string>
+    <string name="installer_miui_warning_message"><b>Seriamente, leggi questo avviso singolo!</b>\n\nMi scuso per averti fatto perdere tempo, ma sono davvero stanco degli utenti MIUI che hanno saltato la versione precedente di questo avviso.\n\nSembra che il tuo dispositivo stia eseguendo la rom MIUI. La MIUI è nota per aver danneggiato le funzionalità delle API Android standard e molti utenti SAI hanno segnalato installazioni non riuscite di app seguite dal messaggio \"Installazione non riuscita\". Di solito questo errore può essere risolto disabilitando le ottimizzazioni MIUI nelle impostazioni sviluppatore, soluzione che suggerisco di adottare.\n\nOvviamente puoi provare ad utilizzare SAI senza disabilitare l\'ottimizzazione MIUI, ma se ciò non dovesse funzionare, prova a fare quanto ti ho detto poc\'anzi prima di lamentarti delle installazioni non riuscite. Se la tua versione MIUI non dovesse avere questa impostazione o il precedente suggerimento non dovesse aiutare, non c'è niente che io possa fare.\n\nQuesto errore sembra essere stato risolto sulla versione della MIUI 20.2.20 e successive.</string>
+    <string name="installer_miui_warning_open_dev_settings">Open developer settings</string>
+    <string name="installer_miui_warning_oof">Impossibile aprire le impostazioni sviluppatore. Puoi provare ad aprirli manualmente, google sa come farlo.</string>
+    <string name="installer_unknown_app">App sconosciuta</string>
+    <string name="installer_state_created">Preparazione</string>
+    <string name="installer_state_queued">In coda</string>
+    <string name="installer_state_installing">Installazione</string>
+    <string name="installer_state_installed">Installato</string>
+    <string name="installer_state_failed">Errore di installazione</string>
+    <string name="installer_unable_to_launch_app">Impossibile eseguire l\'app</string>
+    <string name="installer_show_full_error">Mostra dettagli errore</string>
+    <string name="installer_placeholder_text">Nessuna sessione di installazione</string>
+    <string name="installer_saf_tip">Esegui un clic prolungato per utilizzare il selettore dei file di sistema.\n(Clicca su questo suggerimento per nasconderlo per sempre)</string>
+
+    <string name="backup_backup">Esporta</string>
+    <string name="backup_backup_prompt">Esportare %s?</string>
+    <string name="backup_backup_status">Esportazione di %d app</string>
+    <string name="backup_backup_export_in_progress">Esportazione in corso</string>
+    <string name="backup_backup_in_progress">Esportazione %s...</string>
+    <string name="backup_backup_success">Esportazione di %s riuscita</string>
+    <string name="backup_backup_failed">Esportazione di %s non riuscita</string>
+    <string name="backup_search_hint">Cerca app</string>
+    <string name="backup_search_splits_only">Suddividi solo APK</string>
+    <string name="backup_search_show_system_apps">Mostra app di sistema</string>
+    <string name="backup_error_cant_mkdir">Impossibile creare una directory per le app esportate</string>
+    <string name="backup_warning">1)Per impostazione predefinita, le app esportate vengono salvate nella cartella \"SAI \" sulla memoria interna. Puoi impostare un percorso personalizzato nelle impostazioni\n\n2) SAI esporta solo le app\' APK, i loro dati non vengono esportati\n\n3) Le app vengono esportate come file .apks, un archivio ZIP rinominato contenente tutti i file APK</string>
+    <string name="backup_export_all_splits">Esporta tutti gli APK suddivisi</string>
+    <string name="backup_export_all_splits_prompt">Vuoi esportare tutti gli APK suddivisi?</string>
+    <string name="backup_preparing">Preparazione app...</string>
+    <string name="backup_enqueue">Accoda</string>
+    <string name="backup_dialog_title">Seleziona parti APK suddivise da esportare</string>
+    <string name="backup_load_splits_error">Impossibile ottenere parti APK suddivise</string>
+    <string name="backup_splits_loading">Caricamento...</string>
+    <string name="backup_filter">Filtro</string>
+    <string name="backup_filter_common_option_doesnt_matter">Non importa</string>
+    <string name="backup_filter_common_option_yes">Yes</string>
+    <string name="backup_filter_common_option_no">No</string>
+    <string name="backup_filter_split_apk">Dividi APK</string>
+    <string name="backup_filter_system_app">App di sistema</string>
+    <string name="backup_filter_sort">Ordina</string>
+    <string name="backup_filter_sort_option_name">Nome</string>
+    <string name="backup_filter_sort_option_installed">Data installazione</string>
+    <string name="backup_filter_sort_option_updated">Data aggiornamento</string>
+    <string name="backup_app_feature_split">Dividi APK</string>
+    <string name="backup_app_feature_system_app">App di sistema</string>
+    <string name="backup_app_feature_install_date">Installato: %s</string>
+    <string name="backup_app_feature_update_date">Aggiornato: %s</string>
+
+    <string name="settings_title">Impostazioni</string>
+    <string name="settings_main_home_directory">Directory iniziale</string>
+    <string name="settings_main_home_directory_summary">Directory iniziale nel selettore APK\nAttuale: %s</string>
+    <string name="settings_main_file_picker_sort">Ordina file</string>
+    <string name="settings_main_file_picker_sort_summary">Quando selezioni un APK\nAttuale: %s</string>
+    <string name="settings_main_pick_dir">Scegli Directory</string>
+    <string name="settings_main_about">Info</string>
+    <string name="settings_main_use_root">Utilizza root</string>
+    <string name="settings_main_use_root_summary">Prova ad utilizzare il programma di installazione rooted. Se SAI non dovesse essere in grado di ottenere l\'accesso root, utilizzerà automaticamente il programma di installazione rootless</string>
+    <string name="settings_main_use_root_error">Impossibile ottenere accesso root</string>
+    <string name="settings_main_sign_apks">Firma APKs</string>
+    <string name="settings_main_sign_apks_summary">Firma gli APK prima di installarli</string>
+    <string name="settings_main_extract_archives">Estrai APK da archivi</string>
+    <string name="settings_main_extract_archives_summary">Estrai i file APK da archivi .zip/.apks in una posizione temporanea prima di installarli. Se disabilitato, SAI installerà gli APK direttamente dagli archivi senza estrarli temporaneamente. Attivazione non consigliata</string>
+    <string name="settings_main_reset_one_time_warnings">Reimposta avvisi singoli</string>
+    <string name="settings_main_installer">Programma di installazione</string>
+    <string name="settings_main_installer_summary">Programma di installazione utilizzato per gli APK.\nAttuale: %s</string>
+    <string name="settings_main_installer_error_no_shizuku">Non hai installato Shizuku, ottienila da Google Play e configurala</string>
+    <string name="settings_main_installer_error_shizuku_pre_m">SAI non supporta Shizuku su versioni di Android inferiori alla 6.0</string>
+    <string name="settings_main_backup_file_name_format">Exported app name</string>
+    <string name="settings_main_backup_file_name_format_summary">Formato nome file .apks esportati.\nAttuale: %s</string>
+    <string name="settings_main_backup_backup_dir">Exported apps directory</string>
+    <string name="settings_main_backup_backup_dir_summary">Posizione in cui SAI esporterà le app.\nAttuale: %s</string>
+    <string name="settings_main_backup_backup_dir_dialog">Seleziona posizione con</string>
+    <string name="settings_main_install_location">Posizione di installazione</string>
+    <string name="settings_main_install_location_summary">Dove installare le app.\nAttuale: %s</string>
+    <string name="settings_main_use_old_installer">Programma di installazione legacy</string>
+    <string name="settings_main_use_old_installer_summary">Utilizza una precedente implementazione del programma di installazione. SAI verrà riavviato per applicare questa impostazione (Non eseguire tale modifica in caso di installazioni o esportazioni in corso, le stesse potrebbero risultare danneggiate)</string>
+    <string name="settings_main_installer_show_dialogs">Mostra dialoghi programma di installazione</string>
+    <string name="settings_main_installer_show_dialogs_summary">Mostra finestre di dialogo quando l\'installazione non riesce o ha esito positivo. Potrai sempre aprire quelle finestre di dialogo manualmente cliccando sulla voce della sessione di installazione. Influenza unicamente il nuovo programma di installazione</string>
+    <string name="settings_category_main_installer">Programma di installazione</string>
+    <string name="settings_category_main_export">Esporta</string>
+    <string name="settings_category_main_other">Altro</string>
+    <string name="settings_category_main_ui">UI</string>
+    <string name="settings_main_ui_show_app_features">Mostra funzionalità app</string>
+    <string name="settings_main_ui_show_app_features_summary">Mostra i badge della funzionalità app contestuale sulla schermata di esportazione</string>
+    <string name="settings_main_ui_theme">Tema</string>
+
+    <string name="name_format_builder_title">Seleziona le parti da includere nel nome dell\'app esportata</string>
+    <string name="name_format_builder_preview">Anteprima: %s</string>
+    <string name="name_format_builder_preview_empty">Seleziona almeno una parte</string>
+
+    <!-- These strings that start with "sss_" don't really have to be translated except for the warning maybe -->
+    <string name="sss">Impostazioni Super Segrete</string>
+    <string name="sss_warning_title"><b>AVVISO</b></string>
+    <string name="sss_warning_summary"><b>Non toccare nulla qui, a meno che tu non sappia cosa stai facendo. Alcune opzioni posso influire sul corretto funzionamento di SAI o addirittura danneggiare il sistema</b></string>
+    <string name="sss_dont_replace_dots_title">Non sostituire i punti con le virgole</string>
+    <string name="sss_dont_replace_dots_summary">Nel nome del file dell\'app esportato</string>
+    <string name="sss_custom_install_create_title">Comando personalizzato install-create</string>
+    <string name="sss_custom_install_create_summary">Il comando personalizzato install-create verrà utilizzato per creare la sessione pm utilizzata negli installatori Rooted e Shizuku, il comando non deve contenere spazi ad eccezione di quelli che separano gli argomenti (anche gli \'spazi tra le virgolette\' verranno suddivisi in argomenti). Immetti \"null\" per disabilitare</string>
+    <string name="sss_use_installer_2_summary">Riavvia SAI per applicare</string>
+    <string name="sss_use_installer_2_title">Utilizza installer2</string>
+
+    <string name="mi_continue_countdown">Puoi continuare in %d s.</string>
+    <string name="mi_continue">Continua</string>
+    <string name="mi_miui_version">Versione MIUI - %1$s (%2$d (%3$s))</string>
+
+    <string name="about_author">by polychromaticfox</string>
+    <string name="about_source">GitHub</string>
+    <string name="about_source_link" translatable="false">https://github.com/Aefyr/SAI</string>
+    <string name="about_donate">Dona</string>
+    <string name="about_donate_link" translatable="false">https://yasobe.ru/na/sai</string>
+    <string name="about_licenses">Licenze</string>
+
+</resources>
