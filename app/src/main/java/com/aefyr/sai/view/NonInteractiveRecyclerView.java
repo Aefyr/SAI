@@ -9,17 +9,17 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class ClickThroughRecyclerView extends RecyclerView {
+public class NonInteractiveRecyclerView extends RecyclerView {
 
-    public ClickThroughRecyclerView(@NonNull Context context) {
+    public NonInteractiveRecyclerView(@NonNull Context context) {
         super(context);
     }
 
-    public ClickThroughRecyclerView(@NonNull Context context, @Nullable AttributeSet attrs) {
+    public NonInteractiveRecyclerView(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public ClickThroughRecyclerView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public NonInteractiveRecyclerView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
