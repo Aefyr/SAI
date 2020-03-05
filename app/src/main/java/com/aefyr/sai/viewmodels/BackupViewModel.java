@@ -18,6 +18,8 @@ import com.aefyr.flexfilter.builtin.filter.singlechoice.SingleChoiceFilterConfig
 import com.aefyr.flexfilter.builtin.filter.sort.SortFilterConfig;
 import com.aefyr.flexfilter.builtin.filter.sort.SortFilterConfigOption;
 import com.aefyr.flexfilter.config.core.ComplexFilterConfig;
+import com.aefyr.sai.adapters.selection.Selection;
+import com.aefyr.sai.adapters.selection.SimpleKeyStorage;
 import com.aefyr.sai.backup.BackupRepository;
 import com.aefyr.sai.model.backup.BackupPackagesFilterConfig;
 import com.aefyr.sai.model.common.PackageMeta;
@@ -43,8 +45,14 @@ public class BackupViewModel extends AndroidViewModel {
 
     private MutableLiveData<BackupPackagesFilterConfig> mBackupFilterConfig = new MutableLiveData<>();
 
+    private final SimpleKeyStorage<String> mKeyStorage = new SimpleKeyStorage<>();
+    private final Selection<String> mSelection = new Selection<>(mKeyStorage);
+
     private LiveFilterApplier<PackageMeta> mLiveFilterApplier = new LiveFilterApplier<>();
-    private final Observer<List<PackageMeta>> mLiveFilterObserver = (packages) -> mPackagesLiveData.setValue(packages);
+    private final Observer<List<PackageMeta>> mLiveFilterObserver = (packages) -> {
+        mSelection.clear();
+        mPackagesLiveData.setValue(packages);
+    };
 
 
     public BackupViewModel(@NonNull Application application) {
@@ -91,6 +99,10 @@ public class BackupViewModel extends AndroidViewModel {
     public void search(String query) {
         mCurrentSearchQuery = query;
         mLiveFilterApplier.apply(createComplexFilter(query), new ArrayList<>(mBackupRepo.getPackages().getValue()));
+    }
+
+    public Selection<String> getSelection() {
+        return mSelection;
     }
 
     private ComplexCustomFilter<PackageMeta> createComplexFilter(String searchQuery) {

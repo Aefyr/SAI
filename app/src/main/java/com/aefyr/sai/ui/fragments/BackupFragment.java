@@ -59,7 +59,7 @@ public class BackupFragment extends SaiBaseFragment implements BackupPackagesAda
 
         recyclerView.getRecycledViewPool().setMaxRecycledViews(0, 24);
 
-        mAdapter = new BackupPackagesAdapter(getContext());
+        mAdapter = new BackupPackagesAdapter(mViewModel.getSelection(), getViewLifecycleOwner(), getContext());
         mAdapter.setInteractionListener(this);
         recyclerView.setAdapter(mAdapter);
 
