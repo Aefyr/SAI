@@ -99,7 +99,6 @@
     <string name="backup_app_feature_system_app">System app</string>
     <string name="backup_app_feature_install_date">Installed: %s</string>
     <string name="backup_app_feature_update_date">Updated: %s</string>
-    <string name="backup_selection_status">%d</string>
 
     <string name="settings_title">Settings</string>
     <string name="settings_main_home_directory">Home directory</string>

@@ -171,6 +171,10 @@ public class Utils {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, c.getResources().getDisplayMetrics());
     }
 
+    public static int spToPx(Context c, int dp) {
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, dp, c.getResources().getDisplayMetrics());
+    }
+
     public static boolean isTv(Context c) {
         UiModeManager uiModeManager = (UiModeManager) c.getSystemService(Context.UI_MODE_SERVICE);
         return uiModeManager.getCurrentModeType() == Configuration.UI_MODE_TYPE_TELEVISION;

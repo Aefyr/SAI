@@ -6,7 +6,6 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -32,6 +31,7 @@ import com.aefyr.sai.utils.MathUtils;
 import com.aefyr.sai.utils.PreferencesHelper;
 import com.aefyr.sai.utils.PreferencesKeys;
 import com.aefyr.sai.utils.Utils;
+import com.aefyr.sai.view.NumberTextView;
 import com.aefyr.sai.viewmodels.BackupViewModel;
 import com.google.android.material.button.MaterialButton;
 
@@ -159,7 +159,7 @@ public class BackupFragment extends SaiBaseFragment implements BackupPackagesAda
         //Selection/Search switching
         View searchBarContainer = findViewById(R.id.container_backup_search_bar);
         View selectionBarContainer = findViewById(R.id.container_backup_selection_bar);
-        TextView selectionStatus = findViewById(R.id.tv_backup_selection_status);
+        NumberTextView selectionStatus = findViewById(R.id.tv_backup_selection_status);
 
         MaterialButton actionButton = findViewById(R.id.button_backup_action);
         mViewModel.getSelection().asLiveData().observe(getViewLifecycleOwner(), selection -> {
@@ -167,13 +167,15 @@ public class BackupFragment extends SaiBaseFragment implements BackupPackagesAda
                 searchBarContainer.setVisibility(View.GONE);
                 selectionBarContainer.setVisibility(View.VISIBLE);
 
-                selectionStatus.setText(getString(R.string.backup_selection_status, selection.size()));
+                selectionStatus.setNumber(selection.size(), true);
 
                 actionButton.setText(R.string.backup_enqueue);
                 actionButton.setIconResource(R.drawable.ic_backup_enqueue);
             } else {
                 searchBarContainer.setVisibility(View.VISIBLE);
                 selectionBarContainer.setVisibility(View.GONE);
+
+                selectionStatus.setNumber(0, false);
 
                 actionButton.setText(R.string.backup_filter);
                 actionButton.setIconResource(R.drawable.ic_filter);
