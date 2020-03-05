@@ -116,13 +116,9 @@ public class Selection<Key> {
 
     public interface Observer<Key> {
 
-        default void onKeySelectionChanged(Selection<Key> selection, Key key, boolean selected) {
+        void onKeySelectionChanged(Selection<Key> selection, Key key, boolean selected);
 
-        }
-
-        default void onCleared(Selection<Key> selection) {
-
-        }
+        void onCleared(Selection<Key> selection);
 
         /**
          * Called when selection has been changed via batch methods such as {@link #batchSetSelected(Collection, boolean)}
@@ -132,9 +128,7 @@ public class Selection<Key> {
          * @param keys      keys that has been changed. Note that these keys may not have actually been in this selection before
          * @param selected  whether these keys has been selected or deselected
          */
-        default void onMultipleKeysSelectionChanged(Selection<Key> selection, Collection<Key> keys, boolean selected) {
-
-        }
+        void onMultipleKeysSelectionChanged(Selection<Key> selection, Collection<Key> keys, boolean selected);
 
     }
 

@@ -70,6 +70,12 @@ public class NameFormatBuilderViewModel extends AndroidViewModel implements Sele
     }
 
     @Override
+    public void onCleared(Selection<BackupNameFormatBuilder.Part> selection) {
+        mBackupNameFormatBuilder.getParts().clear();
+        mLiveFormat.setValue(mBackupNameFormatBuilder);
+    }
+
+    @Override
     public void onMultipleKeysSelectionChanged(Selection<BackupNameFormatBuilder.Part> selection, Collection<BackupNameFormatBuilder.Part> parts, boolean selected) {
         if (selected) {
             for (BackupNameFormatBuilder.Part part : parts)
