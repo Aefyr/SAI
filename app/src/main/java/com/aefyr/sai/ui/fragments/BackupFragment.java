@@ -23,8 +23,8 @@ import com.aefyr.sai.R;
 import com.aefyr.sai.adapters.BackupPackagesAdapter;
 import com.aefyr.sai.adapters.selection.Selection;
 import com.aefyr.sai.model.common.PackageMeta;
-import com.aefyr.sai.ui.dialogs.BackupAllSplitApksDialogFragment;
 import com.aefyr.sai.ui.dialogs.BackupDialogFragment;
+import com.aefyr.sai.ui.dialogs.BatchBackupDialogFragment;
 import com.aefyr.sai.ui.dialogs.OneTimeWarningDialogFragment;
 import com.aefyr.sai.ui.dialogs.SimpleAlertDialogFragment;
 import com.aefyr.sai.ui.recycler.RecyclerPaddingDecoration;
@@ -77,7 +77,7 @@ public class BackupFragment extends SaiBaseFragment implements BackupPackagesAda
             if (!selection.hasSelection()) {
                 FilterDialog.newInstance(getString(R.string.backup_filter), mViewModel.getRawFilterConfig(), DefaultFilterConfigViewHolderFactory.class).show(getChildFragmentManager(), null);
             } else {
-                BackupAllSplitApksDialogFragment.newInstance(new ArrayList<>(mViewModel.getSelection().getSelectedKeys())).show(getChildFragmentManager(), null);
+                BatchBackupDialogFragment.newInstance(new ArrayList<>(mViewModel.getSelection().getSelectedKeys())).show(getChildFragmentManager(), null);
             }
         });
 
@@ -224,7 +224,7 @@ public class BackupFragment extends SaiBaseFragment implements BackupPackagesAda
     }
 
     private void exportAllSplitApks() {
-        BackupAllSplitApksDialogFragment.newInstance().show(getChildFragmentManager(), null);
+        BatchBackupDialogFragment.newInstance().show(getChildFragmentManager(), null);
     }
 
     private void invalidateAppFeaturesVisibility() {

@@ -9,21 +9,21 @@ import androidx.lifecycle.ViewModelProvider;
 
 import java.util.ArrayList;
 
-public class BackupAllSplitApksDialogViewModelFactory implements ViewModelProvider.Factory {
+public class BatchBackupDialogViewModelFactory implements ViewModelProvider.Factory {
 
     private Context mAppContext;
-    private ArrayList<String> mPackages;
+    private ArrayList<String> mSelectedPackages;
 
-    public BackupAllSplitApksDialogViewModelFactory(@NonNull Context applicationContext, @Nullable ArrayList<String> packages) {
+    public BatchBackupDialogViewModelFactory(@NonNull Context applicationContext, @Nullable ArrayList<String> selectedPackages) {
         mAppContext = applicationContext.getApplicationContext();
-        mPackages = packages;
+        mSelectedPackages = selectedPackages;
     }
 
     @NonNull
     @Override
     public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
         try {
-            return modelClass.getConstructor(Context.class, ArrayList.class).newInstance(mAppContext, mPackages);
+            return modelClass.getConstructor(Context.class, ArrayList.class).newInstance(mAppContext, mSelectedPackages);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

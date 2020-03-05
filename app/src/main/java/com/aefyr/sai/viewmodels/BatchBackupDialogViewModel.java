@@ -20,7 +20,7 @@ import com.aefyr.sai.utils.PreferencesHelper;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BackupAllSplitApksDialogViewModel extends ViewModel {
+public class BatchBackupDialogViewModel extends ViewModel {
     private static final String TAG = "BatchBackupVM";
 
     private Context mContext;
@@ -30,12 +30,12 @@ public class BackupAllSplitApksDialogViewModel extends ViewModel {
 
     private Uri mBackupDirUri;
 
-    private ArrayList<String> mPackages;
+    private ArrayList<String> mSelectedPackages;
 
-    public BackupAllSplitApksDialogViewModel(@NonNull Context applicationContext, @Nullable ArrayList<String> packages) {
+    public BatchBackupDialogViewModel(@NonNull Context applicationContext, @Nullable ArrayList<String> selectedPackages) {
         mContext = applicationContext;
 
-        mPackages = packages;
+        mSelectedPackages = selectedPackages;
 
         mBackupDirUri = PreferencesHelper.getInstance(mContext).getBackupDirUri();
 
@@ -51,14 +51,14 @@ public class BackupAllSplitApksDialogViewModel extends ViewModel {
         return mIsBackupEnqueued;
     }
 
-    public void backupAllSplits() {
+    public void enqueueBackup() {
         if (mIsPreparing.getValue())
             return;
 
         mIsPreparing.setValue(true);
         new Thread(() -> {
-            if (mPackages != null) {
-                backupSelectedSplits();
+            if (mSelectedPackages != null) {
+                backupSelectedApps();
             } else {
                 backupLiterallyAllSplits();
             }
@@ -87,8 +87,8 @@ public class BackupAllSplitApksDialogViewModel extends ViewModel {
         }
     }
 
-    private void backupSelectedSplits() {
-        for (String pkg : mPackages) {
+    private void backupSelectedApps() {
+        for (String pkg : mSelectedPackages) {
             PackageMeta packageMeta = PackageMeta.forPackage(mContext, pkg);
             if (packageMeta == null) {
                 Log.d(TAG, "PackageMeta is null for " + pkg);
@@ -110,7 +110,7 @@ public class BackupAllSplitApksDialogViewModel extends ViewModel {
     }
 
     public int getApkCount() {
-        return mPackages != null ? mPackages.size() : -1;
+        return mSelectedPackages != null ? mSelectedPackages.size() : -1;
     }
 
 

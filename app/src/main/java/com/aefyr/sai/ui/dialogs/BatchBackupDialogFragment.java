@@ -14,25 +14,36 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.aefyr.sai.R;
 import com.aefyr.sai.utils.PermissionsUtils;
-import com.aefyr.sai.viewmodels.BackupAllSplitApksDialogViewModel;
-import com.aefyr.sai.viewmodels.factory.BackupAllSplitApksDialogViewModelFactory;
+import com.aefyr.sai.viewmodels.BatchBackupDialogViewModel;
+import com.aefyr.sai.viewmodels.factory.BatchBackupDialogViewModelFactory;
 
 import java.util.ArrayList;
 
-public class BackupAllSplitApksDialogFragment extends DialogFragment {
+public class BatchBackupDialogFragment extends DialogFragment {
     private static final String ARG_PACKAGES = "packages";
 
-    private BackupAllSplitApksDialogViewModel mViewModel;
+    private BatchBackupDialogViewModel mViewModel;
 
-    public static BackupAllSplitApksDialogFragment newInstance() {
-        return new BackupAllSplitApksDialogFragment();
+    /**
+     * Create a {@link BatchBackupDialogFragment} that will prompt user to backup all split APKs on device
+     *
+     * @return
+     */
+    public static BatchBackupDialogFragment newInstance() {
+        return new BatchBackupDialogFragment();
     }
 
-    public static BackupAllSplitApksDialogFragment newInstance(ArrayList<String> packages) {
+    /**
+     * Create a {@link BatchBackupDialogFragment} that will prompt user to backup all apps passed in {@code packages}
+     *
+     * @param packages app packages to backup
+     * @return
+     */
+    public static BatchBackupDialogFragment newInstance(@NonNull ArrayList<String> packages) {
         Bundle args = new Bundle();
         args.putStringArrayList(ARG_PACKAGES, packages);
 
-        BackupAllSplitApksDialogFragment dialog = new BackupAllSplitApksDialogFragment();
+        BatchBackupDialogFragment dialog = new BatchBackupDialogFragment();
         dialog.setArguments(args);
 
         return dialog;
@@ -49,7 +60,7 @@ public class BackupAllSplitApksDialogFragment extends DialogFragment {
             packages = args.getStringArrayList(ARG_PACKAGES);
         }
 
-        mViewModel = new ViewModelProvider(this, new BackupAllSplitApksDialogViewModelFactory(requireContext().getApplicationContext(), packages)).get(BackupAllSplitApksDialogViewModel.class);
+        mViewModel = new ViewModelProvider(this, new BatchBackupDialogViewModelFactory(requireContext().getApplicationContext(), packages)).get(BatchBackupDialogViewModel.class);
         mViewModel.getIsBackupEnqueued().observe(this, (isBackupEnqueued) -> {
             if (isBackupEnqueued)
                 dismiss();
@@ -90,7 +101,7 @@ public class BackupAllSplitApksDialogFragment extends DialogFragment {
     }
 
     private void enqueueBackup() {
-        mViewModel.backupAllSplits();
+        mViewModel.enqueueBackup();
     }
 
     private String getExportPromptText() {
