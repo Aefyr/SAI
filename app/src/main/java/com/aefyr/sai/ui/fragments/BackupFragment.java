@@ -93,6 +93,14 @@ public class BackupFragment extends SaiBaseFragment implements BackupPackagesAda
         PreferencesHelper.getInstance(requireContext()).getPrefs().unregisterOnSharedPreferenceChangeListener(this);
     }
 
+    private boolean mViewStateRestored;
+
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+        mViewStateRestored = true;
+    }
+
     private void setupToolbar() {
         //Search
         EditText editTextSearch = findViewById(R.id.et_search);
@@ -109,7 +117,8 @@ public class BackupFragment extends SaiBaseFragment implements BackupPackagesAda
 
             @Override
             public void afterTextChanged(Editable s) {
-                mViewModel.search(s.toString());
+                if (mViewStateRestored)
+                    mViewModel.search(s.toString());
             }
         });
 
