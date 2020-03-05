@@ -21,6 +21,7 @@ import com.aefyr.flexfilter.config.core.ComplexFilterConfig;
 import com.aefyr.flexfilter.ui.FilterDialog;
 import com.aefyr.sai.R;
 import com.aefyr.sai.adapters.BackupPackagesAdapter;
+import com.aefyr.sai.adapters.selection.Selection;
 import com.aefyr.sai.model.common.PackageMeta;
 import com.aefyr.sai.ui.dialogs.BackupAllSplitApksDialogFragment;
 import com.aefyr.sai.ui.dialogs.BackupDialogFragment;
@@ -32,6 +33,7 @@ import com.aefyr.sai.utils.PreferencesHelper;
 import com.aefyr.sai.utils.PreferencesKeys;
 import com.aefyr.sai.utils.Utils;
 import com.aefyr.sai.viewmodels.BackupViewModel;
+import com.google.android.material.button.MaterialButton;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -70,8 +72,13 @@ public class BackupFragment extends SaiBaseFragment implements BackupPackagesAda
 
         setupToolbar();
 
-        findViewById(R.id.button_backup_filter).setOnClickListener(v -> {
-            FilterDialog.newInstance(getString(R.string.backup_filter), mViewModel.getRawFilterConfig(), DefaultFilterConfigViewHolderFactory.class).show(getChildFragmentManager(), null);
+        findViewById(R.id.button_backup_action).setOnClickListener(v -> {
+            Selection<String> selection = mViewModel.getSelection();
+            if (!selection.hasSelection()) {
+                FilterDialog.newInstance(getString(R.string.backup_filter), mViewModel.getRawFilterConfig(), DefaultFilterConfigViewHolderFactory.class).show(getChildFragmentManager(), null);
+            } else {
+                BackupAllSplitApksDialogFragment.newInstance(new ArrayList<>(mViewModel.getSelection().getSelectedKeys())).show(getChildFragmentManager(), null);
+            }
         });
 
         invalidateAppFeaturesVisibility();
@@ -144,14 +151,23 @@ public class BackupFragment extends SaiBaseFragment implements BackupPackagesAda
         View searchBarContainer = findViewById(R.id.container_backup_search_bar);
         View selectionBarContainer = findViewById(R.id.container_backup_selection_bar);
         TextView selectionStatus = findViewById(R.id.tv_backup_selection_status);
+
+        MaterialButton actionButton = findViewById(R.id.button_backup_action);
         mViewModel.getSelection().asLiveData().observe(getViewLifecycleOwner(), selection -> {
             if (selection.hasSelection()) {
                 searchBarContainer.setVisibility(View.GONE);
                 selectionBarContainer.setVisibility(View.VISIBLE);
+
                 selectionStatus.setText(getString(R.string.backup_selection_status, selection.size()));
+
+                actionButton.setText(R.string.backup_enqueue);
+                actionButton.setIconResource(R.drawable.ic_backup_enqueue);
             } else {
                 searchBarContainer.setVisibility(View.VISIBLE);
                 selectionBarContainer.setVisibility(View.GONE);
+
+                actionButton.setText(R.string.backup_filter);
+                actionButton.setIconResource(R.drawable.ic_filter);
             }
         });
 

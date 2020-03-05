@@ -113,7 +113,7 @@
     </androidx.cardview.widget.CardView>
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/button_backup_filter"
+        android:id="@+id/button_backup_action"
         style="@style/SAIMaterialButton.ExtendedFab"
         android:layout_gravity="bottom|center_horizontal"
         android:layout_marginBottom="8dp"

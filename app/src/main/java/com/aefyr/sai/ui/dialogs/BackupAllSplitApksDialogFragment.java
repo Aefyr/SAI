@@ -15,8 +15,12 @@ import androidx.lifecycle.ViewModelProvider;
 import com.aefyr.sai.R;
 import com.aefyr.sai.utils.PermissionsUtils;
 import com.aefyr.sai.viewmodels.BackupAllSplitApksDialogViewModel;
+import com.aefyr.sai.viewmodels.factory.BackupAllSplitApksDialogViewModelFactory;
+
+import java.util.ArrayList;
 
 public class BackupAllSplitApksDialogFragment extends DialogFragment {
+    private static final String ARG_PACKAGES = "packages";
 
     private BackupAllSplitApksDialogViewModel mViewModel;
 
@@ -24,12 +28,28 @@ public class BackupAllSplitApksDialogFragment extends DialogFragment {
         return new BackupAllSplitApksDialogFragment();
     }
 
+    public static BackupAllSplitApksDialogFragment newInstance(ArrayList<String> packages) {
+        Bundle args = new Bundle();
+        args.putStringArrayList(ARG_PACKAGES, packages);
+
+        BackupAllSplitApksDialogFragment dialog = new BackupAllSplitApksDialogFragment();
+        dialog.setArguments(args);
+
+        return dialog;
+    }
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setCancelable(false);
 
-        mViewModel = new ViewModelProvider(this).get(BackupAllSplitApksDialogViewModel.class);
+        Bundle args = getArguments();
+        ArrayList<String> packages = null;
+        if (args != null) {
+            packages = args.getStringArrayList(ARG_PACKAGES);
+        }
+
+        mViewModel = new ViewModelProvider(this, new BackupAllSplitApksDialogViewModelFactory(requireContext().getApplicationContext(), packages)).get(BackupAllSplitApksDialogViewModel.class);
         mViewModel.getIsBackupEnqueued().observe(this, (isBackupEnqueued) -> {
             if (isBackupEnqueued)
                 dismiss();
@@ -40,7 +60,7 @@ public class BackupAllSplitApksDialogFragment extends DialogFragment {
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         AlertDialog alertDialog = new AlertDialog.Builder(requireContext())
-                .setMessage(R.string.backup_export_all_splits_prompt)
+                .setMessage(getExportPromptText())
                 .setPositiveButton(R.string.yes, null)
                 .setNegativeButton(R.string.cancel, null)
                 .create();
@@ -65,12 +85,16 @@ public class BackupAllSplitApksDialogFragment extends DialogFragment {
             positiveButton.setVisibility(isPreparing ? View.GONE : View.VISIBLE);
             negativeButton.setVisibility(isPreparing ? View.GONE : View.VISIBLE);
 
-            dialog.setMessage(getString(isPreparing ? R.string.backup_preparing : R.string.backup_export_all_splits_prompt));
+            dialog.setMessage(isPreparing ? getString(R.string.backup_preparing) : getExportPromptText());
         });
     }
 
     private void enqueueBackup() {
         mViewModel.backupAllSplits();
+    }
+
+    private String getExportPromptText() {
+        return mViewModel.getApkCount() <= 0 ? getString(R.string.backup_export_all_splits_prompt) : getString(R.string.backup_export_selected_apps_prompt, mViewModel.getApkCount());
     }
 
     @Override
