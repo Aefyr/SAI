@@ -22,6 +22,16 @@ public class SimpleKeyStorage<Key> implements Selection.KeyStorage<Key> {
     }
 
     @Override
+    public void storeAll(Collection<Key> keys) {
+        mKeys.addAll(keys);
+    }
+
+    @Override
+    public void removeAll(Collection<Key> keys) {
+        mKeys.removeAll(keys);
+    }
+
+    @Override
     public boolean isStored(Key key) {
         return mKeys.contains(key);
     }

@@ -9,6 +9,7 @@ import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.Collection;
 import java.util.HashMap;
 
 public abstract class SelectableAdapter<Key, ViewHolder extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<ViewHolder> {
@@ -30,6 +31,15 @@ public abstract class SelectableAdapter<Key, ViewHolder extends RecyclerView.Vie
         public void onCleared(Selection<Key> selection) {
             clearKeysMapping();
             notifyDataSetChanged();
+        }
+
+        @Override
+        public void onMultipleKeysSelectionChanged(Selection<Key> selection, Collection<Key> keys, boolean selected) {
+            for (Key key : keys) {
+                Integer position = mKeyToPosition.get(key);
+                if (position != null)
+                    notifyItemChanged(position);
+            }
         }
     };
 
@@ -102,6 +112,18 @@ public abstract class SelectableAdapter<Key, ViewHolder extends RecyclerView.Vie
         Key key = getKeyForPosition(position);
         mKeyToPosition.put(key, position);
         mPositionToKey.put(position, key);
+    }
+
+    @CallSuper
+    @Override
+    public void onViewRecycled(@NonNull ViewHolder holder) {
+        int adapterPosition = holder.getAdapterPosition();
+        if (adapterPosition == RecyclerView.NO_POSITION)
+            return;
+
+        Key key = mPositionToKey.remove(adapterPosition);
+        if (key != null)
+            mKeyToPosition.remove(key);
     }
 
     @CallSuper

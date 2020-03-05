@@ -38,6 +38,25 @@ public class Selection<Key> {
         mLiveSelection.setValue(this);
     }
 
+
+    /**
+     * Select/deselect all keys in given collection. Useful when you want to change selection for a lot of keys, but don't want to trigger observer for every key.
+     *
+     * @param keys     keys to change selection for
+     * @param selected new selection status of given keys
+     */
+    public void batchSetSelected(Collection<Key> keys, boolean selected) {
+        if (selected)
+            mKeyStorage.storeAll(keys);
+        else
+            mKeyStorage.removeAll(keys);
+
+        for (Observer<Key> observer : mObservers) {
+            observer.onMultipleKeysSelectionChanged(this, keys, selected);
+        }
+        mLiveSelection.setValue(this);
+    }
+
     public boolean switchSelection(Key key) {
         boolean isSelected = isSelected(key);
         setSelected(key, !isSelected);
@@ -105,6 +124,18 @@ public class Selection<Key> {
 
         }
 
+        /**
+         * Called when selection has been changed via batch methods such as {@link #batchSetSelected(Collection, boolean)}
+         * Note, that when selection is cleared, this method won't be called, {@link #onCleared(Selection)} will be called instead.
+         *
+         * @param selection selection that has been changed
+         * @param keys      keys that has been changed. Note that these keys may not have actually been in this selection before
+         * @param selected  whether these keys has been selected or deselected
+         */
+        default void onMultipleKeysSelectionChanged(Selection<Key> selection, Collection<Key> keys, boolean selected) {
+
+        }
+
     }
 
 
@@ -112,6 +143,10 @@ public class Selection<Key> {
         void store(K key);
 
         void remove(K key);
+
+        void storeAll(Collection<K> keys);
+
+        void removeAll(Collection<K> keys);
 
         boolean isStored(K key);
 
