@@ -33,6 +33,10 @@ import com.aefyr.sai.utils.PreferencesKeys;
 import com.aefyr.sai.utils.Utils;
 import com.aefyr.sai.viewmodels.BackupViewModel;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 public class BackupFragment extends SaiBaseFragment implements BackupPackagesAdapter.OnItemInteractionListener, FilterDialog.OnApplyConfigListener, SharedPreferences.OnSharedPreferenceChangeListener {
 
 
@@ -123,7 +127,18 @@ public class BackupFragment extends SaiBaseFragment implements BackupPackagesAda
 
         //Selection
         findViewById(R.id.ib_backup_clear_selection).setOnClickListener(v -> mViewModel.getSelection().clear());
+        findViewById(R.id.ib_backup_select_all).setOnClickListener(v -> {
+            List<PackageMeta> packages = mViewModel.getPackages().getValue();
+            if (packages == null)
+                return;
 
+            Collection<String> keys = new ArrayList<>(packages.size());
+            for (PackageMeta pkg : packages) {
+                keys.add(pkg.packageName);
+            }
+
+            mViewModel.getSelection().batchSetSelected(keys, true);
+        });
 
         //Selection/Search switching
         View searchBarContainer = findViewById(R.id.container_backup_search_bar);
