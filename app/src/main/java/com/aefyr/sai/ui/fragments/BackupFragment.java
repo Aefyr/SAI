@@ -6,6 +6,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -120,6 +121,26 @@ public class BackupFragment extends SaiBaseFragment implements BackupPackagesAda
             popupMenu.show();
         });
 
+        //Selection
+        findViewById(R.id.ib_backup_clear_selection).setOnClickListener(v -> mViewModel.getSelection().clear());
+
+
+        //Selection/Search switching
+        View searchBarContainer = findViewById(R.id.container_backup_search_bar);
+        View selectionBarContainer = findViewById(R.id.container_backup_selection_bar);
+        TextView selectionStatus = findViewById(R.id.tv_backup_selection_status);
+        mViewModel.getSelection().asLiveData().observe(getViewLifecycleOwner(), selection -> {
+            if (selection.hasSelection()) {
+                searchBarContainer.setVisibility(View.GONE);
+                selectionBarContainer.setVisibility(View.VISIBLE);
+                selectionStatus.setText(getString(R.string.backup_selection_status, selection.size()));
+            } else {
+                searchBarContainer.setVisibility(View.VISIBLE);
+                selectionBarContainer.setVisibility(View.GONE);
+            }
+        });
+
+        //Hide on scroll
         if (!Utils.isTv(requireContext())) {
             CardView searchBar = findViewById(R.id.card_search);
             RecyclerView recyclerView = findViewById(R.id.rv_packages);

@@ -52,8 +52,12 @@ public class Selection<Key> {
         return mKeyStorage.getAllStoredKeys();
     }
 
+    public int size() {
+        return mKeyStorage.getStoredKeysCount();
+    }
+
     public boolean hasSelection() {
-        return mKeyStorage.getStoredKeysCount() > 0;
+        return size() > 0;
     }
 
     public void clear() {
