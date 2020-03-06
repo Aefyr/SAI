@@ -74,6 +74,8 @@ public abstract class SelectableAdapter<Key, ViewHolder extends RecyclerView.Vie
         }
     };
 
+    private RecyclerView mRecycler;
+
     public SelectableAdapter(Selection<Key> selection, LifecycleOwner lifecycleOwner) {
         mSelection = selection;
 
@@ -121,14 +123,17 @@ public abstract class SelectableAdapter<Key, ViewHolder extends RecyclerView.Vie
         if (adapterPosition == RecyclerView.NO_POSITION)
             return;
 
-        Key key = mPositionToKey.remove(adapterPosition);
-        if (key != null)
-            mKeyToPosition.remove(key);
+        if (mRecycler.findViewHolderForAdapterPosition(adapterPosition) == null) {
+            Key key = mPositionToKey.remove(adapterPosition);
+            if (key != null)
+                mKeyToPosition.remove(key);
+        }
     }
 
     @CallSuper
     @Override
     public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
+        mRecycler = recyclerView;
         registerObservers();
     }
 
@@ -136,6 +141,7 @@ public abstract class SelectableAdapter<Key, ViewHolder extends RecyclerView.Vie
     @Override
     public void onDetachedFromRecyclerView(@NonNull RecyclerView recyclerView) {
         unregisterObservers();
+        mRecycler = null;
     }
 
     private void clearKeysMapping() {
