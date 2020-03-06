@@ -7,6 +7,7 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -86,6 +87,15 @@ public class BackupFragment extends SaiBaseFragment implements BackupPackagesAda
         mViewModel.getPackages().observe(getViewLifecycleOwner(), mAdapter::setData);
 
         PreferencesHelper.getInstance(requireContext()).getPrefs().registerOnSharedPreferenceChangeListener(this);
+
+        mViewModel.getSelectionClearEvent().observe(getViewLifecycleOwner(), event -> {
+            if (event.isConsumed())
+                return;
+
+            event.consume();
+
+            Toast.makeText(requireContext(), R.string.backup_selection_cleared_notice, Toast.LENGTH_SHORT).show();
+        });
     }
 
     @Override
