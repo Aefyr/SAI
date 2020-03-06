@@ -123,6 +123,7 @@ public abstract class SelectableAdapter<Key, ViewHolder extends RecyclerView.Vie
         if (adapterPosition == RecyclerView.NO_POSITION)
             return;
 
+        //onViewRecycled calls seem to be batched after onBindViewHolder calls, that will lead to clearing an actually required key without this check
         if (mRecycler.findViewHolderForAdapterPosition(adapterPosition) == null) {
             Key key = mPositionToKey.remove(adapterPosition);
             if (key != null)
