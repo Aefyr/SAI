@@ -157,16 +157,18 @@ public class BackupPackagesAdapter extends SelectableAdapter<String, BackupPacka
             });
 
             itemView.findViewById(R.id.container_backup_package).setOnClickListener(v -> {
-                if (!getSelection().hasSelection())
-                    return;
-
                 int adapterPosition = getAdapterPosition();
                 if (adapterPosition == RecyclerView.NO_POSITION)
                     return;
 
-                PackageMeta item = mPackages.get(adapterPosition);
-                boolean selected = switchSelection(item.packageName);
-                mSelectionOverlay.setVisibility(selected ? View.VISIBLE : View.GONE);
+                if (!getSelection().hasSelection()) {
+                    if (mListener != null)
+                        mListener.onBackupButtonClicked(mPackages.get(adapterPosition));
+                } else {
+                    PackageMeta item = mPackages.get(adapterPosition);
+                    boolean selected = switchSelection(item.packageName);
+                    mSelectionOverlay.setVisibility(selected ? View.VISIBLE : View.GONE);
+                }
             });
 
             RecyclerView featureRecycler = itemView.findViewById(R.id.rv_backup_app_features);
