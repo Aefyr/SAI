@@ -126,16 +126,7 @@ public class BackupPackagesAdapter extends SelectableAdapter<String, BackupPacka
             mAppIcon = itemView.findViewById(R.id.iv_app_icon);
             mSelectionOverlay = itemView.findViewById(R.id.overlay_backup_package_selection);
 
-            itemView.findViewById(R.id.ib_backup).setOnClickListener((v) -> {
-                int adapterPosition = getAdapterPosition();
-                if (adapterPosition == RecyclerView.NO_POSITION)
-                    return;
-
-                if (mListener != null)
-                    mListener.onBackupButtonClicked(mPackages.get(adapterPosition));
-            });
-
-            itemView.findViewById(R.id.ib_backup).setOnFocusChangeListener((v, hasFocus) -> {
+            itemView.findViewById(R.id.container_backup_package).setOnFocusChangeListener((v, hasFocus) -> {
                 int adapterPosition = getAdapterPosition();
                 if (adapterPosition == RecyclerView.NO_POSITION)
                     return;

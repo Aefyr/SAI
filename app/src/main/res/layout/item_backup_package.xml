@@ -9,6 +9,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true"
         android:longClickable="true"
         android:orientation="vertical"
         android:padding="8dp">
@@ -56,12 +58,11 @@
 
             </LinearLayout>
 
-            <androidx.appcompat.widget.AppCompatImageButton
-                android:id="@+id/ib_backup"
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/iv_backup"
                 android:layout_width="56dp"
                 android:layout_height="56dp"
                 android:layout_gravity="center_vertical"
-                android:background="?attr/selectableItemBackgroundBorderless"
                 android:padding="12dp"
                 android:scaleType="fitCenter"
                 android:src="@drawable/ic_backup"
