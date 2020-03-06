@@ -13,6 +13,7 @@ import com.aefyr.sai.model.backup.BackupNameFormatBuilder;
 import com.aefyr.sai.model.common.PackageMeta;
 import com.aefyr.sai.utils.PreferencesHelper;
 
+import java.util.Collection;
 import java.util.Objects;
 
 public class NameFormatBuilderViewModel extends AndroidViewModel implements Selection.Observer<BackupNameFormatBuilder.Part> {
@@ -64,6 +65,25 @@ public class NameFormatBuilderViewModel extends AndroidViewModel implements Sele
             mBackupNameFormatBuilder.addPart(key);
         else
             mBackupNameFormatBuilder.removePart(key);
+
+        mLiveFormat.setValue(mBackupNameFormatBuilder);
+    }
+
+    @Override
+    public void onCleared(Selection<BackupNameFormatBuilder.Part> selection) {
+        mBackupNameFormatBuilder.getParts().clear();
+        mLiveFormat.setValue(mBackupNameFormatBuilder);
+    }
+
+    @Override
+    public void onMultipleKeysSelectionChanged(Selection<BackupNameFormatBuilder.Part> selection, Collection<BackupNameFormatBuilder.Part> parts, boolean selected) {
+        if (selected) {
+            for (BackupNameFormatBuilder.Part part : parts)
+                mBackupNameFormatBuilder.addPart(part);
+        } else {
+            for (BackupNameFormatBuilder.Part part : parts)
+                mBackupNameFormatBuilder.removePart(part);
+        }
 
         mLiveFormat.setValue(mBackupNameFormatBuilder);
     }

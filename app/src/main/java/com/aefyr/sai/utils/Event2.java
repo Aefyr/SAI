@@ -12,6 +12,9 @@ public class Event2 {
         mData = data;
     }
 
+    public Event2() {
+    }
+
     public String type() {
         return mType;
     }

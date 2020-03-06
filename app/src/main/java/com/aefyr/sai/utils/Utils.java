@@ -171,9 +171,25 @@ public class Utils {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, c.getResources().getDisplayMetrics());
     }
 
+    public static int spToPx(Context c, int dp) {
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, dp, c.getResources().getDisplayMetrics());
+    }
+
     public static boolean isTv(Context c) {
         UiModeManager uiModeManager = (UiModeManager) c.getSystemService(Context.UI_MODE_SERVICE);
         return uiModeManager.getCurrentModeType() == Configuration.UI_MODE_TYPE_TELEVISION;
+    }
+
+    @Nullable
+    public static <T> T getParentAs(Fragment fragment, Class<T> asClass) {
+        Object parent = fragment.getParentFragment();
+        if (parent == null)
+            parent = fragment.getActivity();
+
+        if (asClass.isInstance(parent))
+            return asClass.cast(parent);
+
+        return null;
     }
 
 

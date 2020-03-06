@@ -11,9 +11,12 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatImageView;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.aefyr.sai.R;
+import com.aefyr.sai.adapters.selection.SelectableAdapter;
+import com.aefyr.sai.adapters.selection.Selection;
 import com.aefyr.sai.model.backup.BackupPackagesFilterConfig;
 import com.aefyr.sai.model.backup.SimpleAppFeature;
 import com.aefyr.sai.model.common.AppFeature;
@@ -30,7 +33,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
-public class BackupPackagesAdapter extends RecyclerView.Adapter<BackupPackagesAdapter.ViewHolder> {
+public class BackupPackagesAdapter extends SelectableAdapter<String, BackupPackagesAdapter.ViewHolder> {
 
     private LayoutInflater mInflater;
     private List<PackageMeta> mPackages;
@@ -44,7 +47,9 @@ public class BackupPackagesAdapter extends RecyclerView.Adapter<BackupPackagesAd
     private SimpleDateFormat mInstallOrUpdateDateSdf = new SimpleDateFormat("d MMM yyyy, HH:mm", Locale.getDefault());
 
 
-    public BackupPackagesAdapter(Context c) {
+    public BackupPackagesAdapter(Selection<String> selection, LifecycleOwner lifecycleOwner, Context c) {
+        super(selection, lifecycleOwner);
+
         mInflater = LayoutInflater.from(c);
         setHasStableIds(true);
 
@@ -75,13 +80,21 @@ public class BackupPackagesAdapter extends RecyclerView.Adapter<BackupPackagesAd
     }
 
     @Override
+    protected String getKeyForPosition(int position) {
+        return mPackages.get(position).packageName;
+    }
+
+    @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        super.onBindViewHolder(holder, position);
+
         PackageMeta packageMeta = mPackages.get(position);
         holder.bindTo(packageMeta);
     }
 
     @Override
     public void onViewRecycled(@NonNull ViewHolder holder) {
+        super.onViewRecycled(holder);
         holder.recycle();
     }
 
@@ -101,6 +114,7 @@ public class BackupPackagesAdapter extends RecyclerView.Adapter<BackupPackagesAd
         private TextView mAppVersion;
         private TextView mAppPackage;
         private AppCompatImageView mAppIcon;
+        private View mSelectionOverlay;
 
         private BackupAppFeatureAdapter mFeatureAdapter;
 
@@ -111,23 +125,42 @@ public class BackupPackagesAdapter extends RecyclerView.Adapter<BackupPackagesAd
             mAppVersion = itemView.findViewById(R.id.tv_app_version);
             mAppPackage = itemView.findViewById(R.id.tv_app_package);
             mAppIcon = itemView.findViewById(R.id.iv_app_icon);
+            mSelectionOverlay = itemView.findViewById(R.id.overlay_backup_package_selection);
 
-            itemView.findViewById(R.id.ib_backup).setOnClickListener((v) -> {
-                int adapterPosition = getAdapterPosition();
-                if (adapterPosition == RecyclerView.NO_POSITION)
-                    return;
-
-                if (mListener != null)
-                    mListener.onBackupButtonClicked(mPackages.get(adapterPosition));
-            });
-
-            itemView.findViewById(R.id.ib_backup).setOnFocusChangeListener((v, hasFocus) -> {
+            itemView.findViewById(R.id.container_backup_package).setOnFocusChangeListener((v, hasFocus) -> {
                 int adapterPosition = getAdapterPosition();
                 if (adapterPosition == RecyclerView.NO_POSITION)
                     return;
 
                 if (mListener != null)
                     mListener.onItemFocusChanged(hasFocus, adapterPosition, mPackages.get(adapterPosition));
+            });
+
+            itemView.findViewById(R.id.container_backup_package).setOnLongClickListener(v -> {
+                int adapterPosition = getAdapterPosition();
+                if (adapterPosition == RecyclerView.NO_POSITION)
+                    return false;
+
+                PackageMeta item = mPackages.get(adapterPosition);
+                boolean selected = switchSelection(item.packageName);
+                mSelectionOverlay.setVisibility(selected ? View.VISIBLE : View.GONE);
+
+                return true;
+            });
+
+            itemView.findViewById(R.id.container_backup_package).setOnClickListener(v -> {
+                int adapterPosition = getAdapterPosition();
+                if (adapterPosition == RecyclerView.NO_POSITION)
+                    return;
+
+                if (!getSelection().hasSelection()) {
+                    if (mListener != null)
+                        mListener.onBackupButtonClicked(mPackages.get(adapterPosition));
+                } else {
+                    PackageMeta item = mPackages.get(adapterPosition);
+                    boolean selected = switchSelection(item.packageName);
+                    mSelectionOverlay.setVisibility(selected ? View.VISIBLE : View.GONE);
+                }
             });
 
             RecyclerView featureRecycler = itemView.findViewById(R.id.rv_backup_app_features);
@@ -154,6 +187,8 @@ public class BackupPackagesAdapter extends RecyclerView.Adapter<BackupPackagesAd
                     .into(mAppIcon);
 
             mFeatureAdapter.setFeatures(createContextualFeatures(packageMeta));
+
+            mSelectionOverlay.setVisibility(isSelected(packageMeta.packageName) ? View.VISIBLE : View.GONE);
         }
 
         private List<AppFeature> createContextualFeatures(PackageMeta packageMeta) {

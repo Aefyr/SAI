@@ -9,6 +9,7 @@ import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.Collection;
 import java.util.HashMap;
 
 public abstract class SelectableAdapter<Key, ViewHolder extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<ViewHolder> {
@@ -30,6 +31,15 @@ public abstract class SelectableAdapter<Key, ViewHolder extends RecyclerView.Vie
         public void onCleared(Selection<Key> selection) {
             clearKeysMapping();
             notifyDataSetChanged();
+        }
+
+        @Override
+        public void onMultipleKeysSelectionChanged(Selection<Key> selection, Collection<Key> keys, boolean selected) {
+            for (Key key : keys) {
+                Integer position = mKeyToPosition.get(key);
+                if (position != null)
+                    notifyItemChanged(position);
+            }
         }
     };
 
@@ -63,6 +73,8 @@ public abstract class SelectableAdapter<Key, ViewHolder extends RecyclerView.Vie
             notifyDataSetChanged();
         }
     };
+
+    private RecyclerView mRecycler;
 
     public SelectableAdapter(Selection<Key> selection, LifecycleOwner lifecycleOwner) {
         mSelection = selection;
@@ -106,7 +118,23 @@ public abstract class SelectableAdapter<Key, ViewHolder extends RecyclerView.Vie
 
     @CallSuper
     @Override
+    public void onViewRecycled(@NonNull ViewHolder holder) {
+        int adapterPosition = holder.getAdapterPosition();
+        if (adapterPosition == RecyclerView.NO_POSITION)
+            return;
+
+        //onViewRecycled calls seem to be batched after onBindViewHolder calls, that will lead to clearing an actually required key without this check
+        if (mRecycler.findViewHolderForAdapterPosition(adapterPosition) == null) {
+            Key key = mPositionToKey.remove(adapterPosition);
+            if (key != null)
+                mKeyToPosition.remove(key);
+        }
+    }
+
+    @CallSuper
+    @Override
     public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
+        mRecycler = recyclerView;
         registerObservers();
     }
 
@@ -114,6 +142,7 @@ public abstract class SelectableAdapter<Key, ViewHolder extends RecyclerView.Vie
     @Override
     public void onDetachedFromRecyclerView(@NonNull RecyclerView recyclerView) {
         unregisterObservers();
+        mRecycler = null;
     }
 
     private void clearKeysMapping() {

@@ -1,72 +1,90 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="8dp">
+    android:layout_height="wrap_content">
 
     <LinearLayout
+        android:id="@+id/container_backup_package"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/iv_app_icon"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            android:layout_gravity="center_vertical"
-            android:padding="4dp"
-            android:scaleType="fitCenter" />
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true"
+        android:longClickable="true"
+        android:orientation="vertical"
+        android:padding="8dp">
 
         <LinearLayout
-            android:id="@+id/container_backup_meta"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:paddingStart="8dp">
+            android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/tv_app_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="SAI"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/iv_app_icon"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:layout_gravity="center_vertical"
+                android:padding="4dp"
+                android:scaleType="fitCenter" />
 
-            <TextView
-                android:id="@+id/tv_app_version"
-                android:layout_width="match_parent"
+            <LinearLayout
+                android:id="@+id/container_backup_meta"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="2.28" />
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:paddingStart="8dp">
 
-            <TextView
-                android:id="@+id/tv_app_package"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="com.aefyr.sai" />
+                <TextView
+                    android:id="@+id/tv_app_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="SAI"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+                <TextView
+                    android:id="@+id/tv_app_version"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="2.28" />
+
+                <TextView
+                    android:id="@+id/tv_app_package"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="com.aefyr.sai" />
+
+            </LinearLayout>
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/iv_backup"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:layout_gravity="center_vertical"
+                android:padding="12dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_backup"
+                android:tint="?attr/colorAccent" />
+
 
         </LinearLayout>
 
-        <androidx.appcompat.widget.AppCompatImageButton
-            android:id="@+id/ib_backup"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            android:layout_gravity="center_vertical"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:padding="12dp"
-            android:scaleType="fitCenter"
-            android:src="@drawable/ic_backup"
-            android:tint="?attr/colorAccent" />
-
-
+        <com.aefyr.sai.view.NonInteractiveRecyclerView
+            android:id="@+id/rv_backup_app_features"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:focusable="false"
+            android:focusableInTouchMode="false" />
     </LinearLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_backup_app_features"
+    <FrameLayout
+        android:id="@+id/overlay_backup_package_selection"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:focusable="false"
-        android:focusableInTouchMode="false" />
-</LinearLayout>
+        android:layout_height="match_parent"
+        android:alpha="0.25"
+        android:background="?colorAccent" />
+
+</FrameLayout>
+

@@ -18,11 +18,15 @@ import com.aefyr.flexfilter.builtin.filter.singlechoice.SingleChoiceFilterConfig
 import com.aefyr.flexfilter.builtin.filter.sort.SortFilterConfig;
 import com.aefyr.flexfilter.builtin.filter.sort.SortFilterConfigOption;
 import com.aefyr.flexfilter.config.core.ComplexFilterConfig;
+import com.aefyr.sai.adapters.selection.Selection;
+import com.aefyr.sai.adapters.selection.SimpleKeyStorage;
 import com.aefyr.sai.backup.BackupRepository;
 import com.aefyr.sai.model.backup.BackupPackagesFilterConfig;
 import com.aefyr.sai.model.common.PackageMeta;
+import com.aefyr.sai.utils.Event2;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -43,8 +47,20 @@ public class BackupViewModel extends AndroidViewModel {
 
     private MutableLiveData<BackupPackagesFilterConfig> mBackupFilterConfig = new MutableLiveData<>();
 
+    private final SimpleKeyStorage<String> mKeyStorage = new SimpleKeyStorage<>();
+    private final Selection<String> mSelection = new Selection<>(mKeyStorage);
+
+    private MutableLiveData<Event2> mSelectionClearEvent = new MutableLiveData<>();
+
     private LiveFilterApplier<PackageMeta> mLiveFilterApplier = new LiveFilterApplier<>();
-    private final Observer<List<PackageMeta>> mLiveFilterObserver = (packages) -> mPackagesLiveData.setValue(packages);
+    private final Observer<List<PackageMeta>> mLiveFilterObserver = (packages) -> {
+        if (mSelection.hasSelection()) {
+            mSelection.clear();
+            mSelectionClearEvent.setValue(new Event2());
+        }
+
+        mPackagesLiveData.setValue(packages);
+    };
 
 
     public BackupViewModel(@NonNull Application application) {
@@ -91,6 +107,27 @@ public class BackupViewModel extends AndroidViewModel {
     public void search(String query) {
         mCurrentSearchQuery = query;
         mLiveFilterApplier.apply(createComplexFilter(query), new ArrayList<>(mBackupRepo.getPackages().getValue()));
+    }
+
+    public Selection<String> getSelection() {
+        return mSelection;
+    }
+
+    public LiveData<Event2> getSelectionClearEvent() {
+        return mSelectionClearEvent;
+    }
+
+    public void selectAllApps() {
+        List<PackageMeta> packages = getPackages().getValue();
+        if (packages == null)
+            return;
+
+        Collection<String> keys = new ArrayList<>(packages.size());
+        for (PackageMeta pkg : packages) {
+            keys.add(pkg.packageName);
+        }
+
+        getSelection().batchSetSelected(keys, true);
     }
 
     private ComplexCustomFilter<PackageMeta> createComplexFilter(String searchQuery) {

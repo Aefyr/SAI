@@ -6,6 +6,8 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,9 +22,10 @@ import com.aefyr.flexfilter.config.core.ComplexFilterConfig;
 import com.aefyr.flexfilter.ui.FilterDialog;
 import com.aefyr.sai.R;
 import com.aefyr.sai.adapters.BackupPackagesAdapter;
+import com.aefyr.sai.adapters.selection.Selection;
 import com.aefyr.sai.model.common.PackageMeta;
-import com.aefyr.sai.ui.dialogs.BackupAllSplitApksDialogFragment;
 import com.aefyr.sai.ui.dialogs.BackupDialogFragment;
+import com.aefyr.sai.ui.dialogs.BatchBackupDialogFragment;
 import com.aefyr.sai.ui.dialogs.OneTimeWarningDialogFragment;
 import com.aefyr.sai.ui.dialogs.SimpleAlertDialogFragment;
 import com.aefyr.sai.ui.recycler.RecyclerPaddingDecoration;
@@ -30,9 +33,13 @@ import com.aefyr.sai.utils.MathUtils;
 import com.aefyr.sai.utils.PreferencesHelper;
 import com.aefyr.sai.utils.PreferencesKeys;
 import com.aefyr.sai.utils.Utils;
+import com.aefyr.sai.view.NumberTextView;
 import com.aefyr.sai.viewmodels.BackupViewModel;
+import com.google.android.material.button.MaterialButton;
 
-public class BackupFragment extends SaiBaseFragment implements BackupPackagesAdapter.OnItemInteractionListener, FilterDialog.OnApplyConfigListener, SharedPreferences.OnSharedPreferenceChangeListener {
+import java.util.ArrayList;
+
+public class BackupFragment extends SaiBaseFragment implements BackupPackagesAdapter.OnItemInteractionListener, FilterDialog.OnApplyConfigListener, SharedPreferences.OnSharedPreferenceChangeListener, BatchBackupDialogFragment.OnBatchBackupEnqueuedListener {
 
 
     private BackupViewModel mViewModel;
@@ -59,26 +66,48 @@ public class BackupFragment extends SaiBaseFragment implements BackupPackagesAda
 
         recyclerView.getRecycledViewPool().setMaxRecycledViews(0, 24);
 
-        mAdapter = new BackupPackagesAdapter(getContext());
+        mAdapter = new BackupPackagesAdapter(mViewModel.getSelection(), getViewLifecycleOwner(), getContext());
         mAdapter.setInteractionListener(this);
         recyclerView.setAdapter(mAdapter);
 
         setupToolbar();
 
-        findViewById(R.id.button_backup_filter).setOnClickListener(v -> {
-            FilterDialog.newInstance(getString(R.string.backup_filter), mViewModel.getRawFilterConfig(), DefaultFilterConfigViewHolderFactory.class).show(getChildFragmentManager(), null);
+        findViewById(R.id.button_backup_action).setOnClickListener(v -> {
+            Selection<String> selection = mViewModel.getSelection();
+            if (!selection.hasSelection()) {
+                FilterDialog.newInstance(getString(R.string.backup_filter), mViewModel.getRawFilterConfig(), DefaultFilterConfigViewHolderFactory.class).show(getChildFragmentManager(), null);
+            } else {
+                BatchBackupDialogFragment.newInstance(new ArrayList<>(mViewModel.getSelection().getSelectedKeys())).show(getChildFragmentManager(), null);
+            }
         });
 
         invalidateAppFeaturesVisibility();
         mViewModel.getPackages().observe(getViewLifecycleOwner(), mAdapter::setData);
 
         PreferencesHelper.getInstance(requireContext()).getPrefs().registerOnSharedPreferenceChangeListener(this);
+
+        mViewModel.getSelectionClearEvent().observe(getViewLifecycleOwner(), event -> {
+            if (event.isConsumed())
+                return;
+
+            event.consume();
+
+            Toast.makeText(requireContext(), R.string.backup_selection_cleared_notice, Toast.LENGTH_SHORT).show();
+        });
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         PreferencesHelper.getInstance(requireContext()).getPrefs().unregisterOnSharedPreferenceChangeListener(this);
+    }
+
+    private boolean mViewStateRestored;
+
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+        mViewStateRestored = true;
     }
 
     private void setupToolbar() {
@@ -97,7 +126,8 @@ public class BackupFragment extends SaiBaseFragment implements BackupPackagesAda
 
             @Override
             public void afterTextChanged(Editable s) {
-                mViewModel.search(s.toString());
+                if (mViewStateRestored)
+                    mViewModel.search(s.toString());
             }
         });
 
@@ -120,6 +150,50 @@ public class BackupFragment extends SaiBaseFragment implements BackupPackagesAda
             popupMenu.show();
         });
 
+        //Selection
+        findViewById(R.id.ib_backup_toolbar_action).setOnClickListener(v -> {
+            if (mViewModel.getSelection().hasSelection())
+                mViewModel.getSelection().clear();
+        });
+        findViewById(R.id.ib_backup_select_all).setOnClickListener(v -> mViewModel.selectAllApps());
+
+        //Selection/Search switching
+        View searchBarContainer = findViewById(R.id.container_backup_search_bar);
+        View selectionBarContainer = findViewById(R.id.container_backup_selection_bar);
+        NumberTextView selectionStatus = findViewById(R.id.tv_backup_selection_status);
+
+        ImageButton toolbarActionButton = findViewById(R.id.ib_backup_toolbar_action);
+
+        MaterialButton actionButton = findViewById(R.id.button_backup_action);
+        mViewModel.getSelection().asLiveData().observe(getViewLifecycleOwner(), selection -> {
+            if (selection.hasSelection()) {
+                searchBarContainer.setVisibility(View.GONE);
+                selectionBarContainer.setVisibility(View.VISIBLE);
+
+                selectionStatus.setNumber(selection.size(), true);
+
+                actionButton.setText(R.string.backup_enqueue);
+                actionButton.setIconResource(R.drawable.ic_backup_enqueue);
+
+                toolbarActionButton.setClickable(true);
+                toolbarActionButton.setImageResource(R.drawable.ic_clear_selection);
+                toolbarActionButton.setColorFilter(Utils.getThemeColor(requireContext(), R.attr.colorAccent));
+            } else {
+                searchBarContainer.setVisibility(View.VISIBLE);
+                selectionBarContainer.setVisibility(View.GONE);
+
+                selectionStatus.setNumber(0, false);
+
+                actionButton.setText(R.string.backup_filter);
+                actionButton.setIconResource(R.drawable.ic_filter);
+
+                toolbarActionButton.setClickable(false);
+                toolbarActionButton.setImageResource(R.drawable.ic_search);
+                toolbarActionButton.setColorFilter(Utils.getThemeColor(requireContext(), android.R.attr.textColorSecondary));
+            }
+        });
+
+        //Hide on scroll
         if (!Utils.isTv(requireContext())) {
             CardView searchBar = findViewById(R.id.card_search);
             RecyclerView recyclerView = findViewById(R.id.rv_packages);
@@ -163,7 +237,7 @@ public class BackupFragment extends SaiBaseFragment implements BackupPackagesAda
     }
 
     private void exportAllSplitApks() {
-        BackupAllSplitApksDialogFragment.newInstance().show(getChildFragmentManager(), null);
+        BatchBackupDialogFragment.newInstance().show(getChildFragmentManager(), null);
     }
 
     private void invalidateAppFeaturesVisibility() {
@@ -209,5 +283,10 @@ public class BackupFragment extends SaiBaseFragment implements BackupPackagesAda
         if (PreferencesKeys.SHOW_APP_FEATURES.equals(key)) {
             invalidateAppFeaturesVisibility();
         }
+    }
+
+    @Override
+    public void onBatchBackupEnqueued(@Nullable String dialogTag) {
+        mViewModel.getSelection().clear();
     }
 }
