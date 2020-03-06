@@ -6,6 +6,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -142,7 +143,10 @@ public class BackupFragment extends SaiBaseFragment implements BackupPackagesAda
         });
 
         //Selection
-        findViewById(R.id.ib_backup_clear_selection).setOnClickListener(v -> mViewModel.getSelection().clear());
+        findViewById(R.id.ib_backup_toolbar_action).setOnClickListener(v -> {
+            if (mViewModel.getSelection().hasSelection())
+                mViewModel.getSelection().clear();
+        });
         findViewById(R.id.ib_backup_select_all).setOnClickListener(v -> {
             List<PackageMeta> packages = mViewModel.getPackages().getValue();
             if (packages == null)
@@ -161,6 +165,8 @@ public class BackupFragment extends SaiBaseFragment implements BackupPackagesAda
         View selectionBarContainer = findViewById(R.id.container_backup_selection_bar);
         NumberTextView selectionStatus = findViewById(R.id.tv_backup_selection_status);
 
+        ImageButton toolbarActionButton = findViewById(R.id.ib_backup_toolbar_action);
+
         MaterialButton actionButton = findViewById(R.id.button_backup_action);
         mViewModel.getSelection().asLiveData().observe(getViewLifecycleOwner(), selection -> {
             if (selection.hasSelection()) {
@@ -171,6 +177,10 @@ public class BackupFragment extends SaiBaseFragment implements BackupPackagesAda
 
                 actionButton.setText(R.string.backup_enqueue);
                 actionButton.setIconResource(R.drawable.ic_backup_enqueue);
+
+                toolbarActionButton.setClickable(true);
+                toolbarActionButton.setImageResource(R.drawable.ic_clear_selection);
+                toolbarActionButton.setColorFilter(Utils.getThemeColor(requireContext(), R.attr.colorAccent));
             } else {
                 searchBarContainer.setVisibility(View.VISIBLE);
                 selectionBarContainer.setVisibility(View.GONE);
@@ -179,6 +189,10 @@ public class BackupFragment extends SaiBaseFragment implements BackupPackagesAda
 
                 actionButton.setText(R.string.backup_filter);
                 actionButton.setIconResource(R.drawable.ic_filter);
+
+                toolbarActionButton.setClickable(false);
+                toolbarActionButton.setImageResource(R.drawable.ic_search);
+                toolbarActionButton.setColorFilter(Utils.getThemeColor(requireContext(), android.R.attr.textColorSecondary));
             }
         });
 
