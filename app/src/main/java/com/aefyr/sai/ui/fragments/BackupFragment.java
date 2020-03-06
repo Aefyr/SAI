@@ -38,8 +38,6 @@ import com.aefyr.sai.viewmodels.BackupViewModel;
 import com.google.android.material.button.MaterialButton;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 
 public class BackupFragment extends SaiBaseFragment implements BackupPackagesAdapter.OnItemInteractionListener, FilterDialog.OnApplyConfigListener, SharedPreferences.OnSharedPreferenceChangeListener, BatchBackupDialogFragment.OnBatchBackupEnqueuedListener {
 
@@ -157,18 +155,7 @@ public class BackupFragment extends SaiBaseFragment implements BackupPackagesAda
             if (mViewModel.getSelection().hasSelection())
                 mViewModel.getSelection().clear();
         });
-        findViewById(R.id.ib_backup_select_all).setOnClickListener(v -> {
-            List<PackageMeta> packages = mViewModel.getPackages().getValue();
-            if (packages == null)
-                return;
-
-            Collection<String> keys = new ArrayList<>(packages.size());
-            for (PackageMeta pkg : packages) {
-                keys.add(pkg.packageName);
-            }
-
-            mViewModel.getSelection().batchSetSelected(keys, true);
-        });
+        findViewById(R.id.ib_backup_select_all).setOnClickListener(v -> mViewModel.selectAllApps());
 
         //Selection/Search switching
         View searchBarContainer = findViewById(R.id.container_backup_search_bar);

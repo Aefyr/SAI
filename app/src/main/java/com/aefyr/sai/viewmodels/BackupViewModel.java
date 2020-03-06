@@ -26,6 +26,7 @@ import com.aefyr.sai.model.common.PackageMeta;
 import com.aefyr.sai.utils.Event2;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -114,6 +115,19 @@ public class BackupViewModel extends AndroidViewModel {
 
     public LiveData<Event2> getSelectionClearEvent() {
         return mSelectionClearEvent;
+    }
+
+    public void selectAllApps() {
+        List<PackageMeta> packages = getPackages().getValue();
+        if (packages == null)
+            return;
+
+        Collection<String> keys = new ArrayList<>(packages.size());
+        for (PackageMeta pkg : packages) {
+            keys.add(pkg.packageName);
+        }
+
+        getSelection().batchSetSelected(keys, true);
     }
 
     private ComplexCustomFilter<PackageMeta> createComplexFilter(String searchQuery) {
