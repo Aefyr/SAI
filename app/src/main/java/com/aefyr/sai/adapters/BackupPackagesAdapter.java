@@ -94,6 +94,7 @@ public class BackupPackagesAdapter extends SelectableAdapter<String, BackupPacka
 
     @Override
     public void onViewRecycled(@NonNull ViewHolder holder) {
+        super.onViewRecycled(holder);
         holder.recycle();
     }
 
