@@ -180,5 +180,17 @@ public class Utils {
         return uiModeManager.getCurrentModeType() == Configuration.UI_MODE_TYPE_TELEVISION;
     }
 
+    @Nullable
+    public static <T> T getParentAs(Fragment fragment, Class<T> asClass) {
+        Object parent = fragment.getParentFragment();
+        if (parent == null)
+            parent = fragment.getActivity();
+
+        if (asClass.isInstance(parent))
+            return asClass.cast(parent);
+
+        return null;
+    }
+
 
 }

@@ -14,6 +14,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.aefyr.sai.R;
 import com.aefyr.sai.utils.PermissionsUtils;
+import com.aefyr.sai.utils.Utils;
 import com.aefyr.sai.viewmodels.BatchBackupDialogViewModel;
 import com.aefyr.sai.viewmodels.factory.BatchBackupDialogViewModelFactory;
 
@@ -62,8 +63,15 @@ public class BatchBackupDialogFragment extends DialogFragment {
 
         mViewModel = new ViewModelProvider(this, new BatchBackupDialogViewModelFactory(requireContext().getApplicationContext(), packages)).get(BatchBackupDialogViewModel.class);
         mViewModel.getIsBackupEnqueued().observe(this, (isBackupEnqueued) -> {
-            if (isBackupEnqueued)
+            if (isBackupEnqueued) {
+
+                OnBatchBackupEnqueuedListener listener = Utils.getParentAs(this, OnBatchBackupEnqueuedListener.class);
+                if (listener != null)
+                    listener.onBatchBackupEnqueued(getTag());
+
                 dismiss();
+            }
+
         });
     }
 
@@ -119,5 +127,11 @@ public class BatchBackupDialogFragment extends DialogFragment {
             } else
                 enqueueBackup();
         }
+    }
+
+    public interface OnBatchBackupEnqueuedListener {
+
+        void onBatchBackupEnqueued(@Nullable String dialogTag);
+
     }
 }

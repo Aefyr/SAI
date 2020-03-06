@@ -40,7 +40,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class BackupFragment extends SaiBaseFragment implements BackupPackagesAdapter.OnItemInteractionListener, FilterDialog.OnApplyConfigListener, SharedPreferences.OnSharedPreferenceChangeListener {
+public class BackupFragment extends SaiBaseFragment implements BackupPackagesAdapter.OnItemInteractionListener, FilterDialog.OnApplyConfigListener, SharedPreferences.OnSharedPreferenceChangeListener, BatchBackupDialogFragment.OnBatchBackupEnqueuedListener {
 
 
     private BackupViewModel mViewModel;
@@ -286,5 +286,10 @@ public class BackupFragment extends SaiBaseFragment implements BackupPackagesAda
         if (PreferencesKeys.SHOW_APP_FEATURES.equals(key)) {
             invalidateAppFeaturesVisibility();
         }
+    }
+
+    @Override
+    public void onBatchBackupEnqueued(@Nullable String dialogTag) {
+        mViewModel.getSelection().clear();
     }
 }
