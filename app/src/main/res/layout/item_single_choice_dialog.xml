@@ -33,7 +33,6 @@
         android:minHeight="48dp"
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
-        android:singleLine="true"
         android:text="Some item"
         android:textColor="?android:textColorPrimary"
         android:textSize="18sp" />
