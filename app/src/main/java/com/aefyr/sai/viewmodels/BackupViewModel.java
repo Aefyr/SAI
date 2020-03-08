@@ -24,7 +24,6 @@ import com.aefyr.sai.adapters.selection.SimpleKeyStorage;
 import com.aefyr.sai.backup.BackupRepository;
 import com.aefyr.sai.model.backup.BackupPackagesFilterConfig;
 import com.aefyr.sai.model.common.PackageMeta;
-import com.aefyr.sai.utils.Event2;
 import com.aefyr.sai.utils.Stopwatch;
 
 import java.util.ArrayList;
@@ -53,8 +52,6 @@ public class BackupViewModel extends AndroidViewModel {
 
     private final SimpleKeyStorage<String> mKeyStorage = new SimpleKeyStorage<>();
     private final Selection<String> mSelection = new Selection<>(mKeyStorage);
-
-    private MutableLiveData<Event2> mSelectionClearEvent = new MutableLiveData<>();
 
     private LiveFilterApplier<PackageMeta> mLiveFilterApplier = new LiveFilterApplier<>();
     private final Observer<List<PackageMeta>> mLiveFilterObserver = (packages) -> {
@@ -113,10 +110,6 @@ public class BackupViewModel extends AndroidViewModel {
 
     public Selection<String> getSelection() {
         return mSelection;
-    }
-
-    public LiveData<Event2> getSelectionClearEvent() {
-        return mSelectionClearEvent;
     }
 
     public void selectAllApps() {
