@@ -3,6 +3,7 @@ package com.aefyr.sai.viewmodels;
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -24,14 +25,17 @@ import com.aefyr.sai.backup.BackupRepository;
 import com.aefyr.sai.model.backup.BackupPackagesFilterConfig;
 import com.aefyr.sai.model.common.PackageMeta;
 import com.aefyr.sai.utils.Event2;
+import com.aefyr.sai.utils.Stopwatch;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 
 //TODO applier should have setConfig or something
 public class BackupViewModel extends AndroidViewModel {
+    private static final String TAG = "BackupVM";
 
     private SharedPreferences mFilterPrefs;
 
@@ -54,12 +58,10 @@ public class BackupViewModel extends AndroidViewModel {
 
     private LiveFilterApplier<PackageMeta> mLiveFilterApplier = new LiveFilterApplier<>();
     private final Observer<List<PackageMeta>> mLiveFilterObserver = (packages) -> {
-        if (mSelection.hasSelection()) {
-            mSelection.clear();
-            mSelectionClearEvent.setValue(new Event2());
-        }
-
         mPackagesLiveData.setValue(packages);
+
+        if (mSelection.hasSelection())
+            reviseSelection(packages);
     };
 
 
@@ -128,6 +130,25 @@ public class BackupViewModel extends AndroidViewModel {
         }
 
         getSelection().batchSetSelected(keys, true);
+    }
+
+    private void reviseSelection(List<PackageMeta> newPackagesList) {
+        Stopwatch sw = new Stopwatch();
+
+        HashSet<String> newPackageListPackages = new HashSet<>();
+        for (PackageMeta packageMeta : newPackagesList) {
+            newPackageListPackages.add(packageMeta.packageName);
+        }
+
+        ArrayList<String> packagesToDeselect = new ArrayList<>();
+        for (String selectedPackage : mSelection.getSelectedKeys()) {
+            if (!newPackageListPackages.contains(selectedPackage))
+                packagesToDeselect.add(selectedPackage);
+        }
+
+        mSelection.batchSetSelected(packagesToDeselect, false);
+
+        Log.d(TAG, String.format("Revised selection in %d ms.", sw.millisSinceStart()));
     }
 
     private ComplexCustomFilter<PackageMeta> createComplexFilter(String searchQuery) {
