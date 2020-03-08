@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.View;
@@ -275,7 +276,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Fil
                         installerSet = true;
                         break;
                     case PreferencesValues.INSTALLER_SHIZUKU:
-                        if (ShizukuClientHelper.isPreM()) {
+                        if (!Utils.apiIsAtLeast(Build.VERSION_CODES.M)) {
                             AlertsUtils.showAlert(this, R.string.error, R.string.settings_main_installer_error_shizuku_pre_m);
                             return;
                         }
