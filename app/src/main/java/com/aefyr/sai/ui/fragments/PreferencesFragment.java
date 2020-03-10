@@ -20,6 +20,7 @@ import com.aefyr.sai.R;
 import com.aefyr.sai.model.common.PackageMeta;
 import com.aefyr.sai.shell.SuShell;
 import com.aefyr.sai.ui.activities.AboutActivity;
+import com.aefyr.sai.ui.activities.DonateActivity;
 import com.aefyr.sai.ui.dialogs.FilePickerDialogFragment;
 import com.aefyr.sai.ui.dialogs.NameFormatBuilderDialogFragment;
 import com.aefyr.sai.ui.dialogs.SingleChoiceListDialogFragment;
@@ -83,6 +84,10 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Fil
 
         findPreference("about").setOnPreferenceClickListener((p) -> {
             startActivity(new Intent(getContext(), AboutActivity.class));
+            return true;
+        });
+        findPreference("donate").setOnPreferenceClickListener(p -> {
+            startActivity(new Intent(requireContext(), DonateActivity.class));
             return true;
         });
 

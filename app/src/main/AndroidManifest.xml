@@ -24,7 +24,8 @@
         android:roundIcon="@mipmap/icon"
         android:theme="@style/AppTheme.Light"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".ui.activities.MiActivity"></activity>
+        <activity android:name=".ui.activities.DonateActivity"></activity>
+        <activity android:name=".ui.activities.MiActivity" />
         <activity
             android:name=".ui.activities.MainActivity"
             android:launchMode="singleTask">
