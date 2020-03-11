@@ -33,6 +33,7 @@ public class DonateAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     public DonateAdapter(Context context) {
         mInflater = LayoutInflater.from(context);
+        setHasStableIds(true);
     }
 
     public void setDonationStatus(DonationStatus donationStatus) {
@@ -96,6 +97,14 @@ public class DonateAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     @Override
     public int getItemCount() {
         return (mDonationStatus != null ? 1 : 0) + (mProducts != null ? mProducts.size() : 0);
+    }
+
+    @Override
+    public long getItemId(int position) {
+        if (position == 0 && mDonationStatus != null)
+            return 0;
+
+        return getBillingProductAt(position).getId().hashCode();
     }
 
     private class HeaderViewHolder extends RecyclerView.ViewHolder {

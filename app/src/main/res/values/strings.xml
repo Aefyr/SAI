@@ -166,6 +166,7 @@
     <string name="donate_non_iap_yandex_title">Yandex.Money</string>
     <string name="donate_non_iap_yandex_desc">Basically CIS PayPal lol</string>
     <string name="donate_non_iap_yandex_target" translatable="false">https://money.yandex.ru/to/410015319360538</string>
+    <string name="donate_billing_not_available">Unable to connect to Google Play. Please make sure you have Google Play Services installed and try restarting your device.</string>
 
     <string name="about_author">by polychromaticfox</string>
     <string name="about_source">GitHub</string>

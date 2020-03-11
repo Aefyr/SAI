@@ -8,12 +8,10 @@ import com.android.billingclient.api.SkuDetails;
 public class SkuDetailsBillingProduct implements BillingProduct {
 
     private SkuDetails mSkuDetails;
+    private boolean mIsPurchased;
 
-    private boolean mPurchased;
-
-    public SkuDetailsBillingProduct(SkuDetails skuDetails, boolean purchased) {
+    public SkuDetailsBillingProduct(SkuDetails skuDetails) {
         mSkuDetails = skuDetails;
-        mPurchased = purchased;
     }
 
     @NonNull
@@ -40,10 +38,19 @@ public class SkuDetailsBillingProduct implements BillingProduct {
         return mSkuDetails.getPrice();
     }
 
-    @Nullable
+    @NonNull
+    @Override
+    public String getId() {
+        return mSkuDetails.getSku();
+    }
+
+    void setPurchased(boolean purchased) {
+        mIsPurchased = purchased;
+    }
+
     @Override
     public boolean isPurchased() {
-        return mPurchased;
+        return mIsPurchased;
     }
 
     public SkuDetails getSkuDetails() {

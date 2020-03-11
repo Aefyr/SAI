@@ -12,6 +12,7 @@ import androidx.lifecycle.MutableLiveData;
 import com.aefyr.sai.R;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class DefaultBillingManager implements BillingManager {
@@ -22,6 +23,7 @@ public class DefaultBillingManager implements BillingManager {
     private MutableLiveData<DonationStatus> mDonationStatus = new MutableLiveData<>(DonationStatus.FLOSS_MODE);
 
     private MutableLiveData<List<BillingProduct>> mProducts = new MutableLiveData<>();
+    private MutableLiveData<List<BillingProduct>> mPurchasedProducts = new MutableLiveData<>(Collections.emptyList());
 
     public static DefaultBillingManager getInstance(Context context) {
         synchronized (DefaultBillingManager.class) {
@@ -36,7 +38,7 @@ public class DefaultBillingManager implements BillingManager {
 
     private void createProducts(Context c) {
         List<BillingProduct> products = new ArrayList<>();
-        products.add(new ExternalDonationServiceBillingProduct(c.getString(R.string.donate_non_iap_yandex_title), c.getString(R.string.donate_non_iap_yandex_desc), null, c.getString(R.string.donate_non_iap_yandex_target)));
+        products.add(new ExternalDonationServiceBillingProduct("yandex", c.getString(R.string.donate_non_iap_yandex_title), c.getString(R.string.donate_non_iap_yandex_desc), null, c.getString(R.string.donate_non_iap_yandex_target)));
         mProducts.setValue(products);
     }
 
@@ -51,7 +53,17 @@ public class DefaultBillingManager implements BillingManager {
     }
 
     @Override
-    public LiveData<List<BillingProduct>> getAvailableProducts() {
+    public LiveData<List<BillingProduct>> getAllProducts() {
+        return mProducts;
+    }
+
+    @Override
+    public LiveData<List<BillingProduct>> getPurchasedProducts() {
+        return mPurchasedProducts;
+    }
+
+    @Override
+    public LiveData<List<BillingProduct>> getPurchasableProducts() {
         return mProducts;
     }
 

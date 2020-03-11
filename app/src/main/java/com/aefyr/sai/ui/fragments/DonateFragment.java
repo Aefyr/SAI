@@ -37,7 +37,7 @@ public class DonateFragment extends SaiBaseFragment implements DonateAdapter.OnP
         recycler.setAdapter(adapter);
 
         mBillingManager.getDonationStatus().observe(getViewLifecycleOwner(), adapter::setDonationStatus);
-        mBillingManager.getAvailableProducts().observe(getViewLifecycleOwner(), adapter::setProducts);
+        mBillingManager.getPurchasableProducts().observe(getViewLifecycleOwner(), adapter::setProducts);
     }
 
     @Override

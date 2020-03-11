@@ -17,6 +17,9 @@ public interface BillingProduct {
     @NonNull
     String getPrice();
 
+    @NonNull
+    String getId();
+
     boolean isPurchased();
 
 }

@@ -5,12 +5,14 @@ import androidx.annotation.Nullable;
 
 public class ExternalDonationServiceBillingProduct implements BillingProduct {
 
+    private String mId;
     private String mTitle;
     private String mDesc;
     private String mIconUrl;
     private String mTargetUrl;
 
-    public ExternalDonationServiceBillingProduct(String title, String description, String iconUri, String targetUrl) {
+    public ExternalDonationServiceBillingProduct(String id, String title, String description, String iconUri, String targetUrl) {
+        mId = id;
         mTitle = title;
         mDesc = description;
         mIconUrl = iconUri;
@@ -39,6 +41,12 @@ public class ExternalDonationServiceBillingProduct implements BillingProduct {
     @Override
     public String getPrice() {
         return "";
+    }
+
+    @NonNull
+    @Override
+    public String getId() {
+        return mId;
     }
 
     @Override

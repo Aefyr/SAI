@@ -12,7 +12,11 @@ public interface BillingManager {
 
     LiveData<DonationStatus> getDonationStatus();
 
-    LiveData<List<BillingProduct>> getAvailableProducts();
+    LiveData<List<BillingProduct>> getAllProducts();
+
+    LiveData<List<BillingProduct>> getPurchasedProducts();
+
+    LiveData<List<BillingProduct>> getPurchasableProducts();
 
     void launchBillingFlow(Activity activity, BillingProduct product);
 
