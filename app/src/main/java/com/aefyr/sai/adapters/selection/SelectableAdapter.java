@@ -1,6 +1,7 @@
 package com.aefyr.sai.adapters.selection;
 
 import android.annotation.SuppressLint;
+import android.util.Log;
 
 import androidx.annotation.CallSuper;
 import androidx.annotation.NonNull;
@@ -11,8 +12,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
 public abstract class SelectableAdapter<Key, ViewHolder extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<ViewHolder> {
+    private static final String TAG = "SelectableAdapter";
 
     private final Selection<Key> mSelection;
     private final HashMap<Key, Integer> mKeyToPosition = new HashMap<>();
@@ -35,9 +39,19 @@ public abstract class SelectableAdapter<Key, ViewHolder extends RecyclerView.Vie
 
         @Override
         public void onMultipleKeysSelectionChanged(Selection<Key> selection, Collection<Key> keys, boolean selected) {
+            Set<Integer> positionsToUpdate = new HashSet<>();
             for (Key key : keys) {
                 Integer position = mKeyToPosition.get(key);
                 if (position != null)
+                    positionsToUpdate.add(position);
+            }
+
+            //Apparently calling notifyItemChanged for every item is a bit laggy when a lot of bound positions require updating, notifyDataSetChanged works better in that case
+            if (positionsToUpdate.size() > mKeyToPosition.size() / 2) {
+                Log.d(TAG, "onMultipleKeysSelectionChanged: Update of more than a half of bound positions required, using notifyDataSetChanged");
+                notifyDataSetChanged();
+            } else {
+                for (Integer position : positionsToUpdate)
                     notifyItemChanged(position);
             }
         }
