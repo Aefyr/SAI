@@ -8,16 +8,7 @@
         <item>"Najpierw najmniejsze pliki"</item>
         <item>"Najpierw największe pliki"</item>
     </string-array>
-    <string-array name="themes">
-        <item>"SAI"</item>
-        <item>"Rubin"</item>
-        <item>"Rena"</item>
-        <item>"Ukrrooter"</item>
-        <item>"Amoled"</item>
-        <item>"Pixel"</item>
-        <item>"SAI (F-Droid)"</item>
-        <item>"Ciemny"</item>
-    </string-array>
+
     <string-array name="installers">
         <item>"Bez root (zalecana)"</item>
         <item>"Root (wymaga roota)"</item>

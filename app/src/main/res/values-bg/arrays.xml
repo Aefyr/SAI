@@ -8,16 +8,7 @@
         <item>"Малки отгоре"</item>
         <item>"Големи отгоре"</item>
     </string-array>
-    <string-array name="themes">
-        <item>"SAI"</item>
-        <item>"Ruby"</item>
-        <item>"Rena"</item>
-        <item>"Ukrrooter"</item>
-        <item>"Омлет (Amoled)"</item>
-        <item>"Pixel"</item>
-        <item>"SAI (F-Droid)"</item>
-        <item>"Тъмна"</item>
-    </string-array>
+
     <string-array name="installers">
         <item>"Rootless (препоръчва се)"</item>
         <item>"Rooted (нужен е root-достъп)"</item>

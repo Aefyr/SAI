@@ -8,16 +8,7 @@
         <item>"Tamanho (menor)"</item>
         <item>"Tamanho (maior)"</item>
     </string-array>
-    <string-array name="themes">
-        <item>"SAI"</item>
-        <item>"Ruby"</item>
-        <item>"Rena"</item>
-        <item>"Ukrrooter"</item>
-        <item>"Amoled"</item>
-        <item>"Pixel"</item>
-        <item>"SAI (F-Droid)"</item>
-        <item>"Escuro"</item>
-    </string-array>
+
     <string-array name="installers">
         <item>"Sem root (recomendado)"</item>
         <item>"Com root (requer root)"</item>

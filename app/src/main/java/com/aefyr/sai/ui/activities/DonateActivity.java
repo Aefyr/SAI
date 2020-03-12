@@ -1,5 +1,7 @@
 package com.aefyr.sai.ui.activities;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.aefyr.sai.R;
@@ -29,5 +31,9 @@ public class DonateActivity extends ThemedActivity {
     protected void onResume() {
         super.onResume();
         mBillingManager.refresh();
+    }
+
+    public static void start(Context context) {
+        context.startActivity(new Intent(context, DonateActivity.class));
     }
 }

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
+import androidx.annotation.StringRes;
 import androidx.annotation.StyleRes;
 
 import com.aefyr.sai.BuildConfig;
@@ -27,25 +28,26 @@ public class Theme {
 
     private Theme(Context c) {
         mThemes = new ArrayList<>();
-        mThemes.add(new ThemeDescriptor(R.style.AppTheme_Light, false));
-        mThemes.add(new ThemeDescriptor(R.style.AppTheme_Dark, true));
-        mThemes.add(new ThemeDescriptor(R.style.AppTheme_Rena, true));
-        mThemes.add(new ThemeDescriptor(R.style.AppTheme_Rooter, false));
-        mThemes.add(new ThemeDescriptor(R.style.AppTheme_Omelette, true));
-        mThemes.add(new ThemeDescriptor(R.style.AppTheme_Pixel, false));
-        mThemes.add(new ThemeDescriptor(R.style.AppTheme_FDroid, false));
-        mThemes.add(new ThemeDescriptor(R.style.AppTheme_Dark2, true));
+        mThemes.add(new ThemeDescriptor(0, R.style.AppTheme_Light, false, R.string.theme_sai, false));
+        mThemes.add(new ThemeDescriptor(1, R.style.AppTheme_Dark, true, R.string.theme_ruby, false));
+        mThemes.add(new ThemeDescriptor(2, R.style.AppTheme_Rena, true, R.string.theme_rena, false));
+        mThemes.add(new ThemeDescriptor(3, R.style.AppTheme_Rooter, false, R.string.theme_ukrrooter, false));
+        mThemes.add(new ThemeDescriptor(4, R.style.AppTheme_Omelette, true, R.string.theme_amoled, false));
+        mThemes.add(new ThemeDescriptor(5, R.style.AppTheme_Pixel, false, R.string.theme_pixel, false));
+        mThemes.add(new ThemeDescriptor(6, R.style.AppTheme_FDroid, false, R.string.theme_sai_fdroid, false));
+        mThemes.add(new ThemeDescriptor(7, R.style.AppTheme_Dark2, true, R.string.theme_dark, false));
+        mThemes.add(new ThemeDescriptor(8, R.style.AppTheme_Gold, true, R.string.theme_gold, true));
 
         mPrefs = PreferenceManager.getDefaultSharedPreferences(c);
         sInstance = this;
     }
 
-    public int getCurrentThemeId() {
+    private int getCurrentThemeId() {
         return mPrefs.getInt(PreferencesKeys.CURRENT_THEME, BuildConfig.DEFAULT_THEME);
     }
 
-    public void setCurrentTheme(int themeId) {
-        mPrefs.edit().putInt(PreferencesKeys.CURRENT_THEME, themeId).apply();
+    public void setCurrentTheme(ThemeDescriptor theme) {
+        mPrefs.edit().putInt(PreferencesKeys.CURRENT_THEME, theme.getId()).apply();
     }
 
     public static void apply(Context c) {
@@ -64,14 +66,31 @@ public class Theme {
         return mThemes.get(getCurrentThemeId());
     }
 
+    public List<ThemeDescriptor> getThemes() {
+        return mThemes;
+    }
+
     public static class ThemeDescriptor {
+        private int mId;
+
         @StyleRes
         private int mTheme;
         private boolean mIsDark;
 
-        private ThemeDescriptor(@StyleRes int theme, boolean isDark) {
+        @StringRes
+        private int mNameStringRes;
+        private boolean mDonationRequired;
+
+        private ThemeDescriptor(int id, @StyleRes int theme, boolean isDark, @StringRes int nameStringRes, boolean donationRequired) {
+            mId = id;
             mTheme = theme;
             mIsDark = isDark;
+            mNameStringRes = nameStringRes;
+            mDonationRequired = donationRequired;
+        }
+
+        public int getId() {
+            return mId;
         }
 
         @StyleRes
@@ -81,6 +100,14 @@ public class Theme {
 
         public boolean isDark() {
             return mIsDark;
+        }
+
+        public String getName(Context c) {
+            return c.getString(mNameStringRes);
+        }
+
+        public boolean isDonationRequired() {
+            return mDonationRequired;
         }
     }
 }

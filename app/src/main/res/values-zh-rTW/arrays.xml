@@ -8,16 +8,6 @@
         <item>"大小（正序）"</item>
         <item>"大小（倒序）"</item>
     </string-array>
-    <string-array name="themes">
-        <item>"SAI"</item>
-        <item>"Ruby"</item>
-        <item>"Rena"</item>
-        <item>"Ukrrooter"</item>
-        <item>"Amoled"</item>
-        <item>"Pixel"</item>
-        <item>"SAI (F-Droid)"</item>
-        <item>"Dark"</item>
-    </string-array>
     <string-array name="installers">
         <item>"Rootless (recommended)"</item>
         <item>"Rooted (requires root)"</item>

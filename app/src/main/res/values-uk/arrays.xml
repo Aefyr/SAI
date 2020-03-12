@@ -8,16 +8,7 @@
         <item>"Спочатку меншого розміру файли"</item>
         <item>"Спочатку більшого розміру файли"</item>
     </string-array>
-    <string-array name="themes">
-        <item>"SAI"</item>
-        <item>"Ruby"</item>
-        <item>"Rena"</item>
-        <item>"Ukrrooter"</item>
-        <item>"Омлет (Amoled)"</item>
-        <item>"Pixel"</item>
-        <item>"SAI (F-Droid)"</item>
-        <item>"Темна"</item>
-    </string-array>
+
     <string-array name="installers">
         <item>"Rootless (рекомендується)"</item>
         <item>"Rooted (потрібен root-доступ)"</item>

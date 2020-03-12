@@ -8,16 +8,7 @@
         <item>"Smallest file size first"</item>
         <item>"Biggest file size first"</item>
     </string-array>
-    <string-array name="themes">
-        <item>"فاتح (SAI)"</item>
-        <item>"أحمر داكن"</item>
-        <item>"أحمر"</item>
-        <item>"أرجواني أخضر"</item>
-        <item>"أموليد (أسود)"</item>
-        <item>"بكسل (فاتح)"</item>
-        <item>"فاتح (SAI) (إف - درويد)"</item>
-        <item>"مظم"</item>
-    </string-array>
+
     <string-array name="installers">
         <item>"بدون روت (يوصى به)"</item>
         <item>"روت (يتطلب روت)"</item>

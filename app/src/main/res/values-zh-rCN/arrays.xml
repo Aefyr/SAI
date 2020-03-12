@@ -8,16 +8,7 @@
         <item>"按文件大小(升序)"</item>
         <item>"按文件大小(降序)"</item>
     </string-array>
-    <string-array name="themes">
-        <item>"默认 SAI"</item>
-        <item>"Ruby"</item>
-        <item>"Rena"</item>
-        <item>"Ukrrooter"</item>
-        <item>"Amoled"</item>
-        <item>"Pixel"</item>
-        <item>"F-Droid默认 SAI (F-Droid)"</item>
-        <item>"暗黑 Dark"</item>
-    </string-array>
+
     <string-array name="installers">
         <item>"默认 (推荐)"</item>
         <item>"Root模式 (需要 Root)"</item>
