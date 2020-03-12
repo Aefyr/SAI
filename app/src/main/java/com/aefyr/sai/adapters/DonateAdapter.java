@@ -126,6 +126,10 @@ public class DonateAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     mMessage.setText(R.string.donate_message_unknown_or_error);
                     mIcon.setImageResource(R.drawable.ic_donation_status_unknown);
                     break;
+                case PENDING:
+                    mMessage.setText(R.string.donate_message_pending);
+                    mIcon.setImageResource(R.drawable.ic_donation_status_pending);
+                    break;
                 case DONATED:
                     mMessage.setText(R.string.donate_message_donated);
                     mIcon.setImageResource(R.drawable.ic_donation_status_donated);

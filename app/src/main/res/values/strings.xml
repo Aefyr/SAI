@@ -163,6 +163,7 @@
     <string name="donate_message_donated">Huge thanks for supporting SAI!\nDon\'t forget to check out your new <b>SAI Gold</b> theme</string>
     <string name="donate_message_floss">Hello. You\'re using FLOSS version of SAI. As you know, SAI is a completely free open-source app and it will always stay that way. If you like it, please consider supporting SAI by making a donation.\n\nIn FLOSS version, the <b>FLOSS Gold</b> theme is available by default.</string>
     <string name="donate_message_unknown_or_error">Unable to get donation status. Please make sure you have Google Play Services installed and try restarting your device.</string>
+    <string name="donate_message_pending">Your donation is pending. If it isn\'t applied automatically after you complete it, please restart SAI.</string>
     <string name="donate_non_iap_yandex_title">Yandex.Money</string>
     <string name="donate_non_iap_yandex_desc">Basically CIS PayPal lol</string>
     <string name="donate_non_iap_yandex_target" translatable="false">https://money.yandex.ru/to/410015319360538</string>

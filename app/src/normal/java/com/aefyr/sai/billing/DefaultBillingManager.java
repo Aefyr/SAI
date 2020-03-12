@@ -152,6 +152,7 @@ public class DefaultBillingManager implements BillingManager, PurchasesUpdatedLi
     private void setDonationStatus(DonationStatus status) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(mContext);
         prefs.edit().putString(KEY_DONATION_STATUS, status.name()).apply();
+
         mDonationStatus.setValue(status);
     }
 
@@ -173,7 +174,7 @@ public class DefaultBillingManager implements BillingManager, PurchasesUpdatedLi
         if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.SERVICE_DISCONNECTED) {
             connectBillingService();
         } else if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK) {
-            processPurchases(list);
+            loadPurchases();
         } else if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.ITEM_ALREADY_OWNED) {
             loadPurchases();
         }
@@ -193,16 +194,34 @@ public class DefaultBillingManager implements BillingManager, PurchasesUpdatedLi
         if (purchases == null)
             return;
 
+        mPurchasedSkus.clear();
+        boolean containsDonationPurchase = false;
         for (Purchase purchase : purchases) {
-            if (purchase.getPurchaseState() != Purchase.PurchaseState.PURCHASED)
+            if (purchase.getPurchaseState() == Purchase.PurchaseState.UNSPECIFIED_STATE) {
+                Log.w(TAG, String.format("Purchase in unspecified state - %s", purchase));
                 continue;
+            }
 
-            if (!purchase.isAcknowledged()) {
+            if (purchase.getPurchaseState() == Purchase.PurchaseState.PURCHASED && !purchase.isAcknowledged()) {
                 acknowledgePurchase(purchase);
             } else {
-                addNonConsumablePurchase(purchase.getSku());
+                if (purchase.getSku().equals(SKU_DONATION)) {
+                    containsDonationPurchase = true;
+                    if (purchase.getPurchaseState() == Purchase.PurchaseState.PURCHASED) {
+                        setDonationStatus(DonationStatus.DONATED);
+                    } else if (purchase.getPurchaseState() == Purchase.PurchaseState.PENDING) {
+                        setDonationStatus(DonationStatus.PENDING);
+                    }
+                }
+
+                mPurchasedSkus.add(purchase.getSku());
             }
         }
+
+        if (!containsDonationPurchase)
+            setDonationStatus(DonationStatus.NOT_DONATED);
+
+        invalidateProductsPurchaseStatus();
     }
 
     private void acknowledgePurchase(Purchase purchase) {
@@ -212,22 +231,13 @@ public class DefaultBillingManager implements BillingManager, PurchasesUpdatedLi
 
         mBillingClient.acknowledgePurchase(acknowledgePurchaseParams, billingResult -> {
             if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK) {
-                addNonConsumablePurchase(purchase.getSku());
+                Log.d(TAG, String.format("Acknowledged %s", purchase.getSku()));
+                loadPurchases();
                 return;
             }
 
             Log.w(TAG, String.format("Unable to acknowledge purchase, code %d - %s", billingResult.getResponseCode(), billingResult.getDebugMessage()));
         });
-    }
-
-    private void addNonConsumablePurchase(String purchaseSku) {
-        if (purchaseSku.equals(SKU_DONATION)) {
-            setDonationStatus(DonationStatus.DONATED);
-        }
-
-        mPurchasedSkus.add(purchaseSku);
-        //TODO optimize this, calling invalidateProductsPurchaseStatus on every sku add is no good
-        invalidateProductsPurchaseStatus();
     }
 
     private void loadProducts() {
