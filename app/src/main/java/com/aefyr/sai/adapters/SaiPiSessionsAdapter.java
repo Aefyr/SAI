@@ -139,16 +139,16 @@ public class SaiPiSessionsAdapter extends RecyclerView.Adapter<SaiPiSessionsAdap
                 case INSTALLATION_SUCCEED:
                     mActionIcon.setImageResource(R.drawable.ic_launch);
                     mActionIcon.setVisibility(state.packageName() != null ? View.VISIBLE : View.GONE);
-                    mContainer.setClickable(state.packageName() != null);
+                    mContainer.setEnabled(state.packageName() != null);
                     break;
                 case INSTALLATION_FAILED:
                     mActionIcon.setImageResource(R.drawable.ic_error);
                     mActionIcon.setVisibility(state.exception() != null ? View.VISIBLE : View.GONE);
-                    mContainer.setClickable(state.exception() != null);
+                    mContainer.setEnabled(state.exception() != null);
                     break;
                 default:
                     mActionIcon.setVisibility(View.GONE);
-                    mContainer.setClickable(false);
+                    mContainer.setEnabled(false);
                     break;
             }
         }
