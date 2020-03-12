@@ -8,16 +8,7 @@
         <item>"По размеру, сначала маленькие"</item>
         <item>"По размеру, сначала большие"</item>
     </string-array>
-    <string-array name="themes">
-        <item>"SAI"</item>
-        <item>"Ruby"</item>
-        <item>"Rena"</item>
-        <item>"Ukrrooter"</item>
-        <item>"Омлет (Amoled)"</item>
-        <item>"Pixel"</item>
-        <item>"SAI (F-Droid)"</item>
-        <item>"Тёмная"</item>
-    </string-array>
+
     <string-array name="installers">
         <item>"Rootless (рекомендуется)"</item>
         <item>"Rooted (нужен root-доступ)"</item>

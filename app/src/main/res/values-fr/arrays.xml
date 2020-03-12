@@ -8,16 +8,7 @@
         <item>"Plus petite taille de fichier en premier"</item>
         <item>"Plus grande taille de fichier en premier"</item>
     </string-array>
-    <string-array name="themes">
-        <item>"SAI"</item>
-        <item>"Rubis"</item>
-        <item>"Rena"</item>
-        <item>"Ukrrooter"</item>
-        <item>"Amoled"</item>
-        <item>"Pixel"</item>
-        <item>"SAI (F-Droid)"</item>
-        <item>"Sombre"</item>
-    </string-array>
+
     <string-array name="installers">
         <item>"Sans Root (recommandé)"</item>
         <item>"Rooté (nécessite root)"</item>

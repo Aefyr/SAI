@@ -110,6 +110,15 @@
         <item name="simpleThemeTextSecondaryColor">@color/colorTextSecondaryDark2</item>
     </style>
 
+    <style name="AppTheme.Gold" parent="AppTheme.Simple.Dark">
+        <item name="simpleThemePrimaryColor">@color/colorPrimaryGold</item>
+        <item name="simpleThemePrimaryLightColor">@color/colorPrimaryLightGold</item>
+        <item name="simpleThemeAccentColor">@color/colorAccentGold</item>
+        <item name="simpleThemeTextPrimaryColor">@color/colorTextPrimaryGold</item>
+        <item name="simpleThemeTextSecondaryColor">@color/colorTextSecondaryGold</item>
+    </style>
+
+
     <style name="SAIMaterialButton" parent="Widget.MaterialComponents.Button.UnelevatedButton">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>

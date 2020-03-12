@@ -23,6 +23,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.aefyr.sai.R;
 import com.aefyr.sai.adapters.SaiPiSessionsAdapter;
 import com.aefyr.sai.ui.dialogs.AppInstalledDialogFragment;
+import com.aefyr.sai.ui.dialogs.DonationSuggestionDialogFragment;
 import com.aefyr.sai.ui.dialogs.ErrorLogDialogFragment2;
 import com.aefyr.sai.ui.dialogs.FilePickerDialogFragment;
 import com.aefyr.sai.ui.dialogs.InstallationConfirmationDialogFragment;
@@ -79,6 +80,13 @@ public class Installer2Fragment extends InstallerFragment implements FilePickerD
         mViewModel.getEvents().observe(getViewLifecycleOwner(), (event) -> {
             if (event.isConsumed())
                 return;
+
+            //For some reason this observer gets called after state save on some devices
+            if (isStateSaved())
+                return;
+
+            if (event.type().equals(InstallerViewModel.EVENT_PACKAGE_INSTALLED))
+                DonationSuggestionDialogFragment.showIfNeeded(requireContext(), getChildFragmentManager());
 
             if (!mHelper.showInstallerDialogs()) {
                 event.consume();

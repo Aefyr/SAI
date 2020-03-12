@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/container_item_installer_session"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:cardBackgroundColor="?android:attr/windowBackground"
@@ -9,13 +10,13 @@
     app:cardUseCompatPadding="true"
     app:contentPadding="8dp"
     app:strokeColor="?attr/colorAccent"
-    app:strokeWidth="1.5dp">
+    app:strokeWidth="1.5dp"
+    android:clickable="true"
+    android:focusable="true">
 
     <LinearLayout
-        android:id="@+id/container_item_installer_session"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/selectableItemBackgroundBorderless"
         android:orientation="horizontal">
 
         <androidx.appcompat.widget.AppCompatImageView

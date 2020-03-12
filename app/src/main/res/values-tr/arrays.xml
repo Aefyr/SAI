@@ -8,16 +8,7 @@
         <item>"En küçük boyutlu olandan"</item>
         <item>"En büyük boyutlu olandan"</item>
     </string-array>
-    <string-array name="themes">
-        <item>"SAI (beyaz - mavi)"</item>
-        <item>"Yakut (siyah - pembe)"</item>
-        <item>"Rena"</item>
-        <item>"Ukrrooter (mor - yeşil)"</item>
-        <item>"Amoled (siyah - beyaz)"</item>
-        <item>"Piksel (beyaz - mavi)"</item>
-        <item>"SAI (beyaz - yeşil) (F-Droid)"</item>
-        <item>"Kara (siyah - mavi)"</item>
-    </string-array>
+
     <string-array name="installers">
         <item>"Köksüz (önerilen)"</item>
         <item>"Köklü (kök gerektirir)"</item>

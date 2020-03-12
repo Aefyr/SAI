@@ -8,16 +8,7 @@
         <item>"Kleinste Dateigröße zuerst"</item>
         <item>"Größte Dateigröße zuerst"</item>
     </string-array>
-    <string-array name="themes">
-        <item>"SAI"</item>
-        <item>"Ruby"</item>
-        <item>"Rena"</item>
-        <item>"Ukrrooter"</item>
-        <item>"Amoled"</item>
-        <item>"Pixel"</item>
-        <item>"SAI (F-Droid)"</item>
-        <item>"Dunkel"</item>
-    </string-array>
+
     <string-array name="installers">
         <item>"ohne Root (empfohlen)"</item>
         <item>"mit Root (Root erforderlich)"</item>
