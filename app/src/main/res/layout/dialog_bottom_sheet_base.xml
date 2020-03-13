@@ -35,18 +35,20 @@
             android:id="@+id/button_bottom_sheet_dialog_base_cancel"
             style="@style/SAIMaterialButton.Outlined"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_margin="4dp"
             android:layout_weight="1"
+            android:singleLine="false"
             android:text="@string/cancel" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/button_bottom_sheet_dialog_base_ok"
             style="@style/SAIMaterialButton"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_margin="4dp"
             android:layout_weight="1"
+            android:singleLine="false"
             android:text="@string/ok" />
     </LinearLayout>
 
