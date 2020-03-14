@@ -8,7 +8,6 @@
         <item>"По размеру, сначала маленькие"</item>
         <item>"По размеру, сначала большие"</item>
     </string-array>
-
     <string-array name="installers">
         <item>"Rootless (рекомендуется)"</item>
         <item>"Rooted (нужен root-доступ)"</item>
