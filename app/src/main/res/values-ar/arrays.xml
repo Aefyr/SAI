@@ -5,10 +5,9 @@
         <item>"حسب الإسم (عكس الترتيب الأبجدي)"</item>
         <item>"أخر تعديل أولا"</item>
         <item>"أقدم تعديل أولا"</item>
-        <item>"Smallest file size first"</item>
-        <item>"Biggest file size first"</item>
+        <item>"أصغر حجم ملف أولاً"</item>
+        <item>"أكبر حجم ملف أولاً"</item>
     </string-array>
-
     <string-array name="installers">
         <item>"بدون روت (يوصى به)"</item>
         <item>"روت (يتطلب روت)"</item>

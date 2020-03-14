@@ -8,7 +8,6 @@
         <item>"Tamanho (menor)"</item>
         <item>"Tamanho (maior)"</item>
     </string-array>
-
     <string-array name="installers">
         <item>"Sem root (recomendado)"</item>
         <item>"Com root (requer root)"</item>
@@ -37,7 +36,7 @@
         <item>Versão</item>
         <item>Código da versão</item>
         <item>Pacote</item>
-        <item>Horário</item>
+        <item>Registro de data e hora</item>
     </string-array>
     <string-array name="backup_dir_selection_methods">
         <item>Seletor de arquivos interno</item>

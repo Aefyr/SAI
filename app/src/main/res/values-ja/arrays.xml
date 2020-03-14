@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="file_picker_sort_variants">
+        <item>"アルファベット(昇順)"</item>
+        <item>"アルファベット(降順)"</item>
+        <item>"更新日時(新しい順)"</item>
+        <item>"更新日時(古い順)"</item>
+        <item>"ファイルサイズ(小さい順)"</item>
+        <item>"ファイルサイズ(大きい順)"</item>
+    </string-array>
+    <string-array name="installers">
+        <item>"Rootless (推奨)"</item>
+        <item>"Rooted (要Root)"</item>
+        <item>"Shizuku (要Shizuku 3.x系)"</item>
+    </string-array>
+    <string-array name="size_units">
+        <item>B</item>
+        <item>KB</item>
+        <item>MB</item>
+        <item>GB</item>
+        <item>TB</item>
+        <item>PB</item>
+    </string-array>
+    <string-array name="backup_file_name_formats">
+        <item>NAME_PACKAGE_VERSION.apks</item>
+        <item>NAME.apks</item>
+        <item>NAME_VERSION.apks</item>
+    </string-array>
+    <string-array name="install_locations">
+        <item>自動</item>
+        <item>内部ストレージのみ</item>
+        <item>外部ストレージ優先(システムによってはこの設定でも内部ストレージが使用される場合があります)</item>
+    </string-array>
+    <string-array name="name_format_parts">
+        <item>アプリ名</item>
+        <item>バージョン</item>
+        <item>バージョンコード</item>
+        <item>パッケージ名</item>
+        <item>タイムスタンプ</item>
+    </string-array>
+    <string-array name="backup_dir_selection_methods">
+        <item>アプリ内蔵</item>
+        <item>システム標準</item>
+    </string-array>
+</resources>
