@@ -8,9 +8,8 @@
         <item>"Najpierw najmniejsze pliki"</item>
         <item>"Najpierw największe pliki"</item>
     </string-array>
-
     <string-array name="installers">
-        <item>"Bez root (zalecana)"</item>
+        <item>"Bez root (zalecany)"</item>
         <item>"Root (wymaga roota)"</item>
         <item>"Shizuku (wymaga Shizuku 3.x)"</item>
     </string-array>
@@ -29,8 +28,8 @@
     </string-array>
     <string-array name="install_locations">
         <item>Niech system zadecyduje</item>
-        <item>Tylko wewnętrzna</item>
-        <item>Preferuj zewnętrzną (System wciąż może zdecydować się na użycie pam. wewn.)</item>
+        <item>Tylko pamięć wewnętrzna</item>
+        <item>Preferuj pam. zewnętrzną (System wciąż może zdecydować się na użycie pam. wewn.)</item>
     </string-array>
     <string-array name="name_format_parts">
         <item>Nazwa</item>
