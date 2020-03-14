@@ -78,6 +78,7 @@ public class ThemeAdapter extends RecyclerView.Adapter<ThemeAdapter.ViewHolder> 
 
         private ViewHolder(@NonNull View itemView) {
             super(itemView);
+            itemView.requestFocus();
 
             mCard = itemView.findViewById(R.id.container_theme_wrapper);
             mTitle = itemView.findViewById(R.id.tv_theme_title);

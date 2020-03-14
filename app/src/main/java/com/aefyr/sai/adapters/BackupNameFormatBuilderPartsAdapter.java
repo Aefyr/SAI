@@ -69,6 +69,7 @@ public class BackupNameFormatBuilderPartsAdapter extends SelectableAdapter<Backu
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+            itemView.requestFocus();
 
             ((Chip) itemView).setOnCheckedChangeListener((buttonView, isChecked) -> {
                 if (mPauseCheckedListener)
