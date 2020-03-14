@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="file_picker_sort_variants">
+        <item>"per nome (dalla A alla Z)"</item>
+        <item>"per nome (dalla Z alla A)"</item>
+        <item>"dopo il cambiamento (più recente)"</item>
+        <item>"dopo il cambiamento (più vecchio)"</item>
+        <item>"Prima la dimensione del file più piccola"</item>
+        <item>"Prima la dimensione del file più grande"</item>
+    </string-array>
+    <string-array name="installers">
+        <item>"Rootless (consigliato)"</item>
+        <item>"Rooted (richiede root)"</item>
+        <item>"Shizuku (richiede Shizuku 3.x)"</item>
+    </string-array>
+    <string-array name="size_units">
+        <item>B</item>
+        <item>KB</item>
+        <item>MB</item>
+        <item>GB</item>
+        <item>TB</item>
+        <item>PB</item>
+    </string-array>
+    <string-array name="backup_file_name_formats">
+        <item>NAME_PACKAGE_VERSION.apks</item>
+        <item>NAME.apks</item>
+        <item>NAME_VERSION.apks</item>
+    </string-array>
+    <string-array name="install_locations">
+        <item>Lascia che il sistema decida</item>
+        <item>Solo interno</item>
+        <item>Preferisci esterno (il sistema può ancora decidere di utilizzare interno)</item>
+    </string-array>
+    <string-array name="name_format_parts">
+        <item>Nome</item>
+        <item>Versione</item>
+        <item>Codice versione</item>
+        <item>Pacchetto</item>
+        <item>data e ora</item>
+    </string-array>
+    <string-array name="backup_dir_selection_methods">
+        <item>Selettore file interno</item>
+        <item>Selettore file di sistema</item>
+    </string-array>
+</resources>
