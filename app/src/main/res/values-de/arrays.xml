@@ -8,7 +8,6 @@
         <item>"Kleinste Dateigröße zuerst"</item>
         <item>"Größte Dateigröße zuerst"</item>
     </string-array>
-
     <string-array name="installers">
         <item>"ohne Root (empfohlen)"</item>
         <item>"mit Root (Root erforderlich)"</item>

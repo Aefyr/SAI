@@ -8,7 +8,6 @@
         <item>"Спочатку меншого розміру файли"</item>
         <item>"Спочатку більшого розміру файли"</item>
     </string-array>
-
     <string-array name="installers">
         <item>"Rootless (рекомендується)"</item>
         <item>"Rooted (потрібен root-доступ)"</item>

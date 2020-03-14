@@ -8,7 +8,6 @@
         <item>"Малки отгоре"</item>
         <item>"Големи отгоре"</item>
     </string-array>
-
     <string-array name="installers">
         <item>"Rootless (препоръчва се)"</item>
         <item>"Rooted (нужен е root-достъп)"</item>
