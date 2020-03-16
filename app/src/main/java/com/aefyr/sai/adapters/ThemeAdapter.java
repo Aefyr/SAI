@@ -1,12 +1,9 @@
 package com.aefyr.sai.adapters;
 
 import android.content.Context;
-import android.os.Build;
-import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,8 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.aefyr.sai.R;
 import com.aefyr.sai.billing.DonationStatus;
 import com.aefyr.sai.utils.Theme;
-import com.aefyr.sai.utils.Utils;
-import com.google.android.material.card.MaterialCardView;
+import com.aefyr.sai.view.ThemeView;
 
 import java.util.List;
 
@@ -72,19 +68,15 @@ public class ThemeAdapter extends RecyclerView.Adapter<ThemeAdapter.ViewHolder> 
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
-        private MaterialCardView mCard;
-        private TextView mTitle;
-        private TextView mDonationRequiredTv;
+        private ThemeView mThemeView;
 
         private ViewHolder(@NonNull View itemView) {
             super(itemView);
             itemView.requestFocus();
 
-            mCard = itemView.findViewById(R.id.container_theme_wrapper);
-            mTitle = itemView.findViewById(R.id.tv_theme_title);
-            mDonationRequiredTv = itemView.findViewById(R.id.tv_theme_requires_donation);
+            mThemeView = itemView.findViewById(R.id.themeview_theme_item);
 
-            mCard.setOnClickListener(v -> {
+            mThemeView.setOnClickListener(v -> {
                 int adapterPosition = getAdapterPosition();
                 if (adapterPosition == RecyclerView.NO_POSITION)
                     return;
@@ -95,24 +87,12 @@ public class ThemeAdapter extends RecyclerView.Adapter<ThemeAdapter.ViewHolder> 
         }
 
         private void bindTo(Theme.ThemeDescriptor theme) {
-            mTitle.setText(theme.getName(mContext));
-
-            Context themedContext = new ContextThemeWrapper(mContext, theme.getTheme());
-            mCard.setCardBackgroundColor(Utils.getThemeColor(themedContext, R.attr.colorPrimary));
-
-            int accentColor = Utils.getThemeColor(themedContext, R.attr.colorAccent);
-            mCard.setStrokeColor(accentColor);
-            mTitle.setTextColor(accentColor);
-
-            if (Utils.apiIsAtLeast(Build.VERSION_CODES.M)) {
-                mCard.setRippleColor(themedContext.getColorStateList(R.color.selector_theme_card_ripple));
-            }
+            mThemeView.setTheme(theme);
 
             if (theme.isDonationRequired() && !(mDonationStatus == DonationStatus.DONATED || mDonationStatus == DonationStatus.FLOSS_MODE)) {
-                mDonationRequiredTv.setTextColor(Utils.getThemeColor(themedContext, android.R.attr.textColorPrimary));
-                mDonationRequiredTv.setVisibility(View.VISIBLE);
+                mThemeView.setMessage(R.string.donate_donate_only_theme);
             } else {
-                mDonationRequiredTv.setVisibility(View.GONE);
+                mThemeView.setMessage(null);
             }
 
         }
