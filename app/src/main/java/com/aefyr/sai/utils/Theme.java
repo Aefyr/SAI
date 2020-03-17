@@ -70,6 +70,14 @@ public class Theme {
         return mThemes;
     }
 
+    public ThemeDescriptor getLightTheme() {
+        return mThemes.get(0);
+    }
+
+    public ThemeDescriptor getDarkTheme() {
+        return mThemes.get(1);
+    }
+
     public static class ThemeDescriptor {
         private int mId;
 

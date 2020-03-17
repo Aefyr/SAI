@@ -183,6 +183,11 @@
     <string name="theme_dark">Dark</string>
     <string name="theme_gold">Gold</string>
 
+    <string name="auto_theme_title">Select dark and light themes</string>
+    <string name="auto_theme_light_theme">Light theme</string>
+    <string name="auto_theme_dark_theme">Dark theme</string>
+    <string name="auto_theme_selection_hint">Tap to change</string>
+
     <string name="about_author">by polychromaticfox</string>
     <string name="about_source">GitHub</string>
     <string name="about_source_link" translatable="false">https://github.com/Aefyr/SAI</string>
