@@ -111,7 +111,7 @@ public class ThemeSelectionDialogFragment extends BaseBottomSheetDialogFragment 
             case MODE_CHOOSE:
                 OnThemeChosenListener listener = Utils.getParentAs(this, OnThemeChosenListener.class);
                 if (listener != null)
-                    listener.onThemeChosen(theme);
+                    listener.onThemeChosen(getTag(), theme);
 
                 dismiss();
                 break;
@@ -121,7 +121,7 @@ public class ThemeSelectionDialogFragment extends BaseBottomSheetDialogFragment 
     }
 
     public interface OnThemeChosenListener {
-        void onThemeChosen(Theme.ThemeDescriptor theme);
+        void onThemeChosen(@Nullable String tag, Theme.ThemeDescriptor theme);
     }
 }
 
