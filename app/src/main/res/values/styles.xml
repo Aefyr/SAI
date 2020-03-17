@@ -272,4 +272,15 @@
         <item name="android:textColor">?attr/colorPrimary</item>
     </style>
 
+    <style name="ThemeView.Normal.Interactive" parent="Widget.MaterialComponents.CardView">
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+        <item name="android:minHeight">88dp</item>
+        <item name="cardCornerRadius">12dp</item>
+        <item name="cardElevation">0dp</item>
+        <item name="cardUseCompatPadding">true</item>
+        <item name="contentPadding">8dp</item>
+        <item name="strokeWidth">2dp</item>
+    </style>
+
 </resources>

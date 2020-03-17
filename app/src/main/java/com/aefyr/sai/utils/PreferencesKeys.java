@@ -2,6 +2,7 @@ package com.aefyr.sai.utils;
 
 public class PreferencesKeys {
     public static final String CURRENT_THEME = "current_theme";
+    public static final String THEME_MODE = "theme_mode";
     public static final String HOME_DIRECTORY = "home_directory";
     public static final String FILE_PICKER_SORT_RAW = "file_picker_sort_raw";
     public static final String FILE_PICKER_SORT_BY = "file_picker_sort_by";
@@ -18,4 +19,6 @@ public class PreferencesKeys {
     public static final String SHOW_APP_FEATURES = "show_app_features";
     public static final String THEME = "theme";
     public static final String SAF_TIP_SHOWN = "saf_tip_shown";
+    public static final String AUTO_THEME = "auto_theme";
+    public static final String AUTO_THEME_PICKER = "auto_theme_picker";
 }

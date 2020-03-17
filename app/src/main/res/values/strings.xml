@@ -139,6 +139,10 @@
     <string name="settings_main_ui_show_app_features_summary">Show contextual app feature badges on export screen</string>
     <string name="settings_main_ui_theme">Theme</string>
     <string name="settings_main_donate">Support SAI</string>
+    <string name="settings_main_auto_theme">Auto theme</string>
+    <string name="settings_main_auto_theme_summary">Automatically switch between selected light and dark themes depending on system theme</string>
+    <string name="settings_main_auto_theme_picker">Choose themes</string>
+    <string name="settings_main_auto_theme_picker_summary">Current light theme: %s\nCurrent dark theme: %s</string>
 
     <string name="name_format_builder_title">Select parts to include in exported app name</string>
     <string name="name_format_builder_preview">Preview: %s</string>
@@ -182,6 +186,11 @@
     <string name="theme_sai_fdroid">SAI (F-Droid)</string>
     <string name="theme_dark">Dark</string>
     <string name="theme_gold">Gold</string>
+
+    <string name="auto_theme_title">Select dark and light themes</string>
+    <string name="auto_theme_light_theme">Light theme</string>
+    <string name="auto_theme_dark_theme">Dark theme</string>
+    <string name="auto_theme_selection_hint">Tap to change</string>
 
     <string name="about_author">by polychromaticfox</string>
     <string name="about_source">GitHub</string>

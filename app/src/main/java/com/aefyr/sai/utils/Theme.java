@@ -2,6 +2,7 @@ package com.aefyr.sai.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.preference.PreferenceManager;
 
 import androidx.annotation.StringRes;
@@ -14,11 +15,33 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Theme {
+    private static final String THEME_TAG_CONCRETE = "concrete";
+    private static final String THEME_TAG_LIGHT = "light";
+    private static final String THEME_TAG_DARK = "dark";
+
+    private static final int DEFAULT_LIGHT_THEME_ID = BuildConfig.DEFAULT_THEME;
+    private static final int DEFAULT_DARK_THEME_ID = 1;
+
+    public enum Mode {
+        /**
+         * Use a single selected theme
+         */
+        CONCRETE,
+        /**
+         * Choose between two selected light and dark themes depending on system theme (Android Q+)
+         */
+        AUTO_LIGHT_DARK
+    }
+
     private static Theme sInstance;
+
+    private Context mContext;
 
     private SharedPreferences mPrefs;
 
     private List<ThemeDescriptor> mThemes;
+
+    private Mode mMode;
 
     public static Theme getInstance(Context c) {
         synchronized (Theme.class) {
@@ -27,6 +50,12 @@ public class Theme {
     }
 
     private Theme(Context c) {
+        mContext = c.getApplicationContext();
+
+        mPrefs = PreferenceManager.getDefaultSharedPreferences(mContext);
+
+        mMode = Mode.valueOf(mPrefs.getString(PreferencesKeys.THEME_MODE, Utils.apiIsAtLeast(29) ? Mode.AUTO_LIGHT_DARK.name() : Mode.CONCRETE.name()));
+
         mThemes = new ArrayList<>();
         mThemes.add(new ThemeDescriptor(0, R.style.AppTheme_Light, false, R.string.theme_sai, false));
         mThemes.add(new ThemeDescriptor(1, R.style.AppTheme_Dark, true, R.string.theme_ruby, false));
@@ -38,36 +67,81 @@ public class Theme {
         mThemes.add(new ThemeDescriptor(7, R.style.AppTheme_Dark2, true, R.string.theme_dark, false));
         mThemes.add(new ThemeDescriptor(8, R.style.AppTheme_Gold, true, R.string.theme_gold, true));
 
-        mPrefs = PreferenceManager.getDefaultSharedPreferences(c);
         sInstance = this;
     }
 
-    private int getCurrentThemeId() {
-        return mPrefs.getInt(PreferencesKeys.CURRENT_THEME, BuildConfig.DEFAULT_THEME);
-    }
-
-    public void setCurrentTheme(ThemeDescriptor theme) {
-        mPrefs.edit().putInt(PreferencesKeys.CURRENT_THEME, theme.getId()).apply();
-    }
-
     public static void apply(Context c) {
-        c.setTheme(getInstance(c).getCurrentTheme());
-    }
-
-    @StyleRes
-    public int getCurrentTheme() {
-        return getCurrentThemeDescriptor().getTheme();
-    }
-
-    public ThemeDescriptor getCurrentThemeDescriptor() {
-        if (getCurrentThemeId() >= mThemes.size())
-            return mThemes.get(0);
-
-        return mThemes.get(getCurrentThemeId());
+        c.setTheme(getInstance(c).getCurrentTheme().getTheme());
     }
 
     public List<ThemeDescriptor> getThemes() {
         return mThemes;
+    }
+
+    public ThemeDescriptor getCurrentTheme() {
+        switch (mMode) {
+            case CONCRETE:
+                return getConcreteTheme();
+            case AUTO_LIGHT_DARK:
+                if (shouldUseDarkThemeForAutoMode())
+                    return getDarkTheme();
+
+                return getLightTheme();
+        }
+
+        throw new IllegalStateException("Unknown mode");
+    }
+
+    public Mode getThemeMode() {
+        return mMode;
+    }
+
+    public void setMode(Mode mode) {
+        mPrefs.edit().putString(PreferencesKeys.THEME_MODE, mode.name()).apply();
+        mMode = mode;
+    }
+
+    public ThemeDescriptor getConcreteTheme() {
+        return getThemeDescriptorById(getThemeId(THEME_TAG_CONCRETE, BuildConfig.DEFAULT_THEME));
+    }
+
+    public void setConcreteTheme(ThemeDescriptor theme) {
+        saveThemeId(THEME_TAG_CONCRETE, theme.getId());
+    }
+
+    public ThemeDescriptor getLightTheme() {
+        return getThemeDescriptorById(getThemeId(THEME_TAG_LIGHT, DEFAULT_LIGHT_THEME_ID));
+    }
+
+    public void setLightTheme(ThemeDescriptor theme) {
+        saveThemeId(THEME_TAG_LIGHT, theme.getId());
+    }
+
+    public ThemeDescriptor getDarkTheme() {
+        return getThemeDescriptorById(getThemeId(THEME_TAG_DARK, DEFAULT_DARK_THEME_ID));
+    }
+
+    public void setDarkTheme(ThemeDescriptor theme) {
+        saveThemeId(THEME_TAG_DARK, theme.getId());
+    }
+
+    private boolean shouldUseDarkThemeForAutoMode() {
+        return (mContext.getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES;
+    }
+
+    private ThemeDescriptor getThemeDescriptorById(int themeId) {
+        if (themeId >= mThemes.size())
+            return mThemes.get(0);
+
+        return mThemes.get(themeId);
+    }
+
+    private int getThemeId(String themeTag, int defaultThemeId) {
+        return mPrefs.getInt(PreferencesKeys.CURRENT_THEME + "." + themeTag, defaultThemeId);
+    }
+
+    private void saveThemeId(String themeTag, int themeId) {
+        mPrefs.edit().putInt(PreferencesKeys.CURRENT_THEME + "." + themeTag, themeId).apply();
     }
 
     public static class ThemeDescriptor {
