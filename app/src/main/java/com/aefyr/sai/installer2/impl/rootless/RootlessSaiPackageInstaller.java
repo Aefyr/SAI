@@ -99,6 +99,9 @@ public class RootlessSaiPackageInstaller extends BaseSaiPackageInstaller impleme
             session.commit(pendingIntent.getIntentSender());
         } catch (Exception e) {
             Log.w(TAG, e);
+            if (session != null)
+                session.abandon();
+
             setSessionState(sessionId, new SaiPiSessionState.Builder(sessionId, SaiPiSessionStatus.INSTALLATION_FAILED).appTempName(appTempName).exception(e).build());
         } finally {
             if (session != null)

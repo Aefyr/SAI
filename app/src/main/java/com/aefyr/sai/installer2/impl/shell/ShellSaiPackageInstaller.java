@@ -96,6 +96,7 @@ public abstract class ShellSaiPackageInstaller extends BaseSaiPackageInstaller {
         lockInstallation(sessionId);
         String appTempName = params.apkSource().getAppName();
         setSessionState(sessionId, new SaiPiSessionState.Builder(sessionId, SaiPiSessionStatus.INSTALLING).appTempName(appTempName).build());
+        Integer androidSessionId = null;
         try (ApkSource apkSource = params.apkSource()) {
 
             if (!getShell().isAvailable()) {
@@ -104,7 +105,7 @@ public abstract class ShellSaiPackageInstaller extends BaseSaiPackageInstaller {
                 return;
             }
 
-            int androidSessionId = createSession();
+            androidSessionId = createSession();
 
             int currentApkFile = 0;
             while (apkSource.nextApk()) {
@@ -126,6 +127,11 @@ public abstract class ShellSaiPackageInstaller extends BaseSaiPackageInstaller {
         } catch (Exception e) {
             //TODO this catches resources close exception causing a crash, same in rootless installer
             Log.w(tag(), e);
+
+            if (androidSessionId != null) {
+                getShell().exec(new Shell.Command("pm", "install-abandon", String.valueOf(androidSessionId)));
+            }
+
             setSessionState(sessionId, new SaiPiSessionState.Builder(sessionId, SaiPiSessionStatus.INSTALLATION_FAILED).appTempName(appTempName).exception(new Exception(getContext().getString(R.string.installer_error_shell, getInstallerName(), getSessionInfo(params.apkSource()) + "\n\n" + Utils.throwableToString(e)))).build());
             unlockInstallation();
         }
