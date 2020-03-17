@@ -23,6 +23,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.aefyr.sai.R;
 import com.aefyr.sai.adapters.SaiPiSessionsAdapter;
 import com.aefyr.sai.ui.dialogs.AppInstalledDialogFragment;
+import com.aefyr.sai.ui.dialogs.DarkLightThemeSelectionDialogFragment;
 import com.aefyr.sai.ui.dialogs.DonationSuggestionDialogFragment;
 import com.aefyr.sai.ui.dialogs.ErrorLogDialogFragment2;
 import com.aefyr.sai.ui.dialogs.FilePickerDialogFragment;
@@ -32,6 +33,7 @@ import com.aefyr.sai.ui.recycler.RecyclerPaddingDecoration;
 import com.aefyr.sai.utils.AlertsUtils;
 import com.aefyr.sai.utils.PermissionsUtils;
 import com.aefyr.sai.utils.PreferencesHelper;
+import com.aefyr.sai.utils.Theme;
 import com.aefyr.sai.utils.Utils;
 import com.aefyr.sai.viewmodels.InstallerViewModel;
 import com.github.angads25.filepicker.model.DialogConfigs;
@@ -107,7 +109,13 @@ public class Installer2Fragment extends InstallerFragment implements FilePickerD
             sessionsAdapter.setData(sessions);
         });
 
-        findViewById(R.id.ib_toggle_theme).setOnClickListener((v -> ThemeSelectionDialogFragment.newInstance(requireContext()).show(getChildFragmentManager(), "theme_selection_dialog")));
+        findViewById(R.id.ib_toggle_theme).setOnClickListener((v -> {
+            if (Theme.getInstance(requireContext()).getThemeMode() == Theme.Mode.AUTO_LIGHT_DARK) {
+                DarkLightThemeSelectionDialogFragment.newInstance(DarkLightThemeSelectionDialogFragment.MODE_APPLY).show(getChildFragmentManager(), null);
+            } else {
+                ThemeSelectionDialogFragment.newInstance(requireContext()).show(getChildFragmentManager(), "theme_selection_dialog");
+            }
+        }));
         findViewById(R.id.ib_help).setOnClickListener((v) -> AlertsUtils.showAlert(this, R.string.help, R.string.installer_help));
 
         Button installButtton = findViewById(R.id.button_install);

@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.IntDef;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -19,15 +20,46 @@ public class DarkLightThemeSelectionDialogFragment extends BaseBottomSheetDialog
     private static final String TAG_CHOOSE_LIGHT_THEME = "choose_light";
     private static final String TAG_CHOOSE_DARK_THEME = "choose_dark";
 
+    @IntDef(flag = true, value = {MODE_APPLY, MODE_CHOOSE})
+    public @interface Mode {
+    }
+
+    public static final int MODE_APPLY = 0;
+    public static final int MODE_CHOOSE = 1;
+
+    private static final String EXTRA_MODE = "mode";
+
+    private int mMode = MODE_CHOOSE;
+
     private DarkLightThemeSelectionViewModel mViewModel;
 
+    /**
+     * Same as {@link #newInstance(int)} with {@link #MODE_CHOOSE}
+     *
+     * @return
+     */
     public static DarkLightThemeSelectionDialogFragment newInstance() {
-        return new DarkLightThemeSelectionDialogFragment();
+        return newInstance(MODE_CHOOSE);
+    }
+
+    public static DarkLightThemeSelectionDialogFragment newInstance(@Mode int mode) {
+        DarkLightThemeSelectionDialogFragment fragment = new DarkLightThemeSelectionDialogFragment();
+
+        Bundle args = new Bundle();
+        args.putInt(EXTRA_MODE, mode);
+
+        fragment.setArguments(args);
+        return fragment;
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Bundle args = getArguments();
+        if (args != null) {
+            mMode = args.getInt(EXTRA_MODE, MODE_CHOOSE);
+        }
 
         mViewModel = new ViewModelProvider(this).get(DarkLightThemeSelectionViewModel.class);
     }
@@ -46,9 +78,16 @@ public class DarkLightThemeSelectionDialogFragment extends BaseBottomSheetDialog
 
         getNegativeButton().setOnClickListener(v -> dismiss());
         getPositiveButton().setOnClickListener(v -> {
-            OnDarkLightThemesChosenListener listener = Utils.getParentAs(this, OnDarkLightThemesChosenListener.class);
-            if (listener != null)
-                listener.onThemesChosen(getTag(), mViewModel.getLightTheme().getValue(), mViewModel.getDarkTheme().getValue());
+            if (mMode == MODE_CHOOSE) {
+                OnDarkLightThemesChosenListener listener = Utils.getParentAs(this, OnDarkLightThemesChosenListener.class);
+                if (listener != null)
+                    listener.onThemesChosen(getTag(), mViewModel.getLightTheme().getValue(), mViewModel.getDarkTheme().getValue());
+            } else {
+                Theme theme = Theme.getInstance(requireContext());
+                theme.setLightTheme(mViewModel.getLightTheme().getValue());
+                theme.setDarkTheme(mViewModel.getDarkTheme().getValue());
+                requireActivity().recreate();
+            }
 
             dismiss();
         });
