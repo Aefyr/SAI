@@ -54,7 +54,7 @@ public class Theme {
 
         mPrefs = PreferenceManager.getDefaultSharedPreferences(mContext);
 
-        mMode = Mode.valueOf(mPrefs.getString(PreferencesKeys.THEME_MODE, Mode.CONCRETE.name()));
+        mMode = Mode.valueOf(mPrefs.getString(PreferencesKeys.THEME_MODE, Utils.apiIsAtLeast(29) ? Mode.AUTO_LIGHT_DARK.name() : Mode.CONCRETE.name()));
 
         mThemes = new ArrayList<>();
         mThemes.add(new ThemeDescriptor(0, R.style.AppTheme_Light, false, R.string.theme_sai, false));

@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.aefyr.sai.R;
 import com.aefyr.sai.ui.dialogs.base.BaseBottomSheetDialogFragment;
 import com.aefyr.sai.utils.Theme;
+import com.aefyr.sai.utils.Utils;
 import com.aefyr.sai.view.ThemeView;
 import com.aefyr.sai.viewmodels.DarkLightThemeSelectionViewModel;
 
@@ -19,6 +20,10 @@ public class DarkLightThemeSelectionDialogFragment extends BaseBottomSheetDialog
     private static final String TAG_CHOOSE_DARK_THEME = "choose_dark";
 
     private DarkLightThemeSelectionViewModel mViewModel;
+
+    public static DarkLightThemeSelectionDialogFragment newInstance() {
+        return new DarkLightThemeSelectionDialogFragment();
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -40,6 +45,13 @@ public class DarkLightThemeSelectionDialogFragment extends BaseBottomSheetDialog
         setTitle(R.string.auto_theme_title);
 
         getNegativeButton().setOnClickListener(v -> dismiss());
+        getPositiveButton().setOnClickListener(v -> {
+            OnDarkLightThemesChosenListener listener = Utils.getParentAs(this, OnDarkLightThemesChosenListener.class);
+            if (listener != null)
+                listener.onThemesChosen(getTag(), mViewModel.getLightTheme().getValue(), mViewModel.getDarkTheme().getValue());
+
+            dismiss();
+        });
 
         ThemeView lightThemeView = view.findViewById(R.id.themeview_dl_selection_light);
         ThemeView darkThemeView = view.findViewById(R.id.themeview_dl_selection_dark);
@@ -63,5 +75,9 @@ public class DarkLightThemeSelectionDialogFragment extends BaseBottomSheetDialog
         } else if (TAG_CHOOSE_DARK_THEME.equals(tag)) {
             mViewModel.setDarkTheme(theme);
         }
+    }
+
+    public interface OnDarkLightThemesChosenListener {
+        void onThemesChosen(@Nullable String tag, Theme.ThemeDescriptor lightTheme, Theme.ThemeDescriptor darkTheme);
     }
 }

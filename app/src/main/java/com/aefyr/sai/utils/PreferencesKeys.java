@@ -19,4 +19,6 @@ public class PreferencesKeys {
     public static final String SHOW_APP_FEATURES = "show_app_features";
     public static final String THEME = "theme";
     public static final String SAF_TIP_SHOWN = "saf_tip_shown";
+    public static final String AUTO_THEME = "auto_theme";
+    public static final String AUTO_THEME_PICKER = "auto_theme_picker";
 }

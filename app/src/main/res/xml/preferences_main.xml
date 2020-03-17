@@ -12,6 +12,18 @@
             android:title="@string/settings_main_ui_theme" />
 
         <SwitchPreference
+            android:icon="@drawable/ic_pref_auto_theme"
+            android:key="auto_theme"
+            android:title="@string/settings_main_auto_theme"
+            android:summary="@string/settings_main_auto_theme_summary" />
+
+        <Preference
+            android:icon="@drawable/ic_pref_auto_theme"
+            android:key="auto_theme_picker"
+            android:title="@string/settings_main_auto_theme_picker"
+            android:summary="@string/settings_main_auto_theme_picker_summary" />
+
+        <SwitchPreference
             android:icon="@drawable/ic_pref_old_installer"
             android:key="use_old_installer"
             android:title="@string/settings_main_use_old_installer"

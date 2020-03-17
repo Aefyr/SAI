@@ -15,12 +15,15 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
+import androidx.preference.PreferenceManager;
+import androidx.preference.SwitchPreference;
 
 import com.aefyr.sai.R;
 import com.aefyr.sai.model.common.PackageMeta;
 import com.aefyr.sai.shell.SuShell;
 import com.aefyr.sai.ui.activities.AboutActivity;
 import com.aefyr.sai.ui.activities.DonateActivity;
+import com.aefyr.sai.ui.dialogs.DarkLightThemeSelectionDialogFragment;
 import com.aefyr.sai.ui.dialogs.FilePickerDialogFragment;
 import com.aefyr.sai.ui.dialogs.NameFormatBuilderDialogFragment;
 import com.aefyr.sai.ui.dialogs.SingleChoiceListDialogFragment;
@@ -43,7 +46,7 @@ import java.util.Objects;
 
 import moe.shizuku.api.ShizukuClientHelper;
 
-public class PreferencesFragment extends PreferenceFragmentCompat implements FilePickerDialogFragment.OnFilesSelectedListener, SingleChoiceListDialogFragment.OnItemSelectedListener, BaseBottomSheetDialogFragment.OnDismissListener, SharedPreferences.OnSharedPreferenceChangeListener {
+public class PreferencesFragment extends PreferenceFragmentCompat implements FilePickerDialogFragment.OnFilesSelectedListener, SingleChoiceListDialogFragment.OnItemSelectedListener, BaseBottomSheetDialogFragment.OnDismissListener, SharedPreferences.OnSharedPreferenceChangeListener, DarkLightThemeSelectionDialogFragment.OnDarkLightThemesChosenListener {
 
     private static final int REQUEST_CODE_SELECT_BACKUP_DIR = 1334;
 
@@ -55,10 +58,20 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Fil
     private Preference mBackupNameFormatPref;
     private Preference mBackupDirPref;
     private Preference mThemePref;
+    private SwitchPreference mAutoThemeSwitch;
+    private Preference mAutoThemePicker;
 
     private PackageMeta mDemoMeta;
 
     private FilePickerDialogFragment mPendingFilePicker;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        //Inject current auto theme status since it isn't managed by PreferencesKeys.AUTO_THEME key
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(requireContext());
+        prefs.edit().putBoolean(PreferencesKeys.AUTO_THEME, Theme.getInstance(requireContext()).getThemeMode() == Theme.Mode.AUTO_LIGHT_DARK).apply();
+        super.onCreate(savedInstanceState);
+    }
 
     @SuppressLint("ApplySharedPref")
     @Override
@@ -118,6 +131,40 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Fil
             ThemeSelectionDialogFragment.newInstance(requireContext()).show(getChildFragmentManager(), "theme");
             return true;
         });
+        if (Theme.getInstance(requireContext()).getThemeMode() != Theme.Mode.CONCRETE) {
+            mThemePref.setVisible(false);
+        }
+
+        mAutoThemeSwitch = Objects.requireNonNull(findPreference(PreferencesKeys.AUTO_THEME));
+        mAutoThemePicker = findPreference(PreferencesKeys.AUTO_THEME_PICKER);
+        if (Utils.apiIsAtLeast(29)) {
+            updateAutoThemePickerSummary();
+
+            mAutoThemeSwitch.setOnPreferenceChangeListener((preference, newValue) -> {
+                boolean value = (boolean) newValue;
+                if (value) {
+                    Theme.getInstance(requireContext()).setMode(Theme.Mode.AUTO_LIGHT_DARK);
+                } else {
+                    Theme.getInstance(requireContext()).setMode(Theme.Mode.CONCRETE);
+                }
+                requireActivity().recreate();
+
+                return true;
+            });
+
+            mAutoThemePicker.setOnPreferenceClickListener(pref -> {
+                DarkLightThemeSelectionDialogFragment.newInstance().show(getChildFragmentManager(), null);
+                return true;
+            });
+
+            if (Theme.getInstance(requireContext()).getThemeMode() != Theme.Mode.AUTO_LIGHT_DARK) {
+                mAutoThemePicker.setVisible(false);
+            }
+        } else {
+            mAutoThemeSwitch.setVisible(false);
+            mAutoThemePicker.setVisible(false);
+        }
+
 
         getPreferenceManager().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
     }
@@ -172,6 +219,11 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Fil
 
     private void updateThemeSummary() {
         mThemePref.setSummary(Theme.getInstance(requireContext()).getConcreteTheme().getName(requireContext()));
+    }
+
+    private void updateAutoThemePickerSummary() {
+        Theme theme = Theme.getInstance(requireContext());
+        mAutoThemePicker.setSummary(getString(R.string.settings_main_auto_theme_picker_summary, theme.getLightTheme().getName(requireContext()), theme.getDarkTheme().getName(requireContext())));
     }
 
     @Override
@@ -342,5 +394,13 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Fil
             prefs.edit().putBoolean(PreferencesKeys.USE_OLD_INSTALLER, prefs.getBoolean(PreferencesKeys.USE_OLD_INSTALLER, false)).commit();
             Utils.hardRestartApp(requireContext());
         }
+    }
+
+    @Override
+    public void onThemesChosen(@Nullable String tag, Theme.ThemeDescriptor lightTheme, Theme.ThemeDescriptor darkTheme) {
+        Theme theme = Theme.getInstance(requireContext());
+        theme.setLightTheme(lightTheme);
+        theme.setDarkTheme(darkTheme);
+        requireActivity().recreate();
     }
 }
