@@ -104,7 +104,7 @@ public class ThemeSelectionDialogFragment extends BaseBottomSheetDialogFragment 
 
         switch (mMode) {
             case MODE_APPLY:
-                Theme.getInstance(getContext()).setCurrentTheme(theme);
+                Theme.getInstance(getContext()).setConcreteTheme(theme);
                 requireActivity().recreate();
                 dismiss();
                 break;

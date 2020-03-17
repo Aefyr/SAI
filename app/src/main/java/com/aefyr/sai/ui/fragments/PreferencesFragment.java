@@ -171,7 +171,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Fil
     }
 
     private void updateThemeSummary() {
-        mThemePref.setSummary(Theme.getInstance(requireContext()).getCurrentThemeDescriptor().getName(requireContext()));
+        mThemePref.setSummary(Theme.getInstance(requireContext()).getConcreteTheme().getName(requireContext()));
     }
 
     @Override

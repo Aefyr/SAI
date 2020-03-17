@@ -30,7 +30,7 @@ public class BaseBottomSheetDialogFragment extends BottomSheetDialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-        mDialog = new BottomSheetDialog(requireContext(), Theme.getInstance(requireContext()).getCurrentThemeDescriptor().isDark() ? R.style.SAIBottomSheetDialog_Backup : R.style.SAIBottomSheetDialog_Backup_Light);
+        mDialog = new BottomSheetDialog(requireContext(), Theme.getInstance(requireContext()).getCurrentTheme().isDark() ? R.style.SAIBottomSheetDialog_Backup : R.style.SAIBottomSheetDialog_Backup_Light);
 
         View dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_bottom_sheet_base, null);
         mPositiveButton = dialogView.findViewById(R.id.button_bottom_sheet_dialog_base_ok);

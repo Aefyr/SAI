@@ -85,7 +85,7 @@ public class FilePickerDialogFragment extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-        FilePickerDialog dialog = new FilePickerDialog(getContext(), mDialogProperties, Theme.getInstance(getContext()).getCurrentTheme());
+        FilePickerDialog dialog = new FilePickerDialog(getContext(), mDialogProperties, Theme.getInstance(getContext()).getCurrentTheme().getTheme());
         dialog.setDialogSelectionListener((files) -> {
             if (mListener == null)
                 return;
