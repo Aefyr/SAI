@@ -54,6 +54,7 @@ public class ThemeView extends MaterialCardView {
 
         mThemeMessage = new AppCompatTextView(getContext());
         mThemeMessage.setGravity(Gravity.CENTER);
+        mThemeMessage.setVisibility(GONE);
         LinearLayoutCompat.LayoutParams messageLayoutParams = new LinearLayoutCompat.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         container.addView(mThemeMessage, messageLayoutParams);
     }
