@@ -147,8 +147,9 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Fil
                 } else {
                     Theme.getInstance(requireContext()).setMode(Theme.Mode.CONCRETE);
                 }
-                requireActivity().recreate();
 
+                //Hack to not mess with hiding/showing preferences manually
+                requireActivity().recreate();
                 return true;
             });
 
@@ -401,6 +402,5 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Fil
         Theme theme = Theme.getInstance(requireContext());
         theme.setLightTheme(lightTheme);
         theme.setDarkTheme(darkTheme);
-        requireActivity().recreate();
     }
 }

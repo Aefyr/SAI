@@ -5,8 +5,14 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.preference.PreferenceManager;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.annotation.StyleRes;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
 
 import com.aefyr.sai.BuildConfig;
 import com.aefyr.sai.R;
@@ -41,6 +47,8 @@ public class Theme {
 
     private List<ThemeDescriptor> mThemes;
 
+    private MutableLiveData<ThemeDescriptor> mLiveTheme = new MutableLiveData<>();
+
     private Mode mMode;
 
     public static Theme getInstance(Context c) {
@@ -67,11 +75,28 @@ public class Theme {
         mThemes.add(new ThemeDescriptor(7, R.style.AppTheme_Dark2, true, R.string.theme_dark, false));
         mThemes.add(new ThemeDescriptor(8, R.style.AppTheme_Gold, true, R.string.theme_gold, true));
 
+        invalidateLiveTheme();
+
         sInstance = this;
     }
 
-    public static void apply(Context c) {
-        c.setTheme(getInstance(c).getCurrentTheme().getTheme());
+    public static ThemeDescriptor apply(Context c) {
+        Theme theme = getInstance(c);
+        ThemeDescriptor currentTheme = theme.getCurrentTheme();
+        c.setTheme(currentTheme.getTheme());
+
+        //In case system dark mode changes
+        //TODO handle dark mode change better
+        theme.invalidateLiveTheme();
+
+        return currentTheme;
+    }
+
+    /**
+     * Convenience method for {@link #getInstance(Context)}.{@link #getLiveTheme()}.{@link LiveData#observe(LifecycleOwner, Observer)}
+     */
+    public static void observe(Context c, @NonNull LifecycleOwner owner, @NonNull Observer<ThemeDescriptor> observer) {
+        getInstance(c).getLiveTheme().observe(owner, observer);
     }
 
     public List<ThemeDescriptor> getThemes() {
@@ -92,13 +117,22 @@ public class Theme {
         throw new IllegalStateException("Unknown mode");
     }
 
+    public LiveData<ThemeDescriptor> getLiveTheme() {
+        return mLiveTheme;
+    }
+
     public Mode getThemeMode() {
         return mMode;
     }
 
     public void setMode(Mode mode) {
+        if (mode == mMode)
+            return;
+
         mPrefs.edit().putString(PreferencesKeys.THEME_MODE, mode.name()).apply();
         mMode = mode;
+
+        invalidateLiveTheme();
     }
 
     public ThemeDescriptor getConcreteTheme() {
@@ -107,6 +141,9 @@ public class Theme {
 
     public void setConcreteTheme(ThemeDescriptor theme) {
         saveThemeId(THEME_TAG_CONCRETE, theme.getId());
+
+        if (getThemeMode() == Mode.CONCRETE)
+            invalidateLiveTheme();
     }
 
     public ThemeDescriptor getLightTheme() {
@@ -115,6 +152,9 @@ public class Theme {
 
     public void setLightTheme(ThemeDescriptor theme) {
         saveThemeId(THEME_TAG_LIGHT, theme.getId());
+
+        if (getThemeMode() == Mode.AUTO_LIGHT_DARK && !shouldUseDarkThemeForAutoMode())
+            invalidateLiveTheme();
     }
 
     public ThemeDescriptor getDarkTheme() {
@@ -123,6 +163,9 @@ public class Theme {
 
     public void setDarkTheme(ThemeDescriptor theme) {
         saveThemeId(THEME_TAG_DARK, theme.getId());
+
+        if (getThemeMode() == Mode.AUTO_LIGHT_DARK && shouldUseDarkThemeForAutoMode())
+            invalidateLiveTheme();
     }
 
     private boolean shouldUseDarkThemeForAutoMode() {
@@ -142,6 +185,12 @@ public class Theme {
 
     private void saveThemeId(String themeTag, int themeId) {
         mPrefs.edit().putInt(PreferencesKeys.CURRENT_THEME + "." + themeTag, themeId).apply();
+    }
+
+    private void invalidateLiveTheme() {
+        ThemeDescriptor currentTheme = getCurrentTheme();
+        if (!currentTheme.equals(mLiveTheme.getValue()))
+            mLiveTheme.setValue(currentTheme);
     }
 
     public static class ThemeDescriptor {
@@ -182,6 +231,11 @@ public class Theme {
 
         public boolean isDonationRequired() {
             return mDonationRequired;
+        }
+
+        @Override
+        public boolean equals(@Nullable Object obj) {
+            return obj instanceof ThemeDescriptor && ((ThemeDescriptor) obj).getId() == getId();
         }
     }
 }

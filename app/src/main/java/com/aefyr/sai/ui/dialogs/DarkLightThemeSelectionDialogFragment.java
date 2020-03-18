@@ -86,7 +86,6 @@ public class DarkLightThemeSelectionDialogFragment extends BaseBottomSheetDialog
                 Theme theme = Theme.getInstance(requireContext());
                 theme.setLightTheme(mViewModel.getLightTheme().getValue());
                 theme.setDarkTheme(mViewModel.getDarkTheme().getValue());
-                requireActivity().recreate();
             }
 
             dismiss();
