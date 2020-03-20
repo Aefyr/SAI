@@ -72,6 +72,10 @@ public class PreferencesHelper {
         return mPrefs.getBoolean(PreferencesKeys.EXTRACT_ARCHIVES, false);
     }
 
+    public boolean shouldUseZipFileApi() {
+        return mPrefs.getBoolean(PreferencesKeys.USE_ZIPFILE, false);
+    }
+
     public void setInstaller(int installer) {
         mPrefs.edit().putInt(PreferencesKeys.INSTALLER, installer).apply();
     }

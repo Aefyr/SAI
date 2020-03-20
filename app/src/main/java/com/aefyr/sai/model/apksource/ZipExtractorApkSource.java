@@ -17,6 +17,11 @@ import java.io.InputStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
+
+/**
+ * @deprecated Use {@link ZipApkSource} wrapped in a {@link CopyToFileApkSource} instead
+ */
+@Deprecated
 public class ZipExtractorApkSource implements ApkSource {
     private Context mContext;
     private FileDescriptor mZipFileDescriptor;

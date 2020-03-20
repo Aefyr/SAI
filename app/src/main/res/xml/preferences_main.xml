@@ -76,6 +76,12 @@
             android:title="@string/settings_main_extract_archives"
             android:summary="@string/settings_main_extract_archives_summary" />
 
+        <SwitchPreference
+            android:icon="@drawable/ic_pref_unarchive"
+            android:key="use_zipfile"
+            android:title="@string/settings_main_use_zipfile"
+            android:summary="@string/settings_main_use_zipfile_summary" />
+
         <Preference
             android:icon="@drawable/ic_pref_home"
             android:key="home_directory"

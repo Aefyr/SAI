@@ -12,6 +12,7 @@ import com.aefyr.sai.utils.Utils;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.zip.ZipEntry;
+import java.util.zip.ZipException;
 import java.util.zip.ZipInputStream;
 
 public class ZipApkSource implements ApkSource {
@@ -40,8 +41,15 @@ public class ZipApkSource implements ApkSource {
         }
 
         do {
-            mCurrentZipEntry = mZipInputStream.getNextEntry();
-        } while (mCurrentZipEntry != null && (mCurrentZipEntry.isDirectory() || !mCurrentZipEntry.getName().endsWith(".apk")));
+            try {
+                mCurrentZipEntry = mZipInputStream.getNextEntry();
+            } catch (ZipException e) {
+                if (e.getMessage().equals("only DEFLATED entries can have EXT descriptor")) {
+                    throw new ZipException(mContext.getString(R.string.installer_recoverable_error_use_zipfile));
+                }
+                throw e;
+            }
+        } while (mCurrentZipEntry != null && (mCurrentZipEntry.isDirectory() || !mCurrentZipEntry.getName().toLowerCase().endsWith(".apk")));
 
         if (mCurrentZipEntry == null) {
             mZipInputStream.close();

@@ -64,6 +64,7 @@
     <string name="installer_show_full_error">Show full error</string>
     <string name="installer_placeholder_text">No installer sessions</string>
     <string name="installer_saf_tip">Long click to use system file picker.\n(Click this tooltip to hide it forever)</string>
+    <string name="installer_recoverable_error_use_zipfile">Archive can\'t be read the normal way. Please enable \"Use ZipFile API\" toggle in settings and try again.</string>
 
     <string name="backup_backup">Export</string>
     <string name="backup_backup_prompt">Export %s?</string>
@@ -115,6 +116,8 @@
     <string name="settings_main_sign_apks_summary">Sign APKs before installing</string>
     <string name="settings_main_extract_archives">Extract APKs from archives</string>
     <string name="settings_main_extract_archives_summary">Extract APK files from .zip/.apks archives into temporary files before installing them. If disabled, SAI will install APKs directly from archives without temp files. Not recommended to enable</string>
+    <string name="settings_main_use_zipfile">Use ZipFile API</string>
+    <string name="settings_main_use_zipfile_summary">Use ZipFile API to read ZIP archives (including .apks files), solves compatibility issues with some archives. Not recommended to enable unless an installer error message asks you to because this adds otherwise unnecessary overhead</string>
     <string name="settings_main_reset_one_time_warnings">Reset one-time warnings</string>
     <string name="settings_main_installer">Installer</string>
     <string name="settings_main_installer_summary">Installer to use for APKs installation.\nCurrently: %s</string>

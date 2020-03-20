@@ -61,6 +61,7 @@ public class InstallerViewModel extends AndroidViewModel implements SaiPiSession
             ApkSource apkSource = new ApkSourceBuilder(getApplication())
                     .fromZipFile(zipFile)
                     .setZipExtractionEnabled(mPrefsHelper.shouldExtractArchives())
+                    .setReadZipViaZipFileEnabled(mPrefsHelper.shouldUseZipFileApi())
                     .setSigningEnabled(mPrefsHelper.shouldSignApks())
                     .build();
 
@@ -72,6 +73,7 @@ public class InstallerViewModel extends AndroidViewModel implements SaiPiSession
         ApkSource apkSource = new ApkSourceBuilder(getApplication())
                 .fromZipContentUri(zipContentUri)
                 .setZipExtractionEnabled(mPrefsHelper.shouldExtractArchives())
+                .setReadZipViaZipFileEnabled(mPrefsHelper.shouldUseZipFileApi())
                 .setSigningEnabled(mPrefsHelper.shouldSignApks())
                 .build();
 
