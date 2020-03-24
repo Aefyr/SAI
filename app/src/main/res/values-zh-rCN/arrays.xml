@@ -1,18 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string-array name="file_picker_sort_variants">
         <item>"按名称 (A-Z)"</item>
         <item>"按名称 (Z-A)"</item>
         <item>"按修改时间 (升序)"</item>
         <item>"按修改时间 (降序)"</item>
-        <item>"Smallest file size first"</item>
-        <item>"Biggest file size first"</item>
+        <item>"按文件大小 (升序)"</item>
+        <item>"按文件大小 (降序)"</item>
     </string-array>
+
     <string-array name="installers">
-        <item>"默认 (推荐)"</item>
-        <item>"Root模式 (需要 Root)"</item>
-        <item>"Shizuku模式 (需要 Shizuku 3.x)"</item>
+        <item>"免Root (推荐)"</item>
+        <item>"Root (需要 Root)"</item>
+        <item>"Shizuku (需要 Shizuku 3.x)"</item>
     </string-array>
+
     <string-array name="size_units">
         <item>B</item>
         <item>KB</item>
@@ -21,25 +24,43 @@
         <item>TB</item>
         <item>PB</item>
     </string-array>
+
     <string-array name="backup_file_name_formats">
-        <item>名称_包名_版本.apks</item>
-        <item>名称.apks</item>
-        <item>名称_版本.apks</item>
+        <item>NAME_PACKAGE_VERSION.apks</item>
+        <item>NAME.apks</item>
+        <item>NAME_VERSION.apks</item>
     </string-array>
+
+    <string-array name="backup_file_name_formats_values" translatable="false">
+        <item>NAME_PACKAGE_VERSION</item>
+        <item>NAME</item>
+        <item>NAME_VERSION</item>
+    </string-array>
+
     <string-array name="install_locations">
         <item>由系统决定</item>
-        <item>内部储存</item>
-        <item>外部储存，如SD卡(可能无效)</item>
+        <item>内部储存器</item>
+        <item>外部储存器（系统仍有可能会使用内部储存器）</item>
     </string-array>
+
+    <string-array name="install_locations_values" translatable="false">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
     <string-array name="name_format_parts">
-        <item>应用名称</item>
+        <item>应用名</item>
         <item>版本</item>
-        <item>内部版本号</item>
+        <item>版本号</item>
         <item>包名</item>
-        <item>时间</item>
+        <item>时间戳记</item>
     </string-array>
+
     <string-array name="backup_dir_selection_methods">
-        <item>内置文件选择器(SAI内置)</item>
-        <item>系统文件选择器(SAF)</item>
+        <item>内部文件选择器</item>
+        <item>系统文件选择器</item>
     </string-array>
+
+
 </resources>
