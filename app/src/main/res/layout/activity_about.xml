@@ -39,6 +39,7 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
 
         <LinearLayout
+            android:id="@+id/container_about_buttons"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_about_author"
@@ -65,5 +66,13 @@
                 android:text="@string/about_donate"
                 android:visibility="gone" />
         </LinearLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/button_about_translate"
+            style="@style/SAIMaterialButton"
+            android:layout_below="@id/container_about_buttons"
+            android:layout_centerHorizontal="true"
+            android:text="@string/about_translate" />
+
     </RelativeLayout>
 </FrameLayout>

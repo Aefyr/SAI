@@ -22,6 +22,7 @@ public class AboutActivity extends ThemedActivity {
         findViewById(R.id.button_about_source).setOnClickListener((v) -> openLink(getString(R.string.about_source_link)));
         findViewById(R.id.button_about_donate).setOnClickListener((v) -> openLink(getString(R.string.about_donate_link)));
         findViewById(R.id.button_about_licenses).setOnClickListener((v) -> startActivity(new Intent(this, LicensesActivity.class)));
+        findViewById(R.id.button_about_translate).setOnClickListener(v -> openLink(getString(R.string.about_translate_link)));
 
         findViewById(R.id.iv_about_logo).setOnClickListener((v) -> sLogoClicksCount++);
         findViewById(R.id.iv_about_logo).setOnLongClickListener((v) -> {
