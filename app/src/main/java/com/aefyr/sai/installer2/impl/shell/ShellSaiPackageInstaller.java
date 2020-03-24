@@ -13,6 +13,7 @@ import android.util.Pair;
 
 import com.aefyr.sai.BuildConfig;
 import com.aefyr.sai.R;
+import com.aefyr.sai.installer2.base.model.AndroidPackageInstallerError;
 import com.aefyr.sai.installer2.base.model.SaiPiSessionParams;
 import com.aefyr.sai.installer2.base.model.SaiPiSessionState;
 import com.aefyr.sai.installer2.base.model.SaiPiSessionStatus;
@@ -121,7 +122,7 @@ public abstract class ShellSaiPackageInstaller extends BaseSaiPackageInstaller {
             Shell.Result installationResult = getShell().exec(new Shell.Command("pm", "install-commit", String.valueOf(androidSessionId)));
             if (!installationResult.isSuccessful()) {
                 mAwaitingBroadcast.set(false);
-                setSessionState(sessionId, new SaiPiSessionState.Builder(sessionId, SaiPiSessionStatus.INSTALLATION_FAILED).appTempName(appTempName).exception(new Exception(getContext().getString(R.string.installer_error_shell, getInstallerName(), getSessionInfo(apkSource) + "\n\n" + installationResult.toString()))).build());
+                setSessionState(sessionId, new SaiPiSessionState.Builder(sessionId, SaiPiSessionStatus.INSTALLATION_FAILED).appTempName(appTempName).exception(new Exception(getContext().getString(R.string.installer_error_shell, getInstallerName(), getSessionInfo(apkSource) + "\n\n" + parseError(installationResult)))).build());
                 unlockInstallation();
             }
         } catch (Exception e) {
@@ -224,6 +225,26 @@ public abstract class ShellSaiPackageInstaller extends BaseSaiPackageInstaller {
             Log.w(tag(), commandResult, e);
             return null;
         }
+    }
+
+    private String parseError(Shell.Result installCommitResult) {
+        AndroidPackageInstallerError matchedError = null;
+        for (AndroidPackageInstallerError error : AndroidPackageInstallerError.values()) {
+            if (installCommitResult.out.contains(error.getError())) {
+                matchedError = error;
+                break;
+            }
+        }
+
+        StringBuilder sb = new StringBuilder();
+        if (matchedError != null) {
+            sb.append(matchedError.getDescription(getContext()))
+                    .append("\n\n");
+        }
+
+        sb.append(getContext().getString(R.string.installer_shell_raw_error, installCommitResult.out));
+
+        return sb.toString();
     }
 
     protected abstract Shell getShell();

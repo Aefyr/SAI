@@ -10,12 +10,15 @@ import androidx.annotation.Nullable;
 
 import com.aefyr.sai.BuildConfig;
 import com.aefyr.sai.R;
+import com.aefyr.sai.installer2.base.model.AndroidPackageInstallerError;
 import com.aefyr.sai.utils.Utils;
 
 import java.util.HashSet;
 
 class RootlessSaiPiBroadcastReceiver extends BroadcastReceiver {
     private static final String TAG = "RootlessSaiPiBR";
+
+    public static final String ANDROID_PM_EXTRA_LEGACY_STATUS = "android.content.pm.extra.LEGACY_STATUS";
 
     public static final String ACTION_DELIVER_PI_EVENT = BuildConfig.APPLICATION_ID + ".action.RootlessSaiPiBroadcastReceiver.ACTION_DELIVER_PI_EVENT";
 
@@ -54,7 +57,7 @@ class RootlessSaiPiBroadcastReceiver extends BroadcastReceiver {
                 break;
             default:
                 Log.d(TAG, "Installation failed");
-                dispatchOnInstallationFailed(intent.getIntExtra(PackageInstaller.EXTRA_SESSION_ID, -1), new Exception(getErrorString(status, intent.getStringExtra(PackageInstaller.EXTRA_OTHER_PACKAGE_NAME))));
+                dispatchOnInstallationFailed(intent.getIntExtra(PackageInstaller.EXTRA_SESSION_ID, -1), new Exception(parseError(intent)));
                 break;
         }
     }
@@ -74,7 +77,29 @@ class RootlessSaiPiBroadcastReceiver extends BroadcastReceiver {
             observer.onInstallationFailed(sessionId, exception);
     }
 
-    public String getErrorString(int status, String blockingPackage) {
+    private String parseError(Intent intent) {
+        int status = intent.getIntExtra(PackageInstaller.EXTRA_STATUS, -999);
+        String otherPackage = intent.getStringExtra(PackageInstaller.EXTRA_OTHER_PACKAGE_NAME);
+        String error = intent.getStringExtra(PackageInstaller.EXTRA_STATUS_MESSAGE);
+        int errorCode = intent.getIntExtra(ANDROID_PM_EXTRA_LEGACY_STATUS, AndroidPackageInstallerError.UNKNOWN.getLegacyErrorCode());
+
+        if (status == STATUS_BAD_ROM) {
+            return mContext.getString(R.string.installer_error_lidl_rom);
+        }
+
+        AndroidPackageInstallerError androidPackageInstallerError = getAndroidPmError(errorCode, error);
+        if (androidPackageInstallerError != AndroidPackageInstallerError.UNKNOWN) {
+            return mContext.getString(R.string.installer_rootless_error2_template, error, androidPackageInstallerError.getDescription(mContext));
+        }
+
+        if (error != null) {
+            return mContext.getString(R.string.installer_rootless_error2_template, error, getSimplifiedErrorDescription(status, otherPackage));
+        } else {
+            return getSimplifiedErrorDescription(status, otherPackage);
+        }
+    }
+
+    public String getSimplifiedErrorDescription(int status, String blockingPackage) {
         switch (status) {
             case PackageInstaller.STATUS_FAILURE_ABORTED:
                 return mContext.getString(R.string.installer_error_aborted);
@@ -104,6 +129,14 @@ class RootlessSaiPiBroadcastReceiver extends BroadcastReceiver {
                 return mContext.getString(R.string.installer_error_lidl_rom);
         }
         return mContext.getString(R.string.installer_error_generic);
+    }
+
+    public AndroidPackageInstallerError getAndroidPmError(int legacyErrorCode, @Nullable String error) {
+        for (AndroidPackageInstallerError androidPackageInstallerError : AndroidPackageInstallerError.values()) {
+            if (androidPackageInstallerError.getLegacyErrorCode() == legacyErrorCode || (error != null && error.startsWith(androidPackageInstallerError.getError())))
+                return androidPackageInstallerError;
+        }
+        return AndroidPackageInstallerError.UNKNOWN;
     }
 
     public interface EventObserver {
