@@ -89,7 +89,7 @@ public class ThemeAdapter extends RecyclerView.Adapter<ThemeAdapter.ViewHolder> 
         private void bindTo(Theme.ThemeDescriptor theme) {
             mThemeView.setTheme(theme);
 
-            if (theme.isDonationRequired() && !(mDonationStatus == DonationStatus.DONATED || mDonationStatus == DonationStatus.FLOSS_MODE)) {
+            if (theme.isDonationRequired() && !mDonationStatus.unlocksThemes()) {
                 mThemeView.setMessage(R.string.donate_donate_only_theme);
             } else {
                 mThemeView.setMessage(null);
