@@ -256,6 +256,6 @@
     <string name="about_donate_link" translatable="false">https://yasobe.ru/na/sai</string>
     <string name="about_licenses">Licenses</string>
     <string name="about_translate">Help to translate SAI</string>
-    <string name="about_translate_link">https://polychromaticfox.crowdin.com/split-apks-installer</string>
+    <string name="about_translate_link" translatable="false">https://polychromaticfox.crowdin.com/split-apks-installer</string>
 
 </resources>
