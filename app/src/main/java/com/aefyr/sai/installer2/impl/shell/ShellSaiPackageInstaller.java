@@ -101,7 +101,7 @@ public abstract class ShellSaiPackageInstaller extends BaseSaiPackageInstaller {
         try (ApkSource apkSource = params.apkSource()) {
 
             if (!getShell().isAvailable()) {
-                setSessionState(sessionId, new SaiPiSessionState.Builder(sessionId, SaiPiSessionStatus.INSTALLATION_FAILED).exception(new Exception(getContext().getString(R.string.installer_error_shell, getInstallerName(), getShellUnavailableMessage()))).build());
+                setSessionState(sessionId, new SaiPiSessionState.Builder(sessionId, SaiPiSessionStatus.INSTALLATION_FAILED).error(getContext().getString(R.string.installer_error_shell, getInstallerName(), getShellUnavailableMessage()), null).build());
                 unlockInstallation();
                 return;
             }
@@ -111,7 +111,7 @@ public abstract class ShellSaiPackageInstaller extends BaseSaiPackageInstaller {
             int currentApkFile = 0;
             while (apkSource.nextApk()) {
                 if (apkSource.getApkLength() == -1) {
-                    setSessionState(sessionId, new SaiPiSessionState.Builder(sessionId, SaiPiSessionStatus.INSTALLATION_FAILED).appTempName(appTempName).exception(new Exception(getContext().getString(R.string.installer_error_unknown_apk_size))).build());
+                    setSessionState(sessionId, new SaiPiSessionState.Builder(sessionId, SaiPiSessionStatus.INSTALLATION_FAILED).appTempName(appTempName).error(getContext().getString(R.string.installer_error_unknown_apk_size), null).build());
                     unlockInstallation();
                     return;
                 }
@@ -122,7 +122,13 @@ public abstract class ShellSaiPackageInstaller extends BaseSaiPackageInstaller {
             Shell.Result installationResult = getShell().exec(new Shell.Command("pm", "install-commit", String.valueOf(androidSessionId)));
             if (!installationResult.isSuccessful()) {
                 mAwaitingBroadcast.set(false);
-                setSessionState(sessionId, new SaiPiSessionState.Builder(sessionId, SaiPiSessionStatus.INSTALLATION_FAILED).appTempName(appTempName).exception(new Exception(getContext().getString(R.string.installer_error_shell, getInstallerName(), getSessionInfo(apkSource) + "\n\n" + parseError(installationResult)))).build());
+
+                String shortError = getContext().getString(R.string.installer_error_shell, getInstallerName(), getSessionInfo(apkSource) + "\n\n" + parseError(installationResult));
+                setSessionState(sessionId, new SaiPiSessionState.Builder(sessionId, SaiPiSessionStatus.INSTALLATION_FAILED)
+                        .appTempName(appTempName)
+                        .error(shortError, shortError + "\n\n" + installationResult.toString())
+                        .build());
+
                 unlockInstallation();
             }
         } catch (Exception e) {
@@ -133,7 +139,11 @@ public abstract class ShellSaiPackageInstaller extends BaseSaiPackageInstaller {
                 getShell().exec(new Shell.Command("pm", "install-abandon", String.valueOf(androidSessionId)));
             }
 
-            setSessionState(sessionId, new SaiPiSessionState.Builder(sessionId, SaiPiSessionStatus.INSTALLATION_FAILED).appTempName(appTempName).exception(new Exception(getContext().getString(R.string.installer_error_shell, getInstallerName(), getSessionInfo(params.apkSource()) + "\n\n" + Utils.throwableToString(e)))).build());
+            setSessionState(sessionId, new SaiPiSessionState.Builder(sessionId, SaiPiSessionStatus.INSTALLATION_FAILED)
+                    .appTempName(appTempName)
+                    .error(getContext().getString(R.string.installer_error_shell, getInstallerName(), getSessionInfo(params.apkSource()) + "\n\n" + e.getLocalizedMessage()), getContext().getString(R.string.installer_error_shell, getInstallerName(), getSessionInfo(params.apkSource()) + "\n\n" + Utils.throwableToString(e)))
+                    .build());
+
             unlockInstallation();
         }
 
@@ -228,7 +238,7 @@ public abstract class ShellSaiPackageInstaller extends BaseSaiPackageInstaller {
     }
 
     private String parseError(Shell.Result installCommitResult) {
-        AndroidPackageInstallerError matchedError = null;
+        AndroidPackageInstallerError matchedError = AndroidPackageInstallerError.UNKNOWN;
         for (AndroidPackageInstallerError error : AndroidPackageInstallerError.values()) {
             if (installCommitResult.out.contains(error.getError())) {
                 matchedError = error;
@@ -236,15 +246,7 @@ public abstract class ShellSaiPackageInstaller extends BaseSaiPackageInstaller {
             }
         }
 
-        StringBuilder sb = new StringBuilder();
-        if (matchedError != null) {
-            sb.append(matchedError.getDescription(getContext()))
-                    .append("\n\n");
-        }
-
-        sb.append(getContext().getString(R.string.installer_shell_raw_error, installCommitResult.out));
-
-        return sb.toString();
+        return matchedError.getDescription(getContext());
     }
 
     protected abstract Shell getShell();

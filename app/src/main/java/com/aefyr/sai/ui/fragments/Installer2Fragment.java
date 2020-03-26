@@ -100,7 +100,8 @@ public class Installer2Fragment extends InstallerFragment implements FilePickerD
                     showPackageInstalledAlert(event.consume());
                     break;
                 case InstallerViewModel.EVENT_INSTALLATION_FAILED:
-                    ErrorLogDialogFragment2.newInstance(getString(R.string.installer_installation_failed), event.consume(), false).show(getChildFragmentManager(), "installation_error_dialog");
+                    String[] errors = event.consume();
+                    ErrorLogDialogFragment2.newInstance(getString(R.string.installer_installation_failed), errors[0], errors[1], false).show(getChildFragmentManager(), "installation_error_dialog");
                     break;
             }
         });
@@ -299,7 +300,7 @@ public class Installer2Fragment extends InstallerFragment implements FilePickerD
     }
 
     @Override
-    public void showError(Exception exception) {
-        ErrorLogDialogFragment2.newInstance(getString(R.string.installer_installation_failed), exception, false).show(getChildFragmentManager(), "installation_error_dialog");
+    public void showError(String shortError, String fullError) {
+        ErrorLogDialogFragment2.newInstance(getString(R.string.installer_installation_failed), shortError, fullError, false).show(getChildFragmentManager(), "installation_error_dialog");
     }
 }

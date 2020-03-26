@@ -16,8 +16,9 @@ public class SaiPiSessionState implements Comparable<SaiPiSessionState> {
     private String mPackageName;
     private String mAppTempName;
     private PackageMeta mPackageMeta;
-    private Exception mException;
     private long mLastUpdate;
+    private String mShortError;
+    private String mFullError;
 
     private SaiPiSessionState(String sessionId, SaiPiSessionStatus status) {
         mSessionId = sessionId;
@@ -54,9 +55,20 @@ public class SaiPiSessionState implements Comparable<SaiPiSessionState> {
         return mPackageMeta;
     }
 
+    /**
+     * @return user-readable error description
+     */
     @Nullable
-    public Exception exception() {
-        return mException;
+    public String shortError() {
+        return mShortError;
+    }
+
+    /**
+     * @return full error info for debugging and stuff. May be same as {@link #shortError()} if there's no better info
+     */
+    @Nullable
+    public String fullError() {
+        return mFullError;
     }
 
     public long lastUpdate() {
@@ -68,7 +80,7 @@ public class SaiPiSessionState implements Comparable<SaiPiSessionState> {
                 .packageName(packageName())
                 .appTempName(appTempName())
                 .packageMeta(packageMeta())
-                .exception(exception());
+                .error(shortError(), fullError());
     }
 
     @Override
@@ -126,8 +138,12 @@ public class SaiPiSessionState implements Comparable<SaiPiSessionState> {
             return this;
         }
 
-        public Builder exception(@Nullable Exception exception) {
-            mState.mException = exception;
+        public Builder error(String shortError, @Nullable String fullError) {
+            mState.mShortError = shortError;
+            if (fullError == null)
+                fullError = shortError;
+
+            mState.mFullError = fullError;
             return this;
         }
 

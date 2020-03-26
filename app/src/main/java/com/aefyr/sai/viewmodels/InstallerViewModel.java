@@ -22,6 +22,10 @@ import java.util.List;
 
 public class InstallerViewModel extends AndroidViewModel implements SaiPiSessionObserver {
     public static final String EVENT_PACKAGE_INSTALLED = "package_installed";
+
+    /**
+     * Payload is a String[2] with shortError at 0 and fullError or null at 1
+     */
     public static final String EVENT_INSTALLATION_FAILED = "installation_failed";
 
     private FlexSaiPackageInstaller mInstaller;
@@ -105,7 +109,7 @@ public class InstallerViewModel extends AndroidViewModel implements SaiPiSession
                 mEvents.setValue(new Event2(EVENT_PACKAGE_INSTALLED, state.packageName()));
                 break;
             case INSTALLATION_FAILED:
-                mEvents.setValue(new Event2(EVENT_INSTALLATION_FAILED, state.exception()));
+                mEvents.setValue(new Event2(EVENT_INSTALLATION_FAILED, new String[]{state.shortError(), state.fullError()}));
                 break;
         }
 

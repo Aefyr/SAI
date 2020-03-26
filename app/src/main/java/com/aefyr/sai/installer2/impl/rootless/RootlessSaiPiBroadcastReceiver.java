@@ -57,7 +57,7 @@ class RootlessSaiPiBroadcastReceiver extends BroadcastReceiver {
                 break;
             default:
                 Log.d(TAG, "Installation failed");
-                dispatchOnInstallationFailed(intent.getIntExtra(PackageInstaller.EXTRA_SESSION_ID, -1), new Exception(parseError(intent)));
+                dispatchOnInstallationFailed(intent.getIntExtra(PackageInstaller.EXTRA_SESSION_ID, -1), parseError(intent), getRawError(intent), null);
                 break;
         }
     }
@@ -72,9 +72,14 @@ class RootlessSaiPiBroadcastReceiver extends BroadcastReceiver {
             observer.onInstallationSucceeded(sessionId, packageName);
     }
 
-    private void dispatchOnInstallationFailed(int sessionId, Exception exception) {
+    private void dispatchOnInstallationFailed(int sessionId, String shortError, @Nullable String fullError, @Nullable Exception exception) {
         for (EventObserver observer : mObservers)
-            observer.onInstallationFailed(sessionId, exception);
+            observer.onInstallationFailed(sessionId, shortError, fullError, exception);
+    }
+
+    @Nullable
+    private String getRawError(Intent intent) {
+        return intent.getStringExtra(PackageInstaller.EXTRA_STATUS_MESSAGE);
     }
 
     private String parseError(Intent intent) {
@@ -89,14 +94,10 @@ class RootlessSaiPiBroadcastReceiver extends BroadcastReceiver {
 
         AndroidPackageInstallerError androidPackageInstallerError = getAndroidPmError(errorCode, error);
         if (androidPackageInstallerError != AndroidPackageInstallerError.UNKNOWN) {
-            return mContext.getString(R.string.installer_rootless_error2_template, error, androidPackageInstallerError.getDescription(mContext));
+            return androidPackageInstallerError.getDescription(mContext);
         }
 
-        if (error != null) {
-            return mContext.getString(R.string.installer_rootless_error2_template, error, getSimplifiedErrorDescription(status, otherPackage));
-        } else {
-            return getSimplifiedErrorDescription(status, otherPackage);
-        }
+        return getSimplifiedErrorDescription(status, otherPackage);
     }
 
     public String getSimplifiedErrorDescription(int status, String blockingPackage) {
@@ -149,7 +150,7 @@ class RootlessSaiPiBroadcastReceiver extends BroadcastReceiver {
 
         }
 
-        default void onInstallationFailed(int sessionId, Exception exception) {
+        default void onInstallationFailed(int sessionId, String shortError, @Nullable String fullError, @Nullable Exception exception) {
 
         }
     }

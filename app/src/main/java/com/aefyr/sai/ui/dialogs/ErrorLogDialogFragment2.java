@@ -25,9 +25,6 @@ public class ErrorLogDialogFragment2 extends DialogFragment {
     private CharSequence mFullError;
     private boolean mDisplayFullError;
 
-    public static ErrorLogDialogFragment2 newInstance(CharSequence title, Exception error, boolean displayFullError) {
-        return newInstance(title, error.getMessage(), Utils.throwableToString(error), displayFullError);
-    }
 
     public static ErrorLogDialogFragment2 newInstance(CharSequence title, CharSequence errorMessage, CharSequence fullError, boolean displayFullError) {
         ErrorLogDialogFragment2 fragment = new ErrorLogDialogFragment2();

@@ -72,9 +72,9 @@ public class SaiPiSessionsAdapter extends RecyclerView.Adapter<SaiPiSessionsAdap
             mActionDelegate.launchApp(packageName);
     }
 
-    private void showException(Exception e) {
+    private void showException(String shortError, String fullError) {
         if (mActionDelegate != null)
-            mActionDelegate.showError(e);
+            mActionDelegate.showError(shortError, fullError);
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
@@ -105,7 +105,7 @@ public class SaiPiSessionsAdapter extends RecyclerView.Adapter<SaiPiSessionsAdap
                         launchApp(state.packageName());
                         break;
                     case INSTALLATION_FAILED:
-                        showException(state.exception());
+                        showException(state.shortError(), state.fullError());
                         break;
                 }
             });
@@ -143,8 +143,8 @@ public class SaiPiSessionsAdapter extends RecyclerView.Adapter<SaiPiSessionsAdap
                     break;
                 case INSTALLATION_FAILED:
                     mActionIcon.setImageResource(R.drawable.ic_error);
-                    mActionIcon.setVisibility(state.exception() != null ? View.VISIBLE : View.GONE);
-                    mContainer.setEnabled(state.exception() != null);
+                    mActionIcon.setVisibility(state.shortError() != null ? View.VISIBLE : View.GONE);
+                    mContainer.setEnabled(state.shortError() != null);
                     break;
                 default:
                     mActionIcon.setVisibility(View.GONE);
@@ -162,6 +162,6 @@ public class SaiPiSessionsAdapter extends RecyclerView.Adapter<SaiPiSessionsAdap
 
         void launchApp(String packageName);
 
-        void showError(Exception exception);
+        void showError(String shortError, String fullError);
     }
 }

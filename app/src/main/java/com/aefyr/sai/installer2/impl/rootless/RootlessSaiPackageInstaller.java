@@ -11,6 +11,8 @@ import android.os.Handler;
 import android.os.HandlerThread;
 import android.util.Log;
 
+import androidx.annotation.Nullable;
+
 import com.aefyr.sai.installer2.base.model.SaiPiSessionParams;
 import com.aefyr.sai.installer2.base.model.SaiPiSessionState;
 import com.aefyr.sai.installer2.base.model.SaiPiSessionStatus;
@@ -18,6 +20,7 @@ import com.aefyr.sai.installer2.impl.BaseSaiPackageInstaller;
 import com.aefyr.sai.model.apksource.ApkSource;
 import com.aefyr.sai.utils.IOUtils;
 import com.aefyr.sai.utils.PreferencesHelper;
+import com.aefyr.sai.utils.Utils;
 
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -102,7 +105,7 @@ public class RootlessSaiPackageInstaller extends BaseSaiPackageInstaller impleme
             if (session != null)
                 session.abandon();
 
-            setSessionState(sessionId, new SaiPiSessionState.Builder(sessionId, SaiPiSessionStatus.INSTALLATION_FAILED).appTempName(appTempName).exception(e).build());
+            setSessionState(sessionId, new SaiPiSessionState.Builder(sessionId, SaiPiSessionStatus.INSTALLATION_FAILED).appTempName(appTempName).error(e.getLocalizedMessage(), Utils.throwableToString(e)).build());
         } finally {
             if (session != null)
                 session.close();
@@ -119,12 +122,15 @@ public class RootlessSaiPackageInstaller extends BaseSaiPackageInstaller impleme
     }
 
     @Override
-    public void onInstallationFailed(int androidSessionId, Exception exception) {
+    public void onInstallationFailed(int androidSessionId, String shortError, @Nullable String fullError, @Nullable Exception exception) {
         String sessionId = mAndroidPiSessionIdToSaiPiSessionId.get(androidSessionId);
         if (sessionId == null)
             return;
 
-        setSessionState(sessionId, new SaiPiSessionState.Builder(sessionId, SaiPiSessionStatus.INSTALLATION_FAILED).appTempName(mSessionIdToAppTempName.remove(sessionId)).exception(exception).build());
+        setSessionState(sessionId, new SaiPiSessionState.Builder(sessionId, SaiPiSessionStatus.INSTALLATION_FAILED)
+                .appTempName(mSessionIdToAppTempName.remove(sessionId))
+                .error(shortError, fullError)
+                .build());
 
     }
 
