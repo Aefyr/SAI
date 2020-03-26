@@ -14,7 +14,7 @@ import android.widget.ImageButton;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.aefyr.sai.R;
 import com.aefyr.sai.ui.activities.MainActivity;
@@ -56,8 +56,8 @@ public class LegacyInstallerFragment extends InstallerFragment implements FilePi
         mButton = findViewById(R.id.button_install);
         mButtonSettings = findViewById(R.id.ib_settings);
 
-        mViewModel = ViewModelProviders.of(this).get(LegacyInstallerViewModel.class);
-        mViewModel.getState().observe(this, (state) -> {
+        mViewModel = new ViewModelProvider(this).get(LegacyInstallerViewModel.class);
+        mViewModel.getState().observe(getViewLifecycleOwner(), (state) -> {
             switch (state) {
                 case IDLE:
                     mButton.setText(R.string.installer_install_apks);
@@ -71,7 +71,7 @@ public class LegacyInstallerFragment extends InstallerFragment implements FilePi
                     break;
             }
         });
-        mViewModel.getEvents().observe(this, (event) -> {
+        mViewModel.getEvents().observe(getViewLifecycleOwner(), (event) -> {
             if (event.isConsumed())
                 return;
 

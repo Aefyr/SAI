@@ -69,7 +69,7 @@ public class AppInstalledDialogFragment extends DialogFragment {
                     startActivity(finalAppLaunchIntent);
                 } catch (ActivityNotFoundException e) {
                     Log.w("AppInstalledDialog", "Unable to launch activity", e);
-                    SimpleAlertDialogFragment.newInstance(getString(R.string.error), getString(R.string.installer_unable_to_launch_app)).show(requireFragmentManager(), null);
+                    SimpleAlertDialogFragment.newInstance(getString(R.string.error), getString(R.string.installer_unable_to_launch_app)).show(getParentFragmentManager(), null);
                 }
                 dismiss();
             });

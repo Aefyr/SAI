@@ -69,7 +69,7 @@ public class ErrorLogDialogFragment2 extends DialogFragment {
             });
         } else {
             builder.setNeutralButton(R.string.installer_show_full_error, (d, w) -> {
-                newInstance(mTitle, mErrorMessage, mFullError, true).show(requireFragmentManager(), getTag());
+                newInstance(mTitle, mErrorMessage, mFullError, true).show(getParentFragmentManager(), getTag());
                 dismiss();
             });
         }

@@ -2,7 +2,8 @@ package com.aefyr.sai.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
+
+import androidx.preference.PreferenceManager;
 
 public class DbgPreferencesHelper {
     private static DbgPreferencesHelper sInstance;

@@ -3,13 +3,13 @@ package com.aefyr.sai.ui.dialogs;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentManager;
+import androidx.preference.PreferenceManager;
 
 import com.aefyr.sai.R;
 import com.aefyr.sai.billing.DefaultBillingManager;

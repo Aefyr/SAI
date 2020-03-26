@@ -2,7 +2,8 @@ package com.aefyr.sai.ui.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
+
+import androidx.preference.PreferenceManager;
 
 import com.aefyr.sai.R;
 import com.aefyr.sai.ui.fragments.miui.MiEntryFragment;

@@ -3,12 +3,12 @@ package com.aefyr.sai.ui.activities;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.view.MenuItem;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.preference.PreferenceManager;
 
 import com.aefyr.sai.R;
 import com.aefyr.sai.backup.BackupRepository;

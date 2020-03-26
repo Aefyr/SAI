@@ -3,13 +3,13 @@ package com.aefyr.sai.ui.dialogs;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.provider.Settings;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
+import androidx.preference.PreferenceManager;
 
 import com.aefyr.sai.R;
 import com.aefyr.sai.utils.PreferencesKeys;
@@ -36,7 +36,7 @@ public class MiuiWarningDialogFragment extends DialogFragment {
                     try {
                         startActivity(new Intent(Settings.ACTION_APPLICATION_DEVELOPMENT_SETTINGS));
                     } catch (Exception e) {
-                        SimpleAlertDialogFragment.newInstance(getString(R.string.error), getString(R.string.installer_miui_warning_oof)).show(getFragmentManager(), "alert_oof");
+                        SimpleAlertDialogFragment.newInstance(getString(R.string.error), getString(R.string.installer_miui_warning_oof)).show(getParentFragmentManager(), "alert_oof");
                     }
 
                     dismiss();
