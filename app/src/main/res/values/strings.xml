@@ -65,7 +65,6 @@
     <string name="installer_placeholder_text">No installer sessions</string>
     <string name="installer_saf_tip">Long click to use system file picker.\n(Click this tooltip to hide it forever)</string>
     <string name="installer_recoverable_error_use_zipfile">Archive can\'t be read the normal way. Please enable \"Use ZipFile API\" toggle in settings and try again.</string>
-    <string name="installer_rootless_error2_template">%2$s\n\nRaw error: %1$s</string>
     <string name="installer_rootless_error2_unknown">Unknown error</string>
     <string name="installer_rootless_error2_install_failed_already_exists">This package is already installed</string>
     <string name="installer_rootless_error2_install_failed_invalid_apk">APK file is not valid</string>
@@ -118,7 +117,6 @@
     <string name="installer_rootless_error2_install_failed_other_staged_session_in_progress">There\'s already a package installer session being committed for this package name</string>
     <string name="installer_rootless_error2_install_failed_multipackage_inconsistency">One of the child package installer sessions does not match the parent session in respect to staged or rollback enabled parameters</string>
     <string name="installer_rootless_error2_install_failed_wrong_installed_version">Required version of an already installed package doesn\'t match the actual version of the installed package</string>
-    <string name="installer_shell_raw_error">Raw error:\n%s</string>
 
     <string name="backup_backup">Export</string>
     <string name="backup_backup_prompt">Export %s?</string>
