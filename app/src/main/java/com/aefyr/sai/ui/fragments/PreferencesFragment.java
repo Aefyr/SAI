@@ -137,7 +137,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Fil
 
         mAutoThemeSwitch = Objects.requireNonNull(findPreference(PreferencesKeys.AUTO_THEME));
         mAutoThemePicker = findPreference(PreferencesKeys.AUTO_THEME_PICKER);
-        if (Utils.apiIsAtLeast(29)) {
+        if (Utils.apiIsAtLeast(Build.VERSION_CODES.Q)) {
             updateAutoThemePickerSummary();
 
             mAutoThemeSwitch.setOnPreferenceChangeListener((preference, newValue) -> {

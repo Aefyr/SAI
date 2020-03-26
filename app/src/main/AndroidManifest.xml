@@ -23,8 +23,10 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/icon"
         android:theme="@style/AppTheme.Light"
-        tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".ui.activities.DonateActivity"></activity>
+        tools:ignore="GoogleAppIndexingWarning"
+        android:requestLegacyExternalStorage="true">
+
+        <activity android:name=".ui.activities.DonateActivity" />
         <activity android:name=".ui.activities.MiActivity" />
         <activity
             android:name=".ui.activities.MainActivity"
