@@ -5,8 +5,8 @@
         <item>"按名称 (Z-A)"</item>
         <item>"按修改时间 (升序)"</item>
         <item>"按修改时间 (降序)"</item>
-        <item>"Smallest file size first"</item>
-        <item>"Biggest file size first"</item>
+        <item>"按文件大小(升序)"</item>
+        <item>"按文件大小(降序)"</item>
     </string-array>
     <string-array name="installers">
         <item>"默认 (推荐)"</item>
@@ -36,7 +36,7 @@
         <item>版本</item>
         <item>内部版本号</item>
         <item>包名</item>
-        <item>时间</item>
+        <item>时间戳</item>
     </string-array>
     <string-array name="backup_dir_selection_methods">
         <item>内置文件选择器(SAI内置)</item>
