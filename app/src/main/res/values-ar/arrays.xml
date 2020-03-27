@@ -32,9 +32,9 @@
         <item>يفضل التخزين الخارجي (قد يظل النظام يقرر إستخدام التخزين الداخلي)</item>
     </string-array>
     <string-array name="name_format_parts">
-        <item>الإسم</item>
+        <item>الاسم</item>
         <item>الإصدار</item>
-        <item>كود الإصدار</item>
+        <item>رمز الإصدار</item>
         <item>الحزمة</item>
         <item>الطابع الزمني</item>
     </string-array>

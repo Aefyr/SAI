@@ -1,45 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="file_picker_sort_variants">
-        <item>"İsme göre (Alfabetik)"</item>
-        <item>"İsme göre (Ters Alfabetik)"</item>
-        <item>"Değiştirilme tarihine göre (sonra)"</item>
-        <item>"Değiştirilme tarihine göre (önce)"</item>
-        <item>"En küçük boyutlu olandan"</item>
-        <item>"En büyük boyutlu olandan"</item>
+        <item>"İsme göre (A-Z)"</item>
+        <item>"İsme göre (Z-A)"</item>
+        <item>"Zamana göre (önce yeni)"</item>
+        <item>"Zamana göre (önce eski)"</item>
+        <item>"Önce en küçük dosya boyutlu"</item>
+        <item>"Önce en büyük dosya boyutlu"</item>
     </string-array>
     <string-array name="installers">
-        <item>"Köksüz (önerilen)"</item>
-        <item>"Köklü (kök gerektirir)"</item>
-        <item>"Shizuku (Shizuku 3.x sürümü gerektirir)"</item>
+        <item>"Rootsuz (önerilen)"</item>
+        <item>"Rootlu (root gerektirir)"</item>
+        <item>"Shizuku (Shizuku 3.x gerektirir)"</item>
     </string-array>
     <string-array name="size_units">
-        <item>Bayt</item>
-        <item>KiloBayt</item>
-        <item>MegaBayt</item>
-        <item>GigaBayt</item>
-        <item>TeraBayt</item>
-        <item>PetaBayt</item>
+        <item>B</item>
+        <item>KB</item>
+        <item>MB</item>
+        <item>GB</item>
+        <item>TB</item>
+        <item>PB</item>
     </string-array>
     <string-array name="backup_file_name_formats">
-        <item>İSİM_PAKETADI_SÜRÜM.apks</item>
+        <item>İSİM_PAKET_SÜRÜM.apks</item>
         <item>İSİM.apks</item>
         <item>İSİM_SÜRÜM.apks</item>
     </string-array>
     <string-array name="install_locations">
-        <item>Varsayılan (Sistemin seçimi)</item>
+        <item>Sistem varsayılanı</item>
         <item>Yalnızca dahili bellek</item>
-        <item>Harici bellek (Sistem hala dahili belleği kullanmaya karar verebilir)</item>
+        <item>Harici bellek (Sistem yine de dahili belleği kullanmaya karar verebilir)</item>
     </string-array>
     <string-array name="name_format_parts">
         <item>İsim</item>
         <item>Sürüm</item>
         <item>Sürüm kodu</item>
-        <item>Paket adı</item>
+        <item>Paket</item>
         <item>Zaman Damgası</item>
     </string-array>
     <string-array name="backup_dir_selection_methods">
         <item>Dahili dosya seçici</item>
-        <item>Harici dosya seçici</item>
+        <item>Sistem dosya seçici</item>
     </string-array>
 </resources>
