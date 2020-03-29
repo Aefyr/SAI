@@ -198,6 +198,8 @@
     <string name="settings_main_auto_theme_summary">Automatically switch between selected light and dark themes depending on system theme</string>
     <string name="settings_main_auto_theme_picker">Choose themes</string>
     <string name="settings_main_auto_theme_picker_summary">Current light theme: %s\nCurrent dark theme: %s</string>
+    <string name="settings_main_auto_theme_pre_q_warning">Please note that following the system theme may not work correctly on Android versions lower than Q</string>
+
 
     <string name="name_format_builder_title">Select parts to include in exported app name</string>
     <string name="name_format_builder_preview">Preview: %s</string>

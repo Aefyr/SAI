@@ -26,6 +26,7 @@ import com.aefyr.sai.ui.activities.DonateActivity;
 import com.aefyr.sai.ui.dialogs.DarkLightThemeSelectionDialogFragment;
 import com.aefyr.sai.ui.dialogs.FilePickerDialogFragment;
 import com.aefyr.sai.ui.dialogs.NameFormatBuilderDialogFragment;
+import com.aefyr.sai.ui.dialogs.SimpleAlertDialogFragment;
 import com.aefyr.sai.ui.dialogs.SingleChoiceListDialogFragment;
 import com.aefyr.sai.ui.dialogs.ThemeSelectionDialogFragment;
 import com.aefyr.sai.ui.dialogs.base.BaseBottomSheetDialogFragment;
@@ -137,32 +138,30 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Fil
 
         mAutoThemeSwitch = Objects.requireNonNull(findPreference(PreferencesKeys.AUTO_THEME));
         mAutoThemePicker = findPreference(PreferencesKeys.AUTO_THEME_PICKER);
-        if (Utils.apiIsAtLeast(Build.VERSION_CODES.Q)) {
-            updateAutoThemePickerSummary();
+        updateAutoThemePickerSummary();
 
-            mAutoThemeSwitch.setOnPreferenceChangeListener((preference, newValue) -> {
-                boolean value = (boolean) newValue;
-                if (value) {
-                    Theme.getInstance(requireContext()).setMode(Theme.Mode.AUTO_LIGHT_DARK);
-                } else {
-                    Theme.getInstance(requireContext()).setMode(Theme.Mode.CONCRETE);
-                }
+        mAutoThemeSwitch.setOnPreferenceChangeListener((preference, newValue) -> {
+            boolean value = (boolean) newValue;
+            if (value) {
+                if (!Utils.apiIsAtLeast(Build.VERSION_CODES.Q))
+                    SimpleAlertDialogFragment.newInstance(requireContext(), R.string.settings_main_auto_theme, R.string.settings_main_auto_theme_pre_q_warning).show(getChildFragmentManager(), null);
 
-                //Hack to not mess with hiding/showing preferences manually
-                requireActivity().recreate();
-                return true;
-            });
-
-            mAutoThemePicker.setOnPreferenceClickListener(pref -> {
-                DarkLightThemeSelectionDialogFragment.newInstance().show(getChildFragmentManager(), null);
-                return true;
-            });
-
-            if (Theme.getInstance(requireContext()).getThemeMode() != Theme.Mode.AUTO_LIGHT_DARK) {
-                mAutoThemePicker.setVisible(false);
+                Theme.getInstance(requireContext()).setMode(Theme.Mode.AUTO_LIGHT_DARK);
+            } else {
+                Theme.getInstance(requireContext()).setMode(Theme.Mode.CONCRETE);
             }
-        } else {
-            mAutoThemeSwitch.setVisible(false);
+
+            //Hack to not mess with hiding/showing preferences manually
+            requireActivity().recreate();
+            return true;
+        });
+
+        mAutoThemePicker.setOnPreferenceClickListener(pref -> {
+            DarkLightThemeSelectionDialogFragment.newInstance().show(getChildFragmentManager(), null);
+            return true;
+        });
+
+        if (Theme.getInstance(requireContext()).getThemeMode() != Theme.Mode.AUTO_LIGHT_DARK) {
             mAutoThemePicker.setVisible(false);
         }
 
