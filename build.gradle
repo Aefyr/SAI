@@ -29,9 +29,6 @@ allprojects {
         maven {
             url 'https://maven.fabric.io/public'
         }
-        maven {
-            url 'https://dl.bintray.com/rikkaw/Shizuku'
-        }
         maven { url "https://jitpack.io" }
     }
 }
