@@ -9,7 +9,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.aefyr.sai.adapters.selection.Selection;
 import com.aefyr.sai.adapters.selection.SimpleKeyStorage;
-import com.aefyr.sai.installerx.impl.DummySplitApkSourceMetaResolver;
+import com.aefyr.sai.installerx.impl.DefaultSplitApkSourceMetaResolver;
 import com.aefyr.sai.model.installerx.SplitApkSourceMeta;
 import com.aefyr.sai.utils.SimpleAsyncTask;
 
@@ -25,7 +25,6 @@ public class InstallerXDialogViewModel extends AndroidViewModel {
 
     public InstallerXDialogViewModel(@NonNull Application application) {
         super(application);
-        mLoadMetaTask = new LoadMetaTask(new File("")).execute();
     }
 
     public LiveData<SplitApkSourceMeta> getMeta() {
@@ -36,6 +35,13 @@ public class InstallerXDialogViewModel extends AndroidViewModel {
         return mPartsSelection;
     }
 
+    public void parseApkSourceFile(File apkSourceFile) {
+        if (mLoadMetaTask != null)
+            mLoadMetaTask.cancel();
+
+        mLoadMetaTask = new LoadMetaTask(apkSourceFile).execute();
+    }
+
     private class LoadMetaTask extends SimpleAsyncTask<File, SplitApkSourceMeta> {
 
         public LoadMetaTask(File file) {
@@ -44,7 +50,8 @@ public class InstallerXDialogViewModel extends AndroidViewModel {
 
         @Override
         protected SplitApkSourceMeta doWork(File file) throws Exception {
-            return new DummySplitApkSourceMetaResolver(getApplication()).resolveFor(file);
+            return new DefaultSplitApkSourceMetaResolver().resolveFor(file);
+            //return new DummySplitApkSourceMetaResolver(getApplication()).resolveFor(file);
         }
 
         @Override
@@ -55,6 +62,7 @@ public class InstallerXDialogViewModel extends AndroidViewModel {
         @Override
         protected void onError(Exception exception) {
             //TODO handle error
+            throw new RuntimeException(exception);
         }
     }
 
