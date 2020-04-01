@@ -234,6 +234,9 @@
     <string name="donate_dialog_go_to_donate_page">Go to donate screen</string>
     <string name="donate_dialog_title">Donation</string>
 
+    <string name="installerx_dialog_title">Configure installation</string>
+    <string name="installerx_select_splits_hint">You can select what splits to install</string>
+
     <string name="theme_sai">SAI</string>
     <string name="theme_ruby">Ruby</string>
     <string name="theme_rena">Rena</string>
