@@ -251,7 +251,7 @@
     <string name="installerx_split_config_dpi_for_base">%1$s (%2$d DPI) resources for base APK</string>
     <string name="installerx_split_config_dpi_for_module">%1$s (%2$d DPI) resources for feature \"%3$s\"</string>
     <string name="installerx_category_unknown">Unknown</string>
-    <string name="installerx_category_unknown_desc">Split APK parts with unknown purpose, please open an issue on SAI\'s GitHub and attach this APK or at least a screenshot of parts names if you encounter this</string>
+    <string name="installerx_category_unknown_desc">Split APK parts with unknown purpose, please open an issue on SAI\'s GitHub and attach this APK or at least a screenshot of parts names if you encounter this. It is highly recommended to install these parts unless you know their exact purpose</string>
 
 
     <string name="theme_sai">SAI</string>
