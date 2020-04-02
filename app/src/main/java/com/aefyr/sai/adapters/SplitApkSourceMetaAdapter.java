@@ -14,9 +14,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.aefyr.sai.R;
 import com.aefyr.sai.adapters.selection.Selection;
+import com.aefyr.sai.installerx.SplitApkSourceMeta;
+import com.aefyr.sai.installerx.SplitCategory;
 import com.aefyr.sai.model.common.PackageMeta;
-import com.aefyr.sai.model.installerx.SplitApkSourceMeta;
-import com.aefyr.sai.model.installerx.SplitCategory;
 import com.bumptech.glide.Glide;
 
 public class SplitApkSourceMetaAdapter extends RecyclerView.Adapter<SplitApkSourceMetaAdapter.BaseViewHolder> {
@@ -155,12 +155,14 @@ public class SplitApkSourceMetaAdapter extends RecyclerView.Adapter<SplitApkSour
     protected class SplitCategoryViewHolder extends BaseViewHolder<SplitCategory> {
 
         private TextView mTitle;
+        private TextView mDesc;
         private SplitPartsAdapter mPartsAdapter;
 
         public SplitCategoryViewHolder(@NonNull View itemView) {
             super(itemView);
 
             mTitle = itemView.findViewById(R.id.tv_installerx_split_category_title);
+            mDesc = itemView.findViewById(R.id.tv_installerx_split_category_desc);
 
             RecyclerView partsRecycler = itemView.findViewById(R.id.rv_installerx_split_category_parts);
             partsRecycler.setLayoutManager(new LinearLayoutManager(mContext));
@@ -173,6 +175,10 @@ public class SplitApkSourceMetaAdapter extends RecyclerView.Adapter<SplitApkSour
         @Override
         void bindTo(SplitCategory category) {
             mTitle.setText(category.name());
+
+            mDesc.setVisibility(category.description() != null ? View.VISIBLE : View.GONE);
+            mDesc.setText(category.description());
+
             mPartsAdapter.setParts(category.parts());
         }
 

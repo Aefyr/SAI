@@ -1,13 +1,14 @@
-package com.aefyr.sai.installerx.splitmeta;
+package com.aefyr.sai.installerx.splitmeta.config;
 
 
 import androidx.annotation.Nullable;
 
+import com.aefyr.sai.installerx.splitmeta.SplitMeta;
 import com.aefyr.sai.utils.TextUtils;
 
 import java.util.Map;
 
-public class ConfigSplitMeta extends SplitMeta {
+public abstract class ConfigSplitMeta extends SplitMeta {
 
     private String mModule;
 
@@ -18,11 +19,11 @@ public class ConfigSplitMeta extends SplitMeta {
     }
 
     @Nullable
-    public String getModule() {
+    public String module() {
         return mModule;
     }
 
     public boolean isForModule() {
-        return getModule() != null;
+        return module() != null;
     }
 }

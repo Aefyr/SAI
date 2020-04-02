@@ -1,9 +1,11 @@
-package com.aefyr.sai.model.installerx;
+package com.aefyr.sai.installerx;
 
 import androidx.annotation.Nullable;
 
+import com.aefyr.sai.installerx.resolver.SplitApkSourceMetaResolver;
 import com.aefyr.sai.model.common.PackageMeta;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SplitApkSourceMeta {
@@ -30,8 +32,18 @@ public class SplitApkSourceMeta {
         return mSplits;
     }
 
+    public List<SplitPart> flatSplits() {
+        ArrayList<SplitPart> parts = new ArrayList<>();
+
+        for (SplitCategory category : splits()) {
+            parts.addAll(category.parts());
+        }
+
+        return parts;
+    }
+
     /**
-     * @return splits that shouldn't be shown to user if a {@link com.aefyr.sai.installerx.SplitApkSourceMetaResolver} decides so
+     * @return splits that shouldn't be shown to user if a {@link SplitApkSourceMetaResolver} decides so
      */
     public List<SplitPart> hiddenSplits() {
         return mHiddenSplits;

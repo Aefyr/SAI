@@ -1,4 +1,4 @@
-package com.aefyr.sai.model.installerx;
+package com.aefyr.sai.installerx;
 
 import androidx.annotation.Nullable;
 
@@ -8,24 +8,32 @@ import java.util.List;
 
 public class SplitCategory {
 
-    private String mId;
+    private Category mCategory;
     private String mName;
     private String mDescription;
     private List<SplitPart> mParts;
 
-    public SplitCategory(String id, String name, @Nullable String description) {
-        mId = id;
+    public SplitCategory(Category category, String name, @Nullable String description) {
+        mCategory = category;
         mName = name;
         mDescription = description;
         mParts = new ArrayList<>();
     }
 
+    public Category category() {
+        return mCategory;
+    }
+
     public String id() {
-        return mId;
+        return mCategory.id();
     }
 
     public String name() {
         return mName;
+    }
+
+    public void setDescription(String description) {
+        mDescription = description;
     }
 
     @Nullable

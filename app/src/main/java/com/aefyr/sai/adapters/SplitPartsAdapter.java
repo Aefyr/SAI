@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.aefyr.sai.R;
 import com.aefyr.sai.adapters.selection.SelectableAdapter;
 import com.aefyr.sai.adapters.selection.Selection;
-import com.aefyr.sai.model.installerx.SplitPart;
+import com.aefyr.sai.installerx.SplitPart;
 
 import java.util.List;
 

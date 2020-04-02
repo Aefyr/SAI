@@ -236,6 +236,23 @@
 
     <string name="installerx_dialog_title">Configure installation</string>
     <string name="installerx_select_splits_hint">You can select what splits to install</string>
+    <string name="installerx_category_base_apk">Base APK</string>
+    <string name="installerx_category_dynamic_features">Dynamic features</string>
+    <string name="installerx_dynamic_feature">Feature \"%s\"</string>
+    <string name="installerx_category_config_abi">Configuration: Architecture</string>
+    <string name="installerx_category_config_abi_desc">Your device supports (from most to least preferred): %s </string>
+    <string name="installerx_split_config_abi_for_base">%s code for base APK</string>
+    <string name="installerx_split_config_abi_for_module">%1$s code for feature \"%2$s\"</string>
+    <string name="installerx_category_config_locale">Configuration: Locale</string>
+    <string name="installerx_split_config_locale_for_base">%s locale for base APK</string>
+    <string name="installerx_split_config_locale_for_module">%1$s locale for feature \"%2$s\"</string>
+    <string name="installerx_category_config_dpi">Configuration: DPI Resources</string>
+    <string name="installerx_category_config_dpi_desc">Your device DPI is %d</string>
+    <string name="installerx_split_config_dpi_for_base">%1$s (%2$d DPI) resources for base APK</string>
+    <string name="installerx_split_config_dpi_for_module">%1$s (%2$d DPI) resources for feature \"%3$s\"</string>
+    <string name="installerx_category_unknown">Unknown</string>
+    <string name="installerx_category_unknown_desc">Split APK parts with unknown purpose, please open an issue on SAI\'s GitHub and attach this APK or at least a screenshot of parts names if you encounter this</string>
+
 
     <string name="theme_sai">SAI</string>
     <string name="theme_ruby">Ruby</string>

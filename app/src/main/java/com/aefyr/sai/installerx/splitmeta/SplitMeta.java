@@ -2,6 +2,10 @@ package com.aefyr.sai.installerx.splitmeta;
 
 import androidx.annotation.Nullable;
 
+import com.aefyr.sai.installerx.splitmeta.config.AbiConfigSplitMeta;
+import com.aefyr.sai.installerx.splitmeta.config.LocaleConfigSplitMeta;
+import com.aefyr.sai.installerx.splitmeta.config.ScreenDestinyConfigSplitMeta;
+import com.aefyr.sai.installerx.splitmeta.config.UnknownConfigSplitMeta;
 import com.aefyr.sai.utils.TextUtils;
 
 import java.util.HashMap;
@@ -44,7 +48,18 @@ public abstract class SplitMeta {
         }
 
         if (manifestAttrs.containsKey("configForSplit")) {
-            return new ConfigSplitMeta(manifestAttrs);
+            String splitName = TextUtils.requireNonEmpty(manifestAttrs.get("split"));
+
+            if (AbiConfigSplitMeta.isAbiSplit(splitName))
+                return new AbiConfigSplitMeta(manifestAttrs);
+
+            if (ScreenDestinyConfigSplitMeta.isScreenDensitySplit(splitName))
+                return new ScreenDestinyConfigSplitMeta(manifestAttrs);
+
+            if (LocaleConfigSplitMeta.isLocaleSplit(splitName))
+                return new LocaleConfigSplitMeta(manifestAttrs);
+
+            return new UnknownConfigSplitMeta(manifestAttrs);
         }
 
         return new UnknownSplitMeta(manifestAttrs);

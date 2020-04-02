@@ -1,6 +1,6 @@
-package com.aefyr.sai.installerx;
+package com.aefyr.sai.installerx.resolver;
 
-import com.aefyr.sai.model.installerx.SplitApkSourceMeta;
+import com.aefyr.sai.installerx.SplitApkSourceMeta;
 
 import java.io.File;
 

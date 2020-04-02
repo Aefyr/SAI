@@ -9,11 +9,14 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.aefyr.sai.adapters.selection.Selection;
 import com.aefyr.sai.adapters.selection.SimpleKeyStorage;
-import com.aefyr.sai.installerx.impl.DefaultSplitApkSourceMetaResolver;
-import com.aefyr.sai.model.installerx.SplitApkSourceMeta;
+import com.aefyr.sai.installerx.SplitApkSourceMeta;
+import com.aefyr.sai.installerx.SplitPart;
+import com.aefyr.sai.installerx.resolver.impl.DefaultSplitApkSourceMetaResolver;
 import com.aefyr.sai.utils.SimpleAsyncTask;
 
 import java.io.File;
+import java.util.HashSet;
+import java.util.Set;
 
 public class InstallerXDialogViewModel extends AndroidViewModel {
 
@@ -42,21 +45,39 @@ public class InstallerXDialogViewModel extends AndroidViewModel {
         mLoadMetaTask = new LoadMetaTask(apkSourceFile).execute();
     }
 
-    private class LoadMetaTask extends SimpleAsyncTask<File, SplitApkSourceMeta> {
+    private static class LoadMetaTaskResult {
+        SplitApkSourceMeta meta;
+        Set<String> splitsToSelect;
+
+        private LoadMetaTaskResult(SplitApkSourceMeta meta, Set<String> splitsToSelect) {
+            this.meta = meta;
+            this.splitsToSelect = splitsToSelect;
+        }
+    }
+
+    private class LoadMetaTask extends SimpleAsyncTask<File, LoadMetaTaskResult> {
 
         public LoadMetaTask(File file) {
             super(file);
         }
 
         @Override
-        protected SplitApkSourceMeta doWork(File file) throws Exception {
-            return new DefaultSplitApkSourceMetaResolver().resolveFor(file);
-            //return new DummySplitApkSourceMetaResolver(getApplication()).resolveFor(file);
+        protected LoadMetaTaskResult doWork(File file) throws Exception {
+            SplitApkSourceMeta meta = new DefaultSplitApkSourceMetaResolver(getApplication()).resolveFor(file);
+            HashSet<String> splitsToSelect = new HashSet<>();
+
+            for (SplitPart part : meta.flatSplits()) {
+                if (part.isRecommended())
+                    splitsToSelect.add(part.id());
+            }
+
+            return new LoadMetaTaskResult(meta, splitsToSelect);
         }
 
         @Override
-        protected void onWorkDone(SplitApkSourceMeta splitApkSourceMeta) {
-            mMeta.setValue(splitApkSourceMeta);
+        protected void onWorkDone(LoadMetaTaskResult result) {
+            mMeta.setValue(result.meta);
+            mPartsSelection.batchSetSelected(result.splitsToSelect, true);
         }
 
         @Override
