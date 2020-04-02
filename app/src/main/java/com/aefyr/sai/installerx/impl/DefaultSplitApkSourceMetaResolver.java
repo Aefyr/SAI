@@ -1,11 +1,11 @@
 package com.aefyr.sai.installerx.impl;
 
-import android.text.TextUtils;
 import android.util.Log;
 
 import com.aefyr.sai.installerx.SplitApkSourceMetaResolver;
 import com.aefyr.sai.installerx.splitmeta.BaseSplitMeta;
 import com.aefyr.sai.installerx.splitmeta.SplitMeta;
+import com.aefyr.sai.installerx.util.AndroidBinXmlParser;
 import com.aefyr.sai.model.common.PackageMeta;
 import com.aefyr.sai.model.installerx.SplitApkSourceMeta;
 import com.aefyr.sai.model.installerx.SplitCategory;
@@ -14,24 +14,18 @@ import com.aefyr.sai.utils.IOUtils;
 import com.aefyr.sai.utils.Stopwatch;
 import com.aefyr.sai.utils.Utils;
 
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import java.util.zip.ZipInputStream;
-
-import fr.xgouchet.axml.Attribute;
-import fr.xgouchet.axml.CompressedXmlParser;
-import fr.xgouchet.axml.CompressedXmlParserListener;
 
 public class DefaultSplitApkSourceMetaResolver implements SplitApkSourceMetaResolver {
     private static final String TAG = "DSASMetaResolver";
@@ -72,72 +66,37 @@ public class DefaultSplitApkSourceMetaResolver implements SplitApkSourceMetaReso
                 continue;
 
             seenApk = true;
+            boolean seenManifestElement = false;
 
-            AtomicBoolean seenManifestElement = new AtomicBoolean(false);
-            AtomicInteger currentDepth = new AtomicInteger(0);
             HashMap<String, String> manifestAttrs = new HashMap<>();
-            new CompressedXmlParser().parse(stealManifestFromApk(zipFile.getInputStream(entry)), new CompressedXmlParserListener() {
-                @Override
-                public void startDocument() {
 
-                }
+            AndroidBinXmlParser parser = new AndroidBinXmlParser(stealManifestFromApk(zipFile.getInputStream(entry)));
+            int eventType = parser.getEventType();
+            while (eventType != AndroidBinXmlParser.EVENT_END_DOCUMENT) {
 
-                @Override
-                public void endDocument() {
-
-                }
-
-                @Override
-                public void startPrefixMapping(String prefix, String uri) {
-
-                }
-
-                @Override
-                public void endPrefixMapping(String prefix, String uri) {
-
-                }
-
-                @Override
-                public void startElement(String uri, String localName, String qName, Attribute[] atts) {
-                    currentDepth.incrementAndGet();
-
-                    if (currentDepth.get() == 1 && localName.equals("manifest")) {
-                        if (seenManifestElement.get())
+                if (eventType == AndroidBinXmlParser.EVENT_START_ELEMENT) {
+                    if (parser.getName().equals("manifest") && parser.getNamespace().isEmpty()) {
+                        if (seenManifestElement)
                             throw new RuntimeException("Duplicate manifest element found");
 
-                        seenManifestElement.set(true);
+                        seenManifestElement = true;
 
-                        for (Attribute attr : atts) {
-                            if (!TextUtils.isEmpty(attr.getName())) {
-                                String value = attr.getValue() == null ? "" : attr.getValue();
-                                manifestAttrs.put((!TextUtils.isEmpty(attr.getNamespace()) ? attr.getNamespace() + ":" : "") + attr.getName(), value);
-                            }
+                        for (int i = 0; i < parser.getAttributeCount(); i++) {
+                            if (parser.getAttributeName(i).isEmpty())
+                                continue;
+
+                            String namespace = "" + (parser.getAttributeNamespace(i).isEmpty() ? "" : (parser.getAttributeNamespace(i) + ":"));
+
+                            manifestAttrs.put(namespace + parser.getAttributeName(i), parser.getAttributeStringValue(i));
                         }
                     }
                 }
 
-                @Override
-                public void endElement(String uri, String localName, String qName) {
-                    currentDepth.decrementAndGet();
-                }
 
-                @Override
-                public void text(String data) {
+                eventType = parser.next();
+            }
 
-                }
-
-                @Override
-                public void characterData(String data) {
-
-                }
-
-                @Override
-                public void processingInstruction(String target, String data) {
-
-                }
-            });
-
-            if (!seenManifestElement.get())
+            if (!seenManifestElement)
                 throw new RuntimeException("No manifest element found in xml");
 
             SplitMeta splitMeta = SplitMeta.from(manifestAttrs);
@@ -176,7 +135,7 @@ public class DefaultSplitApkSourceMetaResolver implements SplitApkSourceMetaReso
                 .build(), categories, Collections.emptyList());
     }
 
-    private ByteArrayInputStream stealManifestFromApk(InputStream apkInputSteam) throws IOException {
+    private ByteBuffer stealManifestFromApk(InputStream apkInputSteam) throws IOException {
         try (ZipInputStream zipInputStream = new ZipInputStream(apkInputSteam)) {
             ZipEntry zipEntry;
             while ((zipEntry = zipInputStream.getNextEntry()) != null) {
@@ -188,7 +147,7 @@ public class DefaultSplitApkSourceMetaResolver implements SplitApkSourceMetaReso
 
                 ByteArrayOutputStream buffer = new ByteArrayOutputStream();
                 IOUtils.copyStream(zipInputStream, buffer);
-                return new ByteArrayInputStream(buffer.toByteArray());
+                return ByteBuffer.wrap(buffer.toByteArray());
             }
         }
 
