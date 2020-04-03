@@ -202,7 +202,8 @@
     <string name="settings_main_auto_theme_picker">Choose themes</string>
     <string name="settings_main_auto_theme_picker_summary">Current light theme: %s\nCurrent dark theme: %s</string>
     <string name="settings_main_auto_theme_pre_q_warning">Please note that following the system theme may not work correctly on Android versions lower than Q</string>
-
+    <string name="settings_main_use_installerx">Pro mode</string>
+    <string name="settings_main_use_installerx_summary">Enable installer Pro mode that allows you to select parts to install from a .apks file (or other archives with multiple APK files). Please note that Pro mode is experimental and it may not work properly. It also doesn\'t support selecting multiple standalone .apk files</string>
 
     <string name="name_format_builder_title">Select parts to include in exported app name</string>
     <string name="name_format_builder_preview">Preview: %s</string>

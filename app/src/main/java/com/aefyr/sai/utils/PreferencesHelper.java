@@ -138,4 +138,8 @@ public class PreferencesHelper {
         mPrefs.edit().putBoolean(PreferencesKeys.SAF_TIP_SHOWN, true).apply();
     }
 
+    public boolean isInstallerXEnabled() {
+        return mPrefs.getBoolean(PreferencesKeys.USE_INSTALLERX, false);
+    }
+
 }

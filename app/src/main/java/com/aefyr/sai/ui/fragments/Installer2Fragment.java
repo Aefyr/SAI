@@ -28,6 +28,7 @@ import com.aefyr.sai.ui.dialogs.DonationSuggestionDialogFragment;
 import com.aefyr.sai.ui.dialogs.ErrorLogDialogFragment2;
 import com.aefyr.sai.ui.dialogs.FilePickerDialogFragment;
 import com.aefyr.sai.ui.dialogs.InstallationConfirmationDialogFragment;
+import com.aefyr.sai.ui.dialogs.InstallerXDialogFragment;
 import com.aefyr.sai.ui.dialogs.ThemeSelectionDialogFragment;
 import com.aefyr.sai.ui.recycler.RecyclerPaddingDecoration;
 import com.aefyr.sai.utils.AlertsUtils;
@@ -120,7 +121,12 @@ public class Installer2Fragment extends InstallerFragment implements FilePickerD
         findViewById(R.id.ib_help).setOnClickListener((v) -> AlertsUtils.showAlert(this, R.string.help, R.string.installer_help));
 
         Button installButtton = findViewById(R.id.button_install);
-        installButtton.setOnClickListener((v) -> checkPermissionsAndPickFiles());
+        installButtton.setOnClickListener((v) -> {
+            if (mHelper.isInstallerXEnabled())
+                openInstallerXDialog();
+            else
+                checkPermissionsAndPickFiles();
+        });
         installButtton.setOnLongClickListener((v) -> pickFilesWithSaf());
 
         if (mHelper.shouldShowSafTip()) {
@@ -175,6 +181,10 @@ public class Installer2Fragment extends InstallerFragment implements FilePickerD
             mPlaceholderContainer.setVisibility(View.GONE);
             mSessionsRecycler.setVisibility(View.VISIBLE);
         }
+    }
+
+    private void openInstallerXDialog() {
+        new InstallerXDialogFragment().show(getChildFragmentManager(), null);
     }
 
     private void checkPermissionsAndPickFiles() {
