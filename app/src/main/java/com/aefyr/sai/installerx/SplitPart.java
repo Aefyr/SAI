@@ -15,10 +15,12 @@ public class SplitPart {
     private boolean mRequired;
     private boolean mRecommended;
 
-    public SplitPart(SplitMeta meta, String id, String name, String backingApkFile, @Nullable String description, boolean required, boolean recommended) {
+    /**
+     * @param id id is equal to the entry name in an archive
+     */
+    public SplitPart(SplitMeta meta, String id, String name, @Nullable String description, boolean required, boolean recommended) {
         mMeta = meta;
         mId = id;
-        mBackingApkFile = backingApkFile;
         mName = name;
         mDescription = description;
         mRequired = required;
@@ -29,12 +31,13 @@ public class SplitPart {
         return mMeta;
     }
 
+    /**
+     * Id is equal to the entry name in an archive
+     *
+     * @return id of this part
+     */
     public String id() {
         return mId;
-    }
-
-    public String backingApkFile() {
-        return mBackingApkFile;
     }
 
     public String name() {
