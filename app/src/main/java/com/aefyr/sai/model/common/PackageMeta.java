@@ -95,7 +95,7 @@ public class PackageMeta implements Parcelable {
             return this;
         }
 
-        public Builder serVersionCode(long versionCode) {
+        public Builder setVersionCode(long versionCode) {
             mPackageMeta.versionCode = versionCode;
             return this;
         }
@@ -147,7 +147,7 @@ public class PackageMeta implements Parcelable {
                     .setLabel(applicationInfo.loadLabel(pm).toString())
                     .setHasSplits(applicationInfo.splitPublicSourceDirs != null && applicationInfo.splitPublicSourceDirs.length > 0)
                     .setIsSystemApp((applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) != 0)
-                    .serVersionCode(Utils.apiIsAtLeast(Build.VERSION_CODES.P) ? packageInfo.getLongVersionCode() : packageInfo.versionCode)
+                    .setVersionCode(Utils.apiIsAtLeast(Build.VERSION_CODES.P) ? packageInfo.getLongVersionCode() : packageInfo.versionCode)
                     .setVersionName(packageInfo.versionName)
                     .setIcon(applicationInfo.icon)
                     .setInstallTime(packageInfo.firstInstallTime)
