@@ -66,161 +66,162 @@ public class DefaultSplitApkSourceMetaResolver implements SplitApkSourceMetaReso
     }
 
     private SplitApkSourceMeta parseViaParsingManifests(File apkSourceFile, String originalFileName) throws Exception {
-        ZipFile zipFile = new ZipFile(apkSourceFile);
-        ZipAppMetaExtractor appMetaExtractor = DefaultZipAppMetaExtractors.fromArchiveExtension(mContext, Utils.getExtension(originalFileName));
+        try (ZipFile zipFile = new ZipFile(apkSourceFile)) {
+            ZipAppMetaExtractor appMetaExtractor = DefaultZipAppMetaExtractors.fromArchiveExtension(mContext, Utils.getExtension(originalFileName));
 
-        String packageName = null;
-        boolean seenApk = false;
-        boolean seenBaseApk = false;
+            String packageName = null;
+            boolean seenApk = false;
+            boolean seenBaseApk = false;
 
-        SplitCategoryIndex categoryIndex = new SplitCategoryIndex();
+            SplitCategoryIndex categoryIndex = new SplitCategoryIndex();
 
-        Enumeration<? extends ZipEntry> entries = zipFile.entries();
-        while (entries.hasMoreElements()) {
-            ZipEntry entry = entries.nextElement();
-            if (!Utils.getFileNameFromZipEntry(entry).toLowerCase().endsWith(".apk")) {
+            Enumeration<? extends ZipEntry> entries = zipFile.entries();
+            while (entries.hasMoreElements()) {
+                ZipEntry entry = entries.nextElement();
+                if (!Utils.getFileNameFromZipEntry(entry).toLowerCase().endsWith(".apk")) {
 
-                if (appMetaExtractor != null && appMetaExtractor.wantEntry(entry))
-                    appMetaExtractor.consumeEntry(entry, zipFile.getInputStream(entry));
+                    if (appMetaExtractor != null && appMetaExtractor.wantEntry(entry))
+                        appMetaExtractor.consumeEntry(entry, zipFile.getInputStream(entry));
 
-                continue;
-            }
+                    continue;
+                }
 
 
-            seenApk = true;
-            boolean seenManifestElement = false;
+                seenApk = true;
+                boolean seenManifestElement = false;
 
-            HashMap<String, String> manifestAttrs = new HashMap<>();
+                HashMap<String, String> manifestAttrs = new HashMap<>();
 
-            AndroidBinXmlParser parser = new AndroidBinXmlParser(stealManifestFromApk(zipFile.getInputStream(entry)));
-            int eventType = parser.getEventType();
-            while (eventType != AndroidBinXmlParser.EVENT_END_DOCUMENT) {
+                AndroidBinXmlParser parser = new AndroidBinXmlParser(stealManifestFromApk(zipFile.getInputStream(entry)));
+                int eventType = parser.getEventType();
+                while (eventType != AndroidBinXmlParser.EVENT_END_DOCUMENT) {
 
-                if (eventType == AndroidBinXmlParser.EVENT_START_ELEMENT) {
-                    if (parser.getName().equals("manifest") && parser.getNamespace().isEmpty()) {
-                        if (seenManifestElement)
-                            throw new RuntimeException("Duplicate manifest element found");
+                    if (eventType == AndroidBinXmlParser.EVENT_START_ELEMENT) {
+                        if (parser.getName().equals("manifest") && parser.getNamespace().isEmpty()) {
+                            if (seenManifestElement)
+                                throw new RuntimeException("Duplicate manifest element found");
 
-                        seenManifestElement = true;
+                            seenManifestElement = true;
 
-                        for (int i = 0; i < parser.getAttributeCount(); i++) {
-                            if (parser.getAttributeName(i).isEmpty())
-                                continue;
+                            for (int i = 0; i < parser.getAttributeCount(); i++) {
+                                if (parser.getAttributeName(i).isEmpty())
+                                    continue;
 
-                            String namespace = "" + (parser.getAttributeNamespace(i).isEmpty() ? "" : (parser.getAttributeNamespace(i) + ":"));
+                                String namespace = "" + (parser.getAttributeNamespace(i).isEmpty() ? "" : (parser.getAttributeNamespace(i) + ":"));
 
-                            manifestAttrs.put(namespace + parser.getAttributeName(i), parser.getAttributeStringValue(i));
+                                manifestAttrs.put(namespace + parser.getAttributeName(i), parser.getAttributeStringValue(i));
+                            }
                         }
                     }
+
+
+                    eventType = parser.next();
                 }
 
+                if (!seenManifestElement)
+                    throw new RuntimeException("No manifest element found in xml");
 
-                eventType = parser.next();
-            }
-
-            if (!seenManifestElement)
-                throw new RuntimeException("No manifest element found in xml");
-
-            SplitMeta splitMeta = SplitMeta.from(manifestAttrs);
-            if (packageName == null) {
-                packageName = splitMeta.packageName();
-            } else {
-                if (!packageName.equals(splitMeta.packageName()))
-                    throw new RuntimeException("Parts have mismatching packages");
-            }
-
-            if (splitMeta instanceof BaseSplitMeta) {
-                if (seenBaseApk)
-                    throw new RuntimeException("Multiple base APKs found");
-
-                seenBaseApk = true;
-
-                BaseSplitMeta baseSplitMeta = (BaseSplitMeta) splitMeta;
-                categoryIndex.getOrCreate(Category.BASE_APK, getString(R.string.installerx_category_base_apk), null)
-                        .addPart(new SplitPart(splitMeta, entry.getName(), baseSplitMeta.packageName(), null, true, true));
-
-                continue;
-            }
-
-            if (splitMeta instanceof FeatureSplitMeta) {
-                FeatureSplitMeta featureSplitMeta = (FeatureSplitMeta) splitMeta;
-
-                categoryIndex.getOrCreate(Category.FEATURE, getString(R.string.installerx_category_dynamic_features), null)
-                        .addPart(new SplitPart(splitMeta, entry.getName(), getString(R.string.installerx_dynamic_feature, featureSplitMeta.module()), null, false, true));
-                continue;
-            }
-
-            if (splitMeta instanceof AbiConfigSplitMeta) {
-                AbiConfigSplitMeta abiConfigSplitMeta = (AbiConfigSplitMeta) splitMeta;
-
-                String name;
-                if (abiConfigSplitMeta.isForModule()) {
-                    name = getString(R.string.installerx_split_config_abi_for_module, abiConfigSplitMeta.abi(), abiConfigSplitMeta.module());
+                SplitMeta splitMeta = SplitMeta.from(manifestAttrs);
+                if (packageName == null) {
+                    packageName = splitMeta.packageName();
                 } else {
-                    name = getString(R.string.installerx_split_config_abi_for_base, abiConfigSplitMeta.abi());
+                    if (!packageName.equals(splitMeta.packageName()))
+                        throw new RuntimeException("Parts have mismatching packages");
                 }
 
-                categoryIndex.getOrCreate(Category.CONFIG_ABI, getString(R.string.installerx_category_config_abi), null)
-                        .addPart(new SplitPart(splitMeta, entry.getName(), name, null, false, false));
-                continue;
-            }
+                if (splitMeta instanceof BaseSplitMeta) {
+                    if (seenBaseApk)
+                        throw new RuntimeException("Multiple base APKs found");
 
-            if (splitMeta instanceof LocaleConfigSplitMeta) {
-                LocaleConfigSplitMeta localeConfigSplitMeta = (LocaleConfigSplitMeta) splitMeta;
+                    seenBaseApk = true;
 
-                String name;
-                if (localeConfigSplitMeta.isForModule()) {
-                    name = getString(R.string.installerx_split_config_locale_for_module, localeConfigSplitMeta.locale().getDisplayName(), localeConfigSplitMeta.module());
-                } else {
-                    name = getString(R.string.installerx_split_config_locale_for_base, localeConfigSplitMeta.locale().getDisplayName());
+                    BaseSplitMeta baseSplitMeta = (BaseSplitMeta) splitMeta;
+                    categoryIndex.getOrCreate(Category.BASE_APK, getString(R.string.installerx_category_base_apk), null)
+                            .addPart(new SplitPart(splitMeta, entry.getName(), baseSplitMeta.packageName(), null, true, true));
+
+                    continue;
                 }
 
-                categoryIndex.getOrCreate(Category.CONFIG_LOCALE, getString(R.string.installerx_category_config_locale), null)
-                        .addPart(new SplitPart(splitMeta, entry.getName(), name, null, false, false));
-                continue;
-            }
+                if (splitMeta instanceof FeatureSplitMeta) {
+                    FeatureSplitMeta featureSplitMeta = (FeatureSplitMeta) splitMeta;
 
-            if (splitMeta instanceof ScreenDestinyConfigSplitMeta) {
-                ScreenDestinyConfigSplitMeta screenDestinyConfigSplitMeta = (ScreenDestinyConfigSplitMeta) splitMeta;
-
-                String name;
-                if (screenDestinyConfigSplitMeta.isForModule()) {
-                    name = getString(R.string.installerx_split_config_dpi_for_module, screenDestinyConfigSplitMeta.densityName(), screenDestinyConfigSplitMeta.density(), screenDestinyConfigSplitMeta.module());
-                } else {
-                    name = getString(R.string.installerx_split_config_dpi_for_base, screenDestinyConfigSplitMeta.densityName(), screenDestinyConfigSplitMeta.density());
+                    categoryIndex.getOrCreate(Category.FEATURE, getString(R.string.installerx_category_dynamic_features), null)
+                            .addPart(new SplitPart(splitMeta, entry.getName(), getString(R.string.installerx_dynamic_feature, featureSplitMeta.module()), null, false, true));
+                    continue;
                 }
 
-                categoryIndex.getOrCreate(Category.CONFIG_DENSITY, getString(R.string.installerx_category_config_dpi), null)
-                        .addPart(new SplitPart(splitMeta, entry.getName(), name, null, false, false));
-                continue;
+                if (splitMeta instanceof AbiConfigSplitMeta) {
+                    AbiConfigSplitMeta abiConfigSplitMeta = (AbiConfigSplitMeta) splitMeta;
+
+                    String name;
+                    if (abiConfigSplitMeta.isForModule()) {
+                        name = getString(R.string.installerx_split_config_abi_for_module, abiConfigSplitMeta.abi(), abiConfigSplitMeta.module());
+                    } else {
+                        name = getString(R.string.installerx_split_config_abi_for_base, abiConfigSplitMeta.abi());
+                    }
+
+                    categoryIndex.getOrCreate(Category.CONFIG_ABI, getString(R.string.installerx_category_config_abi), null)
+                            .addPart(new SplitPart(splitMeta, entry.getName(), name, null, false, false));
+                    continue;
+                }
+
+                if (splitMeta instanceof LocaleConfigSplitMeta) {
+                    LocaleConfigSplitMeta localeConfigSplitMeta = (LocaleConfigSplitMeta) splitMeta;
+
+                    String name;
+                    if (localeConfigSplitMeta.isForModule()) {
+                        name = getString(R.string.installerx_split_config_locale_for_module, localeConfigSplitMeta.locale().getDisplayName(), localeConfigSplitMeta.module());
+                    } else {
+                        name = getString(R.string.installerx_split_config_locale_for_base, localeConfigSplitMeta.locale().getDisplayName());
+                    }
+
+                    categoryIndex.getOrCreate(Category.CONFIG_LOCALE, getString(R.string.installerx_category_config_locale), null)
+                            .addPart(new SplitPart(splitMeta, entry.getName(), name, null, false, false));
+                    continue;
+                }
+
+                if (splitMeta instanceof ScreenDestinyConfigSplitMeta) {
+                    ScreenDestinyConfigSplitMeta screenDestinyConfigSplitMeta = (ScreenDestinyConfigSplitMeta) splitMeta;
+
+                    String name;
+                    if (screenDestinyConfigSplitMeta.isForModule()) {
+                        name = getString(R.string.installerx_split_config_dpi_for_module, screenDestinyConfigSplitMeta.densityName(), screenDestinyConfigSplitMeta.density(), screenDestinyConfigSplitMeta.module());
+                    } else {
+                        name = getString(R.string.installerx_split_config_dpi_for_base, screenDestinyConfigSplitMeta.densityName(), screenDestinyConfigSplitMeta.density());
+                    }
+
+                    categoryIndex.getOrCreate(Category.CONFIG_DENSITY, getString(R.string.installerx_category_config_dpi), null)
+                            .addPart(new SplitPart(splitMeta, entry.getName(), name, null, false, false));
+                    continue;
+                }
+
+                categoryIndex.getOrCreate(Category.UNKNOWN, getString(R.string.installerx_category_unknown), getString(R.string.installerx_category_unknown_desc))
+                        .addPart(new SplitPart(splitMeta, entry.getName(), splitMeta.splitName(), null, false, true));
+
             }
 
-            categoryIndex.getOrCreate(Category.UNKNOWN, getString(R.string.installerx_category_unknown), getString(R.string.installerx_category_unknown_desc))
-                    .addPart(new SplitPart(splitMeta, entry.getName(), splitMeta.splitName(), null, false, true));
+            if (!seenApk)
+                throw new RuntimeException("Archive doesn't contain apk files");
 
+
+            new DeviceInfoAwarePostprocessor(mContext).process(categoryIndex);
+
+
+            List<SplitCategory> splitCategoryList = categoryIndex.toList();
+            Collections.sort(splitCategoryList, (o1, o2) -> Integer.compare(o1.category().ordinal(), o2.category().ordinal()));
+
+
+            AppMeta appMeta;
+            if (appMetaExtractor != null)
+                appMeta = appMetaExtractor.buildMeta();
+            else
+                appMeta = new AppMeta();
+
+            appMeta.packageName = packageName;
+
+
+            return new SplitApkSourceMeta(appMeta, splitCategoryList, Collections.emptyList());
         }
-
-        if (!seenApk)
-            throw new RuntimeException("Archive doesn't contain apk files");
-
-
-        new DeviceInfoAwarePostprocessor(mContext).process(categoryIndex);
-
-
-        List<SplitCategory> splitCategoryList = categoryIndex.toList();
-        Collections.sort(splitCategoryList, (o1, o2) -> Integer.compare(o1.category().ordinal(), o2.category().ordinal()));
-
-
-        AppMeta appMeta;
-        if (appMetaExtractor != null)
-            appMeta = appMetaExtractor.buildMeta();
-        else
-            appMeta = new AppMeta();
-
-        appMeta.packageName = packageName;
-
-
-        return new SplitApkSourceMeta(appMeta, splitCategoryList, Collections.emptyList());
     }
 
     private String getString(@StringRes int id) {
