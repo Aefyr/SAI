@@ -64,6 +64,7 @@ public class InstallerXDialogFragment extends BaseBottomSheetDialogFragment impl
         super.onContentViewCreated(view, savedInstanceState);
 
         setTitle(R.string.installerx_dialog_title);
+        getPositiveButton().setText(R.string.installerx_dialog_install);
 
         ViewSwitcherLayout viewSwitcher = view.findViewById(R.id.container_dialog_installerx);
 

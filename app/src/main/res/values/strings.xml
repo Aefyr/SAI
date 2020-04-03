@@ -241,6 +241,7 @@
     <string name="installerx_dialog_title">Customize installation</string>
     <string name="installerx_dialog_choose_filepicker">How do you want to select files to install?</string>
     <string name="installerx_dialog_loading">Parsing APKs…</string>
+    <string name="installerx_dialog_install">Install</string>
     <string name="installerx_dialog_error">SAI has encountered an unexpected error while trying to parse selected file(s)</string>
     <string name="installerx_dialog_warn_multiple_files">Multiple files selected, to customize installation you should select a single file. Do you want to install all of the selected files without customization?</string>
     <string name="installerx_dialog_warn_parsing_fail">SAI was unable to parse selected file. Do you want to try to install it anyway, without customization?</string>
