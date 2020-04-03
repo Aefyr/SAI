@@ -7,6 +7,13 @@ import java.io.File;
 public interface SplitApkSourceMetaResolver {
 
     //TODO resolution progress listener would be nice
-    SplitApkSourceMeta resolveFor(File apkSourceFile) throws Exception;
+
+    /**
+     * @param apkSourceFile    apk source file
+     * @param originalFileName the original file name of that file (for example if the actual file is a file descriptor link)
+     * @return
+     * @throws Exception
+     */
+    SplitApkSourceMeta resolveFor(File apkSourceFile, String originalFileName) throws Exception;
 
 }

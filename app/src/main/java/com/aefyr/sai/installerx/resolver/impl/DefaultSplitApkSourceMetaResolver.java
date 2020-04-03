@@ -11,6 +11,9 @@ import com.aefyr.sai.installerx.SplitApkSourceMeta;
 import com.aefyr.sai.installerx.SplitCategory;
 import com.aefyr.sai.installerx.SplitCategoryIndex;
 import com.aefyr.sai.installerx.SplitPart;
+import com.aefyr.sai.installerx.appmeta.AppMeta;
+import com.aefyr.sai.installerx.appmeta.zip.DefaultZipAppMetaExtractors;
+import com.aefyr.sai.installerx.appmeta.zip.ZipAppMetaExtractor;
 import com.aefyr.sai.installerx.postprocessing.DeviceInfoAwarePostprocessor;
 import com.aefyr.sai.installerx.resolver.SplitApkSourceMetaResolver;
 import com.aefyr.sai.installerx.splitmeta.BaseSplitMeta;
@@ -20,7 +23,6 @@ import com.aefyr.sai.installerx.splitmeta.config.AbiConfigSplitMeta;
 import com.aefyr.sai.installerx.splitmeta.config.LocaleConfigSplitMeta;
 import com.aefyr.sai.installerx.splitmeta.config.ScreenDestinyConfigSplitMeta;
 import com.aefyr.sai.installerx.util.AndroidBinXmlParser;
-import com.aefyr.sai.model.common.PackageMeta;
 import com.aefyr.sai.utils.IOUtils;
 import com.aefyr.sai.utils.Stopwatch;
 import com.aefyr.sai.utils.Utils;
@@ -50,11 +52,11 @@ public class DefaultSplitApkSourceMetaResolver implements SplitApkSourceMetaReso
     }
 
     @Override
-    public SplitApkSourceMeta resolveFor(File apkSourceFile) throws Exception {
+    public SplitApkSourceMeta resolveFor(File apkSourceFile, String originalFileName) throws Exception {
         Stopwatch sw = new Stopwatch();
 
         try {
-            SplitApkSourceMeta meta = parseViaParsingManifests(apkSourceFile);
+            SplitApkSourceMeta meta = parseViaParsingManifests(apkSourceFile, originalFileName);
             Log.d(TAG, String.format("Resolved meta for %s via parsing manifests in %d ms.", apkSourceFile.getAbsoluteFile(), sw.millisSinceStart()));
             return meta;
         } catch (Exception e) {
@@ -63,8 +65,9 @@ public class DefaultSplitApkSourceMetaResolver implements SplitApkSourceMetaReso
         }
     }
 
-    private SplitApkSourceMeta parseViaParsingManifests(File apkSourceFile) throws Exception {
+    private SplitApkSourceMeta parseViaParsingManifests(File apkSourceFile, String originalFileName) throws Exception {
         ZipFile zipFile = new ZipFile(apkSourceFile);
+        ZipAppMetaExtractor appMetaExtractor = DefaultZipAppMetaExtractors.fromArchiveExtension(mContext, Utils.getExtension(originalFileName));
 
         String packageName = null;
         boolean seenApk = false;
@@ -75,8 +78,14 @@ public class DefaultSplitApkSourceMetaResolver implements SplitApkSourceMetaReso
         Enumeration<? extends ZipEntry> entries = zipFile.entries();
         while (entries.hasMoreElements()) {
             ZipEntry entry = entries.nextElement();
-            if (!Utils.getFileNameFromZipEntry(entry).toLowerCase().endsWith(".apk"))
+            if (!Utils.getFileNameFromZipEntry(entry).toLowerCase().endsWith(".apk")) {
+
+                if (appMetaExtractor != null && appMetaExtractor.wantEntry(entry))
+                    appMetaExtractor.consumeEntry(entry, zipFile.getInputStream(entry));
+
                 continue;
+            }
+
 
             seenApk = true;
             boolean seenManifestElement = false;
@@ -194,14 +203,24 @@ public class DefaultSplitApkSourceMetaResolver implements SplitApkSourceMetaReso
         if (!seenApk)
             throw new RuntimeException("Archive doesn't contain apk files");
 
+
         new DeviceInfoAwarePostprocessor(mContext).process(categoryIndex);
+
 
         List<SplitCategory> splitCategoryList = categoryIndex.toList();
         Collections.sort(splitCategoryList, (o1, o2) -> Integer.compare(o1.category().ordinal(), o2.category().ordinal()));
 
-        return new SplitApkSourceMeta(new PackageMeta.Builder(packageName)
-                .setLabel(packageName)
-                .build(), splitCategoryList, Collections.emptyList());
+
+        AppMeta appMeta;
+        if (appMetaExtractor != null)
+            appMeta = appMetaExtractor.buildMeta();
+        else
+            appMeta = new AppMeta();
+
+        appMeta.packageName = packageName;
+
+
+        return new SplitApkSourceMeta(appMeta, splitCategoryList, Collections.emptyList());
     }
 
     private String getString(@StringRes int id) {

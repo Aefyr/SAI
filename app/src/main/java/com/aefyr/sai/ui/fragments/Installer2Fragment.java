@@ -264,9 +264,9 @@ public class Installer2Fragment extends InstallerFragment implements FilePickerD
 
         String extension = Utils.getExtension(files.get(0).getName());
 
-        if (".apks".equals(extension) || ".zip".equals(extension) || ".xapk".equals(extension)) {
+        if ("apks".equals(extension) || "zip".equals(extension) || "xapk".equals(extension)) {
             mViewModel.installPackagesFromZip(files);
-        } else if (".apk".equals(extension)) {
+        } else if ("apk".equals(extension)) {
             mViewModel.installPackages(files);
         } else {
             AlertsUtils.showAlert(this, R.string.error, R.string.installer_error_installer2_mixed_extensions_internal);

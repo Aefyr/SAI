@@ -24,6 +24,7 @@ import com.aefyr.sai.model.apksource.ApkSource;
 import com.aefyr.sai.utils.Logs;
 import com.aefyr.sai.utils.PreferencesHelper;
 import com.aefyr.sai.utils.SimpleAsyncTask;
+import com.aefyr.sai.utils.saf.SafUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -173,7 +174,7 @@ public class InstallerXDialogViewModel extends AndroidViewModel {
             try {
                 fd = openUriFd(singleApkSourceUri);
                 File fdFile = parcelFdToFile(fd);
-                SplitApkSourceMeta meta = new DefaultSplitApkSourceMetaResolver(getApplication()).resolveFor(fdFile);
+                SplitApkSourceMeta meta = new DefaultSplitApkSourceMetaResolver(getApplication()).resolveFor(fdFile, SafUtils.getFileNameFromContentUri(getApplication(), singleApkSourceUri));
                 HashSet<String> splitsToSelect = new HashSet<>();
 
                 for (SplitPart part : meta.flatSplits()) {

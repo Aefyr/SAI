@@ -77,11 +77,15 @@ public class IOUtils {
         return t;
     }
 
-    public static String readStream(InputStream aInputStream, Charset charset) throws IOException {
-        try (InputStream inputStream = aInputStream; ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
-            copyStream(inputStream, outputStream);
-            return new String(outputStream.toByteArray(), charset);
-        }
+    public static byte[] readStream(InputStream inputStream) throws IOException {
+        ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+        copyStream(inputStream, buffer);
+        return buffer.toByteArray();
     }
+
+    public static String readStream(InputStream inputStream, Charset charset) throws IOException {
+        return new String(readStream(inputStream), charset);
+    }
+
 
 }

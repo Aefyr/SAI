@@ -16,7 +16,7 @@ import com.aefyr.sai.R;
 import com.aefyr.sai.adapters.selection.Selection;
 import com.aefyr.sai.installerx.SplitApkSourceMeta;
 import com.aefyr.sai.installerx.SplitCategory;
-import com.aefyr.sai.model.common.PackageMeta;
+import com.aefyr.sai.installerx.appmeta.AppMeta;
 import com.bumptech.glide.Glide;
 
 public class SplitApkSourceMetaAdapter extends RecyclerView.Adapter<SplitApkSourceMetaAdapter.BaseViewHolder> {
@@ -131,18 +131,18 @@ public class SplitApkSourceMetaAdapter extends RecyclerView.Adapter<SplitApkSour
 
         @Override
         void bindTo(SplitApkSourceMeta meta) {
-            PackageMeta packageMeta = meta.packageMeta();
-            if (packageMeta == null) {
+            AppMeta appMeta = meta.appMeta();
+            if (appMeta == null) {
                 //TODO fill with some unknown data
                 return;
             }
 
             Glide.with(mAppIcon)
-                    .load(packageMeta.iconUri != null ? packageMeta.iconUri : R.drawable.placeholder_app_icon)
+                    .load(appMeta.iconUri != null ? appMeta.iconUri : R.drawable.placeholder_app_icon)
                     .placeholder(R.drawable.placeholder_app_icon)
                     .into(mAppIcon);
 
-            mAppTitle.setText(packageMeta.label != null ? packageMeta.label : packageMeta.packageName);
+            mAppTitle.setText(appMeta.appName != null ? appMeta.appName : appMeta.packageName);
         }
 
         @Override

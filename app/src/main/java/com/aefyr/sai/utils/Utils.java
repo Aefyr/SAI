@@ -145,7 +145,7 @@ public class Utils {
         if (lastDotIndex == -1)
             return null;
 
-        return fileName.substring(lastDotIndex);
+        return fileName.substring(lastDotIndex + 1);
     }
 
     public static void softRestartApp(Context c) {
@@ -191,6 +191,4 @@ public class Utils {
 
         return null;
     }
-
-
 }
