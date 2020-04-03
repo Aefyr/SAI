@@ -63,10 +63,15 @@ public class Installer2Fragment extends InstallerFragment implements FilePickerD
     private ToolTipsManager mToolTipsManager;
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
         mHelper = PreferencesHelper.getInstance(getContext());
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
         mPlaceholderContainer = findViewById(R.id.container_installer_placeholder);
 
