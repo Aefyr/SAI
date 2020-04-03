@@ -14,10 +14,15 @@ import androidx.lifecycle.MutableLiveData;
 import com.aefyr.sai.R;
 import com.aefyr.sai.adapters.selection.Selection;
 import com.aefyr.sai.adapters.selection.SimpleKeyStorage;
+import com.aefyr.sai.installer.ApkSourceBuilder;
+import com.aefyr.sai.installer2.base.model.SaiPiSessionParams;
+import com.aefyr.sai.installer2.impl.FlexSaiPackageInstaller;
 import com.aefyr.sai.installerx.SplitApkSourceMeta;
 import com.aefyr.sai.installerx.SplitPart;
 import com.aefyr.sai.installerx.resolver.impl.DefaultSplitApkSourceMetaResolver;
+import com.aefyr.sai.model.apksource.ApkSource;
 import com.aefyr.sai.utils.Logs;
+import com.aefyr.sai.utils.PreferencesHelper;
 import com.aefyr.sai.utils.SimpleAsyncTask;
 
 import java.io.File;
@@ -31,6 +36,9 @@ import java.util.Set;
 public class InstallerXDialogViewModel extends AndroidViewModel {
     private static final String TAG = "InstallerXVM";
 
+    private FlexSaiPackageInstaller mInstaller;
+    private PreferencesHelper mPrefsHelper;
+
     private MutableLiveData<State> mState = new MutableLiveData<>(State.NO_DATA);
     private MutableLiveData<SplitApkSourceMeta> mMeta = new MutableLiveData<>();
     private Warning mWarning;
@@ -42,6 +50,8 @@ public class InstallerXDialogViewModel extends AndroidViewModel {
 
     public InstallerXDialogViewModel(@NonNull Application application) {
         super(application);
+        mInstaller = FlexSaiPackageInstaller.getInstance(getApplication());
+        mPrefsHelper = PreferencesHelper.getInstance(getApplication());
     }
 
     public LiveData<State> getState() {
@@ -88,8 +98,32 @@ public class InstallerXDialogViewModel extends AndroidViewModel {
         if (mUrisToInstall == null)
             return;
 
-        //TODO implement this
-        throw new RuntimeException("Not implemented");
+        if (mUrisToInstall.size() == 1) {
+            ApkSource apkSource = new ApkSourceBuilder(getApplication())
+                    .fromZipContentUri(mUrisToInstall.get(0))
+                    .setZipExtractionEnabled(mPrefsHelper.shouldExtractArchives())
+                    .setReadZipViaZipFileEnabled(mPrefsHelper.shouldUseZipFileApi())
+                    .setSigningEnabled(mPrefsHelper.shouldSignApks())
+                    .filterApksInZip(new HashSet<>(mPartsSelection.getSelectedKeys()), false)
+                    .build();
+
+            install(apkSource);
+        } else {
+            for (Uri uri : mUrisToInstall) {
+                ApkSource apkSource = new ApkSourceBuilder(getApplication())
+                        .fromZipContentUri(uri)
+                        .setZipExtractionEnabled(mPrefsHelper.shouldExtractArchives())
+                        .setReadZipViaZipFileEnabled(mPrefsHelper.shouldUseZipFileApi())
+                        .setSigningEnabled(mPrefsHelper.shouldSignApks())
+                        .build();
+
+                install(apkSource);
+            }
+        }
+    }
+
+    private void install(ApkSource apkSource) {
+        mInstaller.enqueueSession(mInstaller.createSessionOnInstaller(mPrefsHelper.getInstaller(), new SaiPiSessionParams(apkSource)));
     }
 
     public enum State {

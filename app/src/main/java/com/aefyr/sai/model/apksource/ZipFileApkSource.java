@@ -21,7 +21,7 @@ import java.util.zip.ZipFile;
  * An ApkSource implementation that copies given zip file FileDescriptor to a temp file and uses {@link ZipFile} API to read APKs from it.
  * Used to read zip archives that are not compatible with ZipInputStream.
  */
-public class ZipFileApkSource implements ApkSource {
+public class ZipFileApkSource implements ZipBackedApkSource {
 
     private Context mContext;
     private FileDescriptor mZipFileDescriptor;
@@ -114,5 +114,10 @@ public class ZipFileApkSource implements ApkSource {
         tempFile.mkdir();
         tempFile = new File(tempFile, System.currentTimeMillis() + ".zip");
         return tempFile;
+    }
+
+    @Override
+    public ZipEntry getEntry() {
+        return mCurrentEntry;
     }
 }

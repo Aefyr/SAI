@@ -8,7 +8,9 @@ import com.aefyr.sai.model.apksource.CopyToFileApkSource;
 import com.aefyr.sai.model.apksource.DefaultApkSource;
 import com.aefyr.sai.model.apksource.SignerApkSource;
 import com.aefyr.sai.model.apksource.ZipApkSource;
+import com.aefyr.sai.model.apksource.ZipBackedApkSource;
 import com.aefyr.sai.model.apksource.ZipFileApkSource;
+import com.aefyr.sai.model.apksource.ZipFilterApkSource;
 import com.aefyr.sai.model.filedescriptor.ContentUriFileDescriptor;
 import com.aefyr.sai.model.filedescriptor.FileDescriptor;
 import com.aefyr.sai.model.filedescriptor.NormalFileDescriptor;
@@ -16,6 +18,7 @@ import com.aefyr.sai.model.filedescriptor.NormalFileDescriptor;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public class ApkSourceBuilder {
 
@@ -30,6 +33,9 @@ public class ApkSourceBuilder {
     private boolean mSigningEnabled;
     private boolean mZipExtractionEnabled;
     private boolean mReadZipViaZipFileEnabled;
+
+    private Set<String> mFilteredApks;
+    private boolean mBlacklist;
 
     public ApkSourceBuilder(Context c) {
         mContext = c;
@@ -74,6 +80,12 @@ public class ApkSourceBuilder {
         return this;
     }
 
+    public ApkSourceBuilder filterApksInZip(Set<String> filteredApks, boolean blacklist) {
+        mFilteredApks = filteredApks;
+        mBlacklist = blacklist;
+        return this;
+    }
+
     public ApkSource build() {
         ApkSource apkSource;
 
@@ -86,18 +98,28 @@ public class ApkSourceBuilder {
 
             apkSource = new DefaultApkSource(apkFileDescriptors);
         } else if (mZipFile != null) {
+            ZipBackedApkSource zipBackedApkSource;
             if (mReadZipViaZipFileEnabled)
-                apkSource = new ZipFileApkSource(mContext, new NormalFileDescriptor(mZipFile));
+                zipBackedApkSource = new ZipFileApkSource(mContext, new NormalFileDescriptor(mZipFile));
             else
-                apkSource = new ZipApkSource(mContext, new NormalFileDescriptor(mZipFile));
+                zipBackedApkSource = new ZipApkSource(mContext, new NormalFileDescriptor(mZipFile));
 
+            if (mFilteredApks != null)
+                zipBackedApkSource = new ZipFilterApkSource(zipBackedApkSource, mFilteredApks, mBlacklist);
+
+            apkSource = zipBackedApkSource;
             sourceIsZip = true;
         } else if (mZipUri != null) {
+            ZipBackedApkSource zipBackedApkSource;
             if (mReadZipViaZipFileEnabled)
-                apkSource = new ZipFileApkSource(mContext, new ContentUriFileDescriptor(mContext, mZipUri));
+                zipBackedApkSource = new ZipFileApkSource(mContext, new ContentUriFileDescriptor(mContext, mZipUri));
             else
-                apkSource = new ZipApkSource(mContext, new ContentUriFileDescriptor(mContext, mZipUri));
+                zipBackedApkSource = new ZipApkSource(mContext, new ContentUriFileDescriptor(mContext, mZipUri));
 
+            if (mFilteredApks != null)
+                zipBackedApkSource = new ZipFilterApkSource(zipBackedApkSource, mFilteredApks, mBlacklist);
+
+            apkSource = zipBackedApkSource;
             sourceIsZip = true;
         } else if (mApkUris != null) {
             List<FileDescriptor> apkUriDescriptors = new ArrayList<>(mApkUris.size());

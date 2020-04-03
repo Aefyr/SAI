@@ -15,7 +15,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipException;
 import java.util.zip.ZipInputStream;
 
-public class ZipApkSource implements ApkSource {
+public class ZipApkSource implements ZipBackedApkSource {
 
     private Context mContext;
     private FileDescriptor mZipFileDescriptor;
@@ -94,6 +94,11 @@ public class ZipApkSource implements ApkSource {
             Log.w("ZipApkSource", "Unable to get app name", e);
             return null;
         }
+    }
+
+    @Override
+    public ZipEntry getEntry() {
+        return mCurrentZipEntry;
     }
 
     /**
