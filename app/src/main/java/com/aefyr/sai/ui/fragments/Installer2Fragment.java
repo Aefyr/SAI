@@ -123,7 +123,7 @@ public class Installer2Fragment extends InstallerFragment implements FilePickerD
         Button installButtton = findViewById(R.id.button_install);
         installButtton.setOnClickListener((v) -> {
             if (mHelper.isInstallerXEnabled())
-                openInstallerXDialog();
+                openInstallerXDialog(null);
             else
                 checkPermissionsAndPickFiles();
         });
@@ -166,11 +166,16 @@ public class Installer2Fragment extends InstallerFragment implements FilePickerD
             return;
         }
 
-        DialogFragment existingDialog = (DialogFragment) getChildFragmentManager().findFragmentByTag("installation_confirmation_dialog");
-        if (existingDialog != null)
-            existingDialog.dismiss();
+        if (mHelper.isInstallerXEnabled()) {
+            openInstallerXDialog(uri);
+        } else {
+            DialogFragment existingDialog = (DialogFragment) getChildFragmentManager().findFragmentByTag("installation_confirmation_dialog");
+            if (existingDialog != null)
+                existingDialog.dismiss();
 
-        InstallationConfirmationDialogFragment.newInstance(uri).show(getChildFragmentManager(), "installation_confirmation_dialog");
+            InstallationConfirmationDialogFragment.newInstance(uri).show(getChildFragmentManager(), "installation_confirmation_dialog");
+        }
+
     }
 
     private void setPlaceholderShown(boolean shown) {
@@ -183,8 +188,12 @@ public class Installer2Fragment extends InstallerFragment implements FilePickerD
         }
     }
 
-    private void openInstallerXDialog() {
-        new InstallerXDialogFragment().show(getChildFragmentManager(), null);
+    private void openInstallerXDialog(@Nullable Uri apkSourceUri) {
+        DialogFragment existingDialog = (DialogFragment) getChildFragmentManager().findFragmentByTag("installerx_dialog");
+        if (existingDialog != null)
+            existingDialog.dismiss();
+
+        InstallerXDialogFragment.newInstance(apkSourceUri).show(getChildFragmentManager(), "installerx_dialog");
     }
 
     private void checkPermissionsAndPickFiles() {

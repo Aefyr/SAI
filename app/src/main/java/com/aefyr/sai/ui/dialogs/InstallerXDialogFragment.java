@@ -38,12 +38,21 @@ import java.util.List;
 public class InstallerXDialogFragment extends BaseBottomSheetDialogFragment implements FilePickerDialogFragment.OnFilesSelectedListener {
     private static final int REQUEST_CODE_GET_FILES = 337;
 
+    private static final String ARG_APK_SOURCE_URI = "apk_source_uri";
+
     private InstallerXDialogViewModel mViewModel;
 
     private PreferencesHelper mHelper;
 
-    public static InstallerXDialogFragment newInstance() {
-        return new InstallerXDialogFragment();
+    public static InstallerXDialogFragment newInstance(@Nullable Uri apkSourceUri) {
+        Bundle args = new Bundle();
+        if (apkSourceUri != null)
+            args.putParcelable(ARG_APK_SOURCE_URI, apkSourceUri);
+
+        InstallerXDialogFragment fragment = new InstallerXDialogFragment();
+        fragment.setArguments(args);
+
+        return fragment;
     }
 
     @Override
@@ -51,6 +60,14 @@ public class InstallerXDialogFragment extends BaseBottomSheetDialogFragment impl
         super.onCreate(savedInstanceState);
         mHelper = PreferencesHelper.getInstance(requireContext());
         mViewModel = new ViewModelProvider(this).get(InstallerXDialogViewModel.class);
+
+        Bundle args = getArguments();
+        if (args == null)
+            return;
+
+        Uri apkSourceUri = args.getParcelable(ARG_APK_SOURCE_URI);
+        if (apkSourceUri != null)
+            mViewModel.setApkSourceUris(Collections.singletonList(apkSourceUri));
     }
 
     @Nullable
