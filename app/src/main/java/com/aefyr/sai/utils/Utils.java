@@ -11,6 +11,8 @@ import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
@@ -23,12 +25,18 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.aefyr.sai.R;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.FutureTarget;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.Locale;
+import java.util.UUID;
 import java.util.zip.ZipEntry;
 
 public class Utils {
@@ -190,5 +198,42 @@ public class Utils {
             return asClass.cast(parent);
 
         return null;
+    }
+
+    @Nullable
+    public static File createTempFileInCache(Context context, String dir, String extension) {
+        File directory = new File(context.getCacheDir(), dir);
+        if (!directory.exists() && !directory.mkdir())
+            return null;
+
+        File tempFile = null;
+        while (tempFile == null || tempFile.exists())
+            tempFile = new File(directory, UUID.randomUUID() + "." + extension);
+
+        return tempFile;
+    }
+
+    public static File saveImageFromUriAsPng(Context context, Uri imageUri) throws Exception {
+        FutureTarget<Bitmap> target = Glide.with(context)
+                .asBitmap()
+                .load(imageUri)
+                .submit();
+
+        try {
+            Bitmap bitmap = target.get();
+
+            File tempFile = createTempFileInCache(context, "Utils.saveImageFromUriAsPng", "png");
+            if (tempFile == null) {
+                throw new IOException("Unable to create file for image");
+            }
+
+            try (FileOutputStream outputStream = new FileOutputStream(tempFile)) {
+                bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
+            }
+
+            return tempFile;
+        } finally {
+            Glide.with(context).clear(target);
+        }
     }
 }

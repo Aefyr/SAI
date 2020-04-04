@@ -4,6 +4,7 @@ import android.content.Context;
 
 import androidx.annotation.Nullable;
 
+import com.aefyr.sai.installerx.appmeta.zip.apks.SaiZipAppMetaExtractor;
 import com.aefyr.sai.installerx.appmeta.zip.xapk.XapkZipAppMetaExtractor;
 
 public class DefaultZipAppMetaExtractors {
@@ -16,6 +17,8 @@ public class DefaultZipAppMetaExtractors {
         switch (archiveExtension.toLowerCase()) {
             case "xapk":
                 return new XapkZipAppMetaExtractor(context);
+            case "apks":
+                return new SaiZipAppMetaExtractor(context);
         }
 
         return null;
