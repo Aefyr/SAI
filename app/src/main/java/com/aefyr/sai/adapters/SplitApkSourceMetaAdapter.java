@@ -121,12 +121,14 @@ public class SplitApkSourceMetaAdapter extends RecyclerView.Adapter<SplitApkSour
 
         private ImageView mAppIcon;
         private TextView mAppTitle;
+        private TextView mAppVersion;
 
         public HeaderViewHolder(@NonNull View itemView) {
             super(itemView);
 
             mAppIcon = itemView.findViewById(R.id.iv_installerx_header_app_icon);
             mAppTitle = itemView.findViewById(R.id.tv_installerx_header_app_title);
+            mAppVersion = itemView.findViewById(R.id.tv_installerx_header_app_version);
         }
 
         @Override
@@ -143,6 +145,9 @@ public class SplitApkSourceMetaAdapter extends RecyclerView.Adapter<SplitApkSour
                     .into(mAppIcon);
 
             mAppTitle.setText(appMeta.appName != null ? appMeta.appName : appMeta.packageName);
+
+            mAppVersion.setVisibility(appMeta.versionName != null ? View.VISIBLE : View.GONE);
+            mAppVersion.setText(appMeta.versionName);
         }
 
         @Override
