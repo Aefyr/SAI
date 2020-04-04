@@ -70,6 +70,8 @@ public class DefaultSplitApkSourceMetaResolver implements SplitApkSourceMetaReso
             ZipAppMetaExtractor appMetaExtractor = DefaultZipAppMetaExtractors.fromArchiveExtension(mContext, Utils.getExtension(originalFileName));
 
             String packageName = null;
+            String versionName = null;
+            Long versionCode = null;
             boolean seenApk = false;
             boolean seenBaseApk = false;
 
@@ -128,6 +130,12 @@ public class DefaultSplitApkSourceMetaResolver implements SplitApkSourceMetaReso
                     if (!packageName.equals(splitMeta.packageName()))
                         throw new RuntimeException("Parts have mismatching packages");
                 }
+                if (versionCode == null) {
+                    versionCode = splitMeta.versionCode();
+                } else {
+                    if (!versionCode.equals(splitMeta.versionCode()))
+                        throw new RuntimeException("Parts have mismatching versions");
+                }
 
                 if (splitMeta instanceof BaseSplitMeta) {
                     if (seenBaseApk)
@@ -136,6 +144,7 @@ public class DefaultSplitApkSourceMetaResolver implements SplitApkSourceMetaReso
                     seenBaseApk = true;
 
                     BaseSplitMeta baseSplitMeta = (BaseSplitMeta) splitMeta;
+                    versionName = baseSplitMeta.versionName();
                     categoryIndex.getOrCreate(Category.BASE_APK, getString(R.string.installerx_category_base_apk), null)
                             .addPart(new SplitPart(splitMeta, entry.getName(), baseSplitMeta.packageName(), null, true, true));
 
@@ -218,6 +227,9 @@ public class DefaultSplitApkSourceMetaResolver implements SplitApkSourceMetaReso
                 appMeta = new AppMeta();
 
             appMeta.packageName = packageName;
+            appMeta.versionCode = versionCode;
+            if (versionName != null)
+                appMeta.versionName = versionName;
 
 
             return new SplitApkSourceMeta(appMeta, splitCategoryList, Collections.emptyList());
