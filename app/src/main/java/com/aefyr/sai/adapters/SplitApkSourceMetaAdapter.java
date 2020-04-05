@@ -4,50 +4,52 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LifecycleOwner;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.aefyr.sai.R;
+import com.aefyr.sai.adapters.selection.SelectableAdapter;
 import com.aefyr.sai.adapters.selection.Selection;
 import com.aefyr.sai.installerx.SplitApkSourceMeta;
 import com.aefyr.sai.installerx.SplitCategory;
+import com.aefyr.sai.installerx.SplitPart;
 import com.aefyr.sai.installerx.resolver.appmeta.AppMeta;
 import com.bumptech.glide.Glide;
 
-public class SplitApkSourceMetaAdapter extends RecyclerView.Adapter<SplitApkSourceMetaAdapter.BaseViewHolder> {
+import java.util.ArrayList;
+import java.util.List;
 
-    private static final int VH_TYPE_HEADER = 0;
-    private static final int VH_TYPE_CATEGORY = 1;
+public class SplitApkSourceMetaAdapter extends SelectableAdapter<String, SplitApkSourceMetaAdapter.BaseViewHolder> {
+
+    public static final int VH_TYPE_HEADER = 0;
+    public static final int VH_TYPE_CATEGORY = 1;
+    public static final int VH_TYPE_SPLIT_PART = 2;
 
     private Context mContext;
     private LayoutInflater mInflater;
 
     private SplitApkSourceMeta mMeta;
-
-    private Selection<String> mPartsSelection;
-    private LifecycleOwner mLifecycleOwner;
-
-    private RecyclerView.RecycledViewPool mSplitPartsViewPool;
+    private List<Object> mFlattenedData;
 
     public SplitApkSourceMetaAdapter(Selection<String> partsSelection, LifecycleOwner lifecycleOwner, Context context) {
-        mPartsSelection = partsSelection;
-        mLifecycleOwner = lifecycleOwner;
+        super(partsSelection, lifecycleOwner);
         mContext = context;
         mInflater = LayoutInflater.from(mContext);
-
-        mSplitPartsViewPool = new RecyclerView.RecycledViewPool();
-        mSplitPartsViewPool.setMaxRecycledViews(0, 16);
-
-        setHasStableIds(true);
     }
 
     public void setMeta(SplitApkSourceMeta meta) {
         mMeta = meta;
+        mFlattenedData = new ArrayList<>();
+        for (SplitCategory category : meta.splits()) {
+            mFlattenedData.add(category);
+            mFlattenedData.addAll(category.parts());
+        }
+
         notifyDataSetChanged();
     }
 
@@ -56,7 +58,13 @@ public class SplitApkSourceMetaAdapter extends RecyclerView.Adapter<SplitApkSour
         if (position == 0)
             return VH_TYPE_HEADER;
 
-        return VH_TYPE_CATEGORY;
+        Object object = getItemForAdapterPosition(position);
+        if (object instanceof SplitCategory)
+            return VH_TYPE_CATEGORY;
+        else if (object instanceof SplitPart)
+            return VH_TYPE_SPLIT_PART;
+
+        throw new IllegalStateException("Unexpected object class in data - " + object.getClass().getCanonicalName());
     }
 
     @NonNull
@@ -67,20 +75,43 @@ public class SplitApkSourceMetaAdapter extends RecyclerView.Adapter<SplitApkSour
                 return new HeaderViewHolder(mInflater.inflate(R.layout.item_installerx_header, parent, false));
             case VH_TYPE_CATEGORY:
                 return new SplitCategoryViewHolder(mInflater.inflate(R.layout.item_installerx_split_category, parent, false));
+            case VH_TYPE_SPLIT_PART:
+                return new SplitPartViewHolder(mInflater.inflate(R.layout.item_installerx_split_part, parent, false));
         }
 
         throw new IllegalArgumentException("Unknown viewType " + viewType);
     }
 
     @Override
+    protected String getKeyForPosition(int position) {
+        if (position == 0)
+            return "SplitApkSourceMetaAdapter.header";
+
+        Object object = getItemForAdapterPosition(position);
+        if (object instanceof SplitCategory)
+            return ((SplitCategory) object).id();
+
+        if (object instanceof SplitPart)
+            return ((SplitPart) object).localPath();
+
+        throw new IllegalStateException("Unexpected object class in data - " + object.getClass().getCanonicalName());
+    }
+
+    @Override
     public void onBindViewHolder(@NonNull SplitApkSourceMetaAdapter.BaseViewHolder holder, int position) {
+        super.onBindViewHolder(holder, position);
         if (holder instanceof HeaderViewHolder) {
             holder.bindTo(mMeta);
             return;
         }
 
         if (holder instanceof SplitCategoryViewHolder) {
-            holder.bindTo(getCategoryForAdapterPosition(position));
+            holder.bindTo(getItemForAdapterPosition(position));
+            return;
+        }
+
+        if (holder instanceof SplitPartViewHolder) {
+            holder.bindTo(getItemForAdapterPosition(position));
             return;
         }
 
@@ -89,21 +120,17 @@ public class SplitApkSourceMetaAdapter extends RecyclerView.Adapter<SplitApkSour
 
     @Override
     public int getItemCount() {
-        return mMeta == null ? 0 : 1 + mMeta.splits().size();
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return position == 0 ? Integer.MIN_VALUE : getCategoryForAdapterPosition(position).id().hashCode();
+        return mFlattenedData == null ? 0 : 1 + mFlattenedData.size();
     }
 
     @Override
     public void onViewRecycled(@NonNull BaseViewHolder holder) {
+        super.onViewRecycled(holder);
         holder.recycle();
     }
 
-    private SplitCategory getCategoryForAdapterPosition(int adapterPosition) {
-        return mMeta.splits().get(adapterPosition - 1);
+    private <T> T getItemForAdapterPosition(int adapterPosition) {
+        return (T) mFlattenedData.get(adapterPosition - 1);
     }
 
     protected abstract class BaseViewHolder<T> extends RecyclerView.ViewHolder {
@@ -161,20 +188,12 @@ public class SplitApkSourceMetaAdapter extends RecyclerView.Adapter<SplitApkSour
 
         private TextView mTitle;
         private TextView mDesc;
-        private SplitPartsAdapter mPartsAdapter;
 
         public SplitCategoryViewHolder(@NonNull View itemView) {
             super(itemView);
 
             mTitle = itemView.findViewById(R.id.tv_installerx_split_category_title);
             mDesc = itemView.findViewById(R.id.tv_installerx_split_category_desc);
-
-            RecyclerView partsRecycler = itemView.findViewById(R.id.rv_installerx_split_category_parts);
-            partsRecycler.setLayoutManager(new LinearLayoutManager(mContext));
-            partsRecycler.setRecycledViewPool(mSplitPartsViewPool);
-
-            mPartsAdapter = new SplitPartsAdapter(mPartsSelection, mLifecycleOwner, mContext);
-            partsRecycler.setAdapter(mPartsAdapter);
         }
 
         @Override
@@ -183,13 +202,66 @@ public class SplitApkSourceMetaAdapter extends RecyclerView.Adapter<SplitApkSour
 
             mDesc.setVisibility(category.description() != null ? View.VISIBLE : View.GONE);
             mDesc.setText(category.description());
-
-            mPartsAdapter.setParts(category.parts());
         }
 
         @Override
         void recycle() {
-            mPartsAdapter.setParts(null);
+
+        }
+    }
+
+    protected class SplitPartViewHolder extends BaseViewHolder<SplitPart> {
+
+        private TextView mName;
+        private TextView mDescription;
+        private TextView mPath;
+
+        private CheckBox mCheck;
+
+        private SplitPartViewHolder(@NonNull View itemView) {
+            super(itemView);
+
+            mName = itemView.findViewById(R.id.tv_split_part_name);
+            mDescription = itemView.findViewById(R.id.tv_split_part_description);
+            mPath = itemView.findViewById(R.id.tv_split_part_path);
+
+            mCheck = itemView.findViewById(R.id.check_split_apk_part);
+
+            itemView.setOnClickListener((v) -> {
+                int adapterPosition = getAdapterPosition();
+                if (adapterPosition == RecyclerView.NO_POSITION)
+                    return;
+
+                SplitPart item = getItemForAdapterPosition(adapterPosition);
+                if (item.isRequired())
+                    return;
+
+                boolean selected = switchSelection(item.localPath());
+                mCheck.setChecked(selected);
+            });
+        }
+
+        @Override
+        void bindTo(SplitPart part) {
+            mName.setText(part.name());
+
+            if (part.description() != null) {
+                mDescription.setText(part.description());
+            } else {
+                mDescription.setText(null);
+                mDescription.setVisibility(View.GONE);
+            }
+
+
+            mCheck.setChecked(part.isRequired() || isSelected(part.localPath()));
+
+            mCheck.setEnabled(!part.isRequired());
+            itemView.setEnabled(!part.isRequired());
+        }
+
+        @Override
+        void recycle() {
+
         }
     }
 }

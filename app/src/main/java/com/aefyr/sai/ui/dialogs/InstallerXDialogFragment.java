@@ -22,7 +22,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.aefyr.sai.R;
 import com.aefyr.sai.adapters.SplitApkSourceMetaAdapter;
 import com.aefyr.sai.ui.dialogs.base.BaseBottomSheetDialogFragment;
-import com.aefyr.sai.ui.recycler.InstallerXAdapterDividerItemDecoration;
 import com.aefyr.sai.utils.AlertsUtils;
 import com.aefyr.sai.utils.PermissionsUtils;
 import com.aefyr.sai.utils.PreferencesHelper;
@@ -88,7 +87,7 @@ public class InstallerXDialogFragment extends BaseBottomSheetDialogFragment impl
 
         RecyclerView recycler = view.findViewById(R.id.rv_dialog_installerx_content);
         recycler.setLayoutManager(new LinearLayoutManager(getContext()));
-        recycler.addItemDecoration(new InstallerXAdapterDividerItemDecoration(requireContext(), InstallerXAdapterDividerItemDecoration.VERTICAL));
+        recycler.getRecycledViewPool().setMaxRecycledViews(SplitApkSourceMetaAdapter.VH_TYPE_SPLIT_PART, 16);
 
         SplitApkSourceMetaAdapter adapter = new SplitApkSourceMetaAdapter(mViewModel.getPartsSelection(), this, requireContext());
         recycler.setAdapter(adapter);
