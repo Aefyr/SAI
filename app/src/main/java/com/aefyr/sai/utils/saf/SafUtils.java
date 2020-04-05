@@ -3,6 +3,7 @@ package com.aefyr.sai.utils.saf;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.net.Uri;
+import android.os.ParcelFileDescriptor;
 import android.provider.DocumentsContract;
 
 import androidx.annotation.Nullable;
@@ -80,6 +81,10 @@ public class SafUtils {
             return null;
 
         return documentFile.getName();
+    }
+
+    public static File parcelFdToFile(ParcelFileDescriptor fd) {
+        return new File("/proc/self/fd/" + fd.getFd());
     }
 
 }

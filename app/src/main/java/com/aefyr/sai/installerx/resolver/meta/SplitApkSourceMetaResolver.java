@@ -1,4 +1,4 @@
-package com.aefyr.sai.installerx.resolver;
+package com.aefyr.sai.installerx.resolver.meta;
 
 import com.aefyr.sai.installerx.SplitApkSourceMeta;
 

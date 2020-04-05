@@ -3,7 +3,7 @@ package com.aefyr.sai.installerx;
 import androidx.annotation.Nullable;
 
 import com.aefyr.sai.installerx.appmeta.AppMeta;
-import com.aefyr.sai.installerx.resolver.SplitApkSourceMetaResolver;
+import com.aefyr.sai.installerx.resolver.meta.SplitApkSourceMetaResolver;
 
 import java.util.ArrayList;
 import java.util.List;

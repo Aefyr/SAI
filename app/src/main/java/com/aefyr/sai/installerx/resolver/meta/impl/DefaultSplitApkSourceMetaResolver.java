@@ -1,4 +1,4 @@
-package com.aefyr.sai.installerx.resolver.impl;
+package com.aefyr.sai.installerx.resolver.meta.impl;
 
 import android.content.Context;
 import android.util.Log;
@@ -15,7 +15,7 @@ import com.aefyr.sai.installerx.appmeta.AppMeta;
 import com.aefyr.sai.installerx.appmeta.zip.DefaultZipAppMetaExtractors;
 import com.aefyr.sai.installerx.appmeta.zip.ZipAppMetaExtractor;
 import com.aefyr.sai.installerx.postprocessing.DeviceInfoAwarePostprocessor;
-import com.aefyr.sai.installerx.resolver.SplitApkSourceMetaResolver;
+import com.aefyr.sai.installerx.resolver.meta.SplitApkSourceMetaResolver;
 import com.aefyr.sai.installerx.splitmeta.BaseSplitMeta;
 import com.aefyr.sai.installerx.splitmeta.FeatureSplitMeta;
 import com.aefyr.sai.installerx.splitmeta.SplitMeta;
@@ -99,7 +99,7 @@ public class DefaultSplitApkSourceMetaResolver implements SplitApkSourceMetaReso
                 while (eventType != AndroidBinXmlParser.EVENT_END_DOCUMENT) {
 
                     if (eventType == AndroidBinXmlParser.EVENT_START_ELEMENT) {
-                        if (parser.getName().equals("manifest") && parser.getNamespace().isEmpty()) {
+                        if (parser.getName().equals("manifest") && parser.getDepth() == 1 && parser.getNamespace().isEmpty()) {
                             if (seenManifestElement)
                                 throw new RuntimeException("Duplicate manifest element found");
 

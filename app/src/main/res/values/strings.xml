@@ -243,7 +243,10 @@
     <string name="installerx_dialog_loading">Parsing APKs…</string>
     <string name="installerx_dialog_install">Install</string>
     <string name="installerx_dialog_error">SAI has encountered an unexpected error while trying to parse selected file(s)</string>
+    <string name="installerx_dialog_resolution_error_non_critical">Parser has encountered the following error:\n\n%s\n\nDo you want to try installing selected files anyway? Even if SAI was unable to parse them, Android may still be able to install them successfully</string>
+    <string name="installerx_dialog_resolution_error_critical">Parser has encountered a critical error:\n\n%s</string>
     <string name="installerx_dialog_warn_multiple_files">Multiple files selected, to customize installation you should select a single file. Do you want to install all of the selected files without customization?</string>
+    <string name="installerx_dialog_warn_no_files">Got empty result from the parser</string>
     <string name="installerx_dialog_warn_parsing_fail">SAI was unable to parse selected file. Do you want to try to install it anyway, without customization?</string>
     <string name="installerx_select_splits_hint">You can select what splits to install</string>
     <string name="installerx_category_base_apk">Base APK</string>
@@ -263,6 +266,7 @@
     <string name="installerx_category_unknown">Unknown</string>
     <string name="installerx_category_unknown_desc">Split APK parts with unknown purpose, please open an issue on SAI\'s GitHub and attach this APK or at least a screenshot of parts names if you encounter this. It is highly recommended to install these parts unless you know their exact purpose</string>
 
+    <string name="installerx_default_mess_resolver_error_unknown_extension">Unexpected file extension: %s</string>
 
     <string name="theme_sai">SAI</string>
     <string name="theme_ruby">Ruby</string>

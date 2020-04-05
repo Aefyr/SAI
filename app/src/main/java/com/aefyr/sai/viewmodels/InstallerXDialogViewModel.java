@@ -2,7 +2,6 @@ package com.aefyr.sai.viewmodels;
 
 import android.app.Application;
 import android.net.Uri;
-import android.os.ParcelFileDescriptor;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -19,19 +18,22 @@ import com.aefyr.sai.installer2.base.model.SaiPiSessionParams;
 import com.aefyr.sai.installer2.impl.FlexSaiPackageInstaller;
 import com.aefyr.sai.installerx.SplitApkSourceMeta;
 import com.aefyr.sai.installerx.SplitPart;
-import com.aefyr.sai.installerx.resolver.impl.DefaultSplitApkSourceMetaResolver;
+import com.aefyr.sai.installerx.resolver.meta.impl.DefaultSplitApkSourceMetaResolver;
+import com.aefyr.sai.installerx.resolver.urimess.SourceType;
+import com.aefyr.sai.installerx.resolver.urimess.UriMessResolutionError;
+import com.aefyr.sai.installerx.resolver.urimess.UriMessResolutionResult;
+import com.aefyr.sai.installerx.resolver.urimess.UriMessResolver;
+import com.aefyr.sai.installerx.resolver.urimess.impl.AndroidUriHost;
+import com.aefyr.sai.installerx.resolver.urimess.impl.DefaultUriMessResolver;
 import com.aefyr.sai.model.apksource.ApkSource;
 import com.aefyr.sai.utils.Logs;
 import com.aefyr.sai.utils.PreferencesHelper;
 import com.aefyr.sai.utils.SimpleAsyncTask;
-import com.aefyr.sai.utils.saf.SafUtils;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Objects;
 import java.util.Set;
 
 public class InstallerXDialogViewModel extends AndroidViewModel {
@@ -47,7 +49,7 @@ public class InstallerXDialogViewModel extends AndroidViewModel {
     private LoadMetaTask mLoadMetaTask;
 
     private Selection<String> mPartsSelection = new Selection<>(new SimpleKeyStorage());
-    private List<Uri> mUrisToInstall;
+    private List<UriMessResolutionResult> mResolutionResults;
 
     public InstallerXDialogViewModel(@NonNull Application application) {
         super(application);
@@ -76,6 +78,7 @@ public class InstallerXDialogViewModel extends AndroidViewModel {
             mLoadMetaTask.cancel();
 
         mState.setValue(State.LOADING);
+        mResolutionResults = null;
         mLoadMetaTask = new LoadMetaTask(new LoadMetaTaskInput(apkSourceFiles, null)).execute();
     }
 
@@ -84,6 +87,7 @@ public class InstallerXDialogViewModel extends AndroidViewModel {
             mLoadMetaTask.cancel();
 
         mState.setValue(State.LOADING);
+        mResolutionResults = null;
         mLoadMetaTask = new LoadMetaTask(new LoadMetaTaskInput(null, apkSourceUris)).execute();
     }
 
@@ -96,31 +100,50 @@ public class InstallerXDialogViewModel extends AndroidViewModel {
     }
 
     public void enqueueInstallation() {
-        if (mUrisToInstall == null)
+        if (mResolutionResults == null)
             return;
 
-        if (mUrisToInstall.size() == 1) {
-            ApkSource apkSource = new ApkSourceBuilder(getApplication())
-                    .fromZipContentUri(mUrisToInstall.get(0))
-                    .setZipExtractionEnabled(mPrefsHelper.shouldExtractArchives())
-                    .setReadZipViaZipFileEnabled(mPrefsHelper.shouldUseZipFileApi())
-                    .setSigningEnabled(mPrefsHelper.shouldSignApks())
-                    .filterApksInZip(new HashSet<>(mPartsSelection.getSelectedKeys()), false)
-                    .build();
+        if (mResolutionResults.size() == 1) {
+            enqueueSingleFiltered(mResolutionResults.get(0));
+            return;
+        }
 
-            install(apkSource);
-        } else {
-            for (Uri uri : mUrisToInstall) {
-                ApkSource apkSource = new ApkSourceBuilder(getApplication())
-                        .fromZipContentUri(uri)
-                        .setZipExtractionEnabled(mPrefsHelper.shouldExtractArchives())
+        for (UriMessResolutionResult resolutionResult : mResolutionResults) {
+            if (!resolutionResult.isSuccessful())
+                continue;
+
+            ApkSourceBuilder apkSourceBuilder = null;
+
+            if (resolutionResult.sourceType().equals(SourceType.ZIP)) {
+                apkSourceBuilder = new ApkSourceBuilder(getApplication())
+                        .fromZipContentUri(resolutionResult.uris().get(0));
+
+            } else if (resolutionResult.sourceType().equals(SourceType.APK_FILES)) {
+                apkSourceBuilder = new ApkSourceBuilder(getApplication())
+                        .fromApkContentUris(resolutionResult.uris());
+            }
+
+            if (apkSourceBuilder != null) {
+                apkSourceBuilder.setZipExtractionEnabled(mPrefsHelper.shouldExtractArchives())
                         .setReadZipViaZipFileEnabled(mPrefsHelper.shouldUseZipFileApi())
                         .setSigningEnabled(mPrefsHelper.shouldSignApks())
                         .build();
 
-                install(apkSource);
+                install(apkSourceBuilder.build());
             }
         }
+    }
+
+    private void enqueueSingleFiltered(UriMessResolutionResult result) {
+        ApkSource apkSource = new ApkSourceBuilder(getApplication())
+                .fromZipContentUri(result.uris().get(0))
+                .setZipExtractionEnabled(mPrefsHelper.shouldExtractArchives())
+                .setReadZipViaZipFileEnabled(mPrefsHelper.shouldUseZipFileApi())
+                .setSigningEnabled(mPrefsHelper.shouldSignApks())
+                .filterApksInZip(new HashSet<>(mPartsSelection.getSelectedKeys()), false)
+                .build();
+
+        install(apkSource);
     }
 
     private void install(ApkSource apkSource) {
@@ -144,12 +167,12 @@ public class InstallerXDialogViewModel extends AndroidViewModel {
     private static class LoadMetaTaskResult {
         SplitApkSourceMeta meta;
         Set<String> splitsToSelect;
-        List<Uri> urisToInstall;
+        List<UriMessResolutionResult> resolutionResults;
 
-        private LoadMetaTaskResult(@Nullable SplitApkSourceMeta meta, @Nullable Set<String> splitsToSelect, @NonNull List<Uri> urisToInstall) {
+        private LoadMetaTaskResult(@Nullable SplitApkSourceMeta meta, @Nullable Set<String> splitsToSelect, @NonNull List<UriMessResolutionResult> resolutionResults) {
             this.meta = meta;
             this.splitsToSelect = splitsToSelect;
-            this.urisToInstall = urisToInstall;
+            this.resolutionResults = resolutionResults;
         }
     }
 
@@ -165,16 +188,16 @@ public class InstallerXDialogViewModel extends AndroidViewModel {
             if (apkSourceUris.size() == 0)
                 throw new IllegalArgumentException("Expected at least 1 file in input");
 
-            if (apkSourceUris.size() != 1) {
-                return new LoadMetaTaskResult(null, null, apkSourceUris);
+            UriMessResolver uriMessResolver = new DefaultUriMessResolver(getApplication(), new DefaultSplitApkSourceMetaResolver(getApplication()));
+            List<UriMessResolutionResult> resolutionResults = uriMessResolver.resolve(apkSourceUris, new AndroidUriHost(getApplication()));
+
+            if (resolutionResults.size() != 1) {
+                return new LoadMetaTaskResult(null, null, resolutionResults);
             }
 
-            Uri singleApkSourceUri = apkSourceUris.get(0);
-            ParcelFileDescriptor fd = null;
-            try {
-                fd = openUriFd(singleApkSourceUri);
-                File fdFile = parcelFdToFile(fd);
-                SplitApkSourceMeta meta = new DefaultSplitApkSourceMetaResolver(getApplication()).resolveFor(fdFile, SafUtils.getFileNameFromContentUri(getApplication(), singleApkSourceUri));
+            UriMessResolutionResult resolutionResult = resolutionResults.get(0);
+            if (resolutionResult.isSuccessful()) {
+                SplitApkSourceMeta meta = resolutionResult.meta();
                 HashSet<String> splitsToSelect = new HashSet<>();
 
                 for (SplitPart part : meta.flatSplits()) {
@@ -182,20 +205,10 @@ public class InstallerXDialogViewModel extends AndroidViewModel {
                         splitsToSelect.add(part.id());
                 }
 
-                return new LoadMetaTaskResult(meta, splitsToSelect, apkSourceUris);
-            } catch (Exception e) {
-                Log.w(TAG, "Error while parsing meta for an apk", e);
-                Logs.logException(e);
-
-                return new LoadMetaTaskResult(null, null, apkSourceUris);
-            } finally {
-                try {
-                    if (fd != null)
-                        fd.close();
-                } catch (Exception e) {
-                    Log.w(TAG, "Unable to close file descriptor", e);
-                }
+                return new LoadMetaTaskResult(meta, splitsToSelect, resolutionResults);
             }
+
+            return new LoadMetaTaskResult(null, null, resolutionResults);
         }
 
         private List<Uri> flattenInputToUris(LoadMetaTaskInput input) {
@@ -212,28 +225,27 @@ public class InstallerXDialogViewModel extends AndroidViewModel {
             return uris;
         }
 
-        private ParcelFileDescriptor openUriFd(Uri uri) throws IOException {
-            ParcelFileDescriptor fd = getApplication().getContentResolver().openFileDescriptor(uri, "r");
-            Objects.requireNonNull(fd);
-            return fd;
-        }
-
-        private File parcelFdToFile(ParcelFileDescriptor fd) {
-            return new File("/proc/self/fd/" + fd.getFd());
-        }
-
         @Override
         protected void onWorkDone(LoadMetaTaskResult result) {
-            mUrisToInstall = result.urisToInstall;
+            mResolutionResults = result.resolutionResults;
 
-            if (result.urisToInstall.size() == 1) {
-                if (result.meta != null) {
+            if (mResolutionResults.size() == 0) {
+                mWarning = new Warning(getApplication().getString(R.string.installerx_dialog_warn_no_files), false);
+                mState.setValue(State.WARNING);
+            } else if (mResolutionResults.size() == 1) {
+                UriMessResolutionResult uriMessResolutionResult = mResolutionResults.get(0);
+                if (uriMessResolutionResult.isSuccessful()) {
                     mState.setValue(State.LOADED);
                     mMeta.setValue(result.meta);
                     mPartsSelection.clear();
                     mPartsSelection.batchSetSelected(result.splitsToSelect, true);
                 } else {
-                    mWarning = new Warning(getApplication().getString(R.string.installerx_dialog_warn_parsing_fail), true);
+                    UriMessResolutionError error = uriMessResolutionResult.error();
+                    if (error.doesTryingToInstallNonethelessMakeSense()) {
+                        mWarning = new Warning(getApplication().getString(R.string.installerx_dialog_resolution_error_non_critical, uriMessResolutionResult.error().message()), true);
+                    } else {
+                        mWarning = new Warning(getApplication().getString(R.string.installerx_dialog_resolution_error_critical, uriMessResolutionResult.error().message()), false);
+                    }
                     mState.setValue(State.WARNING);
                 }
             } else {
@@ -247,12 +259,12 @@ public class InstallerXDialogViewModel extends AndroidViewModel {
             Log.w(TAG, "Error while parsing meta for an apk", exception);
             Logs.logException(exception);
 
-            mUrisToInstall = null;
+            mResolutionResults = null;
             mState.setValue(State.ERROR);
         }
     }
 
-    public class Warning {
+    public static class Warning {
         String mMessage;
         boolean mCanInstallAnyway;
 
