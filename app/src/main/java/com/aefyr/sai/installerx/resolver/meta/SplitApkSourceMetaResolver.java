@@ -1,7 +1,5 @@
 package com.aefyr.sai.installerx.resolver.meta;
 
-import com.aefyr.sai.installerx.SplitApkSourceMeta;
-
 public interface SplitApkSourceMetaResolver {
 
     //TODO resolution progress listener would be nice
@@ -11,6 +9,6 @@ public interface SplitApkSourceMetaResolver {
      * @return
      * @throws Exception
      */
-    SplitApkSourceMeta resolveFor(ApkSourceFile apkSourceFile) throws Exception;
+    ApkSourceMetaResolutionResult resolveFor(ApkSourceFile apkSourceFile) throws Exception;
 
 }

@@ -8,8 +8,8 @@ import android.util.Log;
 import androidx.annotation.Nullable;
 
 import com.aefyr.sai.R;
-import com.aefyr.sai.installerx.SplitApkSourceMeta;
 import com.aefyr.sai.installerx.resolver.meta.ApkSourceFile;
+import com.aefyr.sai.installerx.resolver.meta.ApkSourceMetaResolutionResult;
 import com.aefyr.sai.installerx.resolver.meta.SplitApkSourceMetaResolver;
 import com.aefyr.sai.installerx.resolver.meta.impl.ZipFileApkSourceFile;
 import com.aefyr.sai.installerx.resolver.urimess.SourceType;
@@ -56,11 +56,15 @@ public class DefaultUriMessResolver implements UriMessResolver {
                 case "apks":
                 case "xapk":
                     try (ParcelFileDescriptor fd = uriHost.openUriAsParcelFd(uri)) {
-                        SplitApkSourceMeta meta = mMetaResolver.resolveFor(new ZipFileApkSourceFile(SafUtils.parcelFdToFile(fd), fileName));
-                        results.add(UriMessResolutionResult.success(SourceType.ZIP, Collections.singletonList(uri), meta));
+                        ApkSourceMetaResolutionResult resolutionResult = mMetaResolver.resolveFor(new ZipFileApkSourceFile(SafUtils.parcelFdToFile(fd), fileName));
+                        if (resolutionResult.isSuccessful())
+                            results.add(UriMessResolutionResult.success(SourceType.ZIP, Collections.singletonList(uri), resolutionResult.meta()));
+                        else
+                            results.add(UriMessResolutionResult.failure(SourceType.ZIP, Collections.singletonList(uri), new UriMessResolutionError(resolutionResult.error().message(), resolutionResult.error().doesTryingToInstallNonethelessMakeSense())));
+
                     } catch (Exception e) {
                         Log.w(TAG, "Exception while resolving split meta", e);
-                        results.add(UriMessResolutionResult.failure(SourceType.ZIP, Collections.singletonList(uri), new UriMessResolutionError(e.getMessage(), true)));
+                        results.add(UriMessResolutionResult.failure(SourceType.ZIP, Collections.singletonList(uri), new UriMessResolutionError(e.getLocalizedMessage(), true)));
                     }
                     break;
                 case "apk":
@@ -75,8 +79,11 @@ public class DefaultUriMessResolver implements UriMessResolver {
         //TODO maybe group single apks by package
         if (apkFileUris.size() > 0) {
             try {
-                SplitApkSourceMeta meta = mMetaResolver.resolveFor(new MultipleApkFilesApkSourceFile(apkFileUris, uriHost));
-                results.add(UriMessResolutionResult.success(SourceType.APK_FILES, apkFileUris, meta));
+                ApkSourceMetaResolutionResult resolutionResult = mMetaResolver.resolveFor(new MultipleApkFilesApkSourceFile(apkFileUris, uriHost));
+                if (resolutionResult.isSuccessful())
+                    results.add(UriMessResolutionResult.success(SourceType.APK_FILES, apkFileUris, resolutionResult.meta()));
+                else
+                    results.add(UriMessResolutionResult.failure(SourceType.APK_FILES, apkFileUris, new UriMessResolutionError(resolutionResult.error().message(), resolutionResult.error().doesTryingToInstallNonethelessMakeSense())));
             } catch (Exception e) {
                 Log.w(TAG, "Exception while resolving split meta", e);
                 results.add(UriMessResolutionResult.failure(SourceType.APK_FILES, apkFileUris, new UriMessResolutionError(e.getMessage(), true)));

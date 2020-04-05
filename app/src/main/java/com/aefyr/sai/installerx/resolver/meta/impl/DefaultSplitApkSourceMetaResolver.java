@@ -3,6 +3,7 @@ package com.aefyr.sai.installerx.resolver.meta.impl;
 import android.content.Context;
 import android.util.Log;
 
+import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 
 import com.aefyr.sai.R;
@@ -16,6 +17,8 @@ import com.aefyr.sai.installerx.resolver.appmeta.AppMeta;
 import com.aefyr.sai.installerx.resolver.appmeta.AppMetaExtractor;
 import com.aefyr.sai.installerx.resolver.appmeta.DefaultZipAppMetaExtractors;
 import com.aefyr.sai.installerx.resolver.meta.ApkSourceFile;
+import com.aefyr.sai.installerx.resolver.meta.ApkSourceMetaResolutionError;
+import com.aefyr.sai.installerx.resolver.meta.ApkSourceMetaResolutionResult;
 import com.aefyr.sai.installerx.resolver.meta.SplitApkSourceMetaResolver;
 import com.aefyr.sai.installerx.splitmeta.BaseSplitMeta;
 import com.aefyr.sai.installerx.splitmeta.FeatureSplitMeta;
@@ -50,20 +53,20 @@ public class DefaultSplitApkSourceMetaResolver implements SplitApkSourceMetaReso
     }
 
     @Override
-    public SplitApkSourceMeta resolveFor(ApkSourceFile apkSourceFile) throws Exception {
+    public ApkSourceMetaResolutionResult resolveFor(ApkSourceFile apkSourceFile) throws Exception {
         Stopwatch sw = new Stopwatch();
 
         try {
-            SplitApkSourceMeta meta = parseViaParsingManifests(apkSourceFile);
+            ApkSourceMetaResolutionResult result = parseViaParsingManifests(apkSourceFile);
             Log.d(TAG, String.format("Resolved meta for %s via parsing manifests in %d ms.", apkSourceFile.getName(), sw.millisSinceStart()));
-            return meta;
+            return result;
         } catch (Exception e) {
             //TODO alt parse
             throw e;
         }
     }
 
-    private SplitApkSourceMeta parseViaParsingManifests(ApkSourceFile aApkSourceFile) throws Exception {
+    private ApkSourceMetaResolutionResult parseViaParsingManifests(ApkSourceFile aApkSourceFile) throws Exception {
         try (ApkSourceFile apkSourceFile = aApkSourceFile) {
             AppMetaExtractor appMetaExtractor = DefaultZipAppMetaExtractors.fromArchiveExtension(mContext, Utils.getExtension(apkSourceFile.getName()));
 
@@ -91,14 +94,18 @@ public class DefaultSplitApkSourceMetaResolver implements SplitApkSourceMetaReso
 
                 HashMap<String, String> manifestAttrs = new HashMap<>();
 
-                AndroidBinXmlParser parser = new AndroidBinXmlParser(stealManifestFromApk(apkSourceFile.openEntryInputStream()));
+                ByteBuffer manifestBytes = stealManifestFromApk(apkSourceFile.openEntryInputStream());
+                if (manifestBytes == null)
+                    return ApkSourceMetaResolutionResult.failure(new ApkSourceMetaResolutionError(getString(R.string.installerx_dsas_meta_resolver_error_no_manifest), true));
+
+                AndroidBinXmlParser parser = new AndroidBinXmlParser(manifestBytes);
                 int eventType = parser.getEventType();
                 while (eventType != AndroidBinXmlParser.EVENT_END_DOCUMENT) {
 
                     if (eventType == AndroidBinXmlParser.EVENT_START_ELEMENT) {
                         if (parser.getName().equals("manifest") && parser.getDepth() == 1 && parser.getNamespace().isEmpty()) {
                             if (seenManifestElement)
-                                throw new RuntimeException("Duplicate manifest element found");
+                                return ApkSourceMetaResolutionResult.failure(new ApkSourceMetaResolutionError(getString(R.string.installerx_dsas_meta_resolver_error_dup_manifest_entry), true));
 
                             seenManifestElement = true;
 
@@ -118,25 +125,25 @@ public class DefaultSplitApkSourceMetaResolver implements SplitApkSourceMetaReso
                 }
 
                 if (!seenManifestElement)
-                    throw new RuntimeException("No manifest element found in xml");
+                    return ApkSourceMetaResolutionResult.failure(new ApkSourceMetaResolutionError(getString(R.string.installerx_dsas_meta_resolver_error_no_manifest_entry), true));
 
                 SplitMeta splitMeta = SplitMeta.from(manifestAttrs);
                 if (packageName == null) {
                     packageName = splitMeta.packageName();
                 } else {
                     if (!packageName.equals(splitMeta.packageName()))
-                        throw new RuntimeException("Parts have mismatching packages");
+                        return ApkSourceMetaResolutionResult.failure(new ApkSourceMetaResolutionError(getString(R.string.installerx_dsas_meta_resolver_error_pkg_mismatch), true));
                 }
                 if (versionCode == null) {
                     versionCode = splitMeta.versionCode();
                 } else {
                     if (!versionCode.equals(splitMeta.versionCode()))
-                        throw new RuntimeException("Parts have mismatching versions");
+                        return ApkSourceMetaResolutionResult.failure(new ApkSourceMetaResolutionError(getString(R.string.installerx_dsas_meta_resolver_error_version_mismatch), true));
                 }
 
                 if (splitMeta instanceof BaseSplitMeta) {
                     if (seenBaseApk)
-                        throw new RuntimeException("Multiple base APKs found");
+                        return ApkSourceMetaResolutionResult.failure(new ApkSourceMetaResolutionError(getString(R.string.installerx_dsas_meta_resolver_error_multiple_base_apks), true));
 
                     seenBaseApk = true;
 
@@ -207,7 +214,7 @@ public class DefaultSplitApkSourceMetaResolver implements SplitApkSourceMetaReso
             }
 
             if (!seenApk)
-                throw new RuntimeException("Archive doesn't contain apk files");
+                return ApkSourceMetaResolutionResult.failure(new ApkSourceMetaResolutionError(getString(R.string.installerx_dsas_meta_resolver_error_no_apks), true));
 
 
             new DeviceInfoAwarePostprocessor(mContext).process(categoryIndex);
@@ -229,7 +236,7 @@ public class DefaultSplitApkSourceMetaResolver implements SplitApkSourceMetaReso
                 appMeta.versionName = versionName;
 
 
-            return new SplitApkSourceMeta(appMeta, splitCategoryList, Collections.emptyList());
+            return ApkSourceMetaResolutionResult.success(new SplitApkSourceMeta(appMeta, splitCategoryList, Collections.emptyList()));
         }
     }
 
@@ -241,6 +248,7 @@ public class DefaultSplitApkSourceMetaResolver implements SplitApkSourceMetaReso
         return mContext.getString(id, formatArgs);
     }
 
+    @Nullable
     private ByteBuffer stealManifestFromApk(InputStream apkInputSteam) throws IOException {
         try (ZipInputStream zipInputStream = new ZipInputStream(apkInputSteam)) {
             ZipEntry zipEntry;
@@ -257,7 +265,7 @@ public class DefaultSplitApkSourceMetaResolver implements SplitApkSourceMetaReso
             }
         }
 
-        throw new IOException("Manifest not found");
+        return null;
     }
 
 }
