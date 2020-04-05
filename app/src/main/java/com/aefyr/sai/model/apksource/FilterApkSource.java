@@ -4,26 +4,20 @@ import androidx.annotation.Nullable;
 
 import java.io.InputStream;
 import java.util.Set;
-import java.util.zip.ZipEntry;
 
 /**
  * An ApkSource that can filter out APK files from the backing ZipBackedApkSource
  */
-public class ZipFilterApkSource implements ZipBackedApkSource {
+public class FilterApkSource implements ApkSource {
 
-    private ZipBackedApkSource mWrappedApkSource;
+    private ApkSource mWrappedApkSource;
     private Set<String> mFilteredEntries;
     private boolean mBlacklist;
 
-    public ZipFilterApkSource(ZipBackedApkSource apkSource, Set<String> filteredEntries, boolean blacklist) {
+    public FilterApkSource(ApkSource apkSource, Set<String> filteredEntries, boolean blacklist) {
         mWrappedApkSource = apkSource;
         mFilteredEntries = filteredEntries;
         mBlacklist = blacklist;
-    }
-
-    @Override
-    public ZipEntry getEntry() {
-        return mWrappedApkSource.getEntry();
     }
 
     @Override
@@ -31,7 +25,7 @@ public class ZipFilterApkSource implements ZipBackedApkSource {
         if (!mWrappedApkSource.nextApk())
             return false;
 
-        while (shouldSkip(getEntry())) {
+        while (shouldSkip(getApkLocalPath())) {
             if (!mWrappedApkSource.nextApk())
                 return false;
         }
@@ -39,11 +33,11 @@ public class ZipFilterApkSource implements ZipBackedApkSource {
         return true;
     }
 
-    private boolean shouldSkip(ZipEntry entry) {
+    private boolean shouldSkip(String localPath) {
         if (mBlacklist)
-            return mFilteredEntries.contains(entry.getName());
+            return mFilteredEntries.contains(localPath);
         else
-            return !mFilteredEntries.contains(entry.getName());
+            return !mFilteredEntries.contains(localPath);
     }
 
     @Override
@@ -59,6 +53,11 @@ public class ZipFilterApkSource implements ZipBackedApkSource {
     @Override
     public String getApkName() throws Exception {
         return mWrappedApkSource.getApkName();
+    }
+
+    @Override
+    public String getApkLocalPath() throws Exception {
+        return mWrappedApkSource.getApkLocalPath();
     }
 
     @Override

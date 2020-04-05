@@ -85,6 +85,11 @@ public class ZipExtractorApkSource implements ApkSource {
     }
 
     @Override
+    public String getApkLocalPath() throws Exception {
+        return mCurrentZipEntry.getName();
+    }
+
+    @Override
     public void close() {
         IOUtils.deleteRecursively(mExtractedFilesDir);
     }

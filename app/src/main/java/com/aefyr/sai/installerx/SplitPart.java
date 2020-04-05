@@ -9,7 +9,7 @@ public class SplitPart {
 
     private SplitMeta mMeta;
     private String mId;
-    private String mBackingApkFile;
+    private String mLocalPath;
     private String mName;
     private String mDescription;
     private boolean mRequired;
@@ -18,9 +18,10 @@ public class SplitPart {
     /**
      * @param id id is equal to the entry name in an archive
      */
-    public SplitPart(SplitMeta meta, String id, String name, @Nullable String description, boolean required, boolean recommended) {
+    public SplitPart(SplitMeta meta, String id, String localPath, String name, @Nullable String description, boolean required, boolean recommended) {
         mMeta = meta;
         mId = id;
+        mLocalPath = localPath;
         mName = name;
         mDescription = description;
         mRequired = required;
@@ -38,6 +39,13 @@ public class SplitPart {
      */
     public String id() {
         return mId;
+    }
+
+    /**
+     * @return the local path of this part in the apk source
+     */
+    public String localPath() {
+        return mLocalPath;
     }
 
     public String name() {

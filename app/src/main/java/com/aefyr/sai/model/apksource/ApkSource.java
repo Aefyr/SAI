@@ -14,6 +14,8 @@ public interface ApkSource extends AutoCloseable {
 
     String getApkName() throws Exception;
 
+    String getApkLocalPath() throws Exception;
+
     @Override
     default void close() throws Exception {
 

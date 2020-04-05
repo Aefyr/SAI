@@ -143,7 +143,7 @@ public class DefaultSplitApkSourceMetaResolver implements SplitApkSourceMetaReso
                     BaseSplitMeta baseSplitMeta = (BaseSplitMeta) splitMeta;
                     versionName = baseSplitMeta.versionName();
                     categoryIndex.getOrCreate(Category.BASE_APK, getString(R.string.installerx_category_base_apk), null)
-                            .addPart(new SplitPart(splitMeta, entry.getName(), baseSplitMeta.packageName(), null, true, true));
+                            .addPart(new SplitPart(splitMeta, entry.getName(), entry.getLocalPath(), baseSplitMeta.packageName(), null, true, true));
 
                     continue;
                 }
@@ -152,7 +152,7 @@ public class DefaultSplitApkSourceMetaResolver implements SplitApkSourceMetaReso
                     FeatureSplitMeta featureSplitMeta = (FeatureSplitMeta) splitMeta;
 
                     categoryIndex.getOrCreate(Category.FEATURE, getString(R.string.installerx_category_dynamic_features), null)
-                            .addPart(new SplitPart(splitMeta, entry.getName(), getString(R.string.installerx_dynamic_feature, featureSplitMeta.module()), null, false, true));
+                            .addPart(new SplitPart(splitMeta, entry.getName(), entry.getLocalPath(), getString(R.string.installerx_dynamic_feature, featureSplitMeta.module()), null, false, true));
                     continue;
                 }
 
@@ -167,7 +167,7 @@ public class DefaultSplitApkSourceMetaResolver implements SplitApkSourceMetaReso
                     }
 
                     categoryIndex.getOrCreate(Category.CONFIG_ABI, getString(R.string.installerx_category_config_abi), null)
-                            .addPart(new SplitPart(splitMeta, entry.getName(), name, null, false, false));
+                            .addPart(new SplitPart(splitMeta, entry.getName(), entry.getLocalPath(), name, null, false, false));
                     continue;
                 }
 
@@ -182,7 +182,7 @@ public class DefaultSplitApkSourceMetaResolver implements SplitApkSourceMetaReso
                     }
 
                     categoryIndex.getOrCreate(Category.CONFIG_LOCALE, getString(R.string.installerx_category_config_locale), null)
-                            .addPart(new SplitPart(splitMeta, entry.getName(), name, null, false, false));
+                            .addPart(new SplitPart(splitMeta, entry.getName(), entry.getLocalPath(), name, null, false, false));
                     continue;
                 }
 
@@ -197,12 +197,12 @@ public class DefaultSplitApkSourceMetaResolver implements SplitApkSourceMetaReso
                     }
 
                     categoryIndex.getOrCreate(Category.CONFIG_DENSITY, getString(R.string.installerx_category_config_dpi), null)
-                            .addPart(new SplitPart(splitMeta, entry.getName(), name, null, false, false));
+                            .addPart(new SplitPart(splitMeta, entry.getName(), entry.getLocalPath(), name, null, false, false));
                     continue;
                 }
 
                 categoryIndex.getOrCreate(Category.UNKNOWN, getString(R.string.installerx_category_unknown), getString(R.string.installerx_category_unknown_desc))
-                        .addPart(new SplitPart(splitMeta, entry.getName(), splitMeta.splitName(), null, false, true));
+                        .addPart(new SplitPart(splitMeta, entry.getName(), entry.getLocalPath(), splitMeta.splitName(), null, false, true));
 
             }
 

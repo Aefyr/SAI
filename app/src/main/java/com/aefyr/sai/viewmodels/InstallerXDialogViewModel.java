@@ -135,15 +135,27 @@ public class InstallerXDialogViewModel extends AndroidViewModel {
     }
 
     private void enqueueSingleFiltered(UriMessResolutionResult result) {
-        ApkSource apkSource = new ApkSourceBuilder(getApplication())
-                .fromZipContentUri(result.uris().get(0))
-                .setZipExtractionEnabled(mPrefsHelper.shouldExtractArchives())
-                .setReadZipViaZipFileEnabled(mPrefsHelper.shouldUseZipFileApi())
-                .setSigningEnabled(mPrefsHelper.shouldSignApks())
-                .filterApksInZip(new HashSet<>(mPartsSelection.getSelectedKeys()), false)
-                .build();
+        ApkSourceBuilder apkSourceBuilder = null;
 
-        install(apkSource);
+        if (result.sourceType() == SourceType.ZIP) {
+            apkSourceBuilder = new ApkSourceBuilder(getApplication())
+                    .fromZipContentUri(result.uris().get(0));
+
+        } else if (result.sourceType() == SourceType.APK_FILES) {
+            apkSourceBuilder = new ApkSourceBuilder(getApplication())
+                    .fromApkContentUris(result.uris());
+        }
+
+        if (apkSourceBuilder != null) {
+            apkSourceBuilder.setZipExtractionEnabled(mPrefsHelper.shouldExtractArchives())
+                    .setReadZipViaZipFileEnabled(mPrefsHelper.shouldUseZipFileApi())
+                    .setSigningEnabled(mPrefsHelper.shouldSignApks())
+                    .filterApksByLocalPath(new HashSet<>(mPartsSelection.getSelectedKeys()), false)
+                    .build();
+
+            install(apkSourceBuilder.build());
+        }
+
     }
 
     private void install(ApkSource apkSource) {
@@ -202,7 +214,7 @@ public class InstallerXDialogViewModel extends AndroidViewModel {
 
                 for (SplitPart part : meta.flatSplits()) {
                     if (part.isRecommended())
-                        splitsToSelect.add(part.id());
+                        splitsToSelect.add(part.localPath());
                 }
 
                 return new LoadMetaTaskResult(meta, splitsToSelect, resolutionResults);

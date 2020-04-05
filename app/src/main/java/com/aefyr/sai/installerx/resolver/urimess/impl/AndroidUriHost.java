@@ -7,6 +7,8 @@ import android.os.ParcelFileDescriptor;
 import com.aefyr.sai.installerx.resolver.urimess.UriHost;
 import com.aefyr.sai.utils.saf.SafUtils;
 
+import java.io.InputStream;
+
 public class AndroidUriHost implements UriHost {
 
     private Context mContext;
@@ -23,5 +25,10 @@ public class AndroidUriHost implements UriHost {
     @Override
     public ParcelFileDescriptor openUriAsParcelFd(Uri uri) throws Exception {
         return mContext.getContentResolver().openFileDescriptor(uri, "r");
+    }
+
+    @Override
+    public InputStream openUriInputStream(Uri uri) throws Exception {
+        return mContext.getContentResolver().openInputStream(uri);
     }
 }

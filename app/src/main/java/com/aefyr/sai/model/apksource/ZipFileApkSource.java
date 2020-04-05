@@ -91,6 +91,11 @@ public class ZipFileApkSource implements ZipBackedApkSource {
     }
 
     @Override
+    public String getApkLocalPath() throws Exception {
+        return mCurrentEntry.getName();
+    }
+
+    @Override
     public void close() throws Exception {
         if (mZipFile != null)
             mZipFile.close();

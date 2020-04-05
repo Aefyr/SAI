@@ -5,8 +5,11 @@ import android.net.Uri;
 import android.os.ParcelFileDescriptor;
 import android.util.Log;
 
+import androidx.annotation.Nullable;
+
 import com.aefyr.sai.R;
 import com.aefyr.sai.installerx.SplitApkSourceMeta;
+import com.aefyr.sai.installerx.resolver.meta.ApkSourceFile;
 import com.aefyr.sai.installerx.resolver.meta.SplitApkSourceMetaResolver;
 import com.aefyr.sai.installerx.resolver.meta.impl.ZipFileApkSourceFile;
 import com.aefyr.sai.installerx.resolver.urimess.SourceType;
@@ -17,6 +20,7 @@ import com.aefyr.sai.installerx.resolver.urimess.UriMessResolver;
 import com.aefyr.sai.utils.Utils;
 import com.aefyr.sai.utils.saf.SafUtils;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -68,12 +72,53 @@ public class DefaultUriMessResolver implements UriMessResolver {
             }
         }
 
-        //TODO support apk files
+        //TODO maybe group single apks by package
         if (apkFileUris.size() > 0) {
-            results.add(UriMessResolutionResult.failure(SourceType.APK_FILES, apkFileUris, new UriMessResolutionError(".apk files are currently not supported", false)));
+            try {
+                SplitApkSourceMeta meta = mMetaResolver.resolveFor(new MultipleApkFilesApkSourceFile(apkFileUris, uriHost));
+                results.add(UriMessResolutionResult.success(SourceType.APK_FILES, apkFileUris, meta));
+            } catch (Exception e) {
+                Log.w(TAG, "Exception while resolving split meta", e);
+                results.add(UriMessResolutionResult.failure(SourceType.APK_FILES, apkFileUris, new UriMessResolutionError(e.getMessage(), true)));
+            }
         }
 
         return results;
+    }
+
+    private static class MultipleApkFilesApkSourceFile implements ApkSourceFile {
+
+        private List<Uri> mUris;
+        private UriHost mUriHost;
+
+        int mCurrentIndex = -1;
+
+        private MultipleApkFilesApkSourceFile(List<Uri> uris, UriHost uriHost) {
+            mUris = uris;
+            mUriHost = uriHost;
+        }
+
+        @Nullable
+        @Override
+        public Entry nextEntry() {
+            mCurrentIndex++;
+
+            if (mCurrentIndex >= mUris.size())
+                return null;
+
+            String name = mUriHost.getFileNameFromUri(mUris.get(mCurrentIndex));
+            return new Entry(name, name);
+        }
+
+        @Override
+        public InputStream openEntryInputStream() throws Exception {
+            return mUriHost.openUriInputStream(mUris.get(mCurrentIndex));
+        }
+
+        @Override
+        public String getName() {
+            return "whatever.whatever";
+        }
     }
 
 }

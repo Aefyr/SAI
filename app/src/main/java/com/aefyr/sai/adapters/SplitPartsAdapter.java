@@ -46,7 +46,7 @@ public class SplitPartsAdapter extends SelectableAdapter<String, SplitPartsAdapt
 
     @Override
     protected String getKeyForPosition(int position) {
-        return mParts.get(position).id();
+        return mParts.get(position).localPath();
     }
 
     @Override
@@ -62,7 +62,7 @@ public class SplitPartsAdapter extends SelectableAdapter<String, SplitPartsAdapt
 
     @Override
     public long getItemId(int position) {
-        return mParts.get(position).id().hashCode();
+        return mParts.get(position).localPath().hashCode();
     }
 
     static class SplitPartViewHolder extends RecyclerView.ViewHolder {
@@ -93,7 +93,7 @@ public class SplitPartsAdapter extends SelectableAdapter<String, SplitPartsAdapt
                 if (item.isRequired())
                     return;
 
-                boolean selected = mHost.switchSelection(item.id());
+                boolean selected = mHost.switchSelection(item.localPath());
                 mCheck.setChecked(selected);
             });
         }
@@ -111,7 +111,7 @@ public class SplitPartsAdapter extends SelectableAdapter<String, SplitPartsAdapt
             }
 
 
-            mCheck.setChecked(part.isRequired() || mHost.isSelected(part.id()));
+            mCheck.setChecked(part.isRequired() || mHost.isSelected(part.localPath()));
 
             mCheck.setEnabled(!part.isRequired());
             itemView.setEnabled(!part.isRequired());

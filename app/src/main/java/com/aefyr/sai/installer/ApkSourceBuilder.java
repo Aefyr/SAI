@@ -6,11 +6,11 @@ import android.net.Uri;
 import com.aefyr.sai.model.apksource.ApkSource;
 import com.aefyr.sai.model.apksource.CopyToFileApkSource;
 import com.aefyr.sai.model.apksource.DefaultApkSource;
+import com.aefyr.sai.model.apksource.FilterApkSource;
 import com.aefyr.sai.model.apksource.SignerApkSource;
 import com.aefyr.sai.model.apksource.ZipApkSource;
 import com.aefyr.sai.model.apksource.ZipBackedApkSource;
 import com.aefyr.sai.model.apksource.ZipFileApkSource;
-import com.aefyr.sai.model.apksource.ZipFilterApkSource;
 import com.aefyr.sai.model.filedescriptor.ContentUriFileDescriptor;
 import com.aefyr.sai.model.filedescriptor.FileDescriptor;
 import com.aefyr.sai.model.filedescriptor.NormalFileDescriptor;
@@ -80,7 +80,7 @@ public class ApkSourceBuilder {
         return this;
     }
 
-    public ApkSourceBuilder filterApksInZip(Set<String> filteredApks, boolean blacklist) {
+    public ApkSourceBuilder filterApksByLocalPath(Set<String> filteredApks, boolean blacklist) {
         mFilteredApks = filteredApks;
         mBlacklist = blacklist;
         return this;
@@ -104,9 +104,6 @@ public class ApkSourceBuilder {
             else
                 zipBackedApkSource = new ZipApkSource(mContext, new NormalFileDescriptor(mZipFile));
 
-            if (mFilteredApks != null)
-                zipBackedApkSource = new ZipFilterApkSource(zipBackedApkSource, mFilteredApks, mBlacklist);
-
             apkSource = zipBackedApkSource;
             sourceIsZip = true;
         } else if (mZipUri != null) {
@@ -115,9 +112,6 @@ public class ApkSourceBuilder {
                 zipBackedApkSource = new ZipFileApkSource(mContext, new ContentUriFileDescriptor(mContext, mZipUri));
             else
                 zipBackedApkSource = new ZipApkSource(mContext, new ContentUriFileDescriptor(mContext, mZipUri));
-
-            if (mFilteredApks != null)
-                zipBackedApkSource = new ZipFilterApkSource(zipBackedApkSource, mFilteredApks, mBlacklist);
 
             apkSource = zipBackedApkSource;
             sourceIsZip = true;
@@ -138,6 +132,9 @@ public class ApkSourceBuilder {
         if (mZipExtractionEnabled && sourceIsZip && !mSigningEnabled) {
             apkSource = new CopyToFileApkSource(mContext, apkSource);
         }
+
+        if (mFilteredApks != null)
+            apkSource = new FilterApkSource(apkSource, mFilteredApks, mBlacklist);
 
         return apkSource;
     }
