@@ -11,10 +11,11 @@ import com.aefyr.sai.installerx.SplitApkSourceMeta;
 import com.aefyr.sai.installerx.SplitCategory;
 import com.aefyr.sai.installerx.SplitCategoryIndex;
 import com.aefyr.sai.installerx.SplitPart;
-import com.aefyr.sai.installerx.appmeta.AppMeta;
-import com.aefyr.sai.installerx.appmeta.zip.DefaultZipAppMetaExtractors;
-import com.aefyr.sai.installerx.appmeta.zip.ZipAppMetaExtractor;
 import com.aefyr.sai.installerx.postprocessing.DeviceInfoAwarePostprocessor;
+import com.aefyr.sai.installerx.resolver.appmeta.AppMeta;
+import com.aefyr.sai.installerx.resolver.appmeta.AppMetaExtractor;
+import com.aefyr.sai.installerx.resolver.appmeta.DefaultZipAppMetaExtractors;
+import com.aefyr.sai.installerx.resolver.meta.ApkSourceFile;
 import com.aefyr.sai.installerx.resolver.meta.SplitApkSourceMetaResolver;
 import com.aefyr.sai.installerx.splitmeta.BaseSplitMeta;
 import com.aefyr.sai.installerx.splitmeta.FeatureSplitMeta;
@@ -28,16 +29,13 @@ import com.aefyr.sai.utils.Stopwatch;
 import com.aefyr.sai.utils.Utils;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.util.Collections;
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
 import java.util.zip.ZipInputStream;
 
 public class DefaultSplitApkSourceMetaResolver implements SplitApkSourceMetaResolver {
@@ -52,12 +50,12 @@ public class DefaultSplitApkSourceMetaResolver implements SplitApkSourceMetaReso
     }
 
     @Override
-    public SplitApkSourceMeta resolveFor(File apkSourceFile, String originalFileName) throws Exception {
+    public SplitApkSourceMeta resolveFor(ApkSourceFile apkSourceFile) throws Exception {
         Stopwatch sw = new Stopwatch();
 
         try {
-            SplitApkSourceMeta meta = parseViaParsingManifests(apkSourceFile, originalFileName);
-            Log.d(TAG, String.format("Resolved meta for %s via parsing manifests in %d ms.", apkSourceFile.getAbsoluteFile(), sw.millisSinceStart()));
+            SplitApkSourceMeta meta = parseViaParsingManifests(apkSourceFile);
+            Log.d(TAG, String.format("Resolved meta for %s via parsing manifests in %d ms.", apkSourceFile.getName(), sw.millisSinceStart()));
             return meta;
         } catch (Exception e) {
             //TODO alt parse
@@ -65,9 +63,9 @@ public class DefaultSplitApkSourceMetaResolver implements SplitApkSourceMetaReso
         }
     }
 
-    private SplitApkSourceMeta parseViaParsingManifests(File apkSourceFile, String originalFileName) throws Exception {
-        try (ZipFile zipFile = new ZipFile(apkSourceFile)) {
-            ZipAppMetaExtractor appMetaExtractor = DefaultZipAppMetaExtractors.fromArchiveExtension(mContext, Utils.getExtension(originalFileName));
+    private SplitApkSourceMeta parseViaParsingManifests(ApkSourceFile aApkSourceFile) throws Exception {
+        try (ApkSourceFile apkSourceFile = aApkSourceFile) {
+            AppMetaExtractor appMetaExtractor = DefaultZipAppMetaExtractors.fromArchiveExtension(mContext, Utils.getExtension(apkSourceFile.getName()));
 
             String packageName = null;
             String versionName = null;
@@ -77,13 +75,12 @@ public class DefaultSplitApkSourceMetaResolver implements SplitApkSourceMetaReso
 
             SplitCategoryIndex categoryIndex = new SplitCategoryIndex();
 
-            Enumeration<? extends ZipEntry> entries = zipFile.entries();
-            while (entries.hasMoreElements()) {
-                ZipEntry entry = entries.nextElement();
-                if (!Utils.getFileNameFromZipEntry(entry).toLowerCase().endsWith(".apk")) {
+            ApkSourceFile.Entry entry;
+            while ((entry = apkSourceFile.nextEntry()) != null) {
+                if (!entry.getName().toLowerCase().endsWith(".apk")) {
 
                     if (appMetaExtractor != null && appMetaExtractor.wantEntry(entry))
-                        appMetaExtractor.consumeEntry(entry, zipFile.getInputStream(entry));
+                        appMetaExtractor.consumeEntry(entry, apkSourceFile.openEntryInputStream());
 
                     continue;
                 }
@@ -94,7 +91,7 @@ public class DefaultSplitApkSourceMetaResolver implements SplitApkSourceMetaReso
 
                 HashMap<String, String> manifestAttrs = new HashMap<>();
 
-                AndroidBinXmlParser parser = new AndroidBinXmlParser(stealManifestFromApk(zipFile.getInputStream(entry)));
+                AndroidBinXmlParser parser = new AndroidBinXmlParser(stealManifestFromApk(apkSourceFile.openEntryInputStream()));
                 int eventType = parser.getEventType();
                 while (eventType != AndroidBinXmlParser.EVENT_END_DOCUMENT) {
 

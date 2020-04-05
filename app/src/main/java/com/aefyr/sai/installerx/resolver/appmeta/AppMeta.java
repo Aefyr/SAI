@@ -1,4 +1,4 @@
-package com.aefyr.sai.installerx.appmeta;
+package com.aefyr.sai.installerx.resolver.appmeta;
 
 import android.net.Uri;
 

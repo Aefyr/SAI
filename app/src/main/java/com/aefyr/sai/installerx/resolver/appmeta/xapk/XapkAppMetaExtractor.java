@@ -1,11 +1,12 @@
-package com.aefyr.sai.installerx.appmeta.zip.xapk;
+package com.aefyr.sai.installerx.resolver.appmeta.xapk;
 
 import android.content.Context;
 import android.net.Uri;
 import android.util.Log;
 
-import com.aefyr.sai.installerx.appmeta.AppMeta;
-import com.aefyr.sai.installerx.appmeta.zip.ZipAppMetaExtractor;
+import com.aefyr.sai.installerx.resolver.appmeta.AppMeta;
+import com.aefyr.sai.installerx.resolver.appmeta.AppMetaExtractor;
+import com.aefyr.sai.installerx.resolver.meta.ApkSourceFile;
 import com.aefyr.sai.utils.IOUtils;
 
 import org.json.JSONObject;
@@ -17,10 +18,9 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.UUID;
-import java.util.zip.ZipEntry;
 
 //TODO handle manifest.json versions
-public class XapkZipAppMetaExtractor implements ZipAppMetaExtractor {
+public class XapkAppMetaExtractor implements AppMetaExtractor {
     private static final String TAG = "XapkMetaExtractor";
 
     private static final String META_FILE = "manifest.json";
@@ -29,19 +29,19 @@ public class XapkZipAppMetaExtractor implements ZipAppMetaExtractor {
     private Context mContext;
     private AppMeta mAppMeta;
 
-    public XapkZipAppMetaExtractor(Context context) {
+    public XapkAppMetaExtractor(Context context) {
         mContext = context.getApplicationContext();
         mAppMeta = new AppMeta();
     }
 
     @Override
-    public boolean wantEntry(ZipEntry entry) {
-        return entry.getName().equals(META_FILE) || entry.getName().equals(ICON_FILE);
+    public boolean wantEntry(ApkSourceFile.Entry entry) {
+        return entry.getLocalPath().equals(META_FILE) || entry.getLocalPath().equals(ICON_FILE);
     }
 
     @Override
-    public void consumeEntry(ZipEntry entry, InputStream entryInputStream) {
-        if (entry.getName().equals(META_FILE)) {
+    public void consumeEntry(ApkSourceFile.Entry entry, InputStream entryInputStream) {
+        if (entry.getLocalPath().equals(META_FILE)) {
             try {
                 JSONObject metaJson = new JSONObject(IOUtils.readStream(entryInputStream, StandardCharsets.UTF_8));
                 mAppMeta.packageName = metaJson.optString("package_name");
@@ -53,7 +53,7 @@ public class XapkZipAppMetaExtractor implements ZipAppMetaExtractor {
             }
         }
 
-        if (entry.getName().equals(ICON_FILE)) {
+        if (entry.getLocalPath().equals(ICON_FILE)) {
             File iconFile = new File(getCacheDir(), UUID.randomUUID().toString() + ".png");
             try (InputStream in = entryInputStream; OutputStream out = new FileOutputStream(iconFile)) {
                 IOUtils.copyStream(in, out);

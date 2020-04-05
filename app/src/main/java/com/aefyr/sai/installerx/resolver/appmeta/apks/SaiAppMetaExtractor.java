@@ -1,4 +1,4 @@
-package com.aefyr.sai.installerx.appmeta.zip.apks;
+package com.aefyr.sai.installerx.resolver.appmeta.apks;
 
 import android.content.Context;
 import android.net.Uri;
@@ -6,8 +6,9 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
-import com.aefyr.sai.installerx.appmeta.AppMeta;
-import com.aefyr.sai.installerx.appmeta.zip.ZipAppMetaExtractor;
+import com.aefyr.sai.installerx.resolver.appmeta.AppMeta;
+import com.aefyr.sai.installerx.resolver.appmeta.AppMetaExtractor;
+import com.aefyr.sai.installerx.resolver.meta.ApkSourceFile;
 import com.aefyr.sai.model.backup.SaiExportedAppMeta;
 import com.aefyr.sai.utils.IOUtils;
 import com.aefyr.sai.utils.Utils;
@@ -19,28 +20,27 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
-import java.util.zip.ZipEntry;
 
-public class SaiZipAppMetaExtractor implements ZipAppMetaExtractor {
+public class SaiAppMetaExtractor implements AppMetaExtractor {
     private static final String TAG = "SaiMetaExtractor";
 
     private Context mContext;
 
     private AppMeta mAppMeta;
 
-    public SaiZipAppMetaExtractor(Context context) {
+    public SaiAppMetaExtractor(Context context) {
         mContext = context.getApplicationContext();
         mAppMeta = new AppMeta();
     }
 
     @Override
-    public boolean wantEntry(ZipEntry entry) {
-        return entry.getName().equals(SaiExportedAppMeta.META_FILE) || entry.getName().equals(SaiExportedAppMeta.ICON_FILE);
+    public boolean wantEntry(ApkSourceFile.Entry entry) {
+        return entry.getLocalPath().equals(SaiExportedAppMeta.META_FILE) || entry.getLocalPath().equals(SaiExportedAppMeta.ICON_FILE);
     }
 
     @Override
-    public void consumeEntry(ZipEntry entry, InputStream entryInputStream) {
-        if (entry.getName().equals(SaiExportedAppMeta.META_FILE)) {
+    public void consumeEntry(ApkSourceFile.Entry entry, InputStream entryInputStream) {
+        if (entry.getLocalPath().equals(SaiExportedAppMeta.META_FILE)) {
             try {
                 SaiExportedAppMeta meta = new Gson().fromJson(IOUtils.readStream(entryInputStream, StandardCharsets.UTF_8), SaiExportedAppMeta.class);
                 mAppMeta.packageName = meta.packageName();
@@ -52,7 +52,7 @@ public class SaiZipAppMetaExtractor implements ZipAppMetaExtractor {
             }
         }
 
-        if (entry.getName().equals(SaiExportedAppMeta.ICON_FILE)) {
+        if (entry.getLocalPath().equals(SaiExportedAppMeta.ICON_FILE)) {
             File iconFile = Utils.createTempFileInCache(mContext, "SaiZipAppMetaExtractor", "png");
             if (iconFile == null)
                 return;

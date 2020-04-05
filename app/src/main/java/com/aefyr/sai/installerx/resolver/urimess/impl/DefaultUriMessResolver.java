@@ -8,6 +8,7 @@ import android.util.Log;
 import com.aefyr.sai.R;
 import com.aefyr.sai.installerx.SplitApkSourceMeta;
 import com.aefyr.sai.installerx.resolver.meta.SplitApkSourceMetaResolver;
+import com.aefyr.sai.installerx.resolver.meta.impl.ZipFileApkSourceFile;
 import com.aefyr.sai.installerx.resolver.urimess.SourceType;
 import com.aefyr.sai.installerx.resolver.urimess.UriHost;
 import com.aefyr.sai.installerx.resolver.urimess.UriMessResolutionError;
@@ -51,9 +52,10 @@ public class DefaultUriMessResolver implements UriMessResolver {
                 case "apks":
                 case "xapk":
                     try (ParcelFileDescriptor fd = uriHost.openUriAsParcelFd(uri)) {
-                        SplitApkSourceMeta meta = mMetaResolver.resolveFor(SafUtils.parcelFdToFile(fd), fileName);
+                        SplitApkSourceMeta meta = mMetaResolver.resolveFor(new ZipFileApkSourceFile(SafUtils.parcelFdToFile(fd), fileName));
                         results.add(UriMessResolutionResult.success(SourceType.ZIP, Collections.singletonList(uri), meta));
                     } catch (Exception e) {
+                        Log.w(TAG, "Exception while resolving split meta", e);
                         results.add(UriMessResolutionResult.failure(SourceType.ZIP, Collections.singletonList(uri), new UriMessResolutionError(e.getMessage(), true)));
                     }
                     break;

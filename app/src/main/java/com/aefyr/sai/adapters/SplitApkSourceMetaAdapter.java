@@ -16,7 +16,7 @@ import com.aefyr.sai.R;
 import com.aefyr.sai.adapters.selection.Selection;
 import com.aefyr.sai.installerx.SplitApkSourceMeta;
 import com.aefyr.sai.installerx.SplitCategory;
-import com.aefyr.sai.installerx.appmeta.AppMeta;
+import com.aefyr.sai.installerx.resolver.appmeta.AppMeta;
 import com.bumptech.glide.Glide;
 
 public class SplitApkSourceMetaAdapter extends RecyclerView.Adapter<SplitApkSourceMetaAdapter.BaseViewHolder> {

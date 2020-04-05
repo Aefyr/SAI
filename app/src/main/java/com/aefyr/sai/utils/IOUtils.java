@@ -6,6 +6,7 @@ import android.util.Log;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.Closeable;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -94,6 +95,14 @@ public class IOUtils {
 
     public static String readStream(InputStream inputStream, Charset charset) throws IOException {
         return new String(readStream(inputStream), charset);
+    }
+
+    public static void closeSilently(Closeable closeable) {
+        try {
+            closeable.close();
+        } catch (Exception e) {
+            Log.w(TAG, String.format("Unable to close %s", closeable.getClass().getCanonicalName()), e);
+        }
     }
 
 
