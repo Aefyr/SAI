@@ -275,6 +275,7 @@
     <string name="installerx_dsas_meta_resolver_error_version_mismatch">Split APK parts have mismatching versions</string>
     <string name="installerx_dsas_meta_resolver_error_multiple_base_apks">Found multiple base APK files</string>
     <string name="installerx_dsas_meta_resolver_error_no_apks">Source doesn\'t contain any APK files</string>
+    <string name="installerx_dsas_meta_resolver_error_no_base_apk">Source doesn\'t contain base APK file</string>
 
     <string name="theme_sai">SAI</string>
     <string name="theme_ruby">Ruby</string>

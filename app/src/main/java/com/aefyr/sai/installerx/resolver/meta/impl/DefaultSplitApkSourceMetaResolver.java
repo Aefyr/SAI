@@ -96,7 +96,7 @@ public class DefaultSplitApkSourceMetaResolver implements SplitApkSourceMetaReso
 
                 ByteBuffer manifestBytes = stealManifestFromApk(apkSourceFile.openEntryInputStream());
                 if (manifestBytes == null)
-                    return ApkSourceMetaResolutionResult.failure(new ApkSourceMetaResolutionError(getString(R.string.installerx_dsas_meta_resolver_error_no_manifest), true));
+                    return createErrorResult(R.string.installerx_dsas_meta_resolver_error_no_manifest, true);
 
                 AndroidBinXmlParser parser = new AndroidBinXmlParser(manifestBytes);
                 int eventType = parser.getEventType();
@@ -105,7 +105,7 @@ public class DefaultSplitApkSourceMetaResolver implements SplitApkSourceMetaReso
                     if (eventType == AndroidBinXmlParser.EVENT_START_ELEMENT) {
                         if (parser.getName().equals("manifest") && parser.getDepth() == 1 && parser.getNamespace().isEmpty()) {
                             if (seenManifestElement)
-                                return ApkSourceMetaResolutionResult.failure(new ApkSourceMetaResolutionError(getString(R.string.installerx_dsas_meta_resolver_error_dup_manifest_entry), true));
+                                return createErrorResult(R.string.installerx_dsas_meta_resolver_error_dup_manifest_entry, true);
 
                             seenManifestElement = true;
 
@@ -125,25 +125,25 @@ public class DefaultSplitApkSourceMetaResolver implements SplitApkSourceMetaReso
                 }
 
                 if (!seenManifestElement)
-                    return ApkSourceMetaResolutionResult.failure(new ApkSourceMetaResolutionError(getString(R.string.installerx_dsas_meta_resolver_error_no_manifest_entry), true));
+                    return createErrorResult(R.string.installerx_dsas_meta_resolver_error_no_manifest_entry, true);
 
                 SplitMeta splitMeta = SplitMeta.from(manifestAttrs);
                 if (packageName == null) {
                     packageName = splitMeta.packageName();
                 } else {
                     if (!packageName.equals(splitMeta.packageName()))
-                        return ApkSourceMetaResolutionResult.failure(new ApkSourceMetaResolutionError(getString(R.string.installerx_dsas_meta_resolver_error_pkg_mismatch), true));
+                        return createErrorResult(R.string.installerx_dsas_meta_resolver_error_pkg_mismatch, true);
                 }
                 if (versionCode == null) {
                     versionCode = splitMeta.versionCode();
                 } else {
                     if (!versionCode.equals(splitMeta.versionCode()))
-                        return ApkSourceMetaResolutionResult.failure(new ApkSourceMetaResolutionError(getString(R.string.installerx_dsas_meta_resolver_error_version_mismatch), true));
+                        return createErrorResult(R.string.installerx_dsas_meta_resolver_error_version_mismatch, true);
                 }
 
                 if (splitMeta instanceof BaseSplitMeta) {
                     if (seenBaseApk)
-                        return ApkSourceMetaResolutionResult.failure(new ApkSourceMetaResolutionError(getString(R.string.installerx_dsas_meta_resolver_error_multiple_base_apks), true));
+                        return createErrorResult(R.string.installerx_dsas_meta_resolver_error_multiple_base_apks, true);
 
                     seenBaseApk = true;
 
@@ -214,8 +214,10 @@ public class DefaultSplitApkSourceMetaResolver implements SplitApkSourceMetaReso
             }
 
             if (!seenApk)
-                return ApkSourceMetaResolutionResult.failure(new ApkSourceMetaResolutionError(getString(R.string.installerx_dsas_meta_resolver_error_no_apks), true));
+                return createErrorResult(R.string.installerx_dsas_meta_resolver_error_no_apks, true);
 
+            if (!seenBaseApk)
+                return createErrorResult(R.string.installerx_dsas_meta_resolver_error_no_base_apk, true);
 
             new DeviceInfoAwarePostprocessor(mContext).process(categoryIndex);
 
@@ -238,6 +240,10 @@ public class DefaultSplitApkSourceMetaResolver implements SplitApkSourceMetaReso
 
             return ApkSourceMetaResolutionResult.success(new SplitApkSourceMeta(appMeta, splitCategoryList, Collections.emptyList()));
         }
+    }
+
+    private ApkSourceMetaResolutionResult createErrorResult(@StringRes int message, boolean shouldTryToInstallAnyway) {
+        return ApkSourceMetaResolutionResult.failure(new ApkSourceMetaResolutionError(getString(message), shouldTryToInstallAnyway));
     }
 
     private String getString(@StringRes int id) {
