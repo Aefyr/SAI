@@ -2,6 +2,7 @@ package com.aefyr.sai.installerx.postprocessing;
 
 import android.content.Context;
 import android.os.Build;
+import android.os.LocaleList;
 import android.text.TextUtils;
 
 import androidx.annotation.Nullable;
@@ -17,6 +18,7 @@ import com.aefyr.sai.installerx.splitmeta.config.ConfigSplitMeta;
 import com.aefyr.sai.installerx.splitmeta.config.LocaleConfigSplitMeta;
 import com.aefyr.sai.installerx.splitmeta.config.ScreenDestinyConfigSplitMeta;
 import com.aefyr.sai.utils.TriConsumer;
+import com.aefyr.sai.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -124,17 +126,18 @@ public class DeviceInfoAwarePostprocessor implements Postprocessor {
     }
 
     private void processLocaleParts(ParserContext parserContext, String module, List<SplitPart> parts) {
+        Map<String, Integer> langRanking = getPreferredLanguagesRanking();
+
         SplitPart bestMatchingPart = null;
+        int bestMatchingPartRank = Integer.MAX_VALUE;
         for (SplitPart part : parts) {
             LocaleConfigSplitMeta localeConfigSplitMeta = (LocaleConfigSplitMeta) part.meta();
 
-            if (localeConfigSplitMeta.locale().getLanguage().equals(Locale.getDefault().getLanguage())) {
+            Locale partLocale = localeConfigSplitMeta.locale();
+            Integer rank = langRanking.get(partLocale.getLanguage());
+            if (rank != null && rank < bestMatchingPartRank) {
                 bestMatchingPart = part;
-            }
-
-            if (localeConfigSplitMeta.locale().equals(Locale.getDefault())) {
-                bestMatchingPart = part;
-                break; //Exact match
+                bestMatchingPartRank = rank;
             }
         }
 
@@ -145,6 +148,22 @@ public class DeviceInfoAwarePostprocessor implements Postprocessor {
                 parserContext.addNotice(new Notice(NOTICE_TYPE_NO_MATCHING_LOCALES, null, mContext.getString(R.string.installerx_notice_no_locale_for_base)));
             else
                 parserContext.addNotice(new Notice(NOTICE_TYPE_NO_MATCHING_LOCALES, null, mContext.getString(R.string.installerx_notice_no_locale_for_feature, module)));
+        }
+    }
+
+    private Map<String, Integer> getPreferredLanguagesRanking() {
+        if (!Utils.apiIsAtLeast(Build.VERSION_CODES.N)) {
+            HashMap<String, Integer> localeRanking = new HashMap<>();
+            localeRanking.put(mContext.getResources().getConfiguration().locale.getLanguage(), 0);
+            return localeRanking;
+        } else {
+            HashMap<String, Integer> localeRanking = new HashMap<>();
+            LocaleList localeList = mContext.getResources().getConfiguration().getLocales();
+            for (int i = 0; i < localeList.size(); i++) {
+                localeRanking.put(localeList.get(i).getLanguage(), i);
+            }
+
+            return localeRanking;
         }
     }
 
