@@ -248,7 +248,7 @@
     <string name="installerx_dialog_warn_multiple_files">Multiple files selected, to customize installation you should select a single file. Do you want to install all of the selected files without customization?</string>
     <string name="installerx_dialog_warn_no_files">Got empty result from the parser</string>
     <string name="installerx_dialog_warn_parsing_fail">SAI was unable to parse selected file. Do you want to try to install it anyway, without customization?</string>
-    <string name="installerx_select_splits_hint">You can select what splits to install</string>
+    <string name="installerx_select_splits_hint">You can select what split APK parts to install, best matching parts were selected automatically</string>
     <string name="installerx_category_base_apk">Base APK</string>
     <string name="installerx_category_dynamic_features">Dynamic features</string>
     <string name="installerx_dynamic_feature">Feature \"%s\"</string>
