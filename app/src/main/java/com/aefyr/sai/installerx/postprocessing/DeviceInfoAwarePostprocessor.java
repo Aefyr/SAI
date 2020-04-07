@@ -28,6 +28,7 @@ public class DeviceInfoAwarePostprocessor implements Postprocessor {
     private static final String NO_MODULE = "DeviceInfoAwarePostprocessor.NO_MODULE";
 
     public static final String NOTICE_TYPE_NO_MATCHING_LIBS = "Notice.DeviceInfoAwarePostprocessor.NoMatchingLibs";
+    public static final String NOTICE_TYPE_NO_MATCHING_LOCALES = "Notice.DeviceInfoAwarePostprocessor.NoMatchingLocales";
 
     private Context mContext;
 
@@ -139,6 +140,12 @@ public class DeviceInfoAwarePostprocessor implements Postprocessor {
 
         if (bestMatchingPart != null)
             bestMatchingPart.setRecommended(true);
+        else {
+            if (module.equals(NO_MODULE))
+                parserContext.addNotice(new Notice(NOTICE_TYPE_NO_MATCHING_LOCALES, null, mContext.getString(R.string.installerx_notice_no_locale_for_base)));
+            else
+                parserContext.addNotice(new Notice(NOTICE_TYPE_NO_MATCHING_LOCALES, null, mContext.getString(R.string.installerx_notice_no_locale_for_feature, module)));
+        }
     }
 
     private void processScreenDensityCategory(ParserContext parserContext, @Nullable SplitCategory dpiCategory) {
