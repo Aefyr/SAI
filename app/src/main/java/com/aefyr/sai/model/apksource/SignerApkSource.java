@@ -65,6 +65,11 @@ public class SignerApkSource implements ApkSource {
     }
 
     @Override
+    public String getApkLocalPath() throws Exception {
+        return mWrappedApkSource.getApkLocalPath();
+    }
+
+    @Override
     public void close() throws Exception {
         if (mTempDir != null)
             IOUtils.deleteRecursively(mTempDir);

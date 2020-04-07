@@ -49,6 +49,12 @@
         android:title="@string/settings_category_main_installer"
         app:iconSpaceReserved="false">
 
+        <SwitchPreference
+            android:icon="@drawable/ic_pref_pro_mode"
+            android:key="use_installerx"
+            android:title="@string/settings_main_use_installerx"
+            android:summary="@string/settings_main_use_installerx_summary" />
+
         <Preference
             android:icon="@drawable/ic_pref_root"
             android:key="installer"

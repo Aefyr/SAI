@@ -52,6 +52,7 @@ dependencies {
     implementation 'androidx.documentfile:documentfile:1.0.1'
     implementation 'com.github.aefyr.flexfilter:flexfilter:0.9-alpha'
     implementation 'com.tomergoldst.android:tooltips:1.0.10'
+    implementation 'com.google.code.gson:gson:2.8.6'
 
     //Google services
     normalImplementation 'com.google.firebase:firebase-core:17.2.3'

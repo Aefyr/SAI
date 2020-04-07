@@ -22,15 +22,18 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
 import com.aefyr.sai.R;
+import com.aefyr.sai.model.backup.SaiExportedAppMeta;
 import com.aefyr.sai.model.common.PackageMeta;
 import com.aefyr.sai.utils.IOUtils;
 import com.aefyr.sai.utils.NotificationHelper;
 import com.aefyr.sai.utils.Utils;
+import com.google.gson.Gson;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -328,6 +331,52 @@ public class BackupService extends Service {
                     maxProgress += apkFile.length();
                 }
 
+                //Meta
+                byte[] meta = new Gson().toJson(SaiExportedAppMeta.fromPackageMeta(config.packageMeta, System.currentTimeMillis())).getBytes(StandardCharsets.UTF_8);
+
+                zipOutputStream.setMethod(ZipOutputStream.STORED);
+                ZipEntry metaZipEntry = new ZipEntry(SaiExportedAppMeta.META_FILE);
+                metaZipEntry.setMethod(ZipEntry.STORED);
+                metaZipEntry.setCompressedSize(meta.length);
+                metaZipEntry.setSize(meta.length);
+                metaZipEntry.setCrc(IOUtils.calculateBytesCrc32(meta));
+
+                zipOutputStream.putNextEntry(metaZipEntry);
+                zipOutputStream.write(meta);
+                zipOutputStream.closeEntry();
+
+
+                //Icon
+                if (config.packageMeta.iconUri != null) {
+                    File iconFile = null;
+                    try {
+                        iconFile = Utils.saveImageFromUriAsPng(getApplicationContext(), config.packageMeta.iconUri);
+                    } catch (Exception e) {
+                        Log.w(TAG, "Unable to save app icon", e);
+                    }
+
+                    if (iconFile != null) {
+                        zipOutputStream.setMethod(ZipOutputStream.STORED);
+
+                        ZipEntry zipEntry = new ZipEntry(SaiExportedAppMeta.ICON_FILE);
+                        zipEntry.setMethod(ZipEntry.STORED);
+                        zipEntry.setCompressedSize(iconFile.length());
+                        zipEntry.setSize(iconFile.length());
+                        zipEntry.setCrc(IOUtils.calculateFileCrc32(iconFile));
+
+                        zipOutputStream.putNextEntry(zipEntry);
+
+                        try (FileInputStream iconInputStream = new FileInputStream(iconFile)) {
+                            IOUtils.copyStream(iconInputStream, zipOutputStream);
+                        }
+
+                        zipOutputStream.closeEntry();
+                        iconFile.delete();
+                    }
+                }
+
+
+                //APKs
                 for (File apkFile : apkFiles) {
                     zipOutputStream.setMethod(ZipOutputStream.STORED);
 

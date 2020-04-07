@@ -1,8 +1,15 @@
 package com.aefyr.sai.utils.saf;
 
+import android.content.ContentResolver;
+import android.content.Context;
 import android.net.Uri;
+import android.os.ParcelFileDescriptor;
 import android.provider.DocumentsContract;
 
+import androidx.annotation.Nullable;
+import androidx.documentfile.provider.DocumentFile;
+
+import java.io.File;
 import java.util.List;
 
 public class SafUtils {
@@ -47,6 +54,37 @@ public class SafUtils {
     public static boolean isTreeUri(Uri uri) {
         final List<String> paths = uri.getPathSegments();
         return (paths.size() >= 2 && PATH_TREE.equals(paths.get(0)));
+    }
+
+    @Nullable
+    public static DocumentFile docFileFromSingleUriOrFileUri(Context context, Uri contentUri) {
+        if (ContentResolver.SCHEME_FILE.equals(contentUri.getScheme())) {
+            String path = contentUri.getPath();
+            if (path == null)
+                return null;
+
+            File file = new File(path);
+            if (file.isDirectory())
+                return null;
+
+            return DocumentFile.fromFile(file);
+        } else {
+            return DocumentFile.fromSingleUri(context, contentUri);
+        }
+    }
+
+    @Nullable
+    public static String getFileNameFromContentUri(Context context, Uri contentUri) {
+        DocumentFile documentFile = docFileFromSingleUriOrFileUri(context, contentUri);
+
+        if (documentFile == null)
+            return null;
+
+        return documentFile.getName();
+    }
+
+    public static File parcelFdToFile(ParcelFileDescriptor fd) {
+        return new File("/proc/self/fd/" + fd.getFd());
     }
 
 }

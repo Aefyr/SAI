@@ -91,7 +91,7 @@ public class BackupRepository {
                         .setLabel(applicationInfo.loadLabel(pm).toString())
                         .setHasSplits(applicationInfo.splitPublicSourceDirs != null && applicationInfo.splitPublicSourceDirs.length > 0)
                         .setIsSystemApp((applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) != 0)
-                        .serVersionCode(Utils.apiIsAtLeast(Build.VERSION_CODES.P) ? packageInfo.getLongVersionCode() : packageInfo.versionCode)
+                        .setVersionCode(Utils.apiIsAtLeast(Build.VERSION_CODES.P) ? packageInfo.getLongVersionCode() : packageInfo.versionCode)
                         .setVersionName(packageInfo.versionName)
                         .setIcon(applicationInfo.icon)
                         .setInstallTime(packageInfo.firstInstallTime)

@@ -65,6 +65,11 @@ public class CopyToFileApkSource implements ApkSource {
     }
 
     @Override
+    public String getApkLocalPath() throws Exception {
+        return mWrappedApkSource.getApkLocalPath();
+    }
+
+    @Override
     public void close() throws Exception {
         Exception suppressedException = null;
         try {

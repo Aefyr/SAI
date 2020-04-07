@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.textview.MaterialTextView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/tv_installerx_notice"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:drawableStart="@drawable/ic_warning"
+    android:drawablePadding="4dp"
+    android:gravity="center_vertical"
+    android:orientation="vertical"
+    android:padding="4dp"
+    android:text="@string/installerx_notice_no_code_for_base"
+    app:drawableTint="?colorAccent" />

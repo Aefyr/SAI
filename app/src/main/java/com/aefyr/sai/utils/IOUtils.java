@@ -4,7 +4,9 @@ import android.content.Context;
 import android.util.Log;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.Closeable;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -47,12 +49,20 @@ public class IOUtils {
     }
 
     public static long calculateFileCrc32(File file) throws IOException {
-        try (FileInputStream fileInputStream = new FileInputStream(file)) {
+        return calculateCrc32(new FileInputStream(file));
+    }
+
+    public static long calculateBytesCrc32(byte[] bytes) throws IOException {
+        return calculateCrc32(new ByteArrayInputStream(bytes));
+    }
+
+    public static long calculateCrc32(InputStream inputStream) throws IOException {
+        try (InputStream in = inputStream) {
             CRC32 crc32 = new CRC32();
             byte[] buffer = new byte[1024 * 1024];
             int read;
 
-            while ((read = fileInputStream.read(buffer)) > 0)
+            while ((read = in.read(buffer)) > 0)
                 crc32.update(buffer, 0, read);
 
             return crc32.getValue();
@@ -77,11 +87,23 @@ public class IOUtils {
         return t;
     }
 
-    public static String readStream(InputStream aInputStream, Charset charset) throws IOException {
-        try (InputStream inputStream = aInputStream; ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
-            copyStream(inputStream, outputStream);
-            return new String(outputStream.toByteArray(), charset);
+    public static byte[] readStream(InputStream inputStream) throws IOException {
+        ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+        copyStream(inputStream, buffer);
+        return buffer.toByteArray();
+    }
+
+    public static String readStream(InputStream inputStream, Charset charset) throws IOException {
+        return new String(readStream(inputStream), charset);
+    }
+
+    public static void closeSilently(Closeable closeable) {
+        try {
+            closeable.close();
+        } catch (Exception e) {
+            Log.w(TAG, String.format("Unable to close %s", closeable.getClass().getCanonicalName()), e);
         }
     }
+
 
 }

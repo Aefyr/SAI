@@ -28,6 +28,7 @@ import com.aefyr.sai.ui.dialogs.DonationSuggestionDialogFragment;
 import com.aefyr.sai.ui.dialogs.ErrorLogDialogFragment2;
 import com.aefyr.sai.ui.dialogs.FilePickerDialogFragment;
 import com.aefyr.sai.ui.dialogs.InstallationConfirmationDialogFragment;
+import com.aefyr.sai.ui.dialogs.InstallerXDialogFragment;
 import com.aefyr.sai.ui.dialogs.ThemeSelectionDialogFragment;
 import com.aefyr.sai.ui.recycler.RecyclerPaddingDecoration;
 import com.aefyr.sai.utils.AlertsUtils;
@@ -62,10 +63,15 @@ public class Installer2Fragment extends InstallerFragment implements FilePickerD
     private ToolTipsManager mToolTipsManager;
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
         mHelper = PreferencesHelper.getInstance(getContext());
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
         mPlaceholderContainer = findViewById(R.id.container_installer_placeholder);
 
@@ -120,7 +126,12 @@ public class Installer2Fragment extends InstallerFragment implements FilePickerD
         findViewById(R.id.ib_help).setOnClickListener((v) -> AlertsUtils.showAlert(this, R.string.help, R.string.installer_help));
 
         Button installButtton = findViewById(R.id.button_install);
-        installButtton.setOnClickListener((v) -> checkPermissionsAndPickFiles());
+        installButtton.setOnClickListener((v) -> {
+            if (mHelper.isInstallerXEnabled())
+                openInstallerXDialog(null);
+            else
+                checkPermissionsAndPickFiles();
+        });
         installButtton.setOnLongClickListener((v) -> pickFilesWithSaf());
 
         if (mHelper.shouldShowSafTip()) {
@@ -160,11 +171,16 @@ public class Installer2Fragment extends InstallerFragment implements FilePickerD
             return;
         }
 
-        DialogFragment existingDialog = (DialogFragment) getChildFragmentManager().findFragmentByTag("installation_confirmation_dialog");
-        if (existingDialog != null)
-            existingDialog.dismiss();
+        if (mHelper.isInstallerXEnabled()) {
+            openInstallerXDialog(uri);
+        } else {
+            DialogFragment existingDialog = (DialogFragment) getChildFragmentManager().findFragmentByTag("installation_confirmation_dialog");
+            if (existingDialog != null)
+                existingDialog.dismiss();
 
-        InstallationConfirmationDialogFragment.newInstance(uri).show(getChildFragmentManager(), "installation_confirmation_dialog");
+            InstallationConfirmationDialogFragment.newInstance(uri).show(getChildFragmentManager(), "installation_confirmation_dialog");
+        }
+
     }
 
     private void setPlaceholderShown(boolean shown) {
@@ -177,6 +193,14 @@ public class Installer2Fragment extends InstallerFragment implements FilePickerD
         }
     }
 
+    private void openInstallerXDialog(@Nullable Uri apkSourceUri) {
+        DialogFragment existingDialog = (DialogFragment) getChildFragmentManager().findFragmentByTag("installerx_dialog");
+        if (existingDialog != null)
+            existingDialog.dismiss();
+
+        InstallerXDialogFragment.newInstance(apkSourceUri).show(getChildFragmentManager(), "installerx_dialog");
+    }
+
     private void checkPermissionsAndPickFiles() {
         if (!PermissionsUtils.checkAndRequestStoragePermissions(this))
             return;
@@ -186,7 +210,7 @@ public class Installer2Fragment extends InstallerFragment implements FilePickerD
         properties.selection_type = DialogConfigs.FILE_SELECT;
         properties.root = Environment.getExternalStorageDirectory();
         properties.offset = new File(mHelper.getHomeDirectory());
-        properties.extensions = new String[]{"apk", "zip", "apks"};
+        properties.extensions = new String[]{"apk", "zip", "apks", "xapk"};
         properties.sortBy = mHelper.getFilePickerSortBy();
         properties.sortOrder = mHelper.getFilePickerSortOrder();
 
@@ -254,9 +278,9 @@ public class Installer2Fragment extends InstallerFragment implements FilePickerD
 
         String extension = Utils.getExtension(files.get(0).getName());
 
-        if (".apks".equals(extension) || ".zip".equals(extension)) {
+        if ("apks".equals(extension) || "zip".equals(extension) || "xapk".equals(extension)) {
             mViewModel.installPackagesFromZip(files);
-        } else if (".apk".equals(extension)) {
+        } else if ("apk".equals(extension)) {
             mViewModel.installPackages(files);
         } else {
             AlertsUtils.showAlert(this, R.string.error, R.string.installer_error_installer2_mixed_extensions_internal);

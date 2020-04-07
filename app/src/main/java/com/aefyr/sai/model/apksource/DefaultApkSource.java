@@ -42,6 +42,11 @@ public class DefaultApkSource implements ApkSource {
         return mCurrentApk.name();
     }
 
+    @Override
+    public String getApkLocalPath() throws Exception {
+        return mCurrentApk.name();
+    }
+
     @Nullable
     @Override
     public String getAppName() {
