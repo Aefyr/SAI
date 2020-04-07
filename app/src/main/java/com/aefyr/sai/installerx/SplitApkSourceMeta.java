@@ -3,6 +3,7 @@ package com.aefyr.sai.installerx;
 import androidx.annotation.Nullable;
 
 import com.aefyr.sai.installerx.resolver.appmeta.AppMeta;
+import com.aefyr.sai.installerx.resolver.meta.Notice;
 import com.aefyr.sai.installerx.resolver.meta.SplitApkSourceMetaResolver;
 
 import java.util.ArrayList;
@@ -13,11 +14,13 @@ public class SplitApkSourceMeta {
     private AppMeta mAppMeta;
     private List<SplitCategory> mSplits;
     private List<SplitPart> mHiddenSplits;
+    private List<Notice> mNotices;
 
-    public SplitApkSourceMeta(@Nullable AppMeta appMeta, List<SplitCategory> splits, List<SplitPart> hiddenSplits) {
+    public SplitApkSourceMeta(@Nullable AppMeta appMeta, List<SplitCategory> splits, List<SplitPart> hiddenSplits, List<Notice> notices) {
         mAppMeta = appMeta;
         mSplits = splits;
         mHiddenSplits = hiddenSplits;
+        mNotices = notices;
     }
 
     @Nullable
@@ -47,6 +50,10 @@ public class SplitApkSourceMeta {
      */
     public List<SplitPart> hiddenSplits() {
         return mHiddenSplits;
+    }
+
+    public List<Notice> notices() {
+        return mNotices;
     }
 
 }

@@ -8,14 +8,15 @@ import androidx.annotation.Nullable;
 
 import com.aefyr.sai.R;
 import com.aefyr.sai.installerx.Category;
+import com.aefyr.sai.installerx.ParserContext;
 import com.aefyr.sai.installerx.SplitCategory;
-import com.aefyr.sai.installerx.SplitCategoryIndex;
 import com.aefyr.sai.installerx.SplitPart;
+import com.aefyr.sai.installerx.resolver.meta.Notice;
 import com.aefyr.sai.installerx.splitmeta.config.AbiConfigSplitMeta;
 import com.aefyr.sai.installerx.splitmeta.config.ConfigSplitMeta;
 import com.aefyr.sai.installerx.splitmeta.config.LocaleConfigSplitMeta;
 import com.aefyr.sai.installerx.splitmeta.config.ScreenDestinyConfigSplitMeta;
-import com.aefyr.sai.utils.BiConsumer;
+import com.aefyr.sai.utils.TriConsumer;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,8 +24,10 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-public class DeviceInfoAwarePostprocessor implements SplitCategoryIndexPostprocessor {
+public class DeviceInfoAwarePostprocessor implements Postprocessor {
     private static final String NO_MODULE = "DeviceInfoAwarePostprocessor.NO_MODULE";
+
+    public static final String NOTICE_TYPE_NO_MATCHING_LIBS = "Notice.DeviceInfoAwarePostprocessor.NoMatchingLibs";
 
     private Context mContext;
 
@@ -33,13 +36,13 @@ public class DeviceInfoAwarePostprocessor implements SplitCategoryIndexPostproce
     }
 
     @Override
-    public void process(SplitCategoryIndex categoryIndex) {
-        processAbiCategory(categoryIndex.get(Category.CONFIG_ABI));
-        processLocaleCategory(categoryIndex.get(Category.CONFIG_LOCALE));
-        processScreenDensityCategory(categoryIndex.get(Category.CONFIG_DENSITY));
+    public void process(ParserContext parserContext) {
+        processAbiCategory(parserContext, parserContext.getCategories(Category.CONFIG_ABI));
+        processLocaleCategory(parserContext, parserContext.getCategories(Category.CONFIG_LOCALE));
+        processScreenDensityCategory(parserContext, parserContext.getCategories(Category.CONFIG_DENSITY));
     }
 
-    private void scopeToModuleAndProcess(List<SplitPart> parts, BiConsumer<String, List<SplitPart>> processor) {
+    private void scopeToModuleAndProcess(ParserContext parserContext, List<SplitPart> parts, TriConsumer<ParserContext, String, List<SplitPart>> processor) {
         Map<String, List<SplitPart>> moduleToParts = new HashMap<>();
 
         for (SplitPart part : parts) {
@@ -57,20 +60,20 @@ public class DeviceInfoAwarePostprocessor implements SplitCategoryIndexPostproce
         }
 
         for (Map.Entry<String, List<SplitPart>> entry : moduleToParts.entrySet()) {
-            processor.accept(entry.getKey(), entry.getValue());
+            processor.accept(parserContext, entry.getKey(), entry.getValue());
         }
     }
 
-    private void processAbiCategory(@Nullable SplitCategory abiCategory) {
+    private void processAbiCategory(ParserContext parserContext, @Nullable SplitCategory abiCategory) {
         if (abiCategory == null)
             return;
 
         abiCategory.setDescription(mContext.getString(R.string.installerx_category_config_abi_desc, TextUtils.join(", ", Build.SUPPORTED_ABIS)));
 
-        scopeToModuleAndProcess(abiCategory.parts(), this::processAbiParts);
+        scopeToModuleAndProcess(parserContext, abiCategory.parts(), this::processAbiParts);
     }
 
-    private void processAbiParts(String module, List<SplitPart> parts) {
+    private void processAbiParts(ParserContext parserContext, String module, List<SplitPart> parts) {
 
         Map<String, Integer> supportedAbisRanking = getSupportedAbisRanking();
         SplitPart bestMatchingPart = null;
@@ -93,6 +96,12 @@ public class DeviceInfoAwarePostprocessor implements SplitCategoryIndexPostproce
                 bestMatchingPart.setRequired(true);
             else
                 bestMatchingPart.setRecommended(true);
+        } else {
+            if (module.equals(NO_MODULE))
+                parserContext.addNotice(new Notice(NOTICE_TYPE_NO_MATCHING_LIBS, null, mContext.getString(R.string.installerx_notice_no_code_for_base)));
+            else
+                parserContext.addNotice(new Notice(NOTICE_TYPE_NO_MATCHING_LIBS, module, mContext.getString(R.string.installerx_notice_no_code_for_feature, module)));
+
         }
     }
 
@@ -106,14 +115,14 @@ public class DeviceInfoAwarePostprocessor implements SplitCategoryIndexPostproce
         return abisRanking;
     }
 
-    private void processLocaleCategory(@Nullable SplitCategory localeCategory) {
+    private void processLocaleCategory(ParserContext parserContext, @Nullable SplitCategory localeCategory) {
         if (localeCategory == null)
             return;
 
-        scopeToModuleAndProcess(localeCategory.parts(), this::processLocaleParts);
+        scopeToModuleAndProcess(parserContext, localeCategory.parts(), this::processLocaleParts);
     }
 
-    private void processLocaleParts(String module, List<SplitPart> parts) {
+    private void processLocaleParts(ParserContext parserContext, String module, List<SplitPart> parts) {
         SplitPart bestMatchingPart = null;
         for (SplitPart part : parts) {
             LocaleConfigSplitMeta localeConfigSplitMeta = (LocaleConfigSplitMeta) part.meta();
@@ -132,16 +141,16 @@ public class DeviceInfoAwarePostprocessor implements SplitCategoryIndexPostproce
             bestMatchingPart.setRecommended(true);
     }
 
-    private void processScreenDensityCategory(@Nullable SplitCategory dpiCategory) {
+    private void processScreenDensityCategory(ParserContext parserContext, @Nullable SplitCategory dpiCategory) {
         if (dpiCategory == null)
             return;
 
         dpiCategory.setDescription(mContext.getString(R.string.installerx_category_config_dpi_desc, mContext.getResources().getDisplayMetrics().densityDpi));
 
-        scopeToModuleAndProcess(dpiCategory.parts(), this::processScreenDensityParts);
+        scopeToModuleAndProcess(parserContext, dpiCategory.parts(), this::processScreenDensityParts);
     }
 
-    private void processScreenDensityParts(String module, List<SplitPart> parts) {
+    private void processScreenDensityParts(ParserContext parserContext, String module, List<SplitPart> parts) {
 
         int deviceDpi = mContext.getResources().getDisplayMetrics().densityDpi;
         SplitPart bestPart = null;

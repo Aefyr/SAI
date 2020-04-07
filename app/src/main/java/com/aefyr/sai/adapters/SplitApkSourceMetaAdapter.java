@@ -19,6 +19,7 @@ import com.aefyr.sai.installerx.SplitApkSourceMeta;
 import com.aefyr.sai.installerx.SplitCategory;
 import com.aefyr.sai.installerx.SplitPart;
 import com.aefyr.sai.installerx.resolver.appmeta.AppMeta;
+import com.aefyr.sai.installerx.resolver.meta.Notice;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
@@ -27,8 +28,9 @@ import java.util.List;
 public class SplitApkSourceMetaAdapter extends SelectableAdapter<String, SplitApkSourceMetaAdapter.BaseViewHolder> {
 
     public static final int VH_TYPE_HEADER = 0;
-    public static final int VH_TYPE_CATEGORY = 1;
-    public static final int VH_TYPE_SPLIT_PART = 2;
+    public static final int VH_TYPE_NOTICE = 1;
+    public static final int VH_TYPE_CATEGORY = 2;
+    public static final int VH_TYPE_SPLIT_PART = 3;
 
     private Context mContext;
     private LayoutInflater mInflater;
@@ -45,6 +47,9 @@ public class SplitApkSourceMetaAdapter extends SelectableAdapter<String, SplitAp
     public void setMeta(SplitApkSourceMeta meta) {
         mMeta = meta;
         mFlattenedData = new ArrayList<>();
+
+        mFlattenedData.addAll(meta.notices());
+
         for (SplitCategory category : meta.splits()) {
             mFlattenedData.add(category);
             mFlattenedData.addAll(category.parts());
@@ -59,6 +64,10 @@ public class SplitApkSourceMetaAdapter extends SelectableAdapter<String, SplitAp
             return VH_TYPE_HEADER;
 
         Object object = getItemForAdapterPosition(position);
+
+        if (object instanceof Notice)
+            return VH_TYPE_NOTICE;
+
         if (object instanceof SplitCategory)
             return VH_TYPE_CATEGORY;
         else if (object instanceof SplitPart)
@@ -73,6 +82,8 @@ public class SplitApkSourceMetaAdapter extends SelectableAdapter<String, SplitAp
         switch (viewType) {
             case VH_TYPE_HEADER:
                 return new HeaderViewHolder(mInflater.inflate(R.layout.item_installerx_header, parent, false));
+            case VH_TYPE_NOTICE:
+                return new NoticeViewHolder(mInflater.inflate(R.layout.item_installerx_notice, parent, false));
             case VH_TYPE_CATEGORY:
                 return new SplitCategoryViewHolder(mInflater.inflate(R.layout.item_installerx_split_category, parent, false));
             case VH_TYPE_SPLIT_PART:
@@ -88,6 +99,10 @@ public class SplitApkSourceMetaAdapter extends SelectableAdapter<String, SplitAp
             return "SplitApkSourceMetaAdapter.header";
 
         Object object = getItemForAdapterPosition(position);
+
+        if (object instanceof Notice)
+            return "SplitApkSourceMetaAdapter.notice." + object.hashCode();
+
         if (object instanceof SplitCategory)
             return ((SplitCategory) object).id();
 
@@ -102,6 +117,11 @@ public class SplitApkSourceMetaAdapter extends SelectableAdapter<String, SplitAp
         super.onBindViewHolder(holder, position);
         if (holder instanceof HeaderViewHolder) {
             holder.bindTo(mMeta);
+            return;
+        }
+
+        if (holder instanceof NoticeViewHolder) {
+            holder.bindTo(getItemForAdapterPosition(position));
             return;
         }
 
@@ -184,12 +204,33 @@ public class SplitApkSourceMetaAdapter extends SelectableAdapter<String, SplitAp
         }
     }
 
+    protected class NoticeViewHolder extends BaseViewHolder<Notice> {
+
+        private TextView mNoticeText;
+
+        private NoticeViewHolder(@NonNull View itemView) {
+            super(itemView);
+
+            mNoticeText = itemView.findViewById(R.id.tv_installerx_notice);
+        }
+
+        @Override
+        void bindTo(Notice notice) {
+            mNoticeText.setText(notice.text());
+        }
+
+        @Override
+        void recycle() {
+
+        }
+    }
+
     protected class SplitCategoryViewHolder extends BaseViewHolder<SplitCategory> {
 
         private TextView mTitle;
         private TextView mDesc;
 
-        public SplitCategoryViewHolder(@NonNull View itemView) {
+        private SplitCategoryViewHolder(@NonNull View itemView) {
             super(itemView);
 
             mTitle = itemView.findViewById(R.id.tv_installerx_split_category_title);
