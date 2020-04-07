@@ -18,6 +18,8 @@ import com.aefyr.sai.installer2.base.model.SaiPiSessionParams;
 import com.aefyr.sai.installer2.impl.FlexSaiPackageInstaller;
 import com.aefyr.sai.installerx.SplitApkSourceMeta;
 import com.aefyr.sai.installerx.SplitPart;
+import com.aefyr.sai.installerx.postprocessing.DeviceInfoAwarePostprocessor;
+import com.aefyr.sai.installerx.postprocessing.SortPostprocessor;
 import com.aefyr.sai.installerx.resolver.meta.impl.DefaultSplitApkSourceMetaResolver;
 import com.aefyr.sai.installerx.resolver.urimess.SourceType;
 import com.aefyr.sai.installerx.resolver.urimess.UriMessResolutionError;
@@ -200,7 +202,11 @@ public class InstallerXDialogViewModel extends AndroidViewModel {
             if (apkSourceUris.size() == 0)
                 throw new IllegalArgumentException("Expected at least 1 file in input");
 
-            UriMessResolver uriMessResolver = new DefaultUriMessResolver(getApplication(), new DefaultSplitApkSourceMetaResolver(getApplication()));
+            DefaultSplitApkSourceMetaResolver metaResolver = new DefaultSplitApkSourceMetaResolver(getApplication());
+            metaResolver.addPostprocessor(new DeviceInfoAwarePostprocessor(getApplication()));
+            metaResolver.addPostprocessor(new SortPostprocessor());
+
+            UriMessResolver uriMessResolver = new DefaultUriMessResolver(getApplication(), metaResolver);
             List<UriMessResolutionResult> resolutionResults = uriMessResolver.resolve(apkSourceUris, new AndroidUriHost(getApplication()));
 
             if (resolutionResults.size() != 1) {

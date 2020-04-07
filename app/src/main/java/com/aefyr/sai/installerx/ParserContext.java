@@ -12,6 +12,7 @@ import java.util.Map;
 public class ParserContext {
 
     private Map<Category, SplitCategory> mIndex = new HashMap<>();
+    private List<SplitCategory> mCategories = new ArrayList<>();
     private List<Notice> mNotices = new ArrayList<>();
 
     public ParserContext() {
@@ -28,13 +29,17 @@ public class ParserContext {
         if (splitCategory == null) {
             splitCategory = new SplitCategory(category, name, description);
             mIndex.put(category, splitCategory);
+            mCategories.add(splitCategory);
         }
 
         return splitCategory;
     }
 
+    /**
+     * @return a reference to the list of categories in this ParserContext
+     */
     public List<SplitCategory> getCategoriesList() {
-        return new ArrayList<>(mIndex.values());
+        return mCategories;
     }
 
     public void addNotice(Notice notice) {

@@ -10,9 +10,8 @@ import com.aefyr.sai.R;
 import com.aefyr.sai.installerx.Category;
 import com.aefyr.sai.installerx.ParserContext;
 import com.aefyr.sai.installerx.SplitApkSourceMeta;
-import com.aefyr.sai.installerx.SplitCategory;
 import com.aefyr.sai.installerx.SplitPart;
-import com.aefyr.sai.installerx.postprocessing.DeviceInfoAwarePostprocessor;
+import com.aefyr.sai.installerx.postprocessing.Postprocessor;
 import com.aefyr.sai.installerx.resolver.appmeta.AppMeta;
 import com.aefyr.sai.installerx.resolver.appmeta.AppMetaExtractor;
 import com.aefyr.sai.installerx.resolver.appmeta.DefaultZipAppMetaExtractors;
@@ -36,6 +35,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -50,9 +50,14 @@ public class DefaultSplitApkSourceMetaResolver implements SplitApkSourceMetaReso
     public static final String NOTICE_TYPE_NO_XAPK_OBB_SUPPORT = "Notice.DefaultSplitApkSourceMetaResolver.NoXApkObbSupport";
 
     private Context mContext;
+    private List<Postprocessor> mPostprocessors = new ArrayList<>();
 
     public DefaultSplitApkSourceMetaResolver(Context context) {
         mContext = context.getApplicationContext();
+    }
+
+    public void addPostprocessor(Postprocessor postprocessor) {
+        mPostprocessors.add(postprocessor);
     }
 
     @Override
@@ -233,12 +238,8 @@ public class DefaultSplitApkSourceMetaResolver implements SplitApkSourceMetaReso
             if (!seenBaseApk)
                 return createErrorResult(R.string.installerx_dsas_meta_resolver_error_no_base_apk, true);
 
-            new DeviceInfoAwarePostprocessor(mContext).process(parserContext);
-
-
-            List<SplitCategory> splitCategoryList = parserContext.getCategoriesList();
-            Collections.sort(splitCategoryList, (o1, o2) -> Integer.compare(o1.category().ordinal(), o2.category().ordinal()));
-
+            for (Postprocessor postprocessor : mPostprocessors)
+                postprocessor.process(parserContext);
 
             AppMeta appMeta;
             if (appMetaExtractor != null)
@@ -252,7 +253,7 @@ public class DefaultSplitApkSourceMetaResolver implements SplitApkSourceMetaReso
                 appMeta.versionName = versionName;
 
 
-            return ApkSourceMetaResolutionResult.success(new SplitApkSourceMeta(appMeta, splitCategoryList, Collections.emptyList(), parserContext.getNotices()));
+            return ApkSourceMetaResolutionResult.success(new SplitApkSourceMeta(appMeta, parserContext.getCategoriesList(), Collections.emptyList(), parserContext.getNotices()));
         }
     }
 
