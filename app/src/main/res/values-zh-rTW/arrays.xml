@@ -28,8 +28,8 @@
     </string-array>
     <string-array name="install_locations">
         <item>由作業系統指定</item>
-        <item>僅內部存儲空間</item>
-        <item>外置存儲空間優先（可能無效）</item>
+        <item>僅內部儲存空間</item>
+        <item>偏好外部儲存空間（系統仍可能決定使用內部儲存空間）</item>
     </string-array>
     <string-array name="name_format_parts">
         <item>名稱</item>
