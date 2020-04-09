@@ -14,6 +14,7 @@ import com.aefyr.sai.R;
 import com.aefyr.sai.installer2.base.model.SaiPiSessionState;
 import com.aefyr.sai.model.common.PackageMeta;
 import com.bumptech.glide.Glide;
+import com.facebook.shimmer.ShimmerFrameLayout;
 
 import java.util.List;
 
@@ -80,6 +81,7 @@ public class SaiPiSessionsAdapter extends RecyclerView.Adapter<SaiPiSessionsAdap
     class ViewHolder extends RecyclerView.ViewHolder {
 
         private ViewGroup mContainer;
+        private ShimmerFrameLayout mShimmer;
         private TextView mName;
         private TextView mStatus;
         private ImageView mAppIcon;
@@ -89,6 +91,7 @@ public class SaiPiSessionsAdapter extends RecyclerView.Adapter<SaiPiSessionsAdap
             super(itemView);
 
             mContainer = itemView.findViewById(R.id.container_item_installer_session);
+            mShimmer = itemView.findViewById(R.id.shimmer_item_installer_session);
             mName = itemView.findViewById(R.id.tv_session_name);
             mStatus = itemView.findViewById(R.id.tv_session_status);
             mAppIcon = itemView.findViewById(R.id.iv_app_icon);
@@ -140,15 +143,22 @@ public class SaiPiSessionsAdapter extends RecyclerView.Adapter<SaiPiSessionsAdap
                     mActionIcon.setImageResource(R.drawable.ic_launch);
                     mActionIcon.setVisibility(state.packageName() != null ? View.VISIBLE : View.GONE);
                     mContainer.setEnabled(state.packageName() != null);
+
+                    mShimmer.hideShimmer();
                     break;
                 case INSTALLATION_FAILED:
                     mActionIcon.setImageResource(R.drawable.ic_error);
                     mActionIcon.setVisibility(state.shortError() != null ? View.VISIBLE : View.GONE);
                     mContainer.setEnabled(state.shortError() != null);
+
+                    mShimmer.hideShimmer();
                     break;
                 default:
                     mActionIcon.setVisibility(View.GONE);
                     mContainer.setEnabled(false);
+
+                    mShimmer.showShimmer(true);
+                    mShimmer.startShimmer(); //for some reason it doesn't start via showShimmer(true)
                     break;
             }
         }

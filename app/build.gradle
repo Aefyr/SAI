@@ -53,6 +53,7 @@ dependencies {
     implementation 'com.github.aefyr.flexfilter:flexfilter:0.9-alpha'
     implementation 'com.tomergoldst.android:tooltips:1.0.10'
     implementation 'com.google.code.gson:gson:2.8.6'
+    implementation 'com.facebook.shimmer:shimmer:0.5.0'
 
     //Google services
     normalImplementation 'com.google.firebase:firebase-core:17.3.0'

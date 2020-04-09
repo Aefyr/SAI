@@ -1,67 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.facebook.shimmer.ShimmerFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/container_item_installer_session"
+    android:id="@+id/shimmer_item_installer_session"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:cardBackgroundColor="?android:attr/windowBackground"
-    app:cardCornerRadius="12dp"
-    app:cardElevation="0dp"
-    app:cardUseCompatPadding="true"
-    app:contentPadding="8dp"
-    app:strokeColor="?attr/colorAccent"
-    app:strokeWidth="1.5dp"
-    android:clickable="true"
-    android:focusable="true">
+    app:shimmer_auto_start="false"
+    app:shimmer_duration="1500"
+    app:shimmer_base_alpha="0.5">
 
-    <LinearLayout
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/container_item_installer_session"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/iv_app_icon"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            android:padding="4dp"
-            android:scaleType="fitCenter" />
+        app:cardBackgroundColor="?android:attr/windowBackground"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="0dp"
+        app:cardUseCompatPadding="true"
+        app:contentPadding="8dp"
+        app:strokeColor="?attr/colorAccent"
+        app:strokeWidth="1.5dp"
+        android:clickable="true"
+        android:focusable="true">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginStart="8dp"
-            android:layout_weight="1"
-            android:orientation="vertical">
+            android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/tv_session_name"
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/iv_app_icon"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:padding="4dp"
+                android:scaleType="fitCenter" />
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:ellipsize="marquee"
-                android:singleLine="true"
-                android:text="TextView"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="8dp"
+                android:layout_weight="1"
+                android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/tv_session_status"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ellipsize="marquee"
-                android:singleLine="true"
-                android:text="TextView" />
+                <TextView
+                    android:id="@+id/tv_session_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="marquee"
+                    android:singleLine="true"
+                    android:text="TextView"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+                <TextView
+                    android:id="@+id/tv_session_status"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="marquee"
+                    android:singleLine="true"
+                    android:text="TextView" />
+            </LinearLayout>
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/iv_installed_app_action"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:clickable="false"
+                android:padding="8dp"
+                android:scaleType="fitCenter"
+                android:tint="?colorAccent"
+                app:srcCompat="@drawable/ic_error" />
+
         </LinearLayout>
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/iv_installed_app_action"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            android:clickable="false"
-            android:padding="8dp"
-            android:scaleType="fitCenter"
-            android:tint="?colorAccent"
-            app:srcCompat="@drawable/ic_error" />
+    </com.google.android.material.card.MaterialCardView>
 
-    </LinearLayout>
-
-</com.google.android.material.card.MaterialCardView>
+</com.facebook.shimmer.ShimmerFrameLayout>
