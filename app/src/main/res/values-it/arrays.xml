@@ -27,9 +27,9 @@
         <item>NAME_VERSION.apks</item>
     </string-array>
     <string-array name="install_locations">
-        <item>Lascia che il sistema decida</item>
-        <item>Solo interno</item>
-        <item>Preferisci esterno (il sistema può ancora decidere di utilizzare interno)</item>
+        <item>Predefinito di sistema</item>
+        <item>Solo memoria interna</item>
+        <item>Preferibilmente su memoria esterna (il sistema potrà ancora decidere di utilizzare quella interna)</item>
     </string-array>
     <string-array name="name_format_parts">
         <item>Nome</item>
