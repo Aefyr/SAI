@@ -126,6 +126,7 @@ public class InstallerXDialogFragment extends BaseBottomSheetDialogFragment impl
                     getPositiveButton().setVisibility(View.VISIBLE);
                     break;
             }
+            revealBottomSheet();
         });
 
         mViewModel.getMeta().observe(this, meta -> {
