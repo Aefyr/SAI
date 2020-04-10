@@ -10,6 +10,7 @@
         android:layout_width="72dp"
         android:layout_height="72dp"
         android:layout_gravity="center_horizontal"
+        android:focusable="true"
         android:padding="4dp"
         app:srcCompat="@drawable/placeholder_app_icon" />
 

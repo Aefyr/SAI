@@ -176,6 +176,8 @@ public class SplitApkSourceMetaAdapter extends SelectableAdapter<String, SplitAp
             mAppIcon = itemView.findViewById(R.id.iv_installerx_header_app_icon);
             mAppTitle = itemView.findViewById(R.id.tv_installerx_header_app_title);
             mAppVersion = itemView.findViewById(R.id.tv_installerx_header_app_version);
+
+            itemView.requestFocus(); //TV fix
         }
 
         @Override

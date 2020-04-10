@@ -133,6 +133,8 @@ public class InstallerXDialogFragment extends BaseBottomSheetDialogFragment impl
             adapter.setMeta(meta);
             revealBottomSheet();
         });
+
+        view.requestFocus(); //TV fix
     }
 
     @Override
