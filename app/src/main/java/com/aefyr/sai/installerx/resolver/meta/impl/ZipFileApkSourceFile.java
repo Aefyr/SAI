@@ -1,14 +1,14 @@
 package com.aefyr.sai.installerx.resolver.meta.impl;
 
-import androidx.annotation.Nullable;
-
 import com.aefyr.sai.installerx.resolver.meta.ApkSourceFile;
 import com.aefyr.sai.utils.IOUtils;
 import com.aefyr.sai.utils.Utils;
 
 import java.io.File;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
@@ -19,33 +19,32 @@ public class ZipFileApkSourceFile implements ApkSourceFile {
     private String mName;
 
     private ZipFile mZipFile;
-    private Enumeration<? extends ZipEntry> mEntries;
-    private ZipEntry mCurrentEntry;
 
     public ZipFileApkSourceFile(File zipFile, String originalFileName) {
         mFile = zipFile;
         mName = originalFileName;
     }
 
-    @Nullable
     @Override
-    public Entry nextEntry() throws Exception {
+    public List<Entry> listEntries() throws Exception {
         if (mZipFile == null) {
             mZipFile = new ZipFile(mFile);
-            mEntries = mZipFile.entries();
         }
 
-        if (!mEntries.hasMoreElements())
-            return null;
+        List<Entry> entries = new ArrayList<>();
+        Enumeration<? extends ZipEntry> zipEntries = mZipFile.entries();
 
-        mCurrentEntry = mEntries.nextElement();
+        while (zipEntries.hasMoreElements()) {
+            ZipEntry zipEntry = zipEntries.nextElement();
+            entries.add(new InternalEntry(zipEntry, Utils.getFileNameFromZipEntry(zipEntry), zipEntry.getName()));
+        }
 
-        return new Entry(Utils.getFileNameFromZipEntry(mCurrentEntry), mCurrentEntry.getName());
+        return entries;
     }
 
     @Override
-    public InputStream openEntryInputStream() throws Exception {
-        return mZipFile.getInputStream(mCurrentEntry);
+    public InputStream openEntryInputStream(Entry entry) throws Exception {
+        return mZipFile.getInputStream(((InternalEntry) entry).mZipEntry);
     }
 
     @Override
@@ -56,5 +55,15 @@ public class ZipFileApkSourceFile implements ApkSourceFile {
     @Override
     public void close() {
         IOUtils.closeSilently(mZipFile);
+    }
+
+    private static class InternalEntry extends Entry {
+
+        private ZipEntry mZipEntry;
+
+        private InternalEntry(ZipEntry zipEntry, String name, String localPath) {
+            super(name, localPath);
+            mZipEntry = zipEntry;
+        }
     }
 }

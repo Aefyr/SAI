@@ -1,26 +1,24 @@
 package com.aefyr.sai.installerx.resolver.meta;
 
-import androidx.annotation.Nullable;
-
 import java.io.InputStream;
+import java.util.List;
 
 public interface ApkSourceFile extends AutoCloseable {
-    /**
-     * Move to the next entry
-     *
-     * @return next entry or null if there are no more entries
-     * @throws Exception
-     */
-    @Nullable
-    Entry nextEntry() throws Exception;
 
     /**
-     * Open an input stream for the current entry
+     * List entries in this ApkSourceFile
+     * @return
+     * @throws Exception
+     */
+    List<Entry> listEntries() throws Exception;
+
+    /**
+     * Open an input stream for the given entry
      *
      * @return
      * @throws Exception
      */
-    InputStream openEntryInputStream() throws Exception;
+    InputStream openEntryInputStream(Entry entry) throws Exception;
 
     /**
      * Get name of this ApkSourceFile
@@ -30,7 +28,7 @@ public interface ApkSourceFile extends AutoCloseable {
     String getName();
 
     @Override
-    default void close() throws Exception {
+    default void close() {
 
     }
 

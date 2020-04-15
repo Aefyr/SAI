@@ -87,8 +87,7 @@ public class DefaultSplitApkSourceMetaResolver implements SplitApkSourceMetaReso
 
             ParserContext parserContext = new ParserContext();
 
-            ApkSourceFile.Entry entry;
-            while ((entry = apkSourceFile.nextEntry()) != null) {
+            for (ApkSourceFile.Entry entry : apkSourceFile.listEntries()) {
                 if (!entry.getName().toLowerCase().endsWith(".apk")) {
 
                     if ("xapk".equals(Utils.getExtension(apkSourceFile.getName()))
@@ -101,7 +100,7 @@ public class DefaultSplitApkSourceMetaResolver implements SplitApkSourceMetaReso
                     }
 
                     if (appMetaExtractor != null && appMetaExtractor.wantEntry(entry))
-                        appMetaExtractor.consumeEntry(entry, apkSourceFile.openEntryInputStream());
+                        appMetaExtractor.consumeEntry(entry, apkSourceFile.openEntryInputStream(entry));
 
                     continue;
                 }
@@ -113,7 +112,7 @@ public class DefaultSplitApkSourceMetaResolver implements SplitApkSourceMetaReso
 
                 HashMap<String, String> manifestAttrs = new HashMap<>();
 
-                ByteBuffer manifestBytes = stealManifestFromApk(apkSourceFile.openEntryInputStream());
+                ByteBuffer manifestBytes = stealManifestFromApk(apkSourceFile.openEntryInputStream(entry));
                 if (manifestBytes == null)
                     return createErrorResult(R.string.installerx_dsas_meta_resolver_error_no_manifest, true);
 

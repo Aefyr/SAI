@@ -5,8 +5,6 @@ import android.net.Uri;
 import android.os.ParcelFileDescriptor;
 import android.util.Log;
 
-import androidx.annotation.Nullable;
-
 import com.aefyr.sai.R;
 import com.aefyr.sai.installerx.resolver.meta.ApkSourceFile;
 import com.aefyr.sai.installerx.resolver.meta.ApkSourceMetaResolutionResult;
@@ -98,33 +96,40 @@ public class DefaultUriMessResolver implements UriMessResolver {
         private List<Uri> mUris;
         private UriHost mUriHost;
 
-        int mCurrentIndex = -1;
-
         private MultipleApkFilesApkSourceFile(List<Uri> uris, UriHost uriHost) {
             mUris = uris;
             mUriHost = uriHost;
         }
 
-        @Nullable
         @Override
-        public Entry nextEntry() {
-            mCurrentIndex++;
+        public List<Entry> listEntries() {
+            List<Entry> entries = new ArrayList<>();
+            for (Uri uri : mUris) {
+                String name = mUriHost.getFileNameFromUri(uri);
+                entries.add(new InternalEntry(uri, name, name));
+            }
 
-            if (mCurrentIndex >= mUris.size())
-                return null;
-
-            String name = mUriHost.getFileNameFromUri(mUris.get(mCurrentIndex));
-            return new Entry(name, name);
+            return entries;
         }
 
         @Override
-        public InputStream openEntryInputStream() throws Exception {
-            return mUriHost.openUriInputStream(mUris.get(mCurrentIndex));
+        public InputStream openEntryInputStream(Entry entry) throws Exception {
+            return mUriHost.openUriInputStream(((InternalEntry) entry).mUri);
         }
 
         @Override
         public String getName() {
             return "whatever.whatever";
+        }
+
+        private static class InternalEntry extends Entry {
+
+            private Uri mUri;
+
+            private InternalEntry(Uri uri, String name, String localPath) {
+                super(name, localPath);
+                mUri = uri;
+            }
         }
     }
 
