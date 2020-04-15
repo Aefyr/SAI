@@ -68,6 +68,11 @@ public class AndroidBinXmlParser {
      * Attribute value is a boolean. Use {@link #getAttributeBooleanValue(int)} to obtain it.
      */
     public static final int VALUE_TYPE_BOOLEAN = 4;
+    /**
+     * Attribute value is a float. Use {@link #getAttributeFloatValue(int)} (int)} to obtain it.
+     */
+    public static final int VALUE_TYPE_FLOAT = 5;
+
     private static final long NO_NAMESPACE = 0xffffffffL;
     private final ByteBuffer mXml;
     private StringPool mStringPool;
@@ -208,6 +213,8 @@ public class AndroidBinXmlParser {
                 return VALUE_TYPE_REFERENCE;
             case Attribute.TYPE_INT_BOOLEAN:
                 return VALUE_TYPE_BOOLEAN;
+            case Attribute.TYPE_FLOAT:
+                return VALUE_TYPE_FLOAT;
             default:
                 return VALUE_TYPE_UNSUPPORTED;
         }
@@ -235,6 +242,18 @@ public class AndroidBinXmlParser {
      */
     public boolean getAttributeBooleanValue(int index) throws XmlParserException {
         return getAttribute(index).getBooleanValue();
+    }
+
+    /**
+     * Returns the float value of the specified attribute of the current element. See
+     * {@code VALUE_TYPE_...} constants.
+     *
+     * @throws IndexOutOfBoundsException if the index is out of range or the current event is not a
+     *                                   {@code start element} event.
+     * @throws XmlParserException        if a parsing error is occurred
+     */
+    public float getAttributeFloatValue(int index) throws XmlParserException {
+        return getAttribute(index).getFloatValue();
     }
 
     /**
@@ -393,6 +412,7 @@ public class AndroidBinXmlParser {
     private static class Attribute {
         private static final int TYPE_REFERENCE = 1;
         private static final int TYPE_STRING = 3;
+        private static final int TYPE_FLOAT = 0x4;
         private static final int TYPE_INT_DEC = 0x10;
         private static final int TYPE_INT_HEX = 0x11;
         private static final int TYPE_INT_BOOLEAN = 0x12;
@@ -446,6 +466,15 @@ public class AndroidBinXmlParser {
             }
         }
 
+        public float getFloatValue() throws XmlParserException {
+            switch (mValueType) {
+                case TYPE_FLOAT:
+                    return Float.intBitsToFloat(mValueData);
+                default:
+                    throw new XmlParserException("Cannot coerce to float: value type " + mValueType);
+            }
+        }
+
         public boolean getBooleanValue() throws XmlParserException {
             switch (mValueType) {
                 case TYPE_INT_BOOLEAN:
@@ -468,6 +497,8 @@ public class AndroidBinXmlParser {
                     return Boolean.toString(mValueData != 0);
                 case TYPE_REFERENCE:
                     return "@" + Integer.toHexString(mValueData);
+                case TYPE_FLOAT:
+                    return Float.toString(Float.intBitsToFloat(mValueData));
                 default:
                     throw new XmlParserException(
                             "Cannot coerce to string: value type " + mValueType);
