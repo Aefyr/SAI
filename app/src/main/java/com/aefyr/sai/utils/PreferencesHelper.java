@@ -142,4 +142,8 @@ public class PreferencesHelper {
         return mPrefs.getBoolean(PreferencesKeys.USE_INSTALLERX, false);
     }
 
+    public boolean isBruteParserEnabled() {
+        return mPrefs.getBoolean(PreferencesKeys.USE_BRUTE_PARSER, true);
+    }
+
 }

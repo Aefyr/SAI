@@ -173,6 +173,8 @@
     <string name="settings_main_extract_archives_summary">Extract APK files from .zip/.apks archives into temporary files before installing them. If disabled, SAI will install APKs directly from archives without temp files. Not recommended to enable</string>
     <string name="settings_main_use_zipfile">Use ZipFile API</string>
     <string name="settings_main_use_zipfile_summary">Use ZipFile API to read ZIP archives (including .apks files), solves compatibility issues with some archives. Not recommended to enable unless an installer error message asks you to because this adds otherwise unnecessary overhead</string>
+    <string name="settings_main_use_brute_parser">Fallback to parsing APK</string>
+    <string name="settings_main_use_brute_parser_summary">In Pro mode, when SAI is unable to find meta information (such as icon and title) about an app in the source (such as a .apks file or a ZIP archive), it will copy the base APK to a temp file and parse it directly to obtain meta information about the app. SAI will not copy and parse APKs larger than 100MBs</string>
     <string name="settings_main_reset_one_time_warnings">Reset one-time warnings</string>
     <string name="settings_main_installer">Installer</string>
     <string name="settings_main_installer_summary">Installer to use for APKs installation.\nCurrently: %s</string>
@@ -190,6 +192,7 @@
     <string name="settings_main_installer_show_dialogs">Show installer dialogs</string>
     <string name="settings_main_installer_show_dialogs_summary">Show dialogs when installation fails or succeeds. You can always open those dialogs manually by tapping installation session entry. Only affects new installer</string>
     <string name="settings_category_main_installer">Installer</string>
+    <string name="settings_category_main_parser">Parser</string>
     <string name="settings_category_main_export">Export</string>
     <string name="settings_category_main_other">Other</string>
     <string name="settings_category_main_ui">UI</string>

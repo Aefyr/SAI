@@ -4,6 +4,8 @@ import android.content.Context;
 import android.net.Uri;
 import android.util.Log;
 
+import androidx.annotation.Nullable;
+
 import com.aefyr.sai.installerx.resolver.appmeta.AppMeta;
 import com.aefyr.sai.installerx.resolver.appmeta.AppMetaExtractor;
 import com.aefyr.sai.installerx.resolver.meta.ApkSourceFile;
@@ -29,6 +31,9 @@ public class XapkAppMetaExtractor implements AppMetaExtractor {
     private Context mContext;
     private AppMeta mAppMeta;
 
+    private boolean mSeenMetaFile = false;
+    private boolean mSeenIconFile = false;
+
     public XapkAppMetaExtractor(Context context) {
         mContext = context.getApplicationContext();
         mAppMeta = new AppMeta();
@@ -48,6 +53,7 @@ public class XapkAppMetaExtractor implements AppMetaExtractor {
                 mAppMeta.appName = metaJson.optString("name");
                 mAppMeta.versionName = metaJson.optString("version_name");
                 mAppMeta.versionCode = metaJson.optLong("version_code");
+                mSeenMetaFile = true;
             } catch (Exception e) {
                 Log.w(TAG, "Unable to extract meta", e);
             }
@@ -58,6 +64,7 @@ public class XapkAppMetaExtractor implements AppMetaExtractor {
             try (InputStream in = entryInputStream; OutputStream out = new FileOutputStream(iconFile)) {
                 IOUtils.copyStream(in, out);
                 mAppMeta.iconUri = Uri.fromFile(iconFile);
+                mSeenIconFile = true;
             } catch (IOException e) {
                 Log.w(TAG, "Unable to extract icon", e);
             }
@@ -72,9 +79,13 @@ public class XapkAppMetaExtractor implements AppMetaExtractor {
         return cacheDir;
     }
 
+    @Nullable
     @Override
     public AppMeta buildMeta() {
-        return mAppMeta;
+        if (mSeenMetaFile && mSeenIconFile)
+            return mAppMeta;
+
+        return null;
     }
 
 }

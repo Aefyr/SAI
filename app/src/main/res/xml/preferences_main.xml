@@ -103,6 +103,19 @@
     </PreferenceCategory>
 
     <PreferenceCategory
+        android:title="@string/settings_category_main_parser"
+        app:iconSpaceReserved="false">
+
+        <SwitchPreference
+            android:icon="@drawable/ic_pref_unarchive"
+            android:key="use_brute_parser"
+            android:title="@string/settings_main_use_brute_parser"
+            android:summary="@string/settings_main_use_brute_parser_summary"
+            android:defaultValue="true" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
         android:title="@string/settings_category_main_export"
         app:iconSpaceReserved="false">
 

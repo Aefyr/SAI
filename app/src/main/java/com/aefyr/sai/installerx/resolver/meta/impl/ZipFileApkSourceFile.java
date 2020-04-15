@@ -36,7 +36,7 @@ public class ZipFileApkSourceFile implements ApkSourceFile {
 
         while (zipEntries.hasMoreElements()) {
             ZipEntry zipEntry = zipEntries.nextElement();
-            entries.add(new InternalEntry(zipEntry, Utils.getFileNameFromZipEntry(zipEntry), zipEntry.getName()));
+            entries.add(new InternalEntry(zipEntry, Utils.getFileNameFromZipEntry(zipEntry), zipEntry.getName(), zipEntry.getSize()));
         }
 
         return entries;
@@ -61,8 +61,8 @@ public class ZipFileApkSourceFile implements ApkSourceFile {
 
         private ZipEntry mZipEntry;
 
-        private InternalEntry(ZipEntry zipEntry, String name, String localPath) {
-            super(name, localPath);
+        private InternalEntry(ZipEntry zipEntry, String name, String localPath, long size) {
+            super(name, localPath, size);
             mZipEntry = zipEntry;
         }
     }

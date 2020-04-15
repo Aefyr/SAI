@@ -4,7 +4,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.util.Log;
 
-import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.aefyr.sai.installerx.resolver.appmeta.AppMeta;
 import com.aefyr.sai.installerx.resolver.appmeta.AppMetaExtractor;
@@ -28,6 +28,9 @@ public class SaiAppMetaExtractor implements AppMetaExtractor {
 
     private AppMeta mAppMeta;
 
+    private boolean mSeenMetaFile = false;
+    private boolean mSeenIconFile = false;
+
     public SaiAppMetaExtractor(Context context) {
         mContext = context.getApplicationContext();
         mAppMeta = new AppMeta();
@@ -47,6 +50,7 @@ public class SaiAppMetaExtractor implements AppMetaExtractor {
                 mAppMeta.appName = meta.label();
                 mAppMeta.versionName = meta.versionName();
                 mAppMeta.versionCode = meta.versionCode();
+                mSeenMetaFile = true;
             } catch (Exception e) {
                 Log.w(TAG, "Unable to extract meta", e);
             }
@@ -60,15 +64,19 @@ public class SaiAppMetaExtractor implements AppMetaExtractor {
             try (InputStream in = entryInputStream; OutputStream out = new FileOutputStream(iconFile)) {
                 IOUtils.copyStream(in, out);
                 mAppMeta.iconUri = Uri.fromFile(iconFile);
+                mSeenIconFile = true;
             } catch (IOException e) {
                 Log.w(TAG, "Unable to extract icon", e);
             }
         }
     }
 
-    @NonNull
+    @Nullable
     @Override
     public AppMeta buildMeta() {
-        return mAppMeta;
+        if (mSeenMetaFile && mSeenIconFile)
+            return mAppMeta;
+
+        return null;
     }
 }

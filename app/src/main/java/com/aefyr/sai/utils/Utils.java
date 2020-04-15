@@ -12,6 +12,8 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
@@ -235,5 +237,26 @@ public class Utils {
         } finally {
             Glide.with(context).clear(target);
         }
+    }
+
+    public static void saveDrawableAsPng(Drawable drawable, File pngFile) throws Exception {
+
+        Bitmap bitmap = null;
+        try {
+            bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+            Canvas canvas = new Canvas(bitmap);
+            drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
+            drawable.draw(canvas);
+
+            try (FileOutputStream outputStream = new FileOutputStream(pngFile)) {
+                bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
+            }
+
+        } finally {
+            if (bitmap != null)
+                bitmap.recycle();
+            ;
+        }
+
     }
 }

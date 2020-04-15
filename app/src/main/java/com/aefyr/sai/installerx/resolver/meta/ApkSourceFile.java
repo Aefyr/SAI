@@ -35,10 +35,12 @@ public interface ApkSourceFile extends AutoCloseable {
     class Entry {
         private String mName;
         private String mLocalPath;
+        private long mSize;
 
-        public Entry(String name, String localPath) {
+        public Entry(String name, String localPath, long size) {
             mName = name;
             mLocalPath = localPath;
+            mSize = size;
         }
 
         public String getName() {
@@ -50,6 +52,13 @@ public interface ApkSourceFile extends AutoCloseable {
          */
         public String getLocalPath() {
             return mLocalPath;
+        }
+
+        /**
+         * @return size in bytes of this entry or -1 if unknown
+         */
+        public long getSize() {
+            return mSize;
         }
 
     }

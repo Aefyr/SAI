@@ -14,6 +14,7 @@ import com.aefyr.sai.installerx.SplitPart;
 import com.aefyr.sai.installerx.postprocessing.Postprocessor;
 import com.aefyr.sai.installerx.resolver.appmeta.AppMeta;
 import com.aefyr.sai.installerx.resolver.appmeta.AppMetaExtractor;
+import com.aefyr.sai.installerx.resolver.appmeta.BruteAppMetaExtractor;
 import com.aefyr.sai.installerx.resolver.appmeta.DefaultZipAppMetaExtractors;
 import com.aefyr.sai.installerx.resolver.meta.ApkSourceFile;
 import com.aefyr.sai.installerx.resolver.meta.ApkSourceMetaResolutionError;
@@ -28,6 +29,7 @@ import com.aefyr.sai.installerx.splitmeta.config.LocaleConfigSplitMeta;
 import com.aefyr.sai.installerx.splitmeta.config.ScreenDestinyConfigSplitMeta;
 import com.aefyr.sai.installerx.util.AndroidBinXmlParser;
 import com.aefyr.sai.utils.IOUtils;
+import com.aefyr.sai.utils.PreferencesHelper;
 import com.aefyr.sai.utils.Stopwatch;
 import com.aefyr.sai.utils.Utils;
 
@@ -87,6 +89,7 @@ public class DefaultSplitApkSourceMetaResolver implements SplitApkSourceMetaReso
 
             ParserContext parserContext = new ParserContext();
 
+            ApkSourceFile.Entry baseApkEntry = null;
             for (ApkSourceFile.Entry entry : apkSourceFile.listEntries()) {
                 if (!entry.getName().toLowerCase().endsWith(".apk")) {
 
@@ -104,7 +107,6 @@ public class DefaultSplitApkSourceMetaResolver implements SplitApkSourceMetaReso
 
                     continue;
                 }
-
 
 
                 seenApk = true;
@@ -164,6 +166,7 @@ public class DefaultSplitApkSourceMetaResolver implements SplitApkSourceMetaReso
                         return createErrorResult(R.string.installerx_dsas_meta_resolver_error_multiple_base_apks, true);
 
                     seenBaseApk = true;
+                    baseApkEntry = entry;
 
                     BaseSplitMeta baseSplitMeta = (BaseSplitMeta) splitMeta;
                     versionName = baseSplitMeta.versionName();
@@ -240,10 +243,17 @@ public class DefaultSplitApkSourceMetaResolver implements SplitApkSourceMetaReso
             for (Postprocessor postprocessor : mPostprocessors)
                 postprocessor.process(parserContext);
 
-            AppMeta appMeta;
+            AppMeta appMeta = null;
             if (appMetaExtractor != null)
                 appMeta = appMetaExtractor.buildMeta();
-            else
+
+            if (appMeta == null && PreferencesHelper.getInstance(mContext).isBruteParserEnabled() && baseApkEntry != null && baseApkEntry.getSize() <= 100 * 1000 * 1000) {
+                Log.i(TAG, String.format("No suitable AppMetaExtractor found for file %s, using BruteAppMetaExtractor", apkSourceFile.getName()));
+                BruteAppMetaExtractor bruteAppMetaExtractor = new BruteAppMetaExtractor(mContext);
+                appMeta = bruteAppMetaExtractor.extract(apkSourceFile.openEntryInputStream(baseApkEntry));
+            }
+
+            if (appMeta == null)
                 appMeta = new AppMeta();
 
             appMeta.packageName = packageName;

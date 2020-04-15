@@ -106,7 +106,7 @@ public class DefaultUriMessResolver implements UriMessResolver {
             List<Entry> entries = new ArrayList<>();
             for (Uri uri : mUris) {
                 String name = mUriHost.getFileNameFromUri(uri);
-                entries.add(new InternalEntry(uri, name, name));
+                entries.add(new InternalEntry(uri, name, name, mUriHost.getFileSizeFromUri(uri)));
             }
 
             return entries;
@@ -126,8 +126,8 @@ public class DefaultUriMessResolver implements UriMessResolver {
 
             private Uri mUri;
 
-            private InternalEntry(Uri uri, String name, String localPath) {
-                super(name, localPath);
+            private InternalEntry(Uri uri, String name, String localPath, long size) {
+                super(name, localPath, size);
                 mUri = uri;
             }
         }

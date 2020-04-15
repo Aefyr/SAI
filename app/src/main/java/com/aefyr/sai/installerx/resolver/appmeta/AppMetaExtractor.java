@@ -1,6 +1,6 @@
 package com.aefyr.sai.installerx.resolver.appmeta;
 
-import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.aefyr.sai.installerx.resolver.meta.ApkSourceFile;
 
@@ -15,6 +15,9 @@ public interface AppMetaExtractor {
 
     void consumeEntry(ApkSourceFile.Entry entry, InputStream entryInputStream);
 
-    @NonNull
+    /**
+     * @return meta built from consumed entries or null if no required entries were provided
+     */
+    @Nullable
     AppMeta buildMeta();
 }
