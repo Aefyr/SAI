@@ -5,7 +5,6 @@ import android.content.Context;
 import androidx.annotation.Nullable;
 
 import com.aefyr.sai.installerx.resolver.appmeta.apks.SaiAppMetaExtractor;
-import com.aefyr.sai.installerx.resolver.appmeta.brute.BruteAppMetaExtractor;
 import com.aefyr.sai.installerx.resolver.appmeta.xapk.XapkAppMetaExtractor;
 
 public class DefaultAppMetaExtractors {
@@ -21,7 +20,7 @@ public class DefaultAppMetaExtractors {
             case "apks":
                 return new SaiAppMetaExtractor(context);
             default:
-                return new BruteAppMetaExtractor(context);
+                return null;
         }
     }
 
