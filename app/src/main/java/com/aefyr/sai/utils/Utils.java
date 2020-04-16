@@ -202,6 +202,15 @@ public class Utils {
         return null;
     }
 
+    /**
+     * Create a file within {@code dir} directory in app's cache directory. File will have a random name.
+     * Even though this method is called createTEMPfile, created file won't be deleted automatically
+     *
+     * @param context
+     * @param dir
+     * @param extension
+     * @return
+     */
     @Nullable
     public static File createTempFileInCache(Context context, String dir, String extension) {
         File directory = new File(context.getCacheDir(), dir);

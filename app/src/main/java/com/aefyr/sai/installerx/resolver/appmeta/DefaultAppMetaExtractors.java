@@ -5,9 +5,10 @@ import android.content.Context;
 import androidx.annotation.Nullable;
 
 import com.aefyr.sai.installerx.resolver.appmeta.apks.SaiAppMetaExtractor;
+import com.aefyr.sai.installerx.resolver.appmeta.brute.BruteAppMetaExtractor;
 import com.aefyr.sai.installerx.resolver.appmeta.xapk.XapkAppMetaExtractor;
 
-public class DefaultZipAppMetaExtractors {
+public class DefaultAppMetaExtractors {
 
     @Nullable
     public static AppMetaExtractor fromArchiveExtension(Context context, @Nullable String archiveExtension) {
@@ -19,9 +20,9 @@ public class DefaultZipAppMetaExtractors {
                 return new XapkAppMetaExtractor(context);
             case "apks":
                 return new SaiAppMetaExtractor(context);
+            default:
+                return new BruteAppMetaExtractor(context);
         }
-
-        return null;
     }
 
 }

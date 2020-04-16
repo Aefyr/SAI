@@ -24,57 +24,51 @@ public class SaiAppMetaExtractor implements AppMetaExtractor {
 
     private Context mContext;
 
-    private AppMeta mAppMeta;
-
-    private boolean mSeenMetaFile = false;
-    private boolean mSeenIconFile = false;
-
     public SaiAppMetaExtractor(Context context) {
         mContext = context.getApplicationContext();
-        mAppMeta = new AppMeta();
-    }
-
-    @Override
-    public boolean wantEntry(ApkSourceFile.Entry entry) {
-        return entry.getLocalPath().equals(SaiExportedAppMeta.META_FILE) || entry.getLocalPath().equals(SaiExportedAppMeta.ICON_FILE);
-    }
-
-    @Override
-    public void consumeEntry(ApkSourceFile.Entry entry, InputStream entryInputStream) {
-        if (entry.getLocalPath().equals(SaiExportedAppMeta.META_FILE)) {
-            try {
-                SaiExportedAppMeta meta = SaiExportedAppMeta.deserialize(IOUtils.readStream(entryInputStream));
-                mAppMeta.packageName = meta.packageName();
-                mAppMeta.appName = meta.label();
-                mAppMeta.versionName = meta.versionName();
-                mAppMeta.versionCode = meta.versionCode();
-                mSeenMetaFile = true;
-            } catch (Exception e) {
-                Log.w(TAG, "Unable to extract meta", e);
-            }
-        }
-
-        if (entry.getLocalPath().equals(SaiExportedAppMeta.ICON_FILE)) {
-            File iconFile = Utils.createTempFileInCache(mContext, "SaiZipAppMetaExtractor", "png");
-            if (iconFile == null)
-                return;
-
-            try (InputStream in = entryInputStream; OutputStream out = new FileOutputStream(iconFile)) {
-                IOUtils.copyStream(in, out);
-                mAppMeta.iconUri = Uri.fromFile(iconFile);
-                mSeenIconFile = true;
-            } catch (IOException e) {
-                Log.w(TAG, "Unable to extract icon", e);
-            }
-        }
     }
 
     @Nullable
     @Override
-    public AppMeta buildMeta() {
-        if (mSeenMetaFile && mSeenIconFile)
-            return mAppMeta;
+    public AppMeta extract(ApkSourceFile apkSourceFile, ApkSourceFile.Entry baseApkEntry) {
+        try {
+            boolean seenMetaFile = false;
+            AppMeta appMeta = new AppMeta();
 
-        return null;
+            for (ApkSourceFile.Entry entry : apkSourceFile.listEntries()) {
+
+                if (entry.getLocalPath().equals(SaiExportedAppMeta.META_FILE)) {
+                    try {
+                        SaiExportedAppMeta meta = SaiExportedAppMeta.deserialize(IOUtils.readStream(apkSourceFile.openEntryInputStream(entry)));
+                        appMeta.packageName = meta.packageName();
+                        appMeta.appName = meta.label();
+                        appMeta.versionName = meta.versionName();
+                        appMeta.versionCode = meta.versionCode();
+                        seenMetaFile = true;
+                    } catch (Exception e) {
+                        Log.w(TAG, "Unable to extract meta", e);
+                    }
+                } else if (entry.getLocalPath().equals(SaiExportedAppMeta.ICON_FILE)) {
+                    File iconFile = Utils.createTempFileInCache(mContext, "SaiZipAppMetaExtractor", "png");
+                    if (iconFile == null)
+                        continue;
+
+                    try (InputStream in = apkSourceFile.openEntryInputStream(entry); OutputStream out = new FileOutputStream(iconFile)) {
+                        IOUtils.copyStream(in, out);
+                        appMeta.iconUri = Uri.fromFile(iconFile);
+                    } catch (IOException e) {
+                        Log.w(TAG, "Unable to extract icon", e);
+                    }
+                }
+            }
+
+            if (seenMetaFile)
+                return appMeta;
+
+            return null;
+        } catch (Exception e) {
+            Log.w(TAG, "Error while extracting meta", e);
+            return null;
+        }
     }
 }

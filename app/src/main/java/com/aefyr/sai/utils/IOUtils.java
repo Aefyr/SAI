@@ -90,9 +90,11 @@ public class IOUtils {
     }
 
     public static byte[] readStream(InputStream inputStream) throws IOException {
-        ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-        copyStream(inputStream, buffer);
-        return buffer.toByteArray();
+        try (InputStream in = inputStream) {
+            ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+            copyStream(in, buffer);
+            return buffer.toByteArray();
+        }
     }
 
     public static String readStream(InputStream inputStream, Charset charset) throws IOException {

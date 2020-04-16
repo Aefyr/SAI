@@ -1,4 +1,4 @@
-package com.aefyr.sai.installerx.resolver.appmeta;
+package com.aefyr.sai.installerx.resolver.appmeta.brute;
 
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
@@ -10,10 +10,13 @@ import android.util.Log;
 
 import androidx.annotation.Nullable;
 
+import com.aefyr.sai.installerx.resolver.appmeta.AppMeta;
+import com.aefyr.sai.installerx.resolver.appmeta.AppMetaExtractor;
 import com.aefyr.sai.installerx.resolver.meta.ApkSourceFile;
 import com.aefyr.sai.model.backup.SaiExportedAppMeta;
 import com.aefyr.sai.model.common.PackageMeta;
 import com.aefyr.sai.utils.IOUtils;
+import com.aefyr.sai.utils.PreferencesHelper;
 import com.aefyr.sai.utils.Utils;
 
 import java.io.File;
@@ -31,7 +34,7 @@ import java.util.Objects;
  * Extracts AppMeta from an APK directly, currently not very efficient since it copies the APK to a temp file
  */
 //TODO probably make a shared cache for all app meta extractors
-public class BruteAppMetaExtractor {
+public class BruteAppMetaExtractor implements AppMetaExtractor {
     private static final String TAG = "BruteAppMetaExtractor";
     private static final String HASH_ALGORITHM = "SHA-256";
 
@@ -45,11 +48,17 @@ public class BruteAppMetaExtractor {
 
     //TODO maybe cache meta somehow
     @Nullable
+    @Override
     public AppMeta extract(ApkSourceFile apkSourceFile, ApkSourceFile.Entry baseApkEntry) {
         try {
             AppMeta cachedAppMeta = findCachedMeta(apkSourceFile, baseApkEntry);
             if (cachedAppMeta != null)
                 return cachedAppMeta;
+
+            if (!PreferencesHelper.getInstance(mContext).isBruteParserEnabled() || baseApkEntry.getSize() >= 100 * 1000 * 1000) {
+                Log.i(TAG, "Brute parser disabled or base apk entry size is more than 100MBs");
+                return null;
+            }
 
             return extractAppMeta(apkSourceFile, baseApkEntry);
         } catch (Exception e) {
