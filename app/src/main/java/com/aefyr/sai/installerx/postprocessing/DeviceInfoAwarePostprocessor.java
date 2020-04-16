@@ -122,6 +122,8 @@ public class DeviceInfoAwarePostprocessor implements Postprocessor {
         if (localeCategory == null)
             return;
 
+        localeCategory.setDescription(mContext.getString(R.string.installerx_category_config_locale_desc, mContext.getResources().getConfiguration().locale.getDisplayLanguage()));
+
         scopeToModuleAndProcess(parserContext, localeCategory.parts(), this::processLocaleParts);
     }
 
@@ -141,9 +143,12 @@ public class DeviceInfoAwarePostprocessor implements Postprocessor {
             }
         }
 
-        if (bestMatchingPart != null)
-            bestMatchingPart.setRecommended(true);
-        else {
+        if (bestMatchingPart != null) {
+            if (module.equals(NO_MODULE))
+                bestMatchingPart.setRequired(true);
+            else
+                bestMatchingPart.setRecommended(true);
+        } else {
             if (module.equals(NO_MODULE))
                 parserContext.addNotice(new Notice(NOTICE_TYPE_NO_MATCHING_LOCALES, null, mContext.getString(R.string.installerx_notice_no_locale_for_base)));
             else

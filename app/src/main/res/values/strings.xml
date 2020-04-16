@@ -260,6 +260,7 @@
     <string name="installerx_split_config_abi_for_base">%s code for base APK</string>
     <string name="installerx_split_config_abi_for_module">%1$s code for feature \"%2$s\"</string>
     <string name="installerx_category_config_locale">Configuration: Locale</string>
+    <string name="installerx_category_config_locale_desc">Your preferred language - %s</string>
     <string name="installerx_split_config_locale_for_base">%s locale for base APK</string>
     <string name="installerx_split_config_locale_for_module">%1$s locale for feature \"%2$s\"</string>
     <string name="installerx_category_config_dpi">Configuration: DPI Resources</string>
