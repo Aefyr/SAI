@@ -137,7 +137,7 @@
     <string name="backup_export_all_splits_prompt">Do you want to export all split APKs?</string>
     <string name="backup_export_selected_apps_prompt">Do you want to export %d selected apps?</string>
     <string name="backup_preparing">Preparing apps...</string>
-    <string name="backup_enqueue">Enqueue</string>
+    <string name="backup_enqueue">Export</string>
     <string name="backup_dialog_title">Select split APK parts to export</string>
     <string name="backup_load_splits_error">Unable to get split APK parts</string>
     <string name="backup_splits_loading">Loading...</string>
