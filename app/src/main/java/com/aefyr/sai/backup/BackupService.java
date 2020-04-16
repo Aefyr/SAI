@@ -27,13 +27,11 @@ import com.aefyr.sai.model.common.PackageMeta;
 import com.aefyr.sai.utils.IOUtils;
 import com.aefyr.sai.utils.NotificationHelper;
 import com.aefyr.sai.utils.Utils;
-import com.google.gson.Gson;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -332,7 +330,7 @@ public class BackupService extends Service {
                 }
 
                 //Meta
-                byte[] meta = new Gson().toJson(SaiExportedAppMeta.fromPackageMeta(config.packageMeta, System.currentTimeMillis())).getBytes(StandardCharsets.UTF_8);
+                byte[] meta = SaiExportedAppMeta.fromPackageMeta(config.packageMeta, System.currentTimeMillis()).serialize();
 
                 zipOutputStream.setMethod(ZipOutputStream.STORED);
                 ZipEntry metaZipEntry = new ZipEntry(SaiExportedAppMeta.META_FILE);

@@ -102,8 +102,11 @@ public class DefaultSplitApkSourceMetaResolver implements SplitApkSourceMetaReso
                         parserContext.addNotice(new Notice(NOTICE_TYPE_NO_XAPK_OBB_SUPPORT, null, getString(R.string.installerx_notice_xapk)));
                     }
 
-                    if (appMetaExtractor != null && appMetaExtractor.wantEntry(entry))
-                        appMetaExtractor.consumeEntry(entry, apkSourceFile.openEntryInputStream(entry));
+                    if (appMetaExtractor != null && appMetaExtractor.wantEntry(entry)) {
+                        try (InputStream in = apkSourceFile.openEntryInputStream(entry)) {
+                            appMetaExtractor.consumeEntry(entry, in);
+                        }
+                    }
 
                     continue;
                 }
@@ -250,7 +253,7 @@ public class DefaultSplitApkSourceMetaResolver implements SplitApkSourceMetaReso
             if (appMeta == null && PreferencesHelper.getInstance(mContext).isBruteParserEnabled() && baseApkEntry != null && baseApkEntry.getSize() <= 100 * 1000 * 1000) {
                 Log.i(TAG, String.format("No suitable AppMetaExtractor found for file %s, using BruteAppMetaExtractor", apkSourceFile.getName()));
                 BruteAppMetaExtractor bruteAppMetaExtractor = new BruteAppMetaExtractor(mContext);
-                appMeta = bruteAppMetaExtractor.extract(apkSourceFile.openEntryInputStream(baseApkEntry));
+                appMeta = bruteAppMetaExtractor.extract(apkSourceFile, baseApkEntry);
             }
 
             if (appMeta == null)

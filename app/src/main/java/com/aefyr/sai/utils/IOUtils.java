@@ -15,6 +15,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
+import java.security.DigestInputStream;
+import java.security.MessageDigest;
 import java.util.zip.CRC32;
 
 public class IOUtils {
@@ -102,6 +104,32 @@ public class IOUtils {
             closeable.close();
         } catch (Exception e) {
             Log.w(TAG, String.format("Unable to close %s", closeable.getClass().getCanonicalName()), e);
+        }
+    }
+
+    /**
+     * Hashes stream content using passed {@link MessageDigest}, closes the stream and returns digest bytes
+     *
+     * @param inputStream
+     * @param messageDigest
+     * @return
+     * @throws IOException
+     */
+    public static byte[] hashStream(InputStream inputStream, MessageDigest messageDigest) throws IOException {
+        try (DigestInputStream digestInputStream = new DigestInputStream(inputStream, messageDigest);) {
+            byte[] buffer = new byte[1024 * 64];
+            int read;
+            while ((read = digestInputStream.read(buffer)) > 0) {
+                //Do nothing
+            }
+
+            return messageDigest.digest();
+        }
+    }
+
+    public static byte[] readFile(File file) throws IOException {
+        try (FileInputStream in = new FileInputStream(file)) {
+            return readStream(in);
         }
     }
 

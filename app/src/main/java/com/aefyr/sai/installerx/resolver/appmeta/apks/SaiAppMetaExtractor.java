@@ -12,14 +12,12 @@ import com.aefyr.sai.installerx.resolver.meta.ApkSourceFile;
 import com.aefyr.sai.model.backup.SaiExportedAppMeta;
 import com.aefyr.sai.utils.IOUtils;
 import com.aefyr.sai.utils.Utils;
-import com.google.gson.Gson;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.nio.charset.StandardCharsets;
 
 public class SaiAppMetaExtractor implements AppMetaExtractor {
     private static final String TAG = "SaiMetaExtractor";
@@ -45,7 +43,7 @@ public class SaiAppMetaExtractor implements AppMetaExtractor {
     public void consumeEntry(ApkSourceFile.Entry entry, InputStream entryInputStream) {
         if (entry.getLocalPath().equals(SaiExportedAppMeta.META_FILE)) {
             try {
-                SaiExportedAppMeta meta = new Gson().fromJson(IOUtils.readStream(entryInputStream, StandardCharsets.UTF_8), SaiExportedAppMeta.class);
+                SaiExportedAppMeta meta = SaiExportedAppMeta.deserialize(IOUtils.readStream(entryInputStream));
                 mAppMeta.packageName = meta.packageName();
                 mAppMeta.appName = meta.label();
                 mAppMeta.versionName = meta.versionName();

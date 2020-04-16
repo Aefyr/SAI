@@ -1,8 +1,11 @@
 package com.aefyr.sai.model.backup;
 
 import com.aefyr.sai.model.common.PackageMeta;
+import com.google.gson.Gson;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+
+import java.nio.charset.StandardCharsets;
 
 public class SaiExportedAppMeta {
 
@@ -44,6 +47,10 @@ public class SaiExportedAppMeta {
         return appMeta;
     }
 
+    public static SaiExportedAppMeta deserialize(byte[] serializedMeta) {
+        return new Gson().fromJson(new String(serializedMeta, StandardCharsets.UTF_8), SaiExportedAppMeta.class);
+    }
+
     public String packageName() {
         return mPackage;
     }
@@ -62,6 +69,10 @@ public class SaiExportedAppMeta {
 
     public long exportTime() {
         return mExportTimestamp != null ? mExportTimestamp : 0;
+    }
+
+    public byte[] serialize() {
+        return new Gson().toJson(this).getBytes(StandardCharsets.UTF_8);
     }
 
 }
