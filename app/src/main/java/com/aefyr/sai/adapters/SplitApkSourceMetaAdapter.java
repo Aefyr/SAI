@@ -257,7 +257,6 @@ public class SplitApkSourceMetaAdapter extends SelectableAdapter<String, SplitAp
 
         private TextView mName;
         private TextView mDescription;
-        private TextView mPath;
 
         private CheckBox mCheck;
 
@@ -266,7 +265,6 @@ public class SplitApkSourceMetaAdapter extends SelectableAdapter<String, SplitAp
 
             mName = itemView.findViewById(R.id.tv_split_part_name);
             mDescription = itemView.findViewById(R.id.tv_split_part_description);
-            mPath = itemView.findViewById(R.id.tv_split_part_path);
 
             mCheck = itemView.findViewById(R.id.check_split_apk_part);
 

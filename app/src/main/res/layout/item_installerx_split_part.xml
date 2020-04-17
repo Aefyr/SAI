@@ -34,17 +34,8 @@
             android:layout_height="wrap_content"
             android:text="beb.apk"
             android:textColor="?android:attr/textColorSecondary"
-            android:textSize="12sp"
+            android:textSize="13sp"
             android:visibility="visible" />
-
-        <TextView
-            android:id="@+id/tv_split_part_path"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="beb.apk"
-            android:textColor="?android:attr/textColorSecondary"
-            android:textSize="12sp"
-            android:visibility="gone" />
 
     </LinearLayout>
 
