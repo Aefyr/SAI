@@ -223,7 +223,7 @@ public class DefaultSplitApkSourceMetaResolver implements SplitApkSourceMetaReso
                     continue;
                 }
 
-                parserContext.getOrCreateCategory(Category.UNKNOWN, getString(R.string.installerx_category_unknown), getString(R.string.installerx_category_unknown_desc))
+                parserContext.getOrCreateCategory(Category.UNKNOWN, getString(R.string.installerx_category_unknown), null)
                         .addPart(new SplitPart(splitMeta, entry.getName(), entry.getLocalPath(), splitMeta.splitName(), Utils.formatSize(mContext, entry.getSize()), false, true));
 
             }

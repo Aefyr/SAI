@@ -43,6 +43,7 @@ public class DeviceInfoAwarePostprocessor implements Postprocessor {
         processAbiCategory(parserContext, parserContext.getCategories(Category.CONFIG_ABI));
         processLocaleCategory(parserContext, parserContext.getCategories(Category.CONFIG_LOCALE));
         processScreenDensityCategory(parserContext, parserContext.getCategories(Category.CONFIG_DENSITY));
+        processUnknownCategory(parserContext, parserContext.getCategories(Category.UNKNOWN));
     }
 
     private void scopeToModuleAndProcess(ParserContext parserContext, List<SplitPart> parts, TriConsumer<ParserContext, String, List<SplitPart>> processor) {
@@ -203,6 +204,13 @@ public class DeviceInfoAwarePostprocessor implements Postprocessor {
             else
                 bestPart.setRecommended(true);
         }
+    }
+
+    private void processUnknownCategory(ParserContext parserContext, @Nullable SplitCategory unknownCategory) {
+        if (unknownCategory == null)
+            return;
+
+        unknownCategory.setDescription(mContext.getString(R.string.installerx_category_unknown_desc));
     }
 
 }
