@@ -207,6 +207,8 @@
     <string name="settings_main_auto_theme_pre_q_warning">Please note that following the system theme may not work correctly on Android versions lower than Q</string>
     <string name="settings_main_use_installerx">Pro mode</string>
     <string name="settings_main_use_installerx_summary">Enable installer Pro mode that allows you to select parts to install from a .apks file (or other archives with multiple APK files). Please note that Pro mode is experimental and it may not work properly, feedback is welcome</string>
+    <string name="settings_main_enable_firebase">Firebase</string>
+    <string name="settings_main_enable_firebase_summary">Collect errors and app usage data with Firebase. You can find out more about data being collected in Privacy Policy which you can find on about screen. Changing this setting may not fully apply it until you restart SAI</string>
 
     <string name="name_format_builder_title">Select parts to include in exported app name</string>
     <string name="name_format_builder_preview">Preview: %s</string>
@@ -310,5 +312,7 @@
     <string name="about_licenses">Licenses</string>
     <string name="about_translate">Help to translate SAI</string>
     <string name="about_translate_link" translatable="false">https://polychromaticfox.crowdin.com/split-apks-installer</string>
+    <string name="about_privacy">Privacy Policy</string>
+    <string name="about_privacy_link" translatable="false">https://aefyr.github.io/sai/privacy_en.html</string>
 
 </resources>

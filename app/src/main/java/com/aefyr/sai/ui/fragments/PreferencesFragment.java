@@ -18,7 +18,9 @@ import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
 import androidx.preference.SwitchPreference;
 
+import com.aefyr.sai.BuildConfig;
 import com.aefyr.sai.R;
+import com.aefyr.sai.firebase.Firebase;
 import com.aefyr.sai.model.common.PackageMeta;
 import com.aefyr.sai.shell.SuShell;
 import com.aefyr.sai.ui.activities.AboutActivity;
@@ -164,6 +166,14 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Fil
         if (Theme.getInstance(requireContext()).getThemeMode() != Theme.Mode.AUTO_LIGHT_DARK) {
             mAutoThemePicker.setVisible(false);
         }
+
+        SwitchPreference firebasePref = findPreference(PreferencesKeys.ENABLE_FIREBASE);
+        firebasePref.setOnPreferenceChangeListener((preference, newValue) -> {
+            Firebase.setDataCollectionEnabled(requireContext(), (boolean) newValue);
+            return true;
+        });
+        if (BuildConfig.IS_FLOSS_BUILD)
+            firebasePref.setVisible(false);
 
 
         getPreferenceManager().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);

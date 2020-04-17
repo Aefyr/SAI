@@ -75,4 +75,13 @@
             android:text="@string/about_translate" />
 
     </RelativeLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/button_about_privacy_policy"
+        style="@style/SAIMaterialButton.Outlined"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginBottom="16dp"
+        android:text="@string/about_privacy" />
 </FrameLayout>

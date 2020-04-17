@@ -3,6 +3,7 @@ package com.aefyr.sai.ui.activities;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 
 import com.aefyr.sai.BuildConfig;
@@ -23,6 +24,7 @@ public class AboutActivity extends ThemedActivity {
         findViewById(R.id.button_about_donate).setOnClickListener((v) -> openLink(getString(R.string.about_donate_link)));
         findViewById(R.id.button_about_licenses).setOnClickListener((v) -> startActivity(new Intent(this, LicensesActivity.class)));
         findViewById(R.id.button_about_translate).setOnClickListener(v -> openLink(getString(R.string.about_translate_link)));
+        findViewById(R.id.button_about_privacy_policy).setOnClickListener(v -> openLink(getString(R.string.about_privacy_link)));
 
         findViewById(R.id.iv_about_logo).setOnClickListener((v) -> sLogoClicksCount++);
         findViewById(R.id.iv_about_logo).setOnLongClickListener((v) -> {
@@ -31,6 +33,10 @@ public class AboutActivity extends ThemedActivity {
 
             return sLogoClicksCount >= 3;
         });
+
+        if (BuildConfig.IS_FLOSS_BUILD) {
+            findViewById(R.id.button_about_privacy_policy).setVisibility(View.GONE);
+        }
     }
 
     private void openLink(String link) {

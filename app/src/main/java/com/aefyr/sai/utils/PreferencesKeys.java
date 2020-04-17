@@ -24,4 +24,5 @@ public class PreferencesKeys {
     public static final String AUTO_THEME_PICKER = "auto_theme_picker";
     public static final String USE_INSTALLERX = "use_installerx";
     public static final String USE_BRUTE_PARSER = "use_brute_parser";
+    public static final String ENABLE_FIREBASE = "firebase_enabled";
 }

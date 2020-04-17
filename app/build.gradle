@@ -22,12 +22,14 @@ android {
         normal {
             dimension "version"
             buildConfigField "int", "DEFAULT_THEME", "0"
+            buildConfigField "boolean", "IS_FLOSS_BUILD", "false"
         }
 
         fdroid {
             dimension "version"
             applicationId "com.aefyr.sai.fdroid"
             buildConfigField "int", "DEFAULT_THEME", "6"
+            buildConfigField "boolean", "IS_FLOSS_BUILD", "true"
         }
     }
 
