@@ -228,6 +228,7 @@
     <string name="mi_continue_countdown">You can continue in %d s.</string>
     <string name="mi_continue">Continue</string>
     <string name="mi_miui_version">MIUI version - %1$s (%2$d (%3$s))</string>
+    <string name="mi_consequences">Depending on your MIUI version, turning off MIUI optimization may do nothing, reset apps permissions or have other unexpected consequences</string>
 
     <string name="donate_message_not_donated">Hello. As you know, SAI is a completely free open-source app and it will always stay that way. If you like it, please consider supporting SAI by making a donation. You will also get the legendary <b>SAI Gold</b> theme!</string>
     <string name="donate_message_donated">Huge thanks for supporting SAI!\nDon\'t forget to check out your new <b>SAI Gold</b> theme</string>

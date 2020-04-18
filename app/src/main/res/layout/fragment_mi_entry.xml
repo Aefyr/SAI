@@ -39,6 +39,19 @@
             android:text="@string/installer_miui_warning_message"
             android:textSize="18sp" />
 
+        <TextView
+            android:id="@+id/tv_mi_consequences"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center_horizontal"
+            android:padding="16dp"
+            android:text="@string/mi_consequences"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
