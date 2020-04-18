@@ -20,6 +20,7 @@ import com.aefyr.sai.installerx.SplitApkSourceMeta;
 import com.aefyr.sai.installerx.SplitPart;
 import com.aefyr.sai.installerx.postprocessing.DeviceInfoAwarePostprocessor;
 import com.aefyr.sai.installerx.postprocessing.SortPostprocessor;
+import com.aefyr.sai.installerx.resolver.appmeta.DefaultAppMetaExtractor;
 import com.aefyr.sai.installerx.resolver.meta.impl.DefaultSplitApkSourceMetaResolver;
 import com.aefyr.sai.installerx.resolver.urimess.SourceType;
 import com.aefyr.sai.installerx.resolver.urimess.UriMessResolutionError;
@@ -202,7 +203,7 @@ public class InstallerXDialogViewModel extends AndroidViewModel {
             if (apkSourceUris.size() == 0)
                 throw new IllegalArgumentException("Expected at least 1 file in input");
 
-            DefaultSplitApkSourceMetaResolver metaResolver = new DefaultSplitApkSourceMetaResolver(getApplication());
+            DefaultSplitApkSourceMetaResolver metaResolver = new DefaultSplitApkSourceMetaResolver(getApplication(), new DefaultAppMetaExtractor(getApplication()));
             metaResolver.addPostprocessor(new DeviceInfoAwarePostprocessor(getApplication()));
             metaResolver.addPostprocessor(new SortPostprocessor());
 

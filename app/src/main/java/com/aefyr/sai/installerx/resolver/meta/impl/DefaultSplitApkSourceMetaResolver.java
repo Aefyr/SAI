@@ -13,7 +13,7 @@ import com.aefyr.sai.installerx.SplitApkSourceMeta;
 import com.aefyr.sai.installerx.SplitPart;
 import com.aefyr.sai.installerx.postprocessing.Postprocessor;
 import com.aefyr.sai.installerx.resolver.appmeta.AppMeta;
-import com.aefyr.sai.installerx.resolver.appmeta.DefaultAppMetaExtractor;
+import com.aefyr.sai.installerx.resolver.appmeta.AppMetaExtractor;
 import com.aefyr.sai.installerx.resolver.meta.ApkSourceFile;
 import com.aefyr.sai.installerx.resolver.meta.ApkSourceMetaResolutionError;
 import com.aefyr.sai.installerx.resolver.meta.ApkSourceMetaResolutionResult;
@@ -49,10 +49,12 @@ public class DefaultSplitApkSourceMetaResolver implements SplitApkSourceMetaReso
     public static final String NOTICE_TYPE_NO_XAPK_OBB_SUPPORT = "Notice.DefaultSplitApkSourceMetaResolver.NoXApkObbSupport";
 
     private Context mContext;
+    private AppMetaExtractor mAppMetaExtractor;
     private List<Postprocessor> mPostprocessors = new ArrayList<>();
 
-    public DefaultSplitApkSourceMetaResolver(Context context) {
+    public DefaultSplitApkSourceMetaResolver(Context context, AppMetaExtractor appMetaExtractor) {
         mContext = context.getApplicationContext();
+        mAppMetaExtractor = appMetaExtractor;
     }
 
     public void addPostprocessor(Postprocessor postprocessor) {
@@ -235,7 +237,7 @@ public class DefaultSplitApkSourceMetaResolver implements SplitApkSourceMetaReso
             for (Postprocessor postprocessor : mPostprocessors)
                 postprocessor.process(parserContext);
 
-            AppMeta appMeta = new DefaultAppMetaExtractor(mContext).extract(apkSourceFile, baseApkEntry);
+            AppMeta appMeta = mAppMetaExtractor.extract(apkSourceFile, baseApkEntry);
             if (appMeta == null)
                 appMeta = new AppMeta();
 
