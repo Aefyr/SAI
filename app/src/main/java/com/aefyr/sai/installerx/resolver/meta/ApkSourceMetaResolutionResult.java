@@ -2,7 +2,7 @@ package com.aefyr.sai.installerx.resolver.meta;
 
 import androidx.annotation.Nullable;
 
-import com.aefyr.sai.installerx.SplitApkSourceMeta;
+import com.aefyr.sai.installerx.common.SplitApkSourceMeta;
 
 public class ApkSourceMetaResolutionResult {
 

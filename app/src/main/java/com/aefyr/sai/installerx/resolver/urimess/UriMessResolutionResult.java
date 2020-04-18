@@ -4,7 +4,7 @@ import android.net.Uri;
 
 import androidx.annotation.Nullable;
 
-import com.aefyr.sai.installerx.SplitApkSourceMeta;
+import com.aefyr.sai.installerx.common.SplitApkSourceMeta;
 
 import java.util.List;
 

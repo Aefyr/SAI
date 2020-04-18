@@ -1,11 +1,10 @@
-package com.aefyr.sai.installerx;
+package com.aefyr.sai.installerx.common;
 
 import androidx.annotation.Nullable;
 
 import com.aefyr.sai.installerx.splitmeta.SplitMeta;
 
-//TODO maybe make a read only interface for this
-public class SplitPart {
+public class SealedSplitPart implements SplitPart {
 
     private SplitMeta mMeta;
     private String mId;
@@ -18,7 +17,7 @@ public class SplitPart {
     /**
      * @param id id is equal to the entry name in an archive
      */
-    public SplitPart(SplitMeta meta, String id, String localPath, String name, @Nullable String description, boolean required, boolean recommended) {
+    public SealedSplitPart(SplitMeta meta, String id, String localPath, String name, @Nullable String description, boolean required, boolean recommended) {
         mMeta = meta;
         mId = id;
         mLocalPath = localPath;
@@ -28,10 +27,12 @@ public class SplitPart {
         mRecommended = recommended;
     }
 
+    @Override
     public SplitMeta meta() {
         return mMeta;
     }
 
+    @Override
     public String id() {
         return mId;
     }
@@ -39,6 +40,7 @@ public class SplitPart {
     /**
      * @return the local path of this part in the apk source
      */
+    @Override
     public String localPath() {
         return mLocalPath;
     }
@@ -47,11 +49,13 @@ public class SplitPart {
         mName = name;
     }
 
+    @Override
     public String name() {
         return mName;
     }
 
     @Nullable
+    @Override
     public String description() {
         return mDescription;
     }
@@ -60,6 +64,7 @@ public class SplitPart {
         mRequired = required;
     }
 
+    @Override
     public boolean isRequired() {
         return mRequired;
     }
@@ -68,8 +73,8 @@ public class SplitPart {
         mRecommended = recommended;
     }
 
+    @Override
     public boolean isRecommended() {
         return mRecommended || mRequired;
     }
-
 }

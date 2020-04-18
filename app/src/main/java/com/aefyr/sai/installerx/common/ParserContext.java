@@ -1,4 +1,4 @@
-package com.aefyr.sai.installerx;
+package com.aefyr.sai.installerx.common;
 
 import androidx.annotation.Nullable;
 
@@ -12,8 +12,8 @@ import java.util.Map;
 
 public class ParserContext {
 
-    private Map<Category, SplitCategory> mIndex = new HashMap<>();
-    private List<SplitCategory> mCategories = new ArrayList<>();
+    private Map<Category, MutableSplitCategory> mIndex = new HashMap<>();
+    private List<MutableSplitCategory> mCategories = new ArrayList<>();
     private List<Notice> mNotices = new ArrayList<>();
     private AppMeta mAppMeta;
 
@@ -22,14 +22,14 @@ public class ParserContext {
     }
 
     @Nullable
-    public SplitCategory getCategories(Category category) {
+    public MutableSplitCategory getCategory(Category category) {
         return mIndex.get(category);
     }
 
-    public SplitCategory getOrCreateCategory(Category category, String name, String description) {
-        SplitCategory splitCategory = mIndex.get(category);
+    public MutableSplitCategory getOrCreateCategory(Category category, String name, String description) {
+        MutableSplitCategory splitCategory = mIndex.get(category);
         if (splitCategory == null) {
-            splitCategory = new SplitCategory(category, name, description);
+            splitCategory = new MutableSplitCategory(category, name, description);
             mIndex.put(category, splitCategory);
             mCategories.add(splitCategory);
         }
@@ -40,8 +40,18 @@ public class ParserContext {
     /**
      * @return a reference to the list of categories in this ParserContext
      */
-    public List<SplitCategory> getCategoriesList() {
+    public List<MutableSplitCategory> getCategoriesList() {
         return mCategories;
+    }
+
+    public List<SplitCategory> sealCategories() {
+        List<SplitCategory> sealedCategories = new ArrayList<>();
+
+        for (MutableSplitCategory mutableSplitCategory : mCategories) {
+            sealedCategories.add(mutableSplitCategory.seal());
+        }
+
+        return sealedCategories;
     }
 
     public void addNotice(Notice notice) {

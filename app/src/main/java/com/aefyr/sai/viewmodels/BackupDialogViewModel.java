@@ -10,10 +10,10 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.aefyr.sai.adapters.selection.Selection;
 import com.aefyr.sai.adapters.selection.SimpleKeyStorage;
-import com.aefyr.sai.installerx.Category;
-import com.aefyr.sai.installerx.SplitApkSourceMeta;
-import com.aefyr.sai.installerx.SplitCategory;
-import com.aefyr.sai.installerx.SplitPart;
+import com.aefyr.sai.installerx.common.Category;
+import com.aefyr.sai.installerx.common.MutableSplitCategory;
+import com.aefyr.sai.installerx.common.SplitApkSourceMeta;
+import com.aefyr.sai.installerx.common.SplitPart;
 import com.aefyr.sai.installerx.postprocessing.SortPostprocessor;
 import com.aefyr.sai.installerx.resolver.appmeta.installedapp.InstalledAppAppMetaExtractor;
 import com.aefyr.sai.installerx.resolver.meta.ApkSourceMetaResolutionResult;
@@ -90,11 +90,11 @@ public class BackupDialogViewModel extends AndroidViewModel {
             DefaultSplitApkSourceMetaResolver metaResolver = new DefaultSplitApkSourceMetaResolver(getApplication(), new InstalledAppAppMetaExtractor(getApplication()));
             metaResolver.addPostprocessor(new SortPostprocessor());
             metaResolver.addPostprocessor(parserContext -> {
-                SplitCategory baseApkCategory = parserContext.getCategories(Category.BASE_APK);
-                if (baseApkCategory == null || baseApkCategory.parts().size() == 0)
+                MutableSplitCategory baseApkCategory = parserContext.getCategory(Category.BASE_APK);
+                if (baseApkCategory == null || baseApkCategory.getPartsList().size() == 0)
                     return;
 
-                baseApkCategory.parts().get(0).setName(parserContext.getAppMeta().appName);
+                baseApkCategory.getPartsList().get(0).setName(parserContext.getAppMeta().appName);
             });
             ApkSourceMetaResolutionResult result = metaResolver.resolveFor(new InstalledAppApkSourceFile(getApplication(), pkg));
 

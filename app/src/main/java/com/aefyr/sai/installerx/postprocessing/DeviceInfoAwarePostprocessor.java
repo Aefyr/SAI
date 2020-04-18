@@ -8,10 +8,10 @@ import android.text.TextUtils;
 import androidx.annotation.Nullable;
 
 import com.aefyr.sai.R;
-import com.aefyr.sai.installerx.Category;
-import com.aefyr.sai.installerx.ParserContext;
-import com.aefyr.sai.installerx.SplitCategory;
-import com.aefyr.sai.installerx.SplitPart;
+import com.aefyr.sai.installerx.common.Category;
+import com.aefyr.sai.installerx.common.MutableSplitCategory;
+import com.aefyr.sai.installerx.common.MutableSplitPart;
+import com.aefyr.sai.installerx.common.ParserContext;
 import com.aefyr.sai.installerx.resolver.meta.Notice;
 import com.aefyr.sai.installerx.splitmeta.config.AbiConfigSplitMeta;
 import com.aefyr.sai.installerx.splitmeta.config.ConfigSplitMeta;
@@ -40,21 +40,21 @@ public class DeviceInfoAwarePostprocessor implements Postprocessor {
 
     @Override
     public void process(ParserContext parserContext) {
-        processAbiCategory(parserContext, parserContext.getCategories(Category.CONFIG_ABI));
-        processLocaleCategory(parserContext, parserContext.getCategories(Category.CONFIG_LOCALE));
-        processScreenDensityCategory(parserContext, parserContext.getCategories(Category.CONFIG_DENSITY));
-        processUnknownCategory(parserContext, parserContext.getCategories(Category.UNKNOWN));
+        processAbiCategory(parserContext, parserContext.getCategory(Category.CONFIG_ABI));
+        processLocaleCategory(parserContext, parserContext.getCategory(Category.CONFIG_LOCALE));
+        processScreenDensityCategory(parserContext, parserContext.getCategory(Category.CONFIG_DENSITY));
+        processUnknownCategory(parserContext, parserContext.getCategory(Category.UNKNOWN));
     }
 
-    private void scopeToModuleAndProcess(ParserContext parserContext, List<SplitPart> parts, TriConsumer<ParserContext, String, List<SplitPart>> processor) {
-        Map<String, List<SplitPart>> moduleToParts = new HashMap<>();
+    private void scopeToModuleAndProcess(ParserContext parserContext, List<MutableSplitPart> parts, TriConsumer<ParserContext, String, List<MutableSplitPart>> processor) {
+        Map<String, List<MutableSplitPart>> moduleToParts = new HashMap<>();
 
-        for (SplitPart part : parts) {
+        for (MutableSplitPart part : parts) {
             String module = ((ConfigSplitMeta) part.meta()).module();
             if (module == null)
                 module = NO_MODULE;
 
-            List<SplitPart> moduleParts = moduleToParts.get(module);
+            List<MutableSplitPart> moduleParts = moduleToParts.get(module);
             if (moduleParts == null) {
                 moduleParts = new ArrayList<>();
                 moduleToParts.put(module, moduleParts);
@@ -63,27 +63,27 @@ public class DeviceInfoAwarePostprocessor implements Postprocessor {
             moduleParts.add(part);
         }
 
-        for (Map.Entry<String, List<SplitPart>> entry : moduleToParts.entrySet()) {
+        for (Map.Entry<String, List<MutableSplitPart>> entry : moduleToParts.entrySet()) {
             processor.accept(parserContext, entry.getKey(), entry.getValue());
         }
     }
 
-    private void processAbiCategory(ParserContext parserContext, @Nullable SplitCategory abiCategory) {
+    private void processAbiCategory(ParserContext parserContext, @Nullable MutableSplitCategory abiCategory) {
         if (abiCategory == null)
             return;
 
         abiCategory.setDescription(mContext.getString(R.string.installerx_category_config_abi_desc, TextUtils.join(", ", Build.SUPPORTED_ABIS)));
 
-        scopeToModuleAndProcess(parserContext, abiCategory.parts(), this::processAbiParts);
+        scopeToModuleAndProcess(parserContext, abiCategory.getPartsList(), this::processAbiParts);
     }
 
-    private void processAbiParts(ParserContext parserContext, String module, List<SplitPart> parts) {
+    private void processAbiParts(ParserContext parserContext, String module, List<MutableSplitPart> parts) {
 
         Map<String, Integer> supportedAbisRanking = getSupportedAbisRanking();
-        SplitPart bestMatchingPart = null;
+        MutableSplitPart bestMatchingPart = null;
         int bestMatchingPartIndex = Integer.MAX_VALUE;
 
-        for (SplitPart part : parts) {
+        for (MutableSplitPart part : parts) {
             AbiConfigSplitMeta abiConfigSplitMeta = (AbiConfigSplitMeta) part.meta();
             Integer rank = supportedAbisRanking.get(abiConfigSplitMeta.abi());
             if (rank == null)
@@ -119,21 +119,21 @@ public class DeviceInfoAwarePostprocessor implements Postprocessor {
         return abisRanking;
     }
 
-    private void processLocaleCategory(ParserContext parserContext, @Nullable SplitCategory localeCategory) {
+    private void processLocaleCategory(ParserContext parserContext, @Nullable MutableSplitCategory localeCategory) {
         if (localeCategory == null)
             return;
 
         localeCategory.setDescription(mContext.getString(R.string.installerx_category_config_locale_desc, mContext.getResources().getConfiguration().locale.getDisplayLanguage()));
 
-        scopeToModuleAndProcess(parserContext, localeCategory.parts(), this::processLocaleParts);
+        scopeToModuleAndProcess(parserContext, localeCategory.getPartsList(), this::processLocaleParts);
     }
 
-    private void processLocaleParts(ParserContext parserContext, String module, List<SplitPart> parts) {
+    private void processLocaleParts(ParserContext parserContext, String module, List<MutableSplitPart> parts) {
         Map<String, Integer> langRanking = getPreferredLanguagesRanking();
 
-        SplitPart bestMatchingPart = null;
+        MutableSplitPart bestMatchingPart = null;
         int bestMatchingPartRank = Integer.MAX_VALUE;
-        for (SplitPart part : parts) {
+        for (MutableSplitPart part : parts) {
             LocaleConfigSplitMeta localeConfigSplitMeta = (LocaleConfigSplitMeta) part.meta();
 
             Locale partLocale = localeConfigSplitMeta.locale();
@@ -173,22 +173,22 @@ public class DeviceInfoAwarePostprocessor implements Postprocessor {
         }
     }
 
-    private void processScreenDensityCategory(ParserContext parserContext, @Nullable SplitCategory dpiCategory) {
+    private void processScreenDensityCategory(ParserContext parserContext, @Nullable MutableSplitCategory dpiCategory) {
         if (dpiCategory == null)
             return;
 
         dpiCategory.setDescription(mContext.getString(R.string.installerx_category_config_dpi_desc, mContext.getResources().getDisplayMetrics().densityDpi));
 
-        scopeToModuleAndProcess(parserContext, dpiCategory.parts(), this::processScreenDensityParts);
+        scopeToModuleAndProcess(parserContext, dpiCategory.getPartsList(), this::processScreenDensityParts);
     }
 
-    private void processScreenDensityParts(ParserContext parserContext, String module, List<SplitPart> parts) {
+    private void processScreenDensityParts(ParserContext parserContext, String module, List<MutableSplitPart> parts) {
 
         int deviceDpi = mContext.getResources().getDisplayMetrics().densityDpi;
-        SplitPart bestPart = null;
+        MutableSplitPart bestPart = null;
         int bestPartDelta = Integer.MAX_VALUE;
 
-        for (SplitPart part : parts) {
+        for (MutableSplitPart part : parts) {
             ScreenDestinyConfigSplitMeta dpiConfigSplitMeta = (ScreenDestinyConfigSplitMeta) part.meta();
 
             int delta = Math.abs(deviceDpi - dpiConfigSplitMeta.density());
@@ -206,7 +206,7 @@ public class DeviceInfoAwarePostprocessor implements Postprocessor {
         }
     }
 
-    private void processUnknownCategory(ParserContext parserContext, @Nullable SplitCategory unknownCategory) {
+    private void processUnknownCategory(ParserContext parserContext, @Nullable MutableSplitCategory unknownCategory) {
         if (unknownCategory == null)
             return;
 

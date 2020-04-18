@@ -1,4 +1,4 @@
-package com.aefyr.sai.installerx;
+package com.aefyr.sai.installerx.common;
 
 import androidx.annotation.Nullable;
 

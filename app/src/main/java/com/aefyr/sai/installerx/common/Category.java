@@ -1,4 +1,4 @@
-package com.aefyr.sai.installerx;
+package com.aefyr.sai.installerx.common;
 
 public enum Category {
     BASE_APK("base"),
