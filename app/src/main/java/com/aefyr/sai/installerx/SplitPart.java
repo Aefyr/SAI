@@ -32,11 +32,6 @@ public class SplitPart {
         return mMeta;
     }
 
-    /**
-     * Id is equal to the entry name in an archive
-     *
-     * @return id of this part
-     */
     public String id() {
         return mId;
     }
@@ -46,6 +41,10 @@ public class SplitPart {
      */
     public String localPath() {
         return mLocalPath;
+    }
+
+    public void setName(String name) {
+        mName = name;
     }
 
     public String name() {

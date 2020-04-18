@@ -234,8 +234,6 @@ public class DefaultSplitApkSourceMetaResolver implements SplitApkSourceMetaReso
             if (!seenBaseApk)
                 return createErrorResult(R.string.installerx_dsas_meta_resolver_error_no_base_apk, true);
 
-            for (Postprocessor postprocessor : mPostprocessors)
-                postprocessor.process(parserContext);
 
             AppMeta appMeta = mAppMetaExtractor.extract(apkSourceFile, baseApkEntry);
             if (appMeta == null)
@@ -246,8 +244,13 @@ public class DefaultSplitApkSourceMetaResolver implements SplitApkSourceMetaReso
             if (versionName != null)
                 appMeta.versionName = versionName;
 
+            parserContext.setAppMeta(appMeta);
 
-            return ApkSourceMetaResolutionResult.success(new SplitApkSourceMeta(appMeta, parserContext.getCategoriesList(), Collections.emptyList(), parserContext.getNotices()));
+            for (Postprocessor postprocessor : mPostprocessors)
+                postprocessor.process(parserContext);
+
+
+            return ApkSourceMetaResolutionResult.success(new SplitApkSourceMeta(parserContext.getAppMeta(), parserContext.getCategoriesList(), Collections.emptyList(), parserContext.getNotices()));
         }
     }
 

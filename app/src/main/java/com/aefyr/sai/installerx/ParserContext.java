@@ -2,6 +2,7 @@ package com.aefyr.sai.installerx;
 
 import androidx.annotation.Nullable;
 
+import com.aefyr.sai.installerx.resolver.appmeta.AppMeta;
 import com.aefyr.sai.installerx.resolver.meta.Notice;
 
 import java.util.ArrayList;
@@ -14,6 +15,7 @@ public class ParserContext {
     private Map<Category, SplitCategory> mIndex = new HashMap<>();
     private List<SplitCategory> mCategories = new ArrayList<>();
     private List<Notice> mNotices = new ArrayList<>();
+    private AppMeta mAppMeta;
 
     public ParserContext() {
 
@@ -48,6 +50,14 @@ public class ParserContext {
 
     public List<Notice> getNotices() {
         return mNotices;
+    }
+
+    public void setAppMeta(AppMeta appMeta) {
+        mAppMeta = appMeta;
+    }
+
+    public AppMeta getAppMeta() {
+        return mAppMeta;
     }
 
 }

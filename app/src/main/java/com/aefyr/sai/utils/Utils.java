@@ -158,6 +158,15 @@ public class Utils {
         return fileName.substring(lastDotIndex + 1);
     }
 
+    @Nullable
+    public static String getFileNameWithoutExtension(String fileName) {
+        int lastDotIndex = fileName.lastIndexOf('.');
+        if (lastDotIndex == -1)
+            return null;
+
+        return fileName.substring(0, lastDotIndex);
+    }
+
     public static void softRestartApp(Context c) {
         ActivityManager activityManager = (ActivityManager) c.getSystemService(Context.ACTIVITY_SERVICE);
         for (ActivityManager.AppTask task : activityManager.getAppTasks())
