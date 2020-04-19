@@ -112,7 +112,7 @@ public class InstallerXDialogViewModel extends AndroidViewModel {
         }
 
         for (UriMessResolutionResult resolutionResult : mResolutionResults) {
-            if (!resolutionResult.isSuccessful())
+            if (!resolutionResult.isSuccessful() && !resolutionResult.error().doesTryingToInstallNonethelessMakeSense())
                 continue;
 
             ApkSourceBuilder apkSourceBuilder = null;
