@@ -102,6 +102,9 @@ public class IOUtils {
     }
 
     public static void closeSilently(Closeable closeable) {
+        if (closeable == null)
+            return;
+
         try {
             closeable.close();
         } catch (Exception e) {
