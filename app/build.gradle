@@ -62,7 +62,6 @@ dependencies {
 
     //Google services
     normalImplementation 'com.google.firebase:firebase-analytics:17.3.0'
-    normalImplementation 'com.google.firebase:firebase-common:19.3.0'
     normalImplementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
     normalImplementation 'com.android.billingclient:billing:2.2.0'
 
