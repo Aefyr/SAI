@@ -10,6 +10,7 @@ android {
         versionCode 52
         versionName "3.10"
     }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -41,24 +42,27 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
+
     implementation 'androidx.appcompat:appcompat:1.1.0'
-    implementation 'com.google.android.material:material:1.2.0-alpha05'
+    implementation 'androidx.documentfile:documentfile:1.0.1'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
+    implementation 'androidx.lifecycle:lifecycle-common-java8:2.2.0'
     implementation 'androidx.preference:preference:1.1.0'
-    implementation 'com.github.aefyr:pseudoapksigner:1.6'
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
+    implementation 'com.google.android.material:material:1.2.0-alpha05'
+
     implementation 'com.github.bumptech.glide:glide:4.11.0'
     implementation 'moe.shizuku.privilege:api:3.1.0'
-    implementation 'android.arch.lifecycle:common-java8:2.1.0'
     implementation 'com.google.android:flexbox:2.0.1'
-    implementation 'androidx.recyclerview:recyclerview:1.1.0'
-    implementation 'androidx.documentfile:documentfile:1.0.1'
-    implementation 'com.github.aefyr.flexfilter:flexfilter:0.9-alpha'
-    implementation 'com.tomergoldst.android:tooltips:1.0.10'
+    implementation 'com.tomergoldst.android:tooltips:1.0.11'
     implementation 'com.google.code.gson:gson:2.8.6'
     implementation 'com.facebook.shimmer:shimmer:0.5.0'
+    implementation 'com.github.aefyr.flexfilter:flexfilter:0.9-alpha'
+    implementation 'com.github.aefyr:pseudoapksigner:1.6'
 
     //Google services
-    normalImplementation 'com.google.firebase:firebase-core:17.3.0'
+    normalImplementation 'com.google.firebase:firebase-analytics:17.3.0'
+    normalImplementation 'com.google.firebase:firebase-common:19.3.0'
     normalImplementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
     normalImplementation 'com.android.billingclient:billing:2.2.0'
 
