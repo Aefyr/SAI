@@ -130,7 +130,7 @@
     <string name="backup_export_all_splits_prompt">Czy chcesz wyeksportować wszystkie split APK?</string>
     <string name="backup_export_selected_apps_prompt">test</string>
     <string name="backup_preparing">Przygotowywanie aplikacji...</string>
-    <string name="backup_enqueue">Kolejka</string>
+    <string name="backup_enqueue">Export</string>
     <string name="backup_dialog_title">Wybierz split APK do eksportu</string>
     <string name="backup_load_splits_error">Nie można uzyskać podzielonych części APK</string>
     <string name="backup_splits_loading">Ładowanie...</string>
@@ -160,11 +160,13 @@
     <string name="settings_main_use_root_summary">Spróbuj użyć instalatora root. Jeśli SAI nie jest w stanie uzyskać dostępu do roota, wróci do instalatora bez roota</string>
     <string name="settings_main_use_root_error">Nie udało się uzyskać dostępu do roota</string>
     <string name="settings_main_sign_apks">Podpisuj APK</string>
-    <string name="settings_main_sign_apks_summary">Podpisuj APK przed instalacją</string>
+    <string name="settings_main_sign_apks_summary">Podpisuj APK przed instalacją.</string>
     <string name="settings_main_extract_archives">Wyodrębnij APK z archiwów</string>
     <string name="settings_main_extract_archives_summary">Wyodrębnij pliki APK z archiwów .zip/.apks do plików tymczasowych przed ich zainstalowaniem. Jeśli wyłączone, SAI zainstaluje APK bezpośrednio z archiwów bez plików tymczasowych. Nie zaleca się włączenia tej opcji.</string>
     <string name="settings_main_use_zipfile">Użyj API ZipFile</string>
     <string name="settings_main_use_zipfile_summary">Użyj API ZipFile do odczytu archiwów ZIP (w tym plików .apks), opcja rozwiązuje problemy z kompatybilnością z niektórymi archiwami. Nie zaleca się włączać, chyba że komunikat o błędzie instalatora o to zapyta. W innym wypadku może powodować tylko komplikacje.</string>
+    <string name="settings_main_use_brute_parser">Wymuś przetwarzanie APK</string>
+    <string name="settings_main_use_brute_parser_summary">W trybie Pro kiedy SAI nie jest w stanie znaleźć metadanych (takich jak ikona i tytuł) aplikacji w źródle (np. w plikach .apks lub archiwum ZIP), skopiuje bazowy APK do pliku tymczasowego i przetworzy go bezpośrednio, aby uzyskać metadane o aplikacji. SAI nie kopiuje i nie analizuje APK większych niż 100 MB.</string>
     <string name="settings_main_reset_one_time_warnings">Resetuj jednorazowe ostrzeżenia</string>
     <string name="settings_main_installer">Instalator</string>
     <string name="settings_main_installer_summary">Instalator używany do instalacji APKs.\nObecnie: %s</string>
@@ -182,6 +184,7 @@
     <string name="settings_main_installer_show_dialogs">Pokazuj okna dialogowe instalatora</string>
     <string name="settings_main_installer_show_dialogs_summary">Pokaż okna dialogowe gdy instalacja zakończy się niepowodzeniem lub sukcesem. Zawsze możesz otworzyć te okna dialogowe ręcznie, naciskając na wpis sesji instalacyjnej. Dotyczy tylko nowego instalatora.</string>
     <string name="settings_category_main_installer">Instalator</string>
+    <string name="settings_category_main_parser">Parser</string>
     <string name="settings_category_main_export">Eksportuj</string>
     <string name="settings_category_main_other">Inne</string>
     <string name="settings_category_main_ui">Interfejs użytkownika</string>
@@ -195,7 +198,9 @@
     <string name="settings_main_auto_theme_picker_summary">Bieżący jasny motyw: %s\nBieżący ciemny motyw: %s</string>
     <string name="settings_main_auto_theme_pre_q_warning">Pamiętaj, że następujący motyw może nie działać poprawnie w wersji Androida niższej niż Q</string>
     <string name="settings_main_use_installerx">Tryb Pro</string>
-    <string name="settings_main_use_installerx_summary">Włącz tryb instalatora Pro, który pozwala na wybranie części plików do instalacji z pliku .apks (lub innych archiwów z wieloma plikami APK). Tryb Pro jest eksperymentalny i może działać niepoprawnie, raporty błędów są mile widziane</string>
+    <string name="settings_main_use_installerx_summary">Włącz tryb instalatora Pro, który pozwala na wybranie części plików do instalacji z pliku .apks (lub innych archiwów z wieloma plikami APK). Tryb Pro jest eksperymentalny i może działać niepoprawnie, raporty błędów są mile widziane.</string>
+    <string name="settings_main_enable_firebase">Firebase</string>
+    <string name="settings_main_enable_firebase_summary">Zbieraj błędy i dane użycia aplikacji przez Firebase. Dowiedz się więcej o danych gromadzonych w polityce prywatności, którą można znaleźć w zakładce \"O aplikacji\". Zmiana tego ustawienia może nie być zastosowana dopóki nie zrestartujesz SAI.</string>
     <string name="name_format_builder_title">Wybierz części do uwzględnienia w eksportowanej nazwie aplikacji</string>
     <string name="name_format_builder_preview">Podgląd: %s</string>
     <string name="name_format_builder_preview_empty">Wybierz co najmniej jedną część</string>
@@ -212,6 +217,7 @@
     <string name="mi_continue_countdown">Możesz kontynuować za %d s.</string>
     <string name="mi_continue">Kontynuuj</string>
     <string name="mi_miui_version">Wersja MIUI - %1$s (%2$d (%3$s))</string>
+    <string name="mi_consequences">W zależności od Twojej wersji MIUI, wyłączenie optymalizacji MIUI może nic nie robić, zresetować uprawnienia aplikacji lub mieć inne nieoczekiwane konsekwencje.</string>
     <string name="donate_message_not_donated">Witaj. Jak wiesz, SAI jest całkowicie darmową aplikacją open-source i zawsze nią pozostanie. Jeśli podoba Ci się to rozważ wsparcie SAI poprzez przekazanie darowizny. Otrzymasz również motyw <b>Złoty SAI</b>!</string>
     <string name="donate_message_donated">Ogromne podziękowania za wsparcie SAI!\nNie zapomnij sprawdzić swojego nowego motywu <b>Złoty SAI</b></string>
     <string name="donate_message_floss">Witaj. Używasz wersji FLOSS SAI. Jak wiesz, SAI jest całkowicie darmową aplikacją open-source i zawsze nią pozostanie. Jeśli Ci się to podoba proszę rozważ wsparcie SAI poprzez dokonanie darowizny.\n\nW wersji FLOSS motyw <b>FLOSS Gold</b> jest domyślnie dostępny.</string>
@@ -243,6 +249,7 @@
     <string name="installerx_split_config_abi_for_base">Kod %s dla base APK</string>
     <string name="installerx_split_config_abi_for_module">Kod %1$s dla funkcji \"%2$s\"</string>
     <string name="installerx_category_config_locale">Konfiguracja: Język</string>
+    <string name="installerx_category_config_locale_desc">Twój preferowany język - %s</string>
     <string name="installerx_split_config_locale_for_base">Lokalizacja %s dla base APK</string>
     <string name="installerx_split_config_locale_for_module">Lokalizacja %1$s dla funkcji \"%2$s\"</string>
     <string name="installerx_category_config_dpi">Konfiguracja: Zasoby DPI</string>
@@ -250,7 +257,7 @@
     <string name="installerx_split_config_dpi_for_base">%1$s (%2$d DPI) zasoby dla base APK</string>
     <string name="installerx_split_config_dpi_for_module">%1$s (%2$d DPI) zasoby dla funkcji \"%3$s\"</string>
     <string name="installerx_category_unknown">Nieznane</string>
-    <string name="installerx_category_unknown_desc">Split APK parts with unknown purpose, please open an issue on SAI\'s GitHub and attach this APK or at least a screenshot of parts names if you encounter this. It is highly recommended to install these parts unless you know their exact purpose</string>
+    <string name="installerx_category_unknown_desc">Istnieją części pliku split APK, które nie mają określonego celu. Jeśli spotkasz się z tym problemem, utwórz problem na GitHubie projektu SAI i załącz ten plik APK bądź zrzut ekranu z nazwami części. Zalecana jest instalacja tych części do momentu, aż dowiesz się o ich dokładnym zastosowaniu</string>
     <string name="installerx_default_mess_resolver_error_unknown_extension">Nieoczekiwane rozszerzenie pliku: %s</string>
     <string name="installerx_dsas_meta_resolver_error_no_manifest">AndroidManifest.xml nie został znaleziony w APK</string>
     <string name="installerx_dsas_meta_resolver_error_dup_manifest_entry">Znaleziono duplikat wpisu manifestu w AndroidManifest.xml</string>
@@ -283,4 +290,5 @@
     <string name="about_donate">Dotacja</string>
     <string name="about_licenses">Licencje</string>
     <string name="about_translate">Pomóż przetłumaczyć SAI</string>
+    <string name="about_privacy">Polityka Prywatności</string>
 </resources>

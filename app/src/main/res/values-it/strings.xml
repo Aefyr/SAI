@@ -14,7 +14,7 @@
     <string name="permissions_required_storage">SAI richiede l\'autorizzazione per accedere alla memoria</string>
     <string name="permissions_required_shizuku">SAI richiede l\'autorizzazione per usare il Server Shizuku</string>
     <string name="main_installer">Installazione</string>
-    <string name="main_backup">Esportazione</string>
+    <string name="main_backup">Esportare</string>
     <string name="main_navigation_disabled">Impossibile eseguire l\'apertura durante un\'installazione in corso</string>
     <string name="installer_installation_confirmation">Installare \"%s\"?</string>
     <string name="installer_installation_failed">App non installata</string>
@@ -130,7 +130,7 @@
     <string name="backup_export_all_splits_prompt">Vuoi esportare tutti gli APK suddivisi?</string>
     <string name="backup_export_selected_apps_prompt">Vuoi esportare le %d applicazioni selezionate?</string>
     <string name="backup_preparing">Preparazione delle applicazioni...</string>
-    <string name="backup_enqueue">Accoda</string>
+    <string name="backup_enqueue">Esportare</string>
     <string name="backup_dialog_title">Seleziona le parti suddivise degli APK da esportare</string>
     <string name="backup_load_splits_error">Impossibile ottenere le parti APK suddivise</string>
     <string name="backup_splits_loading">Caricamento...</string>
@@ -164,7 +164,9 @@
     <string name="settings_main_extract_archives">Estrai APK dagli archivi</string>
     <string name="settings_main_extract_archives_summary">Estrai i file APK dagli archivi .zip/.apks sotto forma di file temporanei prima dell\'installazione. Se disabilitato, SAI installerà gli APK direttamente dagli archivi senza generare file temporanei. Abilitazione non consigliata</string>
     <string name="settings_main_use_zipfile">Utilizza API ZipFile</string>
-    <string name="settings_main_use_zipfile_summary">L\'utilizzo dell\'API ZipFile per la lettura di archivi ZIP (compresi i file .apks) risolve i problemi di compatibilità con alcuni archivi. Non è consigliato attivare questa funzionalità a meno che un messaggio di errore di installazione non lo richieda esplicitamente, in quanto tale metodo comporta un consumo ulteriore e non necessario di risorse</string>
+    <string name="settings_main_use_zipfile_summary">L\'utilizzo dell\'API ZipFile per la lettura di archivi ZIP (compresi i file .apks), risolve i problemi di compatibilità con alcuni archivi. È sconsigliata l\'attivazione in assenza di errori specifici perché ció consumerebbe più risorse senza una reale necessità</string>
+    <string name="settings_main_use_brute_parser">Fallback di analisi APK</string>
+    <string name="settings_main_use_brute_parser_summary">In modalità Pro, quando SAI non è in grado di rilevare informazioni meta (come icona e titolo) all\'interno di una sorgente dell\'app (ad esempio un file .apks o un archivio ZIP), copierà l\'APK base in un file temporaneo e lo analizzerà direttamente per ottenere le informazioni sull\'app. SAI non copierà e analizzerà gli APK più grandi di 100 MB</string>
     <string name="settings_main_reset_one_time_warnings">Resetta avvisi una tantum</string>
     <string name="settings_main_installer">Installazione</string>
     <string name="settings_main_installer_summary">Programma utilizzato per l\'installazione di APK.\nAl momento: %s</string>
@@ -182,6 +184,7 @@
     <string name="settings_main_installer_show_dialogs">Mostra finestre di installazione</string>
     <string name="settings_main_installer_show_dialogs_summary">Mostra le finestre di dialogo quando l\'installazione fallisce o ha successo. Puoi sempre aprire quelle finestre manualmente toccando la sessione di installazione. Ha effetto solo sul nuovo programma di installazione</string>
     <string name="settings_category_main_installer">Installazione</string>
+    <string name="settings_category_main_parser">Analizzatore</string>
     <string name="settings_category_main_export">Esporta</string>
     <string name="settings_category_main_other">Altro</string>
     <string name="settings_category_main_ui">UI</string>
@@ -195,7 +198,9 @@
     <string name="settings_main_auto_theme_picker_summary">Tema chiaro attuale: %s\nTema scuro attuale: %s</string>
     <string name="settings_main_auto_theme_pre_q_warning">Si prega di notare che l\'automazione del cambio tema in base all\'impostazione di sistema potrebbe non funzionare correttamente su versioni inferiori ad Android 10</string>
     <string name="settings_main_use_installerx">Modalità pro</string>
-    <string name="settings_main_use_installerx_summary">L\'attivazione della modalità installazione Pro ti permetterà di selezionare le parti da installare da un file .apks (o altra tipologia di archivio contenente file APK multipli). Prendi nota che la modalità Pro è in fase sperimentale e potrebbe non funzionare correttamente, ogni suggerimento in merito è ben accetto</string>
+    <string name="settings_main_use_installerx_summary">La modalità installazione Pro permette la selezione di parti da un file .apks (o altri archivi con APK multipli). Ricorda che la modalità Pro è sperimentale e potrebbe non funzionare correttamente, si accettano suggerimenti</string>
+    <string name="settings_main_enable_firebase">Firebase</string>
+    <string name="settings_main_enable_firebase_summary">Raccogli informazioni sugli errori ed i dati di utilizzo delle app con Firebase. Ulteriori informazioni sui dati raccolti sono elencate nell\'Informativa sulla Privacy accessibile a schermo. Eventuali cambiamenti a questa impostazione potrebbero non risultare completamente applicati fino al successivo riavvio di SAI</string>
     <string name="name_format_builder_title">Seleziona le parti da includere nel nome dell\'app esportata</string>
     <string name="name_format_builder_preview">Anteprima: %s</string>
     <string name="name_format_builder_preview_empty">Seleziona almeno una parte</string>
@@ -212,6 +217,7 @@
     <string name="mi_continue_countdown">Puoi continuare in %d s.</string>
     <string name="mi_continue">Continua</string>
     <string name="mi_miui_version">Versione MIUI - %1$s (%2$d (%3$s))</string>
+    <string name="mi_consequences">A seconda della tua versione MIUI, disattivare l\'ottimizzazione MIUI potrebbe non sortire alcun effetto, reimpostare i permessi delle app o avere altre conseguenze inaspettate</string>
     <string name="donate_message_not_donated">Ciao. Come forse saprai, SAI è un\'app completamente gratuita ed open source, e continuerà ad esserlo anche in futuro. Se ti piace, per favore considera di fare una donazione. Otterrai anche il tema leggendario <b>SAI Oro</b>!</string>
     <string name="donate_message_donated">A te va un grande ringraziamento per il supporto offerto a SAI!\nNon dimenticare di dare un\'occhiata al tuo nuovo tema <b>SAI Oro</b></string>
     <string name="donate_message_floss">Ciao. Stai utilizzando la versione FLOSS di SAI. Come forse saprai, SAI è un\'app completamente gratuita ed open source, e continuerà ad esserlo anche in futuro. Se ti piace, per favore considera di fare una donazione.\n\nNella versione FLOSS, il tema <b>FLOSS Oro</b> è disponibile in maniera predefinita.</string>
@@ -243,6 +249,7 @@
     <string name="installerx_split_config_abi_for_base">%s codice per base APK</string>
     <string name="installerx_split_config_abi_for_module">Codice %1$s per funzionalità \"%2$s\"</string>
     <string name="installerx_category_config_locale">Configurazione: Locale</string>
+    <string name="installerx_category_config_locale_desc">La tua lingua preferita - %s</string>
     <string name="installerx_split_config_locale_for_base">%s impostazioni locali per base APK</string>
     <string name="installerx_split_config_locale_for_module">%1$s impostazioni locali per funzionalità \"%2$s\"</string>
     <string name="installerx_category_config_dpi">Configurazione: Risorse DPI</string>
@@ -250,7 +257,7 @@
     <string name="installerx_split_config_dpi_for_base">%1$s (%2$d DPI) risorse per base APK</string>
     <string name="installerx_split_config_dpi_for_module">%1$s (%2$d DPI) risorse per la funzionalità \"%3$s\"</string>
     <string name="installerx_category_unknown">Sconosciuto</string>
-    <string name="installerx_category_unknown_desc">Split APK parts with unknown purpose, please open an issue on SAI\'s GitHub and attach this APK or at least a screenshot of parts names if you encounter this. It is highly recommended to install these parts unless you know their exact purpose</string>
+    <string name="installerx_category_unknown_desc">Non sono state trovate ulteriori informazioni sulle parti suddivise dell\'APK, si prega di effettuare una segnalazione errori sulla pagina GitHub di SAI ed allegare questo APK o se possibile almeno una foto dei nomi delle parti. Si consiglia vivamente di installare queste parti a meno che tu non ne conosca lo scopo esatto</string>
     <string name="installerx_default_mess_resolver_error_unknown_extension">Estensione file inattesa: %s</string>
     <string name="installerx_dsas_meta_resolver_error_no_manifest">AndroidManifest.xml non trovato in un APK</string>
     <string name="installerx_dsas_meta_resolver_error_dup_manifest_entry">Trovata voce manifesto duplicata in AndroidManifest.xml</string>
@@ -283,4 +290,5 @@
     <string name="about_donate">Donare</string>
     <string name="about_licenses">Licenze</string>
     <string name="about_translate">Contribuisci alla traduzione di SAI</string>
+    <string name="about_privacy">Informativa sulla Privacy</string>
 </resources>

@@ -9,8 +9,8 @@
     <string name="copy2">Copiar</string>
     <string name="copied">Copiado</string>
     <string name="dont_show_again">Não mostrar novamente</string>
-    <string name="filepicker_internal">Internal file picker</string>
-    <string name="filepicker_saf">System file picker</string>
+    <string name="filepicker_internal">Seletor de arquivos interno</string>
+    <string name="filepicker_saf">Seletor de arquivos do sistema</string>
     <string name="permissions_required_storage">O SAI requer permissão para acessar o armazenamento</string>
     <string name="permissions_required_shizuku">O SAI requer permissão para usar o Shizuku Server</string>
     <string name="main_installer">Instalações</string>
@@ -130,7 +130,7 @@
     <string name="backup_export_all_splits_prompt">Deseja exportar todos os APKs divididos?</string>
     <string name="backup_export_selected_apps_prompt">Você quer exportar %d aplicativos selecionados?</string>
     <string name="backup_preparing">Preparando aplicativos...</string>
-    <string name="backup_enqueue">Enfileirar</string>
+    <string name="backup_enqueue">Exportar</string>
     <string name="backup_dialog_title">Selecione partes APK separadas para exportar</string>
     <string name="backup_load_splits_error">Não foi possível obter partes do APK divididas</string>
     <string name="backup_splits_loading">Carregando...</string>
@@ -165,6 +165,8 @@
     <string name="settings_main_extract_archives_summary">Extrair arquivos APK de documentos .zip/.apks em arquivos temporários antes de instalá-los. Se desativado, o SAI instalará APKs diretamente de documentos sem arquivos temporários. Não recomendado para ativar</string>
     <string name="settings_main_use_zipfile">Usar ZipFile API</string>
     <string name="settings_main_use_zipfile_summary">Usar ZipFile API para ler arquivos ZIP (incluindo arquivos .apks), resolve problemas de compatibilidade com alguns arquivos. Não é recomendável ativar, a menos que uma mensagem de erro do instalador solicite, pois isso adiciona uma sobrecarga desnecessária</string>
+    <string name="settings_main_use_brute_parser">Reverter para a análise de APK</string>
+    <string name="settings_main_use_brute_parser_summary">No modo Pro, quando o SAI for incapaz de encontrar informações de meta (como ícone e título) sobre um aplicativo na fonte (como um arquivo .apks ou arquivo ZIP), ele irá copiar o APK base para um arquivo temporário e analisá-lo diretamente para obter informações meta sobre o aplicativo. O SAI não copiará e analisará APKs maiores que 100MBs</string>
     <string name="settings_main_reset_one_time_warnings">Redefinir avisos únicos</string>
     <string name="settings_main_installer">Instalações</string>
     <string name="settings_main_installer_summary">Instalador a ser usado para instalação de APKs.\nAtualmente: %s</string>
@@ -182,6 +184,7 @@
     <string name="settings_main_installer_show_dialogs">Mostrar diálogos do instalador</string>
     <string name="settings_main_installer_show_dialogs_summary">Mostrar caixas de diálogo quando a instalação falhar ou for bem-sucedida. Você sempre pode abrir essas caixas de diálogo manualmente tocando na entrada da sessão de instalação. Afeta apenas o novo instalador</string>
     <string name="settings_category_main_installer">Instalações</string>
+    <string name="settings_category_main_parser">Analisador</string>
     <string name="settings_category_main_export">Exportações</string>
     <string name="settings_category_main_other">Outro</string>
     <string name="settings_category_main_ui">Interface</string>
@@ -193,9 +196,11 @@
     <string name="settings_main_auto_theme_summary">Alternar automaticamente entre os temas claros e escuros selecionados, dependendo do tema do sistema</string>
     <string name="settings_main_auto_theme_picker">Escolher temas</string>
     <string name="settings_main_auto_theme_picker_summary">Tema claro atual: %s\nTema escuro atual: %s</string>
-    <string name="settings_main_auto_theme_pre_q_warning">Please note that following the system theme may not work correctly on Android versions lower than Q</string>
-    <string name="settings_main_use_installerx">Pro mode</string>
-    <string name="settings_main_use_installerx_summary">Enable installer Pro mode that allows you to select parts to install from a .apks file (or other archives with multiple APK files). Please note that Pro mode is experimental and it may not work properly, feedback is welcome</string>
+    <string name="settings_main_auto_theme_pre_q_warning">Por favor, note que seguir o tema do sistema pode não funcionar corretamente nas versões do Android inferiores ao Q</string>
+    <string name="settings_main_use_installerx">Modo Pro</string>
+    <string name="settings_main_use_installerx_summary">Habilitar o modo Pro do instalador permite você selecionar partes para instalar a partir de um arquivo .apks (ou outros arquivos com vários arquivos APK). Por favor, note que o modo Pro é experimental e que pode não funcionar corretamente, feedbacks são bem-vindos</string>
+    <string name="settings_main_enable_firebase">Firebase</string>
+    <string name="settings_main_enable_firebase_summary">Colete erros e dados de uso de aplicativos com o Firebase. Você pode saber mais sobre os dados que estão sendo coletados na Política de Privacidade e que você pode ver na tela. Alterações nesta configuração não serão devidamente aplicadas até que seja reiniciado o SAI</string>
     <string name="name_format_builder_title">Selecione as opções a serem incluídas no nome do aplicativo exportado</string>
     <string name="name_format_builder_preview">Pré-visualização: %s</string>
     <string name="name_format_builder_preview_empty">Por favor, selecione pelo menos uma parte</string>
@@ -212,6 +217,7 @@
     <string name="mi_continue_countdown">Você pode continuar em %d s.</string>
     <string name="mi_continue">Continuar</string>
     <string name="mi_miui_version">Versão da MIUI - %1$s (%2$d (%3$s))</string>
+    <string name="mi_consequences">Depending on your MIUI version, turning off MIUI optimization may do nothing, reset apps permissions or have other unexpected consequences</string>
     <string name="donate_message_not_donated">Olá. Como você sabe, o SAI é um aplicativo de código aberto completamente gratuito e sempre permanecerá assim. Se você gostar, por favor considere apoiar o SAI fazendo uma doação. Você também terá o tema lendário <b>SAI Gold</b>!</string>
     <string name="donate_message_donated">Muito obrigado por apoiar o SAI!\nNão se esqueça de verificar o seu novo tema <b>SAI Gold</b></string>
     <string name="donate_message_floss">Olá. Você está usando a versão FLOSS do SAI. Como você sabe, o SAI é um aplicativo open-source completamente gratuito e sempre permanecerá assim. Se você gostar, por favor considere apoiar o SAI fazendo uma doação.\n\nNa versão FLOSS, o tema <b>FLOSS Gold</b> está disponível por padrão.</string>
@@ -224,11 +230,11 @@
     <string name="donate_dialog_close">Não mostrar novamente</string>
     <string name="donate_dialog_go_to_donate_page">Ir para tela de doação</string>
     <string name="donate_dialog_title">Doação</string>
-    <string name="installerx_dialog_title">Customize installation</string>
-    <string name="installerx_dialog_choose_filepicker">How do you want to select files to install?</string>
-    <string name="installerx_dialog_loading">Parsing APKs…</string>
-    <string name="installerx_dialog_install">Install</string>
-    <string name="installerx_dialog_error">SAI has encountered an unexpected error while trying to parse selected file(s)</string>
+    <string name="installerx_dialog_title">Personalizar instalação</string>
+    <string name="installerx_dialog_choose_filepicker">Como você deseja selecionar os arquivos a serem instalados?</string>
+    <string name="installerx_dialog_loading">Analisando APKs…</string>
+    <string name="installerx_dialog_install">Instalar</string>
+    <string name="installerx_dialog_error">SAI encontrou um erro inesperado durante a análise dos arquivos selecionados</string>
     <string name="installerx_dialog_resolution_error_non_critical">Parser has encountered the following error:\n\n%s\n\nDo you want to try installing selected files anyway? Even if SAI was unable to parse them, Android may still be able to install them successfully</string>
     <string name="installerx_dialog_resolution_error_critical">Parser has encountered a critical error:\n\n%s</string>
     <string name="installerx_dialog_warn_multiple_files">Multiple files selected, to customize installation you should select a single file. Do you want to install all of the selected files without customization?</string>
@@ -243,6 +249,7 @@
     <string name="installerx_split_config_abi_for_base">%s code for base APK</string>
     <string name="installerx_split_config_abi_for_module">%1$s code for feature \"%2$s\"</string>
     <string name="installerx_category_config_locale">Configuration: Locale</string>
+    <string name="installerx_category_config_locale_desc">Your preferred language - %s</string>
     <string name="installerx_split_config_locale_for_base">%s locale for base APK</string>
     <string name="installerx_split_config_locale_for_module">%1$s locale for feature \"%2$s\"</string>
     <string name="installerx_category_config_dpi">Configuration: DPI Resources</string>
@@ -283,4 +290,5 @@
     <string name="about_donate">Doação</string>
     <string name="about_licenses">Licenças</string>
     <string name="about_translate">Ajuda para traduzir SAI</string>
+    <string name="about_privacy">Privacy Policy</string>
 </resources>

@@ -9,8 +9,8 @@
     <string name="copy2">複製</string>
     <string name="copied">Copied</string>
     <string name="dont_show_again">不再顯示</string>
-    <string name="filepicker_internal">Internal file picker</string>
-    <string name="filepicker_saf">System file picker</string>
+    <string name="filepicker_internal">內部文件選擇題</string>
+    <string name="filepicker_saf">作業系統文件選擇器（SAF）</string>
     <string name="permissions_required_storage">SAI 需要訪問存儲的權限</string>
     <string name="permissions_required_shizuku">SAI requires permission to use Shizuku Server</string>
     <string name="main_installer">安裝</string>
@@ -130,7 +130,7 @@
     <string name="backup_export_all_splits_prompt">要導出所有 Split APK 吗？</string>
     <string name="backup_export_selected_apps_prompt">Do you want to export %d selected apps?</string>
     <string name="backup_preparing">準備應用程式...</string>
-    <string name="backup_enqueue">加入對列（Enqueue）</string>
+    <string name="backup_enqueue">Export</string>
     <string name="backup_dialog_title">選擇要導出的 split APK</string>
     <string name="backup_load_splits_error">無法獲取 split APK 組件</string>
     <string name="backup_splits_loading">載入中…</string>
@@ -165,6 +165,8 @@
     <string name="settings_main_extract_archives_summary">在安裝之前，將 .zip/.apks 壓縮包中的 APK文件 解壓縮到臨時文件中。如果禁用，SAI將直接從沒有臨時文件的壓縮包中安裝APK。不建議啟用</string>
     <string name="settings_main_use_zipfile">使用 ZipFile API</string>
     <string name="settings_main_use_zipfile_summary">Use ZipFile API to read ZIP archives (including .apks files), solves compatibility issues with some archives. Not recommended to enable unless an installer error message asks you to because this adds otherwise unnecessary overhead</string>
+    <string name="settings_main_use_brute_parser">Fallback to parsing APK</string>
+    <string name="settings_main_use_brute_parser_summary">In Pro mode, when SAI is unable to find meta information (such as icon and title) about an app in the source (such as a .apks file or a ZIP archive), it will copy the base APK to a temp file and parse it directly to obtain meta information about the app. SAI will not copy and parse APKs larger than 100MBs</string>
     <string name="settings_main_reset_one_time_warnings">重置一次性警告</string>
     <string name="settings_main_installer">Installer</string>
     <string name="settings_main_installer_summary">Installer to use for APKs installation.\nCurrently: %s</string>
@@ -182,6 +184,7 @@
     <string name="settings_main_installer_show_dialogs">展示安裝界面</string>
     <string name="settings_main_installer_show_dialogs_summary">無論安裝成功與否，一律展示（作業系統的）安裝界面。你也可以輕觸安裝隊列中的應用程式來手動打開安裝界面。（立即生效）</string>
     <string name="settings_category_main_installer">安裝</string>
+    <string name="settings_category_main_parser">Parser</string>
     <string name="settings_category_main_export">導出</string>
     <string name="settings_category_main_other">雜項</string>
     <string name="settings_category_main_ui">應用程式界面</string>
@@ -196,6 +199,8 @@
     <string name="settings_main_auto_theme_pre_q_warning">Please note that following the system theme may not work correctly on Android versions lower than Q</string>
     <string name="settings_main_use_installerx">Pro mode</string>
     <string name="settings_main_use_installerx_summary">Enable installer Pro mode that allows you to select parts to install from a .apks file (or other archives with multiple APK files). Please note that Pro mode is experimental and it may not work properly, feedback is welcome</string>
+    <string name="settings_main_enable_firebase">Firebase</string>
+    <string name="settings_main_enable_firebase_summary">Collect errors and app usage data with Firebase. You can find out more about data being collected in Privacy Policy which you can find on about screen. Changing this setting may not fully apply it until you restart SAI</string>
     <string name="name_format_builder_title">選擇導出應用程式名稱的部分</string>
     <string name="name_format_builder_preview">預覽: %s</string>
     <string name="name_format_builder_preview_empty">至少選擇一部分</string>
@@ -212,6 +217,7 @@
     <string name="mi_continue_countdown">You can continue in %d s.</string>
     <string name="mi_continue">繼續</string>
     <string name="mi_miui_version">MIUI 版本 - %1$s (%2$d (%3$s))</string>
+    <string name="mi_consequences">Depending on your MIUI version, turning off MIUI optimization may do nothing, reset apps permissions or have other unexpected consequences</string>
     <string name="donate_message_not_donated">您好，眾所周知，SAI是個永久開源免費的工具。您若喜歡，請考慮捐贈以支持。你還能獲得<b>SAI 金色</b> 主題</string>
     <string name="donate_message_donated">Huge thanks for supporting SAI!\nDon\'t forget to check out your new <b>SAI Gold</b> theme</string>
     <string name="donate_message_floss">Hello. You\'re using FLOSS version of SAI. As you know, SAI is a completely free open-source app and it will always stay that way. If you like it, please consider supporting SAI by making a donation.\n\nIn FLOSS version, the <b>FLOSS Gold</b> theme is available by default.</string>
@@ -227,7 +233,7 @@
     <string name="installerx_dialog_title">Customize installation</string>
     <string name="installerx_dialog_choose_filepicker">How do you want to select files to install?</string>
     <string name="installerx_dialog_loading">Parsing APKs…</string>
-    <string name="installerx_dialog_install">Install</string>
+    <string name="installerx_dialog_install">安裝</string>
     <string name="installerx_dialog_error">SAI has encountered an unexpected error while trying to parse selected file(s)</string>
     <string name="installerx_dialog_resolution_error_non_critical">Parser has encountered the following error:\n\n%s\n\nDo you want to try installing selected files anyway? Even if SAI was unable to parse them, Android may still be able to install them successfully</string>
     <string name="installerx_dialog_resolution_error_critical">Parser has encountered a critical error:\n\n%s</string>
@@ -243,6 +249,7 @@
     <string name="installerx_split_config_abi_for_base">%s code for base APK</string>
     <string name="installerx_split_config_abi_for_module">%1$s code for feature \"%2$s\"</string>
     <string name="installerx_category_config_locale">Configuration: Locale</string>
+    <string name="installerx_category_config_locale_desc">Your preferred language - %s</string>
     <string name="installerx_split_config_locale_for_base">%s locale for base APK</string>
     <string name="installerx_split_config_locale_for_module">%1$s locale for feature \"%2$s\"</string>
     <string name="installerx_category_config_dpi">Configuration: DPI Resources</string>
@@ -283,4 +290,5 @@
     <string name="about_donate">捐贈</string>
     <string name="about_licenses">許可證</string>
     <string name="about_translate">Help to translate SAI</string>
+    <string name="about_privacy">Privacy Policy</string>
 </resources>
