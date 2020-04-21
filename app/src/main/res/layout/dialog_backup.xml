@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.aefyr.sai.view.ViewSwitcherLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/container_backup_dialog"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_backup_dialog"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:overScrollMode="never"
+        android:visibility="gone">
+
+    </androidx.recyclerview.widget.RecyclerView>
+
+    <LinearLayout
+        android:id="@+id/container_backup_dialog_loading"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingBottom="16dp"
+        android:visibility="gone">
+
+        <ProgressBar
+            android:id="@+id/progress_backup_dialog_loading"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:indeterminate="true"
+            android:padding="8dp" />
+
+        <TextView
+            android:id="@+id/tv_backup_dialog_loading"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/installerx_dialog_loading" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/container_backup_dialog_error"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingBottom="16dp"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/iv_backup_dialog_error"
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            android:layout_gravity="center"
+            android:tint="?colorAccent"
+            app:srcCompat="@drawable/ic_warning" />
+
+        <TextView
+            android:id="@+id/tv_backup_dialog_error"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="4dp"
+            android:text="@string/backup_load_splits_error" />
+    </LinearLayout>
+
+</com.aefyr.sai.view.ViewSwitcherLayout>

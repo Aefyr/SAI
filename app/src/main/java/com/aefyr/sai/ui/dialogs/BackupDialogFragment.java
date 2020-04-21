@@ -24,6 +24,7 @@ import com.aefyr.sai.model.common.PackageMeta;
 import com.aefyr.sai.ui.dialogs.base.BaseBottomSheetDialogFragment;
 import com.aefyr.sai.utils.PermissionsUtils;
 import com.aefyr.sai.utils.PreferencesHelper;
+import com.aefyr.sai.view.ViewSwitcherLayout;
 import com.aefyr.sai.viewmodels.BackupDialogViewModel;
 
 import java.io.File;
@@ -65,9 +66,7 @@ public class BackupDialogFragment extends BaseBottomSheetDialogFragment {
 
     @Override
     protected View onCreateContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        RecyclerView recyclerView = new RecyclerView(requireContext());
-        recyclerView.setOverScrollMode(RecyclerView.OVER_SCROLL_NEVER);
-        return recyclerView;
+        return inflater.inflate(R.layout.dialog_backup, container, false);
     }
 
     @Override
@@ -81,27 +80,28 @@ public class BackupDialogFragment extends BaseBottomSheetDialogFragment {
         Button cancelButton = getNegativeButton();
         cancelButton.setOnClickListener((v) -> dismiss());
 
-        RecyclerView partsRecycler = (RecyclerView) view;
+        RecyclerView partsRecycler = view.findViewById(R.id.rv_backup_dialog);
         partsRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
 
         BackupSplitPartsAdapter adapter = new BackupSplitPartsAdapter(mViewModel.getSelection(), this, requireContext());
         partsRecycler.setAdapter(adapter);
 
+        ViewSwitcherLayout viewSwitcher = view.findViewById(R.id.container_backup_dialog);
 
         mViewModel.getLoadingState().observe(this, state -> {
             switch (state) {
                 case EMPTY:
                 case LOADING:
-                    enqueueButton.setEnabled(false);
-                    enqueueButton.setText(R.string.backup_splits_loading);
+                    viewSwitcher.setShownView(R.id.container_backup_dialog_loading);
+                    enqueueButton.setVisibility(View.GONE);
                     break;
                 case LOADED:
-                    enqueueButton.setEnabled(mViewModel.getSelection().hasSelection());
-                    enqueueButton.setText(R.string.backup_enqueue);
+                    viewSwitcher.setShownView(R.id.rv_backup_dialog);
+                    enqueueButton.setVisibility(View.VISIBLE);
                     break;
                 case FAILED:
-                    showError(R.string.backup_load_splits_error);
-                    dismiss();
+                    viewSwitcher.setShownView(R.id.container_backup_dialog_error);
+                    enqueueButton.setVisibility(View.GONE);
                     break;
             }
         });
