@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="file_picker_sort_variants">
+        <item>"Theo tên (Bảng chữ cái)"</item>
+        <item>"Theo tên (Bảng chữ cái đảo ngược)"</item>
+        <item>"Sửa đổi sau đó trước"</item>
+        <item>"Sửa đổi cũ hơn trước"</item>
+        <item>"Kích cỡ tệp nhỏ nhất trước"</item>
+        <item>"Kích cỡ tệp lớn nhất trước"</item>
+    </string-array>
+    <string-array name="installers">
+        <item>"Không root (khuyên dùng)"</item>
+        <item>"Đã root (yêu cầu root)"</item>
+        <item>"Shizuku (yêu cầu Shizuku 3.x)"</item>
+    </string-array>
+    <string-array name="size_units">
+        <item>B</item>
+        <item>KB</item>
+        <item>MB</item>
+        <item>GB</item>
+        <item>TB</item>
+        <item>PB</item>
+    </string-array>
+    <string-array name="backup_file_name_formats">
+        <item>TÊN_GÓI_PHIÊN BẢN.apks</item>
+        <item>TÊN.apks</item>
+        <item>TÊN_PHIÊN BẢN.apks</item>
+    </string-array>
+    <string-array name="install_locations">
+        <item>Để hệ thống quyết định</item>
+        <item>Chỉ bộ nhớ trong</item>
+        <item>Bộ nhớ ngoài yêu thích (Hệ thống có thể vẫn quyết định dùng bộ nhớ trong)</item>
+    </string-array>
+    <string-array name="name_format_parts">
+        <item>Tên</item>
+        <item>Phiên bản</item>
+        <item>Mã phiên bản</item>
+        <item>Gói</item>
+        <item>Dấu thời gian</item>
+    </string-array>
+    <string-array name="backup_dir_selection_methods">
+        <item>Bộ chọn tệp nội bộ</item>
+        <item>Bộ chọn tệp hệ thống</item>
+    </string-array>
+</resources>
