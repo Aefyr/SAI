@@ -1,6 +1,8 @@
 package com.aefyr.sai.viewmodels;
 
 import android.app.Application;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -86,7 +88,15 @@ public class BackupDialogViewModel extends AndroidViewModel {
 
         @Override
         protected List<SplitApkPart> doWork(String pkg) throws Exception {
+            try {
+                return getParsedParts(pkg);
+            } catch (Exception e) {
+                Log.w("BackupVM", "Unable to get parsed pkg parts", e);
+                return getRawParts(pkg);
+            }
+        }
 
+        private List<SplitApkPart> getParsedParts(String pkg) throws Exception {
             DefaultSplitApkSourceMetaResolver metaResolver = new DefaultSplitApkSourceMetaResolver(getApplication(), new InstalledAppAppMetaExtractor(getApplication()));
             metaResolver.addPostprocessor(new SortPostprocessor());
             metaResolver.addPostprocessor(parserContext -> {
@@ -105,6 +115,23 @@ public class BackupDialogViewModel extends AndroidViewModel {
             List<SplitApkPart> parts = new ArrayList<>();
             for (SplitPart splitPart : meta.flatSplits()) {
                 parts.add(new SplitApkPart(splitPart.name(), new File(splitPart.localPath())));
+            }
+
+            return parts;
+        }
+
+        private List<SplitApkPart> getRawParts(String pkg) throws Exception {
+            PackageManager pm = getApplication().getPackageManager();
+            ApplicationInfo appInfo = pm.getApplicationInfo(pkg, 0);
+
+            List<SplitApkPart> parts = new ArrayList<>();
+            parts.add(new SplitApkPart(appInfo.loadLabel(pm).toString(), new File(appInfo.publicSourceDir)));
+
+            if (appInfo.splitPublicSourceDirs != null) {
+                for (String splitPath : appInfo.splitPublicSourceDirs) {
+                    File splitApkPartFile = new File(splitPath);
+                    parts.add(new SplitApkPart(splitApkPartFile.getName(), splitApkPartFile));
+                }
             }
 
             return parts;
