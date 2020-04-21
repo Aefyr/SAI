@@ -144,7 +144,7 @@ SAI (Split APKs Installer) е инсталатор на приложения, с
     <string name="backup_export_all_splits_prompt">Ще експортирате ли всички split APK?</string>
     <string name="backup_export_selected_apps_prompt">Искате ли да експортирате %d избрани приложения?</string>
     <string name="backup_preparing">Подготовка на приложенията...</string>
-    <string name="backup_enqueue">Експортирай</string>
+    <string name="backup_enqueue">Export</string>
     <string name="backup_dialog_title">Изберете части split APK за експорт</string>
     <string name="backup_load_splits_error">Не успя да получи частите на split APK</string>
     <string name="backup_splits_loading">Изтегляне...</string>
@@ -181,6 +181,8 @@ SAI (Split APKs Installer) е инсталатор на приложения, с
     <string name="settings_main_extract_archives_summary">Разархивирай APK от .zip/.apks архиви във временни файлове преди инсталиране. Ако е изключено, SAI ще инсталира APK направо от архива без създаване на временни файлове. Не се препоръчва включване</string>
     <string name="settings_main_use_zipfile">Използвай ZipFile API</string>
     <string name="settings_main_use_zipfile_summary">Използвайте ZipFile API, за да четете ZIP архиви (включително .apks файлове), решава проблеми със съвместимостта с някои архиви. Не се препоръчва да се разреши, освен ако няма съобщение за грешка на инсталатора, защото добавя ненужни процеси</string>
+    <string name="settings_main_use_brute_parser">Fallback to parsing APK</string>
+    <string name="settings_main_use_brute_parser_summary">In Pro mode, when SAI is unable to find meta information (such as icon and title) about an app in the source (such as a .apks file or a ZIP archive), it will copy the base APK to a temp file and parse it directly to obtain meta information about the app. SAI will not copy and parse APKs larger than 100MBs</string>
     <string name="settings_main_reset_one_time_warnings">Ресет единични предупреждения</string>
     <string name="settings_main_installer">Инсталатор</string>
     <string name="settings_main_installer_summary">Тип инсталатор, използван за APK.
@@ -202,6 +204,7 @@ SAI (Split APKs Installer) е инсталатор на приложения, с
     <string name="settings_main_installer_show_dialogs">Показвай диалог инсталиране</string>
     <string name="settings_main_installer_show_dialogs_summary">Показвай диалог с резултата от завършена инсталация. Винаги можете да отворите диалога, кликвайки на сесията. Действа само на новия инсталатор</string>
     <string name="settings_category_main_installer">Инсталиране</string>
+    <string name="settings_category_main_parser">Parser</string>
     <string name="settings_category_main_export">Експорт</string>
     <string name="settings_category_main_other">Друго</string>
     <string name="settings_category_main_ui">Интерфейс</string>
@@ -216,6 +219,8 @@ SAI (Split APKs Installer) е инсталатор на приложения, с
     <string name="settings_main_auto_theme_pre_q_warning">Имайте предвид, че следвайки темата на системата може да не работи правилно на версии на Android по-ниски от Q</string>
     <string name="settings_main_use_installerx">Pro режим</string>
     <string name="settings_main_use_installerx_summary">Активирайте инсталационния Pro режим, който ви позволява да изберете части, които да инсталирате от .apks файл (или други архиви с множество APK файлове). Моля, обърнете внимание, че Pro режимът е експериментален и може да не работи правилно, обратната връзка е очаквана</string>
+    <string name="settings_main_enable_firebase">Firebase</string>
+    <string name="settings_main_enable_firebase_summary">Collect errors and app usage data with Firebase. You can find out more about data being collected in Privacy Policy which you can find on about screen. Changing this setting may not fully apply it until you restart SAI</string>
     <string name="name_format_builder_title">Изберете части за генерация на име на експортираното приложение</string>
     <string name="name_format_builder_preview">Пример: %s</string>
     <string name="name_format_builder_preview_empty">Изберете поне една част</string>
@@ -232,6 +237,7 @@ SAI (Split APKs Installer) е инсталатор на приложения, с
     <string name="mi_continue_countdown">Може да продължите в %d s.</string>
     <string name="mi_continue">Продължи</string>
     <string name="mi_miui_version">MIUI версия - %1$s (%2$d (%3$s))</string>
+    <string name="mi_consequences">Depending on your MIUI version, turning off MIUI optimization may do nothing, reset apps permissions or have other unexpected consequences</string>
     <string name="donate_message_not_donated">Здравейте. Както знаете, SAI е напълно безплатно приложение с отворен код и винаги ще остане. Ако ви харесва, моля, подкрепете SAI чрез дарение. Ще получите легендарната <b>SAI Gold</b> тема!</string>
     <string name="donate_message_donated">Огромни благодарности за подкрепата на SAI!\nНе забравяйте да проверите новата <b>SAI Gold</b> тема</string>
     <string name="donate_message_floss">Здравейте. Използвате FLOSS версия на SAI. Както знаете, SAI е напълно безплатно приложение с отворен код и винаги ще остане. Ако ви харесва, моля, обмислете подкрепата му, като направите дарение.\n\nIn FLOSS версия, <b>FLOSS Gold</b> темата е достъпна по подразбиране.</string>
@@ -263,6 +269,7 @@ SAI (Split APKs Installer) е инсталатор на приложения, с
     <string name="installerx_split_config_abi_for_base">%s код за базов APK файл</string>
     <string name="installerx_split_config_abi_for_module">%1$s код за функция \"%2$s\"</string>
     <string name="installerx_category_config_locale">Конфигуриране: Език</string>
+    <string name="installerx_category_config_locale_desc">Your preferred language - %s</string>
     <string name="installerx_split_config_locale_for_base">%s език на базовия APK</string>
     <string name="installerx_split_config_locale_for_module">%1$s език наа функция \"%2$s\"</string>
     <string name="installerx_category_config_dpi">Конфигурация: DPI ресурси</string>
@@ -303,4 +310,5 @@ SAI (Split APKs Installer) е инсталатор на приложения, с
     <string name="about_donate">Помогни</string>
     <string name="about_licenses">Лицензи</string>
     <string name="about_translate">Помогнете с превода на SAI</string>
+    <string name="about_privacy">Privacy Policy</string>
 </resources>
