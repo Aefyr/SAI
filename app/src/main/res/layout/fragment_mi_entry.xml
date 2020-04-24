@@ -6,16 +6,14 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
         android:orientation="vertical">
 
         <TextView
             android:id="@+id/tv_mi_entry_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_above="@id/tv_mi_entry_text"
-            android:layout_centerHorizontal="true"
             android:layout_gravity="center_horizontal"
+            android:gravity="center"
             android:text="@string/installer_miui_warning_title"
             android:textSize="48sp"
             android:textStyle="bold" />
@@ -32,8 +30,6 @@
             android:id="@+id/tv_mi_entry_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
             android:layout_gravity="center_horizontal"
             android:padding="16dp"
             android:text="@string/installer_miui_warning_message"
@@ -43,8 +39,6 @@
             android:id="@+id/tv_mi_consequences"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
             android:layout_gravity="center_horizontal"
             android:padding="16dp"
             android:text="@string/mi_consequences"
@@ -55,8 +49,6 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/tv_mi_entry_text"
-            android:layout_centerHorizontal="true"
             android:layout_gravity="center_horizontal"
             android:orientation="vertical">
 
