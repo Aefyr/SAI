@@ -146,4 +146,8 @@ public class PreferencesHelper {
         return mPrefs.getBoolean(PreferencesKeys.USE_BRUTE_PARSER, true);
     }
 
+    public boolean isFirebaseEnabled() {
+        return mPrefs.getBoolean(PreferencesKeys.ENABLE_FIREBASE, true);
+    }
+
 }
