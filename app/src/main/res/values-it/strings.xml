@@ -14,7 +14,7 @@
     <string name="permissions_required_storage">SAI richiede l\'autorizzazione per accedere alla memoria</string>
     <string name="permissions_required_shizuku">SAI richiede l\'autorizzazione per usare il Server Shizuku</string>
     <string name="main_installer">Installazione</string>
-    <string name="main_backup">Esportare</string>
+    <string name="main_backup">Esporta</string>
     <string name="main_navigation_disabled">Impossibile eseguire l\'apertura durante un\'installazione in corso</string>
     <string name="installer_installation_confirmation">Installare \"%s\"?</string>
     <string name="installer_installation_failed">App non installata</string>
@@ -166,7 +166,7 @@
     <string name="settings_main_use_zipfile">Utilizza API ZipFile</string>
     <string name="settings_main_use_zipfile_summary">L\'utilizzo dell\'API ZipFile per la lettura di archivi ZIP (compresi i file .apks), risolve i problemi di compatibilità con alcuni archivi. È sconsigliata l\'attivazione in assenza di errori specifici perché ció consumerebbe più risorse senza una reale necessità</string>
     <string name="settings_main_use_brute_parser">Fallback di analisi APK</string>
-    <string name="settings_main_use_brute_parser_summary">In modalità Pro, quando SAI non è in grado di rilevare informazioni meta (come icona e titolo) all\'interno di una sorgente dell\'app (ad esempio un file .apks o un archivio ZIP), copierà l\'APK base in un file temporaneo e lo analizzerà direttamente per ottenere le informazioni sull\'app. SAI non copierà e analizzerà gli APK più grandi di 100 MB</string>
+    <string name="settings_main_use_brute_parser_summary">In modalità Pro, se SAI non dovesse rilevare informazioni meta (come icona e titolo) nella sorgente dell\'app (come un file .apks o un archivio ZIP), copierà ed analizzerà direttamente l\'APK base in un file temporaneo per ottenere info sull\'app. SAI non copierà ed analizzerà file maggiori di 100 MB</string>
     <string name="settings_main_reset_one_time_warnings">Resetta avvisi una tantum</string>
     <string name="settings_main_installer">Installazione</string>
     <string name="settings_main_installer_summary">Programma utilizzato per l\'installazione di APK.\nAl momento: %s</string>
@@ -200,7 +200,7 @@
     <string name="settings_main_use_installerx">Modalità pro</string>
     <string name="settings_main_use_installerx_summary">La modalità installazione Pro permette la selezione di parti da un file .apks (o altri archivi con APK multipli). Ricorda che la modalità Pro è sperimentale e potrebbe non funzionare correttamente, si accettano suggerimenti</string>
     <string name="settings_main_enable_firebase">Firebase</string>
-    <string name="settings_main_enable_firebase_summary">Raccogli informazioni sugli errori ed i dati di utilizzo delle app con Firebase. Ulteriori informazioni sui dati raccolti sono elencate nell\'Informativa sulla Privacy accessibile a schermo. Eventuali cambiamenti a questa impostazione potrebbero non risultare completamente applicati fino al successivo riavvio di SAI</string>
+    <string name="settings_main_enable_firebase_summary">Raccogli info e dati di utilizzo app con Firebase. Troverai ulteriori dettagli sui dati raccolti nell\'Informativa sulla Privacy a schermo. Cambiare questa impostazione potrebbe richiedere il riavvio di SAI</string>
     <string name="name_format_builder_title">Seleziona le parti da includere nel nome dell\'app esportata</string>
     <string name="name_format_builder_preview">Anteprima: %s</string>
     <string name="name_format_builder_preview_empty">Seleziona almeno una parte</string>
@@ -270,8 +270,8 @@
     <string name="installerx_notice_xapk">SAI non supporta l\'estrazione di file obb da XAPK, dovrai effettuare questa operazione manualmente</string>
     <string name="installerx_notice_no_code_for_base">Ci sono alcune configurazioni architetturali per le parti suddivise dell\'APK di base, ma nessuna di loro è supportata dal tuo dispositivo</string>
     <string name="installerx_notice_no_code_for_feature">Ci sono alcune parti suddivise di configurazioni architetturali per la funzionalità \"%s\", ma nessuna di esse è supportata dal tuo dispositivo</string>
-    <string name="installerx_notice_no_locale_for_base">Nessuna delle parti suddivise nell\'APK base è localizzato nella tua lingua, dovresti selezionare almeno una parte con una localizzazione di tua scelta</string>
-    <string name="installerx_notice_no_locale_for_feature">Nessuna delle parti suddivise per la funzionalità \"%s\" è localizzata nella tua lingua, dovresti selezionare almeno una parte localizzata in una lingua di tua scelta</string>
+    <string name="installerx_notice_no_locale_for_base">Nessuna configurazione locale delle parti suddivise per l\'APK base contiene la tua lingue</string>
+    <string name="installerx_notice_no_locale_for_feature">Nessuna configurazione locale delle parti suddivise per la funzionalità \"%s\" corrisponde alla tua lungua</string>
     <string name="theme_sai">SAI</string>
     <string name="theme_ruby">Ruby</string>
     <string name="theme_rena">Rena</string>
