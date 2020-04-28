@@ -270,8 +270,8 @@
     <string name="installerx_notice_xapk">SAI nie wypakowuje obb z XAPK, musisz to zrobić ręcznie</string>
     <string name="installerx_notice_no_code_for_base">Istnieją pliki konfiguracji architektury dla base APK, ale żadna z nich nie jest obsługiwane przez Twoje urządzenie</string>
     <string name="installerx_notice_no_code_for_feature">Istnieją pliki konfiguracji architektury dla funkcji \"%s\", ale żadna z nich nie jest obsługiwane przez Twoje urządzenie</string>
-    <string name="installerx_notice_no_locale_for_base">Żadna z konfiguracji regionalnych dla base APK nie pasuje do twoich języków, należy wybrać przynajmniej jedną część z wybranym przez Ciebie językiem</string>
-    <string name="installerx_notice_no_locale_for_feature">Żadna z konfiguracji regionalnych dla funkcji \"%s\" nie odpowiada Twoim językom, powinieneś wybrać co najmniej jedną część z preferowanym ustawieniem</string>
+    <string name="installerx_notice_no_locale_for_base">None of locale configuration split parts for base APK match your languages</string>
+    <string name="installerx_notice_no_locale_for_feature">None of locale configuration split parts for feature \"%s\" match your languages</string>
     <string name="theme_sai">SAI</string>
     <string name="theme_ruby">Rubin</string>
     <string name="theme_rena">Rena</string>

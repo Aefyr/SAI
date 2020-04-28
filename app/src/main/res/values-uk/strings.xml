@@ -130,7 +130,7 @@
     <string name="backup_export_all_splits_prompt">Ви бажаєте експортувати всі split APK?</string>
     <string name="backup_export_selected_apps_prompt">Ви бажаєте експортувати %d вибраних додатків?</string>
     <string name="backup_preparing">Підготовка додатків...</string>
-    <string name="backup_enqueue">Export</string>
+    <string name="backup_enqueue">Експортувати</string>
     <string name="backup_dialog_title">Оберіть частини split APK для експорту</string>
     <string name="backup_load_splits_error">Не вдалося отримати частини split APK</string>
     <string name="backup_splits_loading">Завантаження...</string>
@@ -165,8 +165,8 @@
     <string name="settings_main_extract_archives_summary">Розархівувати APK з .zip/.apks архівів в тимчасові файли перед встановленням. Якщо вимкнено, SAI буде встановлювати APK безпосередньо з архіву без створення тимчасових файлів. Не рекомендується вмикати</string>
     <string name="settings_main_use_zipfile">Використовувати ZipFile API</string>
     <string name="settings_main_use_zipfile_summary">Використовувати ZipFile API для читання ZIP архівів (включаючи .apks файли), це вирішує проблеми сумістності з деякими архівами. Не рекомендується вмикати, якщо вас не попросили в повідомленні про помилку інсталятора, тому що це використовує зайві ресурси</string>
-    <string name="settings_main_use_brute_parser">Fallback to parsing APK</string>
-    <string name="settings_main_use_brute_parser_summary">In Pro mode, when SAI is unable to find meta information (such as icon and title) about an app in the source (such as a .apks file or a ZIP archive), it will copy the base APK to a temp file and parse it directly to obtain meta information about the app. SAI will not copy and parse APKs larger than 100MBs</string>
+    <string name="settings_main_use_brute_parser">Аналізатор APK</string>
+    <string name="settings_main_use_brute_parser_summary">В режимі Pro, коли SAI не може знайти мета-інформацію (таку як іконку і назву) про програму з джерела (наприклад, на екрані .apks файла або ZIP-архів), він буде копіювати базовий APK в тимчасовий файл і обробляти його безпосередньо, щоб отримати мета-інформацію про додаток. SAI не копіюватиме і не аналізувати APK більше ніж 100 Мб</string>
     <string name="settings_main_reset_one_time_warnings">Скинути одноразові попередження</string>
     <string name="settings_main_installer">Установник</string>
     <string name="settings_main_installer_summary">Тип установника, що використовується для встановлення APK.\nЗараз: %s</string>
@@ -184,7 +184,7 @@
     <string name="settings_main_installer_show_dialogs">Показувати діалоги установника</string>
     <string name="settings_main_installer_show_dialogs_summary">Показувати діалог з результатом завершення встановлення. Ви завжди можете відкрити цей діалог вручну, натиснувши на сесію встановлення. Діє тільки на новий інсталятор</string>
     <string name="settings_category_main_installer">Встановлення</string>
-    <string name="settings_category_main_parser">Parser</string>
+    <string name="settings_category_main_parser">Аналізатор</string>
     <string name="settings_category_main_export">Експорт</string>
     <string name="settings_category_main_other">Інше</string>
     <string name="settings_category_main_ui">Інтерфейс</string>
@@ -200,7 +200,7 @@
     <string name="settings_main_use_installerx">Професіональний режим</string>
     <string name="settings_main_use_installerx_summary">Увімкніть професіональний режим установки, який дозволяє вибрати частини для встановлення з файлу .apks (або інших архівів з декількома файлами APK). Будь ласка, зверніть увагу, що Pro режим експериментальний і він може працювати некоректно, вітаються ваші відгуки і побажання</string>
     <string name="settings_main_enable_firebase">Firebase</string>
-    <string name="settings_main_enable_firebase_summary">Collect errors and app usage data with Firebase. You can find out more about data being collected in Privacy Policy which you can find on about screen. Changing this setting may not fully apply it until you restart SAI</string>
+    <string name="settings_main_enable_firebase_summary">Firebase - може збирати помилки та дані використання програми. Ви можете дізнатися більше про зібрані дані, в Політиці конфіденційності, які ви знайдете на екрані \"Про додаток\". Зміна цього налаштування може не повністю застосуватися, тому перезавантажте SAI</string>
     <string name="name_format_builder_title">Оберіть частини для генерування імені експортованого додатка</string>
     <string name="name_format_builder_preview">Приклад: %s</string>
     <string name="name_format_builder_preview_empty">Оберіть хоча б одну частину</string>
@@ -217,7 +217,7 @@
     <string name="mi_continue_countdown">Ви зможете продовжити через %d сек.</string>
     <string name="mi_continue">Продовжити</string>
     <string name="mi_miui_version">Версія MIUI - %1$s (%2$d (%3$s))</string>
-    <string name="mi_consequences">Depending on your MIUI version, turning off MIUI optimization may do nothing, reset apps permissions or have other unexpected consequences</string>
+    <string name="mi_consequences">Залежно від вашої версії MIUI для вимкнення оптимізації MIUI може нічого не зробити, скинути дозволи програм або ж інші несподівані наслідки</string>
     <string name="donate_message_not_donated">Привіт. Як відомо, SAI - це абсолютно безкоштовний додаток з відкритим кодом, і він завжди залишатиметься таким. Якщо вам це подобається, будь ласка, подумайте про підтримку SAI, зробивши пожертву. Ви також отримаєте легендарну тему <b>SAI Gold</b>!</string>
     <string name="donate_message_donated">Величезна подяка за підтримку SAI!\nНе забудьте перевірити свою нову <b>SAI Gold</b> тему</string>
     <string name="donate_message_floss">Вітаємо. Ви використовуєте FLOSS версію SAI. Як ви знаєте, SAI є повністю безкоштовним додатком з відкритим вихідним кодом, і це завжди залишатиметься таким. Якщо вам подобається додаток, будь ласка, підтримайте SAI, зробивши пожертву.\n\nУ версії FLOSS, тема <b>FLOSS Gold</b> доступна за замовчуванням.</string>
@@ -249,7 +249,7 @@
     <string name="installerx_split_config_abi_for_base">%s код для базового APK</string>
     <string name="installerx_split_config_abi_for_module">%1$s код для функції \"%2$s\"</string>
     <string name="installerx_category_config_locale">Конфігурація: Локалізація</string>
-    <string name="installerx_category_config_locale_desc">Your preferred language - %s</string>
+    <string name="installerx_category_config_locale_desc">Ваша основна мова - %s</string>
     <string name="installerx_split_config_locale_for_base">%s локалізація для базового APK</string>
     <string name="installerx_split_config_locale_for_module">%1$s локалізація для функції \"%2$s\"</string>
     <string name="installerx_category_config_dpi">Конфігурація: DPI ресурси</string>
@@ -270,8 +270,8 @@
     <string name="installerx_notice_xapk">SAI не підтримує розархівацію obb з XAPK, ви маєте зробити це вручну</string>
     <string name="installerx_notice_no_code_for_base">Існують розділені частини з архітектурами для базового APK, але жодна з них не підтримується вашим пристроєм</string>
     <string name="installerx_notice_no_code_for_feature">Існують розділені частини з архітектурами для функції \"%s\", але жодна з них не підтримується вашим пристроєм</string>
-    <string name="installerx_notice_no_locale_for_base">Жодна з розділених частин конфігурації локалізації для базового APK не відповідає вашим мовам, потрібно вибрати принаймні одну частину з локалі, які вам віддаєте перевагу</string>
-    <string name="installerx_notice_no_locale_for_feature">Жодна з розділених частин конфігурації локалізації для функції \"%s\" не відповідає вашим мовам, потрібно вибрати принаймні одну частину з локалі, якій вам віддаєте перевагу</string>
+    <string name="installerx_notice_no_locale_for_base">None of locale configuration split parts for base APK match your languages</string>
+    <string name="installerx_notice_no_locale_for_feature">None of locale configuration split parts for feature \"%s\" match your languages</string>
     <string name="theme_sai">SAI</string>
     <string name="theme_ruby">Ruby</string>
     <string name="theme_rena">Rena</string>
@@ -290,5 +290,5 @@
     <string name="about_donate">Підтримати</string>
     <string name="about_licenses">Ліцензії</string>
     <string name="about_translate">Допомога в локалізіції SAI</string>
-    <string name="about_privacy">Privacy Policy</string>
+    <string name="about_privacy">Політика конфіденційності</string>
 </resources>

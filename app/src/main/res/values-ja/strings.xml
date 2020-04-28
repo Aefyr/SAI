@@ -167,7 +167,7 @@
     <string name="settings_main_use_zipfile">ZipFile APIを使用する</string>
     <string name="settings_main_use_zipfile_summary">ZIPアーカイブ(.zip,.apks)を読み込む際にZipFile APIを使用して、互換性のトラブルを回避します。この設定が有効な場合、システムに不必要な負荷がかかるため、無効にしておくことを推奨します。インストーラーのエラーメッセージで有効にするよう案内があった場合に限り、有効にしてください。</string>
     <string name="settings_main_use_brute_parser">APKの解析へのフォールバック</string>
-    <string name="settings_main_use_brute_parser_summary">Proモードでは、ソース(.apksファイルやZIPアーカイブ)からアプリのメタ情報(アイコンやタイトルなど)を検出できなかったとき、ベースのAPKを一時ファイルにコピーしてファイルを直接解析することでメタ情報を取得します。ただし、100MBよりも大きいAPKはコピーも解析もされません。</string>
+    <string name="settings_main_use_brute_parser_summary">Proモードで、ソース(.apksファイルやZIPアーカイブ)からアプリのメタ情報(アイコンやタイトルなど)を検出できなかったとき、ベースのAPKを一時ファイルにコピーしてファイルを直接解析することでメタ情報を取得します。ただし、100MBよりも大きいAPKはコピーも解析もされません。</string>
     <string name="settings_main_reset_one_time_warnings">「今後は表示しない」警告をリセット</string>
     <string name="settings_main_installer">インストーラー</string>
     <string name="settings_main_installer_summary">SAIで使用するインストーラー\n現在の設定: %s</string>
@@ -271,8 +271,8 @@
     <string name="installerx_notice_xapk">SAIはXAPKからのobbの抽出をサポートしていません。手動で行ってください。</string>
     <string name="installerx_notice_no_code_for_base">いくつかのアーキテクチャ構成のベースの分割APKがありますが、いずれもこのデバイスでサポートされていません</string>
     <string name="installerx_notice_no_code_for_feature">いくつかのアーキテクチャ構成の機能\"%s\"の分割APKがありますが、いずれもこのデバイスでサポートされていません</string>
-    <string name="installerx_notice_no_locale_for_base">地域構成のベースの分割APKのいずれもお使いの言語と一致していません。希望する地域の分割APKを少なくとも1つ選択する必要があります</string>
-    <string name="installerx_notice_no_locale_for_feature">地域構成の機能\"%s\"の分割APKのいずれもお使いの言語と一致していません。希望する地域の分割APKを少なくとも1つ選択する必要があります</string>
+    <string name="installerx_notice_no_locale_for_base">None of locale configuration split parts for base APK match your languages</string>
+    <string name="installerx_notice_no_locale_for_feature">None of locale configuration split parts for feature \"%s\" match your languages</string>
     <string name="theme_sai">SAI</string>
     <string name="theme_ruby">Ruby</string>
     <string name="theme_rena">Rena</string>

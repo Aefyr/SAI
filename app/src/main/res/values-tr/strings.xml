@@ -130,7 +130,7 @@
     <string name="backup_export_all_splits_prompt">Tüm bölünmüş APK\'lar dışa aktarılsın mı?</string>
     <string name="backup_export_selected_apps_prompt">Seçilen %d uygulamayı dışa aktarmak istiyor musunuz?</string>
     <string name="backup_preparing">Uygulamalar hazırlanıyor...</string>
-    <string name="backup_enqueue">Export</string>
+    <string name="backup_enqueue">Dışa aktar</string>
     <string name="backup_dialog_title">Dışa aktarılacak bölünmüş APK parçalarını seçin</string>
     <string name="backup_load_splits_error">Bölünmüş APK parçaları alınamıyor</string>
     <string name="backup_splits_loading">Yükleniyor...</string>
@@ -165,8 +165,8 @@
     <string name="settings_main_extract_archives_summary">APK dosyalarını .zip/.apks arşivlerinden yüklemeden önce geçici dosyalara çıkartır. Devre dışı bırakılırsa SAI, APK\'ları geçici dosyalar olmadan doğrudan arşivlerden yükler. Etkinleştirilmesi önerilmez</string>
     <string name="settings_main_use_zipfile">ZipFile API\'sini kullan</string>
     <string name="settings_main_use_zipfile_summary">ZIP arşivlerini (.apks dosyaları dahil) okumak için ZipFile API\'sini kullanır, bazı arşivlerdeki uyumluluk sorunlarını çözer. Bir yükleyici hata mesajı vermedikçe etkinleştirilmesi önerilmez, aksi takdirde gereksiz ek yük ekler</string>
-    <string name="settings_main_use_brute_parser">Fallback to parsing APK</string>
-    <string name="settings_main_use_brute_parser_summary">In Pro mode, when SAI is unable to find meta information (such as icon and title) about an app in the source (such as a .apks file or a ZIP archive), it will copy the base APK to a temp file and parse it directly to obtain meta information about the app. SAI will not copy and parse APKs larger than 100MBs</string>
+    <string name="settings_main_use_brute_parser">APK\'yı ayrıştırma işlemine dönüş</string>
+    <string name="settings_main_use_brute_parser_summary">Pro modunda, SAI kaynaktaki bir uygulama hakkında (.apks dosyası veya ZIP arşivi gibi) meta bilgileri (simge ve başlık gibi) bulamadığında, temel APK\'yı geçici bir dosyaya kopyalar ve uygulama hakkında meta bilgileri almak için doğrudan ayrıştırır. SAI, 100 MB\'tan büyük APK\'ları kopyalayıp ayrıştırmaz</string>
     <string name="settings_main_reset_one_time_warnings">Bir kerelik uyarıları sıfırla</string>
     <string name="settings_main_installer">Yükleyici</string>
     <string name="settings_main_installer_summary">APKs yüklerken kullanılacak yükleyici.\nŞu anki: %s</string>
@@ -184,7 +184,7 @@
     <string name="settings_main_installer_show_dialogs">Yükleyici diyaloglarını göster</string>
     <string name="settings_main_installer_show_dialogs_summary">Yükleme başarısız veya başarılı olduğundaki diyalogları gösterir. Yükleme oturumu girişine dokunarak bu diyalogları istediğiniz zaman elle açabilirsiniz. Yalnızca yeni yükleyiciyi etkiler</string>
     <string name="settings_category_main_installer">Yükleyici</string>
-    <string name="settings_category_main_parser">Parser</string>
+    <string name="settings_category_main_parser">Ayrıştırıcı</string>
     <string name="settings_category_main_export">Dışa Aktar</string>
     <string name="settings_category_main_other">Diğer</string>
     <string name="settings_category_main_ui">Arayüz</string>
@@ -200,7 +200,7 @@
     <string name="settings_main_use_installerx">Pro modu</string>
     <string name="settings_main_use_installerx_summary">Bir .apks dosyasından (veya birden fazla APK dosyasına sahip diğer arşivlerden) yüklenecek parçaları seçmenize olanak tanıyan installer Pro modunu etkinleştirin. Pro modunun deneysel olduğunu ve düzgün çalışmayabileceğini lütfen unutmayın</string>
     <string name="settings_main_enable_firebase">Firebase</string>
-    <string name="settings_main_enable_firebase_summary">Collect errors and app usage data with Firebase. You can find out more about data being collected in Privacy Policy which you can find on about screen. Changing this setting may not fully apply it until you restart SAI</string>
+    <string name="settings_main_enable_firebase_summary">Firebase ile hataları ve uygulama kullanım verilerini toplar. Ekranda bulabileceğiniz Gizlilik Politikası\'nda toplanan veriler hakkında daha fazla bilgi edinebilirsiniz. Bu ayar, SAI\'yi yeniden başlatana kadar tam olarak uygulanmayabilir</string>
     <string name="name_format_builder_title">Dışa aktarılan uygulama adına dahil edilecek parçaları seçin</string>
     <string name="name_format_builder_preview">Ön izleme: %s</string>
     <string name="name_format_builder_preview_empty">Lütfen en az bir parça seçin</string>
@@ -217,7 +217,7 @@
     <string name="mi_continue_countdown">%d s içinde devam edebilirsiniz.</string>
     <string name="mi_continue">Devam et</string>
     <string name="mi_miui_version">MIUI Sürüm - %1$s (%2$d (%3$s))</string>
-    <string name="mi_consequences">Depending on your MIUI version, turning off MIUI optimization may do nothing, reset apps permissions or have other unexpected consequences</string>
+    <string name="mi_consequences">MIUI sürümünüze bağlı olarak, MIUI optimizasyonunu kapatmak hiçbir şey yapamaz, uygulama izinlerini sıfırlayabilir veya beklenmedik başka sonuçlar doğurabilir</string>
     <string name="donate_message_not_donated">Merhaba. Bildiğiniz gibi, SAI tamamen ücretsiz bir açık kaynaklı uygulama ve her zaman bu şekilde kalacak. Eğer beğendiyseniz, lütfen bağış yaparak SAI\'yi desteklemeyi düşünün. Efsanevi <b>SAI Gold</b> temasını da alacaksınız!</string>
     <string name="donate_message_donated">SAI\'yi desteklediğiniz için çok teşekkürler!\nYeni <b>SAI Gold</b> temanıza göz atmayı unutmayın</string>
     <string name="donate_message_floss">Merhaba. SAI\'nın FLOSS sürümünü kullanıyorsunuz. Bildiğiniz gibi, SAI tamamen ücretsiz bir açık kaynaklı uygulama ve her zaman bu şekilde kalacak. Eğer beğendiyseniz, lütfen bağış yaparak SAI\'yi desteklemeyi düşünün.\n\nFLOSS sürümünde, <b>FLOSS Gold</b> teması varsayılan olarak kullanılabilir.</string>
@@ -249,7 +249,7 @@
     <string name="installerx_split_config_abi_for_base">Temel APK için %s kodu</string>
     <string name="installerx_split_config_abi_for_module">\"%2$s\" özelliği için %1$s kodu</string>
     <string name="installerx_category_config_locale">Yapılandırma: Yerel</string>
-    <string name="installerx_category_config_locale_desc">Your preferred language - %s</string>
+    <string name="installerx_category_config_locale_desc">Tercih ettiğiniz dil - %s</string>
     <string name="installerx_split_config_locale_for_base">Temel APK için %s yerel</string>
     <string name="installerx_split_config_locale_for_module">\"%2$s\" özelliği için %1$s yerel</string>
     <string name="installerx_category_config_dpi">Yapılandırma: DPI Kaynakları</string>
@@ -270,8 +270,8 @@
     <string name="installerx_notice_xapk">SAI, XAPK\'dan obb çıkarmayı desteklemiyor, bunu elle yapmanız gerekecek</string>
     <string name="installerx_notice_no_code_for_base">Temel APK için bazı mimari yapılandırma bölünmüş parçaları var, ancak bunların hiçbiri cihazınız tarafından desteklenmiyor</string>
     <string name="installerx_notice_no_code_for_feature">\"%s\" özelliği için bazı mimari yapılandırma bölünmüş parçaları var, ancak bunların hiçbiri cihazınız tarafından desteklenmiyor</string>
-    <string name="installerx_notice_no_locale_for_base">Temel APK için yerel yapılandırma bölünmüş parçalarının hiçbiri dillerinizle eşleşmiyor, tercih ettiğiniz yerel ayara sahip en az bir bölüm seçmelisiniz</string>
-    <string name="installerx_notice_no_locale_for_feature">\"%s\" özelliği için yerel yapılandırmanın bölünmüş bölümlerinden hiçbiri sizin dilinizle eşleşmiyorsa, tercih ettiğiniz yerel ayara sahip en az bir bölüm seçmelisiniz</string>
+    <string name="installerx_notice_no_locale_for_base">None of locale configuration split parts for base APK match your languages</string>
+    <string name="installerx_notice_no_locale_for_feature">None of locale configuration split parts for feature \"%s\" match your languages</string>
     <string name="theme_sai">SAI</string>
     <string name="theme_ruby">Ruby</string>
     <string name="theme_rena">Rena</string>
@@ -290,5 +290,5 @@
     <string name="about_donate">Bağış yap</string>
     <string name="about_licenses">Lisanslar</string>
     <string name="about_translate">SAI\'yi çevirmeye yardım et</string>
-    <string name="about_privacy">Privacy Policy</string>
+    <string name="about_privacy">Gizlilik Politikası</string>
 </resources>

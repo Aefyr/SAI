@@ -270,8 +270,8 @@
     <string name="installerx_notice_xapk">SAI unterstützt das Entpacken von Obb aus XAPK nicht, das musst Du manuell tun</string>
     <string name="installerx_notice_no_code_for_base">Es gibt einige Architektur-Konfigurationsteile für die Basis-APK, aber keine davon wird von deinem Gerät unterstützt</string>
     <string name="installerx_notice_no_code_for_feature">Es gibt einige Architektur-Konfigurationsteile für die Funkion \"%s\", aber keine davon wird von deinem Gerät unterstützt</string>
-    <string name="installerx_notice_no_locale_for_base">Keines der Sprach-Konfigurationsteile für die Basis-APK stimmt mit deiner Sprache überein. Du solltest mindestens ein Teil mit der Sprache die Du bevorzugst auswählen.</string>
-    <string name="installerx_notice_no_locale_for_feature">Keines der Sprach-Konfigurationsteile für die Funktion \"%s\" stimmt mit deiner Sprache überein. Du solltest mindestens ein Teil mit der Sprache die Du bevorzugst auswählen.</string>
+    <string name="installerx_notice_no_locale_for_base">Keine der lokalen Konfigurationsteile für die Basis-APK passt zu Ihren Sprachen</string>
+    <string name="installerx_notice_no_locale_for_feature">Keine der lokalen Konfigurationsteile für die Funktion \"%s\" passt zu Ihren Sprachen</string>
     <string name="theme_sai">SAI</string>
     <string name="theme_ruby">Ruby</string>
     <string name="theme_rena">Rena</string>

@@ -270,8 +270,8 @@
     <string name="installerx_notice_xapk">SAI не поддерживает установку obb из XAPK, вам придётся это сделать самостоятельно</string>
     <string name="installerx_notice_no_code_for_base">Присутствуют части конфигурации архитектуры для базового APK, но ваше устройство не поддерживает ни один из них</string>
     <string name="installerx_notice_no_code_for_feature">Присутствуют части конфигурации архитектуры для функции \"%s\", но ваше устройство не поддерживает ни один из них</string>
-    <string name="installerx_notice_no_locale_for_base">Среди частей конфигурации языка для базового APK отсутствуют ваши предпочитаемые языки, выберите хотя бы одну часть наиболее вам предпочтительным языком</string>
-    <string name="installerx_notice_no_locale_for_feature">Среди частей конфигурации языка для функции \"%s\" отсутствуют ваши предпочитаемые языки, выберите хотя бы одну часть наиболее вам предпочтительным языком</string>
+    <string name="installerx_notice_no_locale_for_base">Ни одна из частей конфигурации языка для базового APK не соответствует вашим предпочитаемым языкам</string>
+    <string name="installerx_notice_no_locale_for_feature">Ни одна из частей конфигурации языка для функции \"%s\" не соответствует вашим предпочитаемым языкам</string>
     <string name="theme_sai">SAI</string>
     <string name="theme_ruby">Ruby</string>
     <string name="theme_rena">Rena</string>

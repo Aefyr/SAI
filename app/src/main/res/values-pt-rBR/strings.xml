@@ -270,8 +270,8 @@
     <string name="installerx_notice_xapk">SAI doesn\'t support extracting obb from XAPK, you\'ll have to do that manually</string>
     <string name="installerx_notice_no_code_for_base">There are some architecture configuration split parts for base APK, but none of them is supported by your device</string>
     <string name="installerx_notice_no_code_for_feature">There are some architecture configuration split parts for feature \"%s\", but none of them is supported by your device</string>
-    <string name="installerx_notice_no_locale_for_base">None of locale configuration split parts for base APK match your languages, you should select at least one part with the locale you prefer</string>
-    <string name="installerx_notice_no_locale_for_feature">None of locale configuration split parts for feature \"%s\" match your languages, you should select at least one part with the locale you prefer</string>
+    <string name="installerx_notice_no_locale_for_base">None of locale configuration split parts for base APK match your languages</string>
+    <string name="installerx_notice_no_locale_for_feature">None of locale configuration split parts for feature \"%s\" match your languages</string>
     <string name="theme_sai">SAI</string>
     <string name="theme_ruby">Ruby</string>
     <string name="theme_rena">Rena</string>
