@@ -128,7 +128,7 @@
     <string name="backup_warning">1) Domyślnie, eksportowane aplikacje są zapisywane w folderze \"SAI\" w pamięci wewn. Możesz ustawić własny folder w ustawieniach.\n\n2) SAI eksportuje tylko .apk, nie eksportuje danych aplikacji.\n\n3) Aplikacje są eksportowane jako pliki .apks które są archiwum .zip ze zmienionym rozszerzeniem zawierającym pliki .apk.</string>
     <string name="backup_export_all_splits">Eksportuj wszystkie split APK</string>
     <string name="backup_export_all_splits_prompt">Czy chcesz wyeksportować wszystkie split APK?</string>
-    <string name="backup_export_selected_apps_prompt">test</string>
+    <string name="backup_export_selected_apps_prompt">Czy chcesz wyeksportować %d wybranych aplikacji?</string>
     <string name="backup_preparing">Przygotowywanie aplikacji...</string>
     <string name="backup_enqueue">Export</string>
     <string name="backup_dialog_title">Wybierz split APK do eksportu</string>
