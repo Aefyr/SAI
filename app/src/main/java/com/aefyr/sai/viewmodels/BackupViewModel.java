@@ -23,6 +23,7 @@ import com.aefyr.sai.adapters.selection.Selection;
 import com.aefyr.sai.adapters.selection.SimpleKeyStorage;
 import com.aefyr.sai.backup2.BackupApp;
 import com.aefyr.sai.backup2.BackupManager;
+import com.aefyr.sai.backup2.BackupStatus;
 import com.aefyr.sai.backup2.impl.DefaultBackupManager;
 import com.aefyr.sai.model.backup.BackupPackagesFilterConfig;
 import com.aefyr.sai.utils.Stopwatch;
@@ -208,6 +209,8 @@ public class BackupViewModel extends AndroidViewModel {
                     return createSplitFilter(config);
                 case BackupPackagesFilterConfig.FILTER_SYSTEM_APP:
                     return createSystemAppFilter(config);
+                case BackupPackagesFilterConfig.FILTER_BACKUP_STATUS:
+                    return createBackupStatusFilter(config);
             }
             throw new IllegalArgumentException("Unsupported filter: " + config.id());
         }
@@ -262,6 +265,29 @@ public class BackupViewModel extends AndroidViewModel {
                             return !app.packageMeta().isSystemApp;
                         case BackupPackagesFilterConfig.FILTER_MODE_NO:
                             return app.packageMeta().isSystemApp;
+                    }
+
+                    return false;
+                }
+            };
+        }
+
+        private CustomFilter<BackupApp> createBackupStatusFilter(SingleChoiceFilterConfig config) {
+            return new CustomFilter<BackupApp>() {
+                @Override
+                public boolean filterSimple(BackupApp app) {
+                    String selectedOption = config.getSelectedOption().id();
+                    switch (selectedOption) {
+                        case BackupPackagesFilterConfig.FILTER_BACKUP_STATUS_MODE_NO_BACKUP:
+                            return app.backupStatus() != BackupStatus.NO_BACKUP;
+                        case BackupPackagesFilterConfig.FILTER_BACKUP_STATUS_MODE_SAME_VERSION:
+                            return app.backupStatus() != BackupStatus.SAME_VERSION;
+                        case BackupPackagesFilterConfig.FILTER_BACKUP_STATUS_MODE_HIGHER_VERSION:
+                            return app.backupStatus() != BackupStatus.HIGHER_VERSION;
+                        case BackupPackagesFilterConfig.FILTER_BACKUP_STATUS_MODE_LOWER_VERSION:
+                            return app.backupStatus() != BackupStatus.LOWER_VERSION;
+                        case BackupPackagesFilterConfig.FILTER_BACKUP_STATUS_MODE_APP_NOT_INSTALLED:
+                            return app.backupStatus() != BackupStatus.APP_NOT_INSTALLED;
                     }
 
                     return false;

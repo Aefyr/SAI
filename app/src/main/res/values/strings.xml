@@ -151,6 +151,12 @@
     <string name="backup_filter_sort_option_name">Name</string>
     <string name="backup_filter_sort_option_installed">Install date</string>
     <string name="backup_filter_sort_option_updated">Update date</string>
+    <string name="backup_filter_backup_status">Backup status</string>
+    <string name="backup_filter_backup_status_option_no_backup">No backup</string>
+    <string name="backup_filter_backup_status_option_same_version">Same version</string>
+    <string name="backup_filter_backup_status_option_higher_version">Higher version</string>
+    <string name="backup_filter_backup_status_option_lower_version">Lower version</string>
+    <string name="backup_filter_backup_status_option_app_not_installed">Not installed</string>
     <string name="backup_app_feature_split">Split APK</string>
     <string name="backup_app_feature_system_app">System app</string>
     <string name="backup_app_feature_install_date">Installed: %s</string>
