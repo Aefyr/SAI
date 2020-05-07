@@ -60,6 +60,10 @@ dependencies {
     implementation 'com.github.aefyr.flexfilter:flexfilter:0.9-alpha'
     implementation 'com.github.aefyr:pseudoapksigner:1.6'
 
+    def room_version = "2.2.5"
+    implementation "androidx.room:room-runtime:$room_version"
+    annotationProcessor "androidx.room:room-compiler:$room_version"
+
     //Google services
     normalImplementation 'com.google.firebase:firebase-analytics:17.3.0'
     normalImplementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'

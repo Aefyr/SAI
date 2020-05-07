@@ -18,8 +18,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.aefyr.sai.R;
 import com.aefyr.sai.adapters.BackupSplitPartsAdapter;
-import com.aefyr.sai.backup.BackupService;
-import com.aefyr.sai.backup.BackupUtils;
+import com.aefyr.sai.backup2.BackupTaskConfig;
+import com.aefyr.sai.backup2.impl.DefaultBackupManager;
 import com.aefyr.sai.model.common.PackageMeta;
 import com.aefyr.sai.ui.dialogs.base.BaseBottomSheetDialogFragment;
 import com.aefyr.sai.utils.PermissionsUtils;
@@ -118,20 +118,12 @@ public class BackupDialogFragment extends BaseBottomSheetDialogFragment {
 
         List<File> selectedApks = mViewModel.getSelectedSplitParts();
 
-        //TODO probably shouldn't create files on main thread
-        Uri backupFileUri = BackupUtils.createBackupFile(requireContext(), mBackupDirUri, mPackage, selectedApks.size() > 1);
-        if (backupFileUri == null) {
-            showError(R.string.backup_error_cant_mkdir);
-            dismiss();
-            return;
-        }
-
-        BackupService.BackupTaskConfig config = new BackupService.BackupTaskConfig.Builder(mPackage, backupFileUri)
+        BackupTaskConfig config = new BackupTaskConfig.Builder(mPackage)
                 .addAllApks(selectedApks)
                 .setPackApksIntoAnArchive(selectedApks.size() > 1)
                 .build();
 
-        BackupService.enqueueBackup(getContext(), config);
+        DefaultBackupManager.getInstance(requireContext()).enqueueBackup(config);
 
         dismiss();
     }

@@ -25,4 +25,5 @@ public class PreferencesKeys {
     public static final String USE_INSTALLERX = "use_installerx";
     public static final String USE_BRUTE_PARSER = "use_brute_parser";
     public static final String ENABLE_FIREBASE = "firebase_enabled";
+    public static final String INITIAL_INDEXING_RUN = "initial_indexing_run";
 }

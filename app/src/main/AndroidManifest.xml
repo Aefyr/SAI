@@ -106,6 +106,8 @@
 
         <service android:name=".backup.BackupService" />
 
+        <service android:name=".backup2.impl.BackupService2" />
+
         <provider
             android:name="moe.shizuku.api.ShizukuBinderReceiveProvider"
             android:authorities="${applicationId}.shizuku"

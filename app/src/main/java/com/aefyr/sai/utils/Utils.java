@@ -226,11 +226,22 @@ public class Utils {
         if (!directory.exists() && !directory.mkdir())
             return null;
 
-        File tempFile = null;
-        while (tempFile == null || tempFile.exists())
-            tempFile = new File(directory, UUID.randomUUID() + "." + extension);
+        return createUniqueFileInDirectory(directory, extension);
+    }
 
-        return tempFile;
+    @Nullable
+    public static File createUniqueFileInDirectory(File dir, String extension) {
+        if (!dir.exists() && !dir.mkdirs() && !dir.exists())
+            return null;
+
+        if (!dir.canWrite())
+            return null;
+
+        File file = null;
+        while (file == null || file.exists())
+            file = new File(dir, UUID.randomUUID() + "." + extension);
+
+        return file;
     }
 
     public static File saveImageFromUriAsPng(Context context, Uri imageUri) throws Exception {

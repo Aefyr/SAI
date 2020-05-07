@@ -150,4 +150,12 @@ public class PreferencesHelper {
         return mPrefs.getBoolean(PreferencesKeys.ENABLE_FIREBASE, true);
     }
 
+    public boolean isInitialIndexingDone() {
+        return mPrefs.getBoolean(PreferencesKeys.INITIAL_INDEXING_RUN, false);
+    }
+
+    public void setInitialIndexingDone(boolean done) {
+        mPrefs.edit().putBoolean(PreferencesKeys.INITIAL_INDEXING_RUN, done).apply();
+    }
+
 }

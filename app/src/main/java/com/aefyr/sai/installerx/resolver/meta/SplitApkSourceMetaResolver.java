@@ -5,7 +5,7 @@ public interface SplitApkSourceMetaResolver {
     //TODO resolution progress listener would be nice
 
     /**
-     * @param apkSourceFile    apk source file
+     * @param apkSourceFile apk source file
      * @return
      * @throws Exception
      */

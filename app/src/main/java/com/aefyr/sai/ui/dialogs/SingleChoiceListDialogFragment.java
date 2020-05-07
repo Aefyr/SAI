@@ -24,6 +24,7 @@ import java.util.Objects;
 public class SingleChoiceListDialogFragment extends BaseBottomSheetDialogFragment {
 
     protected static final String ARG_PARAMS = "params";
+
     public interface OnItemSelectedListener {
         void onItemSelected(String dialogTag, int selectedItemIndex);
     }

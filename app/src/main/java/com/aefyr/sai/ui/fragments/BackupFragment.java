@@ -5,8 +5,11 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -22,7 +25,7 @@ import com.aefyr.flexfilter.ui.FilterDialog;
 import com.aefyr.sai.R;
 import com.aefyr.sai.adapters.BackupPackagesAdapter;
 import com.aefyr.sai.adapters.selection.Selection;
-import com.aefyr.sai.model.common.PackageMeta;
+import com.aefyr.sai.backup2.BackupApp;
 import com.aefyr.sai.ui.dialogs.BackupDialogFragment;
 import com.aefyr.sai.ui.dialogs.BatchBackupDialogFragment;
 import com.aefyr.sai.ui.dialogs.DonationSuggestionDialogFragment;
@@ -84,6 +87,23 @@ public class BackupFragment extends SaiBaseFragment implements BackupPackagesAda
         invalidateAppFeaturesVisibility();
         mViewModel.getPackages().observe(getViewLifecycleOwner(), mAdapter::setData);
 
+        ViewGroup indexingOverlay = findViewById(R.id.overlay_backup_indexing);
+        ProgressBar indexingProgressBar = findViewById(R.id.progress_backup_indexing);
+        TextView indexingStatusText = findViewById(R.id.tv_backup_indexing_status);
+        mViewModel.getIndexingStatus().observe(getViewLifecycleOwner(), status -> {
+            if (status.isInProgress()) {
+                indexingOverlay.setVisibility(View.VISIBLE);
+                indexingStatusText.setText(getString(R.string.backup_indexing, status.progress(), status.goal()));
+
+                indexingProgressBar.setMax(status.goal());
+                indexingProgressBar.setProgress(status.progress());
+
+            } else {
+                indexingOverlay.setVisibility(View.GONE);
+            }
+        });
+
+
         PreferencesHelper.getInstance(requireContext()).getPrefs().registerOnSharedPreferenceChangeListener(this);
     }
 
@@ -133,6 +153,9 @@ public class BackupFragment extends SaiBaseFragment implements BackupPackagesAda
                         break;
                     case R.id.menu_backup_help:
                         SimpleAlertDialogFragment.newInstance(requireContext(), R.string.help, R.string.backup_warning).show(getChildFragmentManager(), null);
+                        break;
+                    case R.id.menu_backup_reindex:
+                        mViewModel.reindexBackups();
                         break;
                 }
                 return true;
@@ -247,12 +270,12 @@ public class BackupFragment extends SaiBaseFragment implements BackupPackagesAda
     }
 
     @Override
-    public void onBackupButtonClicked(PackageMeta packageMeta) {
-        BackupDialogFragment.newInstance(packageMeta).show(getChildFragmentManager(), null);
+    public void onBackupButtonClicked(BackupApp backupApp) {
+        BackupDialogFragment.newInstance(backupApp.packageMeta()).show(getChildFragmentManager(), null);
     }
 
     @Override
-    public void onItemFocusChanged(boolean hasFocus, int index, PackageMeta packageMeta) {
+    public void onItemFocusChanged(boolean hasFocus, int index, BackupApp backupApp) {
         if (hasFocus)
             mFocusedItemIndex = index;
     }

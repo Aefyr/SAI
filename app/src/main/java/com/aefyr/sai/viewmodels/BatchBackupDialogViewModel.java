@@ -11,9 +11,9 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.aefyr.sai.backup.BackupRepository;
-import com.aefyr.sai.backup.BackupService;
-import com.aefyr.sai.backup.BackupUtils;
+import com.aefyr.sai.backup2.BackupManager;
+import com.aefyr.sai.backup2.BackupTaskConfig;
+import com.aefyr.sai.backup2.impl.DefaultBackupManager;
 import com.aefyr.sai.model.common.PackageMeta;
 import com.aefyr.sai.utils.PreferencesHelper;
 
@@ -25,6 +25,8 @@ public class BatchBackupDialogViewModel extends ViewModel {
 
     private Context mContext;
 
+    private BackupManager mBackupManager;
+
     private MutableLiveData<Boolean> mIsPreparing = new MutableLiveData<>();
     private MutableLiveData<Boolean> mIsBackupEnqueued = new MutableLiveData<>();
 
@@ -34,6 +36,7 @@ public class BatchBackupDialogViewModel extends ViewModel {
 
     public BatchBackupDialogViewModel(@NonNull Context applicationContext, @Nullable ArrayList<String> selectedPackages) {
         mContext = applicationContext;
+        mBackupManager = DefaultBackupManager.getInstance(mContext);
 
         mSelectedPackages = selectedPackages;
 
@@ -69,7 +72,7 @@ public class BatchBackupDialogViewModel extends ViewModel {
     }
 
     private void backupLiterallyAllSplits() {
-        List<PackageMeta> packages = BackupRepository.getInstance(mContext).getPackages().getValue();
+        List<PackageMeta> packages = DefaultBackupManager.getInstance(mContext).getInstalledPackages().getValue();
         if (packages == null)
             return;
 
@@ -77,13 +80,7 @@ public class BatchBackupDialogViewModel extends ViewModel {
             if (!packageMeta.hasSplits)
                 continue;
 
-            Uri backupFileUri = BackupUtils.createBackupFile(mContext, mBackupDirUri, packageMeta, true);
-            if (backupFileUri == null) {
-                Log.wtf(TAG, "Unable to create backup file for " + packageMeta.packageName);
-                continue;
-            }
-
-            BackupService.enqueueBackup(mContext, new BackupService.BackupTaskConfig.Builder(packageMeta, backupFileUri).build());
+            mBackupManager.enqueueBackup(new BackupTaskConfig.Builder(packageMeta).build());
         }
     }
 
@@ -95,13 +92,7 @@ public class BatchBackupDialogViewModel extends ViewModel {
                 continue;
             }
 
-            Uri backupFileUri = BackupUtils.createBackupFile(mContext, mBackupDirUri, packageMeta, true);
-            if (backupFileUri == null) {
-                Log.wtf(TAG, "Unable to create backup file for " + packageMeta.packageName);
-                continue;
-            }
-
-            BackupService.enqueueBackup(mContext, new BackupService.BackupTaskConfig.Builder(packageMeta, backupFileUri).build());
+            mBackupManager.enqueueBackup(new BackupTaskConfig.Builder(packageMeta).build());
         }
     }
 
