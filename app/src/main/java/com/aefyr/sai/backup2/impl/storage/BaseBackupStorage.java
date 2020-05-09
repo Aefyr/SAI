@@ -1,4 +1,4 @@
-package com.aefyr.sai.backup2.impl;
+package com.aefyr.sai.backup2.impl.storage;
 
 import android.os.Handler;
 
@@ -41,16 +41,8 @@ public abstract class BaseBackupStorage implements BackupStorage {
             action.accept(listener);
     }
 
-    protected void notifyBackupProgressChanged(String tag, long current, long goal) {
-        onEachProgressListener(it -> it.onProgressChanged(tag, current, goal));
-    }
-
-    protected void notifyBackupCompleted(String tag, BackupFileMeta backupFileMeta) {
-        onEachProgressListener(it -> it.onBackupCompleted(tag, backupFileMeta));
-    }
-
-    protected void notifyBackupFailed(String tag, Exception e) {
-        onEachProgressListener(it -> it.onBackupFailed(tag, e));
+    protected void notifyBackupTaskStatusChanged(BackupTaskStatus status) {
+        onEachProgressListener(it -> it.onBackupTaskStatusChanged(status));
     }
 
     protected void onEachObserver(Consumer<Observer> action) {
@@ -81,18 +73,8 @@ public abstract class BaseBackupStorage implements BackupStorage {
         }
 
         @Override
-        public void onProgressChanged(String tag, long current, long goal) {
-            mHandler.post(() -> mWrappedListener.onProgressChanged(tag, current, goal));
-        }
-
-        @Override
-        public void onBackupCompleted(String tag, BackupFileMeta backupFileMeta) {
-            mHandler.post(() -> mWrappedListener.onBackupCompleted(tag, backupFileMeta));
-        }
-
-        @Override
-        public void onBackupFailed(String tag, Exception e) {
-            mHandler.post(() -> mWrappedListener.onBackupFailed(tag, e));
+        public void onBackupTaskStatusChanged(BackupTaskStatus status) {
+            mHandler.post(() -> mWrappedListener.onBackupTaskStatusChanged(status));
         }
     }
 

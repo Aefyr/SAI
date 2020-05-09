@@ -25,6 +25,7 @@ import com.aefyr.sai.backup2.BackupManager;
 import com.aefyr.sai.backup2.BackupStatus;
 import com.aefyr.sai.backup2.BackupStorage;
 import com.aefyr.sai.backup2.BackupTaskConfig;
+import com.aefyr.sai.backup2.impl.storage.LocalBackupStorage;
 import com.aefyr.sai.model.common.PackageMeta;
 import com.aefyr.sai.utils.PreferencesHelper;
 import com.aefyr.sai.utils.Stopwatch;

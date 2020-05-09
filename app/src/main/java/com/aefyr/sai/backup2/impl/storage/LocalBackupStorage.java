@@ -1,4 +1,4 @@
-package com.aefyr.sai.backup2.impl;
+package com.aefyr.sai.backup2.impl.storage;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -33,6 +33,8 @@ public class LocalBackupStorage extends ApksBackupStorage implements SharedPrefe
     }
 
     private LocalBackupStorage(Context context) {
+        super();
+
         mContext = context.getApplicationContext();
         mPrefsHelper = PreferencesHelper.getInstance(mContext);
         mPrefsHelper.getPrefs().registerOnSharedPreferenceChangeListener(this);
