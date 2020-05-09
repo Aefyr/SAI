@@ -116,8 +116,7 @@ public abstract class ApksBackupStorage extends BaseBackupStorage {
     public void backupApp(BackupTaskConfig config, String tag) {
         mExecutor.execute(() -> {
             try {
-                Uri destination = executeBackup(config, tag);
-                BackupFileMeta meta = getMetaForBackupFile(destination);
+                BackupFileMeta meta = executeBackup(config, tag);
                 notifyBackupCompleted(tag, meta);
                 notifyBackupAdded(meta);
             } catch (Exception e) {
@@ -127,7 +126,7 @@ public abstract class ApksBackupStorage extends BaseBackupStorage {
         });
     }
 
-    private Uri executeBackup(BackupTaskConfig config, String tag) throws Exception {
+    private BackupFileMeta executeBackup(BackupTaskConfig config, String tag) throws Exception {
         Uri destination = createFileForTask(config);
 
         try {
@@ -144,13 +143,12 @@ public abstract class ApksBackupStorage extends BaseBackupStorage {
                 executeBackupWithoutPacking(tag, config, apkFiles.get(0), destination);
             else
                 executeBackupWithPacking(tag, config, apkFiles, destination);
+
+            return getMetaForBackupFile(destination);
         } catch (Exception e) {
             deleteFile(destination);
             throw e;
         }
-
-
-        return destination;
     }
 
     private void executeBackupWithPacking(String tag, BackupTaskConfig config, List<File> apkFiles, Uri destination) throws Exception {
