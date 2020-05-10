@@ -12,7 +12,8 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.aefyr.sai.backup2.BackupManager;
-import com.aefyr.sai.backup2.BackupTaskConfig;
+import com.aefyr.sai.backup2.backuptask.config.BatchBackupTaskConfig;
+import com.aefyr.sai.backup2.backuptask.config.SingleBackupTaskConfig;
 import com.aefyr.sai.backup2.impl.DefaultBackupManager;
 import com.aefyr.sai.model.common.PackageMeta;
 import com.aefyr.sai.utils.PreferencesHelper;
@@ -76,15 +77,19 @@ public class BatchBackupDialogViewModel extends ViewModel {
         if (packages == null)
             return;
 
+        List<SingleBackupTaskConfig> configs = new ArrayList<>();
         for (PackageMeta packageMeta : packages) {
             if (!packageMeta.hasSplits)
                 continue;
 
-            mBackupManager.enqueueBackup(new BackupTaskConfig.Builder(packageMeta).build());
+            configs.add(new SingleBackupTaskConfig.Builder(packageMeta).build());
         }
+        mBackupManager.enqueueBackup(new BatchBackupTaskConfig(configs));
     }
 
     private void backupSelectedApps() {
+
+        List<SingleBackupTaskConfig> configs = new ArrayList<>();
         for (String pkg : mSelectedPackages) {
             PackageMeta packageMeta = PackageMeta.forPackage(mContext, pkg);
             if (packageMeta == null) {
@@ -92,8 +97,9 @@ public class BatchBackupDialogViewModel extends ViewModel {
                 continue;
             }
 
-            mBackupManager.enqueueBackup(new BackupTaskConfig.Builder(packageMeta).build());
+            configs.add(new SingleBackupTaskConfig.Builder(packageMeta).build());
         }
+        mBackupManager.enqueueBackup(new BatchBackupTaskConfig(configs));
     }
 
     public boolean doesRequireStoragePermissions() {

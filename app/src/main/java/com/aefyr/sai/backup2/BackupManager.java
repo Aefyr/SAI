@@ -2,6 +2,8 @@ package com.aefyr.sai.backup2;
 
 import androidx.lifecycle.LiveData;
 
+import com.aefyr.sai.backup2.backuptask.config.BatchBackupTaskConfig;
+import com.aefyr.sai.backup2.backuptask.config.SingleBackupTaskConfig;
 import com.aefyr.sai.model.common.PackageMeta;
 
 import java.util.List;
@@ -12,7 +14,9 @@ public interface BackupManager {
 
     LiveData<List<BackupApp>> getApps();
 
-    void enqueueBackup(BackupTaskConfig backupTaskConfig);
+    void enqueueBackup(SingleBackupTaskConfig config);
+
+    void enqueueBackup(BatchBackupTaskConfig config);
 
     void reindex();
 

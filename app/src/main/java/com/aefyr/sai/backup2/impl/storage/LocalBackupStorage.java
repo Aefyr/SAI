@@ -7,7 +7,7 @@ import android.net.Uri;
 import androidx.documentfile.provider.DocumentFile;
 
 import com.aefyr.sai.backup.BackupUtils;
-import com.aefyr.sai.backup2.BackupTaskConfig;
+import com.aefyr.sai.backup2.backuptask.config.SingleBackupTaskConfig;
 import com.aefyr.sai.utils.PreferencesHelper;
 import com.aefyr.sai.utils.PreferencesKeys;
 import com.aefyr.sai.utils.Utils;
@@ -53,7 +53,7 @@ public class LocalBackupStorage extends ApksBackupStorage implements SharedPrefe
     }
 
     @Override
-    protected Uri createFileForTask(BackupTaskConfig config) throws Exception {
+    protected Uri createFileForTask(SingleBackupTaskConfig config) throws Exception {
         Uri backupFileUri = BackupUtils.createBackupFile(mContext, mPrefsHelper.getBackupDirUri(), config.packageMeta(), config.packApksIntoAnArchive());
         if (backupFileUri == null) {
             throw new Exception("Unable to create backup file");

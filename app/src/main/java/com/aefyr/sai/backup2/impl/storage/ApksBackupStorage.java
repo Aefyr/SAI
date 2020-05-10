@@ -10,7 +10,12 @@ import androidx.annotation.GuardedBy;
 import androidx.annotation.Nullable;
 
 import com.aefyr.sai.backup2.BackupFileMeta;
-import com.aefyr.sai.backup2.BackupTaskConfig;
+import com.aefyr.sai.backup2.backuptask.config.BackupTaskConfig;
+import com.aefyr.sai.backup2.backuptask.config.BatchBackupTaskConfig;
+import com.aefyr.sai.backup2.backuptask.config.SingleBackupTaskConfig;
+import com.aefyr.sai.backup2.backuptask.executor.BatchBackupTaskExecutor;
+import com.aefyr.sai.backup2.backuptask.executor.CancellableBackupTaskExecutor;
+import com.aefyr.sai.backup2.backuptask.executor.SingleBackupTaskExecutor;
 import com.aefyr.sai.model.backup.SaiExportedAppMeta;
 import com.aefyr.sai.utils.IOUtils;
 import com.aefyr.sai.utils.Utils;
@@ -20,6 +25,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,13 +41,14 @@ public abstract class ApksBackupStorage extends BaseBackupStorage {
 
 
     private ExecutorService mTaskExecutor = Executors.newFixedThreadPool(4);
-    private ExecutorService mFinisherExecutor = Executors.newFixedThreadPool(4);
 
     @GuardedBy("mTasks")
-    private final Map<String, BackupTaskConfig> mTasks = new HashMap<>();
-
+    private final Map<String, SingleBackupTaskConfig> mTasks = new HashMap<>();
     @GuardedBy("mTaskExecutors")
-    private final Map<String, ApksBackupTaskExecutor> mTaskExecutors = new HashMap<>();
+    private final Map<String, CancellableBackupTaskExecutor> mTaskExecutors = new HashMap<>();
+
+    @GuardedBy("mBatchTasks")
+    private final Map<String, BatchBackupTaskConfig> mBatchTasks = new HashMap<>();
 
     private HandlerThread mTaskProgressHandlerThread;
     private Handler mTaskProgressHandler;
@@ -54,7 +61,7 @@ public abstract class ApksBackupStorage extends BaseBackupStorage {
 
     protected abstract Context getContext();
 
-    protected abstract Uri createFileForTask(BackupTaskConfig config) throws Exception;
+    protected abstract Uri createFileForTask(SingleBackupTaskConfig config) throws Exception;
 
     protected abstract OutputStream openFileOutputStream(Uri uri) throws Exception;
 
@@ -119,30 +126,55 @@ public abstract class ApksBackupStorage extends BaseBackupStorage {
     }
 
     @Override
-    public String createBackupTask(BackupTaskConfig config) {
+    public String createBackupTask(SingleBackupTaskConfig config) {
         String token = UUID.randomUUID().toString();
 
         synchronized (mTasks) {
             mTasks.put(token, config);
+            notifyBackupTaskStatusChanged(BackupTaskStatus.created(token, config));
         }
 
-        notifyBackupTaskStatusChanged(BackupTaskStatus.created(token, config));
+        return token;
+    }
+
+    @Override
+    public String createBatchBackupTask(BatchBackupTaskConfig config) {
+        String token = UUID.randomUUID().toString();
+
+        synchronized (mBatchTasks) {
+            mBatchTasks.put(token, config);
+            notifyBatchBackupTaskStatusChanged(BatchBackupTaskStatus.created(token));
+        }
 
         return token;
     }
 
     @Override
     public void startBackupTask(String taskToken) {
-        BackupTaskConfig config;
+        SingleBackupTaskConfig config;
         synchronized (mTasks) {
             config = mTasks.remove(taskToken);
         }
-        if (config == null)
+        if (config != null) {
+            startSingleBackupTask(taskToken, config);
             return;
+        }
+
+        BatchBackupTaskConfig batchConfig;
+        synchronized (mBatchTasks) {
+            batchConfig = mBatchTasks.remove(taskToken);
+        }
+        if (batchConfig != null) {
+            startBatchBackupTask(taskToken, batchConfig);
+        }
+
+    }
+
+    private void startSingleBackupTask(String taskToken, SingleBackupTaskConfig config) {
 
         InternalDelegatedFile delegatedFile = new InternalDelegatedFile(config);
-        ApksBackupTaskExecutor taskExecutor = new ApksBackupTaskExecutor(getContext(), config, delegatedFile);
-        taskExecutor.setListener(new ApksBackupTaskExecutor.Listener() {
+        ApksSingleBackupTaskExecutor taskExecutor = new ApksSingleBackupTaskExecutor(getContext(), config, delegatedFile);
+        taskExecutor.setListener(new ApksSingleBackupTaskExecutor.Listener() {
             @Override
             public void onStart() {
                 notifyBackupTaskStatusChanged(BackupTaskStatus.inProgress(taskToken, config, 0, 1));
@@ -159,8 +191,9 @@ public abstract class ApksBackupStorage extends BaseBackupStorage {
             }
 
             @Override
-            public void onSuccess() {
-                mFinisherExecutor.execute(() -> readMetaAndFinishBackupTask(taskToken, config, delegatedFile));
+            public void onSuccess(BackupFileMeta meta) {
+                notifyBackupTaskStatusChanged(BackupTaskStatus.succeeded(taskToken, config, meta));
+                notifyBackupAdded(meta);
             }
 
             @Override
@@ -176,32 +209,106 @@ public abstract class ApksBackupStorage extends BaseBackupStorage {
         taskExecutor.execute(mTaskExecutor);
     }
 
+    private void startBatchBackupTask(String taskToken, BatchBackupTaskConfig batchConfig) {
+        BatchBackupTaskExecutor taskExecutor = new BatchBackupTaskExecutor(getContext(), batchConfig, new InternalSingleBackupTaskExecutorFactory());
+        taskExecutor.setListener(new BatchBackupTaskExecutor.Listener() {
+
+            private Map<SingleBackupTaskConfig, BackupFileMeta> mSucceededBackups = new HashMap<>();
+            private Map<SingleBackupTaskConfig, Exception> mFailedBackups = new HashMap<>();
+
+            @Override
+            public void onStart() {
+
+            }
+
+            @Override
+            public void onAppBackupStarted(SingleBackupTaskConfig config) {
+                notifyBatchBackupTaskStatusChanged(BatchBackupTaskStatus.inProgress(taskToken, config, batchConfig.configs().size(), mSucceededBackups.size(), mFailedBackups.size()));
+            }
+
+            @Override
+            public void onAppBackedUp(SingleBackupTaskConfig config, BackupFileMeta meta) {
+                mSucceededBackups.put(config, meta);
+                notifyBackupAdded(meta);
+            }
+
+            @Override
+            public void onAppBackupFailed(SingleBackupTaskConfig config, Exception e) {
+                mFailedBackups.put(config, e);
+            }
+
+            @Override
+            public void onCancelled(List<SingleBackupTaskConfig> cancelledBackups) {
+                notifyBatchBackupTaskStatusChanged(BatchBackupTaskStatus.cancelled(taskToken, mSucceededBackups, mFailedBackups, cancelledBackups));
+            }
+
+            @Override
+            public void onSuccess() {
+                notifyBatchBackupTaskStatusChanged(BatchBackupTaskStatus.succeeded(taskToken, mSucceededBackups, mFailedBackups));
+            }
+
+            @Override
+            public void onError(Exception e, List<SingleBackupTaskConfig> remainingBackups) {
+                notifyBatchBackupTaskStatusChanged(BatchBackupTaskStatus.failed(taskToken, mSucceededBackups, mFailedBackups, remainingBackups, e));
+            }
+        }, mTaskProgressHandler);
+        synchronized (mTaskExecutors) {
+            mTaskExecutors.put(taskToken, taskExecutor);
+        }
+        notifyBatchBackupTaskStatusChanged(BatchBackupTaskStatus.queued(taskToken));
+        taskExecutor.execute();
+    }
+
     @Override
     public void cancelBackupTask(String taskToken) {
+        synchronized (mTasks) {
+            SingleBackupTaskConfig config = mTasks.remove(taskToken);
+            if (config != null) {
+                notifyBackupTaskStatusChanged(BackupTaskStatus.cancelled(taskToken, config));
+                return;
+            }
+        }
+
+        synchronized (mBatchTasks) {
+            BatchBackupTaskConfig batchConfig = mBatchTasks.remove(taskToken);
+            if (batchConfig != null) {
+                notifyBatchBackupTaskStatusChanged(BatchBackupTaskStatus.cancelled(taskToken, Collections.emptyMap(), Collections.emptyMap(), batchConfig.configs()));
+                return;
+            }
+        }
+
         synchronized (mTaskExecutors) {
-            ApksBackupTaskExecutor taskExecutor = mTaskExecutors.get(taskToken);
+            CancellableBackupTaskExecutor taskExecutor = mTaskExecutors.get(taskToken);
             if (taskExecutor != null)
                 taskExecutor.requestCancellation();
         }
     }
 
-    private void readMetaAndFinishBackupTask(String taskToken, BackupTaskConfig config, InternalDelegatedFile delegatedFile) {
-        try {
-            BackupFileMeta meta = getMetaForBackupFile(delegatedFile.getUri());
-            notifyBackupTaskStatusChanged(BackupTaskStatus.succeeded(taskToken, config, meta));
-            notifyBackupAdded(meta);
-        } catch (Exception e) {
-            delegatedFile.delete();
-            notifyBackupTaskStatusChanged(BackupTaskStatus.failed(taskToken, config, e));
+    @Nullable
+    @Override
+    public BackupTaskConfig getTaskConfig(String taskToken) {
+        //TODO use a single map for both classes or something
+        synchronized (mTasks) {
+            SingleBackupTaskConfig config = mTasks.get(taskToken);
+            if (config != null)
+                return config;
         }
+
+        synchronized (mBatchTasks) {
+            BatchBackupTaskConfig batchConfig = mBatchTasks.get(taskToken);
+            if (batchConfig != null)
+                return batchConfig;
+        }
+
+        return null;
     }
 
-    private class InternalDelegatedFile implements ApksBackupTaskExecutor.DelegatedFile {
+    private class InternalDelegatedFile implements ApksSingleBackupTaskExecutor.DelegatedFile {
 
-        private BackupTaskConfig mConfig;
+        private SingleBackupTaskConfig mConfig;
         private Uri mUri;
 
-        private InternalDelegatedFile(BackupTaskConfig config) {
+        private InternalDelegatedFile(SingleBackupTaskConfig config) {
             mConfig = config;
         }
 
@@ -219,9 +326,17 @@ public abstract class ApksBackupStorage extends BaseBackupStorage {
             deleteFile(mUri);
         }
 
-        @Nullable
-        private Uri getUri() {
-            return mUri;
+        @Override
+        public BackupFileMeta readMeta() throws Exception {
+            return getMetaForBackupFile(mUri);
+        }
+    }
+
+    private class InternalSingleBackupTaskExecutorFactory implements BatchBackupTaskExecutor.SingleBackupTaskExecutorFactory {
+
+        @Override
+        public SingleBackupTaskExecutor createFor(SingleBackupTaskConfig config) {
+            return new ApksSingleBackupTaskExecutor(getContext(), config, new InternalDelegatedFile(config));
         }
     }
 }

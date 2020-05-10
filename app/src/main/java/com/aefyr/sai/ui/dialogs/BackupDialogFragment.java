@@ -18,7 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.aefyr.sai.R;
 import com.aefyr.sai.adapters.BackupSplitPartsAdapter;
-import com.aefyr.sai.backup2.BackupTaskConfig;
+import com.aefyr.sai.backup2.backuptask.config.SingleBackupTaskConfig;
 import com.aefyr.sai.backup2.impl.DefaultBackupManager;
 import com.aefyr.sai.model.common.PackageMeta;
 import com.aefyr.sai.ui.dialogs.base.BaseBottomSheetDialogFragment;
@@ -118,7 +118,7 @@ public class BackupDialogFragment extends BaseBottomSheetDialogFragment {
 
         List<File> selectedApks = mViewModel.getSelectedSplitParts();
 
-        BackupTaskConfig config = new BackupTaskConfig.Builder(mPackage)
+        SingleBackupTaskConfig config = new SingleBackupTaskConfig.Builder(mPackage)
                 .addAllApks(selectedApks)
                 .setPackApksIntoAnArchive(selectedApks.size() > 1)
                 .build();

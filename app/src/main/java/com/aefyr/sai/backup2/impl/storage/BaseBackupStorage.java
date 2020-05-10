@@ -45,6 +45,10 @@ public abstract class BaseBackupStorage implements BackupStorage {
         onEachProgressListener(it -> it.onBackupTaskStatusChanged(status));
     }
 
+    protected void notifyBatchBackupTaskStatusChanged(BatchBackupTaskStatus status) {
+        onEachProgressListener(it -> it.onBatchBackupTaskStatusChanged(status));
+    }
+
     protected void onEachObserver(Consumer<Observer> action) {
         for (Observer observer : mObservers.values())
             action.accept(observer);
@@ -75,6 +79,11 @@ public abstract class BaseBackupStorage implements BackupStorage {
         @Override
         public void onBackupTaskStatusChanged(BackupTaskStatus status) {
             mHandler.post(() -> mWrappedListener.onBackupTaskStatusChanged(status));
+        }
+
+        @Override
+        public void onBatchBackupTaskStatusChanged(BatchBackupTaskStatus status) {
+            mHandler.post(() -> mWrappedListener.onBatchBackupTaskStatusChanged(status));
         }
     }
 

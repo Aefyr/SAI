@@ -1,4 +1,4 @@
-package com.aefyr.sai.backup2;
+package com.aefyr.sai.backup2.backuptask.config;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -10,28 +10,28 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class BackupTaskConfig implements Parcelable {
+public class SingleBackupTaskConfig implements Parcelable, BackupTaskConfig {
 
-    public static final Parcelable.Creator<BackupTaskConfig> CREATOR = new Parcelable.Creator<BackupTaskConfig>() {
+    public static final Parcelable.Creator<SingleBackupTaskConfig> CREATOR = new Parcelable.Creator<SingleBackupTaskConfig>() {
         @Override
-        public BackupTaskConfig createFromParcel(Parcel in) {
-            return new BackupTaskConfig(in);
+        public SingleBackupTaskConfig createFromParcel(Parcel in) {
+            return new SingleBackupTaskConfig(in);
         }
 
         @Override
-        public BackupTaskConfig[] newArray(int size) {
-            return new BackupTaskConfig[size];
+        public SingleBackupTaskConfig[] newArray(int size) {
+            return new SingleBackupTaskConfig[size];
         }
     };
     private PackageMeta mPackageMeta;
     private ArrayList<File> mApksToBackup = new ArrayList<>();
     private boolean mPackApksIntoAnArchive = true;
 
-    private BackupTaskConfig(PackageMeta packageMeta) {
+    private SingleBackupTaskConfig(PackageMeta packageMeta) {
         this.mPackageMeta = packageMeta;
     }
 
-    BackupTaskConfig(Parcel in) {
+    SingleBackupTaskConfig(Parcel in) {
         mPackageMeta = in.readParcelable(PackageMeta.class.getClassLoader());
 
         ArrayList<String> apkFilePaths = new ArrayList<>();
@@ -72,28 +72,28 @@ public class BackupTaskConfig implements Parcelable {
     }
 
     public static class Builder {
-        private BackupTaskConfig mConfig;
+        private SingleBackupTaskConfig mConfig;
 
         public Builder(PackageMeta packageMeta) {
-            mConfig = new BackupTaskConfig(packageMeta);
+            mConfig = new SingleBackupTaskConfig(packageMeta);
         }
 
-        public BackupTaskConfig.Builder addApk(File apkFile) {
+        public SingleBackupTaskConfig.Builder addApk(File apkFile) {
             mConfig.mApksToBackup.add(apkFile);
             return this;
         }
 
-        public BackupTaskConfig.Builder addAllApks(Collection<File> apkFiles) {
+        public SingleBackupTaskConfig.Builder addAllApks(Collection<File> apkFiles) {
             mConfig.mApksToBackup.addAll(apkFiles);
             return this;
         }
 
-        public BackupTaskConfig.Builder setPackApksIntoAnArchive(boolean pack) {
+        public SingleBackupTaskConfig.Builder setPackApksIntoAnArchive(boolean pack) {
             mConfig.mPackApksIntoAnArchive = pack;
             return this;
         }
 
-        public BackupTaskConfig build() {
+        public SingleBackupTaskConfig build() {
             return mConfig;
         }
     }

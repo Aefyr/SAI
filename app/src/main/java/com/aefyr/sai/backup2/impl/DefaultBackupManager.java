@@ -24,7 +24,8 @@ import com.aefyr.sai.backup2.BackupIndex;
 import com.aefyr.sai.backup2.BackupManager;
 import com.aefyr.sai.backup2.BackupStatus;
 import com.aefyr.sai.backup2.BackupStorage;
-import com.aefyr.sai.backup2.BackupTaskConfig;
+import com.aefyr.sai.backup2.backuptask.config.BatchBackupTaskConfig;
+import com.aefyr.sai.backup2.backuptask.config.SingleBackupTaskConfig;
 import com.aefyr.sai.backup2.impl.storage.LocalBackupStorage;
 import com.aefyr.sai.model.common.PackageMeta;
 import com.aefyr.sai.utils.PreferencesHelper;
@@ -105,8 +106,13 @@ public class DefaultBackupManager implements BackupManager, BackupStorage.Observ
     }
 
     @Override
-    public void enqueueBackup(BackupTaskConfig backupTaskConfig) {
-        BackupService2.enqueueBackup(mContext, backupTaskConfig);
+    public void enqueueBackup(SingleBackupTaskConfig config) {
+        BackupService2.enqueueBackup(mContext, mStorage.createBackupTask(config));
+    }
+
+    @Override
+    public void enqueueBackup(BatchBackupTaskConfig config) {
+        BackupService2.enqueueBackup(mContext, mStorage.createBatchBackupTask(config));
     }
 
     @Override
