@@ -22,6 +22,8 @@ public interface BackupManager {
 
     LiveData<IndexingStatus> getIndexingStatus();
 
+    LiveData<BackupAppDetails> getAppDetails(String pkg);
+
     class IndexingStatus {
         private boolean mInProgress;
         private int mProgress;

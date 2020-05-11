@@ -3,6 +3,7 @@ package com.aefyr.sai.backup2;
 import android.net.Uri;
 
 import androidx.annotation.Nullable;
+import androidx.lifecycle.LiveData;
 
 import java.util.List;
 
@@ -21,6 +22,8 @@ public interface BackupIndex {
     List<String> getAllPackages();
 
     List<BackupFileMeta> getAllBackupsForPackage(String pkg);
+
+    LiveData<List<BackupFileMeta>> getAllBackupsForPackageLiveData(String pkg);
 
     /**
      * Delete all entries from this index and add entries from {@code newIndex}

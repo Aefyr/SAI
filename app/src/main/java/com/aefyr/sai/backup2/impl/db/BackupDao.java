@@ -1,5 +1,6 @@
 package com.aefyr.sai.backup2.impl.db;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
@@ -31,6 +32,9 @@ public interface BackupDao {
 
     @Query("SELECT * FROM BackupMetaEntity WHERE package = :pkg")
     List<BackupMetaEntity> getAllBackupsForPackage(String pkg);
+
+    @Query("SELECT * FROM BackupMetaEntity WHERE package = :pkg")
+    LiveData<List<BackupMetaEntity>> getAllBackupsForPackageLiveData(String pkg);
 
     @Query("DELETE FROM BackupMetaEntity")
     void dropAllEntries();

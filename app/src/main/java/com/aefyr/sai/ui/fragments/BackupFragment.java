@@ -26,7 +26,7 @@ import com.aefyr.sai.R;
 import com.aefyr.sai.adapters.BackupPackagesAdapter;
 import com.aefyr.sai.adapters.selection.Selection;
 import com.aefyr.sai.backup2.BackupApp;
-import com.aefyr.sai.ui.dialogs.BackupDialogFragment;
+import com.aefyr.sai.ui.activities.BackupManageAppActivity;
 import com.aefyr.sai.ui.dialogs.BatchBackupDialogFragment;
 import com.aefyr.sai.ui.dialogs.DonationSuggestionDialogFragment;
 import com.aefyr.sai.ui.dialogs.OneTimeWarningDialogFragment;
@@ -271,7 +271,7 @@ public class BackupFragment extends SaiBaseFragment implements BackupPackagesAda
 
     @Override
     public void onBackupButtonClicked(BackupApp backupApp) {
-        BackupDialogFragment.newInstance(backupApp.packageMeta()).show(getChildFragmentManager(), null);
+        BackupManageAppActivity.start(requireContext(), backupApp.packageMeta().packageName);
     }
 
     @Override

@@ -14,11 +14,14 @@ import android.os.HandlerThread;
 import android.os.Looper;
 import android.util.Log;
 
+import androidx.annotation.Nullable;
 import androidx.annotation.WorkerThread;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
 
 import com.aefyr.sai.backup2.BackupApp;
+import com.aefyr.sai.backup2.BackupAppDetails;
 import com.aefyr.sai.backup2.BackupFileMeta;
 import com.aefyr.sai.backup2.BackupIndex;
 import com.aefyr.sai.backup2.BackupManager;
@@ -35,9 +38,11 @@ import com.aefyr.sai.utils.Utils;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 
 public class DefaultBackupManager implements BackupManager, BackupStorage.Observer {
     private static final String TAG = "DefaultBackupManager";
@@ -57,6 +62,8 @@ public class DefaultBackupManager implements BackupManager, BackupStorage.Observ
     private MutableLiveData<List<BackupApp>> mAppsLiveData = new MutableLiveData<>(Collections.emptyList());
 
     private MutableLiveData<IndexingStatus> mIndexingStatus = new MutableLiveData<>(new IndexingStatus());
+
+    private final Set<AppsObserver> mAppsObservers = new HashSet<>();
 
     public static synchronized DefaultBackupManager getInstance(Context context) {
         return sInstance != null ? sInstance : new DefaultBackupManager(context);
@@ -125,6 +132,52 @@ public class DefaultBackupManager implements BackupManager, BackupStorage.Observ
         return mIndexingStatus;
     }
 
+    @Override
+    public LiveData<BackupAppDetails> getAppDetails(String pkg) {
+        return new LiveAppDetails(pkg);
+    }
+
+    @WorkerThread
+    @Nullable
+    private PackageMeta getInstalledApp(String pkg) {
+        enforceWorkerThread();
+        return mInstalledApps.get(pkg);
+    }
+
+    @WorkerThread
+    @Nullable
+    private BackupApp getApp(String pkg) {
+        enforceWorkerThread();
+        return mApps.get(pkg);
+    }
+
+    private void addAppsObserver(AppsObserver observer) {
+        synchronized (mAppsObservers) {
+            mAppsObservers.add(observer);
+        }
+    }
+
+    private void removeAppsObserver(AppsObserver observer) {
+        synchronized (mAppsObservers) {
+            mAppsObservers.remove(observer);
+        }
+    }
+
+    private void notifyInstalledAppInvalidated(String pkg) {
+        synchronized (mAppsObservers) {
+            for (AppsObserver observer : mAppsObservers)
+                observer.onInstalledAppInvalidated(pkg);
+        }
+    }
+
+    private void notifyAppInvalidated(String pkg) {
+        synchronized (mAppsObservers) {
+            for (AppsObserver observer : mAppsObservers)
+                observer.onAppInvalidated(pkg);
+        }
+    }
+
+
     @WorkerThread
     private void fetchPackages() {
         enforceWorkerThread();
@@ -168,6 +221,7 @@ public class DefaultBackupManager implements BackupManager, BackupStorage.Observ
 
         mInstalledApps = packages;
         mInstalledAppsLiveData.postValue(new ArrayList<>(mInstalledApps.values()));
+
         rebuildAppList();
     }
 
@@ -266,12 +320,13 @@ public class DefaultBackupManager implements BackupManager, BackupStorage.Observ
     private void updateAppInAppList(String pkg) {
         enforceWorkerThread();
 
-        mApps.remove(pkg);
-        mInstalledApps.remove(pkg);
-
         PackageMeta packageMeta = PackageMeta.forPackage(mContext, pkg);
-        if (packageMeta != null)
+        if (packageMeta != null) {
             mInstalledApps.put(pkg, packageMeta);
+        } else {
+            mInstalledApps.remove(pkg);
+        }
+        notifyInstalledAppInvalidated(pkg);
 
         if (packageMeta != null) {
             BackupFileMeta backupFileMeta = mIndex.getLatestBackupForPackage(packageMeta.packageName);
@@ -290,13 +345,17 @@ public class DefaultBackupManager implements BackupManager, BackupStorage.Observ
             }
 
             mAppsLiveData.postValue(new ArrayList<>(mApps.values()));
+            notifyAppInvalidated(pkg);
         } else {
             BackupFileMeta backupFileMeta = mIndex.getLatestBackupForPackage(pkg);
-            if (backupFileMeta == null)
-                return;
+            if (backupFileMeta != null) {
+                mApps.put(pkg, new BackupAppImpl(backupFileMeta.toPackageMeta(), false, BackupStatus.APP_NOT_INSTALLED));
+            } else {
+                mApps.remove(pkg);
+            }
 
-            mApps.put(pkg, new BackupAppImpl(backupFileMeta.toPackageMeta(), false, BackupStatus.APP_NOT_INSTALLED));
             mAppsLiveData.postValue(new ArrayList<>(mApps.values()));
+            notifyAppInvalidated(pkg);
         }
     }
 
@@ -355,6 +414,97 @@ public class DefaultBackupManager implements BackupManager, BackupStorage.Observ
         @Override
         public BackupStatus backupStatus() {
             return mBackupStatus;
+        }
+    }
+
+    /**
+     * Observers are called on {@link #mWorkerHandler}
+     */
+    public interface AppsObserver {
+
+        void onInstalledAppInvalidated(String pkg);
+
+        void onAppInvalidated(String pkg);
+
+    }
+
+    private static class BackupAppDetailsImpl implements BackupAppDetails {
+
+        private State mState;
+        private BackupApp mApp;
+        private List<BackupFileMeta> mBackups;
+
+        private BackupAppDetailsImpl(State state, BackupApp app, List<BackupFileMeta> backups) {
+            mState = state;
+            mApp = app;
+            mBackups = backups;
+        }
+
+        @Override
+        public State state() {
+            return mState;
+        }
+
+        @Override
+        public BackupApp app() {
+            return mApp;
+        }
+
+        @Override
+        public List<BackupFileMeta> backups() {
+            return mBackups;
+        }
+    }
+
+    private class LiveAppDetails extends LiveData<BackupAppDetails> implements Observer<List<BackupFileMeta>>, AppsObserver {
+
+        private String mPkg;
+        private LiveData<List<BackupFileMeta>> mMetasLiveData;
+
+        private LiveAppDetails(String pkg) {
+            mPkg = pkg;
+            setValue(new BackupAppDetailsImpl(BackupAppDetails.State.LOADING, null, null));
+        }
+
+        @Override
+        protected void onActive() {
+            if (mMetasLiveData == null)
+                mMetasLiveData = mIndex.getAllBackupsForPackageLiveData(mPkg);
+
+            addAppsObserver(this);
+            mMetasLiveData.observeForever(this);
+        }
+
+        @Override
+        protected void onInactive() {
+            mMetasLiveData.removeObserver(this);
+            removeAppsObserver(this);
+
+            if (!hasActiveObservers()) {
+                mMetasLiveData = null;
+            }
+        }
+
+        @Override
+        public void onChanged(List<BackupFileMeta> backupFileMetas) {
+            invalidate();
+        }
+
+        @Override
+        public void onInstalledAppInvalidated(String pkg) {
+
+        }
+
+        @Override
+        public void onAppInvalidated(String pkg) {
+            if (pkg.equals(mPkg))
+                invalidate();
+        }
+
+        private void invalidate() {
+            mWorkerHandler.post(() -> {
+                postValue(new BackupAppDetailsImpl(BackupAppDetails.State.READY, getApp(mPkg), mIndex.getAllBackupsForPackage(mPkg)));
+            });
         }
     }
 

@@ -5,6 +5,8 @@ import android.database.sqlite.SQLiteConstraintException;
 import android.net.Uri;
 
 import androidx.annotation.Nullable;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Transformations;
 
 import com.aefyr.sai.backup2.BackupFileMeta;
 import com.aefyr.sai.backup2.BackupIndex;
@@ -71,6 +73,18 @@ public class DaoBackedBackupIndex implements BackupIndex {
         }
 
         return backupFileMetas;
+    }
+
+    @Override
+    public LiveData<List<BackupFileMeta>> getAllBackupsForPackageLiveData(String pkg) {
+        return Transformations.map(mDao.getAllBackupsForPackageLiveData(pkg), backupEntities -> {
+            List<BackupFileMeta> metas = new ArrayList<>();
+
+            for (BackupMetaEntity entity : backupEntities)
+                metas.add(entity.toBackupFileMeta());
+
+            return metas;
+        });
     }
 
     @Override
