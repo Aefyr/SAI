@@ -178,7 +178,7 @@ public class BackupService2 extends Service implements BackupStorage.BackupProgr
         return new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_backup)
                 .setContentTitle(getString(R.string.backup_backup))
-                .setContentText(getString(R.string.backup_backup_export_in_progress_2, mTasks.size()))
+                .setContentText(getString(R.string.backup_backup_export_in_progress_2, mTasks.size() + mBatchTasks.size()))
                 .build();
     }
 
@@ -215,10 +215,16 @@ public class BackupService2 extends Service implements BackupStorage.BackupProgr
     }
 
     private void notifyBackupCancelled(BackupTaskInfo taskInfo) {
+        if (taskInfo.cachedCancelPendingIntent != null)
+            taskInfo.cachedCancelPendingIntent.cancel();
+
         mNotificationHelper.cancel(taskInfo.notificationTag, 0);
     }
 
     private void notifyBackupCompleted(BackupTaskInfo taskInfo, boolean successfully) {
+        if (taskInfo.cachedCancelPendingIntent != null)
+            taskInfo.cachedCancelPendingIntent.cancel();
+
         NotificationCompat.Builder builder = new NotificationCompat.Builder(BackupService2.this, NOTIFICATION_CHANNEL_ID)
                 .setWhen(System.currentTimeMillis())
                 .setOnlyAlertOnce(false)
@@ -282,7 +288,7 @@ public class BackupService2 extends Service implements BackupStorage.BackupProgr
                 .setWhen(taskInfo.creationTime)
                 .setOngoing(true)
                 .setSmallIcon(R.drawable.ic_backup)
-                .setContentTitle(getString(R.string.backup_backup))
+                .setContentTitle(getString(R.string.backup_batch_backup))
                 .setProgress(goal, current, false)
                 .setContentText(getString(R.string.backup_backup_in_progress, currentBackupConfig.packageMeta().label))
                 .addAction(new NotificationCompat.Action(null, getString(R.string.cancel), cancelTaskPendingIntent))
@@ -292,25 +298,41 @@ public class BackupService2 extends Service implements BackupStorage.BackupProgr
         taskInfo.firstProgressNotificationFired = true;
     }
 
-    private void notifyBatchBackupCancelled(BatchBackupTaskInfo taskInfo) {
-        mNotificationHelper.cancel(taskInfo.notificationTag, 0);
-    }
+    private void notifyBatchBackupCompleted(BatchBackupTaskInfo taskInfo, BackupStorage.BatchBackupTaskStatus status) {
+        if (taskInfo.cachedCancelPendingIntent != null)
+            taskInfo.cachedCancelPendingIntent.cancel();
 
-    private void notifyBatchBackupCompleted(BatchBackupTaskInfo taskInfo, boolean successfully) {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(BackupService2.this, NOTIFICATION_CHANNEL_ID)
                 .setWhen(System.currentTimeMillis())
                 .setOnlyAlertOnce(false)
                 .setOngoing(false)
                 .setSmallIcon(R.drawable.ic_backup)
-                .setContentTitle(getString(R.string.backup_backup));
+                .setContentTitle(getString(R.string.backup_batch_backup_completed))
+                .setStyle(new NotificationCompat.BigTextStyle());
 
-        if (successfully) {
-            builder.setContentText(getString(R.string.backup_backup_success, "batch"));
-        } else {
-            builder.setContentText(getString(R.string.backup_backup_failed, "batch"));
+        StringBuilder resultSb = new StringBuilder();
+        if (!status.succeededBackups().isEmpty()) {
+            appendWithNewLine(resultSb, getString(R.string.backup_batch_backup_result_succeeded, status.succeededBackups().size()));
         }
 
+        if (!status.failedBackups().isEmpty()) {
+            appendWithNewLine(resultSb, getString(R.string.backup_batch_backup_result_failed, status.failedBackups().size()));
+        }
+
+        if ((status.state() == BackupStorage.BackupTaskState.CANCELLED || status.state() == BackupStorage.BackupTaskState.FAILED) && !status.cancelledBackups().isEmpty()) {
+            appendWithNewLine(resultSb, getString(R.string.backup_batch_backup_result_cancelled, status.cancelledBackups().size()));
+        }
+
+        builder.setContentText(resultSb.toString());
+
         mNotificationHelper.notify(taskInfo.notificationTag, 0, builder.build(), false);
+    }
+
+    private void appendWithNewLine(StringBuilder sb, CharSequence text) {
+        if (sb.length() > 0)
+            sb.append("\n");
+
+        sb.append(text);
     }
 
     @Override
@@ -323,15 +345,9 @@ public class BackupService2 extends Service implements BackupStorage.BackupProgr
                 publishBatchProgress(mBatchTasks.get(status.token()), status.completedBackupsCount(), status.totalBackupsCount(), status.currentConfig());
                 break;
             case CANCELLED:
-                notifyBatchBackupCancelled(mBatchTasks.get(status.token()));
-                mHandler.post(() -> taskFinished(status.token()));
-                break;
             case SUCCEEDED:
-                notifyBatchBackupCompleted(mBatchTasks.get(status.token()), true);
-                mHandler.post(() -> taskFinished(status.token()));
-                break;
             case FAILED:
-                notifyBatchBackupCompleted(mBatchTasks.get(status.token()), false);
+                notifyBatchBackupCompleted(mBatchTasks.get(status.token()), status);
                 mHandler.post(() -> taskFinished(status.token()));
                 break;
         }

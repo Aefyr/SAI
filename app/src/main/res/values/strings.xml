@@ -122,13 +122,18 @@
     <string name="installer_rootless_error2_install_failed_wrong_installed_version">Required version of an already installed package doesn\'t match the actual version of the installed package</string>
 
     <string name="backup_backup">Export</string>
+    <string name="backup_batch_backup">Batch export</string>
     <string name="backup_backup_prompt">Export %s?</string>
     <string name="backup_backup_status">Exporting %d apps</string>
     <string name="backup_backup_export_in_progress">Export in progress</string>
-    <string name="backup_backup_export_in_progress_2">Export in progress, %d apps to be exported</string>
+    <string name="backup_backup_export_in_progress_2">Export in progress, %d tasks remaining</string>
     <string name="backup_backup_in_progress">Exporting %s...</string>
     <string name="backup_backup_success">Successfully exported %s</string>
     <string name="backup_backup_failed">Failed to export %s</string>
+    <string name="backup_batch_backup_completed">Batch export completed</string>
+    <string name="backup_batch_backup_result_succeeded">Successfully exported %d apps</string>
+    <string name="backup_batch_backup_result_failed">Failed to export %d apps</string>
+    <string name="backup_batch_backup_result_cancelled">Export of %d apps has been cancelled</string>
     <string name="backup_search_hint">Search apps</string>
     <string name="backup_search_splits_only">Split APKs only</string>
     <string name="backup_search_show_system_apps">Show system apps</string>
