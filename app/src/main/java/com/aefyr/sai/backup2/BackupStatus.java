@@ -33,4 +33,18 @@ public enum BackupStatus {
 
         throw new RuntimeException("wtf");
     }
+
+    public boolean canBeInstalledOverExistingApp() {
+        switch (this) {
+            case SAME_VERSION:
+            case HIGHER_VERSION:
+            case APP_NOT_INSTALLED:
+                return true;
+            case LOWER_VERSION:
+            case NO_BACKUP:
+                return false;
+        }
+
+        throw new RuntimeException("wtf");
+    }
 }

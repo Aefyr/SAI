@@ -65,6 +65,14 @@
 
         </LinearLayout>
 
+        <TextView
+            android:id="@+id/tv_backup_incompatible_version_warning"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="8dp"
+            android:text="@string/backup_incompatible_version_warning"
+            android:textColor="?colorAccent" />
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"

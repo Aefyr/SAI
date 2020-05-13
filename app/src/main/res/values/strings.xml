@@ -177,6 +177,7 @@
     <string name="backup_app_details_backup_version">Version: %s</string>
     <string name="backup_app_details_backup_time">Backup from %s</string>
     <string name="backup_delete_backup_prompt">Delete backup from %s?</string>
+    <string name="backup_incompatible_version_warning">You need to delete the currently installed version of the app in order to restore this backup</string>
 
     <string name="settings_title">Settings</string>
     <string name="settings_main_home_directory">Home directory</string>

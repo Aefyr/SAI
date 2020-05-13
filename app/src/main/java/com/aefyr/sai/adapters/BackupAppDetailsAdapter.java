@@ -21,6 +21,7 @@ import com.aefyr.sai.adapters.selection.Selection;
 import com.aefyr.sai.backup2.Backup;
 import com.aefyr.sai.backup2.BackupApp;
 import com.aefyr.sai.backup2.BackupAppDetails;
+import com.aefyr.sai.backup2.BackupStatus;
 import com.aefyr.sai.model.common.PackageMeta;
 import com.bumptech.glide.Glide;
 
@@ -202,6 +203,8 @@ public class BackupAppDetailsAdapter extends SelectableAdapter<String, BackupApp
         private Button mRestoreButton;
         private Button mDeleteButton;
 
+        private TextView mIncompatibleVersionWarning;
+
         public BackupViewHolder(@NonNull View itemView) {
             super(itemView);
 
@@ -211,6 +214,8 @@ public class BackupAppDetailsAdapter extends SelectableAdapter<String, BackupApp
 
             mRestoreButton = itemView.findViewById(R.id.button_backup_restore_backup);
             mDeleteButton = itemView.findViewById(R.id.button_backup_delete_backup);
+
+            mIncompatibleVersionWarning = itemView.findViewById(R.id.tv_backup_incompatible_version_warning);
 
             mRestoreButton.setOnClickListener(v -> {
                 int adapterPosition = getAdapterPosition();
@@ -233,6 +238,11 @@ public class BackupAppDetailsAdapter extends SelectableAdapter<String, BackupApp
         protected void bindTo(Backup backup) {
             mAppVersion.setText(mContext.getString(R.string.backup_app_details_backup_version, backup.versionName()));
             mBackupTitle.setText(mContext.getString(R.string.backup_app_details_backup_time, mBackupTimeSdf.format(new Date(backup.creationTime()))));
+
+            BackupStatus backupStatus = BackupStatus.fromInstalledAppAndBackupVersions(mDetails.app().packageMeta().versionCode, backup.versionCode());
+            mBackupStatus.setImageResource(backupStatus.getIconRes());
+            mRestoreButton.setVisibility(backupStatus.canBeInstalledOverExistingApp() ? View.VISIBLE : View.GONE);
+            mIncompatibleVersionWarning.setVisibility(backupStatus.canBeInstalledOverExistingApp() ? View.GONE : View.VISIBLE);
         }
     }
 
