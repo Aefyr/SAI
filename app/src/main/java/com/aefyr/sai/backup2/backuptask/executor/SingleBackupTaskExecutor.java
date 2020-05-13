@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.os.Handler;
 
-import com.aefyr.sai.backup2.BackupFileMeta;
+import com.aefyr.sai.backup2.Backup;
 import com.aefyr.sai.backup2.backuptask.config.SingleBackupTaskConfig;
 
 import java.io.File;
@@ -113,9 +113,9 @@ public abstract class SingleBackupTaskExecutor implements CancellableBackupTaskE
             mListenerHandler.post(() -> mListener.onCancelled());
     }
 
-    protected void notifySucceeded(BackupFileMeta meta) {
+    protected void notifySucceeded(Backup backup) {
         if (mListener != null)
-            mListenerHandler.post(() -> mListener.onSuccess(meta));
+            mListenerHandler.post(() -> mListener.onSuccess(backup));
     }
 
     protected void notifyFailed(Exception e) {
@@ -129,7 +129,7 @@ public abstract class SingleBackupTaskExecutor implements CancellableBackupTaskE
 
         void delete();
 
-        BackupFileMeta readMeta() throws Exception;
+        Backup readMeta() throws Exception;
 
     }
 
@@ -141,7 +141,7 @@ public abstract class SingleBackupTaskExecutor implements CancellableBackupTaskE
 
         void onCancelled();
 
-        void onSuccess(BackupFileMeta meta);
+        void onSuccess(Backup backup);
 
         void onError(Exception e);
 

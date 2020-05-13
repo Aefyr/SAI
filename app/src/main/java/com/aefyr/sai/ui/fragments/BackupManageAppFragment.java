@@ -16,8 +16,8 @@ import com.aefyr.sai.R;
 import com.aefyr.sai.adapters.BackupAppDetailsAdapter;
 import com.aefyr.sai.adapters.selection.Selection;
 import com.aefyr.sai.adapters.selection.SimpleKeyStorage;
+import com.aefyr.sai.backup2.Backup;
 import com.aefyr.sai.backup2.BackupApp;
-import com.aefyr.sai.backup2.BackupFileMeta;
 import com.aefyr.sai.ui.dialogs.BackupDialogFragment;
 import com.aefyr.sai.ui.dialogs.DeleteBackupConfirmationDialog;
 import com.aefyr.sai.view.coolbar.Coolbar;
@@ -100,12 +100,12 @@ public class BackupManageAppFragment extends SaiBaseFragment implements BackupAp
     }
 
     @Override
-    public void restoreBackup(BackupFileMeta backup) {
+    public void restoreBackup(Backup backup) {
         Toast.makeText(requireContext(), "Not implemented", Toast.LENGTH_SHORT).show();
     }
 
     @Override
-    public void deleteBackup(BackupFileMeta backup) {
-        DeleteBackupConfirmationDialog.newInstance(backup.storageId, backup.uri, backup.exportTimestamp).show(getChildFragmentManager(), null);
+    public void deleteBackup(Backup backup) {
+        DeleteBackupConfirmationDialog.newInstance(backup.storageId(), backup.uri(), backup.creationTime()).show(getChildFragmentManager(), null);
     }
 }

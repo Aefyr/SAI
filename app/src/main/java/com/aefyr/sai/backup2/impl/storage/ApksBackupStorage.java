@@ -9,13 +9,14 @@ import android.util.Log;
 import androidx.annotation.GuardedBy;
 import androidx.annotation.Nullable;
 
-import com.aefyr.sai.backup2.BackupFileMeta;
+import com.aefyr.sai.backup2.Backup;
 import com.aefyr.sai.backup2.backuptask.config.BackupTaskConfig;
 import com.aefyr.sai.backup2.backuptask.config.BatchBackupTaskConfig;
 import com.aefyr.sai.backup2.backuptask.config.SingleBackupTaskConfig;
 import com.aefyr.sai.backup2.backuptask.executor.BatchBackupTaskExecutor;
 import com.aefyr.sai.backup2.backuptask.executor.CancellableBackupTaskExecutor;
 import com.aefyr.sai.backup2.backuptask.executor.SingleBackupTaskExecutor;
+import com.aefyr.sai.backup2.impl.MutableBackup;
 import com.aefyr.sai.model.backup.SaiExportedAppMeta;
 import com.aefyr.sai.utils.IOUtils;
 import com.aefyr.sai.utils.Utils;
@@ -80,25 +81,25 @@ public abstract class ApksBackupStorage extends BaseBackupStorage {
     }
 
     @Override
-    public BackupFileMeta getMetaForBackupFile(Uri uri) throws Exception {
+    public Backup getBackupByUri(Uri uri) throws Exception {
 
-        BackupFileMeta backupFileMeta = null;
+        MutableBackup mutableBackup = null;
         Uri iconUri = EMPTY_ICON;
         try (ZipInputStream zipInputStream = new ZipInputStream(openFileInputStream(uri))) {
             ZipEntry zipEntry;
             while ((zipEntry = zipInputStream.getNextEntry()) != null) {
                 if (zipEntry.getName().equals(SaiExportedAppMeta.META_FILE)) {
                     SaiExportedAppMeta appMeta = SaiExportedAppMeta.deserialize(IOUtils.readStreamNoClose(zipInputStream));
-                    backupFileMeta = new BackupFileMeta();
-                    backupFileMeta.uri = uri;
-                    backupFileMeta.contentHash = getBackupFileHash(uri);
+                    mutableBackup = new MutableBackup();
+                    mutableBackup.uri = uri;
+                    mutableBackup.contentHash = getBackupFileHash(uri);
 
-                    backupFileMeta.pkg = appMeta.packageName();
-                    backupFileMeta.label = appMeta.label();
-                    backupFileMeta.versionCode = appMeta.versionCode();
-                    backupFileMeta.versionName = appMeta.versionName();
-                    backupFileMeta.exportTimestamp = appMeta.exportTime();
-                    backupFileMeta.storageId = getStorageId();
+                    mutableBackup.pkg = appMeta.packageName();
+                    mutableBackup.label = appMeta.label();
+                    mutableBackup.versionCode = appMeta.versionCode();
+                    mutableBackup.versionName = appMeta.versionName();
+                    mutableBackup.exportTimestamp = appMeta.exportTime();
+                    mutableBackup.storageId = getStorageId();
                 } else if (zipEntry.getName().equals(SaiExportedAppMeta.ICON_FILE)) {
                     File iconFile = Utils.createUniqueFileInDirectory(new File(getContext().getFilesDir(), "BackupStorageIcons"), "png");
                     if (iconFile == null)
@@ -112,17 +113,17 @@ public abstract class ApksBackupStorage extends BaseBackupStorage {
                     }
                 }
 
-                if (backupFileMeta != null && !EMPTY_ICON.equals(iconUri))
+                if (mutableBackup != null && !EMPTY_ICON.equals(iconUri))
                     break;
             }
         }
 
-        if (backupFileMeta == null)
+        if (mutableBackup == null)
             throw new Exception("Meta file not found in archive");
 
-        backupFileMeta.iconUri = iconUri;
+        mutableBackup.iconUri = iconUri;
 
-        return backupFileMeta;
+        return mutableBackup;
     }
 
     @Override
@@ -191,9 +192,9 @@ public abstract class ApksBackupStorage extends BaseBackupStorage {
             }
 
             @Override
-            public void onSuccess(BackupFileMeta meta) {
-                notifyBackupTaskStatusChanged(BackupTaskStatus.succeeded(taskToken, config, meta));
-                notifyBackupAdded(meta);
+            public void onSuccess(Backup backup) {
+                notifyBackupTaskStatusChanged(BackupTaskStatus.succeeded(taskToken, config, backup));
+                notifyBackupAdded(backup);
             }
 
             @Override
@@ -213,7 +214,7 @@ public abstract class ApksBackupStorage extends BaseBackupStorage {
         BatchBackupTaskExecutor taskExecutor = new BatchBackupTaskExecutor(getContext(), batchConfig, new InternalSingleBackupTaskExecutorFactory());
         taskExecutor.setListener(new BatchBackupTaskExecutor.Listener() {
 
-            private Map<SingleBackupTaskConfig, BackupFileMeta> mSucceededBackups = new HashMap<>();
+            private Map<SingleBackupTaskConfig, Backup> mSucceededBackups = new HashMap<>();
             private Map<SingleBackupTaskConfig, Exception> mFailedBackups = new HashMap<>();
 
             @Override
@@ -227,9 +228,9 @@ public abstract class ApksBackupStorage extends BaseBackupStorage {
             }
 
             @Override
-            public void onAppBackedUp(SingleBackupTaskConfig config, BackupFileMeta meta) {
-                mSucceededBackups.put(config, meta);
-                notifyBackupAdded(meta);
+            public void onAppBackedUp(SingleBackupTaskConfig config, Backup backup) {
+                mSucceededBackups.put(config, backup);
+                notifyBackupAdded(backup);
             }
 
             @Override
@@ -327,8 +328,8 @@ public abstract class ApksBackupStorage extends BaseBackupStorage {
         }
 
         @Override
-        public BackupFileMeta readMeta() throws Exception {
-            return getMetaForBackupFile(mUri);
+        public Backup readMeta() throws Exception {
+            return getBackupByUri(mUri);
         }
     }
 

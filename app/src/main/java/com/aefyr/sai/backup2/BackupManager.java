@@ -30,8 +30,8 @@ public interface BackupManager {
 
     void deleteBackup(String storageId, Uri backupUri, @Nullable BackupDeletionCallback callback, @Nullable Handler callbackHandler);
 
-    default void deleteBackup(BackupFileMeta backup, @Nullable BackupDeletionCallback callback, @Nullable Handler callbackHandler) {
-        deleteBackup(backup.storageId, backup.uri, callback, callbackHandler);
+    default void deleteBackup(Backup backup, @Nullable BackupDeletionCallback callback, @Nullable Handler callbackHandler) {
+        deleteBackup(backup.storageId(), backup.uri(), callback, callbackHandler);
     }
 
     class IndexingStatus {

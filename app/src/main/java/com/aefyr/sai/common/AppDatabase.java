@@ -7,9 +7,9 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
 import com.aefyr.sai.backup2.impl.db.BackupDao;
-import com.aefyr.sai.backup2.impl.db.BackupMetaEntity;
+import com.aefyr.sai.backup2.impl.db.BackupEntity;
 
-@Database(entities = {BackupMetaEntity.class}, version = 1)
+@Database(entities = {BackupEntity.class}, version = 1)
 public abstract class AppDatabase extends RoomDatabase {
 
     private static AppDatabase sInstance;

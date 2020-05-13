@@ -12,31 +12,31 @@ import java.util.List;
 @Dao
 public interface BackupDao {
 
-    @Query("SELECT * FROM BackupMetaEntity WHERE storage_id = :storageId AND uri = :uri")
-    BackupMetaEntity getBackupMetaForUri(String storageId, String uri);
+    @Query("SELECT * FROM BackupEntity WHERE storage_id = :storageId AND uri = :uri")
+    BackupEntity getBackupMetaForUri(String storageId, String uri);
 
-    @Query("DELETE FROM BackupMetaEntity WHERE storage_id = :storageId AND uri = :uri")
+    @Query("DELETE FROM BackupEntity WHERE storage_id = :storageId AND uri = :uri")
     void removeByUri(String storageId, String uri);
 
     @Insert
-    void add(BackupMetaEntity entity);
+    void add(BackupEntity entity);
 
     @Update
-    void update(BackupMetaEntity entity);
+    void update(BackupEntity entity);
 
-    @Query("SELECT * FROM BackupMetaEntity WHERE package = :pkg ORDER BY export_timestamp DESC LIMIT 1")
-    BackupMetaEntity getLatestBackupForPackage(String pkg);
+    @Query("SELECT * FROM BackupEntity WHERE package = :pkg ORDER BY export_timestamp DESC LIMIT 1")
+    BackupEntity getLatestBackupForPackage(String pkg);
 
-    @Query("SELECT DISTINCT package FROM BackupMetaEntity")
+    @Query("SELECT DISTINCT package FROM BackupEntity")
     List<String> getAllPackages();
 
-    @Query("SELECT * FROM BackupMetaEntity WHERE package = :pkg ORDER BY export_timestamp DESC")
-    List<BackupMetaEntity> getAllBackupsForPackage(String pkg);
+    @Query("SELECT * FROM BackupEntity WHERE package = :pkg ORDER BY export_timestamp DESC")
+    List<BackupEntity> getAllBackupsForPackage(String pkg);
 
-    @Query("SELECT * FROM BackupMetaEntity WHERE package = :pkg ORDER BY export_timestamp DESC")
-    LiveData<List<BackupMetaEntity>> getAllBackupsForPackageLiveData(String pkg);
+    @Query("SELECT * FROM BackupEntity WHERE package = :pkg ORDER BY export_timestamp DESC")
+    LiveData<List<BackupEntity>> getAllBackupsForPackageLiveData(String pkg);
 
-    @Query("DELETE FROM BackupMetaEntity")
+    @Query("DELETE FROM BackupEntity")
     void dropAllEntries();
 
     @Transaction

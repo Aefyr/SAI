@@ -8,7 +8,7 @@ public interface BackupAppDetails {
 
     BackupApp app();
 
-    List<BackupFileMeta> backups();
+    List<Backup> backups();
 
     enum State {
         LOADING, READY, ERROR

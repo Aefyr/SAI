@@ -20,9 +20,9 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 
+import com.aefyr.sai.backup2.Backup;
 import com.aefyr.sai.backup2.BackupApp;
 import com.aefyr.sai.backup2.BackupAppDetails;
-import com.aefyr.sai.backup2.BackupFileMeta;
 import com.aefyr.sai.backup2.BackupIndex;
 import com.aefyr.sai.backup2.BackupManager;
 import com.aefyr.sai.backup2.BackupStatus;
@@ -256,7 +256,7 @@ public class DefaultBackupManager implements BackupManager, BackupStorage.Observ
             Stopwatch sw = new Stopwatch();
             Log.i(TAG, "Indexing backup storage...");
 
-            List<BackupFileMeta> entities = new ArrayList<>();
+            List<Backup> backups = new ArrayList<>();
 
             List<Uri> backupFileUris = mStorage.listBackupFiles();
             for (int i = 0; i < backupFileUris.size(); i++) {
@@ -266,8 +266,8 @@ public class DefaultBackupManager implements BackupManager, BackupStorage.Observ
                 Log.i(TAG, String.format("Indexing %s@%s", backupFileUri, fileHash));
 
                 try {
-                    BackupFileMeta backupFileMeta = mStorage.getMetaForBackupFile(backupFileUri);
-                    entities.add(backupFileMeta);
+                    Backup backup = mStorage.getBackupByUri(backupFileUri);
+                    backups.add(backup);
                     Log.i(TAG, String.format("Indexed %s@%s", backupFileUri, fileHash));
                 } catch (Exception e) {
                     Log.w(TAG, String.format("Unable to get meta for %s@%s, skipping", backupFileUri, fileHash), e);
@@ -277,7 +277,7 @@ public class DefaultBackupManager implements BackupManager, BackupStorage.Observ
             }
 
             try {
-                mIndex.rewrite(entities);
+                mIndex.rewrite(backups);
                 Log.i(TAG, "Index rewritten");
             } catch (Exception e) {
                 Log.w(TAG, "Unable to rewrite index", e);
@@ -305,12 +305,12 @@ public class DefaultBackupManager implements BackupManager, BackupStorage.Observ
 
         for (PackageMeta packageMeta : mInstalledApps.values()) {
 
-            BackupFileMeta backupFileMeta = mIndex.getLatestBackupForPackage(packageMeta.packageName);
-            if (backupFileMeta != null) {
+            Backup backup = mIndex.getLatestBackupForPackage(packageMeta.packageName);
+            if (backup != null) {
                 BackupStatus backupStatus;
-                if (backupFileMeta.versionCode == packageMeta.versionCode)
+                if (backup.versionCode() == packageMeta.versionCode)
                     backupStatus = BackupStatus.SAME_VERSION;
-                else if (backupFileMeta.versionCode > packageMeta.versionCode)
+                else if (backup.versionCode() > packageMeta.versionCode)
                     backupStatus = BackupStatus.HIGHER_VERSION;
                 else
                     backupStatus = BackupStatus.LOWER_VERSION;
@@ -325,11 +325,11 @@ public class DefaultBackupManager implements BackupManager, BackupStorage.Observ
             if (mInstalledApps.containsKey(pkg))
                 continue;
 
-            BackupFileMeta backupFileMeta = mIndex.getLatestBackupForPackage(pkg);
-            if (backupFileMeta == null)
+            Backup backup = mIndex.getLatestBackupForPackage(pkg);
+            if (backup == null)
                 continue;
 
-            backupApps.put(pkg, new BackupAppImpl(backupFileMeta.toPackageMeta(), false, BackupStatus.APP_NOT_INSTALLED));
+            backupApps.put(pkg, new BackupAppImpl(backup.toPackageMeta(), false, BackupStatus.APP_NOT_INSTALLED));
         }
 
         mApps = backupApps;
@@ -351,12 +351,12 @@ public class DefaultBackupManager implements BackupManager, BackupStorage.Observ
         notifyInstalledAppInvalidated(pkg);
 
         if (packageMeta != null) {
-            BackupFileMeta backupFileMeta = mIndex.getLatestBackupForPackage(packageMeta.packageName);
-            if (backupFileMeta != null) {
+            Backup backup = mIndex.getLatestBackupForPackage(packageMeta.packageName);
+            if (backup != null) {
                 BackupStatus backupStatus;
-                if (backupFileMeta.versionCode == packageMeta.versionCode)
+                if (backup.versionCode() == packageMeta.versionCode)
                     backupStatus = BackupStatus.SAME_VERSION;
-                else if (backupFileMeta.versionCode > packageMeta.versionCode)
+                else if (backup.versionCode() > packageMeta.versionCode)
                     backupStatus = BackupStatus.HIGHER_VERSION;
                 else
                     backupStatus = BackupStatus.LOWER_VERSION;
@@ -369,9 +369,9 @@ public class DefaultBackupManager implements BackupManager, BackupStorage.Observ
             mAppsLiveData.postValue(new ArrayList<>(mApps.values()));
             notifyAppInvalidated(pkg);
         } else {
-            BackupFileMeta backupFileMeta = mIndex.getLatestBackupForPackage(pkg);
-            if (backupFileMeta != null) {
-                mApps.put(pkg, new BackupAppImpl(backupFileMeta.toPackageMeta(), false, BackupStatus.APP_NOT_INSTALLED));
+            Backup backup = mIndex.getLatestBackupForPackage(pkg);
+            if (backup != null) {
+                mApps.put(pkg, new BackupAppImpl(backup.toPackageMeta(), false, BackupStatus.APP_NOT_INSTALLED));
             } else {
                 mApps.remove(pkg);
             }
@@ -387,11 +387,11 @@ public class DefaultBackupManager implements BackupManager, BackupStorage.Observ
     }
 
     @Override
-    public void onBackupAdded(String storageId, BackupFileMeta meta) {
+    public void onBackupAdded(String storageId, Backup backup) {
         Stopwatch sw = new Stopwatch();
 
-        mIndex.addEntry(meta);
-        updateAppInAppList(meta.pkg);
+        mIndex.addEntry(backup);
+        updateAppInAppList(backup.pkg());
 
         Log.i(TAG, String.format("onBackupAdded handled in %d ms.", sw.millisSinceStart()));
     }
@@ -400,12 +400,12 @@ public class DefaultBackupManager implements BackupManager, BackupStorage.Observ
     public void onBackupRemoved(String storageId, Uri backupUri) {
         Stopwatch sw = new Stopwatch();
 
-        BackupFileMeta meta = mIndex.deleteEntryByUri(mStorage.getStorageId(), backupUri);
-        if (meta == null) {
+        Backup backup = mIndex.deleteEntryByUri(mStorage.getStorageId(), backupUri);
+        if (backup == null) {
             Log.w(TAG, String.format("Meta from deleteEntryByUri for uri %s in storage %s is null", backupUri.toString(), storageId));
             return;
         }
-        updateAppInAppList(meta.pkg);
+        updateAppInAppList(backup.pkg());
 
         Log.i(TAG, String.format("onBackupRemoved handled in %d ms.", sw.millisSinceStart()));
     }
@@ -458,9 +458,9 @@ public class DefaultBackupManager implements BackupManager, BackupStorage.Observ
 
         private State mState;
         private BackupApp mApp;
-        private List<BackupFileMeta> mBackups;
+        private List<Backup> mBackups;
 
-        private BackupAppDetailsImpl(State state, BackupApp app, List<BackupFileMeta> backups) {
+        private BackupAppDetailsImpl(State state, BackupApp app, List<Backup> backups) {
             mState = state;
             mApp = app;
             mBackups = backups;
@@ -477,15 +477,15 @@ public class DefaultBackupManager implements BackupManager, BackupStorage.Observ
         }
 
         @Override
-        public List<BackupFileMeta> backups() {
+        public List<Backup> backups() {
             return mBackups;
         }
     }
 
-    private class LiveAppDetails extends LiveData<BackupAppDetails> implements Observer<List<BackupFileMeta>>, AppsObserver {
+    private class LiveAppDetails extends LiveData<BackupAppDetails> implements Observer<List<Backup>>, AppsObserver {
 
         private String mPkg;
-        private LiveData<List<BackupFileMeta>> mMetasLiveData;
+        private LiveData<List<Backup>> mMetasLiveData;
 
         private LiveAppDetails(String pkg) {
             mPkg = pkg;
@@ -512,7 +512,7 @@ public class DefaultBackupManager implements BackupManager, BackupStorage.Observ
         }
 
         @Override
-        public void onChanged(List<BackupFileMeta> backupFileMetas) {
+        public void onChanged(List<Backup> backupFileMetas) {
             invalidate();
         }
 

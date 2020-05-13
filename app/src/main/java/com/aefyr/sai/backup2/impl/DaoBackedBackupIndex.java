@@ -6,15 +6,13 @@ import android.net.Uri;
 
 import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.Transformations;
 
-import com.aefyr.sai.backup2.BackupFileMeta;
+import com.aefyr.sai.backup2.Backup;
 import com.aefyr.sai.backup2.BackupIndex;
 import com.aefyr.sai.backup2.impl.db.BackupDao;
-import com.aefyr.sai.backup2.impl.db.BackupMetaEntity;
+import com.aefyr.sai.backup2.impl.db.BackupEntity;
 import com.aefyr.sai.common.AppDatabase;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class DaoBackedBackupIndex implements BackupIndex {
@@ -34,34 +32,34 @@ public class DaoBackedBackupIndex implements BackupIndex {
 
     @Nullable
     @Override
-    public BackupFileMeta getBackupMetaForUri(String storageId, Uri uri) {
-        return entityToMetaOrNull(mDao.getBackupMetaForUri(storageId, uri.toString()));
+    public Backup getBackupMetaForUri(String storageId, Uri uri) {
+        return mDao.getBackupMetaForUri(storageId, uri.toString());
     }
 
     @Nullable
     @Override
-    public BackupFileMeta getLatestBackupForPackage(String pkg) {
-        return entityToMetaOrNull(mDao.getLatestBackupForPackage(pkg));
+    public Backup getLatestBackupForPackage(String pkg) {
+        return mDao.getLatestBackupForPackage(pkg);
     }
 
     @Override
-    public void addEntry(BackupFileMeta meta) {
+    public void addEntry(Backup backup) {
         //TODO this is no good, but since this dao is only used from a single thread, it should be fine
         try {
-            mDao.add(BackupMetaEntity.fromBackupFileMeta(meta));
+            mDao.add(BackupEntity.fromBackup(backup));
         } catch (SQLiteConstraintException e) {
-            mDao.update(BackupMetaEntity.fromBackupFileMeta(meta));
+            mDao.update(BackupEntity.fromBackup(backup));
         }
     }
 
     @Override
-    public BackupFileMeta deleteEntryByUri(String storageId, Uri uri) {
-        BackupFileMeta backupFileMeta = mDao.getBackupMetaForUri(storageId, uri.toString()).toBackupFileMeta();
-        if (backupFileMeta == null)
+    public Backup deleteEntryByUri(String storageId, Uri uri) {
+        BackupEntity backupEntity = mDao.getBackupMetaForUri(storageId, uri.toString());
+        if (backupEntity == null)
             return null;
 
         mDao.removeByUri(storageId, uri.toString());
-        return backupFileMeta;
+        return backupEntity;
     }
 
     @Override
@@ -70,40 +68,28 @@ public class DaoBackedBackupIndex implements BackupIndex {
     }
 
     @Override
-    public List<BackupFileMeta> getAllBackupsForPackage(String pkg) {
-        List<BackupFileMeta> backupFileMetas = new ArrayList<>();
+    public List<Backup> getAllBackupsForPackage(String pkg) {
+        return fixList(mDao.getAllBackupsForPackage(pkg));
+    }
 
-        for (BackupMetaEntity entity : mDao.getAllBackupsForPackage(pkg)) {
-            backupFileMetas.add(entity.toBackupFileMeta());
-        }
-
-        return backupFileMetas;
+    @SuppressWarnings("unchecked")
+    @Override
+    public LiveData<List<Backup>> getAllBackupsForPackageLiveData(String pkg) {
+        return (LiveData<List<Backup>>) ((Object) mDao.getAllBackupsForPackageLiveData(pkg));
     }
 
     @Override
-    public LiveData<List<BackupFileMeta>> getAllBackupsForPackageLiveData(String pkg) {
-        return Transformations.map(mDao.getAllBackupsForPackageLiveData(pkg), backupEntities -> {
-            List<BackupFileMeta> metas = new ArrayList<>();
-
-            for (BackupMetaEntity entity : backupEntities)
-                metas.add(entity.toBackupFileMeta());
-
-            return metas;
-        });
-    }
-
-    @Override
-    public void rewrite(List<BackupFileMeta> newIndex) throws Exception {
+    public void rewrite(List<Backup> newIndex) throws Exception {
         mDao.runInTransaction(() -> {
             mDao.dropAllEntries();
-            for (BackupFileMeta meta : newIndex) {
-                mDao.add(BackupMetaEntity.fromBackupFileMeta(meta));
+            for (Backup backup : newIndex) {
+                mDao.add(BackupEntity.fromBackup(backup));
             }
         });
     }
 
-    @Nullable
-    private BackupFileMeta entityToMetaOrNull(@Nullable BackupMetaEntity entity) {
-        return entity == null ? null : entity.toBackupFileMeta();
+    @SuppressWarnings("unchecked")
+    private <T> List<T> fixList(List<? extends T> list) {
+        return (List<T>) list;
     }
 }

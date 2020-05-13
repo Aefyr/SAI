@@ -32,12 +32,12 @@ public interface BackupStorage {
     String getBackupFileHash(Uri uri);
 
     /**
-     * Retrieve package meta for given backup file
+     * Retrieve meta for given backup uri
      *
      * @param uri
      * @return
      */
-    BackupFileMeta getMetaForBackupFile(Uri uri) throws Exception;
+    Backup getBackupByUri(Uri uri) throws Exception;
 
     /**
      * @param config
@@ -78,7 +78,7 @@ public interface BackupStorage {
 
     interface Observer {
 
-        void onBackupAdded(String storageId, BackupFileMeta meta);
+        void onBackupAdded(String storageId, Backup backup);
 
         void onBackupRemoved(String storageId, Uri backupUri);
 
@@ -105,16 +105,16 @@ public interface BackupStorage {
         private BackupTaskState mState;
         private long mCurrentProgress;
         private long mGoal;
-        private BackupFileMeta mMeta;
+        private Backup mBackup;
         private Exception mException;
 
-        private BackupTaskStatus(String token, SingleBackupTaskConfig config, BackupTaskState state, long currentProgress, long goal, @Nullable BackupFileMeta meta, @Nullable Exception exception) {
+        private BackupTaskStatus(String token, SingleBackupTaskConfig config, BackupTaskState state, long currentProgress, long goal, @Nullable Backup backup, @Nullable Exception exception) {
             mToken = token;
             mConfig = config;
             mState = state;
             mCurrentProgress = currentProgress;
             mGoal = goal;
-            mMeta = meta;
+            mBackup = backup;
             mException = exception;
         }
 
@@ -134,8 +134,8 @@ public interface BackupStorage {
             return new BackupTaskStatus(token, config, BackupTaskState.CANCELLED, 0, 0, null, null);
         }
 
-        public static BackupTaskStatus succeeded(String token, SingleBackupTaskConfig config, BackupFileMeta meta) {
-            return new BackupTaskStatus(token, config, BackupTaskState.SUCCEEDED, 0, 0, meta, null);
+        public static BackupTaskStatus succeeded(String token, SingleBackupTaskConfig config, Backup backup) {
+            return new BackupTaskStatus(token, config, BackupTaskState.SUCCEEDED, 0, 0, backup, null);
         }
 
         public static BackupTaskStatus failed(String token, SingleBackupTaskConfig config, Exception e) {
@@ -162,8 +162,8 @@ public interface BackupStorage {
             return mGoal;
         }
 
-        public BackupFileMeta meta() {
-            return mMeta;
+        public Backup backup() {
+            return mBackup;
         }
 
         public Exception exception() {
@@ -182,7 +182,7 @@ public interface BackupStorage {
         private int mSucceededBackupsCount;
         private int mFailedBackupsCount;
 
-        private Map<SingleBackupTaskConfig, BackupFileMeta> mSucceededBackups;
+        private Map<SingleBackupTaskConfig, Backup> mSucceededBackups;
         private Map<SingleBackupTaskConfig, Exception> mFailedBackups;
         private List<SingleBackupTaskConfig> mCancelledBackups;
 
@@ -211,7 +211,7 @@ public interface BackupStorage {
             return status;
         }
 
-        public static BatchBackupTaskStatus cancelled(String token, Map<SingleBackupTaskConfig, BackupFileMeta> succeededBackups, Map<SingleBackupTaskConfig, Exception> failedBackups, List<SingleBackupTaskConfig> cancelledBackups) {
+        public static BatchBackupTaskStatus cancelled(String token, Map<SingleBackupTaskConfig, Backup> succeededBackups, Map<SingleBackupTaskConfig, Exception> failedBackups, List<SingleBackupTaskConfig> cancelledBackups) {
             BatchBackupTaskStatus status = new BatchBackupTaskStatus(token, BackupTaskState.CANCELLED);
             status.mSucceededBackups = succeededBackups;
             status.mFailedBackups = failedBackups;
@@ -220,7 +220,7 @@ public interface BackupStorage {
             return status;
         }
 
-        public static BatchBackupTaskStatus succeeded(String token, Map<SingleBackupTaskConfig, BackupFileMeta> succeededBackups, Map<SingleBackupTaskConfig, Exception> failedBackups) {
+        public static BatchBackupTaskStatus succeeded(String token, Map<SingleBackupTaskConfig, Backup> succeededBackups, Map<SingleBackupTaskConfig, Exception> failedBackups) {
             BatchBackupTaskStatus status = new BatchBackupTaskStatus(token, BackupTaskState.SUCCEEDED);
             status.mSucceededBackups = succeededBackups;
             status.mFailedBackups = failedBackups;
@@ -228,7 +228,7 @@ public interface BackupStorage {
             return status;
         }
 
-        public static BatchBackupTaskStatus failed(String token, Map<SingleBackupTaskConfig, BackupFileMeta> succeededBackups, Map<SingleBackupTaskConfig, Exception> failedBackups, List<SingleBackupTaskConfig> remainingBackups, Exception exception) {
+        public static BatchBackupTaskStatus failed(String token, Map<SingleBackupTaskConfig, Backup> succeededBackups, Map<SingleBackupTaskConfig, Exception> failedBackups, List<SingleBackupTaskConfig> remainingBackups, Exception exception) {
             BatchBackupTaskStatus status = new BatchBackupTaskStatus(token, BackupTaskState.FAILED);
             status.mSucceededBackups = succeededBackups;
             status.mFailedBackups = failedBackups;
@@ -306,7 +306,7 @@ public interface BackupStorage {
          *
          * @return task config to backup file meta map of successful tasks
          */
-        public Map<SingleBackupTaskConfig, BackupFileMeta> succeededBackups() {
+        public Map<SingleBackupTaskConfig, Backup> succeededBackups() {
             return mSucceededBackups;
         }
 

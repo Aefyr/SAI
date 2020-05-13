@@ -18,9 +18,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.aefyr.sai.R;
 import com.aefyr.sai.adapters.selection.SelectableAdapter;
 import com.aefyr.sai.adapters.selection.Selection;
+import com.aefyr.sai.backup2.Backup;
 import com.aefyr.sai.backup2.BackupApp;
 import com.aefyr.sai.backup2.BackupAppDetails;
-import com.aefyr.sai.backup2.BackupFileMeta;
 import com.aefyr.sai.model.common.PackageMeta;
 import com.bumptech.glide.Glide;
 
@@ -55,7 +55,7 @@ public class BackupAppDetailsAdapter extends SelectableAdapter<String, BackupApp
         notifyDataSetChanged();
     }
 
-    private BackupFileMeta getBackupForPosition(int position) {
+    private Backup getBackupForPosition(int position) {
         return mDetails.backups().get(position - 1);
     }
 
@@ -64,9 +64,9 @@ public class BackupAppDetailsAdapter extends SelectableAdapter<String, BackupApp
         if (position == 0)
             return "BackupAppDetailsAdapter.Header";
 
-        BackupFileMeta backup = getBackupForPosition(position);
+        Backup backup = getBackupForPosition(position);
 
-        return backup.uri + "@" + backup.storageId;
+        return backup.uri() + "@" + backup.storageId();
     }
 
     @Override
@@ -193,7 +193,7 @@ public class BackupAppDetailsAdapter extends SelectableAdapter<String, BackupApp
         }
     }
 
-    protected class BackupViewHolder extends BaseViewHolder<BackupFileMeta> {
+    protected class BackupViewHolder extends BaseViewHolder<Backup> {
 
         private TextView mBackupTitle;
         private TextView mAppVersion;
@@ -230,9 +230,9 @@ public class BackupAppDetailsAdapter extends SelectableAdapter<String, BackupApp
         }
 
         @Override
-        protected void bindTo(BackupFileMeta meta) {
-            mAppVersion.setText(mContext.getString(R.string.backup_app_details_backup_version, meta.versionName));
-            mBackupTitle.setText(mContext.getString(R.string.backup_app_details_backup_time, mBackupTimeSdf.format(new Date(meta.exportTimestamp))));
+        protected void bindTo(Backup backup) {
+            mAppVersion.setText(mContext.getString(R.string.backup_app_details_backup_version, backup.versionName()));
+            mBackupTitle.setText(mContext.getString(R.string.backup_app_details_backup_time, mBackupTimeSdf.format(new Date(backup.creationTime()))));
         }
     }
 
@@ -244,9 +244,9 @@ public class BackupAppDetailsAdapter extends SelectableAdapter<String, BackupApp
 
         void installApp(BackupApp backupApp);
 
-        void restoreBackup(BackupFileMeta backup);
+        void restoreBackup(Backup backup);
 
-        void deleteBackup(BackupFileMeta backup);
+        void deleteBackup(Backup backup);
 
     }
 

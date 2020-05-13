@@ -10,21 +10,21 @@ import java.util.List;
 public interface BackupIndex {
 
     @Nullable
-    BackupFileMeta getBackupMetaForUri(String storageId, Uri uri);
+    Backup getBackupMetaForUri(String storageId, Uri uri);
 
     @Nullable
-    BackupFileMeta getLatestBackupForPackage(String pkg);
+    Backup getLatestBackupForPackage(String pkg);
 
-    void addEntry(BackupFileMeta meta);
+    void addEntry(Backup backup);
 
     @Nullable
-    BackupFileMeta deleteEntryByUri(String storageId, Uri uri);
+    Backup deleteEntryByUri(String storageId, Uri uri);
 
     List<String> getAllPackages();
 
-    List<BackupFileMeta> getAllBackupsForPackage(String pkg);
+    List<Backup> getAllBackupsForPackage(String pkg);
 
-    LiveData<List<BackupFileMeta>> getAllBackupsForPackageLiveData(String pkg);
+    LiveData<List<Backup>> getAllBackupsForPackageLiveData(String pkg);
 
     /**
      * Delete all entries from this index and add entries from {@code newIndex}
@@ -32,6 +32,6 @@ public interface BackupIndex {
      *
      * @param newIndex
      */
-    void rewrite(List<BackupFileMeta> newIndex) throws Exception;
+    void rewrite(List<Backup> newIndex) throws Exception;
 
 }

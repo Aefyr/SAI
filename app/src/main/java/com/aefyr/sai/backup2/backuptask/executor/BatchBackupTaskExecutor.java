@@ -4,7 +4,7 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.HandlerThread;
 
-import com.aefyr.sai.backup2.BackupFileMeta;
+import com.aefyr.sai.backup2.Backup;
 import com.aefyr.sai.backup2.backuptask.config.BatchBackupTaskConfig;
 import com.aefyr.sai.backup2.backuptask.config.SingleBackupTaskConfig;
 
@@ -96,8 +96,8 @@ public class BatchBackupTaskExecutor implements CancellableBackupTaskExecutor {
             }
 
             @Override
-            public void onSuccess(BackupFileMeta meta) {
-                notifyAppBackedUp(config, meta);
+            public void onSuccess(Backup backup) {
+                notifyAppBackedUp(config, backup);
                 nextTask();
             }
 
@@ -125,9 +125,9 @@ public class BatchBackupTaskExecutor implements CancellableBackupTaskExecutor {
             mListenerHandler.post(() -> mListener.onAppBackupStarted(config));
     }
 
-    private void notifyAppBackedUp(SingleBackupTaskConfig config, BackupFileMeta meta) {
+    private void notifyAppBackedUp(SingleBackupTaskConfig config, Backup backup) {
         if (mListener != null)
-            mListenerHandler.post(() -> mListener.onAppBackedUp(config, meta));
+            mListenerHandler.post(() -> mListener.onAppBackedUp(config, backup));
     }
 
     private void notifyAppBackupFailed(SingleBackupTaskConfig config, Exception e) {
@@ -156,7 +156,7 @@ public class BatchBackupTaskExecutor implements CancellableBackupTaskExecutor {
 
         void onAppBackupStarted(SingleBackupTaskConfig config);
 
-        void onAppBackedUp(SingleBackupTaskConfig config, BackupFileMeta meta);
+        void onAppBackedUp(SingleBackupTaskConfig config, Backup backup);
 
         void onAppBackupFailed(SingleBackupTaskConfig config, Exception e);
 

@@ -5,7 +5,7 @@ import android.os.Handler;
 
 import androidx.core.util.Consumer;
 
-import com.aefyr.sai.backup2.BackupFileMeta;
+import com.aefyr.sai.backup2.Backup;
 import com.aefyr.sai.backup2.BackupStorage;
 
 import java.util.Map;
@@ -55,8 +55,8 @@ public abstract class BaseBackupStorage implements BackupStorage {
             action.accept(observer);
     }
 
-    protected void notifyBackupAdded(BackupFileMeta meta) {
-        onEachObserver(it -> it.onBackupAdded(getStorageId(), meta));
+    protected void notifyBackupAdded(Backup backup) {
+        onEachObserver(it -> it.onBackupAdded(getStorageId(), backup));
     }
 
     protected void notifyBackupRemoved(Uri backupUri) {
@@ -100,8 +100,8 @@ public abstract class BaseBackupStorage implements BackupStorage {
 
 
         @Override
-        public void onBackupAdded(String storageId, BackupFileMeta meta) {
-            mHandler.post(() -> mWrappedObserver.onBackupAdded(storageId, meta));
+        public void onBackupAdded(String storageId, Backup backup) {
+            mHandler.post(() -> mWrappedObserver.onBackupAdded(storageId, backup));
         }
 
         @Override
