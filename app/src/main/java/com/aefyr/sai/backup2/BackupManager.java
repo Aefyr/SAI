@@ -1,5 +1,9 @@
 package com.aefyr.sai.backup2;
 
+import android.net.Uri;
+import android.os.Handler;
+
+import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
 
 import com.aefyr.sai.backup2.backuptask.config.BatchBackupTaskConfig;
@@ -23,6 +27,12 @@ public interface BackupManager {
     LiveData<IndexingStatus> getIndexingStatus();
 
     LiveData<BackupAppDetails> getAppDetails(String pkg);
+
+    void deleteBackup(String storageId, Uri backupUri, @Nullable BackupDeletionCallback callback, @Nullable Handler callbackHandler);
+
+    default void deleteBackup(BackupFileMeta backup, @Nullable BackupDeletionCallback callback, @Nullable Handler callbackHandler) {
+        deleteBackup(backup.storageId, backup.uri, callback, callbackHandler);
+    }
 
     class IndexingStatus {
         private boolean mInProgress;
@@ -52,6 +62,13 @@ public interface BackupManager {
         }
 
 
+    }
+
+    interface BackupDeletionCallback {
+
+        void onBackupDeleted(String storageId, Uri backupUri);
+
+        void onFailedToDeleteBackup(String storageId, Uri backupUri, Exception e);
     }
 
 }

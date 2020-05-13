@@ -17,7 +17,10 @@ import com.aefyr.sai.adapters.BackupAppDetailsAdapter;
 import com.aefyr.sai.adapters.selection.Selection;
 import com.aefyr.sai.adapters.selection.SimpleKeyStorage;
 import com.aefyr.sai.backup2.BackupApp;
+import com.aefyr.sai.backup2.BackupFileMeta;
 import com.aefyr.sai.ui.dialogs.BackupDialogFragment;
+import com.aefyr.sai.ui.dialogs.DeleteBackupConfirmationDialog;
+import com.aefyr.sai.view.coolbar.Coolbar;
 import com.aefyr.sai.viewmodels.BackupManageAppViewModel;
 import com.aefyr.sai.viewmodels.factory.BackupManageAppViewModelFactory;
 
@@ -48,6 +51,8 @@ public class BackupManageAppFragment extends SaiBaseFragment implements BackupAp
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        Coolbar coolbar = findViewById(R.id.coolbar_backup_manage_app);
+        findViewById(R.id.ib_close).setOnClickListener(v -> requireActivity().finish());
 
         RecyclerView recycler = findViewById(R.id.rv_backup_app_details);
         recycler.setLayoutManager(new LinearLayoutManager(requireContext()));
@@ -62,6 +67,7 @@ public class BackupManageAppFragment extends SaiBaseFragment implements BackupAp
 
                     break;
                 case READY:
+                    coolbar.setTitle(details.app().packageMeta().label);
                     detailsAdapter.setDetails(details);
                     break;
                 case ERROR:
@@ -91,5 +97,15 @@ public class BackupManageAppFragment extends SaiBaseFragment implements BackupAp
     @Override
     public void installApp(BackupApp backupApp) {
         Toast.makeText(requireContext(), "Not implemented", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void restoreBackup(BackupFileMeta backup) {
+        Toast.makeText(requireContext(), "Not implemented", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void deleteBackup(BackupFileMeta backup) {
+        DeleteBackupConfirmationDialog.newInstance(backup.storageId, backup.uri, backup.exportTimestamp).show(getChildFragmentManager(), null);
     }
 }

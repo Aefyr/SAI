@@ -17,7 +17,8 @@ public interface BackupIndex {
 
     void addEntry(BackupFileMeta meta);
 
-    void deleteEntryByUri(String storageId, Uri uri);
+    @Nullable
+    BackupFileMeta deleteEntryByUri(String storageId, Uri uri);
 
     List<String> getAllPackages();
 

@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatImageView;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -23,20 +24,30 @@ import com.aefyr.sai.backup2.BackupFileMeta;
 import com.aefyr.sai.model.common.PackageMeta;
 import com.bumptech.glide.Glide;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 public class BackupAppDetailsAdapter extends SelectableAdapter<String, BackupAppDetailsAdapter.BaseViewHolder> {
     private static final int VH_TYPE_HEADER = 0;
     private static final int VH_TYPE_BACKUP = 1;
 
+    private Context mContext;
     private LayoutInflater mInflater;
 
     private BackupAppDetails mDetails;
 
     private ActionDelegate mActionDelegate;
 
+    private SimpleDateFormat mBackupTimeSdf = new SimpleDateFormat("dd MMM yyyy, HH:mm:ss", Locale.getDefault());
+
     public BackupAppDetailsAdapter(Context context, Selection<String> selection, LifecycleOwner lifecycleOwner, ActionDelegate actionDelegate) {
         super(selection, lifecycleOwner);
+        mContext = context;
         mInflater = LayoutInflater.from(context);
         mActionDelegate = actionDelegate;
+
+        setHasStableIds(true);
     }
 
     public void setDetails(@Nullable BackupAppDetails details) {
@@ -56,6 +67,11 @@ public class BackupAppDetailsAdapter extends SelectableAdapter<String, BackupApp
         BackupFileMeta backup = getBackupForPosition(position);
 
         return backup.uri + "@" + backup.storageId;
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return getKeyForPosition(position).hashCode();
     }
 
     @Override
@@ -126,8 +142,6 @@ public class BackupAppDetailsAdapter extends SelectableAdapter<String, BackupApp
         private Button mDeleteButton;
         private Button mInstallButton;
 
-        private BackupApp mBoundApp;
-
         public HeaderViewHolder(@NonNull View itemView) {
             super(itemView);
 
@@ -140,14 +154,13 @@ public class BackupAppDetailsAdapter extends SelectableAdapter<String, BackupApp
             mDeleteButton = itemView.findViewById(R.id.button_backup_app_details_delete);
             mInstallButton = itemView.findViewById(R.id.button_backup_app_details_install);
 
-            mBackupButton.setOnClickListener(v -> mActionDelegate.backupApp(mBoundApp));
-            mDeleteButton.setOnClickListener(v -> mActionDelegate.deleteApp(mBoundApp));
-            mInstallButton.setOnClickListener(v -> mActionDelegate.installApp(mBoundApp));
+            mBackupButton.setOnClickListener(v -> mActionDelegate.backupApp(mDetails.app()));
+            mDeleteButton.setOnClickListener(v -> mActionDelegate.deleteApp(mDetails.app()));
+            mInstallButton.setOnClickListener(v -> mActionDelegate.installApp(mDetails.app()));
         }
 
         @Override
         protected void bindTo(BackupApp app) {
-            mBoundApp = app;
 
             PackageMeta packageMeta = app.packageMeta();
             Glide.with(mAppIcon)
@@ -174,7 +187,6 @@ public class BackupAppDetailsAdapter extends SelectableAdapter<String, BackupApp
 
         @Override
         protected void recycle() {
-            mBoundApp = null;
 
             Glide.with(mAppIcon)
                     .clear(mAppIcon);
@@ -183,13 +195,44 @@ public class BackupAppDetailsAdapter extends SelectableAdapter<String, BackupApp
 
     protected class BackupViewHolder extends BaseViewHolder<BackupFileMeta> {
 
+        private TextView mBackupTitle;
+        private TextView mAppVersion;
+        private AppCompatImageView mBackupStatus;
+
+        private Button mRestoreButton;
+        private Button mDeleteButton;
+
         public BackupViewHolder(@NonNull View itemView) {
             super(itemView);
+
+            mBackupTitle = itemView.findViewById(R.id.tv_backup_title);
+            mAppVersion = itemView.findViewById(R.id.tv_app_version);
+            mBackupStatus = itemView.findViewById(R.id.iv_backup_status);
+
+            mRestoreButton = itemView.findViewById(R.id.button_backup_restore_backup);
+            mDeleteButton = itemView.findViewById(R.id.button_backup_delete_backup);
+
+            mRestoreButton.setOnClickListener(v -> {
+                int adapterPosition = getAdapterPosition();
+                if (adapterPosition == RecyclerView.NO_POSITION)
+                    return;
+
+                mActionDelegate.restoreBackup(getBackupForPosition(adapterPosition));
+            });
+
+            mDeleteButton.setOnClickListener(v -> {
+                int adapterPosition = getAdapterPosition();
+                if (adapterPosition == RecyclerView.NO_POSITION)
+                    return;
+
+                mActionDelegate.deleteBackup(getBackupForPosition(adapterPosition));
+            });
         }
 
         @Override
         protected void bindTo(BackupFileMeta meta) {
-
+            mAppVersion.setText(mContext.getString(R.string.backup_app_details_backup_version, meta.versionName));
+            mBackupTitle.setText(mContext.getString(R.string.backup_app_details_backup_time, mBackupTimeSdf.format(new Date(meta.exportTimestamp))));
         }
     }
 
@@ -200,6 +243,10 @@ public class BackupAppDetailsAdapter extends SelectableAdapter<String, BackupApp
         void deleteApp(BackupApp backupApp);
 
         void installApp(BackupApp backupApp);
+
+        void restoreBackup(BackupFileMeta backup);
+
+        void deleteBackup(BackupFileMeta backup);
 
     }
 

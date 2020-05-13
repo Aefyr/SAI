@@ -55,8 +55,13 @@ public class DaoBackedBackupIndex implements BackupIndex {
     }
 
     @Override
-    public void deleteEntryByUri(String storageId, Uri uri) {
+    public BackupFileMeta deleteEntryByUri(String storageId, Uri uri) {
+        BackupFileMeta backupFileMeta = mDao.getBackupMetaForUri(storageId, uri.toString()).toBackupFileMeta();
+        if (backupFileMeta == null)
+            return null;
+
         mDao.removeByUri(storageId, uri.toString());
+        return backupFileMeta;
     }
 
     @Override

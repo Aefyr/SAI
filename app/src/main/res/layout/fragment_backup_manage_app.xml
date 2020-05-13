@@ -1,13 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
     tools:context="com.aefyr.sai.ui.activities.BackupManageAppActivity">
+
+    <com.aefyr.sai.view.coolbar.Coolbar
+        android:id="@+id/coolbar_backup_manage_app"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageButton
+            android:id="@+id/ib_close"
+            style="@style/SAICoolbarImageButton"
+            android:contentDescription="@string/help"
+            app:coolbar_gravity="start"
+            app:srcCompat="@drawable/ic_go_back"
+            tools:ignore="MissingPrefix" />
+    </com.aefyr.sai.view.coolbar.Coolbar>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_backup_app_details"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:overScrollMode="never" />
-</FrameLayout>
+</LinearLayout>

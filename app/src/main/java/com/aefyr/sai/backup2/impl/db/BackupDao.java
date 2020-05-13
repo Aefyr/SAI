@@ -30,10 +30,10 @@ public interface BackupDao {
     @Query("SELECT DISTINCT package FROM BackupMetaEntity")
     List<String> getAllPackages();
 
-    @Query("SELECT * FROM BackupMetaEntity WHERE package = :pkg")
+    @Query("SELECT * FROM BackupMetaEntity WHERE package = :pkg ORDER BY export_timestamp DESC")
     List<BackupMetaEntity> getAllBackupsForPackage(String pkg);
 
-    @Query("SELECT * FROM BackupMetaEntity WHERE package = :pkg")
+    @Query("SELECT * FROM BackupMetaEntity WHERE package = :pkg ORDER BY export_timestamp DESC")
     LiveData<List<BackupMetaEntity>> getAllBackupsForPackageLiveData(String pkg);
 
     @Query("DELETE FROM BackupMetaEntity")

@@ -43,6 +43,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class DefaultBackupManager implements BackupManager, BackupStorage.Observer {
     private static final String TAG = "DefaultBackupManager";
@@ -64,6 +66,8 @@ public class DefaultBackupManager implements BackupManager, BackupStorage.Observ
     private MutableLiveData<IndexingStatus> mIndexingStatus = new MutableLiveData<>(new IndexingStatus());
 
     private final Set<AppsObserver> mAppsObservers = new HashSet<>();
+
+    private ExecutorService mMiscExecutor = Executors.newCachedThreadPool();
 
     public static synchronized DefaultBackupManager getInstance(Context context) {
         return sInstance != null ? sInstance : new DefaultBackupManager(context);
@@ -135,6 +139,24 @@ public class DefaultBackupManager implements BackupManager, BackupStorage.Observ
     @Override
     public LiveData<BackupAppDetails> getAppDetails(String pkg) {
         return new LiveAppDetails(pkg);
+    }
+
+    @Override
+    public void deleteBackup(String storageId, Uri backupUri, @Nullable BackupDeletionCallback callback, @Nullable Handler callbackHandler) {
+        mMiscExecutor.execute(() -> {
+            try {
+                mStorage.deleteBackup(backupUri);
+
+                if (callback != null && callbackHandler != null)
+                    callbackHandler.post(() -> callback.onBackupDeleted(storageId, backupUri));
+
+            } catch (Exception e) {
+                Log.w(TAG, "Unable to delete backup", e);
+
+                if (callback != null && callbackHandler != null)
+                    callbackHandler.post(() -> callback.onFailedToDeleteBackup(storageId, backupUri, e));
+            }
+        });
     }
 
     @WorkerThread
@@ -365,7 +387,7 @@ public class DefaultBackupManager implements BackupManager, BackupStorage.Observ
     }
 
     @Override
-    public void onBackupAdded(BackupFileMeta meta) {
+    public void onBackupAdded(String storageId, BackupFileMeta meta) {
         Stopwatch sw = new Stopwatch();
 
         mIndex.addEntry(meta);
@@ -375,17 +397,21 @@ public class DefaultBackupManager implements BackupManager, BackupStorage.Observ
     }
 
     @Override
-    public void onBackupRemoved(BackupFileMeta meta) {
+    public void onBackupRemoved(String storageId, Uri backupUri) {
         Stopwatch sw = new Stopwatch();
 
-        mIndex.deleteEntryByUri(meta.storageId, meta.uri);
+        BackupFileMeta meta = mIndex.deleteEntryByUri(mStorage.getStorageId(), backupUri);
+        if (meta == null) {
+            Log.w(TAG, String.format("Meta from deleteEntryByUri for uri %s in storage %s is null", backupUri.toString(), storageId));
+            return;
+        }
         updateAppInAppList(meta.pkg);
 
         Log.i(TAG, String.format("onBackupRemoved handled in %d ms.", sw.millisSinceStart()));
     }
 
     @Override
-    public void onStorageUpdated() {
+    public void onStorageUpdated(String storageId) {
         scanBackups();
     }
 

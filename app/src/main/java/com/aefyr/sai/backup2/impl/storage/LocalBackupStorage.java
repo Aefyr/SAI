@@ -109,6 +109,17 @@ public class LocalBackupStorage extends ApksBackupStorage implements SharedPrefe
     }
 
     @Override
+    public void deleteBackup(Uri backupUri) {
+        DocumentFile docFile = SafUtils.docFileFromSingleUriOrFileUri(mContext, backupUri);
+        if (docFile == null)
+            return;
+
+        if (docFile.delete()) {
+            notifyBackupRemoved(backupUri);
+        }
+    }
+
+    @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         if (key.equals(PreferencesKeys.BACKUP_DIR))
             notifyStorageChanged();

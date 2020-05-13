@@ -242,7 +242,7 @@ public class BackupService2 extends Service implements BackupStorage.BackupProgr
     }
 
     @Override
-    public void onBackupTaskStatusChanged(BackupStorage.BackupTaskStatus status) {
+    public void onBackupTaskStatusChanged(String storageId, BackupStorage.BackupTaskStatus status) {
         switch (status.state()) {
             case CREATED:
             case QUEUED:
@@ -336,7 +336,7 @@ public class BackupService2 extends Service implements BackupStorage.BackupProgr
     }
 
     @Override
-    public void onBatchBackupTaskStatusChanged(BackupStorage.BatchBackupTaskStatus status) {
+    public void onBatchBackupTaskStatusChanged(String storageId, BackupStorage.BatchBackupTaskStatus status) {
         switch (status.state()) {
             case CREATED:
             case QUEUED:

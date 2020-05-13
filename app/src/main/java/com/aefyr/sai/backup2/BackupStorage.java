@@ -74,21 +74,23 @@ public interface BackupStorage {
 
     void removeObserver(Observer observer);
 
+    void deleteBackup(Uri backupUri) throws Exception;
+
     interface Observer {
 
-        void onBackupAdded(BackupFileMeta meta);
+        void onBackupAdded(String storageId, BackupFileMeta meta);
 
-        void onBackupRemoved(BackupFileMeta meta);
+        void onBackupRemoved(String storageId, Uri backupUri);
 
-        void onStorageUpdated();
+        void onStorageUpdated(String storageId);
 
     }
 
     interface BackupProgressListener {
 
-        void onBackupTaskStatusChanged(BackupTaskStatus status);
+        void onBackupTaskStatusChanged(String storageId, BackupTaskStatus status);
 
-        void onBatchBackupTaskStatusChanged(BatchBackupTaskStatus status);
+        void onBatchBackupTaskStatusChanged(String storageId, BatchBackupTaskStatus status);
 
     }
 

@@ -1,5 +1,6 @@
 package com.aefyr.sai.backup2.impl.storage;
 
+import android.net.Uri;
 import android.os.Handler;
 
 import androidx.core.util.Consumer;
@@ -42,11 +43,11 @@ public abstract class BaseBackupStorage implements BackupStorage {
     }
 
     protected void notifyBackupTaskStatusChanged(BackupTaskStatus status) {
-        onEachProgressListener(it -> it.onBackupTaskStatusChanged(status));
+        onEachProgressListener(it -> it.onBackupTaskStatusChanged(getStorageId(), status));
     }
 
     protected void notifyBatchBackupTaskStatusChanged(BatchBackupTaskStatus status) {
-        onEachProgressListener(it -> it.onBatchBackupTaskStatusChanged(status));
+        onEachProgressListener(it -> it.onBatchBackupTaskStatusChanged(getStorageId(), status));
     }
 
     protected void onEachObserver(Consumer<Observer> action) {
@@ -55,15 +56,15 @@ public abstract class BaseBackupStorage implements BackupStorage {
     }
 
     protected void notifyBackupAdded(BackupFileMeta meta) {
-        onEachObserver(it -> it.onBackupAdded(meta));
+        onEachObserver(it -> it.onBackupAdded(getStorageId(), meta));
     }
 
-    protected void notifyBackupRemoved(BackupFileMeta meta) {
-        onEachObserver(it -> it.onBackupRemoved(meta));
+    protected void notifyBackupRemoved(Uri backupUri) {
+        onEachObserver(it -> it.onBackupRemoved(getStorageId(), backupUri));
     }
 
     protected void notifyStorageChanged() {
-        onEachObserver(Observer::onStorageUpdated);
+        onEachObserver(it -> it.onStorageUpdated(getStorageId()));
     }
 
     private static class ProgressListenerHandlerWrapper implements BackupProgressListener {
@@ -77,13 +78,13 @@ public abstract class BaseBackupStorage implements BackupStorage {
         }
 
         @Override
-        public void onBackupTaskStatusChanged(BackupTaskStatus status) {
-            mHandler.post(() -> mWrappedListener.onBackupTaskStatusChanged(status));
+        public void onBackupTaskStatusChanged(String storageId, BackupTaskStatus status) {
+            mHandler.post(() -> mWrappedListener.onBackupTaskStatusChanged(storageId, status));
         }
 
         @Override
-        public void onBatchBackupTaskStatusChanged(BatchBackupTaskStatus status) {
-            mHandler.post(() -> mWrappedListener.onBatchBackupTaskStatusChanged(status));
+        public void onBatchBackupTaskStatusChanged(String storageId, BatchBackupTaskStatus status) {
+            mHandler.post(() -> mWrappedListener.onBatchBackupTaskStatusChanged(storageId, status));
         }
     }
 
@@ -99,18 +100,18 @@ public abstract class BaseBackupStorage implements BackupStorage {
 
 
         @Override
-        public void onBackupAdded(BackupFileMeta meta) {
-            mHandler.post(() -> mWrappedObserver.onBackupAdded(meta));
+        public void onBackupAdded(String storageId, BackupFileMeta meta) {
+            mHandler.post(() -> mWrappedObserver.onBackupAdded(storageId, meta));
         }
 
         @Override
-        public void onBackupRemoved(BackupFileMeta meta) {
-            mHandler.post(() -> mWrappedObserver.onBackupRemoved(meta));
+        public void onBackupRemoved(String storageId, Uri backupUri) {
+            mHandler.post(() -> mWrappedObserver.onBackupRemoved(storageId, backupUri));
         }
 
         @Override
-        public void onStorageUpdated() {
-            mHandler.post(() -> mWrappedObserver.onStorageUpdated());
+        public void onStorageUpdated(String storageId) {
+            mHandler.post(() -> mWrappedObserver.onStorageUpdated(storageId));
         }
     }
 }
