@@ -20,6 +20,7 @@ import com.aefyr.sai.R;
 import com.aefyr.sai.adapters.selection.SelectableAdapter;
 import com.aefyr.sai.adapters.selection.Selection;
 import com.aefyr.sai.backup2.BackupApp;
+import com.aefyr.sai.backup2.BackupStatus;
 import com.aefyr.sai.model.backup.BackupPackagesFilterConfig;
 import com.aefyr.sai.model.backup.SimpleAppFeature;
 import com.aefyr.sai.model.common.AppFeature;
@@ -191,26 +192,11 @@ public class BackupPackagesAdapter extends SelectableAdapter<String, BackupPacka
                 mAppName.setPaintFlags(mAppName.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
             }
 
-            switch (app.backupStatus()) {
-                case NO_BACKUP:
-                    mBackupStatus.setVisibility(View.GONE);
-                    break;
-                case SAME_VERSION:
-                    mBackupStatus.setVisibility(View.VISIBLE);
-                    mBackupStatus.setImageResource(R.drawable.ic_backup_status_same_version);
-                    break;
-                case HIGHER_VERSION:
-                    mBackupStatus.setVisibility(View.VISIBLE);
-                    mBackupStatus.setImageResource(R.drawable.ic_backup_status_higher_version);
-                    break;
-                case LOWER_VERSION:
-                    mBackupStatus.setVisibility(View.VISIBLE);
-                    mBackupStatus.setImageResource(R.drawable.ic_backup_status_lower_version);
-                    break;
-                case APP_NOT_INSTALLED:
-                    mBackupStatus.setVisibility(View.VISIBLE);
-                    mBackupStatus.setImageResource(R.drawable.ic_backup_status_not_installed);
-                    break;
+            if (app.backupStatus() == BackupStatus.NO_BACKUP) {
+                mBackupStatus.setVisibility(View.GONE);
+            } else {
+                mBackupStatus.setImageResource(app.backupStatus().getIconRes());
+                mBackupStatus.setVisibility(View.VISIBLE);
             }
 
             mAppVersion.setText(String.format("%s (%d)", packageMeta.versionName, packageMeta.versionCode));
