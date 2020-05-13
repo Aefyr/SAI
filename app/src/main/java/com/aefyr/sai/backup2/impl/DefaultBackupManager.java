@@ -307,15 +307,7 @@ public class DefaultBackupManager implements BackupManager, BackupStorage.Observ
 
             Backup backup = mIndex.getLatestBackupForPackage(packageMeta.packageName);
             if (backup != null) {
-                BackupStatus backupStatus;
-                if (backup.versionCode() == packageMeta.versionCode)
-                    backupStatus = BackupStatus.SAME_VERSION;
-                else if (backup.versionCode() > packageMeta.versionCode)
-                    backupStatus = BackupStatus.HIGHER_VERSION;
-                else
-                    backupStatus = BackupStatus.LOWER_VERSION;
-
-                backupApps.put(packageMeta.packageName, new BackupAppImpl(packageMeta, true, backupStatus));
+                backupApps.put(packageMeta.packageName, new BackupAppImpl(packageMeta, true, BackupStatus.fromInstalledAppAndBackupVersions(packageMeta.versionCode, backup.versionCode())));
             } else {
                 backupApps.put(packageMeta.packageName, new BackupAppImpl(packageMeta, true, BackupStatus.NO_BACKUP));
             }
@@ -353,15 +345,7 @@ public class DefaultBackupManager implements BackupManager, BackupStorage.Observ
         if (packageMeta != null) {
             Backup backup = mIndex.getLatestBackupForPackage(packageMeta.packageName);
             if (backup != null) {
-                BackupStatus backupStatus;
-                if (backup.versionCode() == packageMeta.versionCode)
-                    backupStatus = BackupStatus.SAME_VERSION;
-                else if (backup.versionCode() > packageMeta.versionCode)
-                    backupStatus = BackupStatus.HIGHER_VERSION;
-                else
-                    backupStatus = BackupStatus.LOWER_VERSION;
-
-                mApps.put(packageMeta.packageName, new BackupAppImpl(packageMeta, true, backupStatus));
+                mApps.put(packageMeta.packageName, new BackupAppImpl(packageMeta, true, BackupStatus.fromInstalledAppAndBackupVersions(packageMeta.versionCode, backup.versionCode())));
             } else {
                 mApps.put(packageMeta.packageName, new BackupAppImpl(packageMeta, true, BackupStatus.NO_BACKUP));
             }
