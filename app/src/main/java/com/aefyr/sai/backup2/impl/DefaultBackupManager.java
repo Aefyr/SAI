@@ -208,23 +208,11 @@ public class DefaultBackupManager implements BackupManager, BackupStorage.Observ
         long start = System.currentTimeMillis();
 
         PackageManager pm = mContext.getPackageManager();
-
-        List<ApplicationInfo> applicationInfos = pm.getInstalledApplications(0);
         List<PackageInfo> packageInfos = pm.getInstalledPackages(0);
 
-        HashMap<String, PackageInfo> packageInfoIndex = new HashMap<>(packageInfos.size());
-        for (PackageInfo packageInfo : packageInfos)
-            packageInfoIndex.put(packageInfo.packageName, packageInfo);
-
         Map<String, PackageMeta> packages = new HashMap<>();
-
-        for (ApplicationInfo applicationInfo : applicationInfos) {
-            PackageInfo packageInfo = packageInfoIndex.get(applicationInfo.packageName);
-            if (packageInfo == null) {
-                Log.wtf(TAG, String.format("PackageInfo is null for %s", applicationInfo.packageName));
-                continue;
-            }
-
+        for (PackageInfo packageInfo : packageInfos) {
+            ApplicationInfo applicationInfo = packageInfo.applicationInfo;
 
             PackageMeta packageMeta = new PackageMeta.Builder(applicationInfo.packageName)
                     .setLabel(applicationInfo.loadLabel(pm).toString())
