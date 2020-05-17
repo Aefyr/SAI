@@ -5,7 +5,9 @@ import android.util.Log;
 
 import com.aefyr.sai.backup2.backuptask.config.SingleBackupTaskConfig;
 import com.aefyr.sai.backup2.backuptask.executor.SingleBackupTaskExecutor;
+import com.aefyr.sai.backup2.impl.components.StandardComponentTypes;
 import com.aefyr.sai.model.backup.SaiExportedAppMeta;
+import com.aefyr.sai.model.backup.SaiExportedAppMeta2;
 import com.aefyr.sai.utils.IOUtils;
 import com.aefyr.sai.utils.Utils;
 
@@ -60,23 +62,39 @@ public class ApksSingleBackupTaskExecutor extends SingleBackupTaskExecutor {
         try (ZipOutputStream zipOutputStream = new ZipOutputStream(getFile().openOutputStream())) {
 
             long currentProgress = 0;
-            long maxProgress = 0;
+            long totalApkBytesCount = 0;
             for (File apkFile : apkFiles) {
-                maxProgress += apkFile.length();
+                totalApkBytesCount += apkFile.length();
             }
 
-            //Meta
-            byte[] meta = SaiExportedAppMeta.fromPackageMeta(config.packageMeta(), System.currentTimeMillis()).serialize();
+            //Meta v2
+            byte[] metaV2 = SaiExportedAppMeta2.createForPackage(getContext(), config.packageMeta().packageName, System.currentTimeMillis())
+                    .addBackupComponent(StandardComponentTypes.TYPE_APK_FILES, totalApkBytesCount)
+                    .serialize();
 
             zipOutputStream.setMethod(ZipOutputStream.STORED);
-            ZipEntry metaZipEntry = new ZipEntry(SaiExportedAppMeta.META_FILE);
-            metaZipEntry.setMethod(ZipEntry.STORED);
-            metaZipEntry.setCompressedSize(meta.length);
-            metaZipEntry.setSize(meta.length);
-            metaZipEntry.setCrc(IOUtils.calculateBytesCrc32(meta));
+            ZipEntry metaV2ZipEntry = new ZipEntry(SaiExportedAppMeta2.META_FILE);
+            metaV2ZipEntry.setMethod(ZipEntry.STORED);
+            metaV2ZipEntry.setCompressedSize(metaV2.length);
+            metaV2ZipEntry.setSize(metaV2.length);
+            metaV2ZipEntry.setCrc(IOUtils.calculateBytesCrc32(metaV2));
 
-            zipOutputStream.putNextEntry(metaZipEntry);
-            zipOutputStream.write(meta);
+            zipOutputStream.putNextEntry(metaV2ZipEntry);
+            zipOutputStream.write(metaV2);
+            zipOutputStream.closeEntry();
+
+            //Meta v1
+            byte[] metaV1 = SaiExportedAppMeta.fromPackageMeta(config.packageMeta(), System.currentTimeMillis()).serialize();
+
+            zipOutputStream.setMethod(ZipOutputStream.STORED);
+            ZipEntry metaV1ZipEntry = new ZipEntry(SaiExportedAppMeta.META_FILE);
+            metaV1ZipEntry.setMethod(ZipEntry.STORED);
+            metaV1ZipEntry.setCompressedSize(metaV1.length);
+            metaV1ZipEntry.setSize(metaV1.length);
+            metaV1ZipEntry.setCrc(IOUtils.calculateBytesCrc32(metaV1));
+
+            zipOutputStream.putNextEntry(metaV1ZipEntry);
+            zipOutputStream.write(metaV1);
             zipOutputStream.closeEntry();
 
 
@@ -131,7 +149,7 @@ public class ApksSingleBackupTaskExecutor extends SingleBackupTaskExecutor {
 
                         zipOutputStream.write(buffer, 0, read);
                         currentProgress += read;
-                        notifyProgressChanged(currentProgress, maxProgress);
+                        notifyProgressChanged(currentProgress, totalApkBytesCount);
                     }
                 }
                 zipOutputStream.closeEntry();

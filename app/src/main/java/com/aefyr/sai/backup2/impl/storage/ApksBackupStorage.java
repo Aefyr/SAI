@@ -10,6 +10,7 @@ import androidx.annotation.GuardedBy;
 import androidx.annotation.Nullable;
 
 import com.aefyr.sai.backup2.Backup;
+import com.aefyr.sai.backup2.BackupComponent;
 import com.aefyr.sai.backup2.backuptask.config.BackupTaskConfig;
 import com.aefyr.sai.backup2.backuptask.config.BatchBackupTaskConfig;
 import com.aefyr.sai.backup2.backuptask.config.SingleBackupTaskConfig;
@@ -20,6 +21,7 @@ import com.aefyr.sai.backup2.impl.MutableBackup;
 import com.aefyr.sai.backup2.impl.components.SimpleBackupComponent;
 import com.aefyr.sai.backup2.impl.components.StandardComponentTypes;
 import com.aefyr.sai.model.backup.SaiExportedAppMeta;
+import com.aefyr.sai.model.backup.SaiExportedAppMeta2;
 import com.aefyr.sai.utils.IOUtils;
 import com.aefyr.sai.utils.Utils;
 
@@ -28,6 +30,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -105,7 +108,28 @@ public abstract class ApksBackupStorage extends BaseBackupStorage {
                     mutableBackup.exportTimestamp = appMeta.exportTime();
                     mutableBackup.storageId = getStorageId();
                     mutableBackup.components = Collections.singletonList(new SimpleBackupComponent(StandardComponentTypes.TYPE_APK_FILES, getFileSize(uri)));
-                } else if (zipEntry.getName().equals(SaiExportedAppMeta.ICON_FILE)) {
+                } else if (zipEntry.getName().equals(SaiExportedAppMeta2.META_FILE)) {
+                    SaiExportedAppMeta2 appMeta = SaiExportedAppMeta2.deserialize(IOUtils.readStreamNoClose(zipInputStream));
+                    mutableBackup = new MutableBackup();
+                    mutableBackup.uri = uri;
+                    mutableBackup.contentHash = getBackupFileHash(uri);
+
+                    mutableBackup.pkg = appMeta.packageName();
+                    mutableBackup.label = appMeta.label();
+                    mutableBackup.versionCode = appMeta.versionCode();
+                    mutableBackup.versionName = appMeta.versionName();
+                    mutableBackup.exportTimestamp = appMeta.exportTime();
+                    mutableBackup.storageId = getStorageId();
+
+
+                    List<BackupComponent> backupComponents = new ArrayList<>();
+                    if (appMeta.backupComponents() != null) {
+                        for (SaiExportedAppMeta2.BackupComponent backupComponent : appMeta.backupComponents()) {
+                            backupComponents.add(new SimpleBackupComponent(backupComponent.type(), backupComponent.size()));
+                        }
+                    }
+                    mutableBackup.components = backupComponents;
+                } else if (zipEntry.getName().equals(SaiExportedAppMeta.ICON_FILE) || zipEntry.getName().equals(SaiExportedAppMeta2.ICON_FILE)) {
                     File iconFile = Utils.createUniqueFileInDirectory(new File(getContext().getFilesDir(), "BackupStorageIcons"), "png");
                     if (iconFile == null)
                         continue;
