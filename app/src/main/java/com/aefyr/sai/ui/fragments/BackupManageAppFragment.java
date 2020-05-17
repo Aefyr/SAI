@@ -20,6 +20,7 @@ import com.aefyr.sai.backup2.Backup;
 import com.aefyr.sai.backup2.BackupApp;
 import com.aefyr.sai.ui.dialogs.BackupDialogFragment;
 import com.aefyr.sai.ui.dialogs.DeleteBackupConfirmationDialog;
+import com.aefyr.sai.ui.dialogs.RestoreBackupDialogFragment;
 import com.aefyr.sai.utils.Utils;
 import com.aefyr.sai.view.coolbar.Coolbar;
 import com.aefyr.sai.viewmodels.BackupManageAppViewModel;
@@ -99,12 +100,16 @@ public class BackupManageAppFragment extends SaiBaseFragment implements BackupAp
 
     @Override
     public void installApp(BackupApp backupApp) {
-        Toast.makeText(requireContext(), "Not implemented", Toast.LENGTH_SHORT).show();
+        Backup latestBackup = mViewModel.getLatestBackup();
+        if (latestBackup == null)
+            return;
+
+        RestoreBackupDialogFragment.newInstance(latestBackup.uri(), latestBackup.creationTime()).show(getChildFragmentManager(), null);
     }
 
     @Override
     public void restoreBackup(Backup backup) {
-        Toast.makeText(requireContext(), "Not implemented", Toast.LENGTH_SHORT).show();
+        RestoreBackupDialogFragment.newInstance(backup.uri(), backup.creationTime()).show(getChildFragmentManager(), null);
     }
 
     @Override

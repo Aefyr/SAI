@@ -2,9 +2,11 @@ package com.aefyr.sai.viewmodels;
 
 import android.content.Context;
 
+import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.aefyr.sai.backup2.Backup;
 import com.aefyr.sai.backup2.BackupAppDetails;
 import com.aefyr.sai.backup2.BackupManager;
 import com.aefyr.sai.backup2.impl.DefaultBackupManager;
@@ -29,5 +31,17 @@ public class BackupManageAppViewModel extends ViewModel {
 
     public LiveData<BackupAppDetails> getDetails() {
         return mDetailsLiveData;
+    }
+
+    @Nullable
+    public Backup getLatestBackup() {
+        BackupAppDetails details = mDetailsLiveData.getValue();
+        if (details == null)
+            return null;
+
+        if (details.backups().size() > 0)
+            return details.backups().get(0);
+
+        return null;
     }
 }

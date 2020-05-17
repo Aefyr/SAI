@@ -179,6 +179,8 @@
     <string name="backup_app_details_backup_version">Version: %s</string>
     <string name="backup_app_details_backup_time">Backup from %s</string>
     <string name="backup_delete_backup_prompt">Delete backup from %s?</string>
+    <string name="backup_restore_backup_prompt">Restore backup from %s?</string>
+    <string name="backup_restore_backup_hint">Backup has been added to installer queue</string>
     <string name="backup_incompatible_version_warning">You need to delete the currently installed version of the app in order to restore this backup</string>
     <string name="backup_component_apk_files">APK Files</string>
     <string name="backup_component_unknown">Unknown component with type \"%s\"</string>

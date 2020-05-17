@@ -258,7 +258,12 @@ public class BackupAppDetailsAdapter extends SelectableAdapter<String, BackupApp
             mAppVersion.setText(mContext.getString(R.string.backup_app_details_backup_version, backup.versionName()));
             mBackupTitle.setText(mContext.getString(R.string.backup_app_details_backup_time, mBackupTimeSdf.format(new Date(backup.creationTime()))));
 
-            BackupStatus backupStatus = BackupStatus.fromInstalledAppAndBackupVersions(mDetails.app().packageMeta().versionCode, backup.versionCode());
+            BackupStatus backupStatus;
+            if (mDetails.app().isInstalled()) {
+                backupStatus = BackupStatus.fromInstalledAppAndBackupVersions(mDetails.app().packageMeta().versionCode, backup.versionCode());
+            } else {
+                backupStatus = BackupStatus.APP_NOT_INSTALLED;
+            }
             mBackupStatus.setImageResource(backupStatus.getIconRes());
             mRestoreButton.setVisibility(backupStatus.canBeInstalledOverExistingApp() ? View.VISIBLE : View.GONE);
             mIncompatibleVersionWarning.setVisibility(backupStatus.canBeInstalledOverExistingApp() ? View.GONE : View.VISIBLE);

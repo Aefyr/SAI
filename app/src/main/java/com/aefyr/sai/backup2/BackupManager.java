@@ -34,6 +34,8 @@ public interface BackupManager {
         deleteBackup(backup.storageId(), backup.uri(), callback, callbackHandler);
     }
 
+    void restoreBackup(Uri backupUri);
+
     class IndexingStatus {
         private boolean mInProgress;
         private int mProgress;

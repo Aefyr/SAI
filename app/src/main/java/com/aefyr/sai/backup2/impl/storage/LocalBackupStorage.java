@@ -9,6 +9,8 @@ import androidx.documentfile.provider.DocumentFile;
 import com.aefyr.sai.BuildConfig;
 import com.aefyr.sai.backup.BackupUtils;
 import com.aefyr.sai.backup2.backuptask.config.SingleBackupTaskConfig;
+import com.aefyr.sai.installer.ApkSourceBuilder;
+import com.aefyr.sai.model.apksource.ApkSource;
 import com.aefyr.sai.utils.PreferencesHelper;
 import com.aefyr.sai.utils.PreferencesKeys;
 import com.aefyr.sai.utils.Utils;
@@ -131,6 +133,13 @@ public class LocalBackupStorage extends ApksBackupStorage implements SharedPrefe
         if (docFile.delete()) {
             notifyBackupRemoved(namespaceUri(backupUri));
         }
+    }
+
+    @Override
+    public ApkSource createApkSource(Uri backupUri) {
+        return new ApkSourceBuilder(mContext)
+                .fromZipContentUri(deNamespaceUri(backupUri))
+                .build();
     }
 
     @Override

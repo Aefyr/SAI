@@ -31,6 +31,9 @@ import com.aefyr.sai.backup2.backuptask.config.BatchBackupTaskConfig;
 import com.aefyr.sai.backup2.backuptask.config.SingleBackupTaskConfig;
 import com.aefyr.sai.backup2.impl.db.DaoBackedBackupIndex;
 import com.aefyr.sai.backup2.impl.storage.LocalBackupStorage;
+import com.aefyr.sai.installer2.base.model.SaiPiSessionParams;
+import com.aefyr.sai.installer2.impl.FlexSaiPackageInstaller;
+import com.aefyr.sai.model.apksource.ApkSource;
 import com.aefyr.sai.model.common.PackageMeta;
 import com.aefyr.sai.utils.PreferencesHelper;
 import com.aefyr.sai.utils.Stopwatch;
@@ -56,6 +59,7 @@ public class DefaultBackupManager implements BackupManager, BackupStorage.Observ
     private BackupStorage mStorage;
     private BackupIndex mIndex;
     private PreferencesHelper mPrefsHelper;
+    private FlexSaiPackageInstaller mInstaller;
 
     private Map<String, PackageMeta> mInstalledApps;
     private MutableLiveData<List<PackageMeta>> mInstalledAppsLiveData = new MutableLiveData<>(Collections.emptyList());
@@ -79,6 +83,7 @@ public class DefaultBackupManager implements BackupManager, BackupStorage.Observ
         mStorage = LocalBackupStorage.getInstance(context);
         mIndex = DaoBackedBackupIndex.getInstance(context);
         mPrefsHelper = PreferencesHelper.getInstance(mContext);
+        mInstaller = FlexSaiPackageInstaller.getInstance(mContext);
 
         HandlerThread workerThread = new HandlerThread("DefaultBackupManager Worker Thread");
         workerThread.start();
@@ -157,6 +162,14 @@ public class DefaultBackupManager implements BackupManager, BackupStorage.Observ
                 if (callback != null && callbackHandler != null)
                     callbackHandler.post(() -> callback.onFailedToDeleteBackup(storageId, backupUri, e));
             }
+        });
+    }
+
+    @Override
+    public void restoreBackup(Uri backupUri) {
+        mMiscExecutor.execute(() -> {
+            ApkSource apkSource = mStorage.createApkSource(backupUri);
+            mInstaller.enqueueSession(mInstaller.createSession(new SaiPiSessionParams(apkSource)));
         });
     }
 

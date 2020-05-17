@@ -8,6 +8,7 @@ import androidx.annotation.Nullable;
 import com.aefyr.sai.backup2.backuptask.config.BackupTaskConfig;
 import com.aefyr.sai.backup2.backuptask.config.BatchBackupTaskConfig;
 import com.aefyr.sai.backup2.backuptask.config.SingleBackupTaskConfig;
+import com.aefyr.sai.model.apksource.ApkSource;
 
 import java.util.List;
 import java.util.Map;
@@ -75,6 +76,8 @@ public interface BackupStorage {
     void removeObserver(Observer observer);
 
     void deleteBackup(Uri backupUri) throws Exception;
+
+    ApkSource createApkSource(Uri backupUri);
 
     interface Observer {
 
