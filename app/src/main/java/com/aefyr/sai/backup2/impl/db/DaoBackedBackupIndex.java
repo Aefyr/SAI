@@ -1,16 +1,14 @@
-package com.aefyr.sai.backup2.impl;
+package com.aefyr.sai.backup2.impl.db;
 
 import android.content.Context;
-import android.database.sqlite.SQLiteConstraintException;
 import android.net.Uri;
 
 import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
 
 import com.aefyr.sai.backup2.Backup;
+import com.aefyr.sai.backup2.BackupComponent;
 import com.aefyr.sai.backup2.BackupIndex;
-import com.aefyr.sai.backup2.impl.db.BackupDao;
-import com.aefyr.sai.backup2.impl.db.BackupEntity;
 import com.aefyr.sai.common.AppDatabase;
 
 import java.util.List;
@@ -32,8 +30,8 @@ public class DaoBackedBackupIndex implements BackupIndex {
 
     @Nullable
     @Override
-    public Backup getBackupMetaForUri(String storageId, Uri uri) {
-        return mDao.getBackupMetaForUri(storageId, uri.toString());
+    public Backup getBackupMetaForUri(Uri uri) {
+        return mDao.getBackupMetaForUri(uri.toString());
     }
 
     @Nullable
@@ -44,22 +42,25 @@ public class DaoBackedBackupIndex implements BackupIndex {
 
     @Override
     public void addEntry(Backup backup) {
-        //TODO this is no good, but since this dao is only used from a single thread, it should be fine
-        try {
-            mDao.add(BackupEntity.fromBackup(backup));
-        } catch (SQLiteConstraintException e) {
-            mDao.update(BackupEntity.fromBackup(backup));
-        }
+        mDao.runInTransaction(() -> {
+            if (mDao.getBackupMetaForUri(backup.uri().toString()) != null)
+                mDao.removeByUri(backup.uri().toString());
+
+            mDao.insertBackup(BackupEntity.fromBackup(backup));
+            for (BackupComponent component : backup.components()) {
+                mDao.insertBackupComponent(BackupComponentEntity.fromBackupComponent(backup.uri(), component));
+            }
+        });
     }
 
     @Override
-    public Backup deleteEntryByUri(String storageId, Uri uri) {
-        BackupEntity backupEntity = mDao.getBackupMetaForUri(storageId, uri.toString());
-        if (backupEntity == null)
+    public Backup deleteEntryByUri(Uri uri) {
+        BackupWithComponents backupWithComponents = mDao.getBackupMetaForUri(uri.toString());
+        if (backupWithComponents == null)
             return null;
 
-        mDao.removeByUri(storageId, uri.toString());
-        return backupEntity;
+        mDao.removeByUri(uri.toString());
+        return backupWithComponents;
     }
 
     @Override
@@ -83,7 +84,10 @@ public class DaoBackedBackupIndex implements BackupIndex {
         mDao.runInTransaction(() -> {
             mDao.dropAllEntries();
             for (Backup backup : newIndex) {
-                mDao.add(BackupEntity.fromBackup(backup));
+                mDao.insertBackup(BackupEntity.fromBackup(backup));
+                for (BackupComponent component : backup.components()) {
+                    mDao.insertBackupComponent(BackupComponentEntity.fromBackupComponent(backup.uri(), component));
+                }
             }
         });
     }

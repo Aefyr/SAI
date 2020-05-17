@@ -11,9 +11,9 @@ import com.aefyr.sai.backup2.Backup;
 
 @Entity(
         indices = {@Index(value = {"package", "uri", "content_hash"})},
-        primaryKeys = {"uri", "storage_id"}
+        primaryKeys = {"uri"}
 )
-public class BackupEntity implements Backup {
+public class BackupEntity {
 
     @NonNull
     @ColumnInfo(name = "uri")
@@ -67,50 +67,5 @@ public class BackupEntity implements Backup {
         backupEntity.storageId = backup.storageId();
 
         return backupEntity;
-    }
-
-    @Override
-    public String storageId() {
-        return storageId;
-    }
-
-    @Override
-    public Uri uri() {
-        return getUri();
-    }
-
-    @Override
-    public String pkg() {
-        return pkg;
-    }
-
-    @Override
-    public String appName() {
-        return label;
-    }
-
-    @Override
-    public Uri iconUri() {
-        return getIconUri();
-    }
-
-    @Override
-    public long versionCode() {
-        return versionCode;
-    }
-
-    @Override
-    public String versionName() {
-        return versionName;
-    }
-
-    @Override
-    public long creationTime() {
-        return exportTimestamp;
-    }
-
-    @Override
-    public String contentHash() {
-        return contentHash;
     }
 }

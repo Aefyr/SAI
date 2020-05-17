@@ -17,6 +17,8 @@ import com.aefyr.sai.backup2.backuptask.executor.BatchBackupTaskExecutor;
 import com.aefyr.sai.backup2.backuptask.executor.CancellableBackupTaskExecutor;
 import com.aefyr.sai.backup2.backuptask.executor.SingleBackupTaskExecutor;
 import com.aefyr.sai.backup2.impl.MutableBackup;
+import com.aefyr.sai.backup2.impl.components.SimpleBackupComponent;
+import com.aefyr.sai.backup2.impl.components.StandardComponentTypes;
 import com.aefyr.sai.model.backup.SaiExportedAppMeta;
 import com.aefyr.sai.utils.IOUtils;
 import com.aefyr.sai.utils.Utils;
@@ -70,6 +72,8 @@ public abstract class ApksBackupStorage extends BaseBackupStorage {
 
     protected abstract void deleteFile(Uri uri);
 
+    protected abstract long getFileSize(Uri uri);
+
     @Override
     public List<Uri> listBackupFiles() {
         return null;
@@ -100,6 +104,7 @@ public abstract class ApksBackupStorage extends BaseBackupStorage {
                     mutableBackup.versionName = appMeta.versionName();
                     mutableBackup.exportTimestamp = appMeta.exportTime();
                     mutableBackup.storageId = getStorageId();
+                    mutableBackup.components = Collections.singletonList(new SimpleBackupComponent(StandardComponentTypes.TYPE_APK_FILES, getFileSize(uri)));
                 } else if (zipEntry.getName().equals(SaiExportedAppMeta.ICON_FILE)) {
                     File iconFile = Utils.createUniqueFileInDirectory(new File(getContext().getFilesDir(), "BackupStorageIcons"), "png");
                     if (iconFile == null)

@@ -3,6 +3,9 @@ package com.aefyr.sai.backup2.impl;
 import android.net.Uri;
 
 import com.aefyr.sai.backup2.Backup;
+import com.aefyr.sai.backup2.BackupComponent;
+
+import java.util.List;
 
 public class MutableBackup implements Backup {
 
@@ -15,6 +18,7 @@ public class MutableBackup implements Backup {
     public Uri iconUri;
     public String contentHash;
     public String storageId;
+    public List<BackupComponent> components;
 
 
     @Override
@@ -60,5 +64,10 @@ public class MutableBackup implements Backup {
     @Override
     public String contentHash() {
         return contentHash;
+    }
+
+    @Override
+    public List<BackupComponent> components() {
+        return components;
     }
 }

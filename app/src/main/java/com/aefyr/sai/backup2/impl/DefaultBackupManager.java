@@ -29,6 +29,7 @@ import com.aefyr.sai.backup2.BackupStatus;
 import com.aefyr.sai.backup2.BackupStorage;
 import com.aefyr.sai.backup2.backuptask.config.BatchBackupTaskConfig;
 import com.aefyr.sai.backup2.backuptask.config.SingleBackupTaskConfig;
+import com.aefyr.sai.backup2.impl.db.DaoBackedBackupIndex;
 import com.aefyr.sai.backup2.impl.storage.LocalBackupStorage;
 import com.aefyr.sai.model.common.PackageMeta;
 import com.aefyr.sai.utils.PreferencesHelper;
@@ -384,7 +385,7 @@ public class DefaultBackupManager implements BackupManager, BackupStorage.Observ
     public void onBackupRemoved(String storageId, Uri backupUri) {
         Stopwatch sw = new Stopwatch();
 
-        Backup backup = mIndex.deleteEntryByUri(mStorage.getStorageId(), backupUri);
+        Backup backup = mIndex.deleteEntryByUri(backupUri);
         if (backup == null) {
             Log.w(TAG, String.format("Meta from deleteEntryByUri for uri %s in storage %s is null", backupUri.toString(), storageId));
             return;

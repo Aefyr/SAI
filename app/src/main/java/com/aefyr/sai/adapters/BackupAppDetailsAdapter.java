@@ -24,6 +24,10 @@ import com.aefyr.sai.backup2.BackupAppDetails;
 import com.aefyr.sai.backup2.BackupStatus;
 import com.aefyr.sai.model.common.PackageMeta;
 import com.bumptech.glide.Glide;
+import com.google.android.flexbox.FlexDirection;
+import com.google.android.flexbox.FlexWrap;
+import com.google.android.flexbox.FlexboxLayoutManager;
+import com.google.android.flexbox.JustifyContent;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -42,11 +46,16 @@ public class BackupAppDetailsAdapter extends SelectableAdapter<String, BackupApp
 
     private SimpleDateFormat mBackupTimeSdf = new SimpleDateFormat("dd MMM yyyy, HH:mm:ss", Locale.getDefault());
 
+    private RecyclerView.RecycledViewPool mComponentViewPool;
+
     public BackupAppDetailsAdapter(Context context, Selection<String> selection, LifecycleOwner lifecycleOwner, ActionDelegate actionDelegate) {
         super(selection, lifecycleOwner);
         mContext = context;
         mInflater = LayoutInflater.from(context);
         mActionDelegate = actionDelegate;
+
+        mComponentViewPool = new RecyclerView.RecycledViewPool();
+        mComponentViewPool.setMaxRecycledViews(0, 16);
 
         setHasStableIds(true);
     }
@@ -205,6 +214,8 @@ public class BackupAppDetailsAdapter extends SelectableAdapter<String, BackupApp
 
         private TextView mIncompatibleVersionWarning;
 
+        private BackupComponentsAdapter mComponentsAdapter;
+
         public BackupViewHolder(@NonNull View itemView) {
             super(itemView);
 
@@ -232,6 +243,14 @@ public class BackupAppDetailsAdapter extends SelectableAdapter<String, BackupApp
 
                 mActionDelegate.deleteBackup(getBackupForPosition(adapterPosition));
             });
+
+            RecyclerView componentsRecycler = itemView.findViewById(R.id.rv_backup_components);
+            FlexboxLayoutManager layoutManager = new FlexboxLayoutManager(itemView.getContext(), FlexDirection.ROW, FlexWrap.WRAP);
+            layoutManager.setJustifyContent(JustifyContent.FLEX_START);
+            componentsRecycler.setLayoutManager(layoutManager);
+            componentsRecycler.setRecycledViewPool(mComponentViewPool);
+            mComponentsAdapter = new BackupComponentsAdapter(mContext);
+            componentsRecycler.setAdapter(mComponentsAdapter);
         }
 
         @Override
@@ -243,6 +262,13 @@ public class BackupAppDetailsAdapter extends SelectableAdapter<String, BackupApp
             mBackupStatus.setImageResource(backupStatus.getIconRes());
             mRestoreButton.setVisibility(backupStatus.canBeInstalledOverExistingApp() ? View.VISIBLE : View.GONE);
             mIncompatibleVersionWarning.setVisibility(backupStatus.canBeInstalledOverExistingApp() ? View.GONE : View.VISIBLE);
+
+            mComponentsAdapter.setComponents(backup.components());
+        }
+
+        @Override
+        protected void recycle() {
+            mComponentsAdapter.setComponents(null);
         }
     }
 

@@ -10,7 +10,7 @@ import java.util.List;
 public interface BackupIndex {
 
     @Nullable
-    Backup getBackupMetaForUri(String storageId, Uri uri);
+    Backup getBackupMetaForUri(Uri uri);
 
     @Nullable
     Backup getLatestBackupForPackage(String pkg);
@@ -18,7 +18,7 @@ public interface BackupIndex {
     void addEntry(Backup backup);
 
     @Nullable
-    Backup deleteEntryByUri(String storageId, Uri uri);
+    Backup deleteEntryByUri(Uri uri);
 
     List<String> getAllPackages();
 

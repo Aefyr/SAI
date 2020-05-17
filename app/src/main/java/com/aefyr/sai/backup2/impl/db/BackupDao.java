@@ -5,36 +5,39 @@ import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Transaction;
-import androidx.room.Update;
 
 import java.util.List;
 
 @Dao
 public interface BackupDao {
 
-    @Query("SELECT * FROM BackupEntity WHERE storage_id = :storageId AND uri = :uri")
-    BackupEntity getBackupMetaForUri(String storageId, String uri);
+    @Transaction
+    @Query("SELECT * FROM BackupEntity WHERE uri = :uri")
+    BackupWithComponents getBackupMetaForUri(String uri);
 
-    @Query("DELETE FROM BackupEntity WHERE storage_id = :storageId AND uri = :uri")
-    void removeByUri(String storageId, String uri);
+    @Query("DELETE FROM BackupEntity WHERE uri = :uri")
+    void removeByUri(String uri);
 
     @Insert
-    void add(BackupEntity entity);
+    void insertBackup(BackupEntity backupEntity);
 
-    @Update
-    void update(BackupEntity entity);
+    @Insert
+    void insertBackupComponent(BackupComponentEntity componentEntity);
 
+    @Transaction
     @Query("SELECT * FROM BackupEntity WHERE package = :pkg ORDER BY export_timestamp DESC LIMIT 1")
-    BackupEntity getLatestBackupForPackage(String pkg);
+    BackupWithComponents getLatestBackupForPackage(String pkg);
 
     @Query("SELECT DISTINCT package FROM BackupEntity")
     List<String> getAllPackages();
 
+    @Transaction
     @Query("SELECT * FROM BackupEntity WHERE package = :pkg ORDER BY export_timestamp DESC")
-    List<BackupEntity> getAllBackupsForPackage(String pkg);
+    List<BackupWithComponents> getAllBackupsForPackage(String pkg);
 
+    @Transaction
     @Query("SELECT * FROM BackupEntity WHERE package = :pkg ORDER BY export_timestamp DESC")
-    LiveData<List<BackupEntity>> getAllBackupsForPackageLiveData(String pkg);
+    LiveData<List<BackupWithComponents>> getAllBackupsForPackageLiveData(String pkg);
 
     @Query("DELETE FROM BackupEntity")
     void dropAllEntries();

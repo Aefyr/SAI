@@ -6,6 +6,7 @@ import android.net.Uri;
 
 import androidx.documentfile.provider.DocumentFile;
 
+import com.aefyr.sai.BuildConfig;
 import com.aefyr.sai.backup.BackupUtils;
 import com.aefyr.sai.backup2.backuptask.config.SingleBackupTaskConfig;
 import com.aefyr.sai.utils.PreferencesHelper;
@@ -21,7 +22,7 @@ import java.util.List;
 public class LocalBackupStorage extends ApksBackupStorage implements SharedPreferences.OnSharedPreferenceChangeListener {
     private static final String TAG = "LocalBackupStorage";
 
-    public static final String STORAGE_ID = "local";
+    public static final String STORAGE_ID = BuildConfig.APPLICATION_ID + ".local_storage";
 
     private static LocalBackupStorage sInstance;
 
@@ -59,24 +60,35 @@ public class LocalBackupStorage extends ApksBackupStorage implements SharedPrefe
             throw new Exception("Unable to create backup file");
         }
 
-        return backupFileUri;
+        return namespaceUri(backupFileUri);
     }
 
     @Override
     protected OutputStream openFileOutputStream(Uri uri) throws Exception {
-        return mContext.getContentResolver().openOutputStream(uri);
+        return mContext.getContentResolver().openOutputStream(deNamespaceUri(uri));
     }
 
     @Override
     protected InputStream openFileInputStream(Uri uri) throws Exception {
-        return mContext.getContentResolver().openInputStream(uri);
+        return mContext.getContentResolver().openInputStream(deNamespaceUri(uri));
     }
 
     @Override
     protected void deleteFile(Uri uri) {
+        uri = deNamespaceUri(uri);
         DocumentFile docFile = SafUtils.docFileFromSingleUriOrFileUri(mContext, uri);
         if (docFile != null)
             docFile.delete();
+    }
+
+    @Override
+    protected long getFileSize(Uri uri) {
+        uri = deNamespaceUri(uri);
+        DocumentFile docFile = SafUtils.docFileFromSingleUriOrFileUri(mContext, uri);
+        if (docFile != null)
+            return docFile.length();
+
+        return -1;
     }
 
     @Override
@@ -92,7 +104,7 @@ public class LocalBackupStorage extends ApksBackupStorage implements SharedPrefe
             if (docName != null && !Utils.getExtension(docName).toLowerCase().equals("apks"))
                 continue;
 
-            uris.add(docFile.getUri());
+            uris.add(namespaceUri(docFile.getUri()));
         }
 
         return uris;
@@ -100,6 +112,7 @@ public class LocalBackupStorage extends ApksBackupStorage implements SharedPrefe
 
     @Override
     public String getBackupFileHash(Uri uri) {
+        uri = deNamespaceUri(uri);
         DocumentFile docFile = SafUtils.docFileFromSingleUriOrFileUri(mContext, uri);
         if (docFile == null)
             throw new RuntimeException("wtf, doc file is null for uri " + uri);
@@ -110,12 +123,13 @@ public class LocalBackupStorage extends ApksBackupStorage implements SharedPrefe
 
     @Override
     public void deleteBackup(Uri backupUri) {
+        backupUri = deNamespaceUri(backupUri);
         DocumentFile docFile = SafUtils.docFileFromSingleUriOrFileUri(mContext, backupUri);
         if (docFile == null)
             return;
 
         if (docFile.delete()) {
-            notifyBackupRemoved(backupUri);
+            notifyBackupRemoved(namespaceUri(backupUri));
         }
     }
 
@@ -123,5 +137,20 @@ public class LocalBackupStorage extends ApksBackupStorage implements SharedPrefe
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         if (key.equals(PreferencesKeys.BACKUP_DIR))
             notifyStorageChanged();
+    }
+
+    private Uri deNamespaceUri(Uri namespacedUri) {
+        if (!getStorageId().equals(namespacedUri.getAuthority()))
+            throw new IllegalArgumentException("Passed uri doesn't belong to this storage");
+
+        return Uri.parse(namespacedUri.getQueryParameter("uri"));
+    }
+
+    private Uri namespaceUri(Uri uri) {
+        return new Uri.Builder()
+                .scheme("sbs")
+                .authority(getStorageId())
+                .appendQueryParameter("uri", uri.toString())
+                .build();
     }
 }
