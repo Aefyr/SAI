@@ -39,6 +39,9 @@ public class SaiAppMetaExtractor implements AppMetaExtractor {
             for (ApkSourceFile.Entry entry : apkSourceFile.listEntries()) {
 
                 if (entry.getLocalPath().equals(SaiExportedAppMeta.META_FILE)) {
+                    if (seenMetaFile)
+                        continue;
+
                     try {
                         SaiExportedAppMeta meta = SaiExportedAppMeta.deserialize(IOUtils.readStream(apkSourceFile.openEntryInputStream(entry)));
                         appMeta.packageName = meta.packageName();

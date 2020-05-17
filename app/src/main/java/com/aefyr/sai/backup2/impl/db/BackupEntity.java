@@ -15,6 +15,8 @@ import com.aefyr.sai.backup2.Backup;
 )
 public class BackupEntity {
 
+    public static final long FLAG_SPLIT_APK = 0x1;
+
     @NonNull
     @ColumnInfo(name = "uri")
     public String uri;
@@ -45,12 +47,28 @@ public class BackupEntity {
     @ColumnInfo(name = "storage_id")
     public String storageId;
 
+    @NonNull
+    @ColumnInfo(name = "flags")
+    public long flags;
+
     public Uri getUri() {
         return Uri.parse(uri);
     }
 
     public Uri getIconUri() {
         return Uri.parse(iconUri);
+    }
+
+    public boolean isSplitApk() {
+        return hasFlag(FLAG_SPLIT_APK);
+    }
+
+    private boolean hasFlag(long flag) {
+        return (flags & flag) == flag;
+    }
+
+    private void addFlag(long flag) {
+        flags = flags | flag;
     }
 
     public static BackupEntity fromBackup(Backup backup) {
@@ -65,6 +83,9 @@ public class BackupEntity {
         backupEntity.iconUri = backup.iconUri().toString();
         backupEntity.contentHash = backup.contentHash();
         backupEntity.storageId = backup.storageId();
+
+        if (backup.isSplitApk())
+            backupEntity.addFlag(FLAG_SPLIT_APK);
 
         return backupEntity;
     }

@@ -56,6 +56,11 @@ public class BackupWithComponents implements Backup {
     }
 
     @Override
+    public boolean isSplitApk() {
+        return backup.isSplitApk();
+    }
+
+    @Override
     public long creationTime() {
         return backup.exportTimestamp;
     }

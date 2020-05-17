@@ -96,6 +96,9 @@ public abstract class ApksBackupStorage extends BaseBackupStorage {
             ZipEntry zipEntry;
             while ((zipEntry = zipInputStream.getNextEntry()) != null) {
                 if (zipEntry.getName().equals(SaiExportedAppMeta.META_FILE)) {
+                    if (mutableBackup != null)
+                        continue;
+
                     SaiExportedAppMeta appMeta = SaiExportedAppMeta.deserialize(IOUtils.readStreamNoClose(zipInputStream));
                     mutableBackup = new MutableBackup();
                     mutableBackup.uri = uri;
@@ -118,6 +121,7 @@ public abstract class ApksBackupStorage extends BaseBackupStorage {
                     mutableBackup.label = appMeta.label();
                     mutableBackup.versionCode = appMeta.versionCode();
                     mutableBackup.versionName = appMeta.versionName();
+                    mutableBackup.isSplitApk = appMeta.isSplitApk();
                     mutableBackup.exportTimestamp = appMeta.exportTime();
                     mutableBackup.storageId = getStorageId();
 

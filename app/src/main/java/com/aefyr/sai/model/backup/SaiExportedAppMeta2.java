@@ -63,6 +63,10 @@ public class SaiExportedAppMeta2 {
     @Expose
     private List<BackupComponent> mBackupComponents;
 
+    @SerializedName("split_apk")
+    @Expose
+    private boolean mIsSplitApk;
+
     private SaiExportedAppMeta2() {
 
     }
@@ -88,6 +92,8 @@ public class SaiExportedAppMeta2 {
             appMeta.mMinSdk = (long) packageInfo.applicationInfo.minSdkVersion;
             appMeta.mTargetSdk = (long) packageInfo.applicationInfo.targetSdkVersion;
         }
+
+        appMeta.mIsSplitApk = packageInfo.applicationInfo.splitPublicSourceDirs != null && packageInfo.applicationInfo.splitPublicSourceDirs.length > 0;
 
         return appMeta;
     }
@@ -136,6 +142,10 @@ public class SaiExportedAppMeta2 {
     @Nullable
     public Long targetSdk() {
         return mTargetSdk;
+    }
+
+    public boolean isSplitApk() {
+        return mIsSplitApk;
     }
 
     @Nullable

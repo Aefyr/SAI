@@ -14,6 +14,7 @@ public class MutableBackup implements Backup {
     public String label;
     public long versionCode;
     public String versionName;
+    public boolean isSplitApk;
     public long exportTimestamp;
     public Uri iconUri;
     public String contentHash;
@@ -54,6 +55,11 @@ public class MutableBackup implements Backup {
     @Override
     public String versionName() {
         return versionName;
+    }
+
+    @Override
+    public boolean isSplitApk() {
+        return isSplitApk;
     }
 
     @Override

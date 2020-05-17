@@ -27,6 +27,8 @@ public interface Backup {
 
     String versionName();
 
+    boolean isSplitApk();
+
     long creationTime();
 
     String contentHash();
@@ -39,6 +41,7 @@ public interface Backup {
                 .setVersionCode(versionCode())
                 .setVersionName(versionName())
                 .setIconUri(iconUri())
+                .setHasSplits(isSplitApk())
                 .build();
     }
 
