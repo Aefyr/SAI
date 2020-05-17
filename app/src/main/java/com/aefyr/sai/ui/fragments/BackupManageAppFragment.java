@@ -20,6 +20,7 @@ import com.aefyr.sai.backup2.Backup;
 import com.aefyr.sai.backup2.BackupApp;
 import com.aefyr.sai.ui.dialogs.BackupDialogFragment;
 import com.aefyr.sai.ui.dialogs.DeleteBackupConfirmationDialog;
+import com.aefyr.sai.utils.Utils;
 import com.aefyr.sai.view.coolbar.Coolbar;
 import com.aefyr.sai.viewmodels.BackupManageAppViewModel;
 import com.aefyr.sai.viewmodels.factory.BackupManageAppViewModelFactory;
@@ -52,7 +53,7 @@ public class BackupManageAppFragment extends SaiBaseFragment implements BackupAp
         super.onViewCreated(view, savedInstanceState);
 
         Coolbar coolbar = findViewById(R.id.coolbar_backup_manage_app);
-        findViewById(R.id.ib_close).setOnClickListener(v -> requireActivity().finish());
+        findViewById(R.id.ib_close).setOnClickListener(v -> dismiss());
 
         RecyclerView recycler = findViewById(R.id.rv_backup_app_details);
         recycler.setLayoutManager(new LinearLayoutManager(requireContext()));
@@ -60,18 +61,20 @@ public class BackupManageAppFragment extends SaiBaseFragment implements BackupAp
         BackupAppDetailsAdapter detailsAdapter = new BackupAppDetailsAdapter(requireContext(), new Selection<>(new SimpleKeyStorage()), this, this);
         recycler.setAdapter(detailsAdapter);
 
-        //TODO handle loading and error
         mViewModel.getDetails().observe(getViewLifecycleOwner(), details -> {
             switch (details.state()) {
                 case LOADING:
-
+                    coolbar.setTitle(getString(R.string.backup_app_details_loading));
+                    detailsAdapter.setDetails(null);
                     break;
                 case READY:
                     coolbar.setTitle(details.app().packageMeta().label);
                     detailsAdapter.setDetails(details);
                     break;
                 case ERROR:
-
+                    detailsAdapter.setDetails(null);
+                    Toast.makeText(requireContext(), R.string.backup_app_details_error, Toast.LENGTH_LONG).show();
+                    dismiss();
                     break;
             }
         });
@@ -107,5 +110,19 @@ public class BackupManageAppFragment extends SaiBaseFragment implements BackupAp
     @Override
     public void deleteBackup(Backup backup) {
         DeleteBackupConfirmationDialog.newInstance(backup.storageId(), backup.uri(), backup.creationTime()).show(getChildFragmentManager(), null);
+    }
+
+    private void dismiss() {
+        DismissDelegate dismissDelegate = Utils.getParentAs(this, DismissDelegate.class);
+        if (dismissDelegate == null)
+            throw new RuntimeException("Host of BackupManageAppFragment must implement BackupManageAppFragment.DismissDelegate");
+
+        dismissDelegate.dismiss(this);
+    }
+
+    public interface DismissDelegate {
+
+        void dismiss(BackupManageAppFragment fragment);
+
     }
 }

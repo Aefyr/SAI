@@ -7,7 +7,7 @@ import android.os.Bundle;
 import com.aefyr.sai.R;
 import com.aefyr.sai.ui.fragments.BackupManageAppFragment;
 
-public class BackupManageAppActivity extends ThemedActivity {
+public class BackupManageAppActivity extends ThemedActivity implements BackupManageAppFragment.DismissDelegate {
 
     private static final String EXTRA_PKG = "pkg";
 
@@ -30,4 +30,8 @@ public class BackupManageAppActivity extends ThemedActivity {
     }
 
 
+    @Override
+    public void dismiss(BackupManageAppFragment fragment) {
+        finish();
+    }
 }

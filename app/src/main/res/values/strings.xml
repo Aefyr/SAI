@@ -170,6 +170,8 @@
     <string name="backup_selection_cleared_notice">Selection was cleared due to app list update</string>
     <string name="backup_reindex">Reindex backups</string>
     <string name="backup_indexing">Indexing backups (%1$d/%2$d)...</string>
+    <string name="backup_app_details_loading">Loading...</string>
+    <string name="backup_app_details_error">App failed to load or was deleted</string>
     <string name="backup_app_details_backup">Export</string>
     <string name="backup_app_details_delete">Delete</string>
     <string name="backup_app_details_install">Install from latest backup</string>

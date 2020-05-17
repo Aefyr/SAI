@@ -502,7 +502,12 @@ public class DefaultBackupManager implements BackupManager, BackupStorage.Observ
 
         private void invalidate() {
             mWorkerHandler.post(() -> {
-                postValue(new BackupAppDetailsImpl(BackupAppDetails.State.READY, getApp(mPkg), mIndex.getAllBackupsForPackage(mPkg)));
+                BackupApp app = getApp(mPkg);
+                if (app != null) {
+                    postValue(new BackupAppDetailsImpl(BackupAppDetails.State.READY, getApp(mPkg), mIndex.getAllBackupsForPackage(mPkg)));
+                } else {
+                    postValue(new BackupAppDetailsImpl(BackupAppDetails.State.ERROR, null, null));
+                }
             });
         }
     }
