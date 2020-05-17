@@ -198,7 +198,7 @@ public class Installer2Fragment extends InstallerFragment implements FilePickerD
         if (existingDialog != null)
             existingDialog.dismiss();
 
-        InstallerXDialogFragment.newInstance(apkSourceUri).show(getChildFragmentManager(), "installerx_dialog");
+        InstallerXDialogFragment.newInstance(apkSourceUri, null).show(getChildFragmentManager(), "installerx_dialog");
     }
 
     private void checkPermissionsAndPickFiles() {

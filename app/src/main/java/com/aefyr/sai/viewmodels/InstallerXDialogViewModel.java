@@ -1,14 +1,14 @@
 package com.aefyr.sai.viewmodels;
 
-import android.app.Application;
+import android.content.Context;
 import android.net.Uri;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModel;
 
 import com.aefyr.sai.R;
 import com.aefyr.sai.adapters.selection.Selection;
@@ -23,6 +23,7 @@ import com.aefyr.sai.installerx.postprocessing.SortPostprocessor;
 import com.aefyr.sai.installerx.resolver.appmeta.DefaultAppMetaExtractor;
 import com.aefyr.sai.installerx.resolver.meta.impl.DefaultSplitApkSourceMetaResolver;
 import com.aefyr.sai.installerx.resolver.urimess.SourceType;
+import com.aefyr.sai.installerx.resolver.urimess.UriHost;
 import com.aefyr.sai.installerx.resolver.urimess.UriMessResolutionError;
 import com.aefyr.sai.installerx.resolver.urimess.UriMessResolutionResult;
 import com.aefyr.sai.installerx.resolver.urimess.UriMessResolver;
@@ -39,9 +40,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class InstallerXDialogViewModel extends AndroidViewModel {
+public class InstallerXDialogViewModel extends ViewModel {
     private static final String TAG = "InstallerXVM";
 
+    private Context mContext;
+
+    private UriHost mUriHost;
     private FlexSaiPackageInstaller mInstaller;
     private PreferencesHelper mPrefsHelper;
 
@@ -54,10 +58,14 @@ public class InstallerXDialogViewModel extends AndroidViewModel {
     private Selection<String> mPartsSelection = new Selection<>(new SimpleKeyStorage());
     private List<UriMessResolutionResult> mResolutionResults;
 
-    public InstallerXDialogViewModel(@NonNull Application application) {
-        super(application);
-        mInstaller = FlexSaiPackageInstaller.getInstance(getApplication());
-        mPrefsHelper = PreferencesHelper.getInstance(getApplication());
+    public InstallerXDialogViewModel(@NonNull Context appContext, @Nullable UriHost uriHost) {
+        mContext = appContext;
+        mUriHost = uriHost;
+        if (mUriHost == null)
+            mUriHost = new AndroidUriHost(mContext);
+
+        mInstaller = FlexSaiPackageInstaller.getInstance(mContext);
+        mPrefsHelper = PreferencesHelper.getInstance(mContext);
     }
 
     public LiveData<State> getState() {
@@ -118,11 +126,11 @@ public class InstallerXDialogViewModel extends AndroidViewModel {
             ApkSourceBuilder apkSourceBuilder = null;
 
             if (resolutionResult.sourceType().equals(SourceType.ZIP)) {
-                apkSourceBuilder = new ApkSourceBuilder(getApplication())
+                apkSourceBuilder = new ApkSourceBuilder(mContext)
                         .fromZipContentUri(resolutionResult.uris().get(0));
 
             } else if (resolutionResult.sourceType().equals(SourceType.APK_FILES)) {
-                apkSourceBuilder = new ApkSourceBuilder(getApplication())
+                apkSourceBuilder = new ApkSourceBuilder(mContext)
                         .fromApkContentUris(resolutionResult.uris());
             }
 
@@ -140,11 +148,11 @@ public class InstallerXDialogViewModel extends AndroidViewModel {
         ApkSourceBuilder apkSourceBuilder = null;
 
         if (result.sourceType() == SourceType.ZIP) {
-            apkSourceBuilder = new ApkSourceBuilder(getApplication())
+            apkSourceBuilder = new ApkSourceBuilder(mContext)
                     .fromZipContentUri(result.uris().get(0));
 
         } else if (result.sourceType() == SourceType.APK_FILES) {
-            apkSourceBuilder = new ApkSourceBuilder(getApplication())
+            apkSourceBuilder = new ApkSourceBuilder(mContext)
                     .fromApkContentUris(result.uris());
         }
 
@@ -203,12 +211,12 @@ public class InstallerXDialogViewModel extends AndroidViewModel {
             if (apkSourceUris.size() == 0)
                 throw new IllegalArgumentException("Expected at least 1 file in input");
 
-            DefaultSplitApkSourceMetaResolver metaResolver = new DefaultSplitApkSourceMetaResolver(getApplication(), new DefaultAppMetaExtractor(getApplication()));
-            metaResolver.addPostprocessor(new DeviceInfoAwarePostprocessor(getApplication()));
+            DefaultSplitApkSourceMetaResolver metaResolver = new DefaultSplitApkSourceMetaResolver(mContext, new DefaultAppMetaExtractor(mContext));
+            metaResolver.addPostprocessor(new DeviceInfoAwarePostprocessor(mContext));
             metaResolver.addPostprocessor(new SortPostprocessor());
 
-            UriMessResolver uriMessResolver = new DefaultUriMessResolver(getApplication(), metaResolver);
-            List<UriMessResolutionResult> resolutionResults = uriMessResolver.resolve(apkSourceUris, new AndroidUriHost(getApplication()));
+            UriMessResolver uriMessResolver = new DefaultUriMessResolver(mContext, metaResolver);
+            List<UriMessResolutionResult> resolutionResults = uriMessResolver.resolve(apkSourceUris, mUriHost);
 
             if (resolutionResults.size() != 1) {
                 return new LoadMetaTaskResult(null, null, resolutionResults);
@@ -249,7 +257,7 @@ public class InstallerXDialogViewModel extends AndroidViewModel {
             mResolutionResults = result.resolutionResults;
 
             if (mResolutionResults.size() == 0) {
-                mWarning = new Warning(getApplication().getString(R.string.installerx_dialog_warn_no_files), false);
+                mWarning = new Warning(mContext.getString(R.string.installerx_dialog_warn_no_files), false);
                 mState.setValue(State.WARNING);
             } else if (mResolutionResults.size() == 1) {
                 UriMessResolutionResult uriMessResolutionResult = mResolutionResults.get(0);
@@ -261,14 +269,14 @@ public class InstallerXDialogViewModel extends AndroidViewModel {
                 } else {
                     UriMessResolutionError error = uriMessResolutionResult.error();
                     if (error.doesTryingToInstallNonethelessMakeSense()) {
-                        mWarning = new Warning(getApplication().getString(R.string.installerx_dialog_resolution_error_non_critical, uriMessResolutionResult.error().message()), true);
+                        mWarning = new Warning(mContext.getString(R.string.installerx_dialog_resolution_error_non_critical, uriMessResolutionResult.error().message()), true);
                     } else {
-                        mWarning = new Warning(getApplication().getString(R.string.installerx_dialog_resolution_error_critical, uriMessResolutionResult.error().message()), false);
+                        mWarning = new Warning(mContext.getString(R.string.installerx_dialog_resolution_error_critical, uriMessResolutionResult.error().message()), false);
                     }
                     mState.setValue(State.WARNING);
                 }
             } else {
-                mWarning = new Warning(getApplication().getString(R.string.installerx_dialog_warn_multiple_files), true);
+                mWarning = new Warning(mContext.getString(R.string.installerx_dialog_warn_multiple_files), true);
                 mState.setValue(State.WARNING);
             }
         }
