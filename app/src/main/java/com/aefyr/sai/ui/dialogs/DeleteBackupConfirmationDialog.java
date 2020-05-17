@@ -18,11 +18,9 @@ import java.util.Locale;
 
 public class DeleteBackupConfirmationDialog extends DialogFragment {
 
-    private static final String ARG_STORAGE_ID = "storage_id";
     private static final String ARG_BACKUP_URI = "backup_uri";
     private static final String ARG_TIMESTAMP = "timestamp";
 
-    private String mStorageId;
     private Uri mBackupUri;
     private long mTimestamp;
 
@@ -31,7 +29,6 @@ public class DeleteBackupConfirmationDialog extends DialogFragment {
     public static DeleteBackupConfirmationDialog newInstance(String storageId, Uri backupUri, long timestamp) {
 
         Bundle args = new Bundle();
-        args.putString(ARG_STORAGE_ID, storageId);
         args.putParcelable(ARG_BACKUP_URI, backupUri);
         args.putLong(ARG_TIMESTAMP, timestamp);
 
@@ -46,7 +43,6 @@ public class DeleteBackupConfirmationDialog extends DialogFragment {
         super.onCreate(savedInstanceState);
 
         Bundle args = requireArguments();
-        mStorageId = args.getString(ARG_STORAGE_ID);
         mBackupUri = args.getParcelable(ARG_BACKUP_URI);
         mTimestamp = args.getLong(ARG_TIMESTAMP);
     }
@@ -58,7 +54,7 @@ public class DeleteBackupConfirmationDialog extends DialogFragment {
                 .setMessage(getString(R.string.backup_delete_backup_prompt, mBackupTimeSdf.format(new Date(mTimestamp))))
                 .setNegativeButton(R.string.cancel, null)
                 .setPositiveButton(R.string.ok, (dialog, which) -> {
-                    DefaultBackupManager.getInstance(requireContext()).deleteBackup(mStorageId, mBackupUri, null, null);
+                    DefaultBackupManager.getInstance(requireContext()).deleteBackup(mBackupUri, null, null);
                 }).create();
     }
 }

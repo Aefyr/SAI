@@ -148,19 +148,19 @@ public class DefaultBackupManager implements BackupManager, BackupStorage.Observ
     }
 
     @Override
-    public void deleteBackup(String storageId, Uri backupUri, @Nullable BackupDeletionCallback callback, @Nullable Handler callbackHandler) {
+    public void deleteBackup(Uri backupUri, @Nullable BackupDeletionCallback callback, @Nullable Handler callbackHandler) {
         mMiscExecutor.execute(() -> {
             try {
                 mStorage.deleteBackup(backupUri);
 
                 if (callback != null && callbackHandler != null)
-                    callbackHandler.post(() -> callback.onBackupDeleted(storageId, backupUri));
+                    callbackHandler.post(() -> callback.onBackupDeleted(backupUri));
 
             } catch (Exception e) {
                 Log.w(TAG, "Unable to delete backup", e);
 
                 if (callback != null && callbackHandler != null)
-                    callbackHandler.post(() -> callback.onFailedToDeleteBackup(storageId, backupUri, e));
+                    callbackHandler.post(() -> callback.onFailedToDeleteBackup(backupUri, e));
             }
         });
     }

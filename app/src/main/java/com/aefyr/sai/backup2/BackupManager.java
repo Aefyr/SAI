@@ -28,10 +28,10 @@ public interface BackupManager {
 
     LiveData<BackupAppDetails> getAppDetails(String pkg);
 
-    void deleteBackup(String storageId, Uri backupUri, @Nullable BackupDeletionCallback callback, @Nullable Handler callbackHandler);
+    void deleteBackup(Uri backupUri, @Nullable BackupDeletionCallback callback, @Nullable Handler callbackHandler);
 
     default void deleteBackup(Backup backup, @Nullable BackupDeletionCallback callback, @Nullable Handler callbackHandler) {
-        deleteBackup(backup.storageId(), backup.uri(), callback, callbackHandler);
+        deleteBackup(backup.uri(), callback, callbackHandler);
     }
 
     void restoreBackup(Uri backupUri);
@@ -68,9 +68,9 @@ public interface BackupManager {
 
     interface BackupDeletionCallback {
 
-        void onBackupDeleted(String storageId, Uri backupUri);
+        void onBackupDeleted(Uri backupUri);
 
-        void onFailedToDeleteBackup(String storageId, Uri backupUri, Exception e);
+        void onFailedToDeleteBackup(Uri backupUri, Exception e);
     }
 
 }
