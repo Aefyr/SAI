@@ -102,8 +102,12 @@ public class LocalBackupStorage extends ApksBackupStorage implements SharedPrefe
             return uris;
 
         for (DocumentFile docFile : backupsDir.listFiles()) {
+            if (docFile.isDirectory())
+                continue;
+
             String docName = docFile.getName();
-            if (docName != null && !Utils.getExtension(docName).toLowerCase().equals("apks"))
+            String docExt = Utils.getExtension(docName);
+            if (docExt == null || !docExt.toLowerCase().equals("apks"))
                 continue;
 
             uris.add(namespaceUri(docFile.getUri()));
