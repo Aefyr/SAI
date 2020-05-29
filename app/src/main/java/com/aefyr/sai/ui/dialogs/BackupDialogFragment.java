@@ -110,7 +110,6 @@ public class BackupDialogFragment extends BaseBottomSheetDialogFragment {
 
         SingleBackupTaskConfig config = new SingleBackupTaskConfig.Builder(backupManager.getDefaultBackupStorageProvider().getId(), mPackage)
                 .addAllApks(selectedApks)
-                .setPackApksIntoAnArchive(true)
                 .build();
 
         backupManager.enqueueBackup(config);

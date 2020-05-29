@@ -13,8 +13,6 @@ import com.aefyr.sai.utils.Utils;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.OutputStream;
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
@@ -40,13 +38,7 @@ public class ApksSingleBackupTaskExecutor extends SingleBackupTaskExecutor {
             else
                 apkFiles = getConfig().apksToBackup();
 
-            if (!getConfig().packApksIntoAnArchive() && apkFiles.size() != 1)
-                throw new IllegalArgumentException("No packing requested but multiple APKs are to be exported");
-
-            if (!getConfig().packApksIntoAnArchive())
-                executeBackupWithoutPacking(getConfig(), apkFiles.get(0));
-            else
-                executeBackupWithPacking(getConfig(), apkFiles);
+            executeBackupWithPacking(getConfig(), apkFiles);
 
             notifySucceeded(getFile().readMeta());
         } catch (TaskCancelledException e) {
@@ -156,25 +148,4 @@ public class ApksSingleBackupTaskExecutor extends SingleBackupTaskExecutor {
             }
         }
     }
-
-    private void executeBackupWithoutPacking(SingleBackupTaskConfig config, File apkFile) throws Exception {
-        try (FileInputStream apkInputStream = new FileInputStream(apkFile); OutputStream outputStream = getFile().openOutputStream()) {
-            if (outputStream == null)
-                throw new IOException("Unable to open output stream");
-
-            long currentProgress = 0;
-            long maxProgress = apkFile.length();
-
-            byte[] buf = new byte[1024 * 512];
-            int read;
-            while ((read = apkInputStream.read(buf)) > 0) {
-                ensureNotCancelled();
-
-                outputStream.write(buf, 0, read);
-                currentProgress += read;
-                notifyProgressChanged(currentProgress, maxProgress);
-            }
-        }
-    }
-
 }

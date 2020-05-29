@@ -28,7 +28,6 @@ public class SingleBackupTaskConfig implements Parcelable, BackupTaskConfig {
     private String mBackupStorageId;
     private PackageMeta mPackageMeta;
     private ArrayList<File> mApksToBackup = new ArrayList<>();
-    private boolean mPackApksIntoAnArchive = true;
 
     private SingleBackupTaskConfig(@Nullable String backupStorageId, PackageMeta packageMeta) {
         mBackupStorageId = backupStorageId;
@@ -43,8 +42,6 @@ public class SingleBackupTaskConfig implements Parcelable, BackupTaskConfig {
         in.readStringList(apkFilePaths);
         for (String apkFilePath : apkFilePaths)
             mApksToBackup.add(new File(apkFilePath));
-
-        mPackApksIntoAnArchive = in.readInt() == 1;
     }
 
     public PackageMeta packageMeta() {
@@ -53,10 +50,6 @@ public class SingleBackupTaskConfig implements Parcelable, BackupTaskConfig {
 
     public List<File> apksToBackup() {
         return mApksToBackup;
-    }
-
-    public boolean packApksIntoAnArchive() {
-        return mPackApksIntoAnArchive;
     }
 
     @Override
@@ -73,8 +66,6 @@ public class SingleBackupTaskConfig implements Parcelable, BackupTaskConfig {
         for (File apkFile : mApksToBackup)
             apkFilePaths.add(apkFile.getAbsolutePath());
         dest.writeStringList(apkFilePaths);
-
-        dest.writeInt(mPackApksIntoAnArchive ? 1 : 0);
     }
 
     @Override
@@ -96,11 +87,6 @@ public class SingleBackupTaskConfig implements Parcelable, BackupTaskConfig {
 
         public SingleBackupTaskConfig.Builder addAllApks(Collection<File> apkFiles) {
             mConfig.mApksToBackup.addAll(apkFiles);
-            return this;
-        }
-
-        public SingleBackupTaskConfig.Builder setPackApksIntoAnArchive(boolean pack) {
-            mConfig.mPackApksIntoAnArchive = pack;
             return this;
         }
 
