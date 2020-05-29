@@ -94,7 +94,12 @@ public class BatchBackupDialogViewModel extends ViewModel {
 
             configs.add(new SingleBackupTaskConfig.Builder(storageId, packageMeta).build());
         }
-        mBackupManager.enqueueBackup(new BatchBackupTaskConfig(storageId, configs));
+
+        if (configs.size() == 1) {
+            mBackupManager.enqueueBackup(configs.get(0));
+        } else {
+            mBackupManager.enqueueBackup(new BatchBackupTaskConfig(storageId, configs));
+        }
     }
 
     public int getApkCount() {
