@@ -184,6 +184,9 @@
     <string name="backup_incompatible_version_warning">You need to delete the currently installed version of the app in order to restore this backup</string>
     <string name="backup_component_apk_files">APK Files</string>
     <string name="backup_component_unknown">Unknown component with type \"%s\"</string>
+    <string name="backup_lbs_warning_no_dir">Please select a directory to store backups. .apks files exported with SAI 3.10+ in the selected directory will be indexed as backups. Default directory for backups prior to SAI 4.0 used to be Internal Storage > SAI</string>
+    <string name="backup_lbs_select_dir">Select directory</string>
+    <string name="backup_lbs_current_dir">Current backups directory: %s\n\nNote: SAI will only show backups from the currently selected directory.</string>
 
     <string name="settings_title">Settings</string>
     <string name="settings_main_home_directory">Home directory</string>

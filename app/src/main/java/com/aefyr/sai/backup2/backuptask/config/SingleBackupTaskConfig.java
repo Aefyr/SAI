@@ -3,6 +3,8 @@ package com.aefyr.sai.backup2.backuptask.config;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import androidx.annotation.Nullable;
+
 import com.aefyr.sai.model.common.PackageMeta;
 
 import java.io.File;
@@ -23,15 +25,18 @@ public class SingleBackupTaskConfig implements Parcelable, BackupTaskConfig {
             return new SingleBackupTaskConfig[size];
         }
     };
+    private String mBackupStorageId;
     private PackageMeta mPackageMeta;
     private ArrayList<File> mApksToBackup = new ArrayList<>();
     private boolean mPackApksIntoAnArchive = true;
 
-    private SingleBackupTaskConfig(PackageMeta packageMeta) {
-        this.mPackageMeta = packageMeta;
+    private SingleBackupTaskConfig(@Nullable String backupStorageId, PackageMeta packageMeta) {
+        mBackupStorageId = backupStorageId;
+        mPackageMeta = packageMeta;
     }
 
     SingleBackupTaskConfig(Parcel in) {
+        mBackupStorageId = in.readString();
         mPackageMeta = in.readParcelable(PackageMeta.class.getClassLoader());
 
         ArrayList<String> apkFilePaths = new ArrayList<>();
@@ -61,6 +66,7 @@ public class SingleBackupTaskConfig implements Parcelable, BackupTaskConfig {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(mBackupStorageId);
         dest.writeParcelable(mPackageMeta, flags);
 
         ArrayList<String> apkFilePaths = new ArrayList<>();
@@ -71,11 +77,16 @@ public class SingleBackupTaskConfig implements Parcelable, BackupTaskConfig {
         dest.writeInt(mPackApksIntoAnArchive ? 1 : 0);
     }
 
+    @Override
+    public String getBackupStorageId() {
+        return mBackupStorageId;
+    }
+
     public static class Builder {
         private SingleBackupTaskConfig mConfig;
 
-        public Builder(PackageMeta packageMeta) {
-            mConfig = new SingleBackupTaskConfig(packageMeta);
+        public Builder(String backupStorageId, PackageMeta packageMeta) {
+            mConfig = new SingleBackupTaskConfig(backupStorageId, packageMeta);
         }
 
         public SingleBackupTaskConfig.Builder addApk(File apkFile) {

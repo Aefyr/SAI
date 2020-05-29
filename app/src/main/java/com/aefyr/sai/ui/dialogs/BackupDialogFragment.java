@@ -1,29 +1,23 @@
 package com.aefyr.sai.ui.dialogs;
 
-import android.content.ContentResolver;
-import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.StringRes;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.aefyr.sai.R;
 import com.aefyr.sai.adapters.BackupSplitPartsAdapter;
+import com.aefyr.sai.backup2.BackupManager;
 import com.aefyr.sai.backup2.backuptask.config.SingleBackupTaskConfig;
 import com.aefyr.sai.backup2.impl.DefaultBackupManager;
 import com.aefyr.sai.model.common.PackageMeta;
 import com.aefyr.sai.ui.dialogs.base.BaseBottomSheetDialogFragment;
-import com.aefyr.sai.utils.PermissionsUtils;
-import com.aefyr.sai.utils.PreferencesHelper;
 import com.aefyr.sai.view.ViewSwitcherLayout;
 import com.aefyr.sai.viewmodels.BackupDialogViewModel;
 
@@ -36,7 +30,6 @@ public class BackupDialogFragment extends BaseBottomSheetDialogFragment {
 
     private PackageMeta mPackage;
     private BackupDialogViewModel mViewModel;
-    private Uri mBackupDirUri;
 
     public static BackupDialogFragment newInstance(PackageMeta packageMeta) {
         Bundle args = new Bundle();
@@ -50,8 +43,6 @@ public class BackupDialogFragment extends BaseBottomSheetDialogFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        mBackupDirUri = PreferencesHelper.getInstance(requireContext()).getBackupDirUri();
 
         mViewModel = new ViewModelProvider(this).get(BackupDialogViewModel.class);
 
@@ -113,40 +104,17 @@ public class BackupDialogFragment extends BaseBottomSheetDialogFragment {
     }
 
     private void enqueueBackup() {
-        if (doesRequireStoragePermissions() && !PermissionsUtils.checkAndRequestStoragePermissions(this))
-            return;
+        BackupManager backupManager = DefaultBackupManager.getInstance(requireContext());
 
         List<File> selectedApks = mViewModel.getSelectedSplitParts();
 
-        SingleBackupTaskConfig config = new SingleBackupTaskConfig.Builder(mPackage)
+        SingleBackupTaskConfig config = new SingleBackupTaskConfig.Builder(backupManager.getDefaultBackupStorageProvider().getId(), mPackage)
                 .addAllApks(selectedApks)
                 .setPackApksIntoAnArchive(selectedApks.size() > 1)
                 .build();
 
-        DefaultBackupManager.getInstance(requireContext()).enqueueBackup(config);
+        backupManager.enqueueBackup(config);
 
         dismiss();
-    }
-
-    private boolean doesRequireStoragePermissions() {
-        return !ContentResolver.SCHEME_CONTENT.equals(mBackupDirUri.getScheme());
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
-        if (requestCode == PermissionsUtils.REQUEST_CODE_STORAGE_PERMISSIONS) {
-            if (grantResults.length == 0 || grantResults[0] == PackageManager.PERMISSION_DENIED)
-                showError(R.string.permissions_required_storage);
-            else
-                enqueueBackup();
-
-            dismiss();
-        }
-    }
-
-    private void showError(@StringRes int message) {
-        SimpleAlertDialogFragment.newInstance(getText(R.string.error), getText(message)).show(getParentFragmentManager(), null);
     }
 }

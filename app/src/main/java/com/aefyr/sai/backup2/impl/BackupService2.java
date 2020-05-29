@@ -22,18 +22,20 @@ import androidx.core.app.NotificationManagerCompat;
 
 import com.aefyr.sai.BuildConfig;
 import com.aefyr.sai.R;
+import com.aefyr.sai.backup2.BackupManager;
 import com.aefyr.sai.backup2.BackupStorage;
 import com.aefyr.sai.backup2.backuptask.config.BackupTaskConfig;
 import com.aefyr.sai.backup2.backuptask.config.BatchBackupTaskConfig;
 import com.aefyr.sai.backup2.backuptask.config.SingleBackupTaskConfig;
-import com.aefyr.sai.backup2.impl.storage.LocalBackupStorage;
 import com.aefyr.sai.model.common.PackageMeta;
 import com.aefyr.sai.utils.NotificationHelper;
 import com.aefyr.sai.utils.Utils;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicInteger;
 
 //TODO make this prettier
 public class BackupService2 extends Service implements BackupStorage.BackupProgressListener {
@@ -45,6 +47,7 @@ public class BackupService2 extends Service implements BackupStorage.BackupProgr
     public static final String ACTION_ENQUEUE_BACKUP = BuildConfig.APPLICATION_ID + ".action.BackupService2.ENQUEUE_BACKUP";
 
     public static final String ACTION_CANCEL_BACKUP = BuildConfig.APPLICATION_ID + ".action.BackupService2.CANCEL_BACKUP";
+    public static final String EXTRA_STORAGE_ID = "storage_id";
     public static final String EXTRA_TASK_TOKEN = "task_token";
 
     public static final String NOTIFICATION_GROUP_BACKUP_ONGOING = BuildConfig.APPLICATION_ID + ".notification_group.BACKUP_ONGOING";
@@ -60,11 +63,14 @@ public class BackupService2 extends Service implements BackupStorage.BackupProgr
     private HandlerThread mProgressHandlerThread;
     private Handler mProgressHandler;
 
-    private BackupStorage mStorage;
+    private BackupManager mBackupManager;
 
-    public static void enqueueBackup(Context c, String taskToken) {
+    private Map<String, AtomicInteger> mStorageDependencies = new HashMap<>();
+
+    public static void enqueueBackup(Context c, String storageId, String taskToken) {
         Intent intent = new Intent(c, BackupService2.class);
         intent.setAction(ACTION_ENQUEUE_BACKUP);
+        intent.putExtra(EXTRA_STORAGE_ID, storageId);
         intent.putExtra(EXTRA_TASK_TOKEN, taskToken);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             c.startForegroundService(intent);
@@ -80,8 +86,7 @@ public class BackupService2 extends Service implements BackupStorage.BackupProgr
         mProgressHandlerThread.start();
         mProgressHandler = new Handler(mProgressHandlerThread.getLooper());
 
-        mStorage = LocalBackupStorage.getInstance(getApplicationContext());
-        mStorage.addBackupProgressListener(this, mProgressHandler);
+        mBackupManager = DefaultBackupManager.getInstance(getApplicationContext());
         prepareNotificationsStuff();
     }
 
@@ -90,13 +95,15 @@ public class BackupService2 extends Service implements BackupStorage.BackupProgr
 
         switch (Objects.requireNonNull(intent.getAction())) {
             case ACTION_ENQUEUE_BACKUP: {
+                String storageId = intent.getStringExtra(EXTRA_STORAGE_ID);
                 String taskToken = intent.getStringExtra(EXTRA_TASK_TOKEN);
-                enqueue(taskToken);
+                enqueue(storageId, taskToken);
                 break;
             }
             case ACTION_CANCEL_BACKUP:
+                String storageId = intent.getStringExtra(EXTRA_STORAGE_ID);
                 String taskToken = intent.getStringExtra(EXTRA_TASK_TOKEN);
-                cancelBackup(taskToken);
+                cancelBackup(storageId, taskToken);
                 break;
         }
 
@@ -113,39 +120,50 @@ public class BackupService2 extends Service implements BackupStorage.BackupProgr
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mStorage.removeBackupProgressListener(this);
+        clearStorageDependencies();
         mProgressHandlerThread.quitSafely();
     }
 
     @MainThread
-    private void cancelBackup(String taskToken) {
-        mStorage.cancelBackupTask(taskToken);
+    private void cancelBackup(String storageId, String taskToken) {
+        mBackupManager.getBackupStorageProvider(storageId).getStorage().cancelBackupTask(taskToken);
     }
 
     @MainThread
-    private void enqueue(String taskToken) {
+    private void enqueue(String storageId, String taskToken) {
 
-        BackupTaskConfig config = mStorage.getTaskConfig(taskToken);
+        BackupStorage storage = mBackupManager.getBackupStorageProvider(storageId).getStorage();
+
+        BackupTaskConfig config = storage.getTaskConfig(taskToken);
         if (config == null)
             return;
 
         if (config instanceof SingleBackupTaskConfig) {
             SingleBackupTaskConfig taskConfig = (SingleBackupTaskConfig) config;
-            mTasks.put(taskToken, new BackupTaskInfo(taskConfig.packageMeta(), taskToken, taskToken));
+            mTasks.put(taskToken, new BackupTaskInfo(config.getBackupStorageId(), taskConfig.packageMeta(), taskToken, taskToken));
         } else if (config instanceof BatchBackupTaskConfig) {
-            mBatchTasks.put(taskToken, new BatchBackupTaskInfo(taskToken, taskToken));
+            mBatchTasks.put(taskToken, new BatchBackupTaskInfo(config.getBackupStorageId(), taskToken, taskToken));
         } else {
             Log.w(TAG, String.format("Got unsupported task config class - %s, task token - %s, ignoring", config.getClass().getCanonicalName(), taskToken));
         }
 
+        addStorageDependency(storageId);
         updateStatus();
-        mStorage.startBackupTask(taskToken);
+        storage.startBackupTask(taskToken);
     }
 
     @MainThread
     private void taskFinished(String taskTag) {
-        mTasks.remove(taskTag);
-        mBatchTasks.remove(taskTag);
+        BackupTaskInfo backupTaskInfo = mTasks.remove(taskTag);
+        if (backupTaskInfo != null) {
+            removeStorageDependency(backupTaskInfo.storageId);
+        }
+
+        BatchBackupTaskInfo batchBackupTaskInfo = mBatchTasks.remove(taskTag);
+        if (batchBackupTaskInfo != null) {
+            removeStorageDependency(batchBackupTaskInfo.storageId);
+        }
+
         updateStatus();
     }
 
@@ -161,6 +179,40 @@ public class BackupService2 extends Service implements BackupStorage.BackupProgr
     private void die() {
         stopForeground(true);
         stopSelf();
+    }
+
+    @MainThread
+    private void addStorageDependency(String storageId) {
+        AtomicInteger dependenciesCount = mStorageDependencies.get(storageId);
+        if (dependenciesCount == null) {
+            dependenciesCount = new AtomicInteger(0);
+            mStorageDependencies.put(storageId, dependenciesCount);
+        }
+
+        if (dependenciesCount.incrementAndGet() == 1) {
+            mBackupManager.getBackupStorageProvider(storageId).getStorage().addBackupProgressListener(this, mProgressHandler);
+        }
+    }
+
+    @MainThread
+    private void removeStorageDependency(String storageId) {
+        AtomicInteger dependenciesCount = mStorageDependencies.get(storageId);
+        if (dependenciesCount == null)
+            return;
+
+        if (dependenciesCount.decrementAndGet() == 0) {
+            mStorageDependencies.remove(storageId);
+            mBackupManager.getBackupStorageProvider(storageId).getStorage().removeBackupProgressListener(this);
+        }
+    }
+
+    @MainThread
+    private void clearStorageDependencies() {
+        for (String storageId : mStorageDependencies.keySet()) {
+            mBackupManager.getBackupStorageProvider(storageId).getStorage().removeBackupProgressListener(this);
+        }
+
+        mStorageDependencies.clear();
     }
 
     private void prepareNotificationsStuff() {
@@ -193,6 +245,7 @@ public class BackupService2 extends Service implements BackupStorage.BackupProgr
             Intent cancelTaskIntent = new Intent(this, BackupService2.class);
             cancelTaskIntent.setData(new Uri.Builder().scheme("cancel").path(taskInfo.taskToken).build());
             cancelTaskIntent.setAction(ACTION_CANCEL_BACKUP);
+            cancelTaskIntent.putExtra(EXTRA_STORAGE_ID, taskInfo.storageId);
             cancelTaskIntent.putExtra(EXTRA_TASK_TOKEN, taskInfo.taskToken);
 
             cancelTaskPendingIntent = PendingIntent.getService(this, 0, cancelTaskIntent, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -277,6 +330,7 @@ public class BackupService2 extends Service implements BackupStorage.BackupProgr
             Intent cancelTaskIntent = new Intent(this, BackupService2.class);
             cancelTaskIntent.setData(new Uri.Builder().scheme("cancel").path(taskInfo.taskToken).build());
             cancelTaskIntent.setAction(ACTION_CANCEL_BACKUP);
+            cancelTaskIntent.putExtra(EXTRA_STORAGE_ID, taskInfo.storageId);
             cancelTaskIntent.putExtra(EXTRA_TASK_TOKEN, taskInfo.taskToken);
 
             cancelTaskPendingIntent = PendingIntent.getService(this, 0, cancelTaskIntent, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -354,6 +408,7 @@ public class BackupService2 extends Service implements BackupStorage.BackupProgr
     }
 
     private static class BackupTaskInfo {
+        String storageId;
         PackageMeta packageMeta;
         String taskToken;
         String notificationTag;
@@ -362,7 +417,8 @@ public class BackupService2 extends Service implements BackupStorage.BackupProgr
         PendingIntent cachedCancelPendingIntent;
         boolean firstProgressNotificationFired = false;
 
-        private BackupTaskInfo(PackageMeta packageMeta, String taskToken, String notificationTag) {
+        private BackupTaskInfo(String storageId, PackageMeta packageMeta, String taskToken, String notificationTag) {
+            this.storageId = storageId;
             this.packageMeta = packageMeta;
             this.taskToken = taskToken;
             this.notificationTag = notificationTag;
@@ -370,6 +426,7 @@ public class BackupService2 extends Service implements BackupStorage.BackupProgr
     }
 
     private static class BatchBackupTaskInfo {
+        String storageId;
         String taskToken;
         String notificationTag;
         long lastProgressUpdate = 0;
@@ -377,7 +434,8 @@ public class BackupService2 extends Service implements BackupStorage.BackupProgr
         PendingIntent cachedCancelPendingIntent;
         boolean firstProgressNotificationFired = false;
 
-        private BatchBackupTaskInfo(String taskToken, String notificationTag) {
+        private BatchBackupTaskInfo(String storageId, String taskToken, String notificationTag) {
+            this.storageId = storageId;
             this.taskToken = taskToken;
             this.notificationTag = notificationTag;
         }

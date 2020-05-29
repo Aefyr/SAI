@@ -2,14 +2,11 @@ package com.aefyr.sai.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Environment;
 
 import androidx.preference.PreferenceManager;
 
 import com.github.angads25.filepicker.model.DialogConfigs;
-
-import java.io.File;
 
 public class PreferencesHelper {
     private static PreferencesHelper sInstance;
@@ -112,18 +109,6 @@ public class PreferencesHelper {
 
     public boolean showInstallerDialogs() {
         return mPrefs.getBoolean(PreferencesKeys.SHOW_INSTALLER_DIALOGS, true);
-    }
-
-    public Uri getBackupDirUri() {
-        String rawBackupDirUri = mPrefs.getString(PreferencesKeys.BACKUP_DIR, null);
-        if (rawBackupDirUri == null)
-            return Uri.fromFile(new File(Environment.getExternalStorageDirectory(), "SAI"));
-
-        return Uri.parse(rawBackupDirUri);
-    }
-
-    public void setBackupDirUri(String uri) {
-        mPrefs.edit().putString(PreferencesKeys.BACKUP_DIR, uri).apply();
     }
 
     public boolean shouldShowAppFeatures() {

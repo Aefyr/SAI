@@ -22,7 +22,7 @@ public interface BackupStorage {
      *
      * @return
      */
-    List<Uri> listBackupFiles();
+    List<Uri> listBackupFiles() throws Exception;
 
     /**
      * Get some kind of identifier for backup file content
@@ -30,7 +30,7 @@ public interface BackupStorage {
      * @param uri
      * @return
      */
-    String getBackupFileHash(Uri uri);
+    String getBackupFileHash(Uri uri) throws Exception;
 
     /**
      * Retrieve meta for given backup uri

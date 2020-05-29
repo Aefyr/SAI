@@ -4,9 +4,15 @@ import java.util.List;
 
 public class BatchBackupTaskConfig implements BackupTaskConfig {
 
+    private String mBackupStorageId;
     private List<SingleBackupTaskConfig> mConfigs;
 
-    public BatchBackupTaskConfig(List<SingleBackupTaskConfig> singleTaskConfigs) {
+    /**
+     * @param backupStorageId   backup storage id for this backup task. Please note that backup storage ids in {@code singleTaskConfigs} will be ignored for batch tasks
+     * @param singleTaskConfigs
+     */
+    public BatchBackupTaskConfig(String backupStorageId, List<SingleBackupTaskConfig> singleTaskConfigs) {
+        mBackupStorageId = backupStorageId;
         mConfigs = singleTaskConfigs;
     }
 
@@ -14,4 +20,8 @@ public class BatchBackupTaskConfig implements BackupTaskConfig {
         return mConfigs;
     }
 
+    @Override
+    public String getBackupStorageId() {
+        return mBackupStorageId;
+    }
 }

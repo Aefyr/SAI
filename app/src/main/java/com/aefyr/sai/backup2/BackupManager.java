@@ -36,6 +36,12 @@ public interface BackupManager {
 
     void restoreBackup(Uri backupUri);
 
+    List<BackupStorageProvider> getBackupStorageProviders();
+
+    BackupStorageProvider getBackupStorageProvider(String storageId);
+
+    BackupStorageProvider getDefaultBackupStorageProvider();
+
     class IndexingStatus {
         private boolean mInProgress;
         private int mProgress;

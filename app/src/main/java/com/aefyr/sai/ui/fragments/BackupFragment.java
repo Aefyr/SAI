@@ -15,6 +15,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.cardview.widget.CardView;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentContainerView;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -52,6 +54,8 @@ public class BackupFragment extends SaiBaseFragment implements BackupPackagesAda
     private int mSearchBarOffset;
 
     private int mFocusedItemIndex = -1;
+
+    private Fragment mStorageConfigFragment;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -100,6 +104,32 @@ public class BackupFragment extends SaiBaseFragment implements BackupPackagesAda
 
             } else {
                 indexingOverlay.setVisibility(View.GONE);
+            }
+        });
+
+        FragmentContainerView storageConfigOverlay = findViewById(R.id.fragment_container_backup_storage_setup);
+        mViewModel.getDefaultStorageProvider().getIsConfiguredLiveData().observe(getViewLifecycleOwner(), isConfigured -> {
+            if (isConfigured) {
+                storageConfigOverlay.setVisibility(View.GONE);
+
+                if (mStorageConfigFragment != null) {
+                    getChildFragmentManager().beginTransaction()
+                            .remove(mStorageConfigFragment)
+                            .commitNow();
+
+                    mStorageConfigFragment = null;
+                }
+
+            } else {
+                storageConfigOverlay.setVisibility(View.VISIBLE);
+
+                if (mStorageConfigFragment == null) {
+                    mStorageConfigFragment = mViewModel.getDefaultStorageProvider().createConfigFragment();
+
+                    getChildFragmentManager().beginTransaction()
+                            .add(R.id.fragment_container_backup_storage_setup, mStorageConfigFragment)
+                            .commitNow();
+                }
             }
         });
 

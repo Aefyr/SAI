@@ -122,7 +122,7 @@
         android:id="@+id/overlay_backup_indexing"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:translationZ="9999dp"
+        android:translationZ="9998dp"
         android:clickable="true"
         android:focusable="true">
 
@@ -158,5 +158,13 @@
         </LinearLayout>
 
     </FrameLayout>
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragment_container_backup_storage_setup"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="?android:windowBackground"
+        android:translationZ="9999dp"
+        android:visibility="gone" />
 
 </FrameLayout>

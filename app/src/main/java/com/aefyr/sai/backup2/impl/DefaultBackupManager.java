@@ -27,10 +27,11 @@ import com.aefyr.sai.backup2.BackupIndex;
 import com.aefyr.sai.backup2.BackupManager;
 import com.aefyr.sai.backup2.BackupStatus;
 import com.aefyr.sai.backup2.BackupStorage;
+import com.aefyr.sai.backup2.BackupStorageProvider;
 import com.aefyr.sai.backup2.backuptask.config.BatchBackupTaskConfig;
 import com.aefyr.sai.backup2.backuptask.config.SingleBackupTaskConfig;
 import com.aefyr.sai.backup2.impl.db.DaoBackedBackupIndex;
-import com.aefyr.sai.backup2.impl.storage.LocalBackupStorage;
+import com.aefyr.sai.backup2.impl.local.LocalBackupStorageProvider;
 import com.aefyr.sai.installer2.base.model.SaiPiSessionParams;
 import com.aefyr.sai.installer2.impl.FlexSaiPackageInstaller;
 import com.aefyr.sai.model.apksource.ApkSource;
@@ -56,6 +57,7 @@ public class DefaultBackupManager implements BackupManager, BackupStorage.Observ
     private static DefaultBackupManager sInstance;
 
     private Context mContext;
+    private BackupStorageProvider mStorageProvider;
     private BackupStorage mStorage;
     private BackupIndex mIndex;
     private PreferencesHelper mPrefsHelper;
@@ -80,8 +82,9 @@ public class DefaultBackupManager implements BackupManager, BackupStorage.Observ
 
     private DefaultBackupManager(Context context) {
         mContext = context.getApplicationContext();
-        mStorage = LocalBackupStorage.getInstance(context);
-        mIndex = DaoBackedBackupIndex.getInstance(context);
+        mStorageProvider = LocalBackupStorageProvider.getInstance(mContext);
+        mStorage = mStorageProvider.getStorage();
+        mIndex = DaoBackedBackupIndex.getInstance(mContext);
         mPrefsHelper = PreferencesHelper.getInstance(mContext);
         mInstaller = FlexSaiPackageInstaller.getInstance(mContext);
 
@@ -124,12 +127,14 @@ public class DefaultBackupManager implements BackupManager, BackupStorage.Observ
 
     @Override
     public void enqueueBackup(SingleBackupTaskConfig config) {
-        BackupService2.enqueueBackup(mContext, mStorage.createBackupTask(config));
+        BackupStorage storage = getBackupStorageProvider(config.getBackupStorageId()).getStorage();
+        BackupService2.enqueueBackup(mContext, storage.getStorageId(), storage.createBackupTask(config));
     }
 
     @Override
     public void enqueueBackup(BatchBackupTaskConfig config) {
-        BackupService2.enqueueBackup(mContext, mStorage.createBatchBackupTask(config));
+        BackupStorage storage = getBackupStorageProvider(config.getBackupStorageId()).getStorage();
+        BackupService2.enqueueBackup(mContext, storage.getStorageId(), storage.createBatchBackupTask(config));
     }
 
     @Override
@@ -171,6 +176,24 @@ public class DefaultBackupManager implements BackupManager, BackupStorage.Observ
             ApkSource apkSource = mStorage.createApkSource(backupUri);
             mInstaller.enqueueSession(mInstaller.createSession(new SaiPiSessionParams(apkSource)));
         });
+    }
+
+    @Override
+    public List<BackupStorageProvider> getBackupStorageProviders() {
+        return Collections.singletonList(mStorageProvider);
+    }
+
+    @Override
+    public BackupStorageProvider getBackupStorageProvider(String storageId) {
+        if (mStorageProvider.getId().equals(storageId))
+            return mStorageProvider;
+
+        throw new IllegalArgumentException("Unknown storage provider");
+    }
+
+    @Override
+    public BackupStorageProvider getDefaultBackupStorageProvider() {
+        return mStorageProvider;
     }
 
     @WorkerThread
@@ -252,6 +275,11 @@ public class DefaultBackupManager implements BackupManager, BackupStorage.Observ
     @WorkerThread
     private void scanBackups() {
         enforceWorkerThread();
+
+        if (!mStorageProvider.isConfigured()) {
+            Log.w(TAG, "Storage provider is not configured, cancelling indexing");
+            return;
+        }
 
         mIndexingStatus.postValue(new IndexingStatus(0, 1));
         try {
@@ -398,6 +426,7 @@ public class DefaultBackupManager implements BackupManager, BackupStorage.Observ
 
     @Override
     public void onStorageUpdated(String storageId) {
+        mPrefsHelper.setInitialIndexingDone(false);
         scanBackups();
     }
 

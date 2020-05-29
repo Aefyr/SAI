@@ -1,18 +1,16 @@
-package com.aefyr.sai.backup2.impl.storage;
+package com.aefyr.sai.backup2.impl.local;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.Handler;
+import android.os.HandlerThread;
 
 import androidx.documentfile.provider.DocumentFile;
 
-import com.aefyr.sai.BuildConfig;
-import com.aefyr.sai.backup.BackupUtils;
 import com.aefyr.sai.backup2.backuptask.config.SingleBackupTaskConfig;
+import com.aefyr.sai.backup2.impl.storage.ApksBackupStorage;
 import com.aefyr.sai.installer.ApkSourceBuilder;
 import com.aefyr.sai.model.apksource.ApkSource;
-import com.aefyr.sai.utils.PreferencesHelper;
-import com.aefyr.sai.utils.PreferencesKeys;
 import com.aefyr.sai.utils.Utils;
 import com.aefyr.sai.utils.saf.SafUtils;
 
@@ -21,33 +19,32 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LocalBackupStorage extends ApksBackupStorage implements SharedPreferences.OnSharedPreferenceChangeListener {
+public class LocalBackupStorage extends ApksBackupStorage implements LocalBackupStorageProvider.OnConfigChangeListener {
     private static final String TAG = "LocalBackupStorage";
 
-    public static final String STORAGE_ID = BuildConfig.APPLICATION_ID + ".local_storage";
-
-    private static LocalBackupStorage sInstance;
+    private LocalBackupStorageProvider mProvider;
 
     private Context mContext;
-    private PreferencesHelper mPrefsHelper;
 
-    public static synchronized LocalBackupStorage getInstance(Context context) {
-        return sInstance != null ? sInstance : new LocalBackupStorage(context);
-    }
+    private HandlerThread mWorkerHandlerThread;
+    private Handler mWorkerHandler;
 
-    private LocalBackupStorage(Context context) {
+    LocalBackupStorage(LocalBackupStorageProvider provider, Context context) {
         super();
 
+        mProvider = provider;
         mContext = context.getApplicationContext();
-        mPrefsHelper = PreferencesHelper.getInstance(mContext);
-        mPrefsHelper.getPrefs().registerOnSharedPreferenceChangeListener(this);
 
-        sInstance = this;
+        mWorkerHandlerThread = new HandlerThread("LocalBackupStorage.Worker");
+        mWorkerHandlerThread.start();
+        mWorkerHandler = new Handler(mWorkerHandlerThread.getLooper());
+
+        mProvider.addOnConfigChangeListener(this, mWorkerHandler);
     }
 
     @Override
     public String getStorageId() {
-        return STORAGE_ID;
+        return mProvider.getId();
     }
 
     @Override
@@ -57,7 +54,7 @@ public class LocalBackupStorage extends ApksBackupStorage implements SharedPrefe
 
     @Override
     protected Uri createFileForTask(SingleBackupTaskConfig config) throws Exception {
-        Uri backupFileUri = BackupUtils.createBackupFile(mContext, mPrefsHelper.getBackupDirUri(), config.packageMeta(), config.packApksIntoAnArchive());
+        Uri backupFileUri = LocalBackupUtils.createBackupFile(mContext, getBackupDirUriOrThrow(), config.packageMeta(), config.packApksIntoAnArchive());
         if (backupFileUri == null) {
             throw new Exception("Unable to create backup file");
         }
@@ -97,7 +94,7 @@ public class LocalBackupStorage extends ApksBackupStorage implements SharedPrefe
     public List<Uri> listBackupFiles() {
         List<Uri> uris = new ArrayList<>();
 
-        DocumentFile backupsDir = SafUtils.docFileFromTreeUriOrFileUri(mContext, mPrefsHelper.getBackupDirUri());
+        DocumentFile backupsDir = SafUtils.docFileFromTreeUriOrFileUri(mContext, getBackupDirUriOrThrow());
         if (backupsDir == null)
             return uris;
 
@@ -106,6 +103,9 @@ public class LocalBackupStorage extends ApksBackupStorage implements SharedPrefe
                 continue;
 
             String docName = docFile.getName();
+            if (docName == null)
+                continue;
+
             String docExt = Utils.getExtension(docName);
             if (docExt == null || !docExt.toLowerCase().equals("apks"))
                 continue;
@@ -146,12 +146,6 @@ public class LocalBackupStorage extends ApksBackupStorage implements SharedPrefe
                 .build();
     }
 
-    @Override
-    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        if (key.equals(PreferencesKeys.BACKUP_DIR))
-            notifyStorageChanged();
-    }
-
     private Uri deNamespaceUri(Uri namespacedUri) {
         if (!getStorageId().equals(namespacedUri.getAuthority()))
             throw new IllegalArgumentException("Passed uri doesn't belong to this storage");
@@ -165,5 +159,19 @@ public class LocalBackupStorage extends ApksBackupStorage implements SharedPrefe
                 .authority(getStorageId())
                 .appendQueryParameter("uri", uri.toString())
                 .build();
+    }
+
+    private Uri getBackupDirUriOrThrow() throws IllegalStateException {
+        Uri backupDirUri = mProvider.getBackupDirUri();
+        if (backupDirUri == null) {
+            throw new IllegalStateException("Backup dir uri is null, have you set up LocalBackupStorageProvider?");
+        }
+
+        return backupDirUri;
+    }
+
+    @Override
+    public void onBackupDirChanged() {
+        notifyStorageChanged();
     }
 }

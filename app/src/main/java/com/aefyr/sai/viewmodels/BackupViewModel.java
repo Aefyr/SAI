@@ -24,6 +24,7 @@ import com.aefyr.sai.adapters.selection.SimpleKeyStorage;
 import com.aefyr.sai.backup2.BackupApp;
 import com.aefyr.sai.backup2.BackupManager;
 import com.aefyr.sai.backup2.BackupStatus;
+import com.aefyr.sai.backup2.BackupStorageProvider;
 import com.aefyr.sai.backup2.impl.DefaultBackupManager;
 import com.aefyr.sai.model.backup.BackupPackagesFilterConfig;
 import com.aefyr.sai.utils.Stopwatch;
@@ -133,6 +134,10 @@ public class BackupViewModel extends AndroidViewModel {
 
     public LiveData<BackupManager.IndexingStatus> getIndexingStatus() {
         return mBackupManager.getIndexingStatus();
+    }
+
+    public BackupStorageProvider getDefaultStorageProvider() {
+        return mBackupManager.getDefaultBackupStorageProvider();
     }
 
     private void reviseSelection(List<BackupApp> newPackagesList) {

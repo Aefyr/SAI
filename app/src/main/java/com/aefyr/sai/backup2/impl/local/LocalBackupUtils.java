@@ -1,4 +1,4 @@
-package com.aefyr.sai.backup;
+package com.aefyr.sai.backup2.impl.local;
 
 import android.annotation.SuppressLint;
 import android.content.ContentResolver;
@@ -21,7 +21,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Objects;
 
-public class BackupUtils {
+public class LocalBackupUtils {
     private static final String TAG = "BackupUtils";
 
     /**
