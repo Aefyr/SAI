@@ -26,7 +26,7 @@
         android:roundIcon="@mipmap/icon"
         android:theme="@style/AppTheme.Light"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".ui.activities.BackupSettingsActivity"></activity>
+        <activity android:name=".ui.activities.BackupSettingsActivity" />
         <activity android:name=".ui.activities.BackupManageAppActivity" />
         <activity android:name=".ui.activities.DonateActivity" />
         <activity android:name=".ui.activities.MiActivity" />
@@ -106,7 +106,6 @@
         <activity android:name=".ui.activities.LicensesActivity" />
         <activity android:name=".installer2.impl.rootless.ConfirmationIntentWrapperActivity2" />
 
-        <service android:name=".backup.BackupService" />
         <service android:name=".backup2.impl.BackupService2" />
 
         <provider
