@@ -12,6 +12,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.aefyr.sai.BuildConfig;
+import com.aefyr.sai.R;
 import com.aefyr.sai.backup2.BackupStorage;
 import com.aefyr.sai.backup2.BackupStorageProvider;
 import com.aefyr.sai.backup2.impl.local.ui.fragments.LocalBackupStorageConfigFragment;
@@ -63,7 +64,7 @@ public class LocalBackupStorageProvider implements BackupStorageProvider {
 
     @Override
     public String getName() {
-        return getId();
+        return mContext.getString(R.string.backup_lbs_provider_name);
     }
 
     @Override
