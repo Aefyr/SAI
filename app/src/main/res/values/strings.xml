@@ -181,7 +181,7 @@
     <string name="backup_delete_backup_prompt">Delete backup from %s?</string>
     <string name="backup_restore_backup_prompt">Restore backup from %s?</string>
     <string name="backup_restore_backup_hint">Backup has been added to installer queue</string>
-    <string name="backup_incompatible_version_warning">You need to delete the currently installed version of the app in order to restore this backup</string>
+    <string name="backup_incompatible_version_warning">Older version of an app cannot be installed over a newer version. You need to delete the app to be able to restore this backup</string>
     <string name="backup_component_apk_files">APK Files</string>
     <string name="backup_component_unknown">Unknown component with type \"%s\"</string>
     <string name="backup_lbs_provider_name">Local storage</string>
