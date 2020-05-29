@@ -51,7 +51,9 @@ public class BackupFragment extends SaiBaseFragment implements BackupPackagesAda
 
     private BackupPackagesAdapter mAdapter;
 
+    private CardView mSearchBar;
     private int mSearchBarOffset;
+    private boolean mSearchBarScrollResponsePaused = false;
 
     private int mFocusedItemIndex = -1;
 
@@ -222,6 +224,13 @@ public class BackupFragment extends SaiBaseFragment implements BackupPackagesAda
                 toolbarActionButton.setClickable(true);
                 toolbarActionButton.setImageResource(R.drawable.ic_clear_selection);
                 toolbarActionButton.setColorFilter(Utils.getThemeColor(requireContext(), R.attr.colorAccent));
+
+                mSearchBarScrollResponsePaused = true;
+                mSearchBarOffset = 0;
+                mSearchBar.animate()
+                        .setDuration(200)
+                        .translationY(mSearchBarOffset)
+                        .start();
             } else {
                 searchBarContainer.setVisibility(View.VISIBLE);
                 selectionBarContainer.setVisibility(View.GONE);
@@ -234,29 +243,38 @@ public class BackupFragment extends SaiBaseFragment implements BackupPackagesAda
                 toolbarActionButton.setClickable(false);
                 toolbarActionButton.setImageResource(R.drawable.ic_search);
                 toolbarActionButton.setColorFilter(Utils.getThemeColor(requireContext(), android.R.attr.textColorSecondary));
+
+                mSearchBarScrollResponsePaused = false;
+                mSearchBar.clearAnimation();
             }
         });
 
         //Hide on scroll
         if (!Utils.isTv(requireContext())) {
-            CardView searchBar = findViewById(R.id.card_search);
+            mSearchBar = findViewById(R.id.card_search);
             RecyclerView recyclerView = findViewById(R.id.rv_packages);
             recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
                 @Override
                 public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                    if (mSearchBarScrollResponsePaused)
+                        return;
+
                     if (dy == 0)
                         mSearchBarOffset = 0;
                     else
-                        mSearchBarOffset = MathUtils.clamp(mSearchBarOffset - dy, -searchBar.getHeight(), 0);
+                        mSearchBarOffset = MathUtils.clamp(mSearchBarOffset - dy, -mSearchBar.getHeight(), 0);
 
-                    searchBar.setTranslationY(mSearchBarOffset);
+                    mSearchBar.setTranslationY(mSearchBarOffset);
                 }
 
                 @Override
                 public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                     if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-                        if (mSearchBarOffset != 0 && mSearchBarOffset != -searchBar.getHeight())
-                            recyclerView.smoothScrollBy(0, mSearchBarOffset - MathUtils.closest(mSearchBarOffset, 0, -searchBar.getHeight()));
+                        if (mSearchBarScrollResponsePaused)
+                            return;
+
+                        if (mSearchBarOffset != 0 && mSearchBarOffset != -mSearchBar.getHeight())
+                            recyclerView.smoothScrollBy(0, mSearchBarOffset - MathUtils.closest(mSearchBarOffset, 0, -mSearchBar.getHeight()));
                     }
 
                 }
