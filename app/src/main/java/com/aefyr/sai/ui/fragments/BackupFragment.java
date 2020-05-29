@@ -66,8 +66,6 @@ public class BackupFragment extends SaiBaseFragment implements BackupPackagesAda
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        OneTimeWarningDialogFragment.showIfNeeded(requireContext(), getChildFragmentManager(), R.string.help, R.string.backup_warning, "backup_faq");
-
         mViewModel = new ViewModelProvider(this).get(BackupViewModel.class);
 
 
@@ -126,6 +124,7 @@ public class BackupFragment extends SaiBaseFragment implements BackupPackagesAda
                     mStorageConfigFragment = null;
                 }
 
+                OneTimeWarningDialogFragment.showIfNeeded(requireContext(), getChildFragmentManager(), R.string.help, R.string.backup_warning, "backup_faq");
             } else {
                 storageConfigOverlay.setVisibility(View.VISIBLE);
 

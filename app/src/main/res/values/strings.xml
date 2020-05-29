@@ -138,7 +138,7 @@
     <string name="backup_search_splits_only">Split APKs only</string>
     <string name="backup_search_show_system_apps">Show system apps</string>
     <string name="backup_error_cant_mkdir">Unable to create a directory for exported apps</string>
-    <string name="backup_warning">1) By default, exported apps are saved to \"SAI\" folder in internal storage. You can set custom folder in settings\n\n2) SAI only exports apps\' APKs, their data isn\'t exported\n\n3) Apps are exported as a .apks file which is a renamed ZIP archive containing all the APKs</string>
+    <string name="backup_warning"><b>Managed backups are currently in beta, please report issues in SAI\'s GitHub repo (you can find the link on about screen)</b>\n\n<b>Backup files format</b>\nSAI backups apps as .apks files (which are just ZIP archives with .apk files) with some meta information added to the archive (such as app name and icon). Backed up .apks files can still be installed as normal .apks files (because they are normal .apks files, except for some additional files in the archive which are ignored by installer)\n\n<b>What is backed up</b>\nCurrently SAI backups only apps APK files (no data/obb/etc)\n\n<b>External changes to backup directory</b>\nSAI doesn\'t automatically keep track of external changes done to files in the backup directory. So, if you\'ve changed them outside of SAI, use reindex option in 3-dots menu on the top right of backup screen to rescan backups directory.</string>
     <string name="backup_export_all_splits">Export all split APKs</string>
     <string name="backup_export_all_splits_prompt">Do you want to export all split APKs?</string>
     <string name="backup_export_selected_apps_prompt">Do you want to export %d selected apps?</string>

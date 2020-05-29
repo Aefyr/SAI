@@ -67,6 +67,8 @@ public class OneTimeWarningDialogFragment extends DialogFragment {
         mTitle = args.getCharSequence(ARG_TITLE, "title");
         mMessage = args.getCharSequence(ARG_MESSAGE, "message");
         mTag = args.getString(ARG_TAG);
+
+        setCancelable(false);
     }
 
     @NonNull
