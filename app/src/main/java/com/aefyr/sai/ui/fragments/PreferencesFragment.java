@@ -19,19 +19,17 @@ import androidx.preference.SwitchPreference;
 import com.aefyr.sai.BuildConfig;
 import com.aefyr.sai.R;
 import com.aefyr.sai.firebase.Firebase;
-import com.aefyr.sai.model.common.PackageMeta;
 import com.aefyr.sai.shell.SuShell;
 import com.aefyr.sai.ui.activities.AboutActivity;
+import com.aefyr.sai.ui.activities.BackupSettingsActivity;
 import com.aefyr.sai.ui.activities.DonateActivity;
 import com.aefyr.sai.ui.dialogs.DarkLightThemeSelectionDialogFragment;
 import com.aefyr.sai.ui.dialogs.FilePickerDialogFragment;
-import com.aefyr.sai.ui.dialogs.NameFormatBuilderDialogFragment;
 import com.aefyr.sai.ui.dialogs.SimpleAlertDialogFragment;
 import com.aefyr.sai.ui.dialogs.SingleChoiceListDialogFragment;
 import com.aefyr.sai.ui.dialogs.ThemeSelectionDialogFragment;
 import com.aefyr.sai.ui.dialogs.base.BaseBottomSheetDialogFragment;
 import com.aefyr.sai.utils.AlertsUtils;
-import com.aefyr.sai.utils.BackupNameFormat;
 import com.aefyr.sai.utils.PermissionsUtils;
 import com.aefyr.sai.utils.PreferencesHelper;
 import com.aefyr.sai.utils.PreferencesKeys;
@@ -49,20 +47,14 @@ import moe.shizuku.api.ShizukuClientHelper;
 
 public class PreferencesFragment extends PreferenceFragmentCompat implements FilePickerDialogFragment.OnFilesSelectedListener, SingleChoiceListDialogFragment.OnItemSelectedListener, BaseBottomSheetDialogFragment.OnDismissListener, SharedPreferences.OnSharedPreferenceChangeListener, DarkLightThemeSelectionDialogFragment.OnDarkLightThemesChosenListener {
 
-    private static final int REQUEST_CODE_SELECT_BACKUP_DIR = 1334;
-
     private PreferencesHelper mHelper;
 
     private Preference mHomeDirPref;
     private Preference mFilePickerSortPref;
     private Preference mInstallerPref;
-    private Preference mBackupNameFormatPref;
-    private Preference mBackupDirPref;
     private Preference mThemePref;
     private SwitchPreference mAutoThemeSwitch;
     private Preference mAutoThemePicker;
-
-    private PackageMeta mDemoMeta;
 
     private FilePickerDialogFragment mPendingFilePicker;
 
@@ -80,7 +72,6 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Fil
         setPreferencesFromResource(R.xml.preferences_main, rootKey);
 
         mHelper = PreferencesHelper.getInstance(requireContext());
-        mDemoMeta = Objects.requireNonNull(PackageMeta.forPackage(requireContext(), requireContext().getPackageName()));
 
         mHomeDirPref = findPreference("home_directory");
         updateHomeDirPrefSummary();
@@ -112,15 +103,8 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Fil
             return true;
         }));
 
-        mBackupNameFormatPref = findPreference("backup_file_name_format");
-        updateBackupNameFormatSummary();
-        mBackupNameFormatPref.setOnPreferenceClickListener((p) -> {
-            NameFormatBuilderDialogFragment.newInstance().show(getChildFragmentManager(), "backup_name_format_builder");
-            return true;
-        });
-
-        mBackupDirPref = findPreference(PreferencesKeys.BACKUP_DIR);
-        mBackupDirPref.setOnPreferenceClickListener(p -> {
+        findPreference(PreferencesKeys.BACKUP_SETTINGS).setOnPreferenceClickListener(p -> {
+            startActivity(new Intent(requireContext(), BackupSettingsActivity.class));
             return true;
         });
 
@@ -211,10 +195,6 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Fil
         mInstallerPref.setSummary(getString(R.string.settings_main_installer_summary, getResources().getStringArray(R.array.installers)[mHelper.getInstaller()]));
     }
 
-    private void updateBackupNameFormatSummary() {
-        mBackupNameFormatPref.setSummary(getString(R.string.settings_main_backup_file_name_format_summary, BackupNameFormat.format(mHelper.getBackupFileNameFormat(), mDemoMeta)));
-    }
-
     private void updateThemeSummary() {
         mThemePref.setSummary(Theme.getInstance(requireContext()).getConcreteTheme().getName(requireContext()));
     }
@@ -227,6 +207,17 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Fil
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (requestCode == PermissionsUtils.REQUEST_CODE_STORAGE_PERMISSIONS) {
+            if (grantResults.length == 0 || grantResults[0] == PackageManager.PERMISSION_DENIED)
+                AlertsUtils.showAlert(this, R.string.error, R.string.permissions_required_storage);
+            else {
+                if (mPendingFilePicker != null) {
+                    openFilePicker(mPendingFilePicker);
+                    mPendingFilePicker = null;
+                }
+            }
+        }
 
         if (requestCode == PermissionsUtils.REQUEST_CODE_SHIZUKU) {
             if (grantResults.length == 0 || grantResults[0] == PackageManager.PERMISSION_DENIED)
@@ -318,9 +309,6 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Fil
     @Override
     public void onDialogDismissed(@NonNull String dialogTag) {
         switch (dialogTag) {
-            case "backup_name_format_builder":
-                updateBackupNameFormatSummary();
-                break;
             case "theme":
                 updateThemeSummary();
                 break;

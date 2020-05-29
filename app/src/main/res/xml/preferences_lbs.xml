@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory
+        android:title="@string/settings_category_main_export"
+        app:iconSpaceReserved="false">
+
+        <Preference
+            android:icon="@drawable/ic_pref_backup_dir"
+            android:key="backup_dir_uri"
+            android:title="@string/settings_main_backup_backup_dir"
+            android:summary="@string/settings_main_backup_backup_dir_summary" />
+
+        <Preference
+            android:icon="@drawable/ic_pref_backup_name_format"
+            android:key="backup_file_name_format"
+            android:title="@string/settings_main_backup_file_name_format"
+            android:summary="@string/settings_main_backup_file_name_format_summary" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

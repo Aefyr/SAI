@@ -110,6 +110,8 @@ public class SingleChoiceListDialogFragment extends BaseBottomSheetDialogFragmen
 
             if (listener != null)
                 listener.onItemSelected(tag, selectedItemIndex);
+
+            dismiss();
         } catch (Exception e) {
             throw new IllegalStateException("Activity/Fragment that uses SingleChoiceListDialogFragment must implement SingleChoiceListDialogFragment.OnItemSelectedListener");
         }
@@ -161,7 +163,6 @@ public class SingleChoiceListDialogFragment extends BaseBottomSheetDialogFragmen
                         return;
 
                     deliverSelectionResult(mParams.tag, adapterPosition);
-                    dismiss();
                 });
             }
 

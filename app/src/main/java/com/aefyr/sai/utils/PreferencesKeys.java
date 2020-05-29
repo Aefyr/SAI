@@ -16,7 +16,6 @@ public class PreferencesKeys {
     public static final String INSTALL_LOCATION = "install_location";
     public static final String USE_OLD_INSTALLER = "use_old_installer";
     public static final String SHOW_INSTALLER_DIALOGS = "show_installer_dialogs";
-    public static final String BACKUP_DIR = "backup_backup_dir";
     public static final String SHOW_APP_FEATURES = "show_app_features";
     public static final String THEME = "theme";
     public static final String SAF_TIP_SHOWN = "saf_tip_shown";
@@ -26,4 +25,5 @@ public class PreferencesKeys {
     public static final String USE_BRUTE_PARSER = "use_brute_parser";
     public static final String ENABLE_FIREBASE = "firebase_enabled";
     public static final String INITIAL_INDEXING_RUN = "initial_indexing_run";
+    public static final String BACKUP_SETTINGS = "backup_settings";
 }

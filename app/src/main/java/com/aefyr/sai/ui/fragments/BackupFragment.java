@@ -1,5 +1,6 @@
 package com.aefyr.sai.ui.fragments;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
@@ -29,6 +30,7 @@ import com.aefyr.sai.adapters.BackupPackagesAdapter;
 import com.aefyr.sai.adapters.selection.Selection;
 import com.aefyr.sai.backup2.BackupApp;
 import com.aefyr.sai.ui.activities.BackupManageAppActivity;
+import com.aefyr.sai.ui.activities.BackupSettingsActivity;
 import com.aefyr.sai.ui.dialogs.BatchBackupDialogFragment;
 import com.aefyr.sai.ui.dialogs.DonationSuggestionDialogFragment;
 import com.aefyr.sai.ui.dialogs.OneTimeWarningDialogFragment;
@@ -46,6 +48,7 @@ import java.util.ArrayList;
 
 public class BackupFragment extends SaiBaseFragment implements BackupPackagesAdapter.OnItemInteractionListener, FilterDialog.OnApplyConfigListener, SharedPreferences.OnSharedPreferenceChangeListener, BatchBackupDialogFragment.OnBatchBackupEnqueuedListener {
 
+    private static final String FRAGMENT_TAG_DEFAULT_STORAGE_SETUP = "default_storage_setup";
 
     private BackupViewModel mViewModel;
 
@@ -109,8 +112,9 @@ public class BackupFragment extends SaiBaseFragment implements BackupPackagesAda
             }
         });
 
+        mStorageConfigFragment = getChildFragmentManager().findFragmentByTag(FRAGMENT_TAG_DEFAULT_STORAGE_SETUP);
         FragmentContainerView storageConfigOverlay = findViewById(R.id.fragment_container_backup_storage_setup);
-        mViewModel.getDefaultStorageProvider().getIsConfiguredLiveData().observe(getViewLifecycleOwner(), isConfigured -> {
+        mViewModel.getDefaultStorageProvider().getIsSetupLiveData().observe(getViewLifecycleOwner(), isConfigured -> {
             if (isConfigured) {
                 storageConfigOverlay.setVisibility(View.GONE);
 
@@ -126,10 +130,10 @@ public class BackupFragment extends SaiBaseFragment implements BackupPackagesAda
                 storageConfigOverlay.setVisibility(View.VISIBLE);
 
                 if (mStorageConfigFragment == null) {
-                    mStorageConfigFragment = mViewModel.getDefaultStorageProvider().createConfigFragment();
+                    mStorageConfigFragment = mViewModel.getDefaultStorageProvider().createSetupFragment();
 
                     getChildFragmentManager().beginTransaction()
-                            .add(R.id.fragment_container_backup_storage_setup, mStorageConfigFragment)
+                            .add(R.id.fragment_container_backup_storage_setup, mStorageConfigFragment, FRAGMENT_TAG_DEFAULT_STORAGE_SETUP)
                             .commitNow();
                 }
             }
@@ -188,6 +192,9 @@ public class BackupFragment extends SaiBaseFragment implements BackupPackagesAda
                         break;
                     case R.id.menu_backup_reindex:
                         mViewModel.reindexBackups();
+                        break;
+                    case R.id.menu_backup_settings:
+                        startActivity(new Intent(requireContext(), BackupSettingsActivity.class));
                         break;
                 }
                 return true;

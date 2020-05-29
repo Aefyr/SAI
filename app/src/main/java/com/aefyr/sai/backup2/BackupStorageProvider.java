@@ -9,11 +9,13 @@ public interface BackupStorageProvider {
 
     String getName();
 
-    Fragment createConfigFragment();
+    boolean isSetup();
 
-    LiveData<Boolean> getIsConfiguredLiveData();
+    LiveData<Boolean> getIsSetupLiveData();
 
-    boolean isConfigured();
+    Fragment createSetupFragment();
+
+    Fragment createSettingsFragment();
 
     BackupStorage getStorage();
 

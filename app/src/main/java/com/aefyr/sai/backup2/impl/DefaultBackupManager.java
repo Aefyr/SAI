@@ -276,7 +276,7 @@ public class DefaultBackupManager implements BackupManager, BackupStorage.Observ
     private void scanBackups() {
         enforceWorkerThread();
 
-        if (!mStorageProvider.isConfigured()) {
+        if (!mStorageProvider.isSetup()) {
             Log.w(TAG, "Storage provider is not configured, cancelling indexing");
             return;
         }

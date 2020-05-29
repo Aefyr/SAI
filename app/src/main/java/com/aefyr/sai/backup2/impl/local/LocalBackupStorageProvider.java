@@ -15,17 +15,17 @@ import com.aefyr.sai.BuildConfig;
 import com.aefyr.sai.R;
 import com.aefyr.sai.backup2.BackupStorage;
 import com.aefyr.sai.backup2.BackupStorageProvider;
-import com.aefyr.sai.backup2.impl.local.ui.fragments.LocalBackupStorageConfigFragment;
+import com.aefyr.sai.backup2.impl.local.prefs.LocalBackupStoragePrefConstants;
+import com.aefyr.sai.backup2.impl.local.ui.fragments.LocalBackupStorageSettingsFragment;
+import com.aefyr.sai.backup2.impl.local.ui.fragments.LocalBackupStorageSetupFragment;
 import com.aefyr.sai.utils.saf.SafUtils;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class LocalBackupStorageProvider implements BackupStorageProvider {
+public class LocalBackupStorageProvider implements BackupStorageProvider, SharedPreferences.OnSharedPreferenceChangeListener {
     public static final String STORAGE_ID = BuildConfig.APPLICATION_ID + ".local_storage";
-    private static final String PREFS_KEY_BACKUP_DIR_URI = "backup_dir_uri";
-
 
     private static LocalBackupStorageProvider sInstance;
 
@@ -33,8 +33,8 @@ public class LocalBackupStorageProvider implements BackupStorageProvider {
     private SharedPreferences mPrefs;
     private LocalBackupStorage mStorage;
 
-    private AtomicBoolean mIsConfigured = new AtomicBoolean(false);
-    private MutableLiveData<Boolean> mIsConfiguredLiveData = new MutableLiveData<>(false);
+    private AtomicBoolean mIsSetup = new AtomicBoolean(false);
+    private MutableLiveData<Boolean> mIsSetupLiveData = new MutableLiveData<>(false);
 
     private Map<OnConfigChangeListener, OnConfigChangeListenerHandlerWrapper> mConfigChangeListeners = new ConcurrentHashMap<>();
 
@@ -44,15 +44,17 @@ public class LocalBackupStorageProvider implements BackupStorageProvider {
 
     private LocalBackupStorageProvider(Context context) {
         mContext = context.getApplicationContext();
-        mPrefs = context.getSharedPreferences("local_backup_storage", Context.MODE_PRIVATE);
+        mPrefs = context.getSharedPreferences(LocalBackupStoragePrefConstants.PREFS_NAME, Context.MODE_PRIVATE);
         mStorage = new LocalBackupStorage(this, mContext);
+
+        mPrefs.registerOnSharedPreferenceChangeListener(this);
 
         Uri backupDirUri = getBackupDirUri();
         if (backupDirUri != null && !isUriValid(backupDirUri)) {
-            invalidateBackupDirUri();
+            mPrefs.edit().remove(LocalBackupStoragePrefConstants.KEY_BACKUP_DIR_URI).apply();
         }
 
-        setIsConfigured(getBackupDirUri() != null);
+        invalidateIsSetup();
 
         sInstance = this;
     }
@@ -68,18 +70,23 @@ public class LocalBackupStorageProvider implements BackupStorageProvider {
     }
 
     @Override
-    public Fragment createConfigFragment() {
-        return LocalBackupStorageConfigFragment.newInstance();
+    public Fragment createSettingsFragment() {
+        return LocalBackupStorageSettingsFragment.newInstance();
     }
 
     @Override
-    public LiveData<Boolean> getIsConfiguredLiveData() {
-        return mIsConfiguredLiveData;
+    public LiveData<Boolean> getIsSetupLiveData() {
+        return mIsSetupLiveData;
     }
 
     @Override
-    public boolean isConfigured() {
-        return mIsConfigured.get();
+    public Fragment createSetupFragment() {
+        return LocalBackupStorageSetupFragment.newInstance();
+    }
+
+    @Override
+    public boolean isSetup() {
+        return mIsSetup.get();
     }
 
     @Override
@@ -87,23 +94,25 @@ public class LocalBackupStorageProvider implements BackupStorageProvider {
         return mStorage;
     }
 
-    public void setBackupDirUri(Uri uri) {
-        if (uri.equals(getBackupDirUri()))
-            return;
-
-        mPrefs.edit().putString(PREFS_KEY_BACKUP_DIR_URI, uri.toString()).apply();
-
-        setIsConfigured(true);
-        notifyBackupDirChanged();
-    }
-
     @Nullable
     public Uri getBackupDirUri() {
-        String rawUri = mPrefs.getString(PREFS_KEY_BACKUP_DIR_URI, null);
+        String rawUri = mPrefs.getString(LocalBackupStoragePrefConstants.KEY_BACKUP_DIR_URI, null);
         if (rawUri == null)
             return null;
 
         return Uri.parse(rawUri);
+    }
+
+    public void setBackupDirUri(Uri uri) {
+        mPrefs.edit().putString(LocalBackupStoragePrefConstants.KEY_BACKUP_DIR_URI, uri.toString()).apply();
+    }
+
+    public String getBackupNameFormat() {
+        return mPrefs.getString(LocalBackupStoragePrefConstants.KEY_BACKUP_FILE_NAME_FORMAT, LocalBackupStoragePrefConstants.DEFAULT_VALUE_BACKUP_FILE_NAME_FORMAT);
+    }
+
+    public void setBackupNameFormat(String format) {
+        mPrefs.edit().putString(LocalBackupStoragePrefConstants.KEY_BACKUP_FILE_NAME_FORMAT, format).apply();
     }
 
     public void addOnConfigChangeListener(OnConfigChangeListener listener, Handler handler) {
@@ -124,15 +133,17 @@ public class LocalBackupStorageProvider implements BackupStorageProvider {
             listener.onBackupDirChanged();
     }
 
-    private void setIsConfigured(boolean isConfigured) {
-        mIsConfigured.set(isConfigured);
-        mIsConfiguredLiveData.postValue(isConfigured);
+    private void invalidateIsSetup() {
+        mIsSetup.set(getBackupDirUri() != null);
+        mIsSetupLiveData.postValue(mIsSetup.get());
     }
 
-    private void invalidateBackupDirUri() {
-        mPrefs.edit().remove(PREFS_KEY_BACKUP_DIR_URI).apply();
-        setIsConfigured(false);
-        notifyBackupDirChanged();
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        if (LocalBackupStoragePrefConstants.KEY_BACKUP_DIR_URI.equals(key)) {
+            invalidateIsSetup();
+            notifyBackupDirChanged();
+        }
     }
 
     public interface OnConfigChangeListener {

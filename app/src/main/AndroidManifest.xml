@@ -26,7 +26,8 @@
         android:roundIcon="@mipmap/icon"
         android:theme="@style/AppTheme.Light"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".ui.activities.BackupManageAppActivity"></activity>
+        <activity android:name=".ui.activities.BackupSettingsActivity"></activity>
+        <activity android:name=".ui.activities.BackupManageAppActivity" />
         <activity android:name=".ui.activities.DonateActivity" />
         <activity android:name=".ui.activities.MiActivity" />
         <activity
