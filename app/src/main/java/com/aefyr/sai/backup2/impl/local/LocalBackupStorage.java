@@ -134,7 +134,9 @@ public class LocalBackupStorage extends ApksBackupStorage implements LocalBackup
         if (docFile == null)
             return;
 
-        if (docFile.delete()) {
+        if (!docFile.exists()) {
+            notifyBackupRemoved(namespaceUri(backupUri));
+        } else if (docFile.delete()) {
             notifyBackupRemoved(namespaceUri(backupUri));
         }
     }
