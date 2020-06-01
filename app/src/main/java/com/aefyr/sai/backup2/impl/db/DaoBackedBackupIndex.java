@@ -80,7 +80,7 @@ public class DaoBackedBackupIndex implements BackupIndex {
         File finalIconFile = iconFile;
         String iconId = generateIconFileId(mIconSessionId);
 
-        mDao.runInTransaction(() -> {
+        mAppDb.runInTransaction(() -> {
             if (mDao.getBackupMetaForUri(backup.uri().toString()) != null)
                 mDao.removeByUri(backup.uri().toString());
 

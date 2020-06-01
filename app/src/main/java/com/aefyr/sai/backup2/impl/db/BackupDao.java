@@ -41,9 +41,4 @@ public interface BackupDao {
 
     @Query("DELETE FROM BackupEntity")
     void dropAllEntries();
-
-    @Transaction
-    default void runInTransaction(Runnable runnable) {
-        runnable.run();
-    }
 }
