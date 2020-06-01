@@ -78,16 +78,6 @@ public abstract class ApksBackupStorage extends BaseBackupStorage {
     protected abstract long getFileSize(Uri uri);
 
     @Override
-    public List<Uri> listBackupFiles() {
-        return null;
-    }
-
-    @Override
-    public String getBackupFileHash(Uri uri) {
-        return null;
-    }
-
-    @Override
     public Backup getBackupByUri(Uri uri) throws Exception {
 
         MutableBackup mutableBackup = null;
