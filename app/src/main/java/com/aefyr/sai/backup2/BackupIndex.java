@@ -5,6 +5,7 @@ import android.net.Uri;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
 
+import java.io.InputStream;
 import java.util.List;
 
 public interface BackupIndex {
@@ -15,7 +16,7 @@ public interface BackupIndex {
     @Nullable
     Backup getLatestBackupForPackage(String pkg);
 
-    void addEntry(Backup backup);
+    void addEntry(Backup backup, BackupIconProvider iconProvider) throws Exception;
 
     @Nullable
     Backup deleteEntryByUri(Uri uri);
@@ -32,6 +33,12 @@ public interface BackupIndex {
      *
      * @param newIndex
      */
-    void rewrite(List<Backup> newIndex) throws Exception;
+    void rewrite(List<Backup> newIndex, BackupIconProvider iconProvider) throws Exception;
+
+    interface BackupIconProvider {
+
+        InputStream getIconInputStream(Backup backup) throws Exception;
+
+    }
 
 }

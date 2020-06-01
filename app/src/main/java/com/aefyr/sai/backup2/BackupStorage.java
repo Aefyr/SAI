@@ -10,6 +10,7 @@ import com.aefyr.sai.backup2.backuptask.config.BatchBackupTaskConfig;
 import com.aefyr.sai.backup2.backuptask.config.SingleBackupTaskConfig;
 import com.aefyr.sai.model.apksource.ApkSource;
 
+import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
 
@@ -39,6 +40,8 @@ public interface BackupStorage {
      * @return
      */
     Backup getBackupByUri(Uri uri) throws Exception;
+
+    InputStream getBackupIcon(Uri iconUri) throws Exception;
 
     /**
      * @param config

@@ -40,6 +40,7 @@ import com.aefyr.sai.utils.PreferencesHelper;
 import com.aefyr.sai.utils.Stopwatch;
 import com.aefyr.sai.utils.Utils;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -51,7 +52,7 @@ import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class DefaultBackupManager implements BackupManager, BackupStorage.Observer {
+public class DefaultBackupManager implements BackupManager, BackupStorage.Observer, BackupIndex.BackupIconProvider {
     private static final String TAG = "DefaultBackupManager";
 
     private static DefaultBackupManager sInstance;
@@ -139,6 +140,7 @@ public class DefaultBackupManager implements BackupManager, BackupStorage.Observ
 
     @Override
     public void reindex() {
+        mPrefsHelper.setInitialIndexingDone(false);
         mWorkerHandler.post(this::scanBackups);
     }
 
@@ -307,7 +309,7 @@ public class DefaultBackupManager implements BackupManager, BackupStorage.Observ
             }
 
             try {
-                mIndex.rewrite(backups);
+                mIndex.rewrite(backups, this);
                 Log.i(TAG, "Index rewritten");
             } catch (Exception e) {
                 Log.w(TAG, "Unable to rewrite index", e);
@@ -404,8 +406,14 @@ public class DefaultBackupManager implements BackupManager, BackupStorage.Observ
     public void onBackupAdded(String storageId, Backup backup) {
         Stopwatch sw = new Stopwatch();
 
-        mIndex.addEntry(backup);
-        updateAppInAppList(backup.pkg());
+        try {
+            mIndex.addEntry(backup, this);
+            updateAppInAppList(backup.pkg());
+        } catch (Exception e) {
+            Log.e(TAG, "Unable to add backup to index, scheduling rescan", e);
+            reindex();
+        }
+
 
         Log.i(TAG, String.format("onBackupAdded handled in %d ms.", sw.millisSinceStart()));
     }
@@ -428,6 +436,11 @@ public class DefaultBackupManager implements BackupManager, BackupStorage.Observ
     public void onStorageUpdated(String storageId) {
         mPrefsHelper.setInitialIndexingDone(false);
         scanBackups();
+    }
+
+    @Override
+    public InputStream getIconInputStream(Backup backup) throws Exception {
+        return mStorage.getBackupIcon(backup.iconUri());
     }
 
     private static class BackupAppImpl implements BackupApp {

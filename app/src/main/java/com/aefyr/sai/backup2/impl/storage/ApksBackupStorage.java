@@ -8,7 +8,9 @@ import android.util.Log;
 
 import androidx.annotation.GuardedBy;
 import androidx.annotation.Nullable;
+import androidx.core.util.Pair;
 
+import com.aefyr.sai.BuildConfig;
 import com.aefyr.sai.backup2.Backup;
 import com.aefyr.sai.backup2.BackupComponent;
 import com.aefyr.sai.backup2.backuptask.config.BackupTaskConfig;
@@ -26,6 +28,7 @@ import com.aefyr.sai.utils.IOUtils;
 import com.aefyr.sai.utils.Utils;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -81,7 +84,7 @@ public abstract class ApksBackupStorage extends BaseBackupStorage {
     public Backup getBackupByUri(Uri uri) throws Exception {
 
         MutableBackup mutableBackup = null;
-        Uri iconUri = EMPTY_ICON;
+        File cachedIconFile = null;
         try (ZipInputStream zipInputStream = new ZipInputStream(openFileInputStream(uri))) {
             ZipEntry zipEntry;
             while ((zipEntry = zipInputStream.getNextEntry()) != null) {
@@ -124,19 +127,10 @@ public abstract class ApksBackupStorage extends BaseBackupStorage {
                     }
                     mutableBackup.components = backupComponents;
                 } else if (zipEntry.getName().equals(SaiExportedAppMeta.ICON_FILE) || zipEntry.getName().equals(SaiExportedAppMeta2.ICON_FILE)) {
-                    File iconFile = Utils.createUniqueFileInDirectory(new File(getContext().getFilesDir(), "BackupStorageIcons"), "png");
-                    if (iconFile == null)
-                        continue;
-
-                    try (OutputStream out = new FileOutputStream(iconFile)) {
-                        IOUtils.copyStream(zipInputStream, out);
-                        iconUri = Uri.fromFile(iconFile);
-                    } catch (IOException e) {
-                        Log.w(TAG, "Unable to extract icon", e);
-                    }
+                    cachedIconFile = cacheBackupIcon(zipInputStream);
                 }
 
-                if (mutableBackup != null && !EMPTY_ICON.equals(iconUri))
+                if (mutableBackup != null && cachedIconFile != null)
                     break;
             }
         }
@@ -144,9 +138,80 @@ public abstract class ApksBackupStorage extends BaseBackupStorage {
         if (mutableBackup == null)
             throw new Exception("Meta file not found in archive");
 
-        mutableBackup.iconUri = iconUri;
+        if (cachedIconFile != null) {
+            mutableBackup.iconUri = wrapIconUri(mutableBackup.uri, cachedIconFile);
+        } else {
+            mutableBackup.iconUri = EMPTY_ICON;
+        }
 
         return mutableBackup;
+    }
+
+    @Override
+    public InputStream getBackupIcon(Uri iconUri) throws Exception {
+        if (iconUri.equals(EMPTY_ICON)) {
+            return getContext().getAssets().open("placeholder_app_icon.png");
+        }
+
+        Pair<File, Uri> cachedIconFileAndBackupUri = unwrapIconUri(iconUri);
+        File cachedIconFile = cachedIconFileAndBackupUri.first;
+        if (cachedIconFile.exists()) {
+            try {
+                return new FileInputStream(cachedIconFile);
+            } catch (IOException e) {
+                Log.w(TAG, "Unable to open cached icon file", e);
+            }
+        }
+
+        try (ZipInputStream zipInputStream = new ZipInputStream(openFileInputStream(cachedIconFileAndBackupUri.second))) {
+            ZipEntry zipEntry;
+            while ((zipEntry = zipInputStream.getNextEntry()) != null) {
+                if (zipEntry.getName().equals(SaiExportedAppMeta.ICON_FILE) || zipEntry.getName().equals(SaiExportedAppMeta2.ICON_FILE)) {
+                    return zipInputStream;
+                }
+            }
+        }
+
+        throw new IOException("Icon gone for icon uri " + iconUri.toString());
+    }
+
+    /**
+     * Make icon uri from cached icon file and backup uri that can be used in {@link #getBackupIcon(Uri)}
+     *
+     * @param backupUri
+     * @return
+     */
+    private Uri wrapIconUri(Uri backupUri, File cachedIconFile) {
+        return new Uri.Builder().scheme("absi")
+                .authority(BuildConfig.APPLICATION_ID + "." + getStorageId())
+                .appendQueryParameter("cached_icon", cachedIconFile.getAbsolutePath())
+                .appendQueryParameter("backup", backupUri.toString())
+                .build();
+    }
+
+    /**
+     * Retrieve cached icon file and backup uri from an icon uri created with {@link #wrapIconUri(Uri, File)}
+     *
+     * @param iconUri
+     * @return
+     */
+    private Pair<File, Uri> unwrapIconUri(Uri iconUri) {
+        if (!"absi".equals(iconUri.getScheme()) || !(BuildConfig.APPLICATION_ID + "." + getStorageId()).equals(iconUri.getAuthority()))
+            throw new IllegalArgumentException("Invalid icon uri - " + iconUri.toString());
+
+        return new Pair<>(new File(iconUri.getQueryParameter("cached_icon")), Uri.parse(iconUri.getQueryParameter("backup")));
+    }
+
+    private File cacheBackupIcon(InputStream iconInputStream) throws IOException {
+        File cachedIconFile = Utils.createTempFileInCache(getContext(), "ApksBackupStorage.Icons", "png");
+        if (cachedIconFile == null)
+            throw new RuntimeException("Unable to create cached icon file");
+
+        try (FileOutputStream outputStream = new FileOutputStream(cachedIconFile)) {
+            IOUtils.copyStream(iconInputStream, outputStream);
+        }
+
+        return cachedIconFile;
     }
 
     @Override

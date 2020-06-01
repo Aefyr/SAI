@@ -20,6 +20,12 @@ public class BackupWithComponents implements Backup {
     )
     public List<BackupComponentEntity> components;
 
+    @Relation(
+            parentColumn = "icon_id",
+            entityColumn = "id"
+    )
+    public BackupIconEntity icon;
+
     @Override
     public String storageId() {
         return backup.storageId;
@@ -42,7 +48,7 @@ public class BackupWithComponents implements Backup {
 
     @Override
     public Uri iconUri() {
-        return backup.getIconUri();
+        return icon.iconUri();
     }
 
     @Override

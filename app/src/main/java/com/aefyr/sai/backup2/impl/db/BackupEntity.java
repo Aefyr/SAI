@@ -10,7 +10,7 @@ import androidx.room.Index;
 import com.aefyr.sai.backup2.Backup;
 
 @Entity(
-        indices = {@Index(value = {"package", "uri", "content_hash"})},
+        indices = {@Index(value = {"package", "uri", "content_hash"}), @Index(unique = true, value = {"icon_id"})},
         primaryKeys = {"uri"}
 )
 public class BackupEntity {
@@ -36,8 +36,8 @@ public class BackupEntity {
     @ColumnInfo(name = "export_timestamp")
     public long exportTimestamp;
 
-    @ColumnInfo(name = "icon_uri")
-    public String iconUri;
+    @ColumnInfo(name = "icon_id")
+    public String iconId;
 
     @NonNull
     @ColumnInfo(name = "content_hash")
@@ -55,10 +55,6 @@ public class BackupEntity {
         return Uri.parse(uri);
     }
 
-    public Uri getIconUri() {
-        return Uri.parse(iconUri);
-    }
-
     public boolean isSplitApk() {
         return hasFlag(FLAG_SPLIT_APK);
     }
@@ -71,7 +67,7 @@ public class BackupEntity {
         flags = flags | flag;
     }
 
-    public static BackupEntity fromBackup(Backup backup) {
+    public static BackupEntity fromBackup(Backup backup, String iconId) {
         BackupEntity backupEntity = new BackupEntity();
 
         backupEntity.uri = backup.uri().toString();
@@ -80,7 +76,7 @@ public class BackupEntity {
         backupEntity.versionName = backup.versionName();
         backupEntity.versionCode = backup.versionCode();
         backupEntity.exportTimestamp = backup.creationTime();
-        backupEntity.iconUri = backup.iconUri().toString();
+        backupEntity.iconId = iconId;
         backupEntity.contentHash = backup.contentHash();
         backupEntity.storageId = backup.storageId();
 
