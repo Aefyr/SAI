@@ -132,7 +132,14 @@ public class Installer2Fragment extends InstallerFragment implements FilePickerD
             else
                 checkPermissionsAndPickFiles();
         });
-        installButtton.setOnLongClickListener((v) -> pickFilesWithSaf());
+        installButtton.setOnLongClickListener((v) -> {
+            if (mHelper.isInstallerXEnabled())
+                openInstallerXDialog(null);
+            else
+                pickFilesWithSaf();
+
+            return true;
+        });
 
         if (mHelper.shouldShowSafTip()) {
             mToolTipsManager = new ToolTipsManager((view1, anchorViewId, byUser) -> {
