@@ -115,16 +115,12 @@
     <string name="installer_rootless_error2_install_failed_multipackage_inconsistency">Одна из сессий установки дочернего пакета не соответствует родительской сессии относительно включенных параметров или отката</string>
     <string name="installer_rootless_error2_install_failed_wrong_installed_version">Требуемая версия уже установленного пакета не соответствует версии установленного пакета</string>
     <string name="backup_backup">Экспорт</string>
-    <string name="backup_backup_prompt">Экспортировать %s?</string>
-    <string name="backup_backup_status">Выполняется экспорт %d приложений</string>
-    <string name="backup_backup_export_in_progress">Экспорт в процессе</string>
     <string name="backup_backup_in_progress">Выполняется экспорт %s...</string>
     <string name="backup_backup_success">%s успешно экспортировано</string>
     <string name="backup_backup_failed">Не удалось экспортировать %s</string>
     <string name="backup_search_hint">Поиск приложений</string>
     <string name="backup_search_splits_only">Только split APK</string>
     <string name="backup_search_show_system_apps">Показывать системные</string>
-    <string name="backup_error_cant_mkdir">Не удается создать директорию для экспортированных приложений</string>
     <string name="backup_warning">1) По умолчанию, приложения экспортируются в папку \"SAI\" хранилища телефона. Вы можете выбрать свою папку в настройках\n\n2) SAI экспортирует только APK приложений, но не их данные\n\n3) Приложения экспортируются как .apks файл, который является переименованным ZIP-архивом, содержащим все APK</string>
     <string name="backup_export_all_splits">Экспорт всех split APK</string>
     <string name="backup_export_all_splits_prompt">Вы хотите экспортировать все split APK?</string>

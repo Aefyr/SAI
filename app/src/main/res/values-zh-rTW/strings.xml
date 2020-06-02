@@ -115,16 +115,12 @@
     <string name="installer_rootless_error2_install_failed_multipackage_inconsistency">One of the child package installer sessions does not match the parent session in respect to staged or rollback enabled parameters</string>
     <string name="installer_rootless_error2_install_failed_wrong_installed_version">Required version of an already installed package doesn\'t match the actual version of the installed package</string>
     <string name="backup_backup">導出</string>
-    <string name="backup_backup_prompt">導出 %s?</string>
-    <string name="backup_backup_status">導出 %d 個應用</string>
-    <string name="backup_backup_export_in_progress">導出進行中</string>
     <string name="backup_backup_in_progress">導出中 %s...</string>
     <string name="backup_backup_success">導出成功 %s</string>
     <string name="backup_backup_failed">導出失敗 %s</string>
     <string name="backup_search_hint">搜索應用</string>
     <string name="backup_search_splits_only">僅 Split APK</string>
     <string name="backup_search_show_system_apps">顯示系統應用</string>
-    <string name="backup_error_cant_mkdir">無法為導出的應用程式創建目錄</string>
     <string name="backup_warning">1）默認情況下，導出的應用程序保存到內部存儲中的“ SAI”文件夾中。 您可以在設置中設置自定義文件夾\n\n2）SAI僅導出應用程序的APK，不導出其數據\n\n3）應用程序導出為.apks文件，該文件是包含所有APK的重命名ZIP存檔</string>
     <string name="backup_export_all_splits">導出所有 Split APK</string>
     <string name="backup_export_all_splits_prompt">要導出所有 Split APK 吗？</string>

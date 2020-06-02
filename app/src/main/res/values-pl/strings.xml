@@ -115,16 +115,12 @@
     <string name="installer_rootless_error2_install_failed_multipackage_inconsistency">Jedna z podrzędnych sesji instalatora pakietu nie pasuje do sesji nadrzędnej w odniesieniu do parametrów włączonych etapowo lub cofania</string>
     <string name="installer_rootless_error2_install_failed_wrong_installed_version">Wymagana wersja już zainstalowanego pakietu nie pasuje do aktualnej wersji zainstalowanego pakietu</string>
     <string name="backup_backup">Eksportuj</string>
-    <string name="backup_backup_prompt">Eksportować %s?</string>
-    <string name="backup_backup_status">Eksportowanie %d aplikacji</string>
-    <string name="backup_backup_export_in_progress">Eksport w toku</string>
     <string name="backup_backup_in_progress">Eksportowanie %s...</string>
     <string name="backup_backup_success">Pomyślnie wyeksportowano %s</string>
     <string name="backup_backup_failed">Nie udało się wyeksportować %s</string>
     <string name="backup_search_hint">Wyszukaj aplikacje</string>
     <string name="backup_search_splits_only">Tylko Split APK</string>
     <string name="backup_search_show_system_apps">Pokaż aplikacje systemowe</string>
-    <string name="backup_error_cant_mkdir">Nie można utworzyć katalogu dla eksportowanych aplikacji</string>
     <string name="backup_warning">1) Domyślnie, eksportowane aplikacje są zapisywane w folderze \"SAI\" w pamięci wewn. Możesz ustawić własny folder w ustawieniach.\n\n2) SAI eksportuje tylko .apk, nie eksportuje danych aplikacji.\n\n3) Aplikacje są eksportowane jako pliki .apks które są archiwum .zip ze zmienionym rozszerzeniem zawierającym pliki .apk.</string>
     <string name="backup_export_all_splits">Eksportuj wszystkie split APK</string>
     <string name="backup_export_all_splits_prompt">Czy chcesz wyeksportować wszystkie split APK?</string>

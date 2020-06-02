@@ -115,16 +115,12 @@
     <string name="installer_rootless_error2_install_failed_multipackage_inconsistency">Alt paket yükleyici oturumlarından biri, aşamalı veya geri alma etkinleştirilmiş parametrelerle ilgili üst oturumla eşleşmiyor</string>
     <string name="installer_rootless_error2_install_failed_wrong_installed_version">Önceden yüklenmiş bir paketin gerekli sürümü, yüklenen paketin gerçek sürümüyle eşleşmiyor</string>
     <string name="backup_backup">Dışa aktar</string>
-    <string name="backup_backup_prompt">%s dışa aktarılsın mı?</string>
-    <string name="backup_backup_status">%d uygulama dışa aktarılıyor</string>
-    <string name="backup_backup_export_in_progress">Dışa aktarma devam ediyor</string>
     <string name="backup_backup_in_progress">%s dışa aktarılıyor...</string>
     <string name="backup_backup_success">%s başarıyla dışa aktarıldı</string>
     <string name="backup_backup_failed">%s dışa aktarılamadı</string>
     <string name="backup_search_hint">Uygulama ara</string>
     <string name="backup_search_splits_only">Yalnızca bölünmüş APK\'lar</string>
     <string name="backup_search_show_system_apps">Sistem uygulamalarını göster</string>
-    <string name="backup_error_cant_mkdir">Dışa aktarılan uygulamalar için dizin oluşturulamıyor</string>
     <string name="backup_warning">1) Varsayılan olarak, dışa aktarılan uygulamalar dahili depolamadaki \"SAI\" klasörüne kaydedilir. Özel klasörü ayarlardan ayarlayabilirsiniz\n\n2) SAI yalnızca uygulamaların APK\'larını dışa aktarır, verilerini dışa aktarmaz\n\n3) Uygulamalar, tüm APK\'ları içeren yeniden adlandırılmış bir ZIP arşivi olan bir .apks dosyası olarak dışa aktarılır</string>
     <string name="backup_export_all_splits">Tüm bölünmüş APK\'ları dışa aktar</string>
     <string name="backup_export_all_splits_prompt">Tüm bölünmüş APK\'lar dışa aktarılsın mı?</string>

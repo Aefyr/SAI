@@ -129,16 +129,12 @@ SAI (Split APKs Installer) е инсталатор на приложения, с
     <string name="installer_rootless_error2_install_failed_multipackage_inconsistency">Една от сесиите за инсталиране на дъщерни пакети не съвпада с основната сесия по отношение на параметрите, активирани поетапно или връщане назад</string>
     <string name="installer_rootless_error2_install_failed_wrong_installed_version">Необходимата версия на вече инсталиран пакет не съответства на актуалната версия на инсталирания пакет</string>
     <string name="backup_backup">Експорт</string>
-    <string name="backup_backup_prompt">Експортирай %s?</string>
-    <string name="backup_backup_status">Изпълнява експорт на %d приложение</string>
-    <string name="backup_backup_export_in_progress">Експорта е в процес</string>
     <string name="backup_backup_in_progress">Върви експорт %s...</string>
     <string name="backup_backup_success">%s бе успешно експортирано</string>
     <string name="backup_backup_failed">Не успя да експортира %s</string>
     <string name="backup_search_hint">Търсене на приложения</string>
     <string name="backup_search_splits_only">Само split APK</string>
     <string name="backup_search_show_system_apps">Покажи системни</string>
-    <string name="backup_error_cant_mkdir">Не успя да създаде директория за експортирани приложения</string>
     <string name="backup_warning">1) По подразбиране изнесените приложения се записват в \"SAI\" папка във вътрешната памет. Можете да зададете персонализирана папка в settings\n\n2) SAI експортира само APKs файлове за приложения, техните данни не се експортират\n\n3) Приложения се експортират като .apks файл, който е преименуван ZIP архив, съдържащ всички APKs файлове</string>
     <string name="backup_export_all_splits">Експорт на всички split APK</string>
     <string name="backup_export_all_splits_prompt">Ще експортирате ли всички split APK?</string>

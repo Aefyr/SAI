@@ -115,16 +115,12 @@
     <string name="installer_rootless_error2_install_failed_multipackage_inconsistency">一个子软件包安装会话与上级会话中有关分阶段或回滚启用的参数不匹配</string>
     <string name="installer_rootless_error2_install_failed_wrong_installed_version">已安装软件包的所需版本与已安装软件包的实际版本不匹配</string>
     <string name="backup_backup">导出</string>
-    <string name="backup_backup_prompt">导出 %s?</string>
-    <string name="backup_backup_status">导出 %d 个应用</string>
-    <string name="backup_backup_export_in_progress">导出进行中</string>
     <string name="backup_backup_in_progress">导出中 %s...</string>
     <string name="backup_backup_success">导出成功 %s</string>
     <string name="backup_backup_failed">导出失败 %s</string>
     <string name="backup_search_hint">搜索应用</string>
     <string name="backup_search_splits_only">仅 Split APK</string>
     <string name="backup_search_show_system_apps">显示系统应用</string>
-    <string name="backup_error_cant_mkdir">无法为导出的应用程序创建文件夹</string>
     <string name="backup_warning">1）导出的应用程序将保存到内部存储中的\"SAI\"文件夹中，但你也可以自定义文件夹\n\n2）SAI仅导出应用程序APK，他们的数据不会被导出\n\n3）应用程序导出格式为.apks文件，该文件是包含所有APK的重命名的ZIP压缩包</string>
     <string name="backup_export_all_splits">导出所有 Split APK</string>
     <string name="backup_export_all_splits_prompt">要导出所有 Split APK 吗？</string>

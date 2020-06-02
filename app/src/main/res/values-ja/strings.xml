@@ -116,16 +116,12 @@
 一致しません</string>
     <string name="installer_rootless_error2_install_failed_wrong_installed_version">既にインストールされているパッケージの必要なバージョンが、実際のバージョンと一致しません</string>
     <string name="backup_backup">エクスポート</string>
-    <string name="backup_backup_prompt">%s をエクスポートしますか?</string>
-    <string name="backup_backup_status">%d 個のアプリをエクスポート</string>
-    <string name="backup_backup_export_in_progress">エクスポート中</string>
     <string name="backup_backup_in_progress">%s をエクスポートしています...</string>
     <string name="backup_backup_success">%s は正常にエクスポートされました</string>
     <string name="backup_backup_failed">%s のエクスポートに失敗しました</string>
     <string name="backup_search_hint">アプリを検索</string>
     <string name="backup_search_splits_only">Split APKのみ</string>
     <string name="backup_search_show_system_apps">システムアプリを表示</string>
-    <string name="backup_error_cant_mkdir">エクスポートしたアプリ用のディレクトリを作成できませんでした</string>
     <string name="backup_warning">1) 初期設定では、エクスポートしたアプリは内部ストレージの\"SAI\"フォルダーに保存されます。保存するフォルダーは設定から変更できます。\n\n2) SAIがエクスポートするのはアプリのAPKのみです。アプリのデータはエクスポートされません。\n\n3) アプリは.apksファイルとしてエクスポートされます。このファイルは、必要なAPKを全て含んだZIPアーカイブをリネームしたものです。</string>
     <string name="backup_export_all_splits">全てのSplit APKをエクスポート</string>
     <string name="backup_export_all_splits_prompt">全てのSplit APKをエクスポートしますか?</string>
