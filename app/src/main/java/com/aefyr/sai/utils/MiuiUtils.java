@@ -1,5 +1,6 @@
 package com.aefyr.sai.utils;
 
+import android.annotation.SuppressLint;
 import android.os.Build;
 import android.text.TextUtils;
 
@@ -70,7 +71,21 @@ public class MiuiUtils {
         return compareVersions(getActualMiuiVersion(), targetVer) >= 0;
     }
 
+    @SuppressLint("PrivateApi")
+    public static boolean isMiuiOptimizationDisabled() {
+        if ("0".equals(Utils.getSystemProperty("persist.sys.miui_optimization")))
+            return true;
+
+        try {
+            return (boolean) Class.forName("android.miui.AppOpsUtils")
+                    .getDeclaredMethod("isXOptMode")
+                    .invoke(null);
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
     public static boolean isFixedMiui() {
-        return isActualMiuiVersionAtLeast("20.2.20");
+        return isActualMiuiVersionAtLeast("20.2.20") || isMiuiOptimizationDisabled();
     }
 }
