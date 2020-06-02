@@ -49,7 +49,7 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-common-java8:2.2.0'
     implementation 'androidx.preference:preference:1.1.1'
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
-    implementation 'com.google.android.material:material:1.2.0-alpha06'
+    implementation 'com.google.android.material:material:1.2.0-beta01'
 
     implementation 'com.github.bumptech.glide:glide:4.11.0'
     implementation 'moe.shizuku.privilege:api:3.1.0'
@@ -65,11 +65,11 @@ dependencies {
     annotationProcessor "androidx.room:room-compiler:$room_version"
 
     //Google services
-    normalImplementation 'com.google.firebase:firebase-analytics:17.3.0'
+    normalImplementation 'com.google.firebase:firebase-analytics:17.4.2'
     normalImplementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
-    normalImplementation 'com.android.billingclient:billing:2.2.0'
+    normalImplementation 'com.android.billingclient:billing:2.2.1'
 
-    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.1'
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.3'
 }
 
 //Cancel google services/fabric plugins for fdroid flavor
