@@ -120,16 +120,10 @@
         app:iconSpaceReserved="false">
 
         <Preference
-            android:icon="@drawable/ic_pref_backup_name_format"
-            android:key="backup_file_name_format"
-            android:title="@string/settings_main_backup_file_name_format"
-            android:summary="@string/settings_main_backup_file_name_format_summary" />
-
-        <Preference
-            android:icon="@drawable/ic_pref_backup_dir"
-            android:key="backup_backup_dir"
-            android:title="@string/settings_main_backup_backup_dir"
-            android:summary="@string/settings_main_backup_backup_dir_summary" />
+            android:icon="@drawable/ic_pref_backup_settings"
+            android:key="backup_settings"
+            android:title="@string/settings_main_backup_settings"
+            android:summary="@string/settings_main_backup_settings_summary" />
 
     </PreferenceCategory>
 

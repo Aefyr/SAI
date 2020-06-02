@@ -21,9 +21,12 @@ import com.aefyr.flexfilter.builtin.filter.sort.SortFilterConfigOption;
 import com.aefyr.flexfilter.config.core.ComplexFilterConfig;
 import com.aefyr.sai.adapters.selection.Selection;
 import com.aefyr.sai.adapters.selection.SimpleKeyStorage;
-import com.aefyr.sai.backup.BackupRepository;
+import com.aefyr.sai.backup2.BackupApp;
+import com.aefyr.sai.backup2.BackupManager;
+import com.aefyr.sai.backup2.BackupStatus;
+import com.aefyr.sai.backup2.BackupStorageProvider;
+import com.aefyr.sai.backup2.impl.DefaultBackupManager;
 import com.aefyr.sai.model.backup.BackupPackagesFilterConfig;
-import com.aefyr.sai.model.common.PackageMeta;
 import com.aefyr.sai.utils.Stopwatch;
 
 import java.util.ArrayList;
@@ -38,27 +41,27 @@ public class BackupViewModel extends AndroidViewModel {
 
     private SharedPreferences mFilterPrefs;
 
-    private BackupRepository mBackupRepo;
-    private Observer<List<PackageMeta>> mBackupRepoPackagesObserver;
+    private BackupManager mBackupManager;
+    private Observer<List<BackupApp>> mBackupRepoPackagesObserver;
 
     private ComplexFilterConfig mComplexFilterConfig;
     private final BackupCustomFilterFactory mFilterFactory = new BackupCustomFilterFactory();
 
     private String mCurrentSearchQuery = "";
 
-    private MutableLiveData<List<PackageMeta>> mPackagesLiveData = new MutableLiveData<>();
+    private MutableLiveData<List<BackupApp>> mPackagesLiveData = new MutableLiveData<>();
 
     private MutableLiveData<BackupPackagesFilterConfig> mBackupFilterConfig = new MutableLiveData<>();
 
     private final SimpleKeyStorage<String> mKeyStorage = new SimpleKeyStorage<>();
     private final Selection<String> mSelection = new Selection<>(mKeyStorage);
 
-    private LiveFilterApplier<PackageMeta> mLiveFilterApplier = new LiveFilterApplier<>();
-    private final Observer<List<PackageMeta>> mLiveFilterObserver = (packages) -> {
-        mPackagesLiveData.setValue(packages);
+    private LiveFilterApplier<BackupApp> mLiveFilterApplier = new LiveFilterApplier<>();
+    private final Observer<List<BackupApp>> mLiveFilterObserver = (apps) -> {
+        mPackagesLiveData.setValue(apps);
 
         if (mSelection.hasSelection())
-            reviseSelection(packages);
+            reviseSelection(apps);
     };
 
 
@@ -73,9 +76,9 @@ public class BackupViewModel extends AndroidViewModel {
 
         mPackagesLiveData.setValue(new ArrayList<>());
 
-        mBackupRepo = BackupRepository.getInstance(application);
+        mBackupManager = DefaultBackupManager.getInstance(getApplication());
         mBackupRepoPackagesObserver = (packages) -> search(mCurrentSearchQuery);
-        mBackupRepo.getPackages().observeForever(mBackupRepoPackagesObserver);
+        mBackupManager.getApps().observeForever(mBackupRepoPackagesObserver);
 
         mLiveFilterApplier.asLiveData().observeForever(mLiveFilterObserver);
         mBackupFilterConfig.setValue(new BackupPackagesFilterConfig(mComplexFilterConfig));
@@ -95,7 +98,7 @@ public class BackupViewModel extends AndroidViewModel {
         return mComplexFilterConfig;
     }
 
-    public LiveData<List<PackageMeta>> getPackages() {
+    public LiveData<List<BackupApp>> getPackages() {
         return mPackagesLiveData;
     }
 
@@ -105,7 +108,7 @@ public class BackupViewModel extends AndroidViewModel {
 
     public void search(String query) {
         mCurrentSearchQuery = query;
-        mLiveFilterApplier.apply(createComplexFilter(query), new ArrayList<>(mBackupRepo.getPackages().getValue()));
+        mLiveFilterApplier.apply(createComplexFilter(query), new ArrayList<>(mBackupManager.getApps().getValue()));
     }
 
     public Selection<String> getSelection() {
@@ -113,24 +116,37 @@ public class BackupViewModel extends AndroidViewModel {
     }
 
     public void selectAllApps() {
-        List<PackageMeta> packages = getPackages().getValue();
+        List<BackupApp> packages = getPackages().getValue();
         if (packages == null)
             return;
 
         Collection<String> keys = new ArrayList<>(packages.size());
-        for (PackageMeta pkg : packages) {
-            keys.add(pkg.packageName);
+        for (BackupApp pkg : packages) {
+            keys.add(pkg.packageMeta().packageName);
         }
 
         getSelection().batchSetSelected(keys, true);
     }
 
-    private void reviseSelection(List<PackageMeta> newPackagesList) {
+    public void reindexBackups() {
+        mBackupManager.reindex();
+    }
+
+    public LiveData<BackupManager.IndexingStatus> getIndexingStatus() {
+        return mBackupManager.getIndexingStatus();
+    }
+
+    public BackupStorageProvider getDefaultStorageProvider() {
+        return mBackupManager.getDefaultBackupStorageProvider();
+    }
+
+    private void reviseSelection(List<BackupApp> newPackagesList) {
         Stopwatch sw = new Stopwatch();
 
         HashSet<String> newPackageListPackages = new HashSet<>();
-        for (PackageMeta packageMeta : newPackagesList) {
-            newPackageListPackages.add(packageMeta.packageName);
+        for (BackupApp app : newPackagesList) {
+            if (app.isInstalled())
+                newPackageListPackages.add(app.packageMeta().packageName);
         }
 
         ArrayList<String> packagesToDeselect = new ArrayList<>();
@@ -144,8 +160,8 @@ public class BackupViewModel extends AndroidViewModel {
         Log.d(TAG, String.format("Revised selection in %d ms.", sw.millisSinceStart()));
     }
 
-    private ComplexCustomFilter<PackageMeta> createComplexFilter(String searchQuery) {
-        return new ComplexCustomFilter.Builder<PackageMeta>()
+    private ComplexCustomFilter<BackupApp> createComplexFilter(String searchQuery) {
+        return new ComplexCustomFilter.Builder<BackupApp>()
                 .with(mComplexFilterConfig, mFilterFactory)
                 .add(new SearchFilter(searchQuery))
                 .build();
@@ -154,11 +170,11 @@ public class BackupViewModel extends AndroidViewModel {
     @Override
     protected void onCleared() {
         super.onCleared();
-        mBackupRepo.getPackages().removeObserver(mBackupRepoPackagesObserver);
+        mBackupManager.getApps().removeObserver(mBackupRepoPackagesObserver);
         mLiveFilterApplier.asLiveData().removeObserver(mLiveFilterObserver);
     }
 
-    private static class SearchFilter implements CustomFilter<PackageMeta> {
+    private static class SearchFilter implements CustomFilter<BackupApp> {
 
         private String mQuery;
 
@@ -167,12 +183,12 @@ public class BackupViewModel extends AndroidViewModel {
         }
 
         @Override
-        public boolean filterSimple(PackageMeta packageMeta) {
+        public boolean filterSimple(BackupApp app) {
             if (mQuery.length() == 0)
                 return false;
 
             //Check if app label matches
-            String[] wordsInLabel = packageMeta.label.toLowerCase().split(" ");
+            String[] wordsInLabel = app.packageMeta().label.toLowerCase().split(" ");
             boolean labelMatches = false;
             for (String word : wordsInLabel) {
                 if (word.startsWith(mQuery)) {
@@ -182,41 +198,43 @@ public class BackupViewModel extends AndroidViewModel {
             }
 
             //Check if app packages matches
-            boolean packagesMatches = packageMeta.packageName.toLowerCase().startsWith(mQuery);
+            boolean packagesMatches = app.packageMeta().packageName.toLowerCase().startsWith(mQuery);
 
             return !labelMatches && !packagesMatches;
         }
     }
 
     //TODO clean this up
-    private static class BackupCustomFilterFactory implements DefaultCustomFilterFactory<PackageMeta> {
+    private static class BackupCustomFilterFactory implements DefaultCustomFilterFactory<BackupApp> {
 
         @Override
-        public CustomFilter<PackageMeta> createCustomSingleChoiceFilter(SingleChoiceFilterConfig config) {
+        public CustomFilter<BackupApp> createCustomSingleChoiceFilter(SingleChoiceFilterConfig config) {
             switch (config.id()) {
                 case BackupPackagesFilterConfig.FILTER_SPLIT:
                     return createSplitFilter(config);
                 case BackupPackagesFilterConfig.FILTER_SYSTEM_APP:
                     return createSystemAppFilter(config);
+                case BackupPackagesFilterConfig.FILTER_BACKUP_STATUS:
+                    return createBackupStatusFilter(config);
             }
             throw new IllegalArgumentException("Unsupported filter: " + config.id());
         }
 
         @Override
-        public CustomFilter<PackageMeta> createCustomSortFilter(SortFilterConfig config) {
-            return new CustomFilter<PackageMeta>() {
+        public CustomFilter<BackupApp> createCustomSortFilter(SortFilterConfig config) {
+            return new CustomFilter<BackupApp>() {
                 @Override
-                public List<PackageMeta> filterComplex(List<PackageMeta> list) {
+                public List<BackupApp> filterComplex(List<BackupApp> list) {
                     SortFilterConfigOption selectedOption = config.getSelectedOption();
                     switch (selectedOption.id()) {
                         case BackupPackagesFilterConfig.SORT_NAME:
-                            Collections.sort(list, (o1, o2) -> (selectedOption.ascending() ? 1 : -1) * o1.label.compareToIgnoreCase(o2.label));
+                            Collections.sort(list, (o1, o2) -> (selectedOption.ascending() ? 1 : -1) * o1.packageMeta().label.compareToIgnoreCase(o2.packageMeta().label));
                             break;
                         case BackupPackagesFilterConfig.SORT_INSTALL:
-                            Collections.sort(list, (o1, o2) -> (selectedOption.ascending() ? 1 : -1) * Long.compare(o1.installTime, o2.installTime));
+                            Collections.sort(list, (o1, o2) -> (selectedOption.ascending() ? 1 : -1) * Long.compare(o1.packageMeta().installTime, o2.packageMeta().installTime));
                             break;
                         case BackupPackagesFilterConfig.SORT_UPDATE:
-                            Collections.sort(list, (o1, o2) -> (selectedOption.ascending() ? 1 : -1) * Long.compare(o1.updateTime, o2.updateTime));
+                            Collections.sort(list, (o1, o2) -> (selectedOption.ascending() ? 1 : -1) * Long.compare(o1.packageMeta().updateTime, o2.packageMeta().updateTime));
                             break;
                     }
 
@@ -225,16 +243,16 @@ public class BackupViewModel extends AndroidViewModel {
             };
         }
 
-        private CustomFilter<PackageMeta> createSplitFilter(SingleChoiceFilterConfig config) {
-            return new CustomFilter<PackageMeta>() {
+        private CustomFilter<BackupApp> createSplitFilter(SingleChoiceFilterConfig config) {
+            return new CustomFilter<BackupApp>() {
                 @Override
-                public boolean filterSimple(PackageMeta packageMeta) {
+                public boolean filterSimple(BackupApp app) {
                     String selectedOption = config.getSelectedOption().id();
                     switch (selectedOption) {
                         case BackupPackagesFilterConfig.FILTER_MODE_YES:
-                            return !packageMeta.hasSplits;
+                            return !app.packageMeta().hasSplits;
                         case BackupPackagesFilterConfig.FILTER_MODE_NO:
-                            return packageMeta.hasSplits;
+                            return app.packageMeta().hasSplits;
                     }
 
                     return false;
@@ -242,16 +260,39 @@ public class BackupViewModel extends AndroidViewModel {
             };
         }
 
-        private CustomFilter<PackageMeta> createSystemAppFilter(SingleChoiceFilterConfig config) {
-            return new CustomFilter<PackageMeta>() {
+        private CustomFilter<BackupApp> createSystemAppFilter(SingleChoiceFilterConfig config) {
+            return new CustomFilter<BackupApp>() {
                 @Override
-                public boolean filterSimple(PackageMeta packageMeta) {
+                public boolean filterSimple(BackupApp app) {
                     String selectedOption = config.getSelectedOption().id();
                     switch (selectedOption) {
                         case BackupPackagesFilterConfig.FILTER_MODE_YES:
-                            return !packageMeta.isSystemApp;
+                            return !app.packageMeta().isSystemApp;
                         case BackupPackagesFilterConfig.FILTER_MODE_NO:
-                            return packageMeta.isSystemApp;
+                            return app.packageMeta().isSystemApp;
+                    }
+
+                    return false;
+                }
+            };
+        }
+
+        private CustomFilter<BackupApp> createBackupStatusFilter(SingleChoiceFilterConfig config) {
+            return new CustomFilter<BackupApp>() {
+                @Override
+                public boolean filterSimple(BackupApp app) {
+                    String selectedOption = config.getSelectedOption().id();
+                    switch (selectedOption) {
+                        case BackupPackagesFilterConfig.FILTER_BACKUP_STATUS_MODE_NO_BACKUP:
+                            return app.backupStatus() != BackupStatus.NO_BACKUP;
+                        case BackupPackagesFilterConfig.FILTER_BACKUP_STATUS_MODE_SAME_VERSION:
+                            return app.backupStatus() != BackupStatus.SAME_VERSION;
+                        case BackupPackagesFilterConfig.FILTER_BACKUP_STATUS_MODE_HIGHER_VERSION:
+                            return app.backupStatus() != BackupStatus.HIGHER_VERSION;
+                        case BackupPackagesFilterConfig.FILTER_BACKUP_STATUS_MODE_LOWER_VERSION:
+                            return app.backupStatus() != BackupStatus.LOWER_VERSION;
+                        case BackupPackagesFilterConfig.FILTER_BACKUP_STATUS_MODE_APP_NOT_INSTALLED:
+                            return app.backupStatus() != BackupStatus.APP_NOT_INSTALLED;
                     }
 
                     return false;

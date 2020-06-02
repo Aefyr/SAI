@@ -15,6 +15,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.security.DigestInputStream;
 import java.security.MessageDigest;
 import java.util.zip.CRC32;
@@ -89,16 +90,34 @@ public class IOUtils {
         return t;
     }
 
+    /**
+     * Read contents of input stream to a byte array and close it
+     *
+     * @param inputStream
+     * @return contents of input stream
+     * @throws IOException
+     */
     public static byte[] readStream(InputStream inputStream) throws IOException {
         try (InputStream in = inputStream) {
-            ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-            copyStream(in, buffer);
-            return buffer.toByteArray();
+            return readStreamNoClose(in);
         }
     }
 
     public static String readStream(InputStream inputStream, Charset charset) throws IOException {
         return new String(readStream(inputStream), charset);
+    }
+
+    /**
+     * Read contents of input stream to a byte array, but don't close the stream
+     *
+     * @param inputStream
+     * @return contents of input stream
+     * @throws IOException
+     */
+    public static byte[] readStreamNoClose(InputStream inputStream) throws IOException {
+        ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+        copyStream(inputStream, buffer);
+        return buffer.toByteArray();
     }
 
     public static void closeSilently(Closeable closeable) {
@@ -130,6 +149,10 @@ public class IOUtils {
 
             return messageDigest.digest();
         }
+    }
+
+    public static byte[] hashString(String s, MessageDigest messageDigest) throws IOException {
+        return hashStream(new ByteArrayInputStream(s.getBytes(StandardCharsets.UTF_8)), messageDigest);
     }
 
     public static byte[] readFile(File file) throws IOException {

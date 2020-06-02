@@ -1,4 +1,4 @@
-package com.aefyr.sai.backup;
+package com.aefyr.sai.backup2.impl.local;
 
 import android.annotation.SuppressLint;
 import android.content.ContentResolver;
@@ -12,7 +12,6 @@ import androidx.documentfile.provider.DocumentFile;
 import com.aefyr.sai.model.common.PackageMeta;
 import com.aefyr.sai.utils.BackupNameFormat;
 import com.aefyr.sai.utils.DbgPreferencesHelper;
-import com.aefyr.sai.utils.PreferencesHelper;
 import com.aefyr.sai.utils.Utils;
 import com.aefyr.sai.utils.saf.FileUtils;
 import com.aefyr.sai.utils.saf.SafUtils;
@@ -21,7 +20,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Objects;
 
-public class BackupUtils {
+public class LocalBackupUtils {
     private static final String TAG = "BackupUtils";
 
     /**
@@ -101,7 +100,7 @@ public class BackupUtils {
     }
 
     private static String getFileNameForPackageMeta(Context c, PackageMeta packageMeta) {
-        String backupFileName = BackupNameFormat.format(PreferencesHelper.getInstance(c).getBackupFileNameFormat(), packageMeta);
+        String backupFileName = BackupNameFormat.format(LocalBackupStorageProvider.getInstance(c).getBackupNameFormat(), packageMeta);
         if (DbgPreferencesHelper.getInstance(c).shouldReplaceDots())
             backupFileName = backupFileName.replace('.', ',');
 

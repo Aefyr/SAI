@@ -1,17 +1,23 @@
 package com.aefyr.sai.ui.fragments;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.cardview.widget.CardView;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentContainerView;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -22,8 +28,9 @@ import com.aefyr.flexfilter.ui.FilterDialog;
 import com.aefyr.sai.R;
 import com.aefyr.sai.adapters.BackupPackagesAdapter;
 import com.aefyr.sai.adapters.selection.Selection;
-import com.aefyr.sai.model.common.PackageMeta;
-import com.aefyr.sai.ui.dialogs.BackupDialogFragment;
+import com.aefyr.sai.backup2.BackupApp;
+import com.aefyr.sai.ui.activities.BackupManageAppActivity;
+import com.aefyr.sai.ui.activities.BackupSettingsActivity;
 import com.aefyr.sai.ui.dialogs.BatchBackupDialogFragment;
 import com.aefyr.sai.ui.dialogs.DonationSuggestionDialogFragment;
 import com.aefyr.sai.ui.dialogs.OneTimeWarningDialogFragment;
@@ -41,20 +48,23 @@ import java.util.ArrayList;
 
 public class BackupFragment extends SaiBaseFragment implements BackupPackagesAdapter.OnItemInteractionListener, FilterDialog.OnApplyConfigListener, SharedPreferences.OnSharedPreferenceChangeListener, BatchBackupDialogFragment.OnBatchBackupEnqueuedListener {
 
+    private static final String FRAGMENT_TAG_DEFAULT_STORAGE_SETUP = "default_storage_setup";
 
     private BackupViewModel mViewModel;
 
     private BackupPackagesAdapter mAdapter;
 
+    private CardView mSearchBar;
     private int mSearchBarOffset;
+    private boolean mSearchBarScrollResponsePaused = false;
 
     private int mFocusedItemIndex = -1;
+
+    private Fragment mStorageConfigFragment;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        OneTimeWarningDialogFragment.showIfNeeded(requireContext(), getChildFragmentManager(), R.string.help, R.string.backup_warning, "backup_faq");
 
         mViewModel = new ViewModelProvider(this).get(BackupViewModel.class);
 
@@ -83,6 +93,51 @@ public class BackupFragment extends SaiBaseFragment implements BackupPackagesAda
 
         invalidateAppFeaturesVisibility();
         mViewModel.getPackages().observe(getViewLifecycleOwner(), mAdapter::setData);
+
+        ViewGroup indexingOverlay = findViewById(R.id.overlay_backup_indexing);
+        ProgressBar indexingProgressBar = findViewById(R.id.progress_backup_indexing);
+        TextView indexingStatusText = findViewById(R.id.tv_backup_indexing_status);
+        mViewModel.getIndexingStatus().observe(getViewLifecycleOwner(), status -> {
+            if (status.isInProgress()) {
+                indexingOverlay.setVisibility(View.VISIBLE);
+                indexingStatusText.setText(getString(R.string.backup_indexing, status.progress(), status.goal()));
+
+                indexingProgressBar.setMax(status.goal());
+                indexingProgressBar.setProgress(status.progress());
+
+            } else {
+                indexingOverlay.setVisibility(View.GONE);
+            }
+        });
+
+        mStorageConfigFragment = getChildFragmentManager().findFragmentByTag(FRAGMENT_TAG_DEFAULT_STORAGE_SETUP);
+        FragmentContainerView storageConfigOverlay = findViewById(R.id.fragment_container_backup_storage_setup);
+        mViewModel.getDefaultStorageProvider().getIsSetupLiveData().observe(getViewLifecycleOwner(), isConfigured -> {
+            if (isConfigured) {
+                storageConfigOverlay.setVisibility(View.GONE);
+
+                if (mStorageConfigFragment != null) {
+                    getChildFragmentManager().beginTransaction()
+                            .remove(mStorageConfigFragment)
+                            .commitNow();
+
+                    mStorageConfigFragment = null;
+                }
+
+                OneTimeWarningDialogFragment.showIfNeeded(requireContext(), getChildFragmentManager(), R.string.help, R.string.backup_warning, "backup_faq");
+            } else {
+                storageConfigOverlay.setVisibility(View.VISIBLE);
+
+                if (mStorageConfigFragment == null) {
+                    mStorageConfigFragment = mViewModel.getDefaultStorageProvider().createSetupFragment();
+
+                    getChildFragmentManager().beginTransaction()
+                            .add(R.id.fragment_container_backup_storage_setup, mStorageConfigFragment, FRAGMENT_TAG_DEFAULT_STORAGE_SETUP)
+                            .commitNow();
+                }
+            }
+        });
+
 
         PreferencesHelper.getInstance(requireContext()).getPrefs().registerOnSharedPreferenceChangeListener(this);
     }
@@ -134,6 +189,12 @@ public class BackupFragment extends SaiBaseFragment implements BackupPackagesAda
                     case R.id.menu_backup_help:
                         SimpleAlertDialogFragment.newInstance(requireContext(), R.string.help, R.string.backup_warning).show(getChildFragmentManager(), null);
                         break;
+                    case R.id.menu_backup_reindex:
+                        mViewModel.reindexBackups();
+                        break;
+                    case R.id.menu_backup_settings:
+                        startActivity(new Intent(requireContext(), BackupSettingsActivity.class));
+                        break;
                 }
                 return true;
             });
@@ -169,6 +230,13 @@ public class BackupFragment extends SaiBaseFragment implements BackupPackagesAda
                 toolbarActionButton.setClickable(true);
                 toolbarActionButton.setImageResource(R.drawable.ic_clear_selection);
                 toolbarActionButton.setColorFilter(Utils.getThemeColor(requireContext(), R.attr.colorAccent));
+
+                mSearchBarScrollResponsePaused = true;
+                mSearchBarOffset = 0;
+                mSearchBar.animate()
+                        .setDuration(200)
+                        .translationY(mSearchBarOffset)
+                        .start();
             } else {
                 searchBarContainer.setVisibility(View.VISIBLE);
                 selectionBarContainer.setVisibility(View.GONE);
@@ -181,29 +249,38 @@ public class BackupFragment extends SaiBaseFragment implements BackupPackagesAda
                 toolbarActionButton.setClickable(false);
                 toolbarActionButton.setImageResource(R.drawable.ic_search);
                 toolbarActionButton.setColorFilter(Utils.getThemeColor(requireContext(), android.R.attr.textColorSecondary));
+
+                mSearchBarScrollResponsePaused = false;
+                mSearchBar.clearAnimation();
             }
         });
 
         //Hide on scroll
         if (!Utils.isTv(requireContext())) {
-            CardView searchBar = findViewById(R.id.card_search);
+            mSearchBar = findViewById(R.id.card_search);
             RecyclerView recyclerView = findViewById(R.id.rv_packages);
             recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
                 @Override
                 public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                    if (mSearchBarScrollResponsePaused)
+                        return;
+
                     if (dy == 0)
                         mSearchBarOffset = 0;
                     else
-                        mSearchBarOffset = MathUtils.clamp(mSearchBarOffset - dy, -searchBar.getHeight(), 0);
+                        mSearchBarOffset = MathUtils.clamp(mSearchBarOffset - dy, -mSearchBar.getHeight(), 0);
 
-                    searchBar.setTranslationY(mSearchBarOffset);
+                    mSearchBar.setTranslationY(mSearchBarOffset);
                 }
 
                 @Override
                 public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                     if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-                        if (mSearchBarOffset != 0 && mSearchBarOffset != -searchBar.getHeight())
-                            recyclerView.smoothScrollBy(0, mSearchBarOffset - MathUtils.closest(mSearchBarOffset, 0, -searchBar.getHeight()));
+                        if (mSearchBarScrollResponsePaused)
+                            return;
+
+                        if (mSearchBarOffset != 0 && mSearchBarOffset != -mSearchBar.getHeight())
+                            recyclerView.smoothScrollBy(0, mSearchBarOffset - MathUtils.closest(mSearchBarOffset, 0, -mSearchBar.getHeight()));
                     }
 
                 }
@@ -247,12 +324,12 @@ public class BackupFragment extends SaiBaseFragment implements BackupPackagesAda
     }
 
     @Override
-    public void onBackupButtonClicked(PackageMeta packageMeta) {
-        BackupDialogFragment.newInstance(packageMeta).show(getChildFragmentManager(), null);
+    public void onBackupButtonClicked(BackupApp backupApp) {
+        BackupManageAppActivity.start(requireContext(), backupApp.packageMeta().packageName);
     }
 
     @Override
-    public void onItemFocusChanged(boolean hasFocus, int index, PackageMeta packageMeta) {
+    public void onItemFocusChanged(boolean hasFocus, int index, BackupApp backupApp) {
         if (hasFocus)
             mFocusedItemIndex = index;
     }

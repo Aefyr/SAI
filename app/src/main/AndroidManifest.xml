@@ -13,6 +13,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
+    <uses-permission android:name="android.permission.REQUEST_DELETE_PACKAGES" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="moe.shizuku.manager.permission.API_V23" />
 
@@ -21,11 +22,12 @@
         android:banner="@drawable/tv_banner"
         android:icon="@mipmap/icon"
         android:label="@string/app_name"
+        android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/icon"
         android:theme="@style/AppTheme.Light"
-        tools:ignore="GoogleAppIndexingWarning"
-        android:requestLegacyExternalStorage="true">
-
+        tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".ui.activities.BackupSettingsActivity" />
+        <activity android:name=".ui.activities.BackupManageAppActivity" />
         <activity android:name=".ui.activities.DonateActivity" />
         <activity android:name=".ui.activities.MiActivity" />
         <activity
@@ -104,7 +106,7 @@
         <activity android:name=".ui.activities.LicensesActivity" />
         <activity android:name=".installer2.impl.rootless.ConfirmationIntentWrapperActivity2" />
 
-        <service android:name=".backup.BackupService" />
+        <service android:name=".backup2.impl.BackupService2" />
 
         <provider
             android:name="moe.shizuku.api.ShizukuBinderReceiveProvider"
@@ -113,13 +115,11 @@
             android:exported="true"
             android:multiprocess="false"
             android:permission="android.permission.INTERACT_ACROSS_USERS_FULL" />
-
         <provider
-            android:authorities="${applicationId}.logs.init"
             android:name=".utils.Logs$InitProvider"
+            android:authorities="${applicationId}.logs.init"
             android:enabled="true"
             android:exported="false" />
-
     </application>
 
 </manifest>

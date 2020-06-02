@@ -1,7 +1,6 @@
 package com.aefyr.sai.ui.dialogs;
 
 import android.app.Dialog;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -13,7 +12,6 @@ import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.aefyr.sai.R;
-import com.aefyr.sai.utils.PermissionsUtils;
 import com.aefyr.sai.utils.Utils;
 import com.aefyr.sai.viewmodels.BatchBackupDialogViewModel;
 import com.aefyr.sai.viewmodels.factory.BatchBackupDialogViewModelFactory;
@@ -94,9 +92,6 @@ public class BatchBackupDialogFragment extends DialogFragment {
         Button negativeButton = dialog.getButton(Dialog.BUTTON_NEGATIVE);
 
         positiveButton.setOnClickListener((v) -> {
-            if (mViewModel.doesRequireStoragePermissions() && !PermissionsUtils.checkAndRequestStoragePermissions(this))
-                return;
-
             enqueueBackup();
         });
 
@@ -114,19 +109,6 @@ public class BatchBackupDialogFragment extends DialogFragment {
 
     private String getExportPromptText() {
         return mViewModel.getApkCount() <= 0 ? getString(R.string.backup_export_all_splits_prompt) : getString(R.string.backup_export_selected_apps_prompt, mViewModel.getApkCount());
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
-        if (requestCode == PermissionsUtils.REQUEST_CODE_STORAGE_PERMISSIONS) {
-            if (grantResults.length == 0 || grantResults[0] == PackageManager.PERMISSION_DENIED) {
-                SimpleAlertDialogFragment.newInstance(getText(R.string.error), getText(R.string.permissions_required_storage)).show(getParentFragmentManager(), null);
-                dismiss();
-            } else
-                enqueueBackup();
-        }
     }
 
     public interface OnBatchBackupEnqueuedListener {

@@ -115,16 +115,12 @@
     <string name="installer_rootless_error2_install_failed_multipackage_inconsistency">One of the child package installer sessions does not match the parent session in respect to staged or rollback enabled parameters</string>
     <string name="installer_rootless_error2_install_failed_wrong_installed_version">Required version of an already installed package doesn\'t match the actual version of the installed package</string>
     <string name="backup_backup">Exporter</string>
-    <string name="backup_backup_prompt">Exporter %s?</string>
-    <string name="backup_backup_status">Exportation de %d applications</string>
-    <string name="backup_backup_export_in_progress">Exportation en cours</string>
     <string name="backup_backup_in_progress">Exportation de %s...</string>
     <string name="backup_backup_success">%s exporté avec succès</string>
     <string name="backup_backup_failed">Échec de l\'exportation de %s</string>
     <string name="backup_search_hint">Rechercher des applications</string>
     <string name="backup_search_splits_only">Diviser uniquement les APKs</string>
     <string name="backup_search_show_system_apps">Afficher les applications système</string>
-    <string name="backup_error_cant_mkdir">Impossible de créer un répertoire pour les applications exportées</string>
     <string name="backup_warning">1) Par défaut, les applications exportées sont enregistrées dans le dossier \"SAI\" dans le stockage interne. Vous pouvez définir un dossier personnalisé dans les paramètres\n\n2) SAI n\'exporte que les APK des applications, leurs données ne sont pas exportées\n\n3) Les applications sont exportées sous forme de fichier .apks qui est une archive ZIP renommée contenant tous les APK</string>
     <string name="backup_export_all_splits">Exporter tous les APKs séparés</string>
     <string name="backup_export_all_splits_prompt">Voulez-vous exporter tous les APKs séparés ?</string>

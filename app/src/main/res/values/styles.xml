@@ -134,6 +134,20 @@
         <item name="android:theme">@style/SAIMaterialButton</item>
         <item name="cornerRadius">20dp</item>
         <item name="android:letterSpacing">0</item>
+        <item name="iconPadding">3dp</item>
+        <item name="iconSize">22dp</item>
+        <item name="iconGravity">textStart</item>
+    </style>
+
+    <style name="SAIMaterialButton.Slim" parent="SAIMaterialButton">
+        <item name="android:paddingLeft">12dp</item>
+        <item name="android:paddingRight">12dp</item>
+        <item name="android:paddingTop">6dp</item>
+        <item name="android:paddingBottom">6dp</item>
+        <item name="android:textSize">14sp</item>
+        <item name="cornerRadius">16dp</item>
+        <item name="iconPadding">1dp</item>
+        <item name="iconSize">18dp</item>
     </style>
 
     <style name="SAIMaterialButton.Outlined" parent="Widget.MaterialComponents.Button.OutlinedButton">
@@ -153,6 +167,20 @@
         <item name="android:letterSpacing">0</item>
         <item name="strokeWidth">2dp</item>
         <item name="strokeColor">@color/selector_outlined_button_outline_color</item>
+        <item name="iconPadding">3dp</item>
+        <item name="iconSize">22dp</item>
+        <item name="iconGravity">textStart</item>
+    </style>
+
+    <style name="SAIMaterialButton.Outlined.Slim" parent="SAIMaterialButton.Outlined">
+        <item name="android:paddingLeft">12dp</item>
+        <item name="android:paddingRight">12dp</item>
+        <item name="android:paddingTop">6dp</item>
+        <item name="android:paddingBottom">6dp</item>
+        <item name="android:textSize">14sp</item>
+        <item name="cornerRadius">16dp</item>
+        <item name="iconPadding">1dp</item>
+        <item name="iconSize">18dp</item>
     </style>
 
     <style name="SAIMaterialButton.ExtendedFab" parent="Widget.MaterialComponents.Button">

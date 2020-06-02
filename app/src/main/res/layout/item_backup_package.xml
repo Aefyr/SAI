@@ -59,7 +59,7 @@
             </LinearLayout>
 
             <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/iv_backup"
+                android:id="@+id/iv_backup_status"
                 android:layout_width="56dp"
                 android:layout_height="56dp"
                 android:layout_gravity="center_vertical"

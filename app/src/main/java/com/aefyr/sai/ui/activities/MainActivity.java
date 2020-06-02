@@ -11,7 +11,7 @@ import androidx.fragment.app.Fragment;
 import androidx.preference.PreferenceManager;
 
 import com.aefyr.sai.R;
-import com.aefyr.sai.backup.BackupRepository;
+import com.aefyr.sai.backup2.impl.DefaultBackupManager;
 import com.aefyr.sai.billing.BillingManager;
 import com.aefyr.sai.billing.DefaultBillingManager;
 import com.aefyr.sai.ui.fragments.BackupFragment;
@@ -45,8 +45,7 @@ public class MainActivity extends ThemedActivity implements BottomNavigationView
         mBillingManager = DefaultBillingManager.getInstance(this);
 
         //TODO is this ok?
-        BackupRepository.getInstance(this);
-
+        DefaultBackupManager.getInstance(this);
 
         showMiuiWarning();
 

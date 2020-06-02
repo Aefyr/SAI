@@ -120,6 +120,12 @@ public class PackageMeta implements Parcelable {
             return this;
         }
 
+        public Builder setIconUri(Uri iconUri) {
+            mPackageMeta.iconUri = iconUri;
+            return this;
+        }
+
+
         public Builder setInstallTime(long installTime) {
             mPackageMeta.installTime = installTime;
             return this;

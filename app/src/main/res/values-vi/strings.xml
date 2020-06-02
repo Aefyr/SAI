@@ -115,16 +115,12 @@
     <string name="installer_rootless_error2_install_failed_multipackage_inconsistency">Một trong các phiên trình cài đặt gói con không khớp với phiên cha mẹ đối với các tham số được kích hoạt theo giai đoạn hoặc khôi phục</string>
     <string name="installer_rootless_error2_install_failed_wrong_installed_version">Phiên bản bắt buộc của gói đã cài đặt không khớp với phiên bản thực của gói đã cài đặt</string>
     <string name="backup_backup">Xuất</string>
-    <string name="backup_backup_prompt">Xuất %s?</string>
-    <string name="backup_backup_status">Đang xuất ứng dụng %d</string>
-    <string name="backup_backup_export_in_progress">Đang thực hiện xuất</string>
     <string name="backup_backup_in_progress">Đang xuất %s...</string>
     <string name="backup_backup_success">Đã xuất thành công %s</string>
     <string name="backup_backup_failed">Xuất thất bại %s</string>
     <string name="backup_search_hint">Tìm kiếm ứng dụng</string>
     <string name="backup_search_splits_only">Chỉ tách APKs</string>
     <string name="backup_search_show_system_apps">Hiển thị ứng dụng hệ thống</string>
-    <string name="backup_error_cant_mkdir">Không thể tạo thư mục cho các ứng dụng đã xuất</string>
     <string name="backup_warning">1) Theo mặc định, các ứng dụng đã xuất được lưu vào thư mục \"SAI\" trong bộ nhớ trong. Bạn có thể đặt thư mục tùy chỉnh trong cài đặt\n\n2) SAI chỉ xuất APK của ứng dụng, dữ liệu của chúng không được xuất\n\n3) Ứng dụng được xuất dưới dạng một tệp .apks, là tệp lưu trữ ZIP được đổi tên có chứa tất cả APKs</string>
     <string name="backup_export_all_splits">Xuất tất cả APKs đã tách</string>
     <string name="backup_export_all_splits_prompt">Bạn có muốn xuất tất cả APKs đã tách?</string>

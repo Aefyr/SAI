@@ -21,12 +21,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.aefyr.sai.R;
 import com.aefyr.sai.adapters.SplitApkSourceMetaAdapter;
+import com.aefyr.sai.installerx.resolver.urimess.UriHostFactory;
 import com.aefyr.sai.ui.dialogs.base.BaseBottomSheetDialogFragment;
 import com.aefyr.sai.utils.AlertsUtils;
 import com.aefyr.sai.utils.PermissionsUtils;
 import com.aefyr.sai.utils.PreferencesHelper;
 import com.aefyr.sai.view.ViewSwitcherLayout;
 import com.aefyr.sai.viewmodels.InstallerXDialogViewModel;
+import com.aefyr.sai.viewmodels.factory.InstallerXDialogViewModelFactory;
 import com.github.angads25.filepicker.model.DialogConfigs;
 import com.github.angads25.filepicker.model.DialogProperties;
 
@@ -39,15 +41,28 @@ public class InstallerXDialogFragment extends BaseBottomSheetDialogFragment impl
     private static final int REQUEST_CODE_GET_FILES = 337;
 
     private static final String ARG_APK_SOURCE_URI = "apk_source_uri";
+    private static final String ARG_URI_HOST_FACTORY = "uri_host_factory";
 
     private InstallerXDialogViewModel mViewModel;
 
     private PreferencesHelper mHelper;
 
-    public static InstallerXDialogFragment newInstance(@Nullable Uri apkSourceUri) {
+    /**
+     * Create an instance of InstallerXDialogFragment with given apk source uri and UriHostFactory class.
+     * If {@code apkSourceUri} is null, dialog will let user pick apk source file.
+     * If {@code uriHostFactoryClass} is null, {@link com.aefyr.sai.installerx.resolver.urimess.impl.AndroidUriHost} will be used.
+     *
+     * @param apkSourceUri
+     * @param uriHostFactoryClass
+     * @return
+     */
+    public static InstallerXDialogFragment newInstance(@Nullable Uri apkSourceUri, @Nullable Class<? extends UriHostFactory> uriHostFactoryClass) {
         Bundle args = new Bundle();
         if (apkSourceUri != null)
             args.putParcelable(ARG_APK_SOURCE_URI, apkSourceUri);
+
+        if (uriHostFactoryClass != null)
+            args.putString(ARG_URI_HOST_FACTORY, uriHostFactoryClass.getCanonicalName());
 
         InstallerXDialogFragment fragment = new InstallerXDialogFragment();
         fragment.setArguments(args);
@@ -58,10 +73,23 @@ public class InstallerXDialogFragment extends BaseBottomSheetDialogFragment impl
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mHelper = PreferencesHelper.getInstance(requireContext());
-        mViewModel = new ViewModelProvider(this).get(InstallerXDialogViewModel.class);
-
         Bundle args = getArguments();
+
+        UriHostFactory uriHostFactory = null;
+        if (args != null) {
+            String uriHostFactoryClass = args.getString(ARG_URI_HOST_FACTORY);
+            if (uriHostFactoryClass != null) {
+                try {
+                    uriHostFactory = (UriHostFactory) Class.forName(uriHostFactoryClass).getConstructor().newInstance();
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+
+        mHelper = PreferencesHelper.getInstance(requireContext());
+        mViewModel = new ViewModelProvider(this, new InstallerXDialogViewModelFactory(requireContext(), uriHostFactory)).get(InstallerXDialogViewModel.class);
+
         if (args == null)
             return;
 

@@ -6,13 +6,14 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.SystemClock;
 
+import androidx.annotation.Nullable;
 import androidx.core.app.NotificationManagerCompat;
 
 /**
  * Manages delaying notification to avoid going over notifications per second limit
  */
 public class NotificationHelper {
-    private static final long NOTIFICATION_CD = 1000 / 5;
+    private static final long NOTIFICATION_CD = 1000 / 4;
 
     private static NotificationHelper sInstance;
 
@@ -39,19 +40,39 @@ public class NotificationHelper {
      * @param notification notification to post
      * @param skipable     if notification can be skipped (such as progress notifications)
      */
-    public synchronized void notify(int id, Notification notification, boolean skipable) {
+    public void notify(int id, Notification notification, boolean skipable) {
+        notify(null, id, notification, skipable);
+    }
+
+    /**
+     * Post notification when possible or skip it, if it is skipable
+     *
+     * @param tag          tag on the notification
+     * @param id           id of the notification
+     * @param notification notification to post
+     * @param skipable     if notification can be skipped (such as progress notifications)
+     */
+    public synchronized void notify(@Nullable String tag, int id, Notification notification, boolean skipable) {
         long timeSinceLastNotification = SystemClock.uptimeMillis() - mLastNotificationTime;
 
         if (timeSinceLastNotification < NOTIFICATION_CD) {
             if (!skipable) {
-                mHandler.postAtTime(() -> mNotificationManager.notify(id, notification), mLastNotificationTime + NOTIFICATION_CD);
+                mHandler.postAtTime(() -> mNotificationManager.notify(tag, id, notification), mLastNotificationTime + NOTIFICATION_CD);
                 mLastNotificationTime = mLastNotificationTime + NOTIFICATION_CD;
             }
             return;
         }
 
         mLastNotificationTime = SystemClock.uptimeMillis();
-        mNotificationManager.notify(id, notification);
+        mNotificationManager.notify(tag, id, notification);
+    }
+
+    public void cancel(@Nullable String tag, int id) {
+        mNotificationManager.cancel(tag, id);
+    }
+
+    public void cancel(int id) {
+        cancel(null, id);
     }
 
 }

@@ -74,6 +74,23 @@ public class SafUtils {
     }
 
     @Nullable
+    public static DocumentFile docFileFromTreeUriOrFileUri(Context context, Uri contentUri) {
+        if (ContentResolver.SCHEME_FILE.equals(contentUri.getScheme())) {
+            String path = contentUri.getPath();
+            if (path == null)
+                return null;
+
+            File file = new File(path);
+            if (!file.isDirectory())
+                return null;
+
+            return DocumentFile.fromFile(file);
+        } else {
+            return DocumentFile.fromTreeUri(context, contentUri);
+        }
+    }
+
+    @Nullable
     public static String getFileNameFromContentUri(Context context, Uri contentUri) {
         DocumentFile documentFile = docFileFromSingleUriOrFileUri(context, contentUri);
 

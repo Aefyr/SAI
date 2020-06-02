@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:title="@string/backup_settings"
+        android:id="@+id/menu_backup_settings" />
+
+    <item
+        android:title="@string/backup_reindex"
+        android:id="@+id/menu_backup_reindex" />
+
     <item
         android:title="@string/backup_export_all_splits"
         android:id="@+id/menu_export_all_split_apks" />

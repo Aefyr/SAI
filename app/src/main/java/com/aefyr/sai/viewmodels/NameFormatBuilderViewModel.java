@@ -1,22 +1,22 @@
 package com.aefyr.sai.viewmodels;
 
-import android.app.Application;
+import android.content.Context;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.aefyr.sai.adapters.selection.Selection;
 import com.aefyr.sai.adapters.selection.SimpleKeyStorage;
 import com.aefyr.sai.model.backup.BackupNameFormatBuilder;
 import com.aefyr.sai.model.common.PackageMeta;
-import com.aefyr.sai.utils.PreferencesHelper;
 
 import java.util.Collection;
 import java.util.Objects;
 
-public class NameFormatBuilderViewModel extends AndroidViewModel implements Selection.Observer<BackupNameFormatBuilder.Part> {
+public class NameFormatBuilderViewModel extends ViewModel implements Selection.Observer<BackupNameFormatBuilder.Part> {
 
     private PackageMeta mOwnMeta;
     private final Selection<BackupNameFormatBuilder.Part> mSelection = new Selection<>(new SimpleKeyStorage());
@@ -24,11 +24,10 @@ public class NameFormatBuilderViewModel extends AndroidViewModel implements Sele
     private final BackupNameFormatBuilder mBackupNameFormatBuilder;
     private MutableLiveData<BackupNameFormatBuilder> mLiveFormat;
 
-    public NameFormatBuilderViewModel(@NonNull Application application) {
-        super(application);
-        mOwnMeta = Objects.requireNonNull(PackageMeta.forPackage(application, application.getPackageName()));
+    public NameFormatBuilderViewModel(Context appContext, String format) {
+        mOwnMeta = Objects.requireNonNull(PackageMeta.forPackage(appContext, appContext.getPackageName()));
 
-        mBackupNameFormatBuilder = BackupNameFormatBuilder.fromFormatString(PreferencesHelper.getInstance(application).getBackupFileNameFormat());
+        mBackupNameFormatBuilder = BackupNameFormatBuilder.fromFormatString(format);
         for (BackupNameFormatBuilder.Part part : mBackupNameFormatBuilder.getParts())
             mSelection.setSelected(part, true);
 
@@ -48,10 +47,6 @@ public class NameFormatBuilderViewModel extends AndroidViewModel implements Sele
 
     public LiveData<BackupNameFormatBuilder> getFormat() {
         return mLiveFormat;
-    }
-
-    public void saveFormat() {
-        PreferencesHelper.getInstance(getApplication()).setBackupFileNameFormat(mBackupNameFormatBuilder.build());
     }
 
     @Override
@@ -86,5 +81,23 @@ public class NameFormatBuilderViewModel extends AndroidViewModel implements Sele
         }
 
         mLiveFormat.setValue(mBackupNameFormatBuilder);
+    }
+
+    public static class Factory implements ViewModelProvider.Factory {
+
+        private Context mAppContext;
+        private String mFormat;
+
+        public Factory(Context context, String format) {
+            mAppContext = context.getApplicationContext();
+            mFormat = format;
+        }
+
+        @SuppressWarnings("unchecked")
+        @NonNull
+        @Override
+        public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
+            return (T) new NameFormatBuilderViewModel(mAppContext, mFormat);
+        }
     }
 }

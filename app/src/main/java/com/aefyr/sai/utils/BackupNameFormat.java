@@ -13,7 +13,7 @@ public class BackupNameFormat {
     public static String format(String format, PackageMeta packageMeta) {
         return format.replace(ARG_NAME, packageMeta.label)
                 .replace(ARG_VERSION_CODE, String.valueOf(packageMeta.versionCode))
-                .replace(ARG_VERSION, packageMeta.versionName)
+                .replace(ARG_VERSION, String.valueOf(packageMeta.versionName))
                 .replace(ARG_PACKAGE, packageMeta.packageName)
                 .replace(ARG_TIMESTAMP, String.valueOf(System.currentTimeMillis() / 1000));
     }
