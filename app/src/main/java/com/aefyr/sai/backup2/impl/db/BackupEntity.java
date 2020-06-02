@@ -9,8 +9,10 @@ import androidx.room.Index;
 
 import com.aefyr.sai.backup2.Backup;
 
+import java.io.File;
+
 @Entity(
-        indices = {@Index(value = {"package", "uri", "content_hash"}), @Index(unique = true, value = {"icon_id"})},
+        indices = {@Index(value = {"package", "uri", "content_hash"}), @Index(value = {"icon_file"})},
         primaryKeys = {"uri"}
 )
 public class BackupEntity {
@@ -36,8 +38,8 @@ public class BackupEntity {
     @ColumnInfo(name = "export_timestamp")
     public long exportTimestamp;
 
-    @ColumnInfo(name = "icon_id")
-    public String iconId;
+    @ColumnInfo(name = "icon_file")
+    public String iconFile;
 
     @NonNull
     @ColumnInfo(name = "content_hash")
@@ -67,7 +69,7 @@ public class BackupEntity {
         flags = flags | flag;
     }
 
-    public static BackupEntity fromBackup(Backup backup, String iconId) {
+    public static BackupEntity fromBackup(Backup backup, File iconFile) {
         BackupEntity backupEntity = new BackupEntity();
 
         backupEntity.uri = backup.uri().toString();
@@ -76,7 +78,7 @@ public class BackupEntity {
         backupEntity.versionName = backup.versionName();
         backupEntity.versionCode = backup.versionCode();
         backupEntity.exportTimestamp = backup.creationTime();
-        backupEntity.iconId = iconId;
+        backupEntity.iconFile = iconFile.getAbsolutePath();
         backupEntity.contentHash = backup.contentHash();
         backupEntity.storageId = backup.storageId();
 

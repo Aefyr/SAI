@@ -18,12 +18,14 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class DaoBackedBackupIndex implements BackupIndex {
     private static final String TAG = "DaoBackedBackupIndex";
@@ -34,11 +36,8 @@ public class DaoBackedBackupIndex implements BackupIndex {
     private AppDatabase mAppDb;
 
     private BackupDao mDao;
-    private BackupIconDao mIconDao;
 
-    private String mIconSessionId = UUID.randomUUID().toString();
-
-    private final Object mFallbackIconLock = new Object();
+    private Set<File> mVacuumImmuneFiles = Collections.newSetFromMap(new ConcurrentHashMap<>());
 
     public static synchronized DaoBackedBackupIndex getInstance(Context context) {
         return sInstance != null ? sInstance : new DaoBackedBackupIndex(context);
@@ -48,7 +47,6 @@ public class DaoBackedBackupIndex implements BackupIndex {
         mContext = context.getApplicationContext();
         mAppDb = AppDatabase.getInstance(mContext);
         mDao = mAppDb.backupDao();
-        mIconDao = mAppDb.backupIconDao();
 
         new Thread(this::vacuumIcons, "DaoBackedBackupIndex.IconsVacuum").start();
 
@@ -70,30 +68,29 @@ public class DaoBackedBackupIndex implements BackupIndex {
     @Override
     public void addEntry(Backup backup, BackupIconProvider iconProvider) throws Exception {
 
-        File iconFile;
+        File iconFile = createIconFile();
+        mVacuumImmuneFiles.add(iconFile);
         try {
-            iconFile = writeBackupIcon(mIconSessionId, iconProvider.getIconInputStream(backup));
+            writeBackupIcon(iconFile, iconProvider.getIconInputStream(backup));
         } catch (Exception e) {
             Log.w(TAG, "Unable to write backup icon", e);
-            iconFile = getFallbackIconFile();
+            writeDefaultIcon(iconFile);
         }
-        File finalIconFile = iconFile;
-        String iconId = generateIconFileId(mIconSessionId);
 
         mAppDb.runInTransaction(() -> {
             if (mDao.getBackupMetaForUri(backup.uri().toString()) != null)
                 mDao.removeByUri(backup.uri().toString());
 
-            BackupEntity backupEntity = BackupEntity.fromBackup(backup, iconId);
+            BackupEntity backupEntity = BackupEntity.fromBackup(backup, iconFile);
 
             mDao.insertBackup(backupEntity);
-
-            mIconDao.addIcon(BackupIconEntity.create(iconId, mIconSessionId, finalIconFile));
 
             for (BackupComponent component : backup.components()) {
                 mDao.insertBackupComponent(BackupComponentEntity.fromBackupComponent(backup.uri(), component));
             }
         });
+
+        mVacuumImmuneFiles.remove(iconFile);
     }
 
     @Override
@@ -125,36 +122,37 @@ public class DaoBackedBackupIndex implements BackupIndex {
     @Override
     public void rewrite(List<Backup> newIndex, BackupIconProvider iconProvider) throws Exception {
 
-        Map<Backup, BackupIconEntity> icons = new HashMap<>();
+        Map<Backup, File> icons = new HashMap<>();
 
         for (Backup backup : newIndex) {
-            File iconFile;
+            File iconFile = createIconFile();
+            mVacuumImmuneFiles.add(iconFile);
             try {
-                iconFile = writeBackupIcon(mIconSessionId, iconProvider.getIconInputStream(backup));
+                writeBackupIcon(iconFile, iconProvider.getIconInputStream(backup));
             } catch (Exception e) {
                 Log.w(TAG, "Unable to write backup icon", e);
-                iconFile = getFallbackIconFile();
+                writeDefaultIcon(iconFile);
             }
-            String iconId = generateIconFileId(mIconSessionId);
 
-            icons.put(backup, BackupIconEntity.create(iconId, mIconSessionId, iconFile));
+            icons.put(backup, iconFile);
         }
 
         mAppDb.runInTransaction(() -> {
-            mIconDao.drop();
             mDao.dropAllEntries();
             for (Backup backup : newIndex) {
-                BackupIconEntity iconEntity = Objects.requireNonNull(icons.get(backup));
+                File iconFile = Objects.requireNonNull(icons.get(backup));
 
-                mDao.insertBackup(BackupEntity.fromBackup(backup, iconEntity.id));
-
-                mIconDao.addIcon(iconEntity);
+                mDao.insertBackup(BackupEntity.fromBackup(backup, iconFile));
 
                 for (BackupComponent component : backup.components()) {
                     mDao.insertBackupComponent(BackupComponentEntity.fromBackupComponent(backup.uri(), component));
                 }
             }
         });
+
+        for (File iconFile : icons.values()) {
+            mVacuumImmuneFiles.remove(iconFile);
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -171,24 +169,21 @@ public class DaoBackedBackupIndex implements BackupIndex {
         return backupIconsDir;
     }
 
-    private File writeBackupIcon(String sessionId, InputStream iconInputStream) throws IOException {
-        File iconFile = new File(getIconsDir(), sessionId + "@" + UUID.randomUUID().toString());
+    private File createIconFile() {
+        return new File(getIconsDir(), UUID.randomUUID().toString() + ".png");
+    }
+
+    private void writeBackupIcon(File iconFile, InputStream iconInputStream) throws IOException {
         try (InputStream in = iconInputStream; FileOutputStream out = new FileOutputStream(iconFile)) {
             IOUtils.copyStream(in, out);
         } catch (Exception e) {
             iconFile.delete();
             throw e;
         }
-
-        return iconFile;
     }
 
-    private String generateIconFileId(String sessionId) {
-        return sessionId + "/" + UUID.randomUUID().toString();
-    }
-
-    private String getSessionIdFromIconFile(File iconFile) {
-        return iconFile.getName().split("@")[0];
+    private void writeDefaultIcon(File iconFile) throws IOException {
+        writeBackupIcon(iconFile, mContext.getAssets().open("placeholder_app_icon.png"));
     }
 
     private void vacuumIcons() {
@@ -206,13 +201,12 @@ public class DaoBackedBackupIndex implements BackupIndex {
             }
 
             for (File iconFile : iconFiles) {
-                String sessionId = getSessionIdFromIconFile(iconFile);
-                if (sessionId.equals(mIconSessionId)) {
+                if (mVacuumImmuneFiles.contains(iconFile)) {
                     filesSkipped++;
                     continue;
                 }
 
-                if (mIconDao.containsIcon(sessionId, iconFile.getAbsolutePath())) {
+                if (mDao.containsIcon(iconFile.getAbsolutePath())) {
                     validFiles++;
                 } else {
                     iconFile.delete();
@@ -223,30 +217,6 @@ public class DaoBackedBackupIndex implements BackupIndex {
             Log.i(TAG, String.format("Icons vacuum finished in %d ms.\nValid files: %d\nSkipped files: %d\nDeleted files: %d", sw.millisSinceStart(), validFiles, filesSkipped, filesDeleted));
         } catch (Exception e) {
             Log.w(TAG, String.format("Icons vacuum failed, time spent - %d ms.\nValid files: %d\nSkipped files: %d\nDeleted files: %d", sw.millisSinceStart(), validFiles, filesSkipped, filesDeleted), e);
-        }
-    }
-
-    private File getFallbackIconFile() throws IOException {
-        File fallbackIconDir = new File(mContext.getFilesDir(), "DaoBackedBackupIndex.FallbackIcon");
-        fallbackIconDir.mkdirs();
-
-        File fallbackIconFile = new File(mContext.getFilesDir(), "icon.png");
-
-        synchronized (mFallbackIconLock) {
-            if (fallbackIconFile.exists()) {
-                return fallbackIconFile;
-            }
-
-            File tempFile = new File(mContext.getFilesDir(), "icon.png.temp");
-            try (InputStream in = mContext.getAssets().open("placeholder_app_icon.png"); OutputStream out = new FileOutputStream(fallbackIconFile)) {
-                IOUtils.copyStream(in, out);
-                tempFile.renameTo(fallbackIconFile);
-            } catch (Exception e) {
-                tempFile.delete();
-                throw e;
-            }
-
-            return fallbackIconFile;
         }
     }
 }

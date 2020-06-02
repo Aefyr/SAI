@@ -8,6 +8,7 @@ import androidx.room.Relation;
 import com.aefyr.sai.backup2.Backup;
 import com.aefyr.sai.backup2.BackupComponent;
 
+import java.io.File;
 import java.util.List;
 
 public class BackupWithComponents implements Backup {
@@ -19,12 +20,6 @@ public class BackupWithComponents implements Backup {
             entityColumn = "backup_uri"
     )
     public List<BackupComponentEntity> components;
-
-    @Relation(
-            parentColumn = "icon_id",
-            entityColumn = "id"
-    )
-    public BackupIconEntity icon;
 
     @Override
     public String storageId() {
@@ -48,7 +43,7 @@ public class BackupWithComponents implements Backup {
 
     @Override
     public Uri iconUri() {
-        return icon.iconUri();
+        return Uri.fromFile(new File(backup.iconFile));
     }
 
     @Override

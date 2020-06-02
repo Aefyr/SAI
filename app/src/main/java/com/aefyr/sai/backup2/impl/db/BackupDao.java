@@ -39,6 +39,9 @@ public interface BackupDao {
     @Query("SELECT * FROM BackupEntity WHERE package = :pkg ORDER BY export_timestamp DESC")
     LiveData<List<BackupWithComponents>> getAllBackupsForPackageLiveData(String pkg);
 
+    @Query("SELECT EXISTS (SELECT 1 FROM BackupEntity WHERE icon_file = :iconFile LIMIT 1)")
+    boolean containsIcon(String iconFile);
+
     @Query("DELETE FROM BackupEntity")
     void dropAllEntries();
 }

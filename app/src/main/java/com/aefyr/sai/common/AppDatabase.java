@@ -9,10 +9,8 @@ import androidx.room.RoomDatabase;
 import com.aefyr.sai.backup2.impl.db.BackupComponentEntity;
 import com.aefyr.sai.backup2.impl.db.BackupDao;
 import com.aefyr.sai.backup2.impl.db.BackupEntity;
-import com.aefyr.sai.backup2.impl.db.BackupIconDao;
-import com.aefyr.sai.backup2.impl.db.BackupIconEntity;
 
-@Database(entities = {BackupEntity.class, BackupComponentEntity.class, BackupIconEntity.class}, version = 1)
+@Database(entities = {BackupEntity.class, BackupComponentEntity.class}, version = 1)
 public abstract class AppDatabase extends RoomDatabase {
 
     private static AppDatabase sInstance;
@@ -27,6 +25,4 @@ public abstract class AppDatabase extends RoomDatabase {
 
 
     public abstract BackupDao backupDao();
-
-    public abstract BackupIconDao backupIconDao();
 }
