@@ -55,6 +55,12 @@
     <color name="colorTextPrimaryGold">#e6e6e6</color>
     <color name="colorTextSecondaryGold">#d9d9d9</color>
 
+    <color name="colorAccentRenaLight">@color/colorAccentRena</color>
+    <color name="colorPrimaryRenaLight">@color/colorPureWhite</color>
+    <color name="colorPrimaryLightRenaLight">@color/colorPureWhite</color>
+    <color name="colorTextPrimaryRenaLight">@color/colorFineGrey</color>
+    <color name="colorTextSecondaryRenaLight">@color/colorFineGrey</color>
+
     <!-- Hack for inactive outline color -->
     <color name="mtrl_textinput_default_box_stroke_color" tools:override="true">
         @color/textinputlayout_outline_color

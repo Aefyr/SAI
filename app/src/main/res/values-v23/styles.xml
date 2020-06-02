@@ -125,4 +125,12 @@
         <item name="simpleThemeTextSecondaryColor">@color/colorTextSecondaryGold</item>
     </style>
 
+    <style name="AppTheme.RenaLight" parent="AppTheme.Simple.Light">
+        <item name="simpleThemePrimaryColor">@color/colorPrimaryRenaLight</item>
+        <item name="simpleThemePrimaryLightColor">@color/colorPrimaryLightRenaLight</item>
+        <item name="simpleThemeAccentColor">@color/colorAccentRenaLight</item>
+        <item name="simpleThemeTextPrimaryColor">@color/colorTextPrimaryRenaLight</item>
+        <item name="simpleThemeTextSecondaryColor">@color/colorTextSecondaryRenaLight</item>
+    </style>
+
 </resources>

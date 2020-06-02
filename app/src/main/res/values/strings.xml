@@ -330,6 +330,7 @@
     <string name="theme_sai_fdroid">SAI (F-Droid)</string>
     <string name="theme_dark">Dark</string>
     <string name="theme_gold">Gold</string>
+    <string name="theme_rena_light">Rena Light</string>
 
     <string name="auto_theme_title">Select dark and light themes</string>
     <string name="auto_theme_light_theme">Light theme</string>

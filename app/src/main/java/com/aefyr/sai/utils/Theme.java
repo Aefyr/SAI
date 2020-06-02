@@ -75,6 +75,7 @@ public class Theme {
         mThemes.add(new ThemeDescriptor(6, R.style.AppTheme_FDroid, false, R.string.theme_sai_fdroid, false));
         mThemes.add(new ThemeDescriptor(7, R.style.AppTheme_Dark2, true, R.string.theme_dark, false));
         mThemes.add(new ThemeDescriptor(8, R.style.AppTheme_Gold, true, R.string.theme_gold, true));
+        mThemes.add(new ThemeDescriptor(9, R.style.AppTheme_RenaLight, true, R.string.theme_rena_light, false));
 
         invalidateLiveTheme();
 
