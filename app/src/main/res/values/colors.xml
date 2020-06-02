@@ -61,6 +61,12 @@
     <color name="colorTextPrimaryRenaLight">@color/colorFineGrey</color>
     <color name="colorTextSecondaryRenaLight">@color/colorFineGrey</color>
 
+    <color name="colorAccentMint">#86E2B3</color>
+    <color name="colorPrimaryMint">#141F33</color>
+    <color name="colorPrimaryLightMint">#18243B</color>
+    <color name="colorTextPrimaryMint">#CAD7E0</color>
+    <color name="colorTextSecondaryMint">#C3D0D9</color>
+
     <!-- Hack for inactive outline color -->
     <color name="mtrl_textinput_default_box_stroke_color" tools:override="true">
         @color/textinputlayout_outline_color

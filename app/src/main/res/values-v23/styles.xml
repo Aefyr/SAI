@@ -133,4 +133,12 @@
         <item name="simpleThemeTextSecondaryColor">@color/colorTextSecondaryRenaLight</item>
     </style>
 
+    <style name="AppTheme.Mint" parent="AppTheme.Simple.Dark">
+        <item name="simpleThemePrimaryColor">@color/colorPrimaryMint</item>
+        <item name="simpleThemePrimaryLightColor">@color/colorPrimaryLightMint</item>
+        <item name="simpleThemeAccentColor">@color/colorAccentMint</item>
+        <item name="simpleThemeTextPrimaryColor">@color/colorTextPrimaryMint</item>
+        <item name="simpleThemeTextSecondaryColor">@color/colorTextSecondaryMint</item>
+    </style>
+
 </resources>

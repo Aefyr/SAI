@@ -76,6 +76,7 @@ public class Theme {
         mThemes.add(new ThemeDescriptor(7, R.style.AppTheme_Dark2, true, R.string.theme_dark, false));
         mThemes.add(new ThemeDescriptor(8, R.style.AppTheme_Gold, true, R.string.theme_gold, true));
         mThemes.add(new ThemeDescriptor(9, R.style.AppTheme_RenaLight, false, R.string.theme_rena_light, false));
+        mThemes.add(new ThemeDescriptor(10, R.style.AppTheme_Mint, true, R.string.theme_mint, false));
 
         invalidateLiveTheme();
 
