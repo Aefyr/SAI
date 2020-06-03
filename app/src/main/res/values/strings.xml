@@ -185,6 +185,8 @@
     <string name="backup_lbs_select_dir">Select directory</string>
     <string name="backup_lbs_current_dir">Current backups directory: %s\n\nNote: SAI will only show backups from the currently selected directory.</string>
     <string name="backup_settings">Backup settings</string>
+    <string name="backup_open_app_in_system_settings">Open in system settings</string>
+    <string name="backup_open_app_in_system_settings_error">Unable to open app in system settings</string>
 
     <string name="settings_title">Settings</string>
     <string name="settings_main_home_directory">Home directory</string>

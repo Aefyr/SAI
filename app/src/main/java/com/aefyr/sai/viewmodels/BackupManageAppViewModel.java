@@ -33,6 +33,10 @@ public class BackupManageAppViewModel extends ViewModel {
         return mDetailsLiveData;
     }
 
+    public String getPackage() {
+        return mPackage;
+    }
+
     @Nullable
     public Backup getLatestBackup() {
         BackupAppDetails details = mDetailsLiveData.getValue();

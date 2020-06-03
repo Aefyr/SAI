@@ -15,9 +15,15 @@
         <ImageButton
             android:id="@+id/ib_close"
             style="@style/SAICoolbarImageButton"
-            android:contentDescription="@string/help"
             app:coolbar_gravity="start"
             app:srcCompat="@drawable/ic_go_back"
+            tools:ignore="MissingPrefix" />
+
+        <ImageButton
+            android:id="@+id/ib_app_details_menu"
+            style="@style/SAICoolbarImageButton"
+            app:coolbar_gravity="end"
+            app:srcCompat="@drawable/ic_more"
             tools:ignore="MissingPrefix" />
     </com.aefyr.sai.view.coolbar.Coolbar>
 

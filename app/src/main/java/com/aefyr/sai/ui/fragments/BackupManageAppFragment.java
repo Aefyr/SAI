@@ -3,11 +3,15 @@ package com.aefyr.sai.ui.fragments;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Settings;
+import android.util.Log;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.PopupMenu;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -27,6 +31,8 @@ import com.aefyr.sai.viewmodels.BackupManageAppViewModel;
 import com.aefyr.sai.viewmodels.factory.BackupManageAppViewModelFactory;
 
 public class BackupManageAppFragment extends SaiBaseFragment implements BackupAppDetailsAdapter.ActionDelegate {
+    private static final String TAG = "BackupManageAppFragment";
+
     private static final String EXTRA_PKG = "pkg";
 
     private BackupManageAppViewModel mViewModel;
@@ -56,6 +62,9 @@ public class BackupManageAppFragment extends SaiBaseFragment implements BackupAp
         Coolbar coolbar = findViewById(R.id.coolbar_backup_manage_app);
         findViewById(R.id.ib_close).setOnClickListener(v -> dismiss());
 
+        ImageButton moreOptionsButton = findViewById(R.id.ib_app_details_menu);
+        moreOptionsButton.setOnClickListener(this::showMenu);
+
         RecyclerView recycler = findViewById(R.id.rv_backup_app_details);
         recycler.setLayoutManager(new LinearLayoutManager(requireContext()));
 
@@ -67,18 +76,47 @@ public class BackupManageAppFragment extends SaiBaseFragment implements BackupAp
                 case LOADING:
                     coolbar.setTitle(getString(R.string.backup_app_details_loading));
                     detailsAdapter.setDetails(null);
+                    moreOptionsButton.setVisibility(View.GONE);
                     break;
                 case READY:
                     coolbar.setTitle(details.app().packageMeta().label);
                     detailsAdapter.setDetails(details);
+                    moreOptionsButton.setVisibility(View.VISIBLE);
                     break;
                 case ERROR:
                     detailsAdapter.setDetails(null);
+                    moreOptionsButton.setVisibility(View.GONE);
                     Toast.makeText(requireContext(), R.string.backup_app_details_error, Toast.LENGTH_LONG).show();
                     dismiss();
                     break;
             }
         });
+    }
+
+    private void showMenu(View anchor) {
+        PopupMenu popupMenu = new PopupMenu(requireContext(), anchor);
+        popupMenu.getMenuInflater().inflate(R.menu.app_details, popupMenu.getMenu());
+
+        popupMenu.setOnMenuItemClickListener((menuItem) -> {
+            switch (menuItem.getItemId()) {
+                case R.id.menu_backup_open_app_in_system_settings:
+                    openAppInSystemSettings();
+                    break;
+            }
+            return true;
+        });
+
+        popupMenu.show();
+    }
+
+    private void openAppInSystemSettings() {
+        try {
+            Intent settingsIntent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, new Uri.Builder().scheme("package").opaquePart(mViewModel.getPackage()).build());
+            startActivity(settingsIntent);
+        } catch (Exception e) {
+            Log.w(TAG, "Unable to open app in system settings", e);
+            Toast.makeText(requireContext(), R.string.backup_open_app_in_system_settings_error, Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
@@ -94,7 +132,7 @@ public class BackupManageAppFragment extends SaiBaseFragment implements BackupAp
     @Override
     public void deleteApp(BackupApp backupApp) {
         Intent intent = new Intent(Intent.ACTION_UNINSTALL_PACKAGE);
-        intent.setData(Uri.parse("package:" + backupApp.packageMeta().packageName));
+        intent.setData(new Uri.Builder().scheme("package").opaquePart(backupApp.packageMeta().packageName).build());
         startActivity(intent);
     }
 

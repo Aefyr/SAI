@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:title="@string/backup_open_app_in_system_settings"
+        android:id="@+id/menu_backup_open_app_in_system_settings" />
+</menu>
