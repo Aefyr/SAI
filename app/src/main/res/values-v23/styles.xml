@@ -19,7 +19,7 @@
         <item name="colorControlActivated">?attr/colorAccent</item>
         <item name="android:colorControlActivated">?attr/colorAccent</item>
         <item name="popupMenuStyle">@style/SAIPopupMenu.Light</item>
-        <item name="popupMenuBackgroundTint">?colorPrimary</item>
+        <item name="popupMenuBackgroundTint">?colorPrimaryLight</item>
     </style>
 
     <style name="AppTheme.Dark" parent="Theme.MaterialComponents.NoActionBar">
@@ -40,7 +40,7 @@
         <item name="colorControlActivated">?attr/colorAccent</item>
         <item name="android:colorControlActivated">?attr/colorAccent</item>
         <item name="popupMenuStyle">@style/SAIPopupMenu.Dark</item>
-        <item name="popupMenuBackgroundTint">?colorPrimary</item>
+        <item name="popupMenuBackgroundTint">?colorPrimaryLight</item>
     </style>
 
     <style name="AppTheme.Simple.Dark" parent="AppTheme.Dark">
