@@ -208,8 +208,6 @@
     <string name="sss_dont_replace_dots_summary">Trong tên tệp ứng dụng đã xuất</string>
     <string name="sss_custom_install_create_title">Lệnh cài đặt-tạo tùy chỉnh</string>
     <string name="sss_custom_install_create_summary">Lệnh cài đặt tạo tùy chỉnh sẽ được sử dụng để tạo phiên pm được sử dụng trong trình cài đặt đã root và Shizuku, lệnh không được chứa bất kỳ khoảng trắng nào ngoại trừ các khoảng cách tách biệt các đối số (\'dấu cách trong dấu ngoặc kép\' cũng sẽ được chia thành các đối số). Nhập \"null\" để tắt</string>
-    <string name="sss_use_installer_2_summary">Khởi động lại SAI để áp dụng</string>
-    <string name="sss_use_installer_2_title">Dùng trình cài đặt 2</string>
     <string name="mi_continue_countdown">Bạn có thể tiếp tục trong %d giây.</string>
     <string name="mi_continue">Tiếp tục</string>
     <string name="mi_miui_version">Phiên bản MIUI - %1$s (%2$d (%3$s))</string>

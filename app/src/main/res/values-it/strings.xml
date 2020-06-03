@@ -208,8 +208,6 @@
     <string name="sss_dont_replace_dots_summary">Nel nome del file app esportata</string>
     <string name="sss_custom_install_create_title">Comando installazione-creazione personalizzata</string>
     <string name="sss_custom_install_create_summary">Il comando personalizzato di installazione-creazione che verrà utilizzato dalla sessione pm del programma di installazione in modalità Rooted e Shizuku, non deve contenere spazi ad eccezione di quelli che separano gli argomenti (\'gli spazi tra le virgolette\' verranno suddivisi anche in argomenti). Inserisci \"null\" per disabilitarlo</string>
-    <string name="sss_use_installer_2_summary">Riavvia SAI per applicare</string>
-    <string name="sss_use_installer_2_title">Usa installer2</string>
     <string name="mi_continue_countdown">Puoi continuare in %d s.</string>
     <string name="mi_continue">Continua</string>
     <string name="mi_miui_version">Versione MIUI - %1$s (%2$d (%3$s))</string>

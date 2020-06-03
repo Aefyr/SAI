@@ -208,8 +208,6 @@
     <string name="sss_dont_replace_dots_summary">في اسم ملف التطبيق المصدر</string>
     <string name="sss_custom_install_create_title">إنشاء أمر تثبيت مخصص</string>
     <string name="sss_custom_install_create_summary">إنشاء أمر تثبيت مخصص سيتم إستخدامه لإنشاء جلسة عمل PM المستخدمة في مثبتات Rooted و Shizuku ، يجب ألا يحتوي الأمر على أي مسافات باستثناء تلك التي تفصل الوسيطات (سيتم تقسيم المسافات في علامات الاقتباس إلى وسيطات أيضًا). أدخل \"null\" لتعطيله</string>
-    <string name="sss_use_installer_2_summary">Restart SAI to apply</string>
-    <string name="sss_use_installer_2_title">إستخدام المثبت 2</string>
     <string name="mi_continue_countdown">You can continue in %d s.</string>
     <string name="mi_continue">الإستمرار</string>
     <string name="mi_miui_version">MIUI version - %1$s (%2$d (%3$s))</string>

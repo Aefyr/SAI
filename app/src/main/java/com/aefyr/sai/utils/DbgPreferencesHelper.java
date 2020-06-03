@@ -31,7 +31,7 @@ public class DbgPreferencesHelper {
         return command;
     }
 
-    public boolean useInstaller2() {
-        return mPrefs.getBoolean(DbgPreferencesKeys.USE_INSTALLER_2, false);
+    public boolean addFakeTimestampToBackups() {
+        return mPrefs.getBoolean(DbgPreferencesKeys.ADD_FAKE_TIMESTAMP_TO_BACKUPS, false);
     }
 }

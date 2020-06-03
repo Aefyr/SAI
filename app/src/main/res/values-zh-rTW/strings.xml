@@ -208,8 +208,6 @@
     <string name="sss_dont_replace_dots_summary">In exported app file name</string>
     <string name="sss_custom_install_create_title">Custom install-create command</string>
     <string name="sss_custom_install_create_summary">Custom install-create command that will be used to create pm session used in Rooted and Shizuku installers, the command must not contain any spaces except for the ones that separate arguments (\'spaces in quotes\' will be split into arguments as well). Enter \"null\" to disable</string>
-    <string name="sss_use_installer_2_summary">Restart SAI to apply</string>
-    <string name="sss_use_installer_2_title">Use installer2</string>
     <string name="mi_continue_countdown">You can continue in %d s.</string>
     <string name="mi_continue">繼續</string>
     <string name="mi_miui_version">MIUI 版本 - %1$s (%2$d (%3$s))</string>

@@ -209,8 +209,6 @@
     <string name="sss_dont_replace_dots_summary">エクスポートしたアプリのファイル名</string>
     <string name="sss_custom_install_create_title">カスタムインストールコマンド</string>
     <string name="sss_custom_install_create_summary">RootedとShizuku installerのpm(パッケージマネージャー)セッションの作成に使うカスタムインストールコマンド。コマンドには、引数を区切る用途以外のスペースを含めてはいけません(\"括弧内 の スペース\"も引数を区切るものだと見做されます)。無効にするには「null」と入力してください。</string>
-    <string name="sss_use_installer_2_summary">SAIを再起動して適用</string>
-    <string name="sss_use_installer_2_title">installer2を使用</string>
     <string name="mi_continue_countdown">%d 秒後に続行できます。</string>
     <string name="mi_continue">続行</string>
     <string name="mi_miui_version">MIUI version - %1$s (%2$d (%3$s))</string>

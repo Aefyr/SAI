@@ -208,8 +208,6 @@
     <string name="sss_dont_replace_dots_summary">No nome do arquivo do aplicativo exportado</string>
     <string name="sss_custom_install_create_title">Comando Custom Install-Create</string>
     <string name="sss_custom_install_create_summary">Comando personalizado install-create que será usado para criar a sessão pm usada nos instaladores Rooted e Shizuku, o comando não deve conter espaços, exceto os que separam argumentos (\'espaços entre aspas\' também serão divididos em argumentos). Digite \"null\" para desativar</string>
-    <string name="sss_use_installer_2_summary">Reinicie o SAI para aplicar</string>
-    <string name="sss_use_installer_2_title">Usar instalador2</string>
     <string name="mi_continue_countdown">Você pode continuar em %d s.</string>
     <string name="mi_continue">Continuar</string>
     <string name="mi_miui_version">Versão da MIUI - %1$s (%2$d (%3$s))</string>

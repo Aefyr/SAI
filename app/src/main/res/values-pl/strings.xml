@@ -208,8 +208,6 @@
     <string name="sss_dont_replace_dots_summary">W nazwie pliku eksportowanej aplikacji</string>
     <string name="sss_custom_install_create_title">Własne polecenie tworzenia instalacji</string>
     <string name="sss_custom_install_create_summary">Własne polecenie tworzenia instalacji, które będzie używane do tworzenia sesji pm w instalatorach Root i Shizuku, polecenie nie może zawierać żadnych spacji, z wyjątkiem tych, które oddzielają argumenty (spacje w cudzysłowach również zostaną podzielone na argumenty). Wprowadź \"null\", aby wyłączyć.</string>
-    <string name="sss_use_installer_2_summary">Zrestartuj SAI, aby zastosować</string>
-    <string name="sss_use_installer_2_title">Używaj installer2</string>
     <string name="mi_continue_countdown">Możesz kontynuować za %d s.</string>
     <string name="mi_continue">Kontynuuj</string>
     <string name="mi_miui_version">Wersja MIUI - %1$s (%2$d (%3$s))</string>
