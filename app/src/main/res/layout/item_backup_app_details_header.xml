@@ -57,28 +57,31 @@
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/button_backup_app_details_backup"
                 style="@style/SAIMaterialButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_margin="8dp"
                 android:layout_weight="1"
+                android:singleLine="false"
                 android:text="@string/backup_app_details_backup" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/button_backup_app_details_delete"
                 style="@style/SAIMaterialButton.Outlined"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_margin="8dp"
                 android:layout_weight="1"
+                android:singleLine="false"
                 android:text="@string/backup_app_details_delete" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/button_backup_app_details_install"
                 style="@style/SAIMaterialButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_margin="8dp"
                 android:layout_weight="1"
+                android:singleLine="false"
                 android:text="@string/backup_app_details_install" />
         </LinearLayout>
     </LinearLayout>
