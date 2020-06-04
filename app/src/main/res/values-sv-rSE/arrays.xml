@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="file_picker_sort_variants">
+        <item>"Efter namn (alfabetisk)"</item>
+        <item>"Efter namn (omvänd alfabetisk)"</item>
+        <item>"Senast ändrade först"</item>
+        <item>"Äldst ändrade först"</item>
+        <item>"Minsta filstorlek först"</item>
+        <item>"Största filstorlek först"</item>
+    </string-array>
+    <string-array name="installers">
+        <item>"Root-lös (rekommenderas)"</item>
+        <item>"Rootad (kräver root)"</item>
+        <item>"Shizuku (kräver Shizuku 3.x)"</item>
+    </string-array>
+    <string-array name="size_units">
+        <item>B</item>
+        <item>KB</item>
+        <item>MB</item>
+        <item>GB</item>
+        <item>TB</item>
+        <item>PB</item>
+    </string-array>
+    <string-array name="backup_file_name_formats">
+        <item>NAMN_PAKET_VERSION.apks</item>
+        <item>NAMN.apks</item>
+        <item>NAMN_VERSION.apks</item>
+    </string-array>
+    <string-array name="install_locations">
+        <item>Låt systemet bestämma</item>
+        <item>Endast internt</item>
+        <item>Föredrar extern (Systemet kan fortfarande välja att använda internt)</item>
+    </string-array>
+    <string-array name="name_format_parts">
+        <item>Namn</item>
+        <item>Version</item>
+        <item>Versionskod</item>
+        <item>Paket</item>
+        <item>Tidsstämpel</item>
+    </string-array>
+    <string-array name="backup_dir_selection_methods">
+        <item>Intern filväljare</item>
+        <item>Systemets filväljare</item>
+    </string-array>
+</resources>
