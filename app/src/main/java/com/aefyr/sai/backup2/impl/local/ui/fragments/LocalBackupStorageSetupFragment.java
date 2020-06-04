@@ -3,6 +3,7 @@ package com.aefyr.sai.backup2.impl.local.ui.fragments;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -36,7 +37,9 @@ public class LocalBackupStorageSetupFragment extends SaiBaseFragment implements 
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        findViewById(R.id.button_lbs_select_dir).setOnClickListener(v -> selectBackupDir());
+        Button selectDirButton = findViewById(R.id.button_lbs_select_dir);
+        selectDirButton.setOnClickListener(v -> selectBackupDir());
+        selectDirButton.requestFocus(); //TV fix
     }
 
     private void selectBackupDir() {

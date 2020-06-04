@@ -65,13 +65,15 @@
 
         </LinearLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
+        <com.aefyr.sai.view.NonInteractiveRecyclerView
             android:id="@+id/rv_backup_components"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:overScrollMode="never"
             android:paddingStart="4dp"
-            android:paddingEnd="4dp" />
+            android:paddingEnd="4dp"
+            android:focusable="false"
+            android:focusableInTouchMode="false" />
 
         <TextView
             android:id="@+id/tv_backup_incompatible_version_warning"
