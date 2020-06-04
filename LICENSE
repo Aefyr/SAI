@@ -647,6 +647,14 @@ the "copyright" line and a pointer to where the full notice is found.
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+    Additional permission under GNU GPL version 3 section 7
+
+    If you modify this Program, or any covered work, by linking or
+    combining it with Google Play Billing Library (or a modified version
+    of that library), containing parts covered by the terms of Android
+    Software Development Kit License Agreement, the licensors of this
+    Program grant you additional permission to convey the resulting work.
+
 Also add information on how to contact you by electronic and paper mail.
 
   If the program does terminal interaction, make it output a short
