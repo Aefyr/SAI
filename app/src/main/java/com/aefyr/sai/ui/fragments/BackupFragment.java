@@ -210,6 +210,7 @@ public class BackupFragment extends SaiBaseFragment implements BackupPackagesAda
         findViewById(R.id.ib_backup_select_all).setOnClickListener(v -> mViewModel.selectAllApps());
 
         //Selection/Search switching
+        mSearchBar = findViewById(R.id.card_search);
         View searchBarContainer = findViewById(R.id.container_backup_search_bar);
         View selectionBarContainer = findViewById(R.id.container_backup_selection_bar);
         NumberTextView selectionStatus = findViewById(R.id.tv_backup_selection_status);
@@ -257,7 +258,6 @@ public class BackupFragment extends SaiBaseFragment implements BackupPackagesAda
 
         //Hide on scroll
         if (!Utils.isTv(requireContext())) {
-            mSearchBar = findViewById(R.id.card_search);
             RecyclerView recyclerView = findViewById(R.id.rv_packages);
             recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
                 @Override
