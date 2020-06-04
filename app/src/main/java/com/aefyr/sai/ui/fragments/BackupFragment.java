@@ -40,7 +40,6 @@ import com.aefyr.sai.utils.MathUtils;
 import com.aefyr.sai.utils.PreferencesHelper;
 import com.aefyr.sai.utils.PreferencesKeys;
 import com.aefyr.sai.utils.Utils;
-import com.aefyr.sai.view.NumberTextView;
 import com.aefyr.sai.viewmodels.BackupViewModel;
 import com.google.android.material.button.MaterialButton;
 
@@ -213,7 +212,7 @@ public class BackupFragment extends SaiBaseFragment implements BackupPackagesAda
         mSearchBar = findViewById(R.id.card_search);
         View searchBarContainer = findViewById(R.id.container_backup_search_bar);
         View selectionBarContainer = findViewById(R.id.container_backup_selection_bar);
-        NumberTextView selectionStatus = findViewById(R.id.tv_backup_selection_status);
+        TextView selectionStatus = findViewById(R.id.tv_backup_selection_status);
 
         ImageButton toolbarActionButton = findViewById(R.id.ib_backup_toolbar_action);
 
@@ -223,7 +222,7 @@ public class BackupFragment extends SaiBaseFragment implements BackupPackagesAda
                 searchBarContainer.setVisibility(View.GONE);
                 selectionBarContainer.setVisibility(View.VISIBLE);
 
-                selectionStatus.setNumber(selection.size(), true);
+                selectionStatus.setText(String.valueOf(selection.size()));
 
                 actionButton.setText(R.string.backup_enqueue);
                 actionButton.setIconResource(R.drawable.ic_backup_enqueue);
@@ -242,7 +241,7 @@ public class BackupFragment extends SaiBaseFragment implements BackupPackagesAda
                 searchBarContainer.setVisibility(View.VISIBLE);
                 selectionBarContainer.setVisibility(View.GONE);
 
-                selectionStatus.setNumber(0, false);
+                selectionStatus.setText("0");
 
                 actionButton.setText(R.string.backup_filter);
                 actionButton.setIconResource(R.drawable.ic_filter);

@@ -83,16 +83,17 @@
                 android:layout_height="match_parent"
                 android:orientation="horizontal">
 
-                <com.aefyr.sai.view.NumberTextView
+                <TextView
                     android:id="@+id/tv_backup_selection_status"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_marginStart="4dp"
                     android:layout_weight="1"
                     android:background="@android:color/transparent"
+                    android:gravity="start|center_vertical"
                     android:padding="4dp"
-                    app:textColor="?android:attr/textColorSecondary"
-                    app:textSize="16sp" />
+                    android:textColor="?android:attr/textColorSecondary"
+                    android:textSize="16sp" />
 
                 <androidx.appcompat.widget.AppCompatImageButton
                     android:id="@+id/ib_backup_select_all"

@@ -11,11 +11,6 @@
         <attr name="titleColor" format="color" />
     </declare-styleable>
 
-    <declare-styleable name="NumberTextView">
-        <attr name="textSize" format="dimension" />
-        <attr name="textColor" format="color" />
-    </declare-styleable>
-
     <attr name="colorPrimaryLight" format="color" />
 
     <attr name="simpleThemePrimaryColor" format="color" />
