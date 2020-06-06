@@ -1,5 +1,4 @@
 apply plugin: 'com.android.application'
-apply plugin: 'io.fabric'
 
 android {
     compileSdkVersion 29
@@ -65,8 +64,8 @@ dependencies {
     annotationProcessor "androidx.room:room-compiler:$room_version"
 
     //Google services
-    normalImplementation 'com.google.firebase:firebase-analytics:17.4.2'
-    normalImplementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
+    normalImplementation 'com.google.firebase:firebase-analytics:17.4.3'
+    normalImplementation 'com.google.firebase:firebase-crashlytics:17.0.1'
     normalImplementation 'com.android.billingclient:billing:2.2.1'
 
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.3'
@@ -81,4 +80,10 @@ gradle.taskGraph.beforeTask {
     }
 }
 
-apply plugin: 'com.google.gms.google-services'
+if (getGradle().getStartParameter().getTaskRequests().toString().contains("Normal")){
+    println "Google Play build detected, applying Google Services and Crashlytics plugins"
+    apply plugin: 'com.google.gms.google-services'
+    apply plugin: 'com.google.firebase.crashlytics'
+}
+
+

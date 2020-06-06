@@ -257,6 +257,7 @@
     <string name="sss_custom_install_create_summary">Custom install-create command that will be used to create pm session used in Rooted and Shizuku installers, the command must not contain any spaces except for the ones that separate arguments (\'spaces in quotes\' will be split into arguments as well). Enter \"null\" to disable</string>
     <string name="sss_fake_backup_timestamp">Fake backup timestamp</string>
     <string name="sss_fake_backup_timestamp_summary">Add constant timestamp (Jan 1 2000, 00:00) to backups. Makes hashes of backup files of the same APK files same. SAI will have no idea what backup is the latest one though</string>
+    <string name="sss_test_crash">Crash app</string>
 
     <string name="mi_continue_countdown">You can continue in %d s.</string>
     <string name="mi_continue">Continue</string>

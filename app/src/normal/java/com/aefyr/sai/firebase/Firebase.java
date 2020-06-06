@@ -4,8 +4,7 @@ import android.content.Context;
 
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.analytics.FirebaseAnalytics;
-
-import io.fabric.sdk.android.services.common.DataCollectionArbiter;
+import com.google.firebase.crashlytics.FirebaseCrashlytics;
 
 public class Firebase {
 
@@ -14,7 +13,11 @@ public class Firebase {
 
         FirebaseApp.getInstance().setDataCollectionDefaultEnabled(enabled);
         FirebaseAnalytics.getInstance(appContext).setAnalyticsCollectionEnabled(enabled);
-        DataCollectionArbiter.getInstance(appContext).setCrashlyticsDataCollectionEnabled(enabled);
+
+        FirebaseCrashlytics crashlytics = FirebaseCrashlytics.getInstance();
+        crashlytics.deleteUnsentReports();
+        crashlytics.setCrashlyticsCollectionEnabled(enabled);
+        crashlytics.deleteUnsentReports();
     }
 
 }

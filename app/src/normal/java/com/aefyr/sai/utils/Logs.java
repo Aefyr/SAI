@@ -10,7 +10,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.crashlytics.android.Crashlytics;
+import com.google.firebase.crashlytics.FirebaseCrashlytics;
 
 import java.util.Objects;
 
@@ -20,15 +20,20 @@ import java.util.Objects;
 public class Logs {
 
     private static PreferencesHelper sPrefsHelper;
+    private static FirebaseCrashlytics sCrashlytics;
 
     public static void init(Context context) {
         sPrefsHelper = PreferencesHelper.getInstance(context.getApplicationContext());
+        sCrashlytics = FirebaseCrashlytics.getInstance();
     }
 
     //Log.v
     public static int v(String tag, String message, Throwable tr) {
         if (isCrashlyticsAvailable() && message != null)
-            Crashlytics.log(Log.VERBOSE, tag, message);
+            log(LogLevel.VERBOSE, tag, message);
+
+        if (tr != null)
+            logException(tr);
 
         return Log.v(tag, message, tr);
     }
@@ -40,7 +45,10 @@ public class Logs {
     //Log.d
     public static int d(String tag, String message, Throwable tr) {
         if (isCrashlyticsAvailable() && message != null)
-            Crashlytics.log(Log.DEBUG, tag, message);
+            log(LogLevel.DEBUG, tag, message);
+
+        if (tr != null)
+            logException(tr);
 
         return Log.d(tag, message, tr);
     }
@@ -52,7 +60,10 @@ public class Logs {
     //Log.i
     public static int i(String tag, String message, Throwable tr) {
         if (isCrashlyticsAvailable() && message != null)
-            Crashlytics.log(Log.INFO, tag, message);
+            log(LogLevel.INFO, tag, message);
+
+        if (tr != null)
+            logException(tr);
 
         return Log.i(tag, message, tr);
     }
@@ -64,7 +75,10 @@ public class Logs {
     //Log.w
     public static int w(String tag, String message, Throwable tr) {
         if (isCrashlyticsAvailable() && message != null)
-            Crashlytics.log(Log.WARN, tag, message);
+            log(LogLevel.WARN, tag, message);
+
+        if (tr != null)
+            logException(tr);
 
         return Log.w(tag, message, tr);
     }
@@ -80,7 +94,10 @@ public class Logs {
     //Log.e
     public static int e(String tag, String message, Throwable tr) {
         if (isCrashlyticsAvailable() && message != null)
-            Crashlytics.log(Log.ERROR, tag, message);
+            log(LogLevel.ERROR, tag, message);
+
+        if (tr != null)
+            logException(tr);
 
         return Log.e(tag, message, tr);
     }
@@ -92,7 +109,10 @@ public class Logs {
     //Log.wtf
     public static int wtf(String tag, String message, Throwable tr) {
         if (isCrashlyticsAvailable() && message != null)
-            Crashlytics.log(Log.ERROR, tag, message);
+            log(LogLevel.ASSERT, tag, message);
+
+        if (tr != null)
+            logException(tr);
 
         return Log.wtf(tag, message, tr);
     }
@@ -105,20 +125,39 @@ public class Logs {
         return wtf(tag, null, tr);
     }
 
+
     //Crashlytics
+    private static void log(LogLevel level, String tag, String message) {
+        sCrashlytics.log(String.format("%s/%s %s", level.format(), tag, message));
+    }
+
     public static void logException(Throwable tr) {
         if (isCrashlyticsAvailable())
-            Crashlytics.logException(tr);
+            sCrashlytics.recordException(tr);
     }
 
     private static boolean isCrashlyticsAvailable() {
-        try {
-            Crashlytics.getInstance();
-        } catch (IllegalStateException e) {
-            return false;
+        return sPrefsHelper.isFirebaseEnabled();
+    }
+
+    private enum LogLevel {
+        VERBOSE("V"),
+        DEBUG("D"),
+        INFO("I"),
+        WARN("W"),
+        ERROR("E"),
+        ASSERT("A");
+
+        private String mName;
+
+        LogLevel(String name) {
+            mName = name;
         }
 
-        return sPrefsHelper.isFirebaseEnabled();
+        private String format() {
+            return mName;
+        }
+
     }
 
     public static class InitProvider extends ContentProvider {
