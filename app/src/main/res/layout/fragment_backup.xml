@@ -59,6 +59,7 @@
                     android:background="@android:color/transparent"
                     android:ems="10"
                     android:hint="@string/backup_search_hint"
+                    android:includeFontPadding="false"
                     android:inputType="text"
                     android:padding="4dp"
                     android:singleLine="true"
@@ -91,6 +92,7 @@
                     android:layout_weight="1"
                     android:background="@android:color/transparent"
                     android:gravity="start|center_vertical"
+                    android:includeFontPadding="false"
                     android:padding="4dp"
                     android:textColor="?android:attr/textColorSecondary"
                     android:textSize="16sp" />
