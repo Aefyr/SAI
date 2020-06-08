@@ -71,15 +71,6 @@ dependencies {
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.3'
 }
 
-//Cancel google services/fabric plugins for fdroid flavor
-gradle.taskGraph.beforeTask {
-    String taskName = it.name.toLowerCase()
-    if (taskName.contains("fdroid") && (taskName.contains("googleservices") || taskName.contains("fabric"))) {
-        println(String.format("Cancelling task \"%s\" due to fdroid build flavor", it.name))
-        it.setEnabled(false)
-    }
-}
-
 if (getGradle().getStartParameter().getTaskRequests().toString().contains("Normal")){
     println "Google Play build detected, applying Google Services and Crashlytics plugins"
     apply plugin: 'com.google.gms.google-services'
