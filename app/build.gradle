@@ -22,6 +22,7 @@ android {
         normal {
             dimension "version"
             buildConfigField "int", "DEFAULT_THEME", "0"
+            buildConfigField "int", "DEFAULT_DARK_THEME", "1"
             buildConfigField "boolean", "IS_FLOSS_BUILD", "false"
         }
 
@@ -29,6 +30,7 @@ android {
             dimension "version"
             applicationId "com.aefyr.sai.fdroid"
             buildConfigField "int", "DEFAULT_THEME", "6"
+            buildConfigField "int", "DEFAULT_DARK_THEME", "11"
             buildConfigField "boolean", "IS_FLOSS_BUILD", "true"
         }
     }

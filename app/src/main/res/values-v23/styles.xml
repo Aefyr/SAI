@@ -141,4 +141,12 @@
         <item name="simpleThemeTextSecondaryColor">@color/colorTextSecondaryMint</item>
     </style>
 
+    <style name="AppTheme.FDroidDark" parent="AppTheme.Simple.Dark">
+        <item name="simpleThemePrimaryColor">@color/colorPrimaryFDroidDark</item>
+        <item name="simpleThemePrimaryLightColor">@color/colorPrimaryLightFDroidDark</item>
+        <item name="simpleThemeAccentColor">@color/colorAccentFDroidDark</item>
+        <item name="simpleThemeTextPrimaryColor">@color/colorTextPrimaryFDroidDark</item>
+        <item name="simpleThemeTextSecondaryColor">@color/colorTextSecondaryFDroidDark</item>
+    </style>
+
 </resources>

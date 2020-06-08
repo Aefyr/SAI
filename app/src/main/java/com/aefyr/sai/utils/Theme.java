@@ -27,7 +27,7 @@ public class Theme {
     private static final String THEME_TAG_DARK = "dark";
 
     private static final int DEFAULT_LIGHT_THEME_ID = BuildConfig.DEFAULT_THEME;
-    private static final int DEFAULT_DARK_THEME_ID = 1;
+    private static final int DEFAULT_DARK_THEME_ID = BuildConfig.DEFAULT_DARK_THEME;
 
     public enum Mode {
         /**
@@ -77,6 +77,7 @@ public class Theme {
         mThemes.add(new ThemeDescriptor(8, R.style.AppTheme_Gold, true, R.string.theme_gold, true));
         mThemes.add(new ThemeDescriptor(9, R.style.AppTheme_RenaLight, false, R.string.theme_rena_light, false));
         mThemes.add(new ThemeDescriptor(10, R.style.AppTheme_Mint, true, R.string.theme_mint, false));
+        mThemes.add(new ThemeDescriptor(11, R.style.AppTheme_FDroidDark, true, R.string.theme_fdroid_dark, false));
 
         invalidateLiveTheme();
 

@@ -67,6 +67,12 @@
     <color name="colorTextPrimaryMint">#CAD7E0</color>
     <color name="colorTextSecondaryMint">#C3D0D9</color>
 
+    <color name="colorAccentFDroidDark">#8bc34a</color>
+    <color name="colorPrimaryFDroidDark">#1C1D21</color>
+    <color name="colorPrimaryLightFDroidDark">#1F2024</color>
+    <color name="colorTextPrimaryFDroidDark">#EDEDED</color>
+    <color name="colorTextSecondaryFDroidDark">#E6E6E6</color>
+
     <!-- Hack for inactive outline color -->
     <color name="mtrl_textinput_default_box_stroke_color" tools:override="true">
         @color/textinputlayout_outline_color
