@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.os.Handler;
 
+import androidx.annotation.Nullable;
+
 import com.aefyr.sai.backup2.Backup;
 import com.aefyr.sai.backup2.backuptask.config.SingleBackupTaskConfig;
 
@@ -113,7 +115,7 @@ public abstract class SingleBackupTaskExecutor implements CancellableBackupTaskE
             mListenerHandler.post(() -> mListener.onCancelled());
     }
 
-    protected void notifySucceeded(Backup backup) {
+    protected void notifySucceeded(@Nullable Backup backup) {
         if (mListener != null)
             mListenerHandler.post(() -> mListener.onSuccess(backup));
     }
@@ -141,7 +143,7 @@ public abstract class SingleBackupTaskExecutor implements CancellableBackupTaskE
 
         void onCancelled();
 
-        void onSuccess(Backup backup);
+        void onSuccess(@Nullable Backup backup);
 
         void onError(Exception e);
 

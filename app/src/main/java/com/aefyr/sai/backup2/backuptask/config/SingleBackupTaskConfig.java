@@ -3,8 +3,6 @@ package com.aefyr.sai.backup2.backuptask.config;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import androidx.annotation.Nullable;
-
 import com.aefyr.sai.model.common.PackageMeta;
 
 import java.io.File;
@@ -28,8 +26,9 @@ public class SingleBackupTaskConfig implements Parcelable, BackupTaskConfig {
     private String mBackupStorageId;
     private PackageMeta mPackageMeta;
     private ArrayList<File> mApksToBackup = new ArrayList<>();
+    private boolean mExportMode = false;
 
-    private SingleBackupTaskConfig(@Nullable String backupStorageId, PackageMeta packageMeta) {
+    private SingleBackupTaskConfig(String backupStorageId, PackageMeta packageMeta) {
         mBackupStorageId = backupStorageId;
         mPackageMeta = packageMeta;
     }
@@ -42,6 +41,8 @@ public class SingleBackupTaskConfig implements Parcelable, BackupTaskConfig {
         in.readStringList(apkFilePaths);
         for (String apkFilePath : apkFilePaths)
             mApksToBackup.add(new File(apkFilePath));
+
+        mExportMode = in.readByte() == 1;
     }
 
     public PackageMeta packageMeta() {
@@ -50,6 +51,10 @@ public class SingleBackupTaskConfig implements Parcelable, BackupTaskConfig {
 
     public List<File> apksToBackup() {
         return mApksToBackup;
+    }
+
+    public boolean exportMode() {
+        return mExportMode;
     }
 
     @Override
@@ -66,6 +71,8 @@ public class SingleBackupTaskConfig implements Parcelable, BackupTaskConfig {
         for (File apkFile : mApksToBackup)
             apkFilePaths.add(apkFile.getAbsolutePath());
         dest.writeStringList(apkFilePaths);
+
+        dest.writeByte((byte) (mExportMode ? 1 : 0));
     }
 
     @Override
@@ -80,13 +87,18 @@ public class SingleBackupTaskConfig implements Parcelable, BackupTaskConfig {
             mConfig = new SingleBackupTaskConfig(backupStorageId, packageMeta);
         }
 
-        public SingleBackupTaskConfig.Builder addApk(File apkFile) {
+        public Builder addApk(File apkFile) {
             mConfig.mApksToBackup.add(apkFile);
             return this;
         }
 
-        public SingleBackupTaskConfig.Builder addAllApks(Collection<File> apkFiles) {
+        public Builder addAllApks(Collection<File> apkFiles) {
             mConfig.mApksToBackup.addAll(apkFiles);
+            return this;
+        }
+
+        public Builder setExportMode(boolean exportMode) {
+            mConfig.mExportMode = exportMode;
             return this;
         }
 

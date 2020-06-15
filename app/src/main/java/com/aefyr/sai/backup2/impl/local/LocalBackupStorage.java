@@ -54,7 +54,7 @@ public class LocalBackupStorage extends ApksBackupStorage implements LocalBackup
 
     @Override
     protected Uri createFileForTask(SingleBackupTaskConfig config) throws Exception {
-        Uri backupFileUri = LocalBackupUtils.createBackupFile(mContext, getBackupDirUriOrThrow(), config.packageMeta(), true);
+        Uri backupFileUri = LocalBackupUtils.createBackupFile(mContext, getBackupDirUriOrThrow(), config.packageMeta(), !config.exportMode());
         if (backupFileUri == null) {
             throw new Exception("Unable to create backup file");
         }
@@ -125,6 +125,11 @@ public class LocalBackupStorage extends ApksBackupStorage implements LocalBackup
 
         //Low budget hash
         return docFile.lastModified() + "/" + docFile.length();
+    }
+
+    @Override
+    public boolean supportsApkExport() {
+        return true;
     }
 
     @Override

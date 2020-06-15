@@ -187,6 +187,8 @@
     <string name="backup_settings">Backup settings</string>
     <string name="backup_open_app_in_system_settings">Open in system settings</string>
     <string name="backup_open_app_in_system_settings_error">Unable to open app in system settings</string>
+    <string name="backup_export_apk">Export as a .apk file</string>
+    <string name="backup_export_apk_desc">Export a single selected part as a .apk file. Exported .apk files are not backups and won\'t be managed by SAI</string>
 
     <string name="settings_title">Settings</string>
     <string name="settings_main_home_directory">Home directory</string>

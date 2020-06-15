@@ -14,6 +14,7 @@ import com.aefyr.sai.utils.Utils;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -22,6 +23,7 @@ import java.util.zip.ZipOutputStream;
 
 public class ApksSingleBackupTaskExecutor extends SingleBackupTaskExecutor {
     private static final String TAG = "ApksBackupTaskExecutor";
+    private static final int BUFFER_SIZE = 1024 * 512;
 
 
     public ApksSingleBackupTaskExecutor(Context context, SingleBackupTaskConfig config, DelegatedFile delegatedFile) {
@@ -41,9 +43,17 @@ public class ApksSingleBackupTaskExecutor extends SingleBackupTaskExecutor {
             else
                 apkFiles = getConfig().apksToBackup();
 
-            executeBackupWithPacking(getConfig(), apkFiles);
-
-            notifySucceeded(getFile().readMeta());
+            if (getConfig().exportMode()) {
+                if (apkFiles.size() == 1) {
+                    executeWithoutPacking(apkFiles.get(0));
+                    notifySucceeded(null);
+                } else {
+                    throw new IllegalArgumentException("Config has exportMode set to true, but there are multiple apk files");
+                }
+            } else {
+                executeBackupWithPacking(getConfig(), apkFiles);
+                notifySucceeded(getFile().readMeta());
+            }
         } catch (TaskCancelledException e) {
             getFile().delete();
             notifyCancelled();
@@ -145,7 +155,7 @@ public class ApksSingleBackupTaskExecutor extends SingleBackupTaskExecutor {
                 zipOutputStream.putNextEntry(zipEntry);
 
                 try (FileInputStream apkInputStream = new FileInputStream(apkFile)) {
-                    byte[] buffer = new byte[1024 * 512];
+                    byte[] buffer = new byte[BUFFER_SIZE];
                     int read;
 
                     while ((read = apkInputStream.read(buffer)) > 0) {
@@ -157,6 +167,21 @@ public class ApksSingleBackupTaskExecutor extends SingleBackupTaskExecutor {
                     }
                 }
                 zipOutputStream.closeEntry();
+            }
+        }
+    }
+
+    private void executeWithoutPacking(File apkFile) throws Exception {
+        try (FileInputStream apkInputStream = new FileInputStream(apkFile); OutputStream outputStream = getFile().openOutputStream()) {
+            long currentProgress = 0;
+            long maxProgress = apkFile.length();
+
+            byte[] buf = new byte[BUFFER_SIZE];
+            int read;
+            while ((read = apkInputStream.read(buf)) > 0) {
+                outputStream.write(buf, 0, read);
+                currentProgress += read;
+                notifyProgressChanged(currentProgress, maxProgress);
             }
         }
     }

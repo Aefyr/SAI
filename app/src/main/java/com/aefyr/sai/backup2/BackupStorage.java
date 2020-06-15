@@ -44,6 +44,14 @@ public interface BackupStorage {
     InputStream getBackupIcon(Uri iconUri) throws Exception;
 
     /**
+     * Whether this {@link BackupStorage} supports exporting single APK files as .apk files, without managing them as backups.
+     * APK export can be requested via {@link SingleBackupTaskConfig.Builder#setExportMode(boolean)}
+     *
+     * @return true if apk export is supported
+     */
+    boolean supportsApkExport();
+
+    /**
      * @param config
      * @return backup task token
      */
@@ -140,7 +148,7 @@ public interface BackupStorage {
             return new BackupTaskStatus(token, config, BackupTaskState.CANCELLED, 0, 0, null, null);
         }
 
-        public static BackupTaskStatus succeeded(String token, SingleBackupTaskConfig config, Backup backup) {
+        public static BackupTaskStatus succeeded(String token, SingleBackupTaskConfig config, @Nullable Backup backup) {
             return new BackupTaskStatus(token, config, BackupTaskState.SUCCEEDED, 0, 0, backup, null);
         }
 
@@ -168,6 +176,11 @@ public interface BackupStorage {
             return mGoal;
         }
 
+        /**
+         * Available only in {@link BackupTaskState#SUCCEEDED} and if {@link #config()}'s {@link SingleBackupTaskConfig#exportMode()} is true
+         *
+         * @return backup meta
+         */
         public Backup backup() {
             return mBackup;
         }

@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Switch;
 
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
@@ -13,16 +14,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.aefyr.sai.R;
 import com.aefyr.sai.adapters.BackupSplitPartsAdapter;
-import com.aefyr.sai.backup2.BackupManager;
-import com.aefyr.sai.backup2.backuptask.config.SingleBackupTaskConfig;
-import com.aefyr.sai.backup2.impl.DefaultBackupManager;
 import com.aefyr.sai.model.common.PackageMeta;
 import com.aefyr.sai.ui.dialogs.base.BaseBottomSheetDialogFragment;
 import com.aefyr.sai.view.ViewSwitcherLayout;
 import com.aefyr.sai.viewmodels.BackupDialogViewModel;
 
-import java.io.File;
-import java.util.List;
 import java.util.Objects;
 
 public class BackupDialogFragment extends BaseBottomSheetDialogFragment {
@@ -52,7 +48,7 @@ public class BackupDialogFragment extends BaseBottomSheetDialogFragment {
         mPackage = Objects.requireNonNull(args.getParcelable(ARG_PACKAGE));
 
         if (savedInstanceState == null)
-            mViewModel.setPackage(mPackage.packageName);
+            mViewModel.setPackage(mPackage);
     }
 
     @Override
@@ -66,7 +62,10 @@ public class BackupDialogFragment extends BaseBottomSheetDialogFragment {
 
         Button enqueueButton = getPositiveButton();
         enqueueButton.setText(R.string.backup_enqueue);
-        enqueueButton.setOnClickListener((v) -> enqueueBackup());
+        enqueueButton.setOnClickListener((v) -> {
+            mViewModel.enqueueBackup();
+            dismiss();
+        });
 
         Button cancelButton = getNegativeButton();
         cancelButton.setOnClickListener((v) -> dismiss());
@@ -87,7 +86,7 @@ public class BackupDialogFragment extends BaseBottomSheetDialogFragment {
                     enqueueButton.setVisibility(View.GONE);
                     break;
                 case LOADED:
-                    viewSwitcher.setShownView(R.id.rv_backup_dialog);
+                    viewSwitcher.setShownView(R.id.container_backup_dialog_config);
                     enqueueButton.setVisibility(View.VISIBLE);
                     break;
                 case FAILED:
@@ -101,19 +100,18 @@ public class BackupDialogFragment extends BaseBottomSheetDialogFragment {
             revealBottomSheet();
         });
         mViewModel.getSelection().asLiveData().observe(this, selection -> enqueueButton.setEnabled(selection.hasSelection()));
-    }
 
-    private void enqueueBackup() {
-        BackupManager backupManager = DefaultBackupManager.getInstance(requireContext());
 
-        List<File> selectedApks = mViewModel.getSelectedSplitParts();
+        ViewGroup apkExportContainer = view.findViewById(R.id.container_backup_dialog_apk_export);
+        Switch apkExportSwitch = view.findViewById(R.id.switch_backup_dialog_apk_export);
 
-        SingleBackupTaskConfig config = new SingleBackupTaskConfig.Builder(backupManager.getDefaultBackupStorageProvider().getId(), mPackage)
-                .addAllApks(selectedApks)
-                .build();
+        apkExportContainer.setOnClickListener(v -> {
+            mViewModel.setApkExportEnabled(!mViewModel.getIsApkExportEnabled().getValue());
+        });
 
-        backupManager.enqueueBackup(config);
-
-        dismiss();
+        mViewModel.getIsApkExportOptionAvailable().observe(this, available -> {
+            apkExportContainer.setVisibility(available ? View.VISIBLE : View.GONE);
+        });
+        mViewModel.getIsApkExportEnabled().observe(this, apkExportSwitch::setChecked);
     }
 }

@@ -26,4 +26,6 @@ public class PreferencesKeys {
     public static final String ENABLE_FIREBASE = "firebase_enabled";
     public static final String INITIAL_INDEXING_RUN = "initial_indexing_run";
     public static final String BACKUP_SETTINGS = "backup_settings";
+    public static final String BACKUP_APK_EXPORT = "single_apk_export";
+
 }

@@ -4,12 +4,15 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.HandlerThread;
 
+import androidx.annotation.Nullable;
+
 import com.aefyr.sai.backup2.Backup;
 import com.aefyr.sai.backup2.backuptask.config.BatchBackupTaskConfig;
 import com.aefyr.sai.backup2.backuptask.config.SingleBackupTaskConfig;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Stack;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -78,6 +81,13 @@ public class BatchBackupTaskExecutor implements CancellableBackupTaskExecutor {
         }
 
         SingleBackupTaskConfig config = mRemainingConfigs.pop();
+
+        if (config.exportMode()) {
+            notifyAppBackupFailed(config, new IllegalArgumentException("exportMode is true, but that's not allowed for batch backups"));
+            mWorkerHandler.post(this::nextTask);
+            return;
+        }
+
         SingleBackupTaskExecutor taskExecutor = mSingleBackupTaskExecutorFactory.createFor(config);
         taskExecutor.setListener(new SingleBackupTaskExecutor.Listener() {
             @Override
@@ -96,8 +106,8 @@ public class BatchBackupTaskExecutor implements CancellableBackupTaskExecutor {
             }
 
             @Override
-            public void onSuccess(Backup backup) {
-                notifyAppBackedUp(config, backup);
+            public void onSuccess(@Nullable Backup backup) {
+                notifyAppBackedUp(config, Objects.requireNonNull(backup));
                 nextTask();
             }
 

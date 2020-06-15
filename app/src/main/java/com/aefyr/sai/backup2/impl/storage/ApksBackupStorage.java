@@ -38,6 +38,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -261,6 +262,13 @@ public abstract class ApksBackupStorage extends BaseBackupStorage {
 
     private void startSingleBackupTask(String taskToken, SingleBackupTaskConfig config) {
 
+        if (config.exportMode() && !supportsApkExport()) {
+            notifyBackupTaskStatusChanged(BackupTaskStatus.queued(taskToken, config));
+            notifyBackupTaskStatusChanged(BackupTaskStatus.inProgress(taskToken, config, 0, 1));
+            notifyBackupTaskStatusChanged(BackupTaskStatus.failed(taskToken, config, new IllegalArgumentException("APK export is not supported by this storage")));
+            return;
+        }
+
         InternalDelegatedFile delegatedFile = new InternalDelegatedFile(config);
         ApksSingleBackupTaskExecutor taskExecutor = new ApksSingleBackupTaskExecutor(getContext(), config, delegatedFile);
         taskExecutor.setListener(new ApksSingleBackupTaskExecutor.Listener() {
@@ -280,9 +288,12 @@ public abstract class ApksBackupStorage extends BaseBackupStorage {
             }
 
             @Override
-            public void onSuccess(Backup backup) {
+            public void onSuccess(@Nullable Backup backup) {
                 notifyBackupTaskStatusChanged(BackupTaskStatus.succeeded(taskToken, config, backup));
-                notifyBackupAdded(backup);
+
+                if (!config.exportMode()) {
+                    notifyBackupAdded(Objects.requireNonNull(backup));
+                }
             }
 
             @Override

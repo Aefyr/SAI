@@ -143,4 +143,12 @@ public class PreferencesHelper {
         mPrefs.edit().putBoolean(PreferencesKeys.INITIAL_INDEXING_RUN, done).apply();
     }
 
+    public boolean isSingleApkExportEnabled() {
+        return mPrefs.getBoolean(PreferencesKeys.BACKUP_APK_EXPORT, false);
+    }
+
+    public void setSingleApkExportEnabled(boolean enabled) {
+        mPrefs.edit().putBoolean(PreferencesKeys.BACKUP_APK_EXPORT, enabled).apply();
+    }
+
 }
