@@ -9,9 +9,11 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.aefyr.sai.BuildConfig;
 import com.aefyr.sai.model.licenses.License;
 import com.aefyr.sai.utils.IOUtils;
 
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -48,13 +50,10 @@ public class LicensesViewModel extends AndroidViewModel {
         new Thread(() -> {
             try {
                 AssetManager assetManager = getApplication().getAssets();
-                String licensesDir = "licenses";
+                ArrayList<License> licenses = new ArrayList<>();
 
-                String[] rawLicenses = assetManager.list(licensesDir);
-                ArrayList<License> licenses = new ArrayList<>(rawLicenses.length);
-
-                for (String rawLicense : rawLicenses)
-                    licenses.add(new License(rawLicense, IOUtils.readStream(assetManager.open(licensesDir + "/" + rawLicense), StandardCharsets.UTF_8)));
+                addLicensesForFlavor(assetManager, licenses, "common");
+                addLicensesForFlavor(assetManager, licenses, BuildConfig.FLAVOR);
 
                 Collections.sort(licenses, (license1, license2) -> license1.subject.compareToIgnoreCase(license2.subject));
 
@@ -65,6 +64,17 @@ public class LicensesViewModel extends AndroidViewModel {
                 mAreLicensesLoading.postValue(false);
             }
         }).start();
+    }
+
+    private void addLicensesForFlavor(AssetManager assetManager, List<License> licenses, String flavor) throws IOException {
+        String licensesDir = "licenses/" + flavor;
+
+        String[] rawLicenses = assetManager.list(licensesDir);
+        if (rawLicenses == null || rawLicenses.length == 0)
+            return;
+
+        for (String rawLicense : rawLicenses)
+            licenses.add(new License(rawLicense, IOUtils.readStream(assetManager.open(licensesDir + "/" + rawLicense), StandardCharsets.UTF_8)));
     }
 
 }
