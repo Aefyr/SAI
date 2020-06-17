@@ -14,7 +14,7 @@
     <string name="permissions_required_storage">يتطلب \"SAI\" إذناً للوصول إلى التخزين</string>
     <string name="permissions_required_shizuku">يتطلب \"SAI\" إذناً لإستخدام خادم (Shizuku)</string>
     <string name="main_installer">تثبيت</string>
-    <string name="main_backup">Backup</string>
+    <string name="main_backup">النسخ الاحتياطي</string>
     <string name="main_navigation_disabled">يتعذر إجراء الفتح أثناء التثبيت المستمر</string>
     <string name="installer_installation_confirmation">تثبيت \"%s\"؟</string>
     <string name="installer_installation_failed">التطبيق ليس مثبتاً</string>
@@ -65,12 +65,12 @@
     <string name="installer_rootless_error2_unknown">خطأ غير معروف</string>
     <string name="installer_rootless_error2_install_failed_already_exists">تم تثبيت هذه الحزمة بالفعل</string>
     <string name="installer_rootless_error2_install_failed_invalid_apk">ملف التطبيق غير صالح</string>
-    <string name="installer_rootless_error2_install_failed_invalid_uri">Passed URI is not valid</string>
+    <string name="installer_rootless_error2_install_failed_invalid_uri">عنوان URL الذي تم اجتيازه غير صالح</string>
     <string name="installer_rootless_error2_install_failed_insufficient_storage">لا يحتوي الجهاز على مساحة كافية لتثبيت التطبيق</string>
-    <string name="installer_rootless_error2_install_failed_duplicate_package">Package with the same name is already installed</string>
-    <string name="installer_rootless_error2_install_failed_no_shared_user">Shared user requested by package doesn\'t exist</string>
-    <string name="installer_rootless_error2_install_failed_update_incompatible">App signature doesn\'t match the signature of an already installed app with the same package name</string>
-    <string name="installer_rootless_error2_install_failed_shared_user_incompatible">App has requested an already existing shared user, but their signatures don\'t match</string>
+    <string name="installer_rootless_error2_install_failed_duplicate_package">تم بالفعل تثبيت الحزمة بنفس الاسم</string>
+    <string name="installer_rootless_error2_install_failed_no_shared_user">المستخدم المشترك المطلوب بواسطة الحزمة غير موجود</string>
+    <string name="installer_rootless_error2_install_failed_update_incompatible">توقيع التطبيق لا يتطابق مع توقيع تطبيق مثبت بالفعل بنفس اسم الحزمة</string>
+    <string name="installer_rootless_error2_install_failed_shared_user_incompatible">طلب التطبيق مستخدم مشترك موجود بالفعل، ولكن توقيعاته لا تتطابق</string>
     <string name="installer_rootless_error2_install_failed_missing_shared_library">App has requested a shared library that is not installed on the device</string>
     <string name="installer_rootless_error2_install_failed_replace_couldnt_delete">The system was unable to delete the previous version of this package</string>
     <string name="installer_rootless_error2_install_failed_dexopt">Installation failed while optimizing and validating package dex files, either because there was not enough storage or the validation failed</string>
@@ -180,6 +180,8 @@
     <string name="backup_settings">Backup settings</string>
     <string name="backup_open_app_in_system_settings">Open in system settings</string>
     <string name="backup_open_app_in_system_settings_error">Unable to open app in system settings</string>
+    <string name="backup_export_apk">Export as a .apk file</string>
+    <string name="backup_export_apk_desc">Export a single selected part as a .apk file. Exported .apk files are not backups and won\'t be managed by SAI</string>
     <string name="settings_title">الإعدادات</string>
     <string name="settings_main_home_directory">المجلد الرئيسي</string>
     <string name="settings_main_home_directory_summary">المجلد الذي يتم فتحه عند النقر على زر تثبيت ملفات الـ (APK)\nحالياً: %s</string>
@@ -247,6 +249,7 @@
     <string name="sss_custom_install_create_summary">إنشاء أمر تثبيت مخصص سيتم إستخدامه لإنشاء جلسة عمل PM المستخدمة في مثبتات Rooted و Shizuku ، يجب ألا يحتوي الأمر على أي مسافات باستثناء تلك التي تفصل الوسيطات (سيتم تقسيم المسافات في علامات الاقتباس إلى وسيطات أيضًا). أدخل \"null\" لتعطيله</string>
     <string name="sss_fake_backup_timestamp">Fake backup timestamp</string>
     <string name="sss_fake_backup_timestamp_summary">Add constant timestamp (Jan 1 2000, 00:00) to backups. Makes hashes of backup files of the same APK files same. SAI will have no idea what backup is the latest one though</string>
+    <string name="sss_test_crash">Crash app</string>
     <string name="mi_continue_countdown">You can continue in %d s.</string>
     <string name="mi_continue">الإستمرار</string>
     <string name="mi_miui_version">MIUI version - %1$s (%2$d (%3$s))</string>
@@ -316,6 +319,7 @@
     <string name="theme_gold">Gold</string>
     <string name="theme_rena_light">Rena Light</string>
     <string name="theme_mint">Mint</string>
+    <string name="theme_fdroid_dark">F-Droid Dark</string>
     <string name="auto_theme_title">Select dark and light themes</string>
     <string name="auto_theme_light_theme">Light theme</string>
     <string name="auto_theme_dark_theme">Dark theme</string>

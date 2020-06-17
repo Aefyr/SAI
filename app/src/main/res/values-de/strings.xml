@@ -180,6 +180,8 @@
     <string name="backup_settings">Sicherungseinstellungen</string>
     <string name="backup_open_app_in_system_settings">In den Systemeinstellungen öffnen</string>
     <string name="backup_open_app_in_system_settings_error">App kann in den Systemeinstellungen nicht geöffnet werden</string>
+    <string name="backup_export_apk">Als .apk-Datei exportieren</string>
+    <string name="backup_export_apk_desc">Einen ausgewählten Teil als .apk-Datei exportieren. Die exportierten .apk-Dateien sind keine Sicherungen und können nicht mit SAI verwaltet werden</string>
     <string name="settings_title">Einstellungen</string>
     <string name="settings_main_home_directory">Heimatverzeichnis</string>
     <string name="settings_main_home_directory_summary">Startverzeichnis beim Auswählen von APKs\nAktuell: %s</string>
@@ -247,6 +249,7 @@
     <string name="sss_custom_install_create_summary">Benutzerdefinierter Install-Create Befehl, welcher für das erstellen der PM-Sitzung im Root- und Shikuzu-Installer benutzt wird. Der Befehl darf kein Leerzeichen, außer denen zum trennen der Argumente enthalten. (\'Leerzeichen in Anführungseichen\' werden ebenfalls in Argumente aufgeteilt). \"null\" zum Deaktivieren eingeben.</string>
     <string name="sss_fake_backup_timestamp">Zeitstempel der Sicherung fälschen</string>
     <string name="sss_fake_backup_timestamp_summary">Fügt der Sicherung den konstanten Zeitstempel (Jan 1 2000, 00:00) hinzu. Erzeugt gleiche Hashwerte von Sicherungsdateien der selben APK-Dateien. SAI wird daher nicht wissen, welche Sicherung die zuletzt erstellte ist</string>
+    <string name="sss_test_crash">Appabsturz testen</string>
     <string name="mi_continue_countdown">Du kannst in %d s fortfahren.</string>
     <string name="mi_continue">Fortfahren</string>
     <string name="mi_miui_version">MIUI-Version - %1$s (%2$d (%3$s))</string>
@@ -316,6 +319,7 @@
     <string name="theme_gold">Gold</string>
     <string name="theme_rena_light">Rena-Hell</string>
     <string name="theme_mint">Minze</string>
+    <string name="theme_fdroid_dark">F-Droid Dunkel</string>
     <string name="auto_theme_title">Dunkle und helle Themes auswählen</string>
     <string name="auto_theme_light_theme">Helles Theme</string>
     <string name="auto_theme_dark_theme">Dunkles Theme</string>

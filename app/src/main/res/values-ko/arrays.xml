@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="file_picker_sort_variants">
+        <item>"이름순"</item>
+        <item>"이름순 (역순)"</item>
+        <item>"최근 수정부터"</item>
+        <item>"오래된 수정부터"</item>
+        <item>"작은 파일 크기부터"</item>
+        <item>"큰 파일 크기부터"</item>
+    </string-array>
+    <string-array name="installers">
+        <item>"루팅하지 않음 (권장)"</item>
+        <item>"루팅됨 (루팅 필요)"</item>
+        <item>"Shizuku (Shizuku 3.x 필요)"</item>
+    </string-array>
+    <string-array name="size_units">
+        <item>B</item>
+        <item>KB</item>
+        <item>MB</item>
+        <item>GB</item>
+        <item>TB</item>
+        <item>PB</item>
+    </string-array>
+    <string-array name="backup_file_name_formats">
+        <item>이름_패키지_버전.apks</item>
+        <item>이름.apks</item>
+        <item>이름_버전.apks</item>
+    </string-array>
+    <string-array name="install_locations">
+        <item>시스템 설정과 같이</item>
+        <item>내부 저장소</item>
+        <item>외부 저장소 (시스템이 내장 저장소를 사용할 수도 있음)</item>
+    </string-array>
+    <string-array name="name_format_parts">
+        <item>이름</item>
+        <item>버전</item>
+        <item>버전 코드</item>
+        <item>패키지</item>
+        <item>타임스탬프</item>
+    </string-array>
+    <string-array name="backup_dir_selection_methods">
+        <item>내부 저장소 파일 선택기</item>
+        <item>시스템 파일 선택기</item>
+    </string-array>
+</resources>

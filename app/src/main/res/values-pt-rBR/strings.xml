@@ -159,7 +159,7 @@
     <string name="backup_selection_cleared_notice">A seleção foi desmarcada devido à atualização da lista de aplicativos</string>
     <string name="backup_reindex">Reindex backups</string>
     <string name="backup_indexing">Indexing backups (%1$d/%2$d)...</string>
-    <string name="backup_app_details_loading">Carregando...</string>
+    <string name="backup_app_details_loading">Loading...</string>
     <string name="backup_app_details_error">App failed to load or was deleted</string>
     <string name="backup_app_details_backup">Backup</string>
     <string name="backup_app_details_delete">Delete</string>
@@ -180,6 +180,8 @@
     <string name="backup_settings">Backup settings</string>
     <string name="backup_open_app_in_system_settings">Open in system settings</string>
     <string name="backup_open_app_in_system_settings_error">Unable to open app in system settings</string>
+    <string name="backup_export_apk">Export as a .apk file</string>
+    <string name="backup_export_apk_desc">Export a single selected part as a .apk file. Exported .apk files are not backups and won\'t be managed by SAI</string>
     <string name="settings_title">Configurações</string>
     <string name="settings_main_home_directory">Diretório inicial</string>
     <string name="settings_main_home_directory_summary">Iniciando diretório no seletor de APKs\nAtualmente: %s</string>
@@ -247,6 +249,7 @@
     <string name="sss_custom_install_create_summary">Comando personalizado install-create que será usado para criar a sessão pm usada nos instaladores Rooted e Shizuku, o comando não deve conter espaços, exceto os que separam argumentos (\'espaços entre aspas\' também serão divididos em argumentos). Digite \"null\" para desativar</string>
     <string name="sss_fake_backup_timestamp">Fake backup timestamp</string>
     <string name="sss_fake_backup_timestamp_summary">Add constant timestamp (Jan 1 2000, 00:00) to backups. Makes hashes of backup files of the same APK files same. SAI will have no idea what backup is the latest one though</string>
+    <string name="sss_test_crash">Crash app</string>
     <string name="mi_continue_countdown">Você pode continuar em %d s.</string>
     <string name="mi_continue">Continuar</string>
     <string name="mi_miui_version">Versão da MIUI - %1$s (%2$d (%3$s))</string>
@@ -316,6 +319,7 @@
     <string name="theme_gold">Ouro</string>
     <string name="theme_rena_light">Rena Light</string>
     <string name="theme_mint">Mint</string>
+    <string name="theme_fdroid_dark">F-Droid Dark</string>
     <string name="auto_theme_title">Selecione temas escuros e claros</string>
     <string name="auto_theme_light_theme">Tema claro</string>
     <string name="auto_theme_dark_theme">Tema escuro</string>

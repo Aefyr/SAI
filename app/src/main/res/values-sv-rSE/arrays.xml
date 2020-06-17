@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="file_picker_sort_variants">
-        <item>"Efter namn (alfabetisk)"</item>
-        <item>"Efter namn (omvänd alfabetisk)"</item>
-        <item>"Senast ändrade först"</item>
-        <item>"Äldst ändrade först"</item>
-        <item>"Minsta filstorlek först"</item>
-        <item>"Största filstorlek först"</item>
+        <item>"By name (Alphabetical)"</item>
+        <item>"By name (Reverse alphabetical)"</item>
+        <item>"Later modified first"</item>
+        <item>"Older modified first"</item>
+        <item>"Smallest file size first"</item>
+        <item>"Biggest file size first"</item>
     </string-array>
     <string-array name="installers">
-        <item>"Root-lös (rekommenderas)"</item>
-        <item>"Rootad (kräver root)"</item>
-        <item>"Shizuku (kräver Shizuku 3.x)"</item>
+        <item>"Rootless (recommended)"</item>
+        <item>"Rooted (requires root)"</item>
+        <item>"Shizuku (requires Shizuku 3.x)"</item>
     </string-array>
     <string-array name="size_units">
         <item>B</item>
@@ -22,24 +22,24 @@
         <item>PB</item>
     </string-array>
     <string-array name="backup_file_name_formats">
-        <item>NAMN_PAKET_VERSION.apks</item>
-        <item>NAMN.apks</item>
-        <item>NAMN_VERSION.apks</item>
+        <item>NAME_PACKAGE_VERSION.apks</item>
+        <item>NAME.apks</item>
+        <item>NAME_VERSION.apks</item>
     </string-array>
     <string-array name="install_locations">
-        <item>Låt systemet bestämma</item>
-        <item>Endast internt</item>
-        <item>Föredrar extern (Systemet kan fortfarande välja att använda internt)</item>
+        <item>Let system decide</item>
+        <item>Internal only</item>
+        <item>Prefer external (System may still decide to use internal)</item>
     </string-array>
     <string-array name="name_format_parts">
-        <item>Namn</item>
+        <item>Name</item>
         <item>Version</item>
-        <item>Versionskod</item>
-        <item>Paket</item>
-        <item>Tidsstämpel</item>
+        <item>Version code</item>
+        <item>Package</item>
+        <item>Timestamp</item>
     </string-array>
     <string-array name="backup_dir_selection_methods">
-        <item>Intern filväljare</item>
-        <item>Systemets filväljare</item>
+        <item>Internal file picker</item>
+        <item>System file picker</item>
     </string-array>
 </resources>

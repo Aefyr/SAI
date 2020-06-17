@@ -180,6 +180,8 @@
     <string name="backup_settings">Backup settings</string>
     <string name="backup_open_app_in_system_settings">Open in system settings</string>
     <string name="backup_open_app_in_system_settings_error">Unable to open app in system settings</string>
+    <string name="backup_export_apk">Export as a .apk file</string>
+    <string name="backup_export_apk_desc">Export a single selected part as a .apk file. Exported .apk files are not backups and won\'t be managed by SAI</string>
     <string name="settings_title">Ajustes</string>
     <string name="settings_main_home_directory">Directorio principal</string>
     <string name="settings_main_home_directory_summary">Iniciando directorio en el selector de APKs\nActualmente: %s</string>
@@ -247,6 +249,7 @@
     <string name="sss_custom_install_create_summary">Comando de instalación personalizado que se utilizará para crear la sesión pm usada en los instaladores Rooteado y Shizuku, el comando no debe contener ningún espacio, excepto aquellos que separan argumentos (\'espacios en comillas\' también se dividirán en argumentos). Escriba \"null\" para desactivar</string>
     <string name="sss_fake_backup_timestamp">Fake backup timestamp</string>
     <string name="sss_fake_backup_timestamp_summary">Add constant timestamp (Jan 1 2000, 00:00) to backups. Makes hashes of backup files of the same APK files same. SAI will have no idea what backup is the latest one though</string>
+    <string name="sss_test_crash">Crash app</string>
     <string name="mi_continue_countdown">Puede continuar en %d s.</string>
     <string name="mi_continue">Continuar</string>
     <string name="mi_miui_version">Versión MIUI - %1$s (%2$d (%3$s))</string>
@@ -316,6 +319,7 @@
     <string name="theme_gold">Oro</string>
     <string name="theme_rena_light">Rena Light</string>
     <string name="theme_mint">Mint</string>
+    <string name="theme_fdroid_dark">F-Droid Dark</string>
     <string name="auto_theme_title">Seleccionar temas oscuros y claros</string>
     <string name="auto_theme_light_theme">Tema claro</string>
     <string name="auto_theme_dark_theme">Tema oscuro</string>
