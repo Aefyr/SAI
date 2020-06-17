@@ -180,6 +180,8 @@
     <string name="backup_settings">Backup settings</string>
     <string name="backup_open_app_in_system_settings">Open in system settings</string>
     <string name="backup_open_app_in_system_settings_error">Unable to open app in system settings</string>
+    <string name="backup_export_apk">Export as a .apk file</string>
+    <string name="backup_export_apk_desc">Export a single selected part as a .apk file. Exported .apk files are not backups and won\'t be managed by SAI</string>
     <string name="settings_title">Ustawienia</string>
     <string name="settings_main_home_directory">Katalog domowy</string>
     <string name="settings_main_home_directory_summary">Ścieżka startowa przy wyborze pliku .apks\nObecnie: %s</string>
@@ -247,6 +249,7 @@
     <string name="sss_custom_install_create_summary">Własne polecenie tworzenia instalacji, które będzie używane do tworzenia sesji pm w instalatorach Root i Shizuku, polecenie nie może zawierać żadnych spacji, z wyjątkiem tych, które oddzielają argumenty (spacje w cudzysłowach również zostaną podzielone na argumenty). Wprowadź \"null\", aby wyłączyć.</string>
     <string name="sss_fake_backup_timestamp">Fake backup timestamp</string>
     <string name="sss_fake_backup_timestamp_summary">Add constant timestamp (Jan 1 2000, 00:00) to backups. Makes hashes of backup files of the same APK files same. SAI will have no idea what backup is the latest one though</string>
+    <string name="sss_test_crash">Crash app</string>
     <string name="mi_continue_countdown">Możesz kontynuować za %d s.</string>
     <string name="mi_continue">Kontynuuj</string>
     <string name="mi_miui_version">Wersja MIUI - %1$s (%2$d (%3$s))</string>
@@ -316,6 +319,7 @@
     <string name="theme_gold">Złoty</string>
     <string name="theme_rena_light">Rena Light</string>
     <string name="theme_mint">Mint</string>
+    <string name="theme_fdroid_dark">F-Droid Dark</string>
     <string name="auto_theme_title">Wybierz ciemny lub jasny motyw</string>
     <string name="auto_theme_light_theme">Jasny motyw</string>
     <string name="auto_theme_dark_theme">Ciemny motyw</string>
