@@ -14,7 +14,7 @@
     <string name="permissions_required_storage">SAI 需要訪問存儲的權限</string>
     <string name="permissions_required_shizuku">SAI requires permission to use Shizuku Server</string>
     <string name="main_installer">安裝</string>
-    <string name="main_backup">Backup</string>
+    <string name="main_backup">備份</string>
     <string name="main_navigation_disabled">在正在進行的安裝過程中無法執行打開</string>
     <string name="installer_installation_confirmation">安裝 \"%s\"?</string>
     <string name="installer_installation_failed">App 未安裝</string>
@@ -114,11 +114,11 @@
     <string name="installer_rootless_error2_install_failed_other_staged_session_in_progress">There\'s already a package installer session being committed for this package name</string>
     <string name="installer_rootless_error2_install_failed_multipackage_inconsistency">One of the child package installer sessions does not match the parent session in respect to staged or rollback enabled parameters</string>
     <string name="installer_rootless_error2_install_failed_wrong_installed_version">Required version of an already installed package doesn\'t match the actual version of the installed package</string>
-    <string name="backup_backup">Backup</string>
-    <string name="backup_batch_backup">Batch backup</string>
-    <string name="backup_backup_export_in_progress_2">Backup in progress, %d tasks remaining</string>
-    <string name="backup_backup_in_progress">Backing up %s...</string>
-    <string name="backup_backup_success">Successfully backed up %s</string>
+    <string name="backup_backup">備份</string>
+    <string name="backup_batch_backup">批次備份</string>
+    <string name="backup_backup_export_in_progress_2">正在備份，還剩下 %d 個工作</string>
+    <string name="backup_backup_in_progress">正在備份 %s......</string>
+    <string name="backup_backup_success">成功備份 %s</string>
     <string name="backup_backup_failed">Failed to backup %s</string>
     <string name="backup_batch_backup_completed">Batch backup completed</string>
     <string name="backup_batch_backup_result_succeeded">Successfully backed up %d apps</string>
@@ -180,6 +180,8 @@
     <string name="backup_settings">Backup settings</string>
     <string name="backup_open_app_in_system_settings">Open in system settings</string>
     <string name="backup_open_app_in_system_settings_error">Unable to open app in system settings</string>
+    <string name="backup_export_apk">Export as a .apk file</string>
+    <string name="backup_export_apk_desc">Export a single selected part as a .apk file. Exported .apk files are not backups and won\'t be managed by SAI</string>
     <string name="settings_title">設置</string>
     <string name="settings_main_home_directory">主目錄</string>
     <string name="settings_main_home_directory_summary">APK選擇器的啟動目錄\n當前: %s</string>
@@ -247,6 +249,7 @@
     <string name="sss_custom_install_create_summary">Custom install-create command that will be used to create pm session used in Rooted and Shizuku installers, the command must not contain any spaces except for the ones that separate arguments (\'spaces in quotes\' will be split into arguments as well). Enter \"null\" to disable</string>
     <string name="sss_fake_backup_timestamp">Fake backup timestamp</string>
     <string name="sss_fake_backup_timestamp_summary">Add constant timestamp (Jan 1 2000, 00:00) to backups. Makes hashes of backup files of the same APK files same. SAI will have no idea what backup is the latest one though</string>
+    <string name="sss_test_crash">Crash app</string>
     <string name="mi_continue_countdown">You can continue in %d s.</string>
     <string name="mi_continue">繼續</string>
     <string name="mi_miui_version">MIUI 版本 - %1$s (%2$d (%3$s))</string>
@@ -316,6 +319,7 @@
     <string name="theme_gold">金色</string>
     <string name="theme_rena_light">Rena Light</string>
     <string name="theme_mint">Mint</string>
+    <string name="theme_fdroid_dark">F-Droid Dark</string>
     <string name="auto_theme_title">選擇亮或暗色主題</string>
     <string name="auto_theme_light_theme">淺色主題</string>
     <string name="auto_theme_dark_theme">深色主題</string>
