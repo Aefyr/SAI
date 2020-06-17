@@ -120,9 +120,10 @@ public class BackupDialogViewModel extends AndroidViewModel implements Observer<
     }
 
     public void enqueueBackup() {
+        List<File> selectedSplitParts = getSelectedSplitParts();
         SingleBackupTaskConfig config = new SingleBackupTaskConfig.Builder(mBackupManager.getDefaultBackupStorageProvider().getId(), mPkgMeta)
-                .addAllApks(getSelectedSplitParts())
-                .setExportMode(getIsApkExportEnabled().getValue() && storageSupportsApkExport())
+                .addAllApks(selectedSplitParts)
+                .setExportMode(selectedSplitParts.size() == 1 && getIsApkExportEnabled().getValue() && storageSupportsApkExport())
                 .build();
 
         mBackupManager.enqueueBackup(config);
