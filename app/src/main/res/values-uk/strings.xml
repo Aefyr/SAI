@@ -171,7 +171,7 @@
     <string name="backup_restore_backup_prompt">Restore backup from %s?</string>
     <string name="backup_restore_backup_hint">Backup has been added to installer queue</string>
     <string name="backup_incompatible_version_warning">Older version of an app cannot be installed over a newer version. You need to delete the app to be able to restore this backup</string>
-    <string name="backup_component_apk_files">APK файлы</string>
+    <string name="backup_component_apk_files">APK Files</string>
     <string name="backup_component_unknown">Unknown component with type \"%s\"</string>
     <string name="backup_lbs_provider_name">Local storage</string>
     <string name="backup_lbs_warning_no_dir">Please select a directory to store backups. .apks files exported with SAI 3.10+ in the selected directory will be indexed as backups. Default directory for backups prior to SAI 4.0 used to be Internal Storage &gt; SAI</string>
@@ -180,6 +180,8 @@
     <string name="backup_settings">Backup settings</string>
     <string name="backup_open_app_in_system_settings">Open in system settings</string>
     <string name="backup_open_app_in_system_settings_error">Unable to open app in system settings</string>
+    <string name="backup_export_apk">Export as a .apk file</string>
+    <string name="backup_export_apk_desc">Export a single selected part as a .apk file. Exported .apk files are not backups and won\'t be managed by SAI</string>
     <string name="settings_title">Налаштування</string>
     <string name="settings_main_home_directory">Папка за замовчуванням</string>
     <string name="settings_main_home_directory_summary">Початкова папка при виборі APK\nЗараз: %s</string>
@@ -247,6 +249,7 @@
     <string name="sss_custom_install_create_summary">Спеціальна команда install-create, яка буде використовуватися для створення сеансу вечора, що використовується у встановлених програмах Rooted та Shizuku, команда не повинна містити пробілів, крім тих, що розділяють аргументи (\'пробіли в лапках\' також будуть розділені на аргументи). Введіть null для відключення</string>
     <string name="sss_fake_backup_timestamp">Fake backup timestamp</string>
     <string name="sss_fake_backup_timestamp_summary">Add constant timestamp (Jan 1 2000, 00:00) to backups. Makes hashes of backup files of the same APK files same. SAI will have no idea what backup is the latest one though</string>
+    <string name="sss_test_crash">Crash app</string>
     <string name="mi_continue_countdown">Ви зможете продовжити через %d сек.</string>
     <string name="mi_continue">Продовжити</string>
     <string name="mi_miui_version">Версія MIUI - %1$s (%2$d (%3$s))</string>
@@ -316,6 +319,7 @@
     <string name="theme_gold">Золота</string>
     <string name="theme_rena_light">Rena Light</string>
     <string name="theme_mint">Mint</string>
+    <string name="theme_fdroid_dark">F-Droid Dark</string>
     <string name="auto_theme_title">Виберіть темну та світлу теми</string>
     <string name="auto_theme_light_theme">Світла тема</string>
     <string name="auto_theme_dark_theme">Темна тема</string>
