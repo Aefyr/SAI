@@ -180,6 +180,8 @@
     <string name="backup_settings">Настройки бэкапа</string>
     <string name="backup_open_app_in_system_settings">Открыть в системных настройках</string>
     <string name="backup_open_app_in_system_settings_error">Не удаётся открыть приложение в системных настройках</string>
+    <string name="backup_export_apk">Экспортировать как .apk файл</string>
+    <string name="backup_export_apk_desc">Экспортировать единственную выбранную часть как .apk файл. Экспортированные .apk файлы не являются бэкапами и не управляются SAI</string>
     <string name="settings_title">Настройки</string>
     <string name="settings_main_home_directory">Папка по умолчанию</string>
     <string name="settings_main_home_directory_summary">Начальная папка в выборе APK\nСейчас: %s</string>
@@ -247,6 +249,7 @@
     <string name="sss_custom_install_create_summary">Кастомная команда install-create, которая будет использована для создания сессии pm в Rooted и Shizuku установщиках. Команда не должна содержать пробелов помимо тех, которые разделяют аргументы (\'пробелы в скобках\' так же будут считаться отдельными аргументами). Введите \"null\" для отключения</string>
     <string name="sss_fake_backup_timestamp">Фейковое время бэкапа</string>
     <string name="sss_fake_backup_timestamp_summary">Ставить константное время бэкапа (1 января 2000, 00:00). Делает одинаковыми хэши бэкапов одних и тех же APK файлов. Но SAI не сможет узнать, какой из бэкапов последний</string>
+    <string name="sss_test_crash">Крашнуть приложение</string>
     <string name="mi_continue_countdown">Вы сможете продолжить через %d сек.</string>
     <string name="mi_continue">Продолжить</string>
     <string name="mi_miui_version">Версия MIUI - %1$s (%2$d (%3$s))</string>
@@ -316,6 +319,7 @@
     <string name="theme_gold">Gold</string>
     <string name="theme_rena_light">Rena Light</string>
     <string name="theme_mint">Mint</string>
+    <string name="theme_fdroid_dark">Тёмный F-Droid</string>
     <string name="auto_theme_title">Выберите светлую и тёмную темы</string>
     <string name="auto_theme_light_theme">Светлая тема</string>
     <string name="auto_theme_dark_theme">Тёмная тема</string>
