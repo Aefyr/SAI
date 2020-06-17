@@ -194,6 +194,8 @@ SAI (Split APKs Installer) е инсталатор на приложения, с
     <string name="backup_settings">Настройки за архивиране</string>
     <string name="backup_open_app_in_system_settings">Отваряне в системните настройки</string>
     <string name="backup_open_app_in_system_settings_error">Приложението не може да бъде отворено в системните настройки</string>
+    <string name="backup_export_apk">Експорт като .apk файл</string>
+    <string name="backup_export_apk_desc">Експорт на една избрана част като .apk файл. Експортираните .apk файлове не са резервни копия и няма да се управляват от SAI</string>
     <string name="settings_title">Настройки</string>
     <string name="settings_main_home_directory">Папка подразб.</string>
     <string name="settings_main_home_directory_summary">Начална папка в избора на APK
@@ -265,6 +267,7 @@ SAI (Split APKs Installer) е инсталатор на приложения, с
     <string name="sss_custom_install_create_summary">Персонализирана команда за създаване на инсталационен файл, която ще се използва за създаване на Pm сесия, използвана в rooted и Shizuku инсталатори, командата не трябва да съдържа никакви интервали освен тези, които разделят аргументите (\"пространства в кавички\" ще бъдат разделени на аргументи, както добре). Въведете \"null\", за да забраните</string>
     <string name="sss_fake_backup_timestamp">Фалшиво време за архивиране</string>
     <string name="sss_fake_backup_timestamp_summary">Добавете постоянно времещамп (1 януари 2000 г., 00:00) за архивиране. Прави хешове на архивните файлове, като на APK файловете. SAI няма да разбере кой архив е последен</string>
+    <string name="sss_test_crash">Срив на приложението</string>
     <string name="mi_continue_countdown">Може да продължите в %d s.</string>
     <string name="mi_continue">Продължи</string>
     <string name="mi_miui_version">MIUI версия - %1$s (%2$d (%3$s))</string>
@@ -334,6 +337,7 @@ SAI (Split APKs Installer) е инсталатор на приложения, с
     <string name="theme_gold">Злато</string>
     <string name="theme_rena_light">Рена Светлина</string>
     <string name="theme_mint">Мента</string>
+    <string name="theme_fdroid_dark">F-Droid Тъмна</string>
     <string name="auto_theme_title">Изберете тъмни и светли теми</string>
     <string name="auto_theme_light_theme">Светла тема</string>
     <string name="auto_theme_dark_theme">Тъмна тема</string>
