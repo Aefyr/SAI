@@ -116,8 +116,8 @@
             android:multiprocess="false"
             android:permission="android.permission.INTERACT_ACROSS_USERS_FULL" />
         <provider
-            android:name=".utils.Logs$InitProvider"
-            android:authorities="${applicationId}.logs.init"
+            android:name=".flavor.FlavorInitProvider"
+            android:authorities="${applicationId}.flavor.init"
             android:enabled="true"
             android:exported="false" />
     </application>
