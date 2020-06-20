@@ -232,8 +232,6 @@
     <string name="settings_main_auto_theme_pre_q_warning">请注意，跟随系统主题可能在低于Android 10的版本上无法正常工作</string>
     <string name="settings_main_use_installerx">专业模式</string>
     <string name="settings_main_use_installerx_summary">启用安装程序的专业模式，该模式允许您从.apks文件（或具有多个APK文件的其他压缩文件）中选择要安装的部分。 请注意，专业模式是实验性的并且可能无法正常工作，欢迎反馈</string>
-    <string name="settings_main_enable_firebase">Firebase</string>
-    <string name="settings_main_enable_firebase_summary">用Firebase收集错误和应用使用数据。您可以在“关于”屏幕的隐私政策中了解有关收集的数据的更多信息。在您重启SAI前，更改此设定可能不会完全生效。</string>
     <string name="settings_main_backup_settings">备份设置</string>
     <string name="settings_main_backup_settings_summary">点击打开备份设置</string>
     <string name="name_format_builder_title">选择备份文件名称中包含的部分</string>

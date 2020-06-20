@@ -232,8 +232,6 @@
     <string name="settings_main_auto_theme_pre_q_warning">Sistem temasını izlemenin Q\'dan düşük Android sürümlerinde düzgün çalışmayabileceğini lütfen unutmayın</string>
     <string name="settings_main_use_installerx">Pro modu</string>
     <string name="settings_main_use_installerx_summary">Bir .apks dosyasından (veya birden fazla APK dosyasına sahip diğer arşivlerden) yüklenecek parçaları seçmenize olanak tanıyan installer Pro modunu etkinleştirin. Pro modunun deneysel olduğunu ve düzgün çalışmayabileceğini lütfen unutmayın</string>
-    <string name="settings_main_enable_firebase">Firebase</string>
-    <string name="settings_main_enable_firebase_summary">Firebase ile hataları ve uygulama kullanım verilerini toplar. Ekranda bulabileceğiniz Gizlilik Politikası\'nda toplanan veriler hakkında daha fazla bilgi edinebilirsiniz. Bu ayar, SAI\'yi yeniden başlatana kadar tam olarak uygulanmayabilir</string>
     <string name="settings_main_backup_settings">Yedekleme ayarları</string>
     <string name="settings_main_backup_settings_summary">Yedekleme ayarlarını açmak için dokunun</string>
     <string name="name_format_builder_title">Yedek dosya adına dahil edilecek parçaları seçin</string>

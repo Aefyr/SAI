@@ -2,8 +2,6 @@ package com.aefyr.sai.utils;
 
 import android.util.Log;
 
-import com.huawei.agconnect.crash.AGConnectCrash;
-
 /**
  * Mirror of android.util.Log and some of the com.crashlytics.android.Crashlytics methods
  */

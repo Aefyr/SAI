@@ -250,8 +250,6 @@ SAI (Split APKs Installer) е инсталатор на приложения, с
     <string name="settings_main_auto_theme_pre_q_warning">Имайте предвид, че следвайки темата на системата може да не работи правилно на версии на Android по-ниски от Q</string>
     <string name="settings_main_use_installerx">Pro режим</string>
     <string name="settings_main_use_installerx_summary">Активирайте инсталационния Pro режим, който ви позволява да изберете части, които да инсталирате от .apks файл (или други архиви с множество APK файлове). Моля, обърнете внимание, че Pro режимът е експериментален и може да не работи правилно, обратната връзка е очаквана</string>
-    <string name="settings_main_enable_firebase">Firebase</string>
-    <string name="settings_main_enable_firebase_summary">Събирай грешки и данни за използване на приложения с Firebase. Повече за данните, които се събират в Политиката за поверителност, която можете да намерите в Относно. Промяната на тази настройка може да не се приложи напълно, докато не рестартирате SAI</string>
     <string name="settings_main_backup_settings">Настройки за архивиране</string>
     <string name="settings_main_backup_settings_summary">Натиснете, за да отворите настройките за архивиране</string>
     <string name="name_format_builder_title">Изберете части, които да бъдат включени в името на архивния файл</string>

@@ -232,8 +232,6 @@
     <string name="settings_main_auto_theme_pre_q_warning">Зверніть увагу, що наступні теми системи можуть не працювати коректно на версіях Android нижче Q</string>
     <string name="settings_main_use_installerx">Професіональний режим</string>
     <string name="settings_main_use_installerx_summary">Увімкніть професіональний режим установки, який дозволяє вибрати частини для встановлення з файлу .apks (або інших архівів з декількома файлами APK). Будь ласка, зверніть увагу, що Pro режим експериментальний і він може працювати некоректно, вітаються ваші відгуки і побажання</string>
-    <string name="settings_main_enable_firebase">Firebase</string>
-    <string name="settings_main_enable_firebase_summary">Firebase - може збирати помилки та дані використання програми. Ви можете дізнатися більше про зібрані дані, в Політиці конфіденційності, які ви знайдете на екрані \"Про додаток\". Зміна цього налаштування може не повністю застосуватися, тому перезавантажте SAI</string>
     <string name="settings_main_backup_settings">Backup settings</string>
     <string name="settings_main_backup_settings_summary">Tap to open backup settings</string>
     <string name="name_format_builder_title">Select parts to include in backup file name</string>

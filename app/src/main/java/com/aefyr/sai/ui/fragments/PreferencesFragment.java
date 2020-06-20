@@ -16,9 +16,9 @@ import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
 import androidx.preference.SwitchPreference;
 
-import com.aefyr.sai.BuildConfig;
 import com.aefyr.sai.R;
-import com.aefyr.sai.firebase.Firebase;
+import com.aefyr.sai.analytics.AnalyticsProvider;
+import com.aefyr.sai.analytics.DefaultAnalyticsProvider;
 import com.aefyr.sai.shell.SuShell;
 import com.aefyr.sai.ui.activities.AboutActivity;
 import com.aefyr.sai.ui.activities.BackupSettingsActivity;
@@ -48,6 +48,7 @@ import moe.shizuku.api.ShizukuClientHelper;
 public class PreferencesFragment extends PreferenceFragmentCompat implements FilePickerDialogFragment.OnFilesSelectedListener, SingleChoiceListDialogFragment.OnItemSelectedListener, BaseBottomSheetDialogFragment.OnDismissListener, SharedPreferences.OnSharedPreferenceChangeListener, DarkLightThemeSelectionDialogFragment.OnDarkLightThemesChosenListener {
 
     private PreferencesHelper mHelper;
+    private AnalyticsProvider mAnalyticsProvider;
 
     private Preference mHomeDirPref;
     private Preference mFilePickerSortPref;
@@ -60,9 +61,13 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Fil
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
+        mHelper = PreferencesHelper.getInstance(requireContext());
+        mAnalyticsProvider = DefaultAnalyticsProvider.getInstance(requireContext());
+
         //Inject current auto theme status since it isn't managed by PreferencesKeys.AUTO_THEME key
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(requireContext());
         prefs.edit().putBoolean(PreferencesKeys.AUTO_THEME, Theme.getInstance(requireContext()).getThemeMode() == Theme.Mode.AUTO_LIGHT_DARK).apply();
+
         super.onCreate(savedInstanceState);
     }
 
@@ -70,8 +75,6 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Fil
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
         setPreferencesFromResource(R.xml.preferences_main, rootKey);
-
-        mHelper = PreferencesHelper.getInstance(requireContext());
 
         mHomeDirPref = findPreference("home_directory");
         updateHomeDirPrefSummary();
@@ -147,13 +150,13 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Fil
             mAutoThemePicker.setVisible(false);
         }
 
-        SwitchPreference firebasePref = findPreference(PreferencesKeys.ENABLE_FIREBASE);
-        firebasePref.setOnPreferenceChangeListener((preference, newValue) -> {
-            Firebase.setDataCollectionEnabled(requireContext(), (boolean) newValue);
+        SwitchPreference analyticsPref = findPreference(PreferencesKeys.ENABLE_ANALYTICS);
+        analyticsPref.setOnPreferenceChangeListener((preference, newValue) -> {
+            mAnalyticsProvider.setDataCollectionEnabled((boolean) newValue);
             return true;
         });
-        if (BuildConfig.IS_FLOSS_BUILD)
-            firebasePref.setVisible(false);
+        if (!mAnalyticsProvider.supportsDataCollection())
+            analyticsPref.setVisible(false);
 
 
         getPreferenceManager().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);

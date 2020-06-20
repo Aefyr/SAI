@@ -233,8 +233,6 @@
     <string name="settings_main_auto_theme_pre_q_warning">端末のテーマ設定による切り替えはAndroid 10より前のバージョンのOSではうまく動かない場合があります</string>
     <string name="settings_main_use_installerx">Proモード</string>
     <string name="settings_main_use_installerx_summary">Proモードを有効にして、.apksファイル(または複数のAPKファイルをアーカイブしたその他のファイル)からインストールする部分を選択できるようにします。Proモードは試験的な機能で、適切に動かないことがある点に注意してください。フィードバックは歓迎します。</string>
-    <string name="settings_main_enable_firebase">Firebase</string>
-    <string name="settings_main_enable_firebase_summary">アプリの使用状況とエラーのデータをFirebaseで集めます。 収集されるデータの詳細については「このアプリについて」のプライバシーポリシーから確認できます。 この設定の変更を完全に適用するにはSAIの再起動が必要かもしれません。</string>
     <string name="settings_main_backup_settings">Backup settings</string>
     <string name="settings_main_backup_settings_summary">タップしてバックアップの設定を開く</string>
     <string name="name_format_builder_title">Select parts to include in backup file name</string>

@@ -232,8 +232,6 @@
     <string name="settings_main_auto_theme_pre_q_warning">Si prega di notare che l\'automazione del cambio tema in base all\'impostazione di sistema potrebbe non funzionare correttamente su versioni inferiori ad Android 10</string>
     <string name="settings_main_use_installerx">Modalità pro</string>
     <string name="settings_main_use_installerx_summary">La modalità installazione Pro permette la selezione di parti da un file .apks (o altri archivi con APK multipli). Ricorda che la modalità Pro è sperimentale e potrebbe non funzionare correttamente, si accettano suggerimenti</string>
-    <string name="settings_main_enable_firebase">Firebase</string>
-    <string name="settings_main_enable_firebase_summary">Raccogli info e dati di utilizzo app con Firebase. Troverai ulteriori dettagli sui dati raccolti nell\'Informativa sulla Privacy a schermo. Cambiare questa impostazione potrebbe richiedere il riavvio di SAI</string>
     <string name="settings_main_backup_settings">Impostazioni di backup</string>
     <string name="settings_main_backup_settings_summary">Tocca per aprire le impostazioni di backup</string>
     <string name="name_format_builder_title">Seleziona le parti da includere nel nome dell\'app esportata</string>

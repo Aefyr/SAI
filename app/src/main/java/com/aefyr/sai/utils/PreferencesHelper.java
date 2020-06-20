@@ -131,8 +131,12 @@ public class PreferencesHelper {
         return mPrefs.getBoolean(PreferencesKeys.USE_BRUTE_PARSER, true);
     }
 
-    public boolean isFirebaseEnabled() {
-        return mPrefs.getBoolean(PreferencesKeys.ENABLE_FIREBASE, true);
+    public boolean isAnalyticsEnabled() {
+        return mPrefs.getBoolean(PreferencesKeys.ENABLE_ANALYTICS, true);
+    }
+
+    public void setAnalyticsEnabled(boolean enabled) {
+        mPrefs.edit().putBoolean(PreferencesKeys.ENABLE_ANALYTICS, enabled).apply();
     }
 
     public boolean isInitialIndexingDone() {

@@ -232,8 +232,6 @@
     <string name="settings_main_auto_theme_pre_q_warning">Xahiş edirik sistem mövzuları ilə keçiş etmək Android Q versiyasından aşağı olduqda düzgün işləməyə bilər</string>
     <string name="settings_main_use_installerx">Pro mod</string>
     <string name="settings_main_use_installerx_summary">Sizə hər hansı .apks faylından (yaxud digər çoxlu APK faylları arxivlərindən) hissələr seçib qurmağa imkan yaradan qurucu Pro modunu açın. Xahiş olunur Pro modun yoxlama halında olduğunu və düzgün işləməyə biləcəyini nəzərinizdə saxlayın</string>
-    <string name="settings_main_enable_firebase">Firebase</string>
-    <string name="settings_main_enable_firebase_summary">Firebase ilə səhvləri və tətbiq istifadə məlumatlarını yığ. Haqqında ekranında görə biləcəyiniz Məxfilik Siyasəti\'ndə məlumatların yığılması barədə əlavə məlumat ala bilərsiniz. Bu seçimi dəyişmək SAI\'ni yenidən başladana qədər tam effekt verməyə bilər</string>
     <string name="settings_main_backup_settings">Nüsxə tənzimləmələri</string>
     <string name="settings_main_backup_settings_summary">Nüsxə tənzimləmələrini açmaq üçün toxun</string>
     <string name="name_format_builder_title">Nüsxə faylının adına əlavə ediləcək hissələri seçin</string>

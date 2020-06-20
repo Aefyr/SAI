@@ -232,8 +232,6 @@
     <string name="settings_main_auto_theme_pre_q_warning">Pamiętaj, że następujący motyw może nie działać poprawnie w wersji Androida niższej niż Q</string>
     <string name="settings_main_use_installerx">Tryb Pro</string>
     <string name="settings_main_use_installerx_summary">Włącz tryb instalatora Pro, który pozwala na wybranie części plików do instalacji z pliku .apks (lub innych archiwów z wieloma plikami APK). Tryb Pro jest eksperymentalny i może działać niepoprawnie, raporty błędów są mile widziane.</string>
-    <string name="settings_main_enable_firebase">Firebase</string>
-    <string name="settings_main_enable_firebase_summary">Zbieraj błędy i dane użycia aplikacji przez Firebase. Dowiedz się więcej o danych gromadzonych w polityce prywatności, którą można znaleźć w zakładce \"O aplikacji\". Zmiana tego ustawienia może nie być zastosowana dopóki nie zrestartujesz SAI.</string>
     <string name="settings_main_backup_settings">Backup settings</string>
     <string name="settings_main_backup_settings_summary">Tap to open backup settings</string>
     <string name="name_format_builder_title">Select parts to include in backup file name</string>

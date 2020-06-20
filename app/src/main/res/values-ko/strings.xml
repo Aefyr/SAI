@@ -232,8 +232,6 @@
     <string name="settings_main_auto_theme_pre_q_warning">안드로이드 Q보다 낮은 버전에서는 시스템 테마 기능이 정상적으로 작동하지 않을 수 있습니다.</string>
     <string name="settings_main_use_installerx">Pro 모드</string>
     <string name="settings_main_use_installerx_summary">Enable installer Pro mode that allows you to select parts to install from a .apks file (or other archives with multiple APK files). Please note that Pro mode is experimental and it may not work properly, feedback is welcome</string>
-    <string name="settings_main_enable_firebase">Firebase</string>
-    <string name="settings_main_enable_firebase_summary">Collect errors and app usage data with Firebase. You can find out more about data being collected in Privacy Policy which you can find on about screen. Changing this setting may not fully apply it until you restart SAI</string>
     <string name="settings_main_backup_settings">백업 설정</string>
     <string name="settings_main_backup_settings_summary">백업 설정을 열려면 탭하기</string>
     <string name="name_format_builder_title">Select parts to include in backup file name</string>

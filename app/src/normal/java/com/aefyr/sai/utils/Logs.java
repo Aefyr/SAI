@@ -128,7 +128,7 @@ public class Logs {
     }
 
     private static boolean isCrashlyticsAvailable() {
-        return sPrefsHelper.isFirebaseEnabled();
+        return sPrefsHelper.isAnalyticsEnabled();
     }
 
     private enum LogLevel {

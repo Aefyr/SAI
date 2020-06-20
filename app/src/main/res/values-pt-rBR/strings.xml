@@ -232,8 +232,6 @@
     <string name="settings_main_auto_theme_pre_q_warning">Por favor, note que seguir o tema do sistema pode não funcionar corretamente nas versões do Android inferiores ao Q</string>
     <string name="settings_main_use_installerx">Modo Pro</string>
     <string name="settings_main_use_installerx_summary">Habilitar o modo Pro do instalador permite você selecionar partes para instalar a partir de um arquivo .apks (ou outros arquivos com vários arquivos APK). Por favor, note que o modo Pro é experimental e que pode não funcionar corretamente, feedbacks são bem-vindos</string>
-    <string name="settings_main_enable_firebase">Firebase</string>
-    <string name="settings_main_enable_firebase_summary">Colete erros e dados de uso de aplicativos com o Firebase. Você pode saber mais sobre os dados que estão sendo coletados na Política de Privacidade e que você pode ver na tela. Alterações nesta configuração não serão devidamente aplicadas até que seja reiniciado o SAI</string>
     <string name="settings_main_backup_settings">Backup settings</string>
     <string name="settings_main_backup_settings_summary">Tap to open backup settings</string>
     <string name="name_format_builder_title">Select parts to include in backup file name</string>
