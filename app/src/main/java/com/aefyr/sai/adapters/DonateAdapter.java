@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.aefyr.sai.R;
 import com.aefyr.sai.billing.BillingProduct;
 import com.aefyr.sai.billing.DonationStatus;
+import com.aefyr.sai.billing.DonationStatusRenderer;
 import com.bumptech.glide.Glide;
 
 import java.util.List;
@@ -27,12 +28,14 @@ public class DonateAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private LayoutInflater mInflater;
 
     private DonationStatus mDonationStatus;
+    private DonationStatusRenderer mDonationStatusRenderer;
     private List<BillingProduct> mProducts;
 
     private OnProductInteractionListener mProductInteractionListener;
 
-    public DonateAdapter(Context context) {
+    public DonateAdapter(Context context, DonationStatusRenderer donationStatusRenderer) {
         mInflater = LayoutInflater.from(context);
+        mDonationStatusRenderer = donationStatusRenderer;
         setHasStableIds(true);
     }
 
@@ -120,30 +123,8 @@ public class DonateAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
 
         private void bindTo(DonationStatus status) {
-            switch (status) {
-                case NOT_AVAILABLE:
-                case UNKNOWN:
-                    mMessage.setText(R.string.donate_message_unknown_or_error);
-                    mIcon.setImageResource(R.drawable.ic_donation_status_unknown);
-                    break;
-                case PENDING:
-                    mMessage.setText(R.string.donate_message_pending);
-                    mIcon.setImageResource(R.drawable.ic_donation_status_pending);
-                    break;
-                case DONATED:
-                    mMessage.setText(R.string.donate_message_donated);
-                    mIcon.setImageResource(R.drawable.ic_donation_status_donated);
-                    break;
-                case NOT_DONATED:
-                    mMessage.setText(R.string.donate_message_not_donated);
-                    mIcon.setImageResource(R.drawable.ic_donation_status_not_donated);
-                    break;
-                case FLOSS_MODE:
-                    mMessage.setText(R.string.donate_message_floss);
-                    mIcon.setImageResource(R.drawable.ic_donation_status_floss);
-                    break;
-
-            }
+            mMessage.setText(mDonationStatusRenderer.getText(itemView.getContext(), status));
+            mIcon.setImageDrawable(mDonationStatusRenderer.getIcon(itemView.getContext(), status));
         }
     }
 

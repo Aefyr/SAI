@@ -12,6 +12,8 @@ public interface BillingManager {
 
     LiveData<DonationStatus> getDonationStatus();
 
+    DonationStatusRenderer getDonationStatusRenderer();
+
     LiveData<List<BillingProduct>> getAllProducts();
 
     LiveData<List<BillingProduct>> getPurchasedProducts();

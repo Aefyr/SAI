@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 
 import androidx.lifecycle.LiveData;
@@ -20,7 +21,7 @@ public class DefaultBillingManager implements BillingManager {
     private static DefaultBillingManager sInstance;
 
     private MutableLiveData<BillingManagerStatus> mStatus = new MutableLiveData<>(BillingManagerStatus.OK);
-    private MutableLiveData<DonationStatus> mDonationStatus = new MutableLiveData<>(DonationStatus.FLOSS_MODE);
+    private MutableLiveData<DonationStatus> mDonationStatus = new MutableLiveData<>(DonationStatus.DONATED);
 
     private MutableLiveData<List<BillingProduct>> mProducts = new MutableLiveData<>();
     private MutableLiveData<List<BillingProduct>> mPurchasedProducts = new MutableLiveData<>(Collections.emptyList());
@@ -32,7 +33,8 @@ public class DefaultBillingManager implements BillingManager {
     }
 
     private DefaultBillingManager(Context context) {
-        createProducts(context);
+        createProducts(context.getApplicationContext());
+
         sInstance = this;
     }
 
@@ -50,6 +52,11 @@ public class DefaultBillingManager implements BillingManager {
     @Override
     public LiveData<DonationStatus> getDonationStatus() {
         return mDonationStatus;
+    }
+
+    @Override
+    public DonationStatusRenderer getDonationStatusRenderer() {
+        return new FDroidDonationStatusRenderer();
     }
 
     @Override
@@ -82,5 +89,18 @@ public class DefaultBillingManager implements BillingManager {
     @Override
     public void refresh() {
 
+    }
+
+    private static class FDroidDonationStatusRenderer implements DonationStatusRenderer {
+
+        @Override
+        public String getText(Context context, DonationStatus donationStatus) {
+            return context.getString(R.string.donate_message_floss);
+        }
+
+        @Override
+        public Drawable getIcon(Context context, DonationStatus donationStatus) {
+            return context.getResources().getDrawable(R.drawable.ic_donation_status_floss);
+        }
     }
 }

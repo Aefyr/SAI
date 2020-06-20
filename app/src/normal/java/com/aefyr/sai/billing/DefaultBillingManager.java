@@ -3,6 +3,7 @@ package com.aefyr.sai.billing;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.util.Log;
 
 import androidx.annotation.Nullable;
@@ -99,6 +100,11 @@ public class DefaultBillingManager implements BillingManager, PurchasesUpdatedLi
     @Override
     public LiveData<DonationStatus> getDonationStatus() {
         return mDonationStatus;
+    }
+
+    @Override
+    public DonationStatusRenderer getDonationStatusRenderer() {
+        return new GooglePlayDonationStatusRenderer();
     }
 
     @Override
@@ -307,5 +313,42 @@ public class DefaultBillingManager implements BillingManager, PurchasesUpdatedLi
         Log.d(TAG, "Billing service disconnected, reconnecting");
         mBillingStatus.setValue(BillingManagerStatus.NOT_READY);
         connectBillingService();
+    }
+
+    private static class GooglePlayDonationStatusRenderer implements DonationStatusRenderer {
+
+        @Override
+        public String getText(Context context, DonationStatus donationStatus) {
+            switch (donationStatus) {
+                case NOT_AVAILABLE:
+                case UNKNOWN:
+                    return context.getString(R.string.donate_message_unknown_or_error);
+                case PENDING:
+                    return context.getString(R.string.donate_message_pending);
+                case DONATED:
+                    return context.getString(R.string.donate_message_donated);
+                case NOT_DONATED:
+                    return context.getString(R.string.donate_message_not_donated);
+            }
+
+            return context.getString(R.string.donate_message_unknown_or_error);
+        }
+
+        @Override
+        public Drawable getIcon(Context context, DonationStatus donationStatus) {
+            switch (donationStatus) {
+                case NOT_AVAILABLE:
+                case UNKNOWN:
+                    return context.getDrawable(R.drawable.ic_donation_status_unknown);
+                case PENDING:
+                    return context.getDrawable(R.drawable.ic_donation_status_pending);
+                case DONATED:
+                    return context.getDrawable(R.drawable.ic_donation_status_donated);
+                case NOT_DONATED:
+                    return context.getDrawable(R.drawable.ic_donation_status_not_donated);
+            }
+
+            return context.getDrawable(R.drawable.ic_donation_status_unknown);
+        }
     }
 }

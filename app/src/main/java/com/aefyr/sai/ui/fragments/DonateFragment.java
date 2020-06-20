@@ -32,7 +32,7 @@ public class DonateFragment extends SaiBaseFragment implements DonateAdapter.OnP
         RecyclerView recycler = findViewById(R.id.rv_donate);
         recycler.setLayoutManager(new LinearLayoutManager(requireContext()));
 
-        DonateAdapter adapter = new DonateAdapter(requireContext());
+        DonateAdapter adapter = new DonateAdapter(requireContext(), mBillingManager.getDonationStatusRenderer());
         adapter.setOnProductInteractionListener(this);
         recycler.setAdapter(adapter);
 
