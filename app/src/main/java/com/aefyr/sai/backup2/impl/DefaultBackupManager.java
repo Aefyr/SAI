@@ -176,7 +176,7 @@ public class DefaultBackupManager implements BackupManager, BackupStorage.Observ
     public void restoreBackup(Uri backupUri) {
         mMiscExecutor.execute(() -> {
             ApkSource apkSource = mStorage.createApkSource(backupUri);
-            mInstaller.enqueueSession(mInstaller.createSession(new SaiPiSessionParams(apkSource)));
+            mInstaller.enqueueSession(mInstaller.createSessionOnInstaller(mPrefsHelper.getInstaller(), new SaiPiSessionParams(apkSource)));
         });
     }
 
