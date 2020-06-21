@@ -232,6 +232,8 @@
     <string name="settings_main_auto_theme_pre_q_warning">Пожалуйста учтите, что следование системной теме может работать некорректно на Android ниже Q</string>
     <string name="settings_main_use_installerx">Режим Pro</string>
     <string name="settings_main_use_installerx_summary">Включить режим Pro в установщике, который позволяет выбрать части split APK перед установкой. Пожалуйста учтите, что режим Pro экспериментальный и может не работать как надо</string>
+    <string name="settings_main_enable_analytics">Аналитика</string>
+    <string name="settings_main_enable_analytics_summary">Разрешить SAI собирать аналитические данные, например данные об использовании программы и ошибки. Вы можете узнать больше о собираемых данных в политике конфиденциальности, которая расположена на экране \"О приложении\". Изменение этой настройки может полностью не вступить в силу до перезапуска SAI</string>
     <string name="settings_main_backup_settings">Настройки бэкапа</string>
     <string name="settings_main_backup_settings_summary">Нажмите для открытия настроек резервного копирования</string>
     <string name="name_format_builder_title">Выберите части для включения в имя файла бэкапа</string>
