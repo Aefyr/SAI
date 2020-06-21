@@ -16,13 +16,13 @@ import java.util.Objects;
 public class FlavorInitProvider extends ContentProvider {
 
     @NonNull
-    protected Context requireContext() {
+    protected Context compatRequireContext() {
         return Objects.requireNonNull(getContext(), "context is null");
     }
 
     @Override
     public boolean onCreate() {
-        Logs.init(requireContext());
+        Logs.init(compatRequireContext());
         return true;
     }
 

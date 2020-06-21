@@ -19,7 +19,7 @@ import java.util.Objects;
 public class FlavorInitProvider extends ContentProvider {
 
     @NonNull
-    protected Context requireContext() {
+    protected Context compatRequireContext() {
         return Objects.requireNonNull(getContext(), "context is null");
     }
 
@@ -58,8 +58,8 @@ public class FlavorInitProvider extends ContentProvider {
     }
 
     private void initAGConnect() {
-        AGConnectServicesConfig config = AGConnectServicesConfig.fromContext(requireContext());
-        config.overlayWith(new LazyInputStream(requireContext()) {
+        AGConnectServicesConfig config = AGConnectServicesConfig.fromContext(compatRequireContext());
+        config.overlayWith(new LazyInputStream(compatRequireContext()) {
             @Override
             public InputStream get(Context context) {
                 return context.getResources().openRawResource(R.raw.agconfig);
