@@ -16,6 +16,7 @@ import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
 import androidx.preference.SwitchPreference;
 
+import com.aefyr.sai.BuildConfig;
 import com.aefyr.sai.R;
 import com.aefyr.sai.analytics.AnalyticsProvider;
 import com.aefyr.sai.analytics.DefaultAnalyticsProvider;
@@ -94,10 +95,13 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Fil
             startActivity(new Intent(getContext(), AboutActivity.class));
             return true;
         });
-        findPreference("donate").setOnPreferenceClickListener(p -> {
+
+        Preference donatePref = Objects.requireNonNull(findPreference("donate"));
+        donatePref.setOnPreferenceClickListener(p -> {
             startActivity(new Intent(requireContext(), DonateActivity.class));
             return true;
         });
+        donatePref.setVisible(!BuildConfig.HIDE_DONATE_BUTTON);
 
         mInstallerPref = findPreference("installer");
         updateInstallerSummary();

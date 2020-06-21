@@ -23,6 +23,7 @@ android {
             dimension "version"
             buildConfigField "int", "DEFAULT_THEME", "0"
             buildConfigField "int", "DEFAULT_DARK_THEME", "1"
+            buildConfigField "boolean", "HIDE_DONATE_BUTTON", "false"
         }
 
         fdroid {
@@ -30,6 +31,7 @@ android {
             applicationId "com.aefyr.sai.fdroid"
             buildConfigField "int", "DEFAULT_THEME", "6"
             buildConfigField "int", "DEFAULT_DARK_THEME", "11"
+            buildConfigField "boolean", "HIDE_DONATE_BUTTON", "false"
         }
 
         appgallery {
@@ -37,6 +39,7 @@ android {
             applicationId "com.aefyr.sai.huawei"
             buildConfigField "int", "DEFAULT_THEME", "0"
             buildConfigField "int", "DEFAULT_DARK_THEME", "1"
+            buildConfigField "boolean", "HIDE_DONATE_BUTTON", "true"
         }
     }
 
