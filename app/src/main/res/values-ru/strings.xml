@@ -330,4 +330,5 @@
     <string name="about_licenses">Лицензии</string>
     <string name="about_translate">Помочь перевести SAI</string>
     <string name="about_privacy">Политика конфиденциальности</string>
+    <string name="about_eula">Лицензионное соглашение</string>
 </resources>

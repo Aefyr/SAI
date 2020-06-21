@@ -30,6 +30,7 @@ public class AboutActivity extends ThemedActivity {
         findViewById(R.id.button_about_licenses).setOnClickListener((v) -> startActivity(new Intent(this, LicensesActivity.class)));
         findViewById(R.id.button_about_translate).setOnClickListener(v -> openLink(getString(R.string.about_translate_link)));
         findViewById(R.id.button_about_privacy_policy).setOnClickListener(v -> openLink(mLegalStuffProvider.getPrivacyPolicyUrl()));
+        findViewById(R.id.button_about_eula).setOnClickListener(v -> openLink(mLegalStuffProvider.getEulaUrl()));
 
         findViewById(R.id.iv_about_logo).setOnClickListener((v) -> sLogoClicksCount++);
         findViewById(R.id.iv_about_logo).setOnLongClickListener((v) -> {
@@ -41,6 +42,9 @@ public class AboutActivity extends ThemedActivity {
 
         if (!mLegalStuffProvider.hasPrivacyPolicy()) {
             findViewById(R.id.button_about_privacy_policy).setVisibility(View.GONE);
+        }
+        if (!mLegalStuffProvider.hasEula()) {
+            findViewById(R.id.button_about_eula).setVisibility(View.GONE);
         }
     }
 

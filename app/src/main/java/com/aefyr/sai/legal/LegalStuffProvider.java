@@ -6,4 +6,8 @@ public interface LegalStuffProvider {
 
     String getPrivacyPolicyUrl();
 
+    boolean hasEula();
+
+    String getEulaUrl();
+
 }

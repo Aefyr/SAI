@@ -1,87 +1,116 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:fillViewport="true">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        tools:ignore="UselessParent"> <!-- It's not useless, it centers this RelativeLayout-->
+        android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/iv_about_logo"
-            android:layout_width="wrap_content"
+        <FrameLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:tint="?attr/colorAccent"
-            app:srcCompat="@drawable/logo" />
+            android:layout_weight="1">
 
-        <TextView
-            android:id="@+id/tv_about_app"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/iv_about_logo"
-            android:layout_centerHorizontal="true"
-            android:text="@string/app_name_full"
-            android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                tools:ignore="UselessParent"> <!-- It's not useless, it centers this RelativeLayout-->
 
-        <TextView
-            android:id="@+id/tv_about_author"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_about_app"
-            android:layout_centerHorizontal="true"
-            android:text="@string/about_author"
-            android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
+                <ImageView
+                    android:id="@+id/iv_about_logo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
+                    android:tint="?attr/colorAccent"
+                    app:srcCompat="@drawable/logo" />
+
+                <TextView
+                    android:id="@+id/tv_about_app"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/iv_about_logo"
+                    android:layout_centerHorizontal="true"
+                    android:text="@string/app_name_full"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+
+                <TextView
+                    android:id="@+id/tv_about_author"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_about_app"
+                    android:layout_centerHorizontal="true"
+                    android:text="@string/about_author"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
+
+                <LinearLayout
+                    android:id="@+id/container_about_buttons"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_about_author"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="8dp"
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/button_about_source"
+                        style="@style/SAIMaterialButton"
+                        android:layout_margin="8dp"
+                        android:text="@string/about_source" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/button_about_licenses"
+                        style="@style/SAIMaterialButton"
+                        android:layout_margin="8dp"
+                        android:text="@string/about_licenses" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/button_about_donate"
+                        style="@style/SAIMaterialButton.Outlined"
+                        android:layout_margin="8dp"
+                        android:text="@string/about_donate"
+                        android:visibility="gone" />
+                </LinearLayout>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/button_about_translate"
+                    style="@style/SAIMaterialButton"
+                    android:layout_below="@id/container_about_buttons"
+                    android:layout_centerHorizontal="true"
+                    android:text="@string/about_translate" />
+
+            </RelativeLayout>
+        </FrameLayout>
 
         <LinearLayout
-            android:id="@+id/container_about_buttons"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_about_author"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="8dp"
-            android:orientation="horizontal">
+            android:orientation="vertical"
+            android:padding="8dp"
+            android:paddingBottom="8dp">
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/button_about_source"
-                style="@style/SAIMaterialButton"
-                android:layout_margin="8dp"
-                android:text="@string/about_source" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/button_about_licenses"
-                style="@style/SAIMaterialButton"
-                android:layout_margin="8dp"
-                android:text="@string/about_licenses" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/button_about_donate"
+                android:id="@+id/button_about_eula"
                 style="@style/SAIMaterialButton.Outlined"
-                android:layout_margin="8dp"
-                android:text="@string/about_donate"
-                android:visibility="gone" />
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/about_eula" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/button_about_privacy_policy"
+                style="@style/SAIMaterialButton.Outlined"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/about_privacy" />
+
         </LinearLayout>
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/button_about_translate"
-            style="@style/SAIMaterialButton"
-            android:layout_below="@id/container_about_buttons"
-            android:layout_centerHorizontal="true"
-            android:text="@string/about_translate" />
+    </LinearLayout>
 
-    </RelativeLayout>
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/button_about_privacy_policy"
-        style="@style/SAIMaterialButton.Outlined"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|center_horizontal"
-        android:layout_marginBottom="16dp"
-        android:text="@string/about_privacy" />
-</FrameLayout>
+</ScrollView>

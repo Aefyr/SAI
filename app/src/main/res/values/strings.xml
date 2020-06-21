@@ -353,5 +353,5 @@
     <string name="about_translate">Help to translate SAI</string>
     <string name="about_translate_link" translatable="false">https://polychromaticfox.crowdin.com/split-apks-installer</string>
     <string name="about_privacy">Privacy Policy</string>
-
+    <string name="about_eula">End User License Agreement</string>
 </resources>

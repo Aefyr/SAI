@@ -27,4 +27,14 @@ public class DefaultLegalStuffProvider implements LegalStuffProvider {
     public String getPrivacyPolicyUrl() {
         return "https://aefyr.github.io/sai/privacy_appgallery_en.html";
     }
+
+    @Override
+    public boolean hasEula() {
+        return true;
+    }
+
+    @Override
+    public String getEulaUrl() {
+        return "https://aefyr.github.io/sai/eula_en";
+    }
 }
