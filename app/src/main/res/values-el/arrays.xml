@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string-array name="backup_dir_selection_methods">
+    <item>Επιλογή αρχείου εσωτερικά</item>
+    <item>Επιλογή αρχείου εξωτερικά</item>
+  </string-array>
+  <string-array name="backup_file_name_formats">
+    <item>NAME_PACKAGE_VERSION.apks</item>
+    <item>NAME.apks</item>
+    <item>NAME_VERSION.apks</item>
+  </string-array>
+  <string-array name="file_picker_sort_variants">
+    <item>Κατά όνομα (Αλφαβητικά)</item>
+    <item>Κατά όνομα (Αντίστροφα)</item>
+    <item>Τελευταία τροποπ/ση πρώτα</item>
+    <item>Παλαιότερη τροποπ/ση πρώτα</item>
+    <item>Πρώτα με μικρότερο μέγεθος</item>
+    <item>Πρώτα με μεγαλύτερο μέγεθος</item>
+  </string-array>
+  <string-array name="install_locations">
+    <item>Αφήστε το σύστημα να αποφασίσει</item>
+    <item>Εσωτερικά μόνο</item>
+    <item>Προτίμηση εξωτερικά (Το σύστημα μπορεί ακόμα να αποφασίσει την χρήση εσωτερικά)</item>
+  </string-array>
+  <string-array name="installers">
+    <item>Χωρίς Ριζικό κατάλ. (συνιστάται)</item>
+    <item>Ριζικός κατάλ. (απαιτείται root)</item>
+    <item>Shizuku (απαιτείται Shizuku 3.x)</item>
+  </string-array>
+  <string-array name="name_format_parts">
+    <item>Όνομα</item>
+    <item>Έκδοση</item>
+    <item>Κωδικός έκδοσης</item>
+    <item>Πακέτο</item>
+    <item>Χρονική σήμανση</item>
+  </string-array>
+  <string-array name="size_units">
+    <item>B</item>
+    <item>KB</item>
+    <item>MB</item>
+    <item>GB</item>
+    <item>TB</item>
+    <item>PB</item>
+  </string-array>
+</resources>
