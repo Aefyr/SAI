@@ -184,21 +184,23 @@ public class BackupViewModel extends AndroidViewModel {
 
         @Override
         public boolean filterSimple(BackupApp app) {
-            if (mQuery.length() == 0)
+            String query = mQuery.toLowerCase();
+
+            if (query.length() == 0)
                 return false;
 
             //Check if app label matches
             String[] wordsInLabel = app.packageMeta().label.toLowerCase().split(" ");
             boolean labelMatches = false;
             for (String word : wordsInLabel) {
-                if (word.startsWith(mQuery)) {
+                if (word.startsWith(query)) {
                     labelMatches = true;
                     break;
                 }
             }
 
             //Check if app packages matches
-            boolean packagesMatches = app.packageMeta().packageName.toLowerCase().startsWith(mQuery);
+            boolean packagesMatches = app.packageMeta().packageName.toLowerCase().startsWith(query);
 
             return !labelMatches && !packagesMatches;
         }
