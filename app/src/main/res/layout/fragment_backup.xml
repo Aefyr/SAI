@@ -8,7 +8,12 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_packages"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        app:fastScrollEnabled="true"
+        app:fastScrollHorizontalThumbDrawable="@drawable/fastscroll_thumb"
+        app:fastScrollHorizontalTrackDrawable="@android:color/transparent"
+        app:fastScrollVerticalThumbDrawable="@drawable/fastscroll_thumb"
+        app:fastScrollVerticalTrackDrawable="@android:color/transparent">
 
     </androidx.recyclerview.widget.RecyclerView>
 
