@@ -45,6 +45,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
+                <!-- .apks -->
                 <data
                     android:host="*"
                     android:mimeType="*/*"
@@ -95,6 +96,14 @@
                     android:mimeType="*/*"
                     android:pathPattern=".*\\..*\\..*\\..*\\.apks"
                     android:scheme="content" />
+
+                <!-- .apk -->
+                <data
+                    android:host="*"
+                    android:mimeType="application/vnd.android.package-archive"
+                    android:pathPattern=".*"
+                    android:scheme="content" />
+
             </intent-filter>
         </activity>
 
