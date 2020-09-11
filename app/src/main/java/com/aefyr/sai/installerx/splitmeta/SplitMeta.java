@@ -1,7 +1,5 @@
 package com.aefyr.sai.installerx.splitmeta;
 
-import androidx.annotation.Nullable;
-
 import com.aefyr.sai.installerx.splitmeta.config.AbiConfigSplitMeta;
 import com.aefyr.sai.installerx.splitmeta.config.LocaleConfigSplitMeta;
 import com.aefyr.sai.installerx.splitmeta.config.ScreenDestinyConfigSplitMeta;
@@ -10,6 +8,8 @@ import com.aefyr.sai.utils.TextUtils;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import androidx.annotation.Nullable;
 
 public abstract class SplitMeta {
     protected static final String ANDROID_XML_NAMESPACE = "http://schemas.android.com/apk/res/android";
@@ -47,22 +47,18 @@ public abstract class SplitMeta {
             return new FeatureSplitMeta(manifestAttrs);
         }
 
-        if (manifestAttrs.containsKey("configForSplit")) {
-            String splitName = TextUtils.requireNonEmpty(manifestAttrs.get("split"));
+        String splitName = TextUtils.requireNonEmpty(manifestAttrs.get("split"));
 
-            if (AbiConfigSplitMeta.isAbiSplit(splitName))
-                return new AbiConfigSplitMeta(manifestAttrs);
+        if (AbiConfigSplitMeta.isAbiSplit(splitName))
+            return new AbiConfigSplitMeta(manifestAttrs);
 
-            if (ScreenDestinyConfigSplitMeta.isScreenDensitySplit(splitName))
-                return new ScreenDestinyConfigSplitMeta(manifestAttrs);
+        if (ScreenDestinyConfigSplitMeta.isScreenDensitySplit(splitName))
+            return new ScreenDestinyConfigSplitMeta(manifestAttrs);
 
-            if (LocaleConfigSplitMeta.isLocaleSplit(splitName))
-                return new LocaleConfigSplitMeta(manifestAttrs);
+        if (LocaleConfigSplitMeta.isLocaleSplit(splitName))
+            return new LocaleConfigSplitMeta(manifestAttrs);
 
-            return new UnknownConfigSplitMeta(manifestAttrs);
-        }
-
-        return new UnknownSplitMeta(manifestAttrs);
+        return new UnknownConfigSplitMeta(manifestAttrs);
     }
 
 }
