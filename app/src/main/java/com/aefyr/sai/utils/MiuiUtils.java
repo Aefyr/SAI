@@ -73,7 +73,7 @@ public class MiuiUtils {
 
     @SuppressLint("PrivateApi")
     public static boolean isMiuiOptimizationDisabled() {
-        if ("0".equals(Utils.getSystemProperty("persist.sys.miui_optimization")))
+        if ("false".equals(Utils.getSystemProperty("persist.sys.miui_optimization")))
             return true;
 
         try {
