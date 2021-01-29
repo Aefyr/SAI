@@ -42,4 +42,7 @@
         <item>Встроен файлпикер</item>
         <item>Системен файлпикер</item>
     </string-array>
+    <string-array name="backup_dir_selection_saf">
+        <item>Системен файлпикер</item>
+    </string-array>
 </resources>

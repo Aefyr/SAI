@@ -42,4 +42,7 @@
         <item>Internal file picker</item>
         <item>System file picker</item>
     </string-array>
+    <string-array name="backup_dir_selection_saf">
+        <item>System file picker</item>
+    </string-array>
 </resources>

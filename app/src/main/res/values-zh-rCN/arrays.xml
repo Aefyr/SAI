@@ -42,4 +42,7 @@
         <item>内置文件选择器(SAI内置)</item>
         <item>系统文件选择器(SAF)</item>
     </string-array>
+    <string-array name="backup_dir_selection_saf">
+        <item>系统文件选择器(SAF)</item>
+    </string-array>
 </resources>

@@ -42,4 +42,7 @@
         <item>내부 저장소 파일 선택기</item>
         <item>시스템 파일 선택기</item>
     </string-array>
+    <string-array name="backup_dir_selection_saf">
+        <item>시스템 파일 선택기</item>
+    </string-array>
 </resources>

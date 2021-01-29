@@ -42,4 +42,7 @@
         <item>內部文件選擇題</item>
         <item>作業系統文件選擇器（SAF）</item>
     </string-array>
+    <string-array name="backup_dir_selection_saf">
+        <item>作業系統文件選擇器（SAF）</item>
+    </string-array>
 </resources>
