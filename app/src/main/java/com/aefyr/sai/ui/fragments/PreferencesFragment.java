@@ -78,6 +78,9 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Fil
         setPreferencesFromResource(R.xml.preferences_main, rootKey);
 
         mHomeDirPref = findPreference("home_directory");
+        if(Utils.apiIsAtLeast(Build.VERSION_CODES.R)){
+            mHomeDirPref.setVisible(false);
+        }
         updateHomeDirPrefSummary();
         mHomeDirPref.setOnPreferenceClickListener((p) -> {
             selectHomeDir();

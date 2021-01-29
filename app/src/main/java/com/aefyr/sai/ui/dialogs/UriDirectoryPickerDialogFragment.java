@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 
@@ -31,7 +32,10 @@ public class UriDirectoryPickerDialogFragment extends SingleChoiceListDialogFrag
         UriDirectoryPickerDialogFragment fragment = new UriDirectoryPickerDialogFragment();
 
         Bundle args = new Bundle();
-        args.putParcelable(ARG_PARAMS, new DialogParams(context.getText(R.string.settings_main_backup_backup_dir_dialog), R.array.backup_dir_selection_methods));
+        if (Utils.apiIsAtLeast(Build.VERSION_CODES.R))
+            args.putParcelable(ARG_PARAMS, new DialogParams(context.getText(R.string.settings_main_backup_backup_dir_dialog), R.array.backup_dir_selection_saf));
+        else
+            args.putParcelable(ARG_PARAMS, new DialogParams(context.getText(R.string.settings_main_backup_backup_dir_dialog), R.array.backup_dir_selection_methods));
         fragment.setArguments(args);
 
         return fragment;
@@ -39,20 +43,24 @@ public class UriDirectoryPickerDialogFragment extends SingleChoiceListDialogFrag
 
     @Override
     protected void deliverSelectionResult(String tag, int selectedItemIndex) {
-        switch (selectedItemIndex) {
-            case 0:
-                DialogProperties properties = new DialogProperties();
-                properties.selection_mode = DialogConfigs.SINGLE_MODE;
-                properties.selection_type = DialogConfigs.DIR_SELECT;
-                properties.root = Environment.getExternalStorageDirectory();
+        if (Utils.apiIsAtLeast(Build.VERSION_CODES.R) && selectedItemIndex == 0) {
+            Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT_TREE);
+            startActivityForResult(Intent.createChooser(intent, getString(R.string.settings_main_pick_dir)), REQUEST_CODE_SELECT_BACKUP_DIR);
+        } else
+            switch (selectedItemIndex) {
+                case 0:
+                    DialogProperties properties = new DialogProperties();
+                    properties.selection_mode = DialogConfigs.SINGLE_MODE;
+                    properties.selection_type = DialogConfigs.DIR_SELECT;
+                    properties.root = Environment.getExternalStorageDirectory();
 
-                openFilePicker(FilePickerDialogFragment.newInstance("backup_dir", getString(R.string.settings_main_pick_dir), properties));
-                break;
-            case 1:
-                Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT_TREE);
-                startActivityForResult(Intent.createChooser(intent, getString(R.string.installer_pick_apks)), REQUEST_CODE_SELECT_BACKUP_DIR);
-                break;
-        }
+                    openFilePicker(FilePickerDialogFragment.newInstance("backup_dir", getString(R.string.settings_main_pick_dir), properties));
+                    break;
+                case 1:
+                    Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT_TREE);
+                    startActivityForResult(Intent.createChooser(intent, getString(R.string.settings_main_pick_dir)), REQUEST_CODE_SELECT_BACKUP_DIR);
+                    break;
+            }
     }
 
     private void openFilePicker(FilePickerDialogFragment filePicker) {

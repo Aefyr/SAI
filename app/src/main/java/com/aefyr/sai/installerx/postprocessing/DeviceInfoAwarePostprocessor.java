@@ -158,19 +158,17 @@ public class DeviceInfoAwarePostprocessor implements Postprocessor {
     }
 
     private Map<String, Integer> getPreferredLanguagesRanking() {
+        HashMap<String, Integer> localeRanking = new HashMap<>();
         if (!Utils.apiIsAtLeast(Build.VERSION_CODES.N)) {
-            HashMap<String, Integer> localeRanking = new HashMap<>();
             localeRanking.put(mContext.getResources().getConfiguration().locale.getLanguage(), 0);
-            return localeRanking;
         } else {
-            HashMap<String, Integer> localeRanking = new HashMap<>();
             LocaleList localeList = mContext.getResources().getConfiguration().getLocales();
             for (int i = 0; i < localeList.size(); i++) {
                 localeRanking.put(localeList.get(i).getLanguage(), i);
             }
 
-            return localeRanking;
         }
+        return localeRanking;
     }
 
     private void processScreenDensityCategory(ParserContext parserContext, @Nullable MutableSplitCategory dpiCategory) {

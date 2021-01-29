@@ -5,6 +5,7 @@ import android.content.ClipData;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
@@ -128,16 +129,20 @@ public class Installer2Fragment extends InstallerFragment implements FilePickerD
         }));
         findViewById(R.id.ib_help).setOnClickListener((v) -> AlertsUtils.showAlert(this, R.string.help, R.string.installer_help));
 
-        Button installButtton = findViewById(R.id.button_install);
-        installButtton.setOnClickListener((v) -> {
+        Button installButton = findViewById(R.id.button_install);
+        installButton.setOnClickListener((v) -> {
             if (mHelper.isInstallerXEnabled())
                 openInstallerXDialog(null);
+            else if(Utils.apiIsAtLeast(Build.VERSION_CODES.R))
+                pickFilesWithSaf();
             else
                 checkPermissionsAndPickFiles();
         });
-        installButtton.setOnLongClickListener((v) -> {
+        installButton.setOnLongClickListener((v) -> {
             if (mHelper.isInstallerXEnabled())
                 openInstallerXDialog(null);
+            else if(Utils.apiIsAtLeast(Build.VERSION_CODES.R))
+                pickFilesWithSaf();
             else
                 pickFilesWithSaf();
 
@@ -150,13 +155,13 @@ public class Installer2Fragment extends InstallerFragment implements FilePickerD
                     mHelper.setSafTipShown();
             });
 
-            ToolTip tooltip = new ToolTip.Builder(requireContext(), installButtton, ((ViewGroup) view), getText(R.string.installer_saf_tip), ToolTip.POSITION_ABOVE)
+            ToolTip tooltip = new ToolTip.Builder(requireContext(), installButton, ((ViewGroup) view), getText(R.string.installer_saf_tip), ToolTip.POSITION_ABOVE)
                     .setBackgroundColor(Utils.getThemeColor(requireContext(), R.attr.colorAccent))
                     .setTextAppearance(R.style.SAITooltipTextAppearance)
                     .setGravity(ToolTip.GRAVITY_CENTER)
                     .build();
 
-            installButtton.post(() -> mToolTipsManager.show(tooltip));
+            installButton.post(() -> mToolTipsManager.show(tooltip));
         }
 
         if (mPendingActionViewUri != null) {
@@ -220,20 +225,19 @@ public class Installer2Fragment extends InstallerFragment implements FilePickerD
         properties.selection_type = DialogConfigs.FILE_SELECT;
         properties.root = Environment.getExternalStorageDirectory();
         properties.offset = new File(mHelper.getHomeDirectory());
-        properties.extensions = new String[]{"apk", "zip", "apks", "xapk"};
+        properties.extensions = new String[]{"apk", "zip", "apks", "xapk", "apkm"};
         properties.sortBy = mHelper.getFilePickerSortBy();
         properties.sortOrder = mHelper.getFilePickerSortOrder();
 
         FilePickerDialogFragment.newInstance(null, getString(R.string.installer_pick_apks), properties).show(getChildFragmentManager(), "dialog_files_picker");
     }
 
-    private boolean pickFilesWithSaf() {
+    private void pickFilesWithSaf() {
         Intent getContentIntent = new Intent(Intent.ACTION_GET_CONTENT);
         getContentIntent.setType("*/*");
         getContentIntent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
         startActivityForResult(Intent.createChooser(getContentIntent, getString(R.string.installer_pick_apks)), REQUEST_CODE_GET_FILES);
 
-        return true;
     }
 
     @Override
