@@ -141,8 +141,6 @@ public class Installer2Fragment extends InstallerFragment implements FilePickerD
         installButton.setOnLongClickListener((v) -> {
             if (mHelper.isInstallerXEnabled())
                 openInstallerXDialog(null);
-            else if(Utils.apiIsAtLeast(Build.VERSION_CODES.R))
-                pickFilesWithSaf();
             else
                 pickFilesWithSaf();
 

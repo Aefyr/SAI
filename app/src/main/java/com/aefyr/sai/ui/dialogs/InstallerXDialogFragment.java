@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.LayoutInflater;
@@ -26,11 +27,13 @@ import com.aefyr.sai.ui.dialogs.base.BaseBottomSheetDialogFragment;
 import com.aefyr.sai.utils.AlertsUtils;
 import com.aefyr.sai.utils.PermissionsUtils;
 import com.aefyr.sai.utils.PreferencesHelper;
+import com.aefyr.sai.utils.Utils;
 import com.aefyr.sai.view.ViewSwitcherLayout;
 import com.aefyr.sai.viewmodels.InstallerXDialogViewModel;
 import com.aefyr.sai.viewmodels.factory.InstallerXDialogViewModelFactory;
 import com.github.angads25.filepicker.model.DialogConfigs;
 import com.github.angads25.filepicker.model.DialogProperties;
+import com.google.android.material.button.MaterialButton;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -126,7 +129,12 @@ public class InstallerXDialogFragment extends BaseBottomSheetDialogFragment impl
             dismiss();
         });
 
-        view.findViewById(R.id.button_installerx_fp_internal).setOnClickListener(v -> checkPermissionsAndPickFiles());
+        MaterialButton materialButtonPickFile = view.findViewById(R.id.button_installerx_fp_internal);
+        if(Utils.apiIsAtLeast(Build.VERSION_CODES.R))
+            materialButtonPickFile.setVisibility(View.GONE);
+
+        materialButtonPickFile.setOnClickListener(v -> checkPermissionsAndPickFiles());
+
         view.findViewById(R.id.button_installerx_fp_saf).setOnClickListener(v -> pickFilesWithSaf());
 
         TextView warningTv = view.findViewById(R.id.tv_installerx_warning);
