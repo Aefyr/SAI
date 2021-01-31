@@ -47,7 +47,7 @@ public abstract class SplitMeta {
             return new FeatureSplitMeta(manifestAttrs);
         }
 
-        if (manifestAttrs.containsKey("configForSplit")) {
+        if (manifestAttrs.containsKey("configForSplit") || manifestAttrs.get("split").startsWith("config.")) {
             String splitName = TextUtils.requireNonEmpty(manifestAttrs.get("split"));
 
             if (AbiConfigSplitMeta.isAbiSplit(splitName))
