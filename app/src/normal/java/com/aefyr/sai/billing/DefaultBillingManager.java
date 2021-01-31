@@ -24,7 +24,7 @@ import com.android.billingclient.api.PurchasesUpdatedListener;
 import com.android.billingclient.api.SkuDetails;
 import com.android.billingclient.api.SkuDetailsParams;
 import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.android.gms.common.GoogleApiAvailabilityLight;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -172,7 +172,7 @@ public class DefaultBillingManager implements BillingManager, PurchasesUpdatedLi
     }
 
     private boolean areGooglePlayServicesAvailable() {
-        return GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(mContext) == ConnectionResult.SUCCESS;
+        return GoogleApiAvailabilityLight.getInstance().isGooglePlayServicesAvailable(mContext) == ConnectionResult.SUCCESS;
     }
 
     @Override
