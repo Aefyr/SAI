@@ -5,6 +5,7 @@ import android.util.Log;
 
 import androidx.annotation.Nullable;
 
+import com.aefyr.sai.installerx.resolver.appmeta.apkm.ApkmAppMetaExtractor;
 import com.aefyr.sai.installerx.resolver.appmeta.apks.SaiAppMetaExtractor;
 import com.aefyr.sai.installerx.resolver.appmeta.brute.BruteAppMetaExtractor;
 import com.aefyr.sai.installerx.resolver.appmeta.xapk.XapkAppMetaExtractor;
@@ -50,6 +51,8 @@ public class DefaultAppMetaExtractor implements AppMetaExtractor {
                 return new XapkAppMetaExtractor(mContext);
             case "apks":
                 return new SaiAppMetaExtractor(mContext);
+            case "apkm":
+                return new ApkmAppMetaExtractor(mContext);
             default:
                 return null;
         }

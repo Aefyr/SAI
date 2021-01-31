@@ -53,6 +53,7 @@ public class DefaultUriMessResolver implements UriMessResolver {
                 case "zip":
                 case "apks":
                 case "xapk":
+                case "apkm":
                     try (ParcelFileDescriptor fd = uriHost.openUriAsParcelFd(uri)) {
                         ApkSourceMetaResolutionResult resolutionResult = mMetaResolver.resolveFor(new ZipFileApkSourceFile(SafUtils.parcelFdToFile(fd), fileName));
                         if (resolutionResult.isSuccessful())
