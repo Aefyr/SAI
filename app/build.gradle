@@ -33,14 +33,6 @@ android {
             buildConfigField "int", "DEFAULT_DARK_THEME", "11"
             buildConfigField "boolean", "HIDE_DONATE_BUTTON", "false"
         }
-
-        appgallery {
-            dimension "version"
-            applicationId "com.aefyr.sai.huawei"
-            buildConfigField "int", "DEFAULT_THEME", "0"
-            buildConfigField "int", "DEFAULT_DARK_THEME", "1"
-            buildConfigField "boolean", "HIDE_DONATE_BUTTON", "true"
-        }
     }
 
     compileOptions {
@@ -77,11 +69,6 @@ dependencies {
     normalImplementation 'com.google.firebase:firebase-analytics:17.4.3'
     normalImplementation 'com.google.firebase:firebase-crashlytics:17.0.1'
     normalImplementation 'com.android.billingclient:billing:3.0.0'
-
-    //AppGallery services
-    appgalleryImplementation 'com.huawei.agconnect:agconnect-core:1.3.2.301'
-    appgalleryImplementation 'com.huawei.agconnect:agconnect-crash:1.3.2.301'
-    appgalleryImplementation 'com.huawei.hms:hianalytics:5.0.0.301'
 
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.3'
 }
