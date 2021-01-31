@@ -10,6 +10,9 @@ SAI (Split APKs Installer) is an Android app that lets you install split APKs (s
      alt="Get it on Google Play"
      height="80">](https://play.google.com/store/apps/details?id=com.aefyr.sai)
 
+## State of SAI
+SAI is kinda dead cause I have no motivation for continuing its development. I will probably maybe still occasionally fix bugs and add small features/improvements, focusing on the installer functionality, but idk. If you're looking for an actual backup solution, you can try [OAndBackupX](https://f-droid.org/packages/com.machiav3lli.backup/) or [Swift Backup](https://play.google.com/store/apps/details?id=org.swiftapps.swiftbackup).
+
 ## Contributing
 Please read [Contributing guide](/CONTRIBUTING.md)
 
