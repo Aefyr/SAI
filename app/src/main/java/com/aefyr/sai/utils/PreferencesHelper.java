@@ -124,7 +124,7 @@ public class PreferencesHelper {
     }
 
     public boolean isInstallerXEnabled() {
-        return mPrefs.getBoolean(PreferencesKeys.USE_INSTALLERX, false);
+        return mPrefs.getBoolean(PreferencesKeys.USE_INSTALLERX, true);
     }
 
     public boolean isBruteParserEnabled() {
