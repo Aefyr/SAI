@@ -53,7 +53,8 @@
             android:icon="@drawable/ic_pref_pro_mode"
             android:key="use_installerx"
             android:title="@string/settings_main_use_installerx"
-            android:summary="@string/settings_main_use_installerx_summary" />
+            android:summary="@string/settings_main_use_installerx_summary"
+            android:defaultValue="true" />
 
         <Preference
             android:icon="@drawable/ic_pref_root"
