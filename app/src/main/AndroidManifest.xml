@@ -149,127 +149,23 @@
                     android:pathPattern=".*\\..*\\..*\\..*\\.apkm"
                     android:scheme="content" />
 
-                <!-- .apk -->
-                <data
-                    android:host="*"
-                    android:mimeType="*/*"
-                    android:pathPattern=".*\\.apk"
-                    android:scheme="content" />
+            </intent-filter>
+
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
                     android:host="*"
-                    android:mimeType="*/*"
-                    android:pathPattern=".*\\..*\\.apk"
-                    android:scheme="content" />
-
-                <data
-                    android:host="*"
-                    android:mimeType="*/*"
-                    android:pathPattern=".*\\..*\\..*\\.apk"
-                    android:scheme="content" />
-
-                <data
-                    android:host="*"
-                    android:mimeType="*/*"
-                    android:pathPattern=".*\\..*\\..*\\..*\\.apk"
-                    android:scheme="content" />
-
-                <data
-                    android:host="*"
-                    android:mimeType="*/*"
-                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\.apk"
-                    android:scheme="content" />
-
-                <data
-                    android:host="*"
-                    android:mimeType="*/*"
-                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\.apk"
-                    android:scheme="content" />
-
-                <data
-                    android:host="*"
-                    android:mimeType="*/*"
-                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\.apk"
-                    android:scheme="content" />
-
-                <data
-                    android:host="*"
-                    android:mimeType="*/*"
-                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\.apk"
-                    android:scheme="content" />
-
-                <data
-                    android:host="*"
-                    android:mimeType="*/*"
-                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.apk"
-                    android:scheme="content" />
-
-                <data
-                    android:host="*"
-                    android:mimeType="*/*"
-                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.apk"
-                    android:scheme="content" />
-
-                <data
-                    android:host="*"
-                    android:mimeType="*/*"
-                    android:pathPattern=".*\\.apk"
+                    android:mimeType="application/vnd.android.package-archive"
                     android:scheme="file" />
 
                 <data
                     android:host="*"
-                    android:mimeType="*/*"
-                    android:pathPattern=".*\\..*\\.apk"
-                    android:scheme="file" />
-
-                <data
-                    android:host="*"
-                    android:mimeType="*/*"
-                    android:pathPattern=".*\\..*\\..*\\.apk"
-                    android:scheme="file" />
-
-                <data
-                    android:host="*"
-                    android:mimeType="*/*"
-                    android:pathPattern=".*\\..*\\..*\\..*\\.apk"
-                    android:scheme="file" />
-
-                <data
-                    android:host="*"
-                    android:mimeType="*/*"
-                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\.apk"
-                    android:scheme="file" />
-
-                <data
-                    android:host="*"
-                    android:mimeType="*/*"
-                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\.apk"
-                    android:scheme="file" />
-
-                <data
-                    android:host="*"
-                    android:mimeType="*/*"
-                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\.apk"
-                    android:scheme="file" />
-
-                <data
-                    android:host="*"
-                    android:mimeType="*/*"
-                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\.apk"
-                    android:scheme="file" />
-
-                <data
-                    android:host="*"
-                    android:mimeType="*/*"
-                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.apk"
-                    android:scheme="file" />
-
-                <data
-                    android:host="*"
-                    android:mimeType="*/*"
-                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.apk"
-                    android:scheme="file" />
-
+                    android:mimeType="application/vnd.android.package-archive"
+                    android:scheme="content" />
             </intent-filter>
         </activity>
 
@@ -280,6 +176,7 @@
         <activity android:name=".ui.activities.ConfirmationIntentWrapperActivity" />
         <activity android:name=".ui.activities.LicensesActivity" />
         <activity android:name=".installer2.impl.rootless.ConfirmationIntentWrapperActivity2" />
+
 
         <service android:name=".backup2.impl.BackupService2" />
 
