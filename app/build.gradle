@@ -53,7 +53,6 @@ dependencies {
     implementation 'com.google.android.material:material:1.3.0-rc01'
 
     implementation 'com.github.bumptech.glide:glide:4.11.0'
-    implementation 'moe.shizuku.privilege:api:3.1.0'
     implementation 'com.google.android:flexbox:2.0.1'
     implementation 'com.tomergoldst.android:tooltips:1.0.11'
     implementation 'com.google.code.gson:gson:2.8.6'
@@ -69,6 +68,11 @@ dependencies {
     normalImplementation 'com.google.firebase:firebase-analytics:18.0.2'
     normalImplementation 'com.google.firebase:firebase-crashlytics:17.3.1'
     normalImplementation 'com.android.billingclient:billing:3.0.2'
+
+    //Shizuku/Sui
+    def shizuku_version = '11.0.1'
+    implementation "rikka.shizuku:api:$shizuku_version"
+    implementation "rikka.shizuku:provider:$shizuku_version"
 
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.3'
 }

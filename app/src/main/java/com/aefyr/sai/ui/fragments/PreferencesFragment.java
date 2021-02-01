@@ -44,9 +44,9 @@ import java.io.File;
 import java.util.List;
 import java.util.Objects;
 
-import moe.shizuku.api.ShizukuClientHelper;
+import rikka.shizuku.Shizuku;
 
-public class PreferencesFragment extends PreferenceFragmentCompat implements FilePickerDialogFragment.OnFilesSelectedListener, SingleChoiceListDialogFragment.OnItemSelectedListener, BaseBottomSheetDialogFragment.OnDismissListener, SharedPreferences.OnSharedPreferenceChangeListener, DarkLightThemeSelectionDialogFragment.OnDarkLightThemesChosenListener {
+public class PreferencesFragment extends PreferenceFragmentCompat implements FilePickerDialogFragment.OnFilesSelectedListener, SingleChoiceListDialogFragment.OnItemSelectedListener, BaseBottomSheetDialogFragment.OnDismissListener, SharedPreferences.OnSharedPreferenceChangeListener, DarkLightThemeSelectionDialogFragment.OnDarkLightThemesChosenListener, Shizuku.OnRequestPermissionResultListener {
 
     private PreferencesHelper mHelper;
     private AnalyticsProvider mAnalyticsProvider;
@@ -68,6 +68,10 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Fil
         //Inject current auto theme status since it isn't managed by PreferencesKeys.AUTO_THEME key
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(requireContext());
         prefs.edit().putBoolean(PreferencesKeys.AUTO_THEME, Theme.getInstance(requireContext()).getThemeMode() == Theme.Mode.AUTO_LIGHT_DARK).apply();
+
+        if (Utils.apiIsAtLeast(Build.VERSION_CODES.M)) {
+            Shizuku.addRequestPermissionResultListener(this);
+        }
 
         super.onCreate(savedInstanceState);
     }
@@ -297,12 +301,22 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Fil
                             AlertsUtils.showAlert(this, R.string.error, R.string.settings_main_installer_error_shizuku_pre_m);
                             return;
                         }
-                        if (!ShizukuClientHelper.isManagerV3Installed(requireContext())) {
+
+                        if (!Shizuku.pingBinder()) {
                             AlertsUtils.showAlert(this, R.string.error, R.string.settings_main_installer_error_no_shizuku);
                             return;
                         }
 
-                        installerSet = PermissionsUtils.checkAndRequestShizukuPermissions(this);
+                        if (!Shizuku.isPreV11() && Shizuku.getVersion() >= 11) {
+                            if (Shizuku.checkSelfPermission() == PackageManager.PERMISSION_GRANTED) {
+                                installerSet = true;
+                            } else {
+                                Shizuku.requestPermission(PermissionsUtils.REQUEST_CODE_SHIZUKU);
+                            }
+                        } else {
+                            installerSet = PermissionsUtils.checkAndRequestShizukuPermissions(this);
+                        }
+
                         break;
                 }
                 if (installerSet) {
@@ -326,6 +340,10 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Fil
     public void onDestroy() {
         super.onDestroy();
         getPreferenceManager().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
+
+        if (Utils.apiIsAtLeast(Build.VERSION_CODES.M)) {
+            Shizuku.removeRequestPermissionResultListener(this);
+        }
     }
 
     @SuppressLint("ApplySharedPref")
@@ -342,5 +360,19 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Fil
         Theme theme = Theme.getInstance(requireContext());
         theme.setLightTheme(lightTheme);
         theme.setDarkTheme(darkTheme);
+    }
+
+    @Override
+    public void onRequestPermissionResult(int requestCode, int grantResult) {
+        switch (requestCode) {
+            case PermissionsUtils.REQUEST_CODE_SHIZUKU:
+                if (grantResult == PackageManager.PERMISSION_DENIED)
+                    AlertsUtils.showAlert(this, R.string.error, R.string.permissions_required_shizuku);
+                else {
+                    mHelper.setInstaller(PreferencesValues.INSTALLER_SHIZUKU);
+                    updateInstallerSummary();
+                }
+                break;
+        }
     }
 }

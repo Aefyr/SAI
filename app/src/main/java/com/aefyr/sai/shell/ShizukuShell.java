@@ -11,8 +11,8 @@ import com.aefyr.sai.utils.Utils;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import moe.shizuku.api.RemoteProcess;
-import moe.shizuku.api.ShizukuService;
+import rikka.shizuku.Shizuku;
+import rikka.shizuku.ShizukuRemoteProcess;
 
 public class ShizukuShell implements Shell {
     private static final String TAG = "ShizukuShell";
@@ -31,7 +31,7 @@ public class ShizukuShell implements Shell {
 
     @Override
     public boolean isAvailable() {
-        if (!ShizukuService.pingBinder())
+        if (!Shizuku.pingBinder())
             return false;
 
         try {
@@ -65,7 +65,7 @@ public class ShizukuShell implements Shell {
         try {
             Command.Builder shCommand = new Command.Builder("sh", "-c", command.toString());
 
-            RemoteProcess process = ShizukuService.newProcess(shCommand.build().toStringArray(), null, null);
+            ShizukuRemoteProcess process = Shizuku.newProcess(shCommand.build().toStringArray(), null, null);
 
             Thread stdOutD = IOUtils.writeStreamToStringBuilder(stdOutSb, process.getInputStream());
             Thread stdErrD = IOUtils.writeStreamToStringBuilder(stdErrSb, process.getErrorStream());
