@@ -274,7 +274,9 @@
                     android:scheme="content" />
 
             </intent-filter>
+        </activity>
 
+        <activity android:name=".ui.activities.ApkActionViewProxyActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 

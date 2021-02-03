@@ -244,6 +244,8 @@
     <string name="settings_main_enable_analytics_summary">Allow SAI to collect analytics data such as app usage data and errors. You can find out more about data being collected in Privacy Policy which you can find on about screen. Changing this setting may not fully apply it until you restart SAI</string>
     <string name="settings_main_backup_settings">Backup settings</string>
     <string name="settings_main_backup_settings_summary">Tap to open backup settings</string>
+    <string name="settings_main_enable_apk_action_view">Enable opening .apk files via SAI</string>
+    <string name="settings_main_enable_apk_action_view_summary">Support opening .apk files via SAI from other apps. Can be disabled since on some ROMs this setting being enabled doesn\'t let you open .apk files at all</string>
 
     <string name="name_format_builder_title">Select parts to include in backup file name</string>
     <string name="name_format_builder_preview">Preview: %s</string>

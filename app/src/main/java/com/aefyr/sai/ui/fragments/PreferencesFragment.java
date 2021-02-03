@@ -22,6 +22,7 @@ import com.aefyr.sai.analytics.AnalyticsProvider;
 import com.aefyr.sai.analytics.DefaultAnalyticsProvider;
 import com.aefyr.sai.shell.SuShell;
 import com.aefyr.sai.ui.activities.AboutActivity;
+import com.aefyr.sai.ui.activities.ApkActionViewProxyActivity;
 import com.aefyr.sai.ui.activities.BackupSettingsActivity;
 import com.aefyr.sai.ui.activities.DonateActivity;
 import com.aefyr.sai.ui.dialogs.DarkLightThemeSelectionDialogFragment;
@@ -50,6 +51,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Fil
 
     private PreferencesHelper mHelper;
     private AnalyticsProvider mAnalyticsProvider;
+    private PackageManager mPm;
 
     private Preference mHomeDirPref;
     private Preference mFilePickerSortPref;
@@ -64,10 +66,34 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Fil
     public void onCreate(@Nullable Bundle savedInstanceState) {
         mHelper = PreferencesHelper.getInstance(requireContext());
         mAnalyticsProvider = DefaultAnalyticsProvider.getInstance(requireContext());
+        mPm = requireContext().getPackageManager();
 
+        //Inject some prefs
         //Inject current auto theme status since it isn't managed by PreferencesKeys.AUTO_THEME key
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(requireContext());
-        prefs.edit().putBoolean(PreferencesKeys.AUTO_THEME, Theme.getInstance(requireContext()).getThemeMode() == Theme.Mode.AUTO_LIGHT_DARK).apply();
+        SharedPreferences.Editor prefsEditor = prefs.edit();
+        prefsEditor.putBoolean(PreferencesKeys.AUTO_THEME, Theme.getInstance(requireContext()).getThemeMode() == Theme.Mode.AUTO_LIGHT_DARK).apply();
+
+        //Inject apk proxy activity state since there's no guarantee preference value matches actual state
+        int apkProxyActivityState = mPm.getComponentEnabledSetting(ApkActionViewProxyActivity.getComponentName(requireContext()));
+        boolean isApkProxyActivityEnabled;
+        switch (apkProxyActivityState) {
+            case PackageManager.COMPONENT_ENABLED_STATE_DEFAULT:
+            case PackageManager.COMPONENT_ENABLED_STATE_ENABLED:
+                isApkProxyActivityEnabled = true;
+                break;
+            case PackageManager.COMPONENT_ENABLED_STATE_DISABLED:
+            case PackageManager.COMPONENT_ENABLED_STATE_DISABLED_USER:
+            case PackageManager.COMPONENT_ENABLED_STATE_DISABLED_UNTIL_USED:
+                isApkProxyActivityEnabled = false;
+                break;
+            default:
+                throw new IllegalStateException(String.format("ApkProxyActivity state is %d", apkProxyActivityState));
+        }
+        prefsEditor.putBoolean(PreferencesKeys.ENABLE_APK_ACTION_VIEW, isApkProxyActivityEnabled);
+
+        prefsEditor.apply();
+
 
         if (Utils.apiIsAtLeast(Build.VERSION_CODES.M)) {
             Shizuku.addRequestPermissionResultListener(this);
@@ -165,6 +191,13 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Fil
         });
         if (!mAnalyticsProvider.supportsDataCollection())
             analyticsPref.setVisible(false);
+
+        SwitchPreference enableApkActionViewPref = findPreference(PreferencesKeys.ENABLE_APK_ACTION_VIEW);
+        enableApkActionViewPref.setOnPreferenceChangeListener((preference, newValue) -> {
+            boolean enabled = (boolean) newValue;
+            mPm.setComponentEnabledSetting(ApkActionViewProxyActivity.getComponentName(requireContext()), enabled ? PackageManager.COMPONENT_ENABLED_STATE_DEFAULT : PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
+            return true;
+        });
 
 
         getPreferenceManager().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);

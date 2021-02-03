@@ -133,6 +133,13 @@
         app:iconSpaceReserved="false">
 
         <SwitchPreference
+            android:icon="@drawable/ic_pref_enable_apk_action_view"
+            android:key="enable_apk_action_view"
+            android:title="@string/settings_main_enable_apk_action_view"
+            android:summary="@string/settings_main_enable_apk_action_view_summary"
+            android:defaultValue="true" />
+
+        <SwitchPreference
             android:icon="@drawable/ic_pref_analytics"
             android:key="firebase_enabled"
             android:title="@string/settings_main_enable_analytics"
