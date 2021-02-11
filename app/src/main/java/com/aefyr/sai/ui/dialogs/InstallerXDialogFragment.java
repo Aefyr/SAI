@@ -1,5 +1,6 @@
 package com.aefyr.sai.ui.dialogs;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.ClipData;
 import android.content.DialogInterface;
@@ -26,6 +27,7 @@ import com.aefyr.sai.ui.dialogs.base.BaseBottomSheetDialogFragment;
 import com.aefyr.sai.utils.AlertsUtils;
 import com.aefyr.sai.utils.PermissionsUtils;
 import com.aefyr.sai.utils.PreferencesHelper;
+import com.aefyr.sai.utils.Utils;
 import com.aefyr.sai.view.ViewSwitcherLayout;
 import com.aefyr.sai.viewmodels.InstallerXDialogViewModel;
 import com.aefyr.sai.viewmodels.factory.InstallerXDialogViewModelFactory;
@@ -37,7 +39,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class InstallerXDialogFragment extends BaseBottomSheetDialogFragment implements FilePickerDialogFragment.OnFilesSelectedListener {
+public class InstallerXDialogFragment extends BaseBottomSheetDialogFragment implements FilePickerDialogFragment.OnFilesSelectedListener, SimpleAlertDialogFragment.OnDismissListener {
     private static final int REQUEST_CODE_GET_FILES = 337;
 
     private static final String ARG_APK_SOURCE_URI = "apk_source_uri";
@@ -46,6 +48,12 @@ public class InstallerXDialogFragment extends BaseBottomSheetDialogFragment impl
     private InstallerXDialogViewModel mViewModel;
 
     private PreferencesHelper mHelper;
+
+    private int mActionAfterGettingStoragePermissions;
+    private static final int PICK_WITH_INTERNAL_FILEPICKER = 0;
+    private static final int PICK_WITH_SAF = 1;
+
+    private static final String DIALOG_TAG_Q_SAF_WARNING = "q_saf_warning";
 
     /**
      * Create an instance of InstallerXDialogFragment with given apk source uri and UriHostFactory class.
@@ -127,7 +135,7 @@ public class InstallerXDialogFragment extends BaseBottomSheetDialogFragment impl
         });
 
         view.findViewById(R.id.button_installerx_fp_internal).setOnClickListener(v -> checkPermissionsAndPickFiles());
-        view.findViewById(R.id.button_installerx_fp_saf).setOnClickListener(v -> pickFilesWithSaf());
+        view.findViewById(R.id.button_installerx_fp_saf).setOnClickListener(v -> pickFilesWithSaf(false));
 
         TextView warningTv = view.findViewById(R.id.tv_installerx_warning);
         mViewModel.getState().observe(this, state -> {
@@ -174,8 +182,11 @@ public class InstallerXDialogFragment extends BaseBottomSheetDialogFragment impl
     }
 
     private void checkPermissionsAndPickFiles() {
-        if (!PermissionsUtils.checkAndRequestStoragePermissions(this))
+        if (!PermissionsUtils.checkAndRequestStoragePermissions(this)) {
+            mActionAfterGettingStoragePermissions = PICK_WITH_INTERNAL_FILEPICKER;
             return;
+        }
+
 
         DialogProperties properties = new DialogProperties();
         properties.selection_mode = DialogConfigs.MULTI_MODE;
@@ -189,7 +200,14 @@ public class InstallerXDialogFragment extends BaseBottomSheetDialogFragment impl
         FilePickerDialogFragment.newInstance(null, getString(R.string.installer_pick_apks), properties).show(getChildFragmentManager(), "dialog_files_picker");
     }
 
-    private void pickFilesWithSaf() {
+    private void pickFilesWithSaf(boolean ignorePermissions) {
+        if (Utils.apiIsAtLeast(30) && !ignorePermissions) {
+            if (requireContext().checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                SimpleAlertDialogFragment.newInstance(requireContext(), R.string.warning, R.string.installerx_thank_you_scoped_storage_very_cool).show(getChildFragmentManager(), DIALOG_TAG_Q_SAF_WARNING);
+                return;
+            }
+        }
+
         Intent getContentIntent = new Intent(Intent.ACTION_GET_CONTENT);
         getContentIntent.setType("*/*");
         getContentIntent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
@@ -204,10 +222,19 @@ public class InstallerXDialogFragment extends BaseBottomSheetDialogFragment impl
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
         if (requestCode == PermissionsUtils.REQUEST_CODE_STORAGE_PERMISSIONS) {
-            if (grantResults.length == 0 || grantResults[0] == PackageManager.PERMISSION_DENIED)
-                AlertsUtils.showAlert(this, R.string.error, R.string.permissions_required_storage);
-            else
-                checkPermissionsAndPickFiles();
+            boolean permissionsGranted = !(grantResults.length == 0 || grantResults[0] == PackageManager.PERMISSION_DENIED);
+
+            switch (mActionAfterGettingStoragePermissions) {
+                case PICK_WITH_INTERNAL_FILEPICKER:
+                    if (!permissionsGranted)
+                        AlertsUtils.showAlert(this, R.string.error, R.string.permissions_required_storage);
+                    else
+                        checkPermissionsAndPickFiles();
+                    break;
+                case PICK_WITH_SAF:
+                    pickFilesWithSaf(true);
+                    break;
+            }
         }
 
     }
@@ -240,5 +267,17 @@ public class InstallerXDialogFragment extends BaseBottomSheetDialogFragment impl
     @Override
     public void onFilesSelected(String tag, List<File> files) {
         mViewModel.setApkSourceFiles(files);
+    }
+
+    @Override
+    public void onDialogDismissed(@NonNull String dialogTag) {
+        switch (dialogTag) {
+            case DIALOG_TAG_Q_SAF_WARNING:
+                mActionAfterGettingStoragePermissions = PICK_WITH_SAF;
+                if (PermissionsUtils.checkAndRequestStoragePermissions(this)) {
+                    pickFilesWithSaf(false);
+                }
+                break;
+        }
     }
 }

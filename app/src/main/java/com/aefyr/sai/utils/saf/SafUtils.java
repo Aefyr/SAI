@@ -100,6 +100,21 @@ public class SafUtils {
         return documentFile.getName();
     }
 
+    /**
+     * @param context
+     * @param contentUri
+     * @return file length or 0 if it's unknown
+     */
+    @Nullable
+    public static long getFileLengthFromContentUri(Context context, Uri contentUri) {
+        DocumentFile documentFile = docFileFromSingleUriOrFileUri(context, contentUri);
+
+        if (documentFile == null)
+            return 0;
+
+        return documentFile.length();
+    }
+
     public static File parcelFdToFile(ParcelFileDescriptor fd) {
         return new File("/proc/self/fd/" + fd.getFd());
     }

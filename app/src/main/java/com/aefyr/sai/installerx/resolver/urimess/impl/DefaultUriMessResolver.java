@@ -2,7 +2,6 @@ package com.aefyr.sai.installerx.resolver.urimess.impl;
 
 import android.content.Context;
 import android.net.Uri;
-import android.os.ParcelFileDescriptor;
 import android.util.Log;
 
 import com.aefyr.sai.R;
@@ -16,7 +15,6 @@ import com.aefyr.sai.installerx.resolver.urimess.UriMessResolutionError;
 import com.aefyr.sai.installerx.resolver.urimess.UriMessResolutionResult;
 import com.aefyr.sai.installerx.resolver.urimess.UriMessResolver;
 import com.aefyr.sai.utils.Utils;
-import com.aefyr.sai.utils.saf.SafUtils;
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -54,8 +52,8 @@ public class DefaultUriMessResolver implements UriMessResolver {
                 case "apks":
                 case "xapk":
                 case "apkm":
-                    try (ParcelFileDescriptor fd = uriHost.openUriAsParcelFd(uri)) {
-                        ApkSourceMetaResolutionResult resolutionResult = mMetaResolver.resolveFor(new ZipFileApkSourceFile(SafUtils.parcelFdToFile(fd), fileName));
+                    try (UriHost.UriAsFile uriAsFile = uriHost.openUriAsFile(uri)) {
+                        ApkSourceMetaResolutionResult resolutionResult = mMetaResolver.resolveFor(new ZipFileApkSourceFile(uriAsFile.file(), fileName));
                         if (resolutionResult.isSuccessful())
                             results.add(UriMessResolutionResult.success(SourceType.ZIP, Collections.singletonList(uri), resolutionResult.meta()));
                         else
