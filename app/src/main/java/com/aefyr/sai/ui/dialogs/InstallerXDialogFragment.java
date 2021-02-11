@@ -194,6 +194,7 @@ public class InstallerXDialogFragment extends BaseBottomSheetDialogFragment impl
         getContentIntent.setType("*/*");
         getContentIntent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
         getContentIntent.putExtra(Intent.EXTRA_LOCAL_ONLY, true);
+        getContentIntent.addCategory(Intent.CATEGORY_OPENABLE);
         startActivityForResult(Intent.createChooser(getContentIntent, getString(R.string.installer_pick_apks)), REQUEST_CODE_GET_FILES);
 
     }
