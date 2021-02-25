@@ -9,6 +9,7 @@
     <string name="copy2">Изкопирай</string>
     <string name="copied">Изкопирано</string>
     <string name="dont_show_again">Повече не показвай</string>
+    <string name="warning">Внимание</string>
     <string name="filepicker_internal">Встроен файлпикер</string>
     <string name="filepicker_saf">Системен файлпикер</string>
     <string name="permissions_required_storage">SAI се нуждае от разрешение на достъп до файлове</string>
@@ -250,8 +251,12 @@ SAI (Split APKs Installer) е инсталатор на приложения, с
     <string name="settings_main_auto_theme_pre_q_warning">Имайте предвид, че следвайки темата на системата може да не работи правилно на версии на Android по-ниски от Q</string>
     <string name="settings_main_use_installerx">Pro режим</string>
     <string name="settings_main_use_installerx_summary">Активирайте инсталационния Pro режим, който ви позволява да изберете части, които да инсталирате от .apks файл (или други архиви с множество APK файлове). Моля, обърнете внимание, че Pro режимът е експериментален и може да не работи правилно, обратната връзка е очаквана</string>
+    <string name="settings_main_enable_analytics">Анализ</string>
+    <string name="settings_main_enable_analytics_summary">Позволете на SAI да събира данни за анализ, като например данни за използването на приложения и грешки. Можете да научите повече за данните, които се събират в Политиката за поверителност, която можете да намерите на екрана. Промяната на тази настройка може да не я приложи напълно, докато не рестартирате SAI</string>
     <string name="settings_main_backup_settings">Настройки за архивиране</string>
     <string name="settings_main_backup_settings_summary">Натиснете, за да отворите настройките за архивиране</string>
+    <string name="settings_main_enable_apk_action_view">Активирай отваряне на .apk файлове чрез SAI</string>
+    <string name="settings_main_enable_apk_action_view_summary">Поддържа отваряне на .apk файлове чрез SAI от други приложения. Може да се деактивира, тъй като на някои ROM с включена опция, не позволява отваряне на .apk файлове</string>
     <string name="name_format_builder_title">Изберете части, които да бъдат включени в името на архивния файл</string>
     <string name="name_format_builder_preview">Пример: %s</string>
     <string name="name_format_builder_preview_empty">Изберете поне една част</string>
@@ -324,6 +329,9 @@ SAI (Split APKs Installer) е инсталатор на приложения, с
     <string name="installerx_notice_no_code_for_feature">Има някои архитектурни конфигурации в разделените части за функция \"%s\", но никой от тях не се поддържа от вашето устройство</string>
     <string name="installerx_notice_no_locale_for_base">Нито една от езиковите настройки не е разделена на части за базов APK файл, съответстващ на езиците Ви</string>
     <string name="installerx_notice_no_locale_for_feature">Никоя от регионалните конфигурации не е разделена на части за функция \"%s\" с вашите езици</string>
+    <string name="installerx_notice_huge_app">This app is huge (&gt;150MB). With huge apps there\'s a chance (the bigger the app size, the higher) that installation will hang but app will still take up storage space that you won\'t be able to reclaim without using root or doing factory reset</string>
+    <string name="installerx_android_uri_host_file_too_big">Файлът е твърде голям за копиране и вашата система не поддържа четене на SAF файлове без копиране</string>
+    <string name="installerx_thank_you_scoped_storage_very_cool">На Android 11 и по-нови, SAI изисква разрешение за съхранение за директно четени файлове, избрани чрез системния файлпикер. Може да откажете разрешение за съхранение, но тогава SAI ще трябва да анализира фйловете за копиране, SAI няма да копира и анализира големи файлове.</string>
     <string name="theme_sai">SAI</string>
     <string name="theme_ruby">Ruby</string>
     <string name="theme_rena">Rena</string>
@@ -346,4 +354,5 @@ SAI (Split APKs Installer) е инсталатор на приложения, с
     <string name="about_licenses">Лицензи</string>
     <string name="about_translate">Помогнете с превода на SAI</string>
     <string name="about_privacy">Политика за поверителност</string>
+    <string name="about_eula">Лицензионно споразумение с краен потребител</string>
 </resources>
