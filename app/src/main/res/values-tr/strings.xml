@@ -9,6 +9,7 @@
     <string name="copy2">Kopyala</string>
     <string name="copied">Kopyalandı</string>
     <string name="dont_show_again">Bir daha gösterme</string>
+    <string name="warning">Warning</string>
     <string name="filepicker_internal">Dahili dosya seçici</string>
     <string name="filepicker_saf">Sistem dosya seçici</string>
     <string name="permissions_required_storage">SAI, depolamaya erişmek için izin gerektiriyor</string>
@@ -180,8 +181,8 @@
     <string name="backup_settings">Yedekleme ayarları</string>
     <string name="backup_open_app_in_system_settings">Sistem ayarlarında aç</string>
     <string name="backup_open_app_in_system_settings_error">Sistem ayarlarında uygulama açılamıyor</string>
-    <string name="backup_export_apk">Export as a .apk file</string>
-    <string name="backup_export_apk_desc">Export a single selected part as a .apk file. Exported .apk files are not backups and won\'t be managed by SAI</string>
+    <string name="backup_export_apk">.apk dosyası olarak dışa aktar</string>
+    <string name="backup_export_apk_desc">Seçilen tek bir parçayı .apk dosyası olarak dışa aktarır. Dışa aktarılan .apk dosyaları yedek değildir ve SAI tarafından yönetilmeyecektir</string>
     <string name="settings_title">Ayarlar</string>
     <string name="settings_main_home_directory">Ana dizin</string>
     <string name="settings_main_home_directory_summary">APK seçicisi başlangıç dizini\nŞu anki: %s</string>
@@ -232,8 +233,12 @@
     <string name="settings_main_auto_theme_pre_q_warning">Sistem temasını izlemenin Q\'dan düşük Android sürümlerinde düzgün çalışmayabileceğini lütfen unutmayın</string>
     <string name="settings_main_use_installerx">Pro modu</string>
     <string name="settings_main_use_installerx_summary">Bir .apks dosyasından (veya birden fazla APK dosyasına sahip diğer arşivlerden) yüklenecek parçaları seçmenize olanak tanıyan installer Pro modunu etkinleştirin. Pro modunun deneysel olduğunu ve düzgün çalışmayabileceğini lütfen unutmayın</string>
+    <string name="settings_main_enable_analytics">Analiz</string>
+    <string name="settings_main_enable_analytics_summary">SAI\'nin uygulama kullanım verileri ve hatalar gibi analiz verilerini toplamasına izin verin. Hakkında ekranında Gizlilik Politikasında toplanan veriler hakkında daha fazla bilgi edinebilirsiniz. Bu ayarı değiştirmek, SAI\'yi yeniden başlatana kadar tam olarak uygulanmayabilir</string>
     <string name="settings_main_backup_settings">Yedekleme ayarları</string>
     <string name="settings_main_backup_settings_summary">Yedekleme ayarlarını açmak için dokunun</string>
+    <string name="settings_main_enable_apk_action_view">Enable opening .apk files via SAI</string>
+    <string name="settings_main_enable_apk_action_view_summary">Support opening .apk files via SAI from other apps. Can be disabled since on some ROMs this setting being enabled doesn\'t let you open .apk files at all</string>
     <string name="name_format_builder_title">Yedek dosya adına dahil edilecek parçaları seçin</string>
     <string name="name_format_builder_preview">Ön izleme: %s</string>
     <string name="name_format_builder_preview_empty">Lütfen en az bir parça seçin</string>
@@ -247,7 +252,7 @@
     <string name="sss_custom_install_create_summary">Rootlu ve Shizuku yükleyicilerinde kullanılan pm oturumu oluşturmak için kullanılacak özel install-create komutu, komut, bağımsız değişkenleri ayıranlar (\'tırnak içindeki boşluklar\' da bağımsız değişkenlere bölünecektir) dışında boşluk içermemelidir. Devre dışı bırakmak için \"null\" girin</string>
     <string name="sss_fake_backup_timestamp">Sahte yedek zaman damgası</string>
     <string name="sss_fake_backup_timestamp_summary">Yedeklere sabit zaman damgası (1 Ocak 2000, 00:00) ekler. Aynı APK dosyalarının yedek dosyalarının karmasını aynı yapar. SAI\'nin son yedeklemenin ne olduğu hakkında hiçbir fikri olmaz</string>
-    <string name="sss_test_crash">Crash app</string>
+    <string name="sss_test_crash">Çökme uygulaması</string>
     <string name="mi_continue_countdown">%d s içinde devam edebilirsiniz.</string>
     <string name="mi_continue">Devam et</string>
     <string name="mi_miui_version">MIUI Sürüm - %1$s (%2$d (%3$s))</string>
@@ -306,6 +311,9 @@
     <string name="installerx_notice_no_code_for_feature">\"%s\" özelliği için bazı mimari yapılandırma bölünmüş parçaları var, ancak bunların hiçbiri cihazınız tarafından desteklenmiyor</string>
     <string name="installerx_notice_no_locale_for_base">Baz APK için yerel yapılandırma bölünmüş parçalarının hiçbiri dillerinizle eşleşmiyor</string>
     <string name="installerx_notice_no_locale_for_feature">\"%s\" özelliği için yerel yapılandırmanın bölünmüş parçalarının hiçbiri dillerinizle eşleşmiyor</string>
+    <string name="installerx_notice_huge_app">This app is huge (&gt;150MB). With huge apps there\'s a chance (the bigger the app size, the higher) that installation will hang but app will still take up storage space that you won\'t be able to reclaim without using root or doing factory reset</string>
+    <string name="installerx_android_uri_host_file_too_big">File is too big to copy and your system doesn\'t support reading SAF files without copying</string>
+    <string name="installerx_thank_you_scoped_storage_very_cool">On Android 11 and up SAI requires storage permission to directly read files selected via system file picker due to scoped storage implementation making 0 sense. You can deny storage permission, but then SAI will have to copy selected files to parse them, SAI won\'t copy and parse large files.</string>
     <string name="theme_sai">SAI</string>
     <string name="theme_ruby">Ruby</string>
     <string name="theme_rena">Rena</string>
@@ -317,7 +325,7 @@
     <string name="theme_gold">Gold</string>
     <string name="theme_rena_light">Rena Light</string>
     <string name="theme_mint">Mint</string>
-    <string name="theme_fdroid_dark">F-Droid Dark</string>
+    <string name="theme_fdroid_dark">F-Droid Koyu</string>
     <string name="auto_theme_title">Koyu ve açık temaları seç</string>
     <string name="auto_theme_light_theme">Açık tema</string>
     <string name="auto_theme_dark_theme">Koyu tema</string>
@@ -328,4 +336,5 @@
     <string name="about_licenses">Lisanslar</string>
     <string name="about_translate">SAI\'yi çevirmeye yardım et</string>
     <string name="about_privacy">Gizlilik Politikası</string>
+    <string name="about_eula">Son Kullanıcı Lisans Anlaşması</string>
 </resources>

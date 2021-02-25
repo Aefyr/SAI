@@ -9,6 +9,7 @@
     <string name="copy2">Copie</string>
     <string name="copied">Copié</string>
     <string name="dont_show_again">Ne plus afficher</string>
+    <string name="warning">Warning</string>
     <string name="filepicker_internal">Sélecteur de fichier interne</string>
     <string name="filepicker_saf">Sélecteur de fichiers système</string>
     <string name="permissions_required_storage">SAI nécessite une autorisation d\'accès au stockage</string>
@@ -232,8 +233,12 @@
     <string name="settings_main_auto_theme_pre_q_warning">Veuillez noter que suivre le thème du système peut ne pas fonctionner correctement sur les versions d\'Android inférieures à Q</string>
     <string name="settings_main_use_installerx">Mode Pro</string>
     <string name="settings_main_use_installerx_summary">Activer le mode installateur Pro qui vous permet de sélectionner des parties à installer à partir d\'un fichier .apks (ou d\'autres archives avec plusieurs fichiers APK). Veuillez noter que le mode Pro est expérimental et peut ne pas fonctionner correctement, les commentaires sont les bienvenus</string>
+    <string name="settings_main_enable_analytics">Analyses</string>
+    <string name="settings_main_enable_analytics_summary">Allow SAI to collect analytics data such as app usage data and errors. You can find out more about data being collected in Privacy Policy which you can find on about screen. Changing this setting may not fully apply it until you restart SAI</string>
     <string name="settings_main_backup_settings">Sauvegarder les paramètres</string>
     <string name="settings_main_backup_settings_summary">Touchez pour ouvrir les paramètres de sauvegarde</string>
+    <string name="settings_main_enable_apk_action_view">Enable opening .apk files via SAI</string>
+    <string name="settings_main_enable_apk_action_view_summary">Support opening .apk files via SAI from other apps. Can be disabled since on some ROMs this setting being enabled doesn\'t let you open .apk files at all</string>
     <string name="name_format_builder_title">Sélectionnez les pièces à inclure dans le nom du fichier de sauvegarde</string>
     <string name="name_format_builder_preview">Aperçu: %s</string>
     <string name="name_format_builder_preview_empty">Veuillez sélectionner au moins une partie</string>
@@ -258,7 +263,7 @@
     <string name="donate_message_unknown_or_error">Impossible d\'obtenir le statut de donateur. Veuillez vous assurer que vous avez installé les services Google Play et essayez de redémarrer votre appareil.</string>
     <string name="donate_message_pending">Votre don est en attente. S\'il n\'est pas appliqué automatiquement après que vous l\'ayez complété, veuillez relancer SAI.</string>
     <string name="donate_non_iap_yandex_title">Yandex.Money</string>
-    <string name="donate_non_iap_yandex_desc">Basically CIS PayPal lol</string>
+    <string name="donate_non_iap_yandex_desc">Paypal</string>
     <string name="donate_billing_not_available">Impossible de se connecter à Google Play. Veuillez vous assurer que vous avez installé les services Google Play et essayez de redémarrer votre appareil.</string>
     <string name="donate_donate_only_theme">Donation requise</string>
     <string name="donate_dialog_close">Ne plus afficher</string>
@@ -306,6 +311,9 @@
     <string name="installerx_notice_no_code_for_feature">Il y a certaines parties séparées de la configuration de l\'architecture pour la fonctionnalité \"%s\", mais aucune d\'elles n\'est prise en charge par votre appareil</string>
     <string name="installerx_notice_no_locale_for_base">Aucune des parties séparées de la configuration locale pour l\'APK de base ne correspond à vos langues</string>
     <string name="installerx_notice_no_locale_for_feature">Aucune des parties séparées de la configuration locale pour la fonctionnalité \"%s\" ne correspond à vos langues</string>
+    <string name="installerx_notice_huge_app">This app is huge (&gt;150MB). With huge apps there\'s a chance (the bigger the app size, the higher) that installation will hang but app will still take up storage space that you won\'t be able to reclaim without using root or doing factory reset</string>
+    <string name="installerx_android_uri_host_file_too_big">File is too big to copy and your system doesn\'t support reading SAF files without copying</string>
+    <string name="installerx_thank_you_scoped_storage_very_cool">On Android 11 and up SAI requires storage permission to directly read files selected via system file picker due to scoped storage implementation making 0 sense. You can deny storage permission, but then SAI will have to copy selected files to parse them, SAI won\'t copy and parse large files.</string>
     <string name="theme_sai">SAI</string>
     <string name="theme_ruby">Rubis</string>
     <string name="theme_rena">Rena</string>
@@ -328,4 +336,5 @@
     <string name="about_licenses">Licences</string>
     <string name="about_translate">Aidez-nous à traduire SAI</string>
     <string name="about_privacy">Politique de confidentialité</string>
+    <string name="about_eula">End User License Agreement</string>
 </resources>

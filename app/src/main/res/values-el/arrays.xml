@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="file_picker_sort_variants">
-        <item>"Nach Name (von A nach Z)"</item>
-        <item>"Nach Name (von Z nach A)"</item>
-        <item>"Nach Änderung (neuer)"</item>
-        <item>"Nach Änderung (älter)"</item>
-        <item>"Kleinste Dateigröße zuerst"</item>
-        <item>"Größte Dateigröße zuerst"</item>
+        <item>"By name (Alphabetical)"</item>
+        <item>"By name (Reverse alphabetical)"</item>
+        <item>"Later modified first"</item>
+        <item>"Older modified first"</item>
+        <item>"Smallest file size first"</item>
+        <item>"Biggest file size first"</item>
     </string-array>
     <string-array name="installers">
-        <item>"Ohne Root (empfohlen)"</item>
-        <item>"Mit Root (Root erforderlich)"</item>
-        <item>"Shizuku (Shizuku 3.x erforderlich)"</item>
+        <item>"Rootless (recommended)"</item>
+        <item>"Rooted (requires root)"</item>
+        <item>"Shizuku (requires Shizuku 3.x)"</item>
     </string-array>
     <string-array name="size_units">
         <item>B</item>
@@ -27,19 +27,19 @@
         <item>NAME_VERSION.apks</item>
     </string-array>
     <string-array name="install_locations">
-        <item>System entscheiden lassen</item>
-        <item>Nur intern</item>
-        <item>Extern bevorzugen (System benutzt eventuell dennoch intern)</item>
+        <item>Let system decide</item>
+        <item>Internal only</item>
+        <item>Prefer external (System may still decide to use internal)</item>
     </string-array>
     <string-array name="name_format_parts">
         <item>Name</item>
         <item>Version</item>
-        <item>Versionscode</item>
-        <item>Paket</item>
-        <item>Zeitstempel</item>
+        <item>Version code</item>
+        <item>Package</item>
+        <item>Timestamp</item>
     </string-array>
     <string-array name="backup_dir_selection_methods">
-        <item>Intern (SAI)</item>
-        <item>System (Android)</item>
+        <item>Internal file picker</item>
+        <item>System file picker</item>
     </string-array>
 </resources>

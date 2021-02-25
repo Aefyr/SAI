@@ -9,6 +9,7 @@
     <string name="copy2">Скопировать</string>
     <string name="copied">Скопировано</string>
     <string name="dont_show_again">Больше не показывать</string>
+    <string name="warning">Предупреждение</string>
     <string name="filepicker_internal">Встроенный файлпикер</string>
     <string name="filepicker_saf">Системный файлпикер</string>
     <string name="permissions_required_storage">SAI необходимо разрешение на доступ к файлам</string>
@@ -233,9 +234,11 @@
     <string name="settings_main_use_installerx">Режим Pro</string>
     <string name="settings_main_use_installerx_summary">Включить режим Pro в установщике, который позволяет выбрать части split APK перед установкой. Пожалуйста учтите, что режим Pro экспериментальный и может не работать как надо</string>
     <string name="settings_main_enable_analytics">Аналитика</string>
-    <string name="settings_main_enable_analytics_summary">Разрешить SAI собирать аналитические данные, например данные об использовании программы и ошибки. Вы можете узнать больше о собираемых данных в политике конфиденциальности, которая расположена на экране \"О приложении\". Изменение этой настройки может полностью не вступить в силу до перезапуска SAI</string>
+    <string name="settings_main_enable_analytics_summary">Разрешить SAI собирать аналитические данные, такие как данные об использовании приложения и ошибки. Подробнее о собранных данных вы можете узнать в Политике конфиденциальности, которую вы можете найти на экране \"О приложении\". Изменение этого параметра может быть неполностью применено до перезапуска SAI</string>
     <string name="settings_main_backup_settings">Настройки бэкапа</string>
     <string name="settings_main_backup_settings_summary">Нажмите для открытия настроек резервного копирования</string>
+    <string name="settings_main_enable_apk_action_view">Разрешить открытие .apk файлов через SAI</string>
+    <string name="settings_main_enable_apk_action_view_summary">Разрешить открывать .apk файлы с помощью SAI из других приложений. На некоторых прошивках эта опция ломает открытие .apk файлов вообще</string>
     <string name="name_format_builder_title">Выберите части для включения в имя файла бэкапа</string>
     <string name="name_format_builder_preview">Пример: %s</string>
     <string name="name_format_builder_preview_empty">Выберите хотя бы одну часть</string>
@@ -308,6 +311,9 @@
     <string name="installerx_notice_no_code_for_feature">Присутствуют части конфигурации архитектуры для функции \"%s\", но ваше устройство не поддерживает ни один из них</string>
     <string name="installerx_notice_no_locale_for_base">Ни одна из частей конфигурации языка для базового APK не соответствует вашим предпочитаемым языкам</string>
     <string name="installerx_notice_no_locale_for_feature">Ни одна из частей конфигурации языка для функции \"%s\" не соответствует вашим предпочитаемым языкам</string>
+    <string name="installerx_notice_huge_app">Это приложение огромное (&gt;150MB). С огромными приложениями есть шанс (чем больше размер приложения, тем выше), что установка зависнет, но приложение всё займет место в памяти, которое вы не сможете освободить без использования root-доступа или сброса до заводских настроек</string>
+    <string name="installerx_android_uri_host_file_too_big">Файл слишком большой для копирования, и ваша система не поддерживает чтение SAF файлов без копирования</string>
+    <string name="installerx_thank_you_scoped_storage_very_cool">На Android 11 и выше, SAI требуется разрешение на доступ к хранилищу для прямого чтения файлов, выбранных с помощью системного выбора файлов из-за реализации функции Scoped Storage в Android. Вы можете отклонить этот запрос разрешения, но тогда SAI придется копировать выбранные файлы для их анализа, SAI не будет копировать и анализировать большие файлы.</string>
     <string name="theme_sai">SAI</string>
     <string name="theme_ruby">Ruby</string>
     <string name="theme_rena">Rena</string>

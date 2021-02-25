@@ -9,6 +9,7 @@
     <string name="copy2">Köçür</string>
     <string name="copied">Köçürüldü</string>
     <string name="dont_show_again">Birdə göstərmə</string>
+    <string name="warning">Warning</string>
     <string name="filepicker_internal">Daxili fayl götürmə</string>
     <string name="filepicker_saf">Sistem faylı götürmə</string>
     <string name="permissions_required_storage">SAI yaddaşdan istifadə üçün icazə istəyir</string>
@@ -228,12 +229,16 @@
     <string name="settings_main_auto_theme">Avto Mövzu</string>
     <string name="settings_main_auto_theme_summary">Sistem mövzusundan asılı olaraq işıqlı və qaranlıq mövzular arasında avtomatik keçiş et</string>
     <string name="settings_main_auto_theme_picker">Mövzuları seç</string>
-    <string name="settings_main_auto_theme_picker_summary">Hazırki işıqlı mövzu: %s\nHazırkı qaranlıq mövzu: %s</string>
+    <string name="settings_main_auto_theme_picker_summary">Hazırkı işıqlı mövzu: %s\nHazırkı qaranlıq mövzu: %s</string>
     <string name="settings_main_auto_theme_pre_q_warning">Xahiş edirik sistem mövzuları ilə keçiş etmək Android Q versiyasından aşağı olduqda düzgün işləməyə bilər</string>
     <string name="settings_main_use_installerx">Pro mod</string>
     <string name="settings_main_use_installerx_summary">Sizə hər hansı .apks faylından (yaxud digər çoxlu APK faylları arxivlərindən) hissələr seçib qurmağa imkan yaradan qurucu Pro modunu açın. Xahiş olunur Pro modun yoxlama halında olduğunu və düzgün işləməyə biləcəyini nəzərinizdə saxlayın</string>
+    <string name="settings_main_enable_analytics">Analitik</string>
+    <string name="settings_main_enable_analytics_summary">SAI\'yə tətbiq istifadəsi məlumatı və xətalar kimi analitik məlumatları yığmağa icazə verin. Məxfilik Siyasəti\'ndə məlumatların yığılması barədə əlavə məlumat ala bilərsiniz. Bu seçimi dəyişmək SAI\'ni yenidən başladana qədər tam effekt verməyə bilər</string>
     <string name="settings_main_backup_settings">Nüsxə tənzimləmələri</string>
     <string name="settings_main_backup_settings_summary">Nüsxə tənzimləmələrini açmaq üçün toxun</string>
+    <string name="settings_main_enable_apk_action_view">Enable opening .apk files via SAI</string>
+    <string name="settings_main_enable_apk_action_view_summary">Support opening .apk files via SAI from other apps. Can be disabled since on some ROMs this setting being enabled doesn\'t let you open .apk files at all</string>
     <string name="name_format_builder_title">Nüsxə faylının adına əlavə ediləcək hissələri seçin</string>
     <string name="name_format_builder_preview">Önbaxış: %s</string>
     <string name="name_format_builder_preview_empty">Xahiş olunur azı 1 hissə seçin</string>
@@ -306,6 +311,9 @@
     <string name="installerx_notice_no_code_for_feature">\"%s\" xüsusiyyəti üçün bəzi arxitektura konfiqurasiya split hissələri var, amma onlardan heç biri cihazınız tərəfindən dəstəklənmir</string>
     <string name="installerx_notice_no_locale_for_base">Baza APK üçün olan yerli konfiqurasiya split hissələrinin heç biri dilinizə uyğun gəlmir</string>
     <string name="installerx_notice_no_locale_for_feature">\"%s\" xüsusiyyəti üçün olan yerli konfiqurasiya split hissələrinin heç biri dilinizə uyğun gəlmir</string>
+    <string name="installerx_notice_huge_app">This app is huge (&gt;150MB). With huge apps there\'s a chance (the bigger the app size, the higher) that installation will hang but app will still take up storage space that you won\'t be able to reclaim without using root or doing factory reset</string>
+    <string name="installerx_android_uri_host_file_too_big">File is too big to copy and your system doesn\'t support reading SAF files without copying</string>
+    <string name="installerx_thank_you_scoped_storage_very_cool">On Android 11 and up SAI requires storage permission to directly read files selected via system file picker due to scoped storage implementation making 0 sense. You can deny storage permission, but then SAI will have to copy selected files to parse them, SAI won\'t copy and parse large files.</string>
     <string name="theme_sai">SAI</string>
     <string name="theme_ruby">Ruby</string>
     <string name="theme_rena">Rena</string>
@@ -327,5 +335,6 @@
     <string name="about_donate">İaşə et</string>
     <string name="about_licenses">Lisenziyalar</string>
     <string name="about_translate">SAI\'nin tərcüməsinə dəstək ol</string>
-    <string name="about_privacy">Məxfilik Hüququ</string>
+    <string name="about_privacy">Məxfilik Siyasəti</string>
+    <string name="about_eula">İstifadəçi Lisenziya Razılaşması</string>
 </resources>
