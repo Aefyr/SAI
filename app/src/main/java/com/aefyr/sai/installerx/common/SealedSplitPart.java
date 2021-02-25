@@ -10,6 +10,7 @@ public class SealedSplitPart implements SplitPart {
     private String mId;
     private String mLocalPath;
     private String mName;
+    private long mSize;
     private String mDescription;
     private boolean mRequired;
     private boolean mRecommended;
@@ -17,11 +18,12 @@ public class SealedSplitPart implements SplitPart {
     /**
      * @param id id is equal to the entry name in an archive
      */
-    public SealedSplitPart(SplitMeta meta, String id, String localPath, String name, @Nullable String description, boolean required, boolean recommended) {
+    public SealedSplitPart(SplitMeta meta, String id, String localPath, String name, long size, @Nullable String description, boolean required, boolean recommended) {
         mMeta = meta;
         mId = id;
         mLocalPath = localPath;
         mName = name;
+        mSize = size;
         mDescription = description;
         mRequired = required;
         mRecommended = recommended;
@@ -52,6 +54,11 @@ public class SealedSplitPart implements SplitPart {
     @Override
     public String name() {
         return mName;
+    }
+
+    @Override
+    public long size() {
+        return mSize;
     }
 
     @Nullable

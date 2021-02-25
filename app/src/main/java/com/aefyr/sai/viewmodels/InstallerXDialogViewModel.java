@@ -19,6 +19,7 @@ import com.aefyr.sai.installer2.impl.FlexSaiPackageInstaller;
 import com.aefyr.sai.installerx.common.SplitApkSourceMeta;
 import com.aefyr.sai.installerx.common.SplitPart;
 import com.aefyr.sai.installerx.postprocessing.DeviceInfoAwarePostprocessor;
+import com.aefyr.sai.installerx.postprocessing.HugeAppWarningPostprocessor;
 import com.aefyr.sai.installerx.postprocessing.SortPostprocessor;
 import com.aefyr.sai.installerx.resolver.appmeta.DefaultAppMetaExtractor;
 import com.aefyr.sai.installerx.resolver.meta.impl.DefaultSplitApkSourceMetaResolver;
@@ -213,6 +214,7 @@ public class InstallerXDialogViewModel extends ViewModel {
 
             DefaultSplitApkSourceMetaResolver metaResolver = new DefaultSplitApkSourceMetaResolver(mContext, new DefaultAppMetaExtractor(mContext));
             metaResolver.addPostprocessor(new DeviceInfoAwarePostprocessor(mContext));
+            metaResolver.addPostprocessor(new HugeAppWarningPostprocessor(mContext));
             metaResolver.addPostprocessor(new SortPostprocessor());
 
             UriMessResolver uriMessResolver = new DefaultUriMessResolver(mContext, metaResolver);

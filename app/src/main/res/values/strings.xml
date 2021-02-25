@@ -328,6 +328,7 @@
     <string name="installerx_notice_no_code_for_feature">There are some architecture configuration split parts for feature \"%s\", but none of them is supported by your device</string>
     <string name="installerx_notice_no_locale_for_base">None of locale configuration split parts for base APK match your languages</string>
     <string name="installerx_notice_no_locale_for_feature">None of locale configuration split parts for feature \"%s\" match your languages</string>
+    <string name="installerx_notice_huge_app">This app is huge (>150MB). With huge apps there\'s a chance (the bigger the app size, the higher) that installation will hang but app will still take up storage space that you won\'t be able to reclaim without using root or doing factory reset</string>
 
     <string name="installerx_android_uri_host_file_too_big">File is too big to copy and your system doesn\'t support reading SAF files without copying</string>
     <string name="installerx_thank_you_scoped_storage_very_cool">On Android 11 and up SAI requires storage permission to directly read files selected via system file picker due to scoped storage implementation making 0 sense. You can deny storage permission, but then SAI will have to copy selected files to parse them, SAI won\'t copy and parse large files.</string>

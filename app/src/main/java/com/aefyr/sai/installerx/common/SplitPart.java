@@ -17,6 +17,8 @@ public interface SplitPart {
 
     String name();
 
+    long size();
+
     @Nullable
     String description();
 

@@ -10,6 +10,7 @@ public class MutableSplitPart implements SplitPart {
     private String mId;
     private String mLocalPath;
     private String mName;
+    private long mSize;
     private String mDescription;
     private boolean mRequired;
     private boolean mRecommended;
@@ -17,11 +18,12 @@ public class MutableSplitPart implements SplitPart {
     /**
      * @param id id is equal to the entry name in an archive
      */
-    public MutableSplitPart(SplitMeta meta, String id, String localPath, String name, @Nullable String description, boolean required, boolean recommended) {
+    public MutableSplitPart(SplitMeta meta, String id, String localPath, String name, long size, @Nullable String description, boolean required, boolean recommended) {
         mMeta = meta;
         mId = id;
         mLocalPath = localPath;
         mName = name;
+        mSize = size;
         mDescription = description;
         mRequired = required;
         mRecommended = recommended;
@@ -68,6 +70,11 @@ public class MutableSplitPart implements SplitPart {
         return mName;
     }
 
+    @Override
+    public long size() {
+        return mSize;
+    }
+
     public void setDescription(String description) {
         mDescription = description;
     }
@@ -97,6 +104,6 @@ public class MutableSplitPart implements SplitPart {
     }
 
     public SealedSplitPart seal() {
-        return new SealedSplitPart(meta(), id(), localPath(), name(), description(), isRequired(), isRecommended());
+        return new SealedSplitPart(meta(), id(), localPath(), name(), size(), description(), isRequired(), isRecommended());
     }
 }
