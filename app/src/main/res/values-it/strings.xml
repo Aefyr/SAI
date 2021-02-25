@@ -9,6 +9,7 @@
     <string name="copy2">Copia</string>
     <string name="copied">Copiato</string>
     <string name="dont_show_again">Non mostrare più</string>
+    <string name="warning">Warning</string>
     <string name="filepicker_internal">Selettore file interno</string>
     <string name="filepicker_saf">Selettore file di sistema</string>
     <string name="permissions_required_storage">SAI richiede l\'autorizzazione per accedere alla memoria</string>
@@ -198,7 +199,7 @@
     <string name="settings_main_extract_archives_summary">Estrai i file APK dagli archivi .zip/.apks sotto forma di file temporanei prima dell\'installazione. Se disabilitato, SAI installerà gli APK direttamente dagli archivi senza generare file temporanei. Abilitazione non consigliata</string>
     <string name="settings_main_use_zipfile">Utilizza API ZipFile</string>
     <string name="settings_main_use_zipfile_summary">L\'utilizzo dell\'API ZipFile per la lettura di archivi ZIP (compresi i file .apks), risolve i problemi di compatibilità con alcuni archivi. È sconsigliata l\'attivazione in assenza di errori specifici perché ció consumerebbe più risorse senza una reale necessità</string>
-    <string name="settings_main_use_brute_parser">Fallback di analisi APK</string>
+    <string name="settings_main_use_brute_parser">Analisi Fallback APK</string>
     <string name="settings_main_use_brute_parser_summary">In modalità Pro, se SAI non dovesse rilevare informazioni meta (come icona e titolo) nella sorgente dell\'app (come un file .apks o un archivio ZIP), copierà ed analizzerà direttamente l\'APK base in un file temporaneo per ottenere info sull\'app. Sono esclusi i file maggiori di 100 MB</string>
     <string name="settings_main_reset_one_time_warnings">Resetta avvisi una tantum</string>
     <string name="settings_main_installer">Installazione</string>
@@ -213,7 +214,7 @@
     <string name="settings_main_install_location">Percorso di installazione</string>
     <string name="settings_main_install_location_summary">Dove installare le applicazioni.\nAttuale: %s</string>
     <string name="settings_main_use_old_installer">Installazione legacy</string>
-    <string name="settings_main_use_old_installer_summary">Utilizza installazione legacy. SAI verrà riavviato per applicare questa preferenza (Non cambiare durante installazioni o backup, potrebbero corrompersi)</string>
+    <string name="settings_main_use_old_installer_summary">Utilizza metodo di installazione legacy. SAI verrà riavviato per applicare questa preferenza (Non cambiare durante installazioni o backup, potrebbero corrompersi)</string>
     <string name="settings_main_installer_show_dialogs">Mostra finestre di installazione</string>
     <string name="settings_main_installer_show_dialogs_summary">Mostra le finestre di dialogo quando l\'installazione fallisce o ha successo. Puoi sempre aprire quelle finestre manualmente toccando la sessione di installazione. Ha effetto solo sul nuovo programma di installazione</string>
     <string name="settings_category_main_installer">Installazione</string>
@@ -232,8 +233,12 @@
     <string name="settings_main_auto_theme_pre_q_warning">Si prega di notare che l\'automazione del cambio tema in base all\'impostazione di sistema potrebbe non funzionare correttamente su versioni inferiori ad Android 10</string>
     <string name="settings_main_use_installerx">Modalità pro</string>
     <string name="settings_main_use_installerx_summary">La modalità installazione Pro permette la selezione di parti da un file .apks (o altri archivi con APK multipli). Ricorda che la modalità Pro è sperimentale e potrebbe non funzionare correttamente, si accettano suggerimenti</string>
+    <string name="settings_main_enable_analytics">Analisi</string>
+    <string name="settings_main_enable_analytics_summary">Consenti a SAI di raccogliere dati di analisi come i dati di utilizzo delle app e sugli errori. Puoi scoprire di più sui dati raccolti nell\'Informativa sulla Privacy a schermo. Cambiare questa impostazione potrebbero non essere applicate fino al riavvio di SAI</string>
     <string name="settings_main_backup_settings">Impostazioni di backup</string>
     <string name="settings_main_backup_settings_summary">Tocca per aprire le impostazioni di backup</string>
+    <string name="settings_main_enable_apk_action_view">Attiva l\'apertura dei file .apk tramite SAI</string>
+    <string name="settings_main_enable_apk_action_view_summary">Supporta l\'apertura dei file .apk tramite SAI da altre applicazioni. Questa opzione può essere disattivata, poiché l\'apertura dei file .apk non è consentita su tutte le ROM</string>
     <string name="name_format_builder_title">Seleziona le parti da includere nel nome dell\'app esportata</string>
     <string name="name_format_builder_preview">Anteprima: %s</string>
     <string name="name_format_builder_preview_empty">Seleziona almeno una parte</string>
@@ -306,6 +311,9 @@
     <string name="installerx_notice_no_code_for_feature">Ci sono alcune parti suddivise di configurazioni architetturali per la funzionalità \"%s\", ma nessuna di esse è supportata dal tuo dispositivo</string>
     <string name="installerx_notice_no_locale_for_base">Nessuna configurazione locale delle parti suddivise per l\'APK base contiene la tua lingue</string>
     <string name="installerx_notice_no_locale_for_feature">Nessuna configurazione locale delle parti suddivise per la funzionalità \"%s\" corrisponde alla tua lungua</string>
+    <string name="installerx_notice_huge_app">This app is huge (&gt;150MB). With huge apps there\'s a chance (the bigger the app size, the higher) that installation will hang but app will still take up storage space that you won\'t be able to reclaim without using root or doing factory reset</string>
+    <string name="installerx_android_uri_host_file_too_big">File is too big to copy and your system doesn\'t support reading SAF files without copying</string>
+    <string name="installerx_thank_you_scoped_storage_very_cool">On Android 11 and up SAI requires storage permission to directly read files selected via system file picker due to scoped storage implementation making 0 sense. You can deny storage permission, but then SAI will have to copy selected files to parse them, SAI won\'t copy and parse large files.</string>
     <string name="theme_sai">SAI</string>
     <string name="theme_ruby">Ruby</string>
     <string name="theme_rena">Rena</string>
@@ -328,4 +336,5 @@
     <string name="about_licenses">Licenze</string>
     <string name="about_translate">Contribuisci alla traduzione di SAI</string>
     <string name="about_privacy">Informativa sulla Privacy</string>
+    <string name="about_eula">Contratto di Licenza Utente</string>
 </resources>
