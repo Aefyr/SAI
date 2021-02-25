@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="file_picker_sort_variants">
-        <item>"nach Name (von A nach Z)"</item>
-        <item>"nach Name (von Z nach A)"</item>
-        <item>"nach Änderung (neuer)"</item>
-        <item>"nach Änderung (älter)"</item>
+        <item>"Nach Name (von A nach Z)"</item>
+        <item>"Nach Name (von Z nach A)"</item>
+        <item>"Nach Änderung (neuer)"</item>
+        <item>"Nach Änderung (älter)"</item>
         <item>"Kleinste Dateigröße zuerst"</item>
         <item>"Größte Dateigröße zuerst"</item>
     </string-array>
     <string-array name="installers">
-        <item>"ohne Root (empfohlen)"</item>
-        <item>"mit Root (Root erforderlich)"</item>
+        <item>"Ohne Root (empfohlen)"</item>
+        <item>"Mit Root (Root erforderlich)"</item>
         <item>"Shizuku (Shizuku 3.x erforderlich)"</item>
     </string-array>
     <string-array name="size_units">
@@ -28,8 +28,8 @@
     </string-array>
     <string-array name="install_locations">
         <item>System entscheiden lassen</item>
-        <item>nur intern</item>
-        <item>extern bevorzugen (System benutzt eventuell dennoch intern)</item>
+        <item>Nur intern</item>
+        <item>Extern bevorzugen (System benutzt eventuell dennoch intern)</item>
     </string-array>
     <string-array name="name_format_parts">
         <item>Name</item>
@@ -39,7 +39,7 @@
         <item>Zeitstempel</item>
     </string-array>
     <string-array name="backup_dir_selection_methods">
-        <item>intern (SAI)</item>
+        <item>Intern (SAI)</item>
         <item>System (Android)</item>
     </string-array>
 </resources>
