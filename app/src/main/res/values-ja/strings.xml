@@ -9,6 +9,7 @@
     <string name="copy2">コピー</string>
     <string name="copied">コピー済み</string>
     <string name="dont_show_again">今後は表示しない</string>
+    <string name="warning">Warning</string>
     <string name="filepicker_internal">アプリ内蔵</string>
     <string name="filepicker_saf">システム標準</string>
     <string name="permissions_required_storage">ストレージへのアクセスの許可が必要です。</string>
@@ -116,12 +117,12 @@
 一致しません</string>
     <string name="installer_rootless_error2_install_failed_wrong_installed_version">既にインストールされているパッケージの必要なバージョンが、実際のバージョンと一致しません</string>
     <string name="backup_backup">バックアップ</string>
-    <string name="backup_batch_backup">Batch backup</string>
-    <string name="backup_backup_export_in_progress_2">Backup in progress, %d tasks remaining</string>
+    <string name="backup_batch_backup">一括バックアップ</string>
+    <string name="backup_backup_export_in_progress_2">バックアップ中、残り %d 件</string>
     <string name="backup_backup_in_progress">%s をバックアップしています…</string>
     <string name="backup_backup_success">%s は正常にバックアップされました</string>
     <string name="backup_backup_failed">%s のバックアップに失敗しました</string>
-    <string name="backup_batch_backup_completed">Batch backup completed</string>
+    <string name="backup_batch_backup_completed">一括バックアップ完了</string>
     <string name="backup_batch_backup_result_succeeded">%d 個のアプリを正常にバックアップしました</string>
     <string name="backup_batch_backup_result_failed">%d 個のアプリのバックアップに失敗しました</string>
     <string name="backup_batch_backup_result_cancelled">%d 個のアプリのバックアップがキャンセルされました</string>
@@ -130,11 +131,11 @@
     <string name="backup_search_show_system_apps">システムアプリを表示</string>
     <string name="backup_warning"><b>Managed backups are currently in beta, please report issues in SAI\'s GitHub repo (you can find the link on about screen)</b>\n\n<b>Backup files format</b>\nSAI backups apps as .apks files (which are just ZIP archives with .apk files) with some meta information added to the archive (such as app name and icon). Backed up .apks files can still be installed as normal .apks files (because they are normal .apks files, except for some additional files in the archive which are ignored by installer)\n\n<b>What is backed up</b>\nCurrently SAI backups only apps APK files (no data/obb/etc)\n\n<b>External changes to backup directory</b>\nSAI doesn\'t automatically keep track of external changes done to files in the backup directory. So, if you\'ve changed them outside of SAI, use reindex option in 3-dots menu at the top right of backup screen to rescan backups directory.\n\n<b>You can always open this help from the 3-dots menu at the top right of backup screen</b></string>
     <string name="backup_export_all_splits">全てのSplit APKをバックアップ</string>
-    <string name="backup_export_all_splits_prompt">Do you want to backup all split APKs?</string>
+    <string name="backup_export_all_splits_prompt">全てのSplit APKをバックアップしますか？</string>
     <string name="backup_export_selected_apps_prompt">%d 個のアプリが選択されています。バックアップしますか?</string>
     <string name="backup_preparing">アプリを準備しています…</string>
     <string name="backup_enqueue">バックアップ</string>
-    <string name="backup_dialog_title">Select split APK parts to backup</string>
+    <string name="backup_dialog_title">バックアップする分割APKを選択</string>
     <string name="backup_load_splits_error">個別のAPKの取得に失敗しました</string>
     <string name="backup_splits_loading">ロード中...</string>
     <string name="backup_filter">絞り込み</string>
@@ -161,7 +162,7 @@
     <string name="backup_reindex">Reindex backups</string>
     <string name="backup_indexing">Indexing backups (%1$d/%2$d)...</string>
     <string name="backup_app_details_loading">ロード中...</string>
-    <string name="backup_app_details_error">App failed to load or was deleted</string>
+    <string name="backup_app_details_error">アプリの読み込みに失敗したか、アプリが削除されています</string>
     <string name="backup_app_details_backup">バックアップ</string>
     <string name="backup_app_details_delete">削除</string>
     <string name="backup_app_details_install">最新のバックアップからインストール</string>
@@ -219,7 +220,7 @@
     <string name="settings_main_installer_show_dialogs_summary">インストールの成功及び失敗時にダイアログを表示します。ダイアログはインストールセッションのエントリーをタップすることでいつでも開けます。この設定は新しいインストーラーにのみ有効です。</string>
     <string name="settings_category_main_installer">インストーラー</string>
     <string name="settings_category_main_parser">パーサー</string>
-    <string name="settings_category_main_export">Backup</string>
+    <string name="settings_category_main_export">バックアップ</string>
     <string name="settings_category_main_other">その他</string>
     <string name="settings_category_main_ui">UI</string>
     <string name="settings_main_ui_show_app_features">アプリのタイプを表示する</string>
@@ -233,8 +234,12 @@
     <string name="settings_main_auto_theme_pre_q_warning">端末のテーマ設定による切り替えはAndroid 10より前のバージョンのOSではうまく動かない場合があります</string>
     <string name="settings_main_use_installerx">Proモード</string>
     <string name="settings_main_use_installerx_summary">Proモードを有効にして、.apksファイル(または複数のAPKファイルをアーカイブしたその他のファイル)からインストールする部分を選択できるようにします。Proモードは試験的な機能で、適切に動かないことがある点に注意してください。フィードバックは歓迎します。</string>
-    <string name="settings_main_backup_settings">Backup settings</string>
+    <string name="settings_main_enable_analytics">Analytics</string>
+    <string name="settings_main_enable_analytics_summary">Allow SAI to collect analytics data such as app usage data and errors. You can find out more about data being collected in Privacy Policy which you can find on about screen. Changing this setting may not fully apply it until you restart SAI</string>
+    <string name="settings_main_backup_settings">バックアップの設定</string>
     <string name="settings_main_backup_settings_summary">タップしてバックアップの設定を開く</string>
+    <string name="settings_main_enable_apk_action_view">Enable opening .apk files via SAI</string>
+    <string name="settings_main_enable_apk_action_view_summary">Support opening .apk files via SAI from other apps. Can be disabled since on some ROMs this setting being enabled doesn\'t let you open .apk files at all</string>
     <string name="name_format_builder_title">Select parts to include in backup file name</string>
     <string name="name_format_builder_preview">プレビュー: %s</string>
     <string name="name_format_builder_preview_empty">一つ以上のパートを選択してください</string>
@@ -307,6 +312,9 @@
     <string name="installerx_notice_no_code_for_feature">いくつかのアーキテクチャ構成の機能\"%s\"の分割APKがありますが、いずれもこのデバイスでサポートされていません</string>
     <string name="installerx_notice_no_locale_for_base">ベースのAPKの、お使いの言語に対応するローカライズ構成のパートがありません</string>
     <string name="installerx_notice_no_locale_for_feature">機能\"%s\"の、お使いの言語に対応するローカライズ構成のパートがありません</string>
+    <string name="installerx_notice_huge_app">This app is huge (&gt;150MB). With huge apps there\'s a chance (the bigger the app size, the higher) that installation will hang but app will still take up storage space that you won\'t be able to reclaim without using root or doing factory reset</string>
+    <string name="installerx_android_uri_host_file_too_big">File is too big to copy and your system doesn\'t support reading SAF files without copying</string>
+    <string name="installerx_thank_you_scoped_storage_very_cool">On Android 11 and up SAI requires storage permission to directly read files selected via system file picker due to scoped storage implementation making 0 sense. You can deny storage permission, but then SAI will have to copy selected files to parse them, SAI won\'t copy and parse large files.</string>
     <string name="theme_sai">SAI</string>
     <string name="theme_ruby">Ruby</string>
     <string name="theme_rena">Rena</string>
@@ -329,4 +337,5 @@
     <string name="about_licenses">ライセンス</string>
     <string name="about_translate">SAIの多言語化やりませんか？</string>
     <string name="about_privacy">プライバシーポリシー</string>
+    <string name="about_eula">End User License Agreement</string>
 </resources>
