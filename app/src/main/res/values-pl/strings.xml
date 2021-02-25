@@ -9,6 +9,7 @@
     <string name="copy2">Kopiuj</string>
     <string name="copied">Skopiowano</string>
     <string name="dont_show_again">Nie wyświetlaj ponownie</string>
+    <string name="warning">Warning</string>
     <string name="filepicker_internal">Wewn. menedżer plików</string>
     <string name="filepicker_saf">Systemowy menedżer plików</string>
     <string name="permissions_required_storage">SAI wymaga uprawnień dostępu do pamięci</string>
@@ -232,8 +233,12 @@
     <string name="settings_main_auto_theme_pre_q_warning">Pamiętaj, że następujący motyw może nie działać poprawnie w wersji Androida niższej niż Q</string>
     <string name="settings_main_use_installerx">Tryb Pro</string>
     <string name="settings_main_use_installerx_summary">Włącz tryb instalatora Pro, który pozwala na wybranie części plików do instalacji z pliku .apks (lub innych archiwów z wieloma plikami APK). Tryb Pro jest eksperymentalny i może działać niepoprawnie, raporty błędów są mile widziane.</string>
+    <string name="settings_main_enable_analytics">Analytics</string>
+    <string name="settings_main_enable_analytics_summary">Allow SAI to collect analytics data such as app usage data and errors. You can find out more about data being collected in Privacy Policy which you can find on about screen. Changing this setting may not fully apply it until you restart SAI</string>
     <string name="settings_main_backup_settings">Backup settings</string>
     <string name="settings_main_backup_settings_summary">Tap to open backup settings</string>
+    <string name="settings_main_enable_apk_action_view">Enable opening .apk files via SAI</string>
+    <string name="settings_main_enable_apk_action_view_summary">Support opening .apk files via SAI from other apps. Can be disabled since on some ROMs this setting being enabled doesn\'t let you open .apk files at all</string>
     <string name="name_format_builder_title">Select parts to include in backup file name</string>
     <string name="name_format_builder_preview">Podgląd: %s</string>
     <string name="name_format_builder_preview_empty">Wybierz co najmniej jedną część</string>
@@ -306,6 +311,9 @@
     <string name="installerx_notice_no_code_for_feature">Istnieją pliki konfiguracji architektury dla funkcji \"%s\", ale żadna z nich nie jest obsługiwane przez Twoje urządzenie</string>
     <string name="installerx_notice_no_locale_for_base">Żadna z części konfiguracji regionalnych dla base APK nie pasuje do twoich języków.</string>
     <string name="installerx_notice_no_locale_for_feature">None of locale configuration split parts for feature \"%s\" match your languages</string>
+    <string name="installerx_notice_huge_app">This app is huge (&gt;150MB). With huge apps there\'s a chance (the bigger the app size, the higher) that installation will hang but app will still take up storage space that you won\'t be able to reclaim without using root or doing factory reset</string>
+    <string name="installerx_android_uri_host_file_too_big">File is too big to copy and your system doesn\'t support reading SAF files without copying</string>
+    <string name="installerx_thank_you_scoped_storage_very_cool">On Android 11 and up SAI requires storage permission to directly read files selected via system file picker due to scoped storage implementation making 0 sense. You can deny storage permission, but then SAI will have to copy selected files to parse them, SAI won\'t copy and parse large files.</string>
     <string name="theme_sai">SAI</string>
     <string name="theme_ruby">Rubin</string>
     <string name="theme_rena">Rena</string>
@@ -328,4 +336,5 @@
     <string name="about_licenses">Licencje</string>
     <string name="about_translate">Pomóż przetłumaczyć SAI</string>
     <string name="about_privacy">Polityka Prywatności</string>
+    <string name="about_eula">End User License Agreement</string>
 </resources>
