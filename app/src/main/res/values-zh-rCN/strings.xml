@@ -9,6 +9,7 @@
     <string name="copy2">复制</string>
     <string name="copied">已复制</string>
     <string name="dont_show_again">不再显示</string>
+    <string name="warning">警告</string>
     <string name="filepicker_internal">内置文件选择器(SAI内置)</string>
     <string name="filepicker_saf">系统文件选择器(SAF)</string>
     <string name="permissions_required_storage">SAI 需要访问存储的权限</string>
@@ -232,8 +233,12 @@
     <string name="settings_main_auto_theme_pre_q_warning">请注意，跟随系统主题可能在低于Android 10的版本上无法正常工作</string>
     <string name="settings_main_use_installerx">专业模式</string>
     <string name="settings_main_use_installerx_summary">启用安装程序的专业模式，该模式允许您从.apks文件（或具有多个APK文件的其他压缩文件）中选择要安装的部分。 请注意，专业模式是实验性的并且可能无法正常工作，欢迎反馈</string>
+    <string name="settings_main_enable_analytics">Analytics</string>
+    <string name="settings_main_enable_analytics_summary">允许SAI收集分析数据，例如应用使用情况数据和错误。 您可以在关于界面的“隐私政策”中找到更多将被收集 的数据。 在重新启动SAI之前，更改此设置可能无法即时生效。</string>
     <string name="settings_main_backup_settings">备份设置</string>
     <string name="settings_main_backup_settings_summary">点击打开备份设置</string>
+    <string name="settings_main_enable_apk_action_view">允许通过 SAI 打开 .apk 文件</string>
+    <string name="settings_main_enable_apk_action_view_summary">通过从其他应用通过 SAI 打开 .apk 文件。 可以禁用，因为在某些 ROM 上启用此设置完全不允许您打开 .apk 文件</string>
     <string name="name_format_builder_title">选择备份文件名称中包含的部分</string>
     <string name="name_format_builder_preview">预览: %s</string>
     <string name="name_format_builder_preview_empty">请至少选一个部分。</string>
@@ -306,6 +311,9 @@
     <string name="installerx_notice_no_code_for_feature">特征模块\"%s\"有一些架构配置拆分部件，但其中没有一个是您的设备所支持的</string>
     <string name="installerx_notice_no_locale_for_base">基础APK的区域配置拆分部分与您的语言不匹配</string>
     <string name="installerx_notice_no_locale_for_feature">%s功能的区域配置拆分部分与您的语言不匹配</string>
+    <string name="installerx_notice_huge_app">This app is huge (&gt;150MB). With huge apps there\'s a chance (the bigger the app size, the higher) that installation will hang but app will still take up storage space that you won\'t be able to reclaim without using root or doing factory reset</string>
+    <string name="installerx_android_uri_host_file_too_big">文件过大，无法复制，你的系统不支持在不复制的情况下读取 SAF 文件</string>
+    <string name="installerx_thank_you_scoped_storage_very_cool">在Android 11和更高版本上，由于毫无意义的分区存存储实现， SAI 需要存储权限来直接读取通过系统文件选择器选择的文件。你可以拒绝存储权限，但是 SAI 将不得不复制所选文件来解析它们，SAI 不会复制和解析大文件。</string>
     <string name="theme_sai">默认 SAI</string>
     <string name="theme_ruby">Ruby</string>
     <string name="theme_rena">Rena</string>
@@ -328,4 +336,5 @@
     <string name="about_licenses">许可证</string>
     <string name="about_translate">帮助翻译SAI</string>
     <string name="about_privacy">隐私政策</string>
+    <string name="about_eula">最终用户许可协议</string>
 </resources>
