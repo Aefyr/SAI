@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="file_picker_sort_variants">
-        <item>"按名稱 (A-Z)"</item>
-        <item>"按名稱 (Z-A)"</item>
-        <item>"修改時間 (升序)"</item>
-        <item>"修改時間 (降序)"</item>
-        <item>"大小（正序）"</item>
-        <item>"大小（倒序）"</item>
+        <item>"按名稱(A-Z)"</item>
+        <item>"按名稱(Z-A)"</item>
+        <item>"修改時間(升序)"</item>
+        <item>"修改時間(降序)"</item>
+        <item>"大小(正序)"</item>
+        <item>"大小(倒序)"</item>
     </string-array>
     <string-array name="installers">
-        <item>"Rootless (recommended)"</item>
-        <item>"Rooted (requires root)"</item>
-        <item>"Shizuku (requires Shizuku 3.x)"</item>
+        <item>"免 Root (推薦)"</item>
+        <item>"Rooted (需要 Root)"</item>
+        <item>"Shizuku (需要 Shizuku 3.x)"</item>
     </string-array>
     <string-array name="size_units">
         <item>B</item>
@@ -22,24 +22,24 @@
         <item>PB</item>
     </string-array>
     <string-array name="backup_file_name_formats">
-        <item>名稱_包名_版本號.apks</item>
+        <item>名稱_套件名稱_版本號碼.apks</item>
         <item>名稱.apks</item>
-        <item>名稱_版本號.apks</item>
+        <item>名稱_版本號碼.apks</item>
     </string-array>
     <string-array name="install_locations">
         <item>由作業系統指定</item>
         <item>僅內部儲存空間</item>
-        <item>偏好外部儲存空間（系統仍可能決定使用內部儲存空間）</item>
+        <item>偏好外部儲存空間 (系統仍可能決定使用內部儲存空間)</item>
     </string-array>
     <string-array name="name_format_parts">
         <item>名稱</item>
         <item>版本</item>
-        <item>版本號</item>
-        <item>包名</item>
-        <item>時間戳</item>
+        <item>版本號碼</item>
+        <item>套件名稱</item>
+        <item>時間標記</item>
     </string-array>
     <string-array name="backup_dir_selection_methods">
-        <item>內部文件選擇題</item>
-        <item>作業系統文件選擇器（SAF）</item>
+        <item>內部檔案選擇器</item>
+        <item>系統檔案選擇器 (SAF)</item>
     </string-array>
 </resources>
