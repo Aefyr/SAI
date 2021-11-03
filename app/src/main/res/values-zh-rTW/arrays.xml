@@ -10,7 +10,7 @@
     </string-array>
     <string-array name="installers">
         <item>"免 Root (推薦)"</item>
-        <item>"Root (需要 Root)"</item>
+        <item>"Root (需要 Root 權限)"</item>
         <item>"Shizuku (需要 Shizuku 3.x)"</item>
     </string-array>
     <string-array name="size_units">
