@@ -284,7 +284,7 @@
     <string name="installerx_category_dynamic_features">动态特性</string>
     <string name="installerx_dynamic_feature">特征模块 \"%s\"</string>
     <string name="installerx_category_config_abi">配置: 结构</string>
-    <string name="installerx_category_config_abi_desc">您的设备支持(按受欢迎程度冲高到低排列): %s </string>
+    <string name="installerx_category_config_abi_desc">您的设备支持(按受欢迎程度从高到低排列): %s </string>
     <string name="installerx_split_config_abi_for_base">基础APK %s代码</string>
     <string name="installerx_split_config_abi_for_module">特征模块\"%2$s\" %1$s代码</string>
     <string name="installerx_category_config_locale">配置：语言</string>
