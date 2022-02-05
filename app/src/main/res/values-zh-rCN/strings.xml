@@ -49,7 +49,7 @@
     <string name="installer_select_theme">选择主题</string>
     <string name="installer_device">设备</string>
     <string name="installer_miui_warning_title">MIUI 检查</string>
-    <string name="installer_miui_warning_message"><b>请认真阅读此一次性警告！</b>\n\n很抱歉花费您的时间。 但我真的厌倦了已经跳过上一个版本的警告的MIUI用户。\n\n看起来您的设备正在运行 MIUI。 MIUI 因魔改标准的 Android API 而著称，许多SAI 的MIUI用户报告了安装失败——没有原因的“安装失败”。 通常情况下，它可以通过在开发者选项中关闭MIUI优化来修复，并且我建议您应该这样做。\n\n当然您可以尝试使用 SAI 而不禁用 MIUI 优化， 但如果它不起作用，请先禁用它，然后再向我报告安装失败。 如果您的 MIUI 版本没有开关或者它没有用，那么我也无能为力了。\n\n这个问题应该会在 MIUI 20.2.20 及以上解决。(xiaomi.eu and eu-based ROMs)</string>
+    <string name="installer_miui_warning_message"><b>说真的，请阅读这个一次性警告！</b>\n很抱歉,耽误了您的时间，但我真的厌倦了上一个版本，忽略此警告的MIUI用户。\n\n看起来您的设备正在运行MIUI。MIUI以破坏Android API标准功能而闻名。\n\n并且有许多MIUI的SAI用户反馈，SAI在MIUI上出现无缘无故的“安装失败”。\n\n通常情况下可以通过在[开发者选项]中禁用[MIUI优化]来解决，并且我建议您应该这样做。\n\n当然您也可以尝试在不禁用[MIUI优化]的情况下使用SAI，但如果它不起作用，请先禁用它，然后再向我报告安装失败。\n\n如果您的MIUI没有禁用[MIUI优化]的开关，或者它没有帮助，那么我也无能为力。\n\n这个问题应该在MIUI 20.2.20 及更高版本上解决（仅限于xiaomi.eu和eu-based版，中国的稳定版以及开发板、内测版，请忽略此信息）。</string>
     <string name="installer_miui_warning_open_dev_settings">打开 开发者选项</string>
     <string name="installer_miui_warning_oof">无法打开开发者选项，请手动打开。</string>
     <string name="installer_unknown_app">未知app</string>
