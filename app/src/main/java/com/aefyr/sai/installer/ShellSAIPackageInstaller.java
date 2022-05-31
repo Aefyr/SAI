@@ -133,8 +133,8 @@ public abstract class ShellSAIPackageInstaller extends SAIPackageInstaller {
             commandsToAttempt.add(new Shell.Command(command, args.toArray(new String[0])));
             Logs.d(TAG, "Using custom install-create command: " + customInstallCreateCommand);
         } else {
-            commandsToAttempt.add(new Shell.Command("pm", "install-create", "-r", "--install-location", installLocation, "-i", getShell().makeLiteral(BuildConfig.APPLICATION_ID)));
-            commandsToAttempt.add(new Shell.Command("pm", "install-create", "-r", "-i", getShell().makeLiteral(BuildConfig.APPLICATION_ID)));
+            commandsToAttempt.add(new Shell.Command("pm", "install-create", "--user current", "-r", "--install-location", installLocation, "-i", getShell().makeLiteral(BuildConfig.APPLICATION_ID)));
+            commandsToAttempt.add(new Shell.Command("pm", "install-create", "--user current", "-r", "-i", getShell().makeLiteral(BuildConfig.APPLICATION_ID)));
         }
 
 
